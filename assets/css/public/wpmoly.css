@@ -28,33 +28,6 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/*.wpmolicon.icon-cinema:before,
-.wpmolicon.icon-unavailable:before,
-.wpmolicon.icon-sd:before,
-.wpmolicon.icon-hd:before,
-.wpmolicon.icon-3d:before {
-	font-size: 24px;
-	left: -6px;
-	position: relative;
-	top: -6px;
-}
-
-.wpmolicon.icon-actor:before {
-	font-size: 28px;
-	height: 28px;
-	left: -4px;
-	line-height: 28px;
-	position: relative;
-	top: -4px;
-}*/
-
-/*.wpmolicon.icon-resize-enlarge:before,
-.wpmolicon.icon-resize-shrink:before {
-	font-size: 18px;
-	position: relative;
-	top: 1px;
-}*/
-
 .wpmolicon.icon-available:before {
 	content: "\e663";
 }
@@ -131,6 +104,11 @@
 	text-align: center;
 }
 
+#wpmoly-movie-grid-menu a,
+#wpmoly-movie-grid-menu-2 a {
+	text-decoration: none;
+}
+
 #wpmoly-movie-grid-menu .wpmoly.grid.menu.item,
 #wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item {
 	display: inline-block;
@@ -151,13 +129,29 @@
 
 #wpmoly-movie-grid {
 	margin: 1em 0.5em;
+}
+
+#wpmoly-movie-grid.grid {
 	text-align: center;
+}
+
+#wpmoly-movie-grid.archives > .wpmoly.block.headbox  {
+	margin-bottom: 1em;
+	margin-top: 1em;
 }
 
 #wpmoly-movie-grid > .movie {
 	display: inline-block;
 	margin: 0.2%;
 	vertical-align: top;
+}
+
+#wpmoly-movie-grid.grid-col-8 > .movie {
+	width: 11.3%;
+}
+
+#wpmoly-movie-grid.grid-col-7 > .movie {
+	width: 13.33%;
 }
 
 #wpmoly-movie-grid.grid-col-6 > .movie {
@@ -237,15 +231,21 @@
 	text-align: left;
 }
 
-#wpmoly-movie-grid-menu-item-columns,
 #wpmoly-movie-grid-menu-item-count {
 	float: right;
 }
 
-#wpmoly-movie-grid-menu-item-columns input,
+#wpmoly-movie-grid-menu-item-count .wpmolicon {
+	color: #666;
+	position: relative;
+	top: 2px;
+}
+
 #wpmoly-movie-grid-menu-item-count input {
+	display: inline-block;
 	max-height: 24px;
 	padding: 0px;
+	text-align: center;
 }
 
 /** Movie Headbox

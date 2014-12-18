@@ -28,7 +28,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 *
 		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
 		 */
-		public static function get_content( $content ) {
+		public static function get_content( $content = null ) {
 
 			$theme = wp_get_theme();
 			if ( ! is_null( $theme->stylesheet ) )
@@ -37,7 +37,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 				$theme = '';
 
 			$id      = get_the_ID();
-			$poster  = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' );
+			$poster  = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'large' );
 			$poster  = $poster[0];
 
 			$headbox = array(
@@ -312,10 +312,24 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 					$detail = array( $detail );
 
 				foreach ( $detail as $i => $d ) {
-					if ( '' != $d )
-						$d = $default_fields[ $slug ]['options'][ $d ];
+
+					if ( '' != $d ) {
+
+						$value = $default_fields[ $slug ]['options'][ $d ];
+
+						if ( 'rating' == $slug ) {
+							$d = apply_filters( "wpmoly_movie_meta_link", 'rating', array_search( $value, $default_fields[ $slug ]['options'] ), 'detail', $value );
+						} else {
+							$d = apply_filters( "wpmoly_movie_meta_link", $slug, $value, 'detail' );
+						}
+					}
+
 					$detail[ $i ] = apply_filters( "wpmoly_format_movie_field", $d );
+
 				}
+
+				if ( empty( $detail ) )
+					$detail[] = apply_filters( "wpmoly_format_movie_field", '' );
 
 				$title = '';
 				if ( isset( $default_fields[ $slug ] ) )

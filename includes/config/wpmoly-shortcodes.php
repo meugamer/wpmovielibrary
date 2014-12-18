@@ -37,6 +37,36 @@ $wpmoly_shortcodes = array(
 				'values'  => null,
 				'filter'  => 'intval'
 			),
+			'rows' => array(
+				'default' => wpmoly_o( 'movie-archives-grid-rows' ),
+				'values'  => null,
+				'filter'  => 'intval'
+			),
+			'view' => array(
+				'default' => null,
+				'values'  => array( 'grid', 'archives', 'list' ),
+				'filter'  => 'esc_attr'
+			),
+			'letter' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'meta' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'detail' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'value' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
 			'title' => array(
 				'default' => false,
 				'values'  => 'boolean',
@@ -187,7 +217,15 @@ $wpmoly_shortcodes = array(
 			'movie_photography',
 			'movie_composer',
 			'movie_author',
-			'movie_writer'
+			'movie_writer',
+			'movie_tagline',
+			'movie_certification',
+			'movie_budget',
+			'movie_revenue',
+			'movie_imdb_id',
+			'movie_tmdb_id',
+			'movie_adult',
+			'movie_homepage'
 		)
 	),
 
@@ -245,6 +283,34 @@ $wpmoly_shortcodes = array(
 		'content'  => null,
 		'callback' => 'movie_release_date_shortcode',
 		'aliases'  => array( 'movie_date' )
+	),
+
+	'movie_local_release_date' => array(
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'format' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'label' => array(
+				'default' => true,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			)
+		),
+		'content'  => null,
+		'callback' => 'movie_local_release_date_shortcode',
+		'aliases'  => null
 	),
 
 	'movie_actors' => array(
@@ -387,7 +453,10 @@ $wpmoly_shortcodes = array(
 		'aliases' => array(
 			'movie_media',
 			'movie_status',
-			'movie_rating'
+			'movie_rating',
+			'movie_languages',
+			'movie_subtitles',
+			'movie_format'
 		)
 	),
 );

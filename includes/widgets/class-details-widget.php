@@ -121,6 +121,8 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 
 		if ( ! empty( $details ) ) {
 
+			$baseurl = get_post_type_archive_link( 'movie' );
+
 			$this->widget_css .= " wpmoly {$detail}";
 
 			if ( $css )
@@ -129,11 +131,17 @@ class WPMOLY_Details_Widget extends WPMOLY_Widget {
 			$items = array();
 			foreach ( $details as $slug => $_title ) {
 
-				$_slug = ( $rewrite ? __( $slug, 'wpmovielibrary' ) : $slug );
-
 				$item = array(
 					'attr_title'  => sprintf( __( 'Permalink for &laquo; %s &raquo;', 'wpmovielibrary' ), __( $_title, 'wpmovielibrary' ) ),
-					'link'        => WPMOLY_L10n::get_meta_permalink( $detail, $_slug, $type = 'detail', $format = 'raw' )
+					'link'        => WPMOLY_Utils::get_meta_permalink(
+						array(
+							'key'     => $detail,
+							'value'   => $slug,
+							'type'    => 'detail',
+							'format'  => 'raw',
+							'baseurl' => get_post_type_archive_link( 'movie' )
+						)
+					)
 				);
 
 				if ( 'rating' != $detail )

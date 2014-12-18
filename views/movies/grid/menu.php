@@ -3,26 +3,29 @@
 
 <?php
 $current = $letter;
-foreach ( $default as $_letter ) :
-	$_url = add_query_arg( array( 'letter' => $_letter ), $letter_url );
+foreach ( $default as $l ) :
+	$_url = str_replace( '{letter}', $l, $urls['letter'] );
 ?>
-					<li id="wpmoly-movie-grid-menu-item-<?php echo $_letter ?>" class="wpmoly movies grid menu list item<?php if ( strtolower( $_letter ) == strtolower( $current ) ) echo ' active'; ?>"><?php if ( in_array( $_letter, $letters ) ) { ?><a href="<?php echo $_url; ?>"><?php echo $_letter; ?></a><?php } else { echo $_letter; } ?></li>
+					<li id="wpmoly-movie-grid-menu-item-<?php echo $l ?>" class="wpmoly movies grid menu list item<?php if ( strtolower( $l ) == strtolower( $current ) ) echo ' active'; ?>"><?php if ( in_array( $l, $letters ) ) { ?><a href="<?php echo $_url; ?>"><?php echo $l; ?></a><?php } else { echo $l; } ?></li>
 
 <?php endforeach; ?>
-					<li id="wpmoly-movie-grid-menu-item-all" class="wpmoly movies grid menu list item<?php if ( 'all' == $current ) echo ' active'; ?>"><a href="<?php echo add_query_arg( array( 'letter' => '', 'number' => -1 ), $default_url ) ?>"><?php _e( 'All', 'wpmovielibrary' ) ?></a></li>
+					<li id="wpmoly-movie-grid-menu-item-all" class="wpmoly movies grid menu list item<?php if ( 'all' == $current ) echo ' active'; ?>"><a href="<?php echo  $urls['all']; ?>"><?php _e( 'All', 'wpmovielibrary' ) ?></a></li>
 				</ul>
 
-				<form action="">
-					<input type="hidden" name="order" value="<?php echo $order; ?>" />
-					<input type="hidden" name="letter" value="<?php echo $current; ?>" />
+				<form id="wpmoly-grid-form" action="">
 					<input type="submit" value="" style="display:none" />
 					<ul id="wpmoly-movie-grid-menu-2" class="wpmoly movies grid menu list">
-						<li id="wpmoly-movie-grid-menu-item-alpha-asc" class="wpmoly movies grid menu list item<?php if ( 'ASC' == $order ) echo ' active'; ?>"><a href="<?php echo add_query_arg( array( 'order' => 'ASC' ), $default_url ) ?>" title="<?php _e( 'List ascendingly', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-sort-alpha-asc"></span></a></li>
-						<li id="wpmoly-movie-grid-menu-item-alpha-desc" class="wpmoly movies grid menu list item<?php if ( 'DESC' == $order ) echo ' active'; ?>"><a href="<?php echo add_query_arg( array( 'order' => 'DESC' ), $default_url ) ?>" title="<?php _e( 'List descendingly', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-sort-alpha-desc"></span></a></li>
+						<li id="wpmoly-movie-grid-menu-item-alpha-asc" class="wpmoly movies grid menu list item<?php if ( 'ASC' == $order ) echo ' active'; ?>"><a href="<?php echo str_replace( array( 'DESC', 'desc' ), 'ASC', $urls['asc'] ) ?>" title="<?php _e( 'List ascendingly', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-sort-alpha-asc"></span></a></li>
+						<li id="wpmoly-movie-grid-menu-item-alpha-desc" class="wpmoly movies grid menu list item<?php if ( 'DESC' == $order ) echo ' active'; ?>"><a href="<?php echo str_replace( array( 'ASC', 'asc' ), 'DESC', $urls['desc'] ) ?>" title="<?php _e( 'List descendingly', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-sort-alpha-desc"></span></a></li>
  <?php if ( '1' == $editable ) : ?>
-						<li id="wpmoly-movie-grid-menu-item-count" class="wpmoly movies grid menu list item"><?php _e( 'Items per page:', 'wpmovielibrary' ) ?> <input name="number" type="text" size="3" maxlength="3" placeholder="50" value="<?php echo $number; ?>" /></li>
-						<li id="wpmoly-movie-grid-menu-item-columns" class="wpmoly movies grid menu list item"><?php _e( 'Columns:', 'wpmovielibrary' ) ?> <input name="columns" type="text" size="3" maxlength="3" placeholder="4" value="<?php echo $columns; ?>" /></li>
+						<li id="wpmoly-movie-grid-menu-item-list" class="wpmoly movies grid menu list item<?php if ( 'list' == $view ) echo ' active'; ?>"><a href="<?php echo $urls['list']; ?>" title="<?php _e( 'Show movies as an extended list', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-align-justify"></span></a></li>
+						<li id="wpmoly-movie-grid-menu-item-archives" class="wpmoly movies grid menu list item<?php if ( 'archives' == $view ) echo ' active'; ?>"><a href="<?php echo $urls['archives']; ?>" title="<?php _e( 'Show movies as a list of titles', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-th-list"></span></a></li>
+						<li id="wpmoly-movie-grid-menu-item-grid" class="wpmoly movies grid menu list item<?php if ( 'grid' == $view ) echo ' active'; ?>"><a href="<?php echo $urls['grid']; ?>" title="<?php _e( 'Show movies as a poster grid', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-grid"></span></a></li>
+ <?php if ( 'grid' == $view ) : ?>
+						<li id="wpmoly-movie-grid-menu-item-count" class="wpmoly movies grid menu list item hide-if-no-js">
+							<input type="text" name="columns" id="wpmoly-grid-columns" size="2" value="<?php echo $columns; ?>" />&nbsp;x&nbsp;<input type="text" name="rows" id="wpmoly-grid-rows" size="2" value="<?php echo $rows; ?>" />
+						</li>
 
-<?php endif; ?>
+<?php endif; endif; ?>
 					</ul>
 				</form>

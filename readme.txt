@@ -3,8 +3,8 @@ Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
-Tested up to: 4.0.1
-Stable tag: 2.1-RC1
+Tested up to: 4.1
+Stable tag: 2.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,7 +12,7 @@ WordPress Movie Library is an advanced movie library managing plugin to turn you
 
 == Description ==
 
-The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles…
+The best way to manage your personnal movie library. Handle collections of movies, automatically fetch metadata, images and posters, create collections by mass importing lists of movie titles… [Demo: See what it looks like!](http://demo.wpmovielibrary.com/)
 
 = Simple yet powerfull =
 WPMovieLibrary uses WordPress simple but efficient techniques to provide you a really simple tool to change your classic WordPress Blog to an extended management software for your movie collection.
@@ -53,13 +53,13 @@ Short list of supported features:
 Want to extend WPMovieLibrary? Additionnal extensions are available on [WPMovieLibrary/Extensions](http://wpmovielibrary.com/extensions/)
 
 = Get involved =
-Developers and Translators can contribute to the source code on the [GitHub Repository](https://github.com/CaerCam/wpmovielibrary/).
+Developers and Translators can contribute to the source code on the [GitHub Repository](https://github.com/wpmovielibrary/wpmovielibrary/).
 
 = Links =
 
 *    [Official website](http://wpmovielibrary.com/)
 *    [Documentation](http://wpmovielibrary.com/documentation/)
-*    [Development](https://github.com/CaerCam/wpmovielibrary/)
+*    [Development](https://github.com/wpmovielibrary/wpmovielibrary/)
 
 == Installation ==
 
@@ -138,11 +138,46 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 
 == Changelog ==
 
+= 2.1.1 =
+* Feat - Movie meta/detail archives use movie custom archives page
+* Feat - New movie grid list and archives views
+* Tweak - Improved handling of terms with apostrophes
+* Tweak - Add missing meta Shortcodes: tagline, budget, revenue, certification, writer, imdb_id, tmdb_id, adult, homepage
+* Tweak - Better meta URL and translation handling
+* Tweak - Archives pages title rewrite
+* Tweak - Empty grid message
+* Fix - Movie archives page not falling back to default with no page set
+
+= 2.1.0.1 =
+* Fix - Permalink issue causing 404 on movie archives page
+
+= 2.1 =
+* Feat - Custom Archives pages
+* Feat - Implement page creation tool
+* Feat - Headbox customization settings
+* Feat - Meta query URL by value and range of values
+* Tweak - New metadata: local release date
+* Tweak - Add year to movie select list in editor
+* Tweak - Implement [movies] Shortcode pagination
+* Tweak - Save metadata once they’re collected
+* Tweak - Add movies to categories/tags archive pages
+* Tweak - Not rated message instead of stars
+* Tweak - Exclude current movie from Movies Widget in single
+* Tweak - Add label for unknown movie duration
+* Fix - Undeletable movie details
+* Fix - Missing search results (pages not included)
+* Fix - Empty search query
+* Fix - Missing format in details view
+* Fix - Apostrophe in actor name breaking taxonomies links
+* Fix - Poster showing with poster=’none’ param in [movies] Shortcode
+* Fix - ‘actors’ meta not working in [movie] Shortcode
+* Fix - Collections added automatically despite settings in editor
+
 = 2.0.2.2 =
 * Tweak - Icon Font updated
-* Fix bugs in legacy mode
-* Fix Movie Headbox missing menu arrow
-* Fix 'Add New' link blocked by JS in movie editor
+* Fix - bugs in legacy mode
+* Fix - Movie Headbox missing menu arrow
+* Fix - 'Add New' link blocked by JS in movie editor
 
 = 2.0.2.1 =
 * Fix - Movie certification not correctly fetched on some occasions

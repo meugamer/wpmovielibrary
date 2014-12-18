@@ -17,14 +17,14 @@
  * Plugin Name: WPMovieLibrary
  * Plugin URI:  http://wpmovielibrary.com
  * Description: A WordPress Plugin to manage a personnal library of movies.
- * Version:     2.1-RC1
+ * Version:     2.1.1
  * Author:      Charlie MERLAND
  * Author URI:  http://www.caercam.org/
  * Text Domain: wpmovielibrary
  * License:     GPL-3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  * Domain Path: /languages
- * GitHub Plugin URI: https://github.com/CaerCam/WPMovieLibrary
+ * GitHub Plugin URI: https://github.com/wpmovielibrary/wpmovielibrary
  */
 
 // If this file is called directly, abort.
@@ -34,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'WPMOLY_PLUGIN',                 plugin_basename( __FILE__ ) );
 define( 'WPMOLY_NAME',                   'WPMovieLibrary' );
-define( 'WPMOLY_VERSION',                '2.1-RC1' );
+define( 'WPMOLY_VERSION',                '2.1.1' );
 define( 'WPMOLY_SLUG',                   'wpmoly' );
 define( 'WPMOLY_URL',                    plugins_url( basename( __DIR__ ) ) );
 define( 'WPMOLY_PATH',                   plugin_dir_path( __FILE__ ) );
@@ -128,6 +128,7 @@ if ( wpmoly_requirements_met() ) {
 	// CPT and Taxo
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-movies.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-headbox.php' );
+	require_once( WPMOLY_PATH . 'public/class-wpmoly-grid.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-search.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-collections.php' );
 	require_once( WPMOLY_PATH . 'public/class-wpmoly-genres.php' );

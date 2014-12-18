@@ -82,8 +82,11 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 				if ( 'interval' == $callback )
 					$arguments[0] = self::filter_interval( $arguments[0] );
 
-				$arguments    = array( $_name, $arguments[0], $strict );
-				$meta_query   = call_user_func_array( __CLASS__ . "::by_$callback", $arguments );
+				$args = array( $_name, $arguments[0], $strict );
+				$meta_query = call_user_func_array( __CLASS__ . "::by_$callback", $args );
+
+				if ( isset( $arguments[1] ) && 'sql' == $arguments[1] )
+					$meta_query = self::get_sql( $meta_query );
 
 				return $meta_query;
 			}
@@ -97,17 +100,21 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @since    2.1
 		 * 
-		 * @param    string    $date Date to look for
+		 * @param    string     $date Date to look for
+		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
 		 * 
-		 * @return   array     Meta_query parameter for WP_Query
+		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_release_date( $date ) {
+		public static function by_release_date( $date, $format = 'array' ) {
 
-			if ( 4 == strlen( $date ) )
-				return self::by_year( $date );
+			if ( 4 == strlen( $date ) || 7 == strlen( $date ) )
+				return self::by_year( $date, $format );
 
 			$value = self::filter_interval( $date );
 			$meta_query = self::by_interval( 'release_date', $value, $strict = true );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
 
 			return $meta_query;
 		}
@@ -117,13 +124,17 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @since    2.1
 		 * 
-		 * @param    string    $value Year to match
+		 * @param    string     $value Year to match
+		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
 		 * 
-		 * @return   array     Meta_query parameter for WP_Query
+		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_year( $value ) {
+		public static function by_year( $value, $format = 'array' ) {
 
 			$meta_query = self::by_interval( 'release_date', $value, $strict = false );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
 
 			return $meta_query;
 		}
@@ -133,14 +144,42 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @since    2.1
 		 * 
-		 * @param    string    $rating Rating to match
+		 * @param    string     $rating Rating to match
+		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
 		 * 
-		 * @return   array     Meta_query parameter for WP_Query
+		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_rating( $rating ) {
+		public static function by_rating( $rating, $format = 'array' ) {
 
 			$value = self::filter_interval( $rating, 'number_format', array( 1, '.', '' ) );
 			$meta_query = self::by_interval( 'rating', $value, $strict = true );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
+
+			return $meta_query;
+		}
+
+		public static function by_production_countries( $country, $format = 'array' ) {
+
+			$value = self::filter_value( $country );
+			$value = WPMOLY_L10n::get_country_standard_name( $value );
+			$meta_query = self::by_interval( 'production_countries', $value, $strict = false );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
+
+			return $meta_query;
+		}
+
+		public static function by_spoken_languages( $language, $format = 'array' ) {
+
+			$value = self::filter_value( $language );
+			$value = WPMOLY_L10n::get_language_native_name( $value );
+			$meta_query = self::by_interval( 'spoken_languages', $value, $strict = false );
+
+			if ( 'sql' === $format )
+				$meta_query = self::get_sql( $meta_query );
 
 			return $meta_query;
 		}
@@ -208,6 +247,8 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 			if ( true === $strict )
 				$compare = '=';
 
+			$value = self::filter_value( $value );
+
 			$meta_query = array(
 				'relation' => 'OR',
 				array(
@@ -253,6 +294,36 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 				$param = call_user_func_array( $callback, array_merge( (array) $param[0], $callback_args ) );
 
 			return $param;
+		}
+
+		private static function filter_value( $value ) {
+
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+				$value = WPMOLY_L10n::untranslate_rewrite( $value );
+			} else {
+				$value = WPMOLY_L10n::translate_rewrite( $value );
+			}
+
+			return $value;
+		}
+
+		/**
+		 * Convert a Meta Query array to SQL.
+		 * 
+		 * @since    2.1
+		 * 
+		 * @param    array    $query Meta Query parameters
+		 * 
+		 * @return   string   SQL query part
+		 */
+		private static function get_sql( $query ) {
+
+			global $wpdb;
+
+			$meta_query = new WP_Meta_Query( $query );
+			$meta_query = $meta_query->get_sql( 'post', $wpdb->posts, 'ID' );
+
+			return $meta_query;
 		}
 
 	}

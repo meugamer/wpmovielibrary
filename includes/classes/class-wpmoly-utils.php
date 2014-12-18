@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			foreach ( $this->filters as $filter )
 				add_filter( $filter['tag'], $filter['function'], $filter['priority'], $filter['args'] );
 
-			add_filter( 'wpmoly_movie_meta_link', __CLASS__ . '::add_meta_link', 10, 3 );
+			add_filter( 'wpmoly_movie_meta_link', __CLASS__ . '::add_meta_link', 10, 4 );
 
 			add_filter( 'wpmoly_movie_rating_stars', __CLASS__ . '::get_movie_rating_stars', 10, 3 );
 
@@ -205,45 +205,34 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			$changed = delete_transient( 'wpmoly-permalinks-changed' );
 
-			$new_rules = self::generate_custom_permalinks();
+			$new_rules = self::generate_custom_rules( $rules );
 
-			if ( ! is_null( $rules ) )
-				return $new_rules + $rules;
+			return $new_rules;
 		}
 
 		/**
 		 * Create a new set of permalinks for movies to access movies by
-		 * details and meta. 
+		 * details and meta. Support custom views and sorting for the
+		 * archive pages.
 		 * 
 		 * This also add permalink structures for custom taxonomies and
 		 * implement translation support for all custom permalinks.
 		 *
 		 * @since    2.0
+		 * 
+		 * @param    array    $rules Current rewrite rules
 		 *
-		 * @return   array    $new_rules List of new to rules to add to the current rewrite rules.
+		 * @return   array    $new_rules Updated rewrite rules
 		 */
-		private static function generate_custom_permalinks() {
+		private static function generate_custom_rules( $rules ) {
 
-			$new_rules  = array();
+			$new_rules = array();
 
 			WPMOLY_L10n::delete_l10n_rewrite();
 			WPMOLY_L10n::delete_l10n_rewrite_rules();
 			$l10n_rules = WPMOLY_L10n::set_l10n_rewrite_rules();
 
-			foreach ( $l10n_rules['detail'] as $slug => $detail ) {
-
-				$_detail = apply_filters( 'wpmoly_filter_rewrites', $detail );
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/?$' ] = 'index.php?detail=$matches[1]&value=$matches[2]';
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_detail . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?detail=$matches[1]&value=$matches[2]&paged=$matches[3]';
-			}
-
-			foreach ( $l10n_rules['meta'] as $slug => $meta ) {
-
-				$_meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]';
-				$new_rules[ $l10n_rules['movies'] . '/(' . $_meta . ')/([^/]+)/page/?([0-9]{1,})/?$' ] = 'index.php?meta=$matches[1]&value=$matches[2]&paged=$matches[3]';
-			}
-
+			$translate = wpmoly_o( 'rewrite-enable' );
 			$archives = array(
 				'movie'      => intval( wpmoly_o( 'movie-archives' ) ),
 				'collection' => intval( wpmoly_o( 'collection-archives' ) ),
@@ -252,14 +241,101 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			);
 			extract( $archives );
 
+			// Links base
+			$base = 'index.php?';
 			if ( $movie )
-				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?p=' . $movie;
-			if ( $collection )
-				$new_rules[ $l10n_rules['collection'] . '/?$' ] = 'index.php?p=' . $collection;
-			if ( $genre )
-				$new_rules[ $l10n_rules['genre'] . '/?$' ] = 'index.php?p=' . $genre;
-			if ( $actor )
-				$new_rules[ $l10n_rules['actor'] . '/?$' ] = 'index.php?p=' . $actor;
+				$base .= 'page_id=' . $movie . '&';
+
+			// Support alternative grid views
+			$grid = '(grid|archives|list)';
+			if ( '1' == $translate )
+				$grid = sprintf( '(%s|%s|%s)', __( 'grid', 'wpmovielibrary' ), __( 'archives', 'wpmovielibrary' ), __( 'list', 'wpmovielibrary' ) );
+
+			$new_rules += self::generate_custom_meta_rules( 'meta', $l10n_rules['meta'], $l10n_rules['movies'], $base );
+			$new_rules += self::generate_custom_meta_rules( 'detail', $l10n_rules['detail'], $l10n_rules['movies'], $base );
+
+			if ( $movie ) {
+				$new_rules[ $l10n_rules['movies'] . '/?$' ] = 'index.php?page_id=' . $movie;
+				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/?$' ] = 'index.php?page_id=' . $movie . '&view=$matches[1]';
+				$new_rules[ $l10n_rules['movies'] . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $movie . '&view=$matches[1]&sorting=$matches[2]';
+			}
+
+			if ( $collection && get_post( $collection ) ) {
+				$title = get_post( $collection )->post_name;
+				$slug  = 'collection';
+				if ( '1' == $translate )
+					$slug = $l10n_rules['collection'];
+
+				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $collection;
+				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $collection . '&view=$matches[1]&sorting=$matches[2]';
+			}
+
+			if ( $genre && get_post( $genre ) ) {
+				$title = get_post( $genre )->post_name;
+				$slug  = 'genre';
+				if ( '1' == $translate )
+					$slug = $l10n_rules['genre'];
+
+				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $genre;
+				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $genre . '&view=$matches[1]&sorting=$matches[2]';
+			}
+
+			if ( $actor && get_post( $actor ) ) {
+				$title = get_post( $actor )->post_name;
+				$slug  = 'actor';
+				if ( '1' == $translate )
+					$slug = $l10n_rules['actor'];
+
+				$new_rules[ $slug . '/?$' ] = 'index.php?page_id=' . $actor;
+				$rules[ $title . '/' . $grid . '/(.*?)/?$' ] = 'index.php?page_id=' . $actor . '&view=$matches[1]&sorting=$matches[2]';
+			}
+
+			$rules[ '([^/]+)/' . $grid . '/(.*?)/?$' ] = 'index.php?name=$matches[1]&view=$matches[2]&sorting=$matches[3]';
+
+			$new_rules = $new_rules + $rules;
+
+			WPMOLY_L10n::set_l10n_rewrite();
+
+			return $new_rules;
+		}
+
+		/**
+		 * Generate custom rewrite rules for movie metadata and details.
+		 * 
+		 * This generates a long list of regex that will be usefull to list
+		 * movies by their meta and details.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $notice The notice message
+		 * @param    string    $type Notice type: update, error, wpmoly?
+		 * @param    string    $movies 'movies' permalink translation or original
+		 * @param    string    $base links base, general index or custom page
+		 * 
+		 * @return   array     $new_rules Set of rewrite rules to merge to current rules
+		 */
+		private static function generate_custom_meta_rules( $type, $data, $movies, $base ) {
+
+			$new_rules = array();
+
+			$grid = '(grid|archives|list)';
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+				$grid = sprintf( '(%s|%s|%s)', __( 'grid', 'wpmovielibrary' ), __( 'archives', 'wpmovielibrary' ), __( 'list', 'wpmovielibrary' ) );
+
+			foreach ( $data as $slug => $meta ) {
+
+				$meta = apply_filters( 'wpmoly_filter_rewrites', $meta );
+
+				// Simple meta link
+				$regex = sprintf( '%s/(%s)/([^/]+)(/%s)?/?$', $movies, $meta, $grid );
+				$value = sprintf( '%s%s=%s&value=$matches[2]', $base, $type, $slug );
+				$new_rules[ $regex ] = $value;
+
+				// Simple meta link
+				$regex = sprintf( '%s/(%s)/([^/]+)/%s/(.*?)/?$', $movies, $meta, $grid );
+				$value = sprintf( '%s%s=%s&value=$matches[2]&view=$matches[3]&sorting=$matches[4]', $base, $type, $slug );
+				$new_rules[ $regex ] = $value;
+			}
 
 			return $new_rules;
 		}
@@ -427,7 +503,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
-		 *                              Utils
+		 *                          Custom Permalinks
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -442,7 +518,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 * 
 		 * @return   string    Formatted output
 		 */
-		public static function add_meta_link( $key, $value, $type ) {
+		public static function add_meta_link( $key, $value, $type, $text = null ) {
 
 			if ( ! wpmoly_o( 'meta-links' ) || 'nowhere' == wpmoly_o( 'meta-links' ) || ( 'posts_only' == wpmoly_o( 'meta-links' ) && ! is_single() ) )
 				return $value;
@@ -450,16 +526,271 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( is_null( $key ) || is_null( $value ) || '' == $value )
 				return $value;
 
+			$baseurl = get_post_type_archive_link( 'movie' );
 			$link = explode( ',', $value );
-			foreach ( $link as $i => $l ) {
-				$l = trim( $l );
-				$link[ $i ] = WPMOLY_L10n::get_meta_permalink( $key, $l, $type );
+			foreach ( $link as $i => $value ) {
+
+				$value = trim( $value );
+				$link[ $i ] = self::get_meta_permalink( compact( 'key', 'value', 'text', 'type', 'baseurl' ) );
 			}
 
 			$link = implode( ', ', $link );
 
 			return $link;
 		}
+
+		/**
+		 * Generate Custom Movie Meta permalinks
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $args Permalink parameters
+		 * 
+		 * @return   string    HTML href of raw URL
+		 */
+		public static function get_meta_permalink( $args ) {
+
+			$defaults = array(
+				'key'     => null,
+				'value'   => null,
+				'text'    => null,
+				'type'    => null,
+				'format'  => null,
+				'baseurl' => null,
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args );
+
+			if ( ! in_array( $type, array( 'meta', 'detail' ) ) )
+				return null;
+
+			if ( 'raw' !== $format )
+				$format = 'html';
+
+			$title = $value;
+			if ( is_null( $text ) )
+				$text = $value;
+
+			$args = array(
+				$type     => $key,
+				'value'   => $value,
+				'baseurl' => $baseurl
+			);
+
+			$url = self::build_meta_permalink( $args );
+
+			if ( 'raw' == $format )
+				return $url;
+
+			$permalink = sprintf( '<a href="%1$s" title="%2$s (%3$s)">%3$s</a>', $url, $title, $text );
+
+			return $permalink;
+		}
+
+		/**
+		 * Build Meta URL. Use an array of parameter to build a custom
+		 * URLs for meta queries.
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    array     $args URL parameters to use
+		 * 
+		 * @return   string    Custom URL
+		 */
+		public static function build_meta_permalink( $args ) {
+
+			global $wp_rewrite;
+			$rewrite = ( '' != $wp_rewrite->permalink_structure );
+
+			$defaults = array(
+				'baseurl' => get_permalink(),
+				'number'  => null,
+				'columns' => null,
+				'rows'    => null,
+				'order'   => null,
+				'orderby' => null,
+				'paged'   => null,
+				'meta'    => null,
+				'detail'  => null,
+				'value'   => null,
+				'letter'  => null,
+				'is_tax'  => false,
+				'view'    => null
+			);
+			$args = wp_parse_args( $args, $defaults );
+
+			$args['type'] = '';
+			if ( '' != $args['meta'] && '' != $args['value'] ) {
+				$args['type'] = 'meta';
+			}
+			else if ( '' != $args['detail'] && '' != $args['value'] ) {
+				$args['type'] = 'detail';
+				$args['meta'] = $args['detail'];
+			}
+
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
+				if ( 'production_countries' == $args['meta'] ) {
+					$args['value'] = WPMOLY_L10n::get_country_standard_name( $args['value'] );
+				} else if ( 'spoken_languages' == $args['meta'] ) {
+					$args['value'] = WPMOLY_L10n::get_language_standard_name( $args['value'] );
+				}
+				$args['value'] = __( $args['value'], 'wpmovielibrary-iso' );
+			}
+
+			if ( 'rating' != $args['meta'] )
+				$args['value'] = sanitize_title( $args['value'] );
+
+			$args['meta'] = WPMOLY_L10n::translate_rewrite( $args['meta'] );
+			$args['value'] = WPMOLY_L10n::translate_rewrite( $args['value'] );
+
+			$url = '';
+			if ( $rewrite )
+				$url = self::build_custom_meta_permalink( $args );
+			else
+				$url = self::build_default_meta_permalink( $args );
+
+			return $url;
+		}
+
+		/**
+		 * Build a custom meta permalink for custom permalinks settings
+		 * 
+		 * This generate a user-friendly URL to access meta-based archive
+		 * pages.
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    array    $args URL parameters
+		 * 
+		 * @return   string   Generated URL
+		 */
+		private static function build_custom_meta_permalink( $args ) {
+
+			extract( $args );
+
+			$movies = wpmoly_o( 'rewrite-movie' );
+			if ( ! $movies )
+				$movies = 'movies';
+
+			$url = array();
+
+			if ( '' != $meta && '' != $value ) {
+				$url[] = $meta;
+				$url[] = $value;
+			}
+
+			$grid = 'grid';
+			if ( '' != $view )
+				$grid = $view;
+
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+				$grid = __( $grid, 'wpmovielibrary' );
+
+			$url[] = $grid;
+
+			if ( '' != $letter )
+				$url[] = $letter;
+
+			if ( '' != $columns && '' != $rows )
+				$url[] = "$columns:$rows";
+			else if ( '' != $number )
+				$url[] = $number;
+
+			if ( '' != $orderby )
+				$url[] = $orderby;
+
+			if ( '' != $order )
+				$url[] = $order;
+
+			if ( 1 < $paged )
+				$url[] = "page/$paged";
+
+			if ( $grid == end( $url ) )
+				$grid = array_pop( $url );
+
+			$url = implode( '/', $url );
+			$url = $baseurl . $url;
+
+			return $url;
+		}
+
+		/**
+		 * Build a custom meta permalink for default permalinks settings
+		 * 
+		 * This generate a meta URL with raw URL parameters instead of
+		 * nice user-friendly URLs if the user chose not to use WordPress
+		 * permalinks.
+		 * 
+		 * @since    2.1.1
+		 * 
+		 * @param    array    $args URL parameters
+		 * 
+		 * @return   string   Generated URL
+		 */
+		private static function build_default_meta_permalink( $args ) {
+
+			if ( false !== $args['is_tax'] )
+				$type = $args['is_tax'];
+			else
+				$type = 'movie';
+
+			$page = intval( wpmoly_o( $type . '-archives' ) );
+			$base  = 'index.php?';
+			if ( $page )
+				$base .= 'page_id=' . $page . '&';
+
+			$url = array();
+
+			if ( '' != $args['type'] && '' != $args['meta'] && '' != $args['value'] ) {
+				$url[ $args['type'] ] = $args['meta'];
+				$url['value'] = $args['value'];
+			}
+
+			unset( $args['type'], $args['meta'], $args['value'], $args['baseurl'], $args['is_tax'] );
+
+			foreach ( $args as $slug => $arg )
+				if ( '' != $arg )
+					$url[ $slug ] = $arg;
+
+			$url = add_query_arg( $url, home_url( "/${base}" ) );
+
+			return $url;
+		}
+
+		/**
+		 * Generate Custom Taxonomies permalinks
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $taxonomy Taxonomy name
+		 * @param    string    $value Text for the link
+		 * 
+		 * @return   string    HTML href of raw URL
+		 */
+		public static function get_taxonomy_permalink( $taxonomy, $value ) {
+
+			$page_id = intval( wpmoly_o( "{$taxonomy}-archives" ) );
+			if ( ! $page_id || ! get_post( $page_id ) )
+				return $value;
+
+			if ( '1' != wpmoly_o( 'rewrite-enable' ) )
+				$url = home_url( sanitize_title( get_the_title( $page_id ) ) );
+			else
+				$url = get_permalink( $page_id );
+
+			if ( false === $value )
+				return $url;
+
+			$permalink = sprintf( '<a href="%s" title="%s">%s</a>', $url, strip_tags( $value ), $value );
+
+			return $permalink;
+		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                              Utils
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Generate rating stars block.
@@ -477,7 +808,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$defaults = WPMOLY_Settings::get_supported_movie_details();
 
 			if ( is_null( $post_id ) || ! intval( $post_id ) )
-				$post_id = '';
+				$post_id = get_the_ID();
 
 			if ( is_null( $base ) )
 				$base = wpmoly_o( 'format-rating' );
@@ -506,7 +837,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			$_empty  = ceil( 5.0 - ( $_filled + $_half ) );
 
 			if ( 0.0 == $rating ) {
-				$stars = sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
+				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="not-rated" title="' . $title . '">';
+				$stars .= sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
+				$stars .= '</div>';
 			}
 			else if ( 10 == $base ) {
 				$_filled = $rating * 2;
@@ -563,8 +896,16 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			foreach ( $_data as $key => $term ) {
 				
-				$term = trim( str_replace( '&#039;', "'", $term ) );
-				$_term = ( $has_taxonomy ? get_term_by( 'name', $term, $taxonomy ) : $term );
+				$term = trim( str_replace( array( '&#039;', "’" ), "'", $term ) );
+
+				if ( $has_taxonomy ) {
+					$_term = get_term_by( 'name', $term, $taxonomy );
+					if ( ! $_term )
+						$_term = get_term_by( 'slug', sanitize_title( $term ), $taxonomy );
+				}
+				else {
+					$_term = $term;
+				}
 
 				if ( ! $_term )
 					$_term = $term;
@@ -648,19 +989,15 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( true !== $count )
 				$count = false;
 
-			$supported = WPMOLY_Settings::get_available_languages();
-			foreach ( $supported as $i => $s ) {
-				unset( $supported[ $i ] );
-				$supported[ $s['native'] ] = $s['name'];
-			}
-
 			$languages = self::get_used_meta( 'spoken_languages', $count );
 			foreach ( $languages as $i => $language ) {
-				if ( isset( $supported[ $language['name'] ] ) ) {
+
+				$_language = WPMOLY_L10n::get_language_standard_name( $language['name'] );
+				if ( $_language != $language['name'] ) {
 					if ( ! $count )
-						$used_languages[ $language['name'] ] = $supported[ $language['name'] ];
+						$used_languages[ $language['name'] ] = __( $_language, 'wpmovielibrary-iso' );
 					else
-						$used_languages[ $language['name'] ] = sprintf( '%s (%s)', $supported[ $language['name'] ], sprintf( _n( '%d movie', '%d movies', $language['count'], 'wpmovielibrary' ), $language['count'] ) );
+						$used_languages[ $language['name'] ] = sprintf( '%s (%s)', __( $_language, 'wpmovielibrary-iso' ), sprintf( _n( '%d movie', '%d movies', $language['count'], 'wpmovielibrary' ), $language['count'] ) );
 				}
 			}
 
@@ -685,19 +1022,15 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			if ( true !== $count )
 				$count = false;
 
-			$supported = WPMOLY_Settings::get_supported_countries();
-			foreach ( $supported as $i => $s ) {
-				unset( $supported[ $i ] );
-				$supported[ $s['native'] ] = $s['name'];
-			}
-
 			$countries = self::get_used_meta( 'production_countries', $count );
 			foreach ( $countries as $i => $country ) {
-				if ( isset( $supported[ $country['name'] ] ) ) {
+
+				$_country = WPMOLY_L10n::get_country_standard_name( $country['name'] );
+				if ( $_country != $country['name'] ) {
 					if ( ! $count )
-						$used_countries[ $country['name'] ] = $supported[ $country['name'] ];
+						$used_countries[ $country['name'] ] = __( $_country, 'wpmovielibrary-iso' );
 					else
-						$used_countries[ $country['name'] ] = sprintf( '%s (%s)', $supported[ $country['name'] ], sprintf( _n( '%d movie', '%d movies', $country['count'], 'wpmovielibrary' ), $country['count'] ) );
+						$used_countries[ $country['name'] ] = sprintf( '%s (%s)', __( $_country, 'wpmovielibrary-iso' ), sprintf( _n( '%d movie', '%d movies', $country['count'], 'wpmovielibrary' ), $country['count'] ) );
 				}
 			}
 
