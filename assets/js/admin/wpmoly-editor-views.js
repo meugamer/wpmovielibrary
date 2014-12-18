@@ -22,7 +22,9 @@
 			"click #wpmoly-search": "search",
 			"click #wpmoly-update": "update",
 			"click #wpmoly-empty": "empty",
-			"change #wpmoly-search-query": "set"
+			"change #wpmoly-search-query": "set",
+			"change #wpmoly-search-lang": "set",
+			"change #wpmoly-search-type": "set"
 		},
 
 		/**
@@ -68,7 +70,12 @@
 		 */
 		set: function( event ) {
 
-			this.model.set( { query: event.currentTarget.value } );
+			var data = [],
+			    type = event.currentTarget.id.replace( 'wpmoly-search-', '' ),
+			   value = event.currentTarget.value;
+			data[ type ] = value;
+
+			this.model.set( data );
 		},
 
 		/**
