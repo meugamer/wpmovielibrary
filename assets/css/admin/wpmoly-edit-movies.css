@@ -316,7 +316,12 @@
 	padding: 0 1.5em;
 }
 
-#wpmoly-meta-search .spinner {
+#wpmoly-meta-search-spinner {
+	display: none;
+}
+
+#wpmoly-meta-search-spinner .spinner {
+	display: inline-block;
 	float: none;
 	margin-top: -4px;
 }
