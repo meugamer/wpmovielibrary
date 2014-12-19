@@ -394,8 +394,14 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		changed: function( model ) {
 
-			_.each( model.changed, function( meta, key ) {
-				$( '#wpmoly-movie-preview-' + key ).text( meta );
+			var meta = model.changed;
+			$( '#wpmoly-movie-preview-poster img' ).attr( 'src', meta.poster );
+			delete meta.poster;
+
+			_.each( meta, function( value, key ) {
+				if ( _.isArray( value ) )
+					value = value.join( ', ' );
+				$( '#wpmoly-movie-preview-' + key ).text( value );
 			} );
 
 			$( '#wpmoly-movie-preview' ).removeClass( 'empty' );

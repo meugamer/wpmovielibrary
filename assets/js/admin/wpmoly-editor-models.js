@@ -176,8 +176,9 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		set_meta: function( data ) {
 
-			this.set( _.extend( this.defaults, data.meta ) );
-			this.trigger( 'sync:done', this );
+			var meta = _.extend( this.defaults, data.meta );
+			this.set( meta );
+			this.trigger( 'sync:done', this, data );
 		},
 
 		/**
@@ -235,16 +236,11 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		validate: function( attributes, options ) {
 
-			var error = '';
 			_.each( attributes, function( value, attr ) {
 				if ( undefined == this.defaults[ attr ] ) {
 					this.unset( attr, attributes );
-					//error = 'Preview Model attribute "' + attr + '" does not exist.';
-					//return false;
 				}
 			}, this );
-
-			//return true;
 		}
 	});
 
@@ -335,16 +331,11 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		validate: function( attributes, options ) {
 
-			var error = '';
 			_.each( attributes, function( value, attr ) {
 				if ( undefined == this.defaults[ attr ] ) {
 					this.unset( attr, attributes );
-					error = 'Preview Model attribute "' + attr + '" does not exist.';
-					return false;
 				}
 			}, this );
-
-			return error;
 		},
 
 		/**
@@ -356,12 +347,13 @@ window.wpmoly = window.wpmoly || {};
 		 * 
 		 * @return   mixed
 		 */
-		update: function( model ) {
+		update: function( model, data ) {
 
 			var meta = {};
 			_.each( this.defaults, function( value, attr ) {
-				meta[ attr ] = model.get( attr );
+				meta[ attr ] = data.meta[ attr ];
 			}, this );
+			meta.poster = data.poster;
 
 			this.set( meta );
 		}
