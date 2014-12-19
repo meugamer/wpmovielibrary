@@ -1,7 +1,7 @@
 
 window.wpmoly = window.wpmoly || {};
 
-(function($){
+(function( $ ) {
 
 	editor = wpmoly.editor = function() {
 
@@ -20,13 +20,13 @@ window.wpmoly = window.wpmoly || {};
 		});
 
 		// Init models
-		editor.panel = new editor.model.Panel();
-		editor.movie = new editor.model.Movie( data );
-		editor.search = new editor.model.Search();
-		editor.results = new editor.model.Results();
+		editor.models.panel = new wpmoly.editor.Model.Panel();
+		editor.models.movie = new wpmoly.editor.Model.Movie( data );
+		editor.models.search = new wpmoly.editor.Model.Search();
+		editor.models.results = new wpmoly.editor.Model.Results();
 	};
 
-	_.extend( editor, { model: {}, view: {} } );
+	_.extend( editor, { models: {}, views: {}, Model: {}, View: {} } );
 
 	/**
 	 * WPMOLY Backbone Search Model
@@ -35,7 +35,7 @@ window.wpmoly = window.wpmoly || {};
 	 * search data for movies: lang, type, query and a bunch of handy
 	 * options.
 	 */
-	Search = editor.model.Search = Backbone.Model.extend({
+	wpmoly.editor.Model.Search = Backbone.Model.extend({
 
 		defaults: {
 			lang: $( '#wpmoly-search-lang' ).val(),
@@ -59,7 +59,7 @@ window.wpmoly = window.wpmoly || {};
 	 * is linked to a view containing all the inputs and handles the sync
 	 * with the server to search for movies.
 	 */
-	Movie = editor.model.Movie = Backbone.Model.extend({
+	wpmoly.editor.Model.Movie = Backbone.Model.extend({
 
 		// The Holy Grail: movie metadata.
 		defaults: {
@@ -128,9 +128,9 @@ window.wpmoly = window.wpmoly || {};
 				options.data = _.extend( options.data || {}, {
 					action: 'wpmoly_search_movie',
 					nonce: wpmoly.get_nonce( 'search-movies' ),
-					lang: editor.search.get( 'lang' ),
-					data: editor.search.get( 'query' ),
-					type: editor.search.get( 'type' )
+					lang: editor.models.search.get( 'lang' ),
+					data: editor.models.search.get( 'query' ),
+					type: editor.models.search.get( 'type' )
 				});
 
 				// Let know we're done queryring
@@ -150,7 +150,7 @@ window.wpmoly = window.wpmoly || {};
 					// If not, means multiple movies, show a choice
 					_.each( response, function( result ) {
 						var result = new Result( result );
-						editor.results.add( result );
+						editor.models.results.add( result );
 					} );
 				};
 
@@ -174,7 +174,7 @@ window.wpmoly = window.wpmoly || {};
 		set_meta: function( data ) {
 
 			var meta = _.extend( this.defaults, data.meta );
-			editor.movie.set( meta );
+			editor.models.movie.set( meta );
 
 			this.trigger( 'sync:done', this );
 		},
@@ -229,7 +229,7 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	Result = editor.model.Result = Backbone.Model.extend({
+	wpmoly.editor.Model.Result = Backbone.Model.extend({
 
 		defaults: {
 			id: '',
@@ -252,9 +252,9 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	Results = editor.model.Results = Backbone.Collection.extend({
+	wpmoly.editor.Model.Results = Backbone.Collection.extend({
 
-		model: Result,
+		model: editor.Model.Result,
 
 		initialize: function() {}
 	});
@@ -266,7 +266,7 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	Panel = editor.model.Panel = Backbone.Model.extend({});
+	wpmoly.editor.Model.Panel = Backbone.Model.extend({});
 
 	wpmoly.editor();
 

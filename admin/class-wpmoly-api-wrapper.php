@@ -112,9 +112,12 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			if ( '' == $data || '' == $type )
 				return false;
 
+			if ( preg_match( '/(tt\d{5,7})/i', $data, $m ) )
+				$type = 'imdbid';
+
 			if ( 'title' == $type )
 				$response = self::get_movie_by_title( $data, $lang, $_id );
-			else if ( 'id' == $type )
+			else if ( 'tmdbid' == $type || 'imdbid' == $type )
 				$response = self::get_movie_by_id( $data, $lang, $_id );
 
 			if ( empty( $response ) )
@@ -392,7 +395,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			$movie = apply_filters( 'wpmoly_filter_meta_data', $movie );
 			$casts = apply_filters( 'wpmoly_filter_crew_data', $casts );
 			$meta  = array_merge( $movie, $casts );
-			$meta['tmdb_id'] = $id;
+			$meta['tmdb_id'] = $movie['id'];
 			$meta['certification'] = '';
 
 			if ( isset( $release['countries'] ) ) {

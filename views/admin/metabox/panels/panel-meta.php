@@ -18,8 +18,7 @@
 								</select>
 								<select id="wpmoly-search-type" name="wpmoly[tmdb_search_type]">
 									<option value="title" selected="selected"><?php _e( 'Movie Title', 'wpmovielibrary' ); ?></option>
-									<option value="tmdbid"><?php _e( 'TMDb ID', 'wpmovielibrary' ); ?></option>
-									<option value="imdbid"><?php _e( 'IMDb ID', 'wpmovielibrary' ); ?></option>
+									<option value="id"><?php _e( 'TMDb/IMDb ID', 'wpmovielibrary' ); ?></option>
 								</select>
 								<input id="wpmoly-search-query" type="text" name="wpmoly[tmdb_query]" value="" size="30" maxlength="32" placeholder="<?php _e( 'ex: The Secret Life of Walter Mitty', 'wpmovielibrary' ); ?>" />
 								<a id="wpmoly-search" name="wpmoly[tmdb_search]" title="<?php _e( 'Search', 'wpmovielibrary' ); ?>" href="<?php echo get_edit_post_link() ?>&amp;wpmoly_auto_fetch=1" class="button button-secondary button-icon"><span class="wpmolicon icon-search"></span></a>

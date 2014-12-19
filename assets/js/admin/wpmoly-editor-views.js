@@ -1,9 +1,18 @@
 
+window.wpmoly = window.wpmoly || {};
+
 (function( $ ) {
 
-	var editor = wpmoly.editor;
+	editor = wpmoly.editor || {};
+	editor.views = editor.views || {};
 
-	editor.view = {};
+	editor.views.init = function() {
+
+		editor.views.panel = new wpmoly.editor.View.Panel();
+		editor.views.movie = new wpmoly.editor.View.Movie();
+		editor.views.search = new wpmoly.editor.View.Search();
+		editor.views.results = new wpmoly.editor.View.Results();
+	};
 
 	/**
 	 * WPMOLY Backbone Search View
@@ -12,11 +21,11 @@
 	 * 
 	 * @since    2.2
 	 */
-	editor.view.Search = Backbone.View.extend({
+	wpmoly.editor.View.Search = Backbone.View.extend({
 
 		el: '#wpmoly-movie-meta-search',
 
-		model: editor.search,
+		model: editor.models.search,
 
 		events: {
 			"click #wpmoly-search": "search",
@@ -41,9 +50,9 @@
 			this.template = _.template( $( '#wpmoly-movie-meta-search' ).html() );
 			this.render();
 
-			editor.movie.on( 'sync:start', this.spin, this );
-			editor.movie.on( 'sync:end', this.unspin, this );
-			editor.movie.on( 'sync:done', this.reset, this );
+			editor.models.movie.on( 'sync:start', this.spin, this );
+			editor.models.movie.on( 'sync:end', this.unspin, this );
+			editor.models.movie.on( 'sync:done', this.reset, this );
 		},
 
 		/**
@@ -90,7 +99,13 @@
 		search: function( event ) {
 
 			event.preventDefault();
-			editor.movie.sync( 'search', this.model, {} );
+
+			var query = $( '#wpmoly-search-query' ).val(),
+			     lang = $( '#wpmoly-search-lang' ).val();
+			if ( query != this.model.get( 'query' ) )
+				this.model.set( { query: query, type: 'title', lang: lang } );
+
+			editor.models.movie.sync( 'search', this.model, {} );
 		},
 
 		/**
@@ -105,7 +120,15 @@
 		update: function( event ) {
 
 			event.preventDefault();
-			console.log( 'update', event.currentTarget );
+
+			var tmdb_id = editor.models.movie.get( 'tmdb_id' ),
+			    imdb_id = editor.models.movie.get( 'imdb_id' ),
+			         id = tmdb_id || imdb_id;
+
+			if ( undefined != id && '' != id ) {
+				this.model.set( { query: id, type: 'id' } );
+				editor.models.movie.sync( 'search', this.model, {} );
+			}
 		},
 
 		/**
@@ -165,11 +188,11 @@
 	 * 
 	 * @since    2.2
 	 */
-	editor.view.Movie = Backbone.View.extend({
+	wpmoly.editor.View.Movie = Backbone.View.extend({
 
 		el: '#wpmoly-movie-meta',
 
-		model: editor.movie,
+		model: editor.models.movie,
 
 		events: {
 			"change .meta-data-field": "update"
@@ -248,11 +271,11 @@
 	 * 
 	 * @since    2.2
 	 */
-	editor.view.Results = Backbone.View.extend({
+	wpmoly.editor.View.Results = Backbone.View.extend({
 
 		el: '#wpmoly-meta-search-results',
 
-		collection: editor.results,
+		collection: editor.models.results,
 
 		events : {
 			'click .wpmoly-select-movie a' : 'get'
@@ -308,10 +331,10 @@
 
 			var id = event.currentTarget.hash.replace( '#', '' );
 
-			editor.search.set( 'type', 'id' );
-			editor.search.set( 'query', id );
+			editor.models.search.set( 'type', 'id' );
+			editor.models.search.set( 'query', id );
 
-			editor.movie.sync( 'search', this.model, {} );
+			editor.models.movie.sync( 'search', this.model, {} );
 		},
 
 		/**
@@ -322,6 +345,7 @@
 		 * @return   void
 		 */
 		reset: function() {
+
 			this.$el.empty();
 			this.$el.hide();
 		},
@@ -335,9 +359,16 @@
 	 * 
 	 * @since    2.2
 	 */
-	editor.view.Panel = Backbone.View.extend({
+	wpmoly.editor.View.Panel = Backbone.View.extend({
 
 		el: '#wpmoly-metabox',
+
+		meta: '#wpmoly-meta',
+		menu: '#wpmoly-meta-menu',
+
+		events: {
+			"click #wpmoly-meta-menu a": "navigate",
+		},
 
 		/**
 		 * Initialize the View
@@ -347,12 +378,16 @@
 		 * @return   void
 		 */
 		initialize: function () {
+			
+			_.bindAll( this, 'render', 'fix' );
 
 			this.template = _.template( $( '#wpmoly-metabox' ).html() );
 			this.render();
 
 			if ( window.innerWidth < 1180 )
 				this.resize();
+
+			$( window ).scroll( this.fix );
 		},
 
 		/**
@@ -363,12 +398,9 @@
 		 * @return   void
 		 */
 		render: function () {
+
 			this.$el.html( this.template() );
 			return this;
-		},
-
-		events: {
-			"click #wpmoly-meta-menu a": "navigate"
 		},
 
 		/**
@@ -399,6 +431,41 @@
 		},
 
 		/**
+		 * Set a fixed position for the panel tabs when scrolling long
+		 * panels (essentially the meta one).
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		fix: function() {
+
+			var $meta = $( this.meta ),
+			    $menu = $( this.menu ),
+			   menu_t = $menu[0].offsetTop,
+			   menu_h = $menu[0].offsetHeight
+			   menu_b = menu_t + menu_h,
+			   meta_h = $meta[0].offsetHeight,
+			   meta_t = $meta.offset().top - 36,
+			   meta_b = meta_t + meta_h,
+			        y = window.scrollY;
+
+			if ( meta_t < y && meta_b > y ) {
+
+				var t = Math.round( y - meta_t ),
+				   _t = t + menu_h,
+				  top = 'auto';
+				if ( menu_b < meta_h && _t < meta_h ) {
+					top = t;
+				}
+				$( this.menu ).css( { top: top } );
+			}
+			else if ( menu_t ) {
+				$( this.menu ).css( { top: 0 } );
+			}
+		},
+
+		/**
 		 * Resize Metabox Panel
 		 *
 		 * @since 2.0
@@ -408,10 +475,6 @@
 		}
 	});
 
-	new editor.view.Panel();
-
-	new editor.view.Movie();
-	new editor.view.Search();
-	new editor.view.Results();
+	wpmoly.editor.views.init();
 
 })(jQuery);
