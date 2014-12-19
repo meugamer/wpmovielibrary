@@ -10,6 +10,7 @@ window.wpmoly = window.wpmoly || {};
 
 		editor.views.panel = new wpmoly.editor.View.Panel();
 		editor.views.movie = new wpmoly.editor.View.Movie();
+		editor.views.preview = new wpmoly.editor.View.Preview();
 		editor.views.search = new wpmoly.editor.View.Search();
 		editor.views.results = new wpmoly.editor.View.Results();
 	};
@@ -177,7 +178,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		reset: function() {
 
-			editor.results.reset();
+			editor.models.results.reset();
 		}
 	});
 
@@ -350,6 +351,56 @@ window.wpmoly = window.wpmoly || {};
 			this.$el.hide();
 		},
 
+	});
+
+	/**
+	 * WPMOLY Backbone Preview View
+	 * 
+	 * View for movie metabox preview panel.
+	 * 
+	 * @since    2.2
+	 */
+	wpmoly.editor.View.Preview = Backbone.View.extend({
+
+		el: '#wpmoly-meta-preview-panel',
+
+		model: editor.models.preview,
+
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		initialize: function () {
+			
+			_.bindAll( this, 'render' );
+
+			this.template = _.template( $( this.el ).html() );
+			this.render();
+
+			this.model.on( 'change', this.changed, this );
+		},
+
+		/**
+		 * Update the View to match the Model's changes
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Model
+		 * 
+		 * @return   void
+		 */
+		changed: function( model ) {
+
+			_.each( model.changed, function( meta, key ) {
+				$( '#wpmoly-movie-preview-' + key ).text( meta );
+			} );
+
+			$( '#wpmoly-movie-preview' ).removeClass( 'empty' );
+			$( '#wpmoly-movie-preview-message' ).remove();
+		},
 	});
 
 	/**

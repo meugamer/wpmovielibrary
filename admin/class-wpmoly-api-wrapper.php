@@ -113,11 +113,11 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				return false;
 
 			if ( preg_match( '/(tt\d{5,7})/i', $data, $m ) )
-				$type = 'imdbid';
+				$type = 'id';
 
 			if ( 'title' == $type )
 				$response = self::get_movie_by_title( $data, $lang, $_id );
-			else if ( 'tmdbid' == $type || 'imdbid' == $type )
+			else if ( 'id' == $type )
 				$response = self::get_movie_by_id( $data, $lang, $_id );
 
 			if ( empty( $response ) )

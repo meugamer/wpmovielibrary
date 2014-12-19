@@ -22,6 +22,7 @@ window.wpmoly = window.wpmoly || {};
 		// Init models
 		editor.models.panel = new wpmoly.editor.Model.Panel();
 		editor.models.movie = new wpmoly.editor.Model.Movie( data );
+		editor.models.preview = new wpmoly.editor.Model.Preview();
 		editor.models.search = new wpmoly.editor.Model.Search();
 		editor.models.results = new wpmoly.editor.Model.Results();
 	};
@@ -139,6 +140,8 @@ window.wpmoly = window.wpmoly || {};
 				};
 
 				// Let's go!
+				// TODO: results shouldn't be changed from here.
+				//       Use an event?
 				options.success = function( response ) {
 
 					// Response has meta, that's a single movie
@@ -149,7 +152,7 @@ window.wpmoly = window.wpmoly || {};
 
 					// If not, means multiple movies, show a choice
 					_.each( response, function( result ) {
-						var result = new Result( result );
+						var result = new editor.Model.Result( result );
 						editor.models.results.add( result );
 					} );
 				};
@@ -173,9 +176,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		set_meta: function( data ) {
 
-			var meta = _.extend( this.defaults, data.meta );
-			editor.models.movie.set( meta );
-
+			this.set( _.extend( this.defaults, data.meta ) );
 			this.trigger( 'sync:done', this );
 		},
 
@@ -219,6 +220,31 @@ window.wpmoly = window.wpmoly || {};
 			} );
 
 			return data;
+		},
+
+		/**
+		 * Make sure the attributes are correct. Additional attributes
+		 * are not welcomed here.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    attributes
+		 * @param    object    options
+		 * 
+		 * @return   mixed
+		 */
+		validate: function( attributes, options ) {
+
+			var error = '';
+			_.each( attributes, function( value, attr ) {
+				if ( undefined == this.defaults[ attr ] ) {
+					this.unset( attr, attributes );
+					//error = 'Preview Model attribute "' + attr + '" does not exist.';
+					//return false;
+				}
+			}, this );
+
+			//return true;
 		}
 	});
 
@@ -260,6 +286,88 @@ window.wpmoly = window.wpmoly || {};
 	});
 
 	/**
+	 * WPMOLY Backbone Preview Model
+	 * 
+	 * Model for the Metabox Preview Panel.
+	 * 
+	 * @since    2.2
+	 */
+	wpmoly.editor.Model.Preview = Backbone.Model.extend({
+
+		defaults: {
+			poster: '',
+			rating: '',
+			title: '',
+			original_title: '',
+			runtime: '',
+			genres: '',
+			release_date: '',
+			overview: '',
+			director: '',
+			cast: ''
+		},
+
+		/**
+		 * Initialize Model.
+		 * 
+		 * Bind the Model update on the Movie Model sync:done event to
+		 * update the preview when the Movie attributes are changed.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		initialize: function() {
+
+			editor.models.movie.on( 'sync:done', this.update, this );
+		},
+
+		/**
+		 * Make sure the attributes are correct. Additional attributes
+		 * are not welcomed here.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    attributes
+		 * @param    object    options
+		 * 
+		 * @return   mixed
+		 */
+		validate: function( attributes, options ) {
+
+			var error = '';
+			_.each( attributes, function( value, attr ) {
+				if ( undefined == this.defaults[ attr ] ) {
+					this.unset( attr, attributes );
+					error = 'Preview Model attribute "' + attr + '" does not exist.';
+					return false;
+				}
+			}, this );
+
+			return error;
+		},
+
+		/**
+		 * Update Model to match the Movie Model changes
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Movie Model
+		 * 
+		 * @return   mixed
+		 */
+		update: function( model ) {
+
+			var meta = {};
+			_.each( this.defaults, function( value, attr ) {
+				meta[ attr ] = model.get( attr );
+			}, this );
+
+			this.set( meta );
+		}
+	});
+
+	/**
 	 * WPMOLY Backbone Panel Model
 	 * 
 	 * Model for the Metabox Panels.
@@ -268,6 +376,21 @@ window.wpmoly = window.wpmoly || {};
 	 */
 	wpmoly.editor.Model.Panel = Backbone.Model.extend({});
 
+	/**
+	 * Override Movie and Preview Models set() method.
+	 * 
+	 * We want attributes validation to be run each time attributes are set
+	 * to avoid unknown attributes.
+	 */
+	_.each( [ wpmoly.editor.Model.Movie, wpmoly.editor.Model.Preview ], function( model ) {
+		model.prototype.set = function( attributes, options ) {
+			options = options || {};
+			options.validate = true;
+			return Backbone.Model.prototype.set.call( this, attributes, options );
+		};
+	}, this );
+
+	// To infinity... And beyond!
 	wpmoly.editor();
 
 })(jQuery);
