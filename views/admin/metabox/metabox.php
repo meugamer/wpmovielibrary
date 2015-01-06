@@ -6,6 +6,11 @@
 
 		<div id="wpmoly-meta" class="wpmoly-meta">
 
+			<div id="wpmoly-meta-status">
+				<div id="wpmoly-meta-status-loader"><img src="/wp-content/plugins/wpmovielibrary/assets/img/grid_o.svg" width="16" alt="" /></div>
+				<div id="wpmoly-meta-status-content">WPMovieLibrary: ready!</div>
+			</div>
+
 			<div id="wpmoly-meta-menu-bg"></div>
 			<ul id="wpmoly-meta-menu" class="hide-if-no-js">
 

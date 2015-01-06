@@ -1,4 +1,19 @@
 
+#wpmoly-metabox:not(.closed) {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+}
+
+#wpmoly-metabox:not(.closed) .hndle {
+	display: none;
+}
+
+#wpmoly-metabox:not(.closed) .handlediv {
+	position: relative;
+	z-index: 10;
+}
+
 #wpmoly-metabox.postbox .inside {
 	margin: 0;
 	padding: 0;
@@ -6,27 +21,59 @@
 
 #wpmoly-meta {
 	padding-left: 14em;
+	padding-top: 3em;
 	position: relative;
 }
 
+#wpmoly-meta-status {
+	background: #f1f1f1;
+	border-bottom: 1px solid #dfdfdf;
+	height: 2em;
+	left: 0;
+	padding: 0.5em 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+}
+
+#wpmoly-meta-status-loader,
+#wpmoly-meta-status-content {
+	display: inline-block;
+}
+
+#wpmoly-meta-status-loader {
+	margin-left: 13.5em;
+	margin-right: 0.5em;
+	text-align: center;
+	vertical-align: middle;
+	width: 2em;
+}
+
+#wpmoly-meta-status-content {
+	color: #666;
+	line-height: 2em;
+}
+
 #wpmoly-meta-menu-bg {
-	background: #f5f5f5;
+	background: #f1f1f1;
 	border-right: 1px solid #dfdfdf;
 	bottom: 0;
 	left: 0;
 	position: absolute;
-	top: 0;
+	top: 3em;
 	width: 14em;
 }
 
 #wpmoly-meta-menu {
-	background: #f5f5f5;
+	background: #f1f1f1;
 	float: left;
 	height: 100%;
 	margin: 0 0 0 -14em;
 	padding: 0;
 	position: relative;
 	width: 14em;
+	z-index: 2;
 }
 
 #wpmoly-meta-menu .tab {
@@ -34,7 +81,7 @@
 }
 
 #wpmoly-meta-menu .tab a {
-	border-bottom: 1px solid #f5f5f5;
+	border-bottom: 1px solid #f1f1f1;
 	border-top: 1px solid #eaeaea;
 	box-shadow: 0 0 0;
 	display: block;
@@ -46,6 +93,7 @@
 #wpmoly-meta-menu .tab.active a {
 	background-color: #fff;
 	border-color: #dfdfdf;
+	border-left: 1px solid #dfdfdf;
 	box-shadow: 0 0 0;
 	color: #555;
 	margin: 0 -1px 0 0;
@@ -53,10 +101,18 @@
 }
 
 #wpmoly-meta-menu .tab:first-child a {
-	border-top: 0;
+	border-top-width: 0;
 }
 
-#wpmoly-meta-panels {}
+#wpmoly-meta-menu .tab.active:first-child a {
+	border-top-width: 1px;
+}
+
+#wpmoly-meta-panels {
+	background: #fff;
+	border-right: 1px solid #dfdfdf;
+	border-bottom: 1px solid #dfdfdf;
+}
 
 #wpmoly-meta-panels .panel {
 	padding: 1em 1.5em;

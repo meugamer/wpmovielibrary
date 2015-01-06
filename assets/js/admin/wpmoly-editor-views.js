@@ -422,6 +422,7 @@ window.wpmoly = window.wpmoly || {};
 
 		meta: '#wpmoly-meta',
 		menu: '#wpmoly-meta-menu',
+		status: '#wpmoly-meta-status',
 
 		events: {
 			"click #wpmoly-meta-menu a": "navigate",
@@ -503,7 +504,7 @@ window.wpmoly = window.wpmoly || {};
 			   menu_h = $menu[0].offsetHeight
 			   menu_b = menu_t + menu_h,
 			   meta_h = $meta[0].offsetHeight,
-			   meta_t = $meta.offset().top - 36,
+			   meta_t = $meta.offset().top - 32,
 			   meta_b = meta_t + meta_h,
 			        y = window.scrollY;
 
@@ -516,9 +517,11 @@ window.wpmoly = window.wpmoly || {};
 					top = t;
 				}
 				$( this.menu ).css( { top: top } );
+				$( this.status ).css( { top: top } );
 			}
 			else if ( menu_t ) {
 				$( this.menu ).css( { top: 0 } );
+				$( this.status ).css( { top: 0 } );
 			}
 		},
 
