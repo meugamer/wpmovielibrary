@@ -645,6 +645,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			foreach ( $details as $slug => $detail ) {
 
+				if ( 'custom' == $detail['panel'] ) {
+					unset( $details[ $slug ] );
+					continue;
+				}
+
 				$field_name = $detail['type'];
 				$class_name = "ReduxFramework_{$field_name}";
 				$value      = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $slug ) );
@@ -778,7 +783,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			unset( $movie_meta['post_id'] );
 
 			foreach ( $movie_meta as $slug => $meta )
-				update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $meta );
+				$update = update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $meta );
 
 			if ( false !== $clean )
 				WPMOLY_Cache::clean_transient( 'clean', $force = true );
@@ -992,7 +997,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					wpmoly_check_admin_referer( 'quickedit-movie-details' );
 
 				$wpmoly_details = $_REQUEST['wpmoly_details'];
-				self::save_movie_details( $post_ID, $wpmoly_details );
+				if ( true === $_REQUEST['is_bulkedit'] ) {
+					foreach ( $_REQUEST['post'] as $post_id ) {
+						self::save_movie_details( $post_id, $wpmoly_details );
+					}
+				} else {
+					self::save_movie_details( $post_ID, $wpmoly_details );
+				}
 			}
 
 			WPMOLY_Cache::clean_transient( 'clean', $force = true );

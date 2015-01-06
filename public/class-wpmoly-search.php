@@ -102,21 +102,43 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @param    string     $date Date to look for
 		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
+		 * @param    boolean    $local Local release date?
 		 * 
 		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_release_date( $date, $format = 'array' ) {
+		public static function by_release_date( $date, $format = 'array', $local = false ) {
 
 			if ( 4 == strlen( $date ) || 7 == strlen( $date ) )
-				return self::by_year( $date, $format );
+				return self::by_year( $date, $format, $local );
+
+			$key = 'release_date';
+			if ( true === $local )
+				$key = "local_$key";
 
 			$value = self::filter_interval( $date );
-			$meta_query = self::by_interval( 'release_date', $value, $strict = true );
+			$meta_query = self::by_interval( $key, $value, $strict = true, $filter = false );
 
 			if ( 'sql' === $format )
 				$meta_query = self::get_sql( $meta_query );
 
 			return $meta_query;
+		}
+
+		/**
+		 * Filter movies by local release date.
+		 * 
+		 * This is an alias for self::by_release_date()
+		 * 
+		 * @since    2.1.1.3
+		 * 
+		 * @param    string     $date Date to look for
+		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
+		 * 
+		 * @return   array      Meta_query parameter for WP_Query
+		 */
+		public static function by_local_release_date( $date, $format = 'array' ) {
+
+			return self::by_release_date( $date, $format, $local = true );
 		}
 
 		/**
@@ -126,12 +148,17 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @param    string     $value Year to match
 		 * @param    boolean    $format Whether to return an SQL Query part of simple Meta Query Array
+		 * @param    boolean    $local Local release date?
 		 * 
 		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		public static function by_year( $value, $format = 'array' ) {
+		public static function by_year( $value, $format = 'array', $local = false ) {
 
-			$meta_query = self::by_interval( 'release_date', $value, $strict = false );
+			$key = 'release_date';
+			if ( true === $local )
+				$key = "local_$key";
+
+			$meta_query = self::by_interval( $key, $value, $strict = false, $filter = false );
 
 			if ( 'sql' === $format )
 				$meta_query = self::get_sql( $meta_query );
@@ -164,7 +191,7 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 
 			$value = self::filter_value( $country );
 			$value = WPMOLY_L10n::get_country_standard_name( $value );
-			$meta_query = self::by_interval( 'production_countries', $value, $strict = false );
+			$meta_query = self::by_interval( 'production_countries', $value, $strict = false, $filter = false );
 
 			if ( 'sql' === $format )
 				$meta_query = self::get_sql( $meta_query );
@@ -176,7 +203,7 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 
 			$value = self::filter_value( $language );
 			$value = WPMOLY_L10n::get_language_native_name( $value );
-			$meta_query = self::by_interval( 'spoken_languages', $value, $strict = false );
+			$meta_query = self::by_interval( 'spoken_languages', $value, $strict = false, $filter = false );
 
 			if ( 'sql' === $format )
 				$meta_query = self::get_sql( $meta_query );
@@ -198,13 +225,13 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		private static function by_interval( $meta, $interval, $strict = false ) {
+		private static function by_interval( $meta, $interval, $strict = false, $filter = true ) {
 
 			if ( ! is_array( $interval ) )
-				return self::by_value( $meta, $interval, $strict );
+				return self::by_value( $meta, $interval, $strict, $filter );
 
 			if ( 2 != count( $interval ) )
-				return self::by_value( $meta, implode( '-', $interval ), $strict );
+				return self::by_value( $meta, implode( '-', $interval ), $strict, $filter );
 
 			extract( $interval );
 
@@ -241,13 +268,14 @@ if ( ! class_exists( 'WPMOLY_Search' ) ) :
 		 * 
 		 * @return   array      Meta_query parameter for WP_Query
 		 */
-		private static function by_value( $meta, $value, $strict = false ) {
+		private static function by_value( $meta, $value, $strict = false, $filter = true ) {
 
 			$compare = 'LIKE';
 			if ( true === $strict )
 				$compare = '=';
 
-			$value = self::filter_value( $value );
+			if ( false !== $filter )
+				$value = self::filter_value( $value );
 
 			$meta_query = array(
 				'relation' => 'OR',

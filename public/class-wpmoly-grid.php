@@ -24,11 +24,14 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
+		 * @param    array       Shortcode arguments to use as parameters
+		 * @param    boolean     Are we actually doing a Shortcode?
+		 * 
 		 * @return   string    HTML content
 		 */
-		public static function get_menu( $args ) {
+		public static function get_menu( $args, $shortcode = false ) {
 
-			global $wpdb;
+			global $wpdb, $wp_query;
 
 			$defaults = array(
 				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true ),
@@ -44,12 +47,16 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$args = wp_parse_args( $args, $defaults );
 
 			// Allow URL params to override settings
-			$vars = array( 'meta', 'detail', 'value', 'columns', 'rows', 'view' );
-			foreach ( $vars as $var )
-				$args[ $var ] = get_query_var( $var, $args[ $var ] );
+			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
+			$args = wp_parse_args( $_args, $args );
 
 			extract( $args );
-			$baseurl = get_post_type_archive_link( 'movie' );
+
+			if ( true === $shortcode ) {
+				$baseurl = get_permalink();
+			} else {
+				$baseurl = get_post_type_archive_link( 'movie' );
+			}
 
 			$views = array( 'grid', 'archives', 'list' );
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
@@ -97,6 +104,12 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			$attributes['urls'] = $urls;
 
+			$theme = wp_get_theme();
+			if ( ! is_null( $theme->stylesheet ) )
+				$attributes['theme'] = ' theme-' . $theme->stylesheet;
+			else
+				$attributes['theme'] = '';
+
 			$content = self::render_template( 'movies/grid/menu.php', $attributes );
 
 			return $content;
@@ -110,7 +123,8 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
-		 * @param    array     Shortcode arguments to use as parameters
+		 * @param    array       Shortcode arguments to use as parameters
+		 * @param    boolean     Are we actually doing a Shortcode?
 		 * 
 		 * @return   string    HTML content
 		 */
@@ -126,7 +140,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				'detail'    => null,
 				'value'     => null,
 				'title'     => false,
-				'genre'     => false,
+				'year'      => false,
 				'rating'    => false,
 				'letter'    => null,
 				'order'     => wpmoly_o( 'movie-archives-movies-order', $default = true ),
@@ -134,17 +148,15 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			);
 			$args = wp_parse_args( $args, $defaults );
 
+			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
+			$grid_meta = array_keys( $grid_meta['used'] );
+			$title  = in_array( 'title', $grid_meta );
+			$rating = in_array( 'rating', $grid_meta );
+			$year   = in_array( 'year', $grid_meta );
+
 			// Allow URL params to override Shortcode settings
-			
-			if ( ! empty( $_GET ) ) {
-				$vars = array( 'columns', 'rows', 'letter', 'order', 'meta', 'detail', 'value', 'view' );
-				foreach ( $vars as $var )
-					$args[ $var ] = get_query_var( $var, $args[ $var ] );
-			}
-			elseif ( true !== $shortcode ) {
-				$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
-				$args = wp_parse_args( $_args, $args );
-			}
+			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
+			$args = wp_parse_args( $_args, $args );
 
 			extract( $args, EXTR_SKIP );
 			$total  = 0;
@@ -156,6 +168,8 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$_view = array_search( $view, $views );
 			if ( false != $_view )
 				$view = $_view;
+			else
+				$view = 'grid';
 
 			$movies = array();
 			$total  = wp_count_posts( 'movie' );
@@ -217,6 +231,12 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			if ( 'list' == $view )
 				$movies = self::prepare_list_view( $movies );
 
+			if ( true === $shortcode ) {
+				$baseurl = get_permalink();
+			} else {
+				$baseurl = get_post_type_archive_link( 'movie' );
+			}
+
 			$args = array(
 				'order'   => $order,
 				'columns' => $columns,
@@ -226,7 +246,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				$type     => $meta,
 				'l10n'    => false,
 				'view'    => $view,
-				'baseurl' => get_post_type_archive_link( 'movie' )
+				'baseurl' => $baseurl
 			);
 			$url = WPMOLY_Utils::build_meta_permalink( $args );
 
@@ -245,9 +265,15 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$paginate = WPMOLY_Utils::paginate_links( $args );
 			$paginate = '<div id="wpmoly-movies-pagination">' . $paginate . '</div>';
 
-			$attributes = compact( 'movies', 'columns', 'title', 'genre', 'rating' );
+			$theme = wp_get_theme();
+			if ( ! is_null( $theme->stylesheet ) )
+				$theme = ' theme-' . $theme->stylesheet;
+			else
+				$theme = '';
 
-			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes );
+			$attributes = compact( 'movies', 'columns', 'title', 'year', 'rating', 'theme' );
+
+			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes, $require = 'always' );
 			$content  = $content . $paginate;
 
 			return $content;

@@ -1,17 +1,27 @@
 
-				<div id="wpmoly-movie-grid" class="wpmoly movies archives">
+				<div id="wpmoly-movie-grid" class="wpmoly movies archives<?php echo $theme; ?>">
 
 <?php
 global $post;
+
+$vintage_mode = wpmoly_o( 'vintage-content' );
 if ( ! empty( $movies ) ) :
 	foreach ( $movies as $post ) :
 		setup_postdata( $post );
 
-		echo WPMOLY_Headbox::get_content();
+		if ( ! $vintage_mode ) {
+			echo WPMOLY_Headbox::get_content();
+		} else {
 ?>
-					
-
+					<div id="post-<?php the_ID(); ?>" class="wpmoly movies archives movie">
+						<h2><?php the_title(); ?></h2>
 <?php
+						echo WPMOLY_Movies::movie_vintage_content();
+?>
+					</div>
+<?php
+		}
+
 	endforeach;
 	wp_reset_postdata();
 else :

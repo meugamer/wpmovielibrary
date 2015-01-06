@@ -392,9 +392,9 @@ $wpmoly_config = array(
 				'title'    => __( 'Images Default Size', 'wpmovielibrary' ),
 				'desc'     => __( 'Movie Image size. Default is TMDb&rsquo;s original size.', 'wpmovielibrary' ),
 				'options'  => array(
-					'small'    => __( 'Small (~200px)', 'wpmovielibrary' ),
-					'medium'   => __( 'Medium (~350px)', 'wpmovielibrary' ),
-					'full'     => __( 'Full (~800px) ', 'wpmovielibrary' ),
+					'small'    => __( 'Small (~300px)', 'wpmovielibrary' ),
+					'medium'   => __( 'Medium (~780px)', 'wpmovielibrary' ),
+					'full'     => __( 'Full (~1280px) ', 'wpmovielibrary' ),
 					'original' => __( 'Original', 'wpmovielibrary' )
 				),
 				'default'  =>'original'
@@ -748,6 +748,22 @@ $wpmoly_config = array(
 				'validate' => 'numeric',
 				'default'  => 99
 			),
+
+			'movies-meta' => array(
+				'id'       => 'wpmoly-movie-archives-movies-meta',
+				'type'     => 'sorter',
+				'title'    => __( 'Grid Movies Meta', 'redux-framework-demo' ),
+				'desc'     => __( 'You can show some metadata along with posters in the grid.', 'redux-framework-demo' ),
+				'compiler' => 'true',
+				'options'  => array(
+					'used' => array(),
+					'available' => array(
+						'title'  => __( 'Title', 'wpmovielibrary' ),
+						'year'   => __( 'Year', 'wpmovielibrary' ),
+						'rating' => __( 'Rating', 'wpmovielibrary' )
+					)
+				)
+                        ),
 
 			// Movie archives page frontend edit inputs
 			'frontend-edit' => array(

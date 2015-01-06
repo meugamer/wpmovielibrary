@@ -193,8 +193,6 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 		extract( $args, EXTR_SKIP );
 		extract( $instance );
 
-		//print_r( $instance );
-
 		$title = apply_filters( 'widget_title', $title );
 
 		if ( 'no' != $show_poster )
@@ -207,14 +205,25 @@ class WPMOLY_Movies_Widget extends WPMOLY_Widget {
 
 		switch ( $select ) {
 			case 'status':
-				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpmoly_movie_status' );
-				if ( 'all' != $select_status )
-					$args['meta_value'] = $select_status;
-				break;
 			case 'media':
-				$args = array( 'orderby' => 'meta_value', 'meta_key' => '_wpmoly_movie_media' );
-				if ( 'all' != $select_media )
-					$args['meta_value'] = $select_media;
+				$_select = $instance["select_$select"];
+				$args = array(
+					'orderby'    => 'post_date',
+					'meta_query' => array()
+				);
+				if ( 'all' != $_select ) {
+					$args['meta_query'][] = array(
+						'key'     => "_wpmoly_movie_$select",
+						'value'   => $_select,
+						'compare' => 'LIKE'
+					);
+				} else {
+					$args['meta_query'][] = array(
+						'key'     => "_wpmoly_movie_$select",
+						'value'   => '',
+						'compare' => 'NOT LIKE'
+					);
+				}
 				break;
 			case 'rating':
 				$args = array( 'orderby' => 'meta_value_num', 'meta_key' => '_wpmoly_movie_rating' );

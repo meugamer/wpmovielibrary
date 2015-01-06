@@ -4,7 +4,7 @@ Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 2.1.1
+Stable tag: 2.1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,38 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 7. Import queue
 
 == Changelog ==
+
+= 2.1.3 =
+* Fix - Details not shown properly on archive pages
+* Fix - Possible empty grid bug on movie archives pages
+* Fix - Images sizes labels in settings panel
+* Fix - Movies Widget order by rating/media/status bug
+* Tweak - Update Grid style to display properly titles and ratings
+* Tweak - New Grid setting: show titles/ratings/years
+* Tweak - Add years to importer movies choice
+* Tweak - Add director and original title support to posters/images title
+* Tweak - Updated Icon font
+* Dev - Add a safety to meta queries preventing from overriding existing subpages
+* Dev - Minor editor metabox tweaks
+
+= 2.1.2 =
+* Fix - Countries/languages names missing translation
+* Fix - Release date formatting bug
+* Fix - Movie archives pages titles missing translations
+* Fix - Remove ReduxFramework potential crash-triggering part
+* Fix - Poster size ignored on import
+* Fix - Pagination bug on movie archive pages
+* Tweak - Implement local release date meta query
+* Tweak - Add numbers to actor taxonomy archives menu
+* Tweak - Informative message in metabox details panel
+* Dev - Update permalinks handling
+
+= 2.1.1.2 =
+* Fix - Forgotten debug notice
+
+= 2.1.1.1 =
+* Fix - PHP 5.3 bug in taxonomy archive pages
+* Fix - [movie_grid] Shortcode bug returning empty
 
 = 2.1.1 =
 * Feat - Movie meta/detail archives use movie custom archives page
