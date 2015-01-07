@@ -8,12 +8,95 @@ window.wpmoly = window.wpmoly || {};
 
 	editor.views.init = function() {
 
+		editor.views.status = new wpmoly.editor.View.Status();
 		editor.views.panel = new wpmoly.editor.View.Panel();
 		editor.views.movie = new wpmoly.editor.View.Movie();
 		editor.views.preview = new wpmoly.editor.View.Preview();
 		editor.views.search = new wpmoly.editor.View.Search();
 		editor.views.results = new wpmoly.editor.View.Results();
 	};
+
+	/**
+	 * WPMOLY Backbone Status View
+	 * 
+	 * View for metabox movie search form
+	 * 
+	 * @since    2.2
+	 */
+	wpmoly.editor.View.Status = Backbone.View.extend({
+
+		el: '#wpmoly-meta-status',
+
+		loader: '#wpmoly-meta-status-loader img',
+		content: '#wpmoly-meta-status-content',
+
+		model: wpmoly.editor.models.status,
+
+		events: {},
+
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		initialize: function() {
+
+			this.template = _.template( $( this.el ).html() );
+			this.render();
+
+			this.model.on( 'change:messages', this.changed, this );
+			this.model.on( 'change:loading', this.loading, this );
+			this.model.on( 'change:active', this.activate, this );
+
+		},
+
+		/**
+		 * Render the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		render: function() {
+
+			this.$el.html( this.template() );
+			return this;
+		},
+
+		changed: function( model ) {
+
+			var $content = $( this.content ),
+			    messages = model.get( 'messages' );
+			$content.html( messages[0] );
+		},
+
+		loading: function( model ) {
+
+			var loading = model.get( 'loading' ),
+			    $loader = $( this.loader ),
+			        off = $( this.loader ).attr( 'data-off' ),
+			         on = $( this.loader ).attr( 'data-on' ),
+			       path = off;
+
+			if ( true === loading ) {
+				path = on;
+			}
+
+			$loader.prop( 'src', path + '?' + new Date().getTime() );
+		},
+
+		activate: function( model ) {
+
+			if ( true === model.changed.active ) {
+				$( '#wpmoly-meta-status' ).addClass( 'active' );
+			} else {
+				$( '#wpmoly-meta-status' ).removeClass( 'active' );
+			}
+		}
+
+	});
 
 	/**
 	 * WPMOLY Backbone Search View

@@ -20,6 +20,7 @@ window.wpmoly = window.wpmoly || {};
 		});
 
 		// Init models
+		editor.models.status = new wpmoly.editor.Model.Status();
 		editor.models.panel = new wpmoly.editor.Model.Panel();
 		editor.models.movie = new wpmoly.editor.Model.Movie( data );
 		editor.models.preview = new wpmoly.editor.Model.Preview();
@@ -28,6 +29,26 @@ window.wpmoly = window.wpmoly || {};
 	};
 
 	_.extend( editor, { models: {}, views: {}, Model: {}, View: {} } );
+
+	/**
+	 * WPMOLY Backbone Status Model
+	 * 
+	 * Basic Model for the metabox movie search form status.
+	 */
+	wpmoly.editor.Model.Status = Backbone.Model.extend({
+
+		defaults: {
+			active: true,
+			loading: false,
+			messages: []
+		},
+
+		add: function( message ) {
+
+			var messages = this.messages;
+			this.set( { messages: messages.unshift( message ) } );
+		}
+	});
 
 	/**
 	 * WPMOLY Backbone Search Model

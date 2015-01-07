@@ -6,8 +6,8 @@
 
 		<div id="wpmoly-meta" class="wpmoly-meta">
 
-			<div id="wpmoly-meta-status">
-				<div id="wpmoly-meta-status-loader"><img src="/wp-content/plugins/wpmovielibrary/assets/img/grid_o.svg" width="16" alt="" /></div>
+			<div id="wpmoly-meta-status" class="active">
+				<div id="wpmoly-meta-status-loader"><img src="<?php echo WPMOLY_URL . '/assets/img/grid_o.svg'; ?>" data-on="<?php echo WPMOLY_URL . '/assets/img/grid.svg'; ?>" data-off="<?php echo WPMOLY_URL . '/assets/img/grid_o.svg'; ?>" width="16" alt="" /></div>
 				<div id="wpmoly-meta-status-content">WPMovieLibrary: ready!</div>
 			</div>
 

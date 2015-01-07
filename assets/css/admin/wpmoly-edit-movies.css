@@ -37,6 +37,14 @@
 	z-index: 1;
 }
 
+#wpmoly-meta-status.duh {
+	background: #aaa;
+}
+
+#wpmoly-meta-status:not(.active) > * {
+	display: none;
+}
+
 #wpmoly-meta-status-loader,
 #wpmoly-meta-status-content {
 	display: inline-block;
