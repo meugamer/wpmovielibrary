@@ -40,13 +40,54 @@ window.wpmoly = window.wpmoly || {};
 		defaults: {
 			active: true,
 			loading: false,
-			messages: []
+			message: 'ready!'
 		},
 
-		add: function( message ) {
+		/**
+		 * Initialize Model.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		initialize: function() {
 
-			var messages = this.messages;
-			this.set( { messages: messages.unshift( message ) } );
+			this.on( 'loading:start', this.load, this );
+			this.on( 'loading:end', this.unload, this );
+			this.on( 'status:say', this.say, this );
+		},
+
+		/**
+		 * Turn on loading mode.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		load: function() {
+			this.set( { loading: true } );
+		},
+
+		/**
+		 * Turn off loading mode.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		unload: function() {
+			this.set( { loading: false } );
+		},
+
+		/**
+		 * Update status message.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		say: function( message ) {
+			this.set( { message: message } );
 		}
 	});
 
@@ -67,11 +108,7 @@ window.wpmoly = window.wpmoly || {};
 				actor_limit: $( '#wpmoly-actor-limit' ).val(),
 				poster_featured: $( '#wpmoly-poster-featured' ).val()
 			}
-		},
-
-		// TODO: is this of any use?
-		initialize: function() {},
-		changed: function( model ) {}
+		}
 	});
 
 	/**
@@ -140,10 +177,16 @@ window.wpmoly = window.wpmoly || {};
 		sync: function( method, model, options ) {
 
 			// Let know we've started queryring
-			this.trigger( 'sync:start', this );
+			editor.models.movie.trigger( 'sync:start', this );
 
 			// Not search means regular Backbone sync, not our concern
 			if ( 'search' == method ) {
+
+				editor.models.status.trigger( 'loading:start' );
+				if ( 'id' == editor.models.search.get( 'type' ) )
+					editor.models.status.trigger( 'status:say', wpmoly_lang.search_movie );
+				else
+					editor.models.status.trigger( 'status:say', wpmoly_lang.search_movie_title );
 
 				options = options || {};
 				options.context = this;
@@ -157,17 +200,19 @@ window.wpmoly = window.wpmoly || {};
 
 				// Let know we're done queryring
 				options.complete = function() {
-					this.trigger( 'sync:end', this );
+					editor.models.movie.trigger( 'sync:end', this );
+					editor.models.status.trigger( 'loading:end' );
 				};
 
 				// Let's go!
-				// TODO: results shouldn't be changed from here.
-				//       Use an event?
 				options.success = function( response ) {
 
 					// Response has meta, that's a single movie
 					if ( undefined != response.meta ) {
+
 						this.set_meta( response );
+						editor.models.status.trigger( 'status:say', wpmoly_lang.done );
+
 						return true;
 					}
 
@@ -176,6 +221,7 @@ window.wpmoly = window.wpmoly || {};
 						var result = new editor.Model.Result( result );
 						editor.models.results.add( result );
 					} );
+					editor.models.status.trigger( 'status:say', wpmoly_lang.multiple_results );
 				};
 
 				return wp.ajax.send( options );
@@ -199,7 +245,9 @@ window.wpmoly = window.wpmoly || {};
 
 			var meta = _.extend( this.defaults, data.meta );
 			this.set( meta );
-			this.trigger( 'sync:done', this, data );
+
+			editor.models.movie.trigger( 'sync:done', this, data );
+			editor.models.status.trigger( 'status:say', wpmoly_lang.metadata_saved );
 		},
 
 		/**

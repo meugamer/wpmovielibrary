@@ -25,13 +25,6 @@ window.wpmoly = window.wpmoly || {};
 	 */
 	wpmoly.editor.View.Status = Backbone.View.extend({
 
-		el: '#wpmoly-meta-status',
-
-		loader: '#wpmoly-meta-status-loader img',
-		content: '#wpmoly-meta-status-content',
-
-		model: wpmoly.editor.models.status,
-
 		events: {},
 
 		/**
@@ -43,12 +36,16 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		initialize: function() {
 
-			this.template = _.template( $( this.el ).html() );
+			// View will not update if this is set elsewhere
+			this.el = '#wpmoly-meta-status';
+			this.model = editor.models.status;
+
+			this.template = _.template( $( '#wpmoly-meta-status-template' ).html() );
 			this.render();
 
-			this.model.on( 'change:messages', this.changed, this );
-			this.model.on( 'change:loading', this.loading, this );
-			this.model.on( 'change:active', this.activate, this );
+			_.bindAll( this, 'render' );
+
+			this.model.on( 'change', this.render, this );
 
 		},
 
@@ -61,39 +58,8 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		render: function() {
 
-			this.$el.html( this.template() );
+			$( this.el ).html( this.template( { status: this.model.toJSON() } ) );
 			return this;
-		},
-
-		changed: function( model ) {
-
-			var $content = $( this.content ),
-			    messages = model.get( 'messages' );
-			$content.html( messages[0] );
-		},
-
-		loading: function( model ) {
-
-			var loading = model.get( 'loading' ),
-			    $loader = $( this.loader ),
-			        off = $( this.loader ).attr( 'data-off' ),
-			         on = $( this.loader ).attr( 'data-on' ),
-			       path = off;
-
-			if ( true === loading ) {
-				path = on;
-			}
-
-			$loader.prop( 'src', path + '?' + new Date().getTime() );
-		},
-
-		activate: function( model ) {
-
-			if ( true === model.changed.active ) {
-				$( '#wpmoly-meta-status' ).addClass( 'active' );
-			} else {
-				$( '#wpmoly-meta-status' ).removeClass( 'active' );
-			}
 		}
 
 	});
@@ -129,13 +95,11 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		initialize: function() {
 
-			this.unspin();
+			//this.unspin();
 
 			this.template = _.template( $( '#wpmoly-movie-meta-search' ).html() );
 			this.render();
 
-			editor.models.movie.on( 'sync:start', this.spin, this );
-			editor.models.movie.on( 'sync:end', this.unspin, this );
 			editor.models.movie.on( 'sync:done', this.reset, this );
 		},
 
@@ -228,28 +192,6 @@ window.wpmoly = window.wpmoly || {};
 
 			event.preventDefault();
 			console.log( 'empty', event.currentTarget );
-		},
-
-		/**
-		 * Show spinner whenever needed
-		 * 
-		 * @since    2.2
-		 * 
-		 * @return   void
-		 */
-		spin: function() {
-			$( '#wpmoly-meta-search-spinner' ).show();
-		},
-
-		/**
-		 * Hide spinner whenever needed
-		 * 
-		 * @since    2.2
-		 * 
-		 * @return   void
-		 */
-		unspin: function() {
-			$( '#wpmoly-meta-search-spinner' ).hide();
 		},
 
 		/**

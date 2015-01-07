@@ -69,6 +69,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		public static function footer_scripts() {
 
+			$grid   = WPMOLY_URL . '/assets/img/grid.svg';
+			$grid_o = WPMOLY_URL . '/assets/img/grid_o.svg';
 ?>
 		<script type="text/template" id="wpmoly-search-results-template">
 								<% _.each( results, function( result ) { %>
@@ -80,6 +82,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 									</div>
 
 								<% }); %>
+		</script>
+		<script type="text/template" id="wpmoly-meta-status-template">
+				<div id="wpmoly-meta-status-loader"<% if ( true === status.active ) { %> class="active" <% } %>><% if ( true === status.loading ) { %><img src="<?php echo $grid; ?>" width="20" height="15" alt="" /><% } else { %><span class="wpmolicon icon-status"></span><% } %> <strong>wpmovielibrary:</strong> 
+				<div id="wpmoly-meta-status-content"<% if ( true === status.active ) { %> class="active" <% } %>><%= status.message %></div></div>
 		</script>
 <?php
 		}

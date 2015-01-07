@@ -30,37 +30,44 @@
 	border-bottom: 1px solid #dfdfdf;
 	height: 2em;
 	left: 0;
-	padding: 0.5em 0;
+	padding: 0.75em 0 0.25em 0;
 	position: absolute;
 	top: 0;
 	width: 100%;
 	z-index: 1;
 }
 
-#wpmoly-meta-status.duh {
-	background: #aaa;
-}
-
-#wpmoly-meta-status:not(.active) > * {
-	display: none;
-}
-
 #wpmoly-meta-status-loader,
 #wpmoly-meta-status-content {
+	color: #888;
+	display: none;
+	font-family: monospace;
+	font-size: 12px;
+}
+
+#wpmoly-meta-status-loader.active,
+#wpmoly-meta-status-content.active {
 	display: inline-block;
 }
 
 #wpmoly-meta-status-loader {
-	margin-left: 13.5em;
+	margin-left: 14em;
 	margin-right: 0.5em;
-	text-align: center;
 	vertical-align: middle;
-	width: 2em;
+	width: auto;
+}
+
+#wpmoly-meta-status-loader .wpmolicon {
+	color: #0074a2;
+	height: 18px;
+}
+
+#wpmoly-meta-status-loader img {
+	vertical-align: text-top;
 }
 
 #wpmoly-meta-status-content {
-	color: #666;
-	line-height: 2em;
+	line-height: 1.5em;
 }
 
 #wpmoly-meta-menu-bg {
