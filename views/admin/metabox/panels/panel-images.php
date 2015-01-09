@@ -6,11 +6,11 @@
 			<?php echo $nonce; ?>
 			<input type="hidden" id="wp-version" value="<?php echo $version ?>" />
 
-			<div id="tmdb_images_preview" class="hide-if-no-js">
-				<ul id="__attachments-view" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
+			<div id="wpmoly-images-preview" class="hide-if-no-js">
+				<ul id="" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
 
 <?php foreach ( $images as $image ) : ?>
-					<li class="tmdb_movie_images tmdb_movie_imported_image">
+					<li class="wpmoly-image wpmoly-imported-image">
 						<a class="open-editor" href="<?php echo $image['link'] ?>" data-id="<?php echo $image['id'] ?>">
 							<div class="js--select-attachment type-image <?php echo $image['type'] . $image['format'] ?>">
 								<div class="thumbnail">
@@ -22,7 +22,7 @@
 
 <?php endforeach; ?>
 
-					<li class="tmdb_movie_images tmdb_movie_imported_image"><a href="#" id="tmdb_load_images"><?php _e( 'Load Images', 'wpmovielibrary' ); ?></a></li>
+					<li class="wpmoly-image wpmoly-imported-image"><a href="#" id="wpmoly-load-images"><?php _e( 'Load Images', 'wpmovielibrary' ); ?></a></li>
 
 				</ul>
 			</div>
