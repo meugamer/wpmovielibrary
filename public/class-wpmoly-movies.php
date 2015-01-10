@@ -146,6 +146,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		/**
 		 * Return various Movie's Post Meta. Possible meta: status, media, rating
 		 * and data.
+		 * 
+		 * TODO: group and cache queries instead of using multiple
+		 * get_post_meta() calls
 		 *
 		 * @since    1.0
 		 * 

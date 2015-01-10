@@ -6,12 +6,12 @@ wpmoly.images = wpmoly.images || {};
 
 	var images = wpmoly.images;
 
-	_.extend( images, { views: {}, View: {} } );
+	_.extend( images, { controllers: {}, views: {}, View: {}, Controller: {}, Modal: {} } );
 
 	images.views.init = function() {
 
 		images.views.images = new images.View.Images();
-		images.views.modal = images.View.Modal.frame();
+		images.views.modal = images.Modal.frame();
 	};
 
 	images.View.Images = Backbone.View.extend({
@@ -36,10 +36,6 @@ wpmoly.images = wpmoly.images || {};
 
 		},
 
-		duh: function() {
-			alert('duh!');
-		},
-
 		/**
 		 * Render the View
 		 * 
@@ -60,7 +56,9 @@ wpmoly.images = wpmoly.images || {};
 		},
 	});
 
-	images.View.Modal = {
+	//_.extend( images.Modal, { View: {}, Controller: {} } );
+
+	_.extend( images.Modal, {
 
 		frame: function() {
 
@@ -69,23 +67,54 @@ wpmoly.images = wpmoly.images || {};
 
 			this._frame = wp.media();
 
-			this._frame.on( 'open', this.newmenu, this );
+			var states = [
+				new wp.media.controller.Library( {
+						id:                 'image',
+						title:              'Images',
+						priority:           20,
+						library:            wp.media.query( { type: 'backdrops', s: 170522 } ),
+						content:            'browse',
+						search:             false,
+						searchable:         false,
+						filterable:         false,
+						multiple:           true,
+						contentUserSetting: false
+				} ),
+				/*new wp.media.controller.Library( {
+						id:                 'poster',
+						title:              'Posters',
+						priority:           40,
+						library:            wp.media.query( { type: 'posters', s: 1234 } ),
+						content:            'browse',
+						search:             false,
+						searchable:         false,
+						filterable:         false,
+						multiple:           true,
+						contentUserSetting: false
+				} )*/
+			];
 
-			this._frame.state('library').collection.on( 'activate', function() {
+			this._frame = wp.media( {
+				state: 'image',
+				states: states
+			} );
+
+			this._frame.on( 'open', function( a ) {
+
+			}, this);
+
+			/*this._frame.state('library').collection.on( 'activate', function() {
 				
-			});
+			});*/
 
 			return this._frame;
 		},
 
 		newmenu: function() {
 
-			var options = this._frame.options,
-			   menuitem = new wp.media.view.RouterItem( _.extend( options, { text: 'New Item!' } ) );
-
-			this._frame.menu.view.views.set( '.media-router', menuitem, _.extend( options, { add: true } ) );
+			
 		}
-	};
+	} );
 
 	wpmoly.images = images;
 	images.views.init();

@@ -342,22 +342,8 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			if ( 'poster' != $image_type )
 				$image_type = 'image';
 
-			$tmdb_id    = WPMOLY_Movies::get_movie_meta( $post_id, 'tmdb_id' );
-			$title      = WPMOLY_Movies::get_movie_meta( $post_id, 'title' );
-			$production = WPMOLY_Movies::get_movie_meta( $post_id, 'production_companies' );
-			$director   = WPMOLY_Movies::get_movie_meta( $post_id, 'director' );
-			$original_title = WPMOLY_Movies::get_movie_meta( $post_id, 'original_title' );
-
-			$production = explode( ',', $production );
-			$production = trim( array_shift( $production ) );
-			$year       = WPMOLY_Movies::get_movie_meta( $post_id, 'release_date' );
-			$year       = apply_filters( 'wpmoly_format_movie_date',  $year, 'Y' );
-
-			$find = array( '{title}', '{originaltitle}', '{year}', '{production}', '{director}' );
-			$replace = array( $title, $original_title, $year, $production, $director );
-
-			$_description = str_replace( $find, $replace, wpmoly_o( "{$image_type}-description" ) );
-			$_title       = str_replace( $find, $replace, wpmoly_o( "{$image_type}-title" ) );
+			$filtered = self::filter_attachment_meta( $post_id, $image_type );
+			extract( $filtered );
 
 			$attachment = array(
 				'ID'           => $attachment_id,
@@ -402,6 +388,32 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 *                            Utils
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public static function filter_attachment_meta( $post_id, $image_type ) {
+
+			$meta = wpmoly_get_movie_meta( $post_id );
+
+			$tmdb_id        = $meta['tmdb_id'];
+			$title          = $meta['title'];
+			$production     = $meta['production_companies'];
+			$director       = $meta['director'];
+			$original_title = $meta['original_title'];
+			$year           = $meta['release_date'];
+
+			$production = explode( ',', $production );
+			$production = trim( array_shift( $production ) );
+			$year       = apply_filters( 'wpmoly_format_movie_date',  $year, 'Y' );
+
+			$find = array( '{title}', '{originaltitle}', '{year}', '{production}', '{director}' );
+			$replace = array( $title, $original_title, $year, $production, $director );
+
+			$_description = str_replace( $find, $replace, wpmoly_o( "{$image_type}-description" ) );
+			$_title       = str_replace( $find, $replace, wpmoly_o( "{$image_type}-title" ) );
+
+			$meta = compact( '_description', '_title' );
+
+			return $meta;
+		}
 
 		/**
 		 * Check for previously imported images to avoid duplicates.
@@ -498,16 +510,19 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				$edit_nonce = current_user_can( 'edit_post', $post->ID ) ? wp_create_nonce( 'update-post_' . $post->ID ) : false;
 				$image_editor_none = current_user_can( 'edit_post', $post->ID ) ? wp_create_nonce( 'image_editor-' . $post->ID ) : false;
 
+				$filtered_meta = self::filter_attachment_meta( $post->ID, $image_type );
+				extract( $filtered_meta );
+
 				$json_images[] = array(
 					'id' 		=> $post->ID . '_' . $i,
 					'title' 	=> $_title,
 					'filename' 	=> substr( $image['file_path'], 1 ),
 					'url' 		=> $base_url['original'] . $image['file_path'],
 					'link' 		=> get_permalink( $post->ID ),
-					'alt'		=> '',
+					'alt'		=> $_description,
 					'author' 	=> "" . get_current_user_id(),
-					'description' 	=> '',
-					'caption' 	=> '',
+					'description' 	=> $_description,
+					'caption' 	=> $_description,
 					'name' 		=> substr( $image['file_path'], 1, -4 ),
 					'status' 	=> "inherit",
 					'uploadedTo' 	=> $post->ID,

@@ -459,8 +459,10 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				return false;
 
 			$images = $tmdb->getMovieImages( $tmdb_id, '' );
-			$images = $images['backdrops'];
+			if ( ! isset( $images['backdrops'] ) )
+				return array();
 
+			$images = $images['backdrops'];
 			foreach ( $images as $i => $image ) {
 				$file_path = substr( $image['file_path'], 1 );
 				$exists = apply_filters( 'wpmoly_check_for_existing_images', $tmdb_id, 'image', $file_path );
@@ -491,8 +493,10 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				return false;
 
 			$images = $tmdb->getMovieImages( $tmdb_id, '' );
-			$images = $images['posters'];
+			if ( ! isset( $images['posters'] ) )
+				return array();
 
+			$images = $images['posters'];
 			foreach ( $images as $i => $image ) {
 				$file_path = substr( $image['file_path'], 1 );
 				$exists = apply_filters( 'wpmoly_check_for_existing_images', $tmdb_id, 'poster', $file_path );

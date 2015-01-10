@@ -47,8 +47,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'bulk_edit_custom_box', __CLASS__ . '::bulk_edit_movies', 10, 2 );
 			add_filter( 'post_row_actions', __CLASS__ . '::expand_quick_edit_link', 10, 2 );
 
-			add_action( 'the_posts', __CLASS__ . '::the_posts_hijack', 10, 2 );
-			add_action( 'ajax_query_attachments_args', __CLASS__ . '::load_images_dummy_query_args', 10, 1 );
+			add_action( 'the_posts', __CLASS__ . '::images_media_modal_query', 10, 2 );
 
 			add_action( 'add_meta_boxes_movie', __CLASS__ . '::add_meta_box', 10 );
 			add_action( 'save_post_movie', __CLASS__ . '::save_movie', 10, 4 );
@@ -84,6 +83,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		<script type="text/template" id="wpmoly-meta-status-template">
 				<div id="wpmoly-meta-status-loader"<% if ( true === status.active ) { %> class="active" <% } %>><% if ( true === status.loading ) { %><img src="<?php echo WPMOLY_URL . '/assets/img/puff.svg'; ?>" width="20" height="15" alt="" /><% } else { %><span class="wpmolicon icon-status"></span><% } %> <strong>wpmovielibrary:</strong> 
 				<div id="wpmoly-meta-status-content"<% if ( true === status.active ) { %> class="active" <% } %>><%= status.message %></div></div>
+		</script>
+		<script type="text/template" id="tmpl-wpmoly-images">
+				<p>Hello!</p>
 		</script>
 <?php
 		}
@@ -390,6 +392,28 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		public static function images_media_modal_query( $posts, $wp_query ) {
+
+			if ( ! isset( $wp_query->query['post_mime_type'] ) || ! in_array( $wp_query->query['post_mime_type'], array( 'backdrops', 'posters' ) ) )
+				return $posts;
+
+			if ( ! isset( $wp_query->query['s'] ) || '' == $wp_query->query['s'] )
+				return $posts;
+
+			$tmdb_id  = intval( $wp_query->query['s'] );
+			$paged    = intval( $wp_query->query['paged'] );
+			$per_page = intval( $wp_query->query['posts_per_page'] );
+
+			if ( 'backdrops' == $wp_query->query['post_mime_type'] )
+				$images = self::load_movie_images( $tmdb_id, $posts[0] );
+			else if ( 'posters' == $wp_query->query['post_mime_type'] )
+				$images = self::load_movie_posters( $tmdb_id, $posts[0] );
+
+			$images = array_slice( $images, ( ( $paged - 1 ) * $per_page ), $per_page );
+
+			wp_send_json_success( $images );
+		}
+
 		/**
 		 * Handle dummy arguments for AJAX Query. Movie Edit page adds
 		 * an extended WP Media Modal to allow user to pick up which
@@ -411,7 +435,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function load_images_dummy_query_args( $query ) {
 
-			if ( isset( $query['s'] ) && 1 == preg_match_all( '/^TMDb_ID=([0-9]+),type=(image|poster)$/i', $query['s'], $m ) ) {
+			return $query;
+
+			/*if ( isset( $query['s'] ) && 1 == preg_match_all( '/^TMDb_ID=([0-9]+),type=(image|poster)$/i', $query['s'], $m ) ) {
 
 				unset( $query['post__not_in'] );
 				unset( $query['post_mime_type'] );
@@ -424,7 +450,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			}
 
-			return $query;
+			return $query;*/
 		}
 
 		/**
@@ -443,7 +469,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function the_posts_hijack( $posts, $wp_query ) {
 
-			if ( ! is_null( $wp_query ) && isset( $wp_query->query['tmdb_id'] ) && isset( $wp_query->query['tmdb_type'] ) ) {
+			return $posts;
+
+			/*if ( ! is_null( $wp_query ) && isset( $wp_query->query['tmdb_id'] ) && isset( $wp_query->query['tmdb_type'] ) ) {
 
 				$tmdb_id   = esc_attr( $wp_query->query['tmdb_id'] );
 				$tmdb_type = esc_attr( $wp_query->query['tmdb_type'] );
@@ -460,7 +488,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				wp_send_json_success( $images );
 			}
 
-			return $posts;
+			return $posts;*/
 		}
 
 		/**
