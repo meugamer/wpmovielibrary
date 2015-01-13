@@ -56,7 +56,7 @@ wpmoly.images = wpmoly.images || {};
 		},
 	});
 
-	//_.extend( images.Modal, { View: {}, Controller: {} } );
+	//_.extend( images.Modal, { /*View: {}, Controller: {}, Toolbar: {}*/ } );
 
 	_.extend( images.Modal, {
 
@@ -65,14 +65,24 @@ wpmoly.images = wpmoly.images || {};
 			if ( this._frame )
 				return this._frame;
 
-			this._frame = wp.media();
+			var title = wpmoly.editor.models.movie.get('title'),
+			  tmdb_id = wpmoly.editor.models.movie.get('tmdb_id');
+
+			if ( '' != title && undefined != title ) {
+				title = wpmoly_lang.import_images_title.replace( '%s', title );
+			} else {
+				title = 'Images';
+			}
+
+			
 
 			var states = [
 				new wp.media.controller.Library( {
 						id:                 'image',
-						title:              'Images',
+						title:              title,
 						priority:           20,
-						library:            wp.media.query( { type: 'backdrops', s: 170522 } ),
+						library:            wp.media.query( { type: 'backdrops', s: tmdb_id } ),
+						//toolbar:            t,
 						content:            'browse',
 						search:             false,
 						searchable:         false,
@@ -96,25 +106,16 @@ wpmoly.images = wpmoly.images || {};
 
 			this._frame = wp.media( {
 				state: 'image',
-				states: states
+				states: states,
 			} );
-
-			this._frame.on( 'open', function( a ) {
-
-			}, this);
 
 			/*this._frame.state('library').collection.on( 'activate', function() {
 				
 			});*/
 
 			return this._frame;
-		},
-
-		newmenu: function() {
-
-			
 		}
-	} );
+	});
 
 	wpmoly.images = images;
 	images.views.init();
