@@ -6,8 +6,8 @@
 			<?php echo $nonce; ?>
 			<input type="hidden" id="wp-version" value="<?php echo $version ?>" />
 
-			<div id="wpmoly-images-preview" class="hide-if-no-js">
-				<ul id="" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
+			<div id="wpmoly-backdrops-preview" class="hide-if-no-js">
+				<ul id="wpmoly-imported-backdrops" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
 
 <?php foreach ( $images as $image ) : ?>
 					<li class="wpmoly-image wpmoly-imported-image">

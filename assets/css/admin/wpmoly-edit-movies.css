@@ -408,7 +408,7 @@
 
 /* Images */
 
-#wpmoly-images-preview .wpmoly-image {
+#wpmoly-backdrops-preview .wpmoly-image {
 	float: left;
 	height: 112px;
 	margin: 4px;
@@ -425,13 +425,13 @@
 	width: 160px;
 }
 
-#wpmoly-images-preview .wpmoly-image img,
+#wpmoly-backdrops-preview .wpmoly-image img,
 #tmdb_posters_preview .wpmoly-image img {
 	height: auto;
 	width: 100%;
 }
 
-#wpmoly-images-preview #wpmoly-load-images {
+#wpmoly-backdrops-preview #wpmoly-load-backdrops {
 	border: 2px dashed #ccc;
 	display: block;
 	line-height: 108px;
@@ -439,6 +439,6 @@
 	text-decoration: none;
 }
 
-#wpmoly-images-preview #wpmoly-load-images:hover {
+#wpmoly-backdrops-preview #wpmoly-load-backdrops:hover {
 	border-color: #2EA2CC;
 }

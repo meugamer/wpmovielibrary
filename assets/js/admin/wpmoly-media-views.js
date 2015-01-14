@@ -1,25 +1,22 @@
 
 window.wpmoly = window.wpmoly || {};
-wpmoly.images = wpmoly.images || {};
+wpmoly.media = wpmoly.media || {};
 
 (function( $ ) {
 
-	var images = wpmoly.images;
+	var media = wpmoly.media;
 
-	_.extend( images, { controllers: {}, views: {}, View: {}, Controller: {}, Modal: {} } );
+	var backdrops = function() {
 
-	images.views.init = function() {
-
-		images.views.images = new images.View.Images();
-		images.views.modal = images.Modal.frame();
+		media.views.backdrops = new media.View.Backdrops( { collection: media.models.backdrops } );
 	};
 
-	images.View.Images = Backbone.View.extend({
+	media.View.Backdrops = wp.Backbone.View.extend({
 
-		el: '#wpmoly-images-preview',
+		el: '#wpmoly-backdrops-preview',
 
 		events: {
-			"click #wpmoly-load-images": "modal"
+			"click #wpmoly-load-backdrops": "open"
 		},
 
 		/**
@@ -31,8 +28,12 @@ wpmoly.images = wpmoly.images || {};
 		 */
 		initialize: function() {
 
-			this.template = _.template( $( this.el ).html() );
+			this.template = _.template( $( '#wpmoly-imported-backdrops-template' ).html() );
 			this.render();
+
+			this.modal = this.frame();
+
+			this.collection.on( 'add', this.render, this );
 
 		},
 
@@ -45,28 +46,38 @@ wpmoly.images = wpmoly.images || {};
 		 */
 		render: function() {
 
-			this.$el.html( this.template() );
+			var backdrops = this.template( { backdrops : this.collection.toJSON() } );
+
+			$( this.el ).show();
+			$( this.el ).html( backdrops );
+
 			return this;
+
+			/*this.$el.html( this.template() );
+			return this;*/
 		},
 
-		modal: function( event ) {
+		open: function( event ) {
 
-			images.views.modal.open();
+			this.modal.open();
 			event.preventDefault();
 		},
-	});
 
-	//_.extend( images.Modal, { /*View: {}, Controller: {}, Toolbar: {}*/ } );
+		update: function( model ) {
 
-	_.extend( images.Modal, {
+			
+
+			//console.log(  );
+			//console.log( model );
+		},
 
 		frame: function() {
 
 			if ( this._frame )
 				return this._frame;
 
-			var title = wpmoly.editor.models.movie.get('title'),
-			  tmdb_id = wpmoly.editor.models.movie.get('tmdb_id');
+			var title = wpmoly.editor.models.movie.get( 'title' ),
+			  tmdb_id = wpmoly.editor.models.movie.get( 'tmdb_id' );
 
 			if ( '' != title && undefined != title ) {
 				title = wpmoly_lang.import_images_title.replace( '%s', title );
@@ -74,15 +85,12 @@ wpmoly.images = wpmoly.images || {};
 				title = 'Images';
 			}
 
-			
-
 			var states = [
 				new wp.media.controller.Library( {
-						id:                 'image',
+						id:                 'backdrops',
 						title:              title,
 						priority:           20,
-						library:            wp.media.query( { type: 'backdrops', s: tmdb_id } ),
-						//toolbar:            t,
+						library:            wp.media.query( { type: 'backdrops', s: 550 } ),
 						content:            'browse',
 						search:             false,
 						searchable:         false,
@@ -91,7 +99,7 @@ wpmoly.images = wpmoly.images || {};
 						contentUserSetting: false
 				} ),
 				/*new wp.media.controller.Library( {
-						id:                 'poster',
+						id:                 'posters',
 						title:              'Posters',
 						priority:           40,
 						library:            wp.media.query( { type: 'posters', s: 1234 } ),
@@ -105,19 +113,45 @@ wpmoly.images = wpmoly.images || {};
 			];
 
 			this._frame = wp.media( {
-				state: 'image',
+				state: 'backdrops',
 				states: states,
+				button: {
+					text: wpmoly_lang.import_images
+				}
 			} );
 
-			/*this._frame.state('library').collection.on( 'activate', function() {
-				
-			});*/
+			this._frame.options.button.reset = false;
+
+			this._frame.state( 'backdrops' ).on( 'select', this.select, this );
+
+			wp.Uploader.queue.on( 'add', this.uploading, this );
 
 			return this._frame;
+		},
+
+		select: function() {
+
+			var selection = this._frame.state().get( 'selection' ),
+			       models = selection.models;
+
+			this.collection.add( models );
+			/*_.each( models, function( model ) {
+				this.collection.add( model );
+			}, this );*/
+		},
+
+		uploading: function( attachment ) {
+
+			var attachments = attachment.collection.models,
+			         models = this._frame.state().get( 'library' ).models;
+			    attachments = _.filter( attachments, function( obj ) { return ! _.findWhere( models, obj ); });
+
+			_.each( attachments, function( _attachment ) {
+				this._frame.state().get( 'library' ).models.unshift( _attachment );
+			}, this );
 		}
 	});
 
-	wpmoly.images = images;
-	images.views.init();
+	backdrops();
 
 })(jQuery);
