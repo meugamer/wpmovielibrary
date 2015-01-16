@@ -416,6 +416,25 @@
 	width: 200px;
 }
 
+#wpmoly-backdrops-preview .wpmoly-image.wpmoly-image-loading {
+	position: relative;
+}
+
+#wpmoly-backdrops-preview .wpmoly-image.wpmoly-image-loading img {
+	opacity: 0.5;
+}
+
+#wpmoly-backdrops-preview .wpmoly-image.wpmoly-image-loading::after {
+	background: url(../../img/grid.svg) center center no-repeat;
+	background-size: 18px 18px;
+	content: '';
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
 #tmdb_posters_preview .wpmoly-image {
 	border-radius: 4px;
 	float: left;

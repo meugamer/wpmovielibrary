@@ -11,6 +11,50 @@ wpmoly.media = wpmoly.media || {};
 		media.views.backdrops = new media.View.Backdrops( { collection: media.models.backdrops } );
 	};
 
+	media.View.Backdrop = wp.Backbone.View.extend({
+
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		initialize: function() {
+
+			this.template = _.template( $( '#wpmoly-imported-backdrop-template' ).html() );
+			this.render();
+
+			this.model.on( 'uploading:start', this.uploading, this );
+			this.model.on( 'uploading:end', this.uploaded, this );
+		},
+
+		/**
+		 * Render the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		render: function() {
+
+			var backdrop = this.template( { backdrop: _.extend( this.model.toJSON() ) } );
+			$( this.el ).html( backdrop );
+
+			return this;
+		},
+
+		uploading: function() {
+
+			this.$el.addClass( 'wpmoly-image-loading' );
+		},
+
+		uploaded: function() {
+
+			this.$el.removeClass( 'wpmoly-image-loading' );
+		}
+	});
+
 	media.View.Backdrops = wp.Backbone.View.extend({
 
 		el: '#wpmoly-backdrops-preview',
@@ -18,6 +62,8 @@ wpmoly.media = wpmoly.media || {};
 		events: {
 			"click #wpmoly-load-backdrops": "open"
 		},
+
+		backdrops: [],
 
 		/**
 		 * Initialize the View
@@ -60,17 +106,16 @@ wpmoly.media = wpmoly.media || {};
 			event.preventDefault();
 		},
 
-		update: function( model ) {
-		},
-
 		add: function( model ) {
 
-			var backdrop = _.template( $( '#wpmoly-imported-backdrop-template' ).html(), { backdrop : model.attributes } ),
-			       model = new media.Model.Attachment( _.extend( model.attributes, { type: 'backdrop', tmdb_id: 1234 } ) );
+			var model = new media.Model.Attachment( _.extend( model.attributes, { type: 'backdrop', tmdb_id: 1234 } ) ),
+			     view = $( '<li id="attachment-' + model.attributes.id + '" class="wpmoly-image wpmoly-imported-image">' )
+			    _view = new media.View.Backdrop( { el: view, model: model } );
+
+			this.$el.prepend( view );
+			this.backdrops.push( _view );
 
 			model.upload();
-
-			//console.log( backdrop );
 		},
 
 		frame: function() {

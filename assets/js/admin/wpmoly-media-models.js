@@ -35,7 +35,7 @@ window.wpmoly = window.wpmoly || {};
 
 			if ( 'upload' == method ) {
 
-				this.trigger( 'loading:success' );
+				this.trigger( 'uploading:start' );
 				editor.models.status.trigger( 'loading:start' );
 				editor.models.status.trigger( 'status:say', wpmoly_lang.import_images_wait );
 				
@@ -51,7 +51,7 @@ window.wpmoly = window.wpmoly || {};
 						editor.models.status.trigger( 'loading:end' );
 					},
 					success: function() {
-						this.trigger( 'uploading:success' );
+						this.trigger( 'uploading:end' );
 						editor.models.status.trigger( 'status:say', wpmoly_lang.images_uploaded );
 					}
 				});
