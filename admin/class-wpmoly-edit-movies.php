@@ -84,8 +84,14 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				<div id="wpmoly-meta-status-loader"<% if ( true === status.active ) { %> class="active" <% } %>><% if ( true === status.loading ) { %><img src="<?php echo WPMOLY_URL . '/assets/img/puff.svg'; ?>" width="20" height="15" alt="" /><% } else { %><span class="wpmolicon icon-status"></span><% } %> <strong>wpmovielibrary:</strong> 
 				<div id="wpmoly-meta-status-content"<% if ( true === status.active ) { %> class="active" <% } %>><%= status.message %></div></div>
 		</script>
+<script type="text/template" id="wpmoly-imported-backdrop-template">
+					<li class="wpmoly-image wpmoly-imported-image">
+						<img width="<%= backdrop.sizes.medium.width %>" height="<%= backdrop.sizes.medium.height %>" src="<%= backdrop.sizes.medium.url %>" class="attachment-medium" class="attachment-medium" alt="<%= backdrop.title %>" />
+					</li>
+
+		</script>
 		<script type="text/template" id="wpmoly-imported-backdrops-template">
-								<% console.log( backdrops ); _.each( backdrops, function( backdrop ) { %>
+								<% _.each( backdrops, function( backdrop ) { %>
 					<li class="wpmoly-image wpmoly-imported-image">
 						<img width="<%= backdrop.sizes.medium.width %>" height="<%= backdrop.sizes.medium.height %>" src="<%= backdrop.sizes.medium.url %>" class="attachment-medium" class="attachment-medium" alt="<%= backdrop.title %>" />
 					</li>

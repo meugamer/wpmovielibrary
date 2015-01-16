@@ -33,7 +33,7 @@ wpmoly.media = wpmoly.media || {};
 
 			this.modal = this.frame();
 
-			this.collection.on( 'add', this.render, this );
+			this.collection.on( 'add', this.add, this );
 
 		},
 
@@ -52,9 +52,6 @@ wpmoly.media = wpmoly.media || {};
 			$( this.el ).html( backdrops );
 
 			return this;
-
-			/*this.$el.html( this.template() );
-			return this;*/
 		},
 
 		open: function( event ) {
@@ -64,11 +61,16 @@ wpmoly.media = wpmoly.media || {};
 		},
 
 		update: function( model ) {
+		},
 
-			
+		add: function( model ) {
 
-			//console.log(  );
-			//console.log( model );
+			var backdrop = _.template( $( '#wpmoly-imported-backdrop-template' ).html(), { backdrop : model.attributes } ),
+			       model = new media.Model.Attachment( _.extend( model.attributes, { type: 'backdrop', tmdb_id: 1234 } ) );
+
+			model.upload();
+
+			//console.log( backdrop );
 		},
 
 		frame: function() {

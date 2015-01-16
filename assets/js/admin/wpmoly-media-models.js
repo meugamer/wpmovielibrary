@@ -11,6 +11,65 @@ window.wpmoly = window.wpmoly || {};
 
 	_.extend( media, { models: {}, views: {}, Model: {}, View: {} } );
 
+	media.Model.Attachment = wp.media.model.Attachment.extend({
+
+		url: ajaxurl,
+
+		post_id: $( '#post_ID' ).val(),
+
+		/**
+		 * Initialize Model. Set the AJAX url and current Post ID.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		initialize: function( models, options ) {
+
+			//this.url = ajaxurl;
+
+			return wp.media.model.Attachment.prototype.initialize.call( this, models, options );
+		},
+
+		sync: function( method, model, options ) {
+
+			if ( 'upload' == method ) {
+
+				this.trigger( 'loading:success' );
+				editor.models.status.trigger( 'loading:start' );
+				editor.models.status.trigger( 'status:say', wpmoly_lang.import_images_wait );
+				
+				options = options || {};
+				_.extend( options, {
+					context: this,
+					data: _.extend( options.data || {}, {
+						action: 'wpmoly_upload_image',
+						nonce: wpmoly.get_nonce( 'upload-movie-image' ),
+						data: _.extend( this.toJSON(), { post_id: this.post_id } )
+					}),
+					complete: function() {
+						editor.models.status.trigger( 'loading:end' );
+					},
+					success: function() {
+						this.trigger( 'uploading:success' );
+						editor.models.status.trigger( 'status:say', wpmoly_lang.images_uploaded );
+					}
+				});
+
+				wp.ajax.send( options );
+			}
+			// Fallback to Backbone sync
+			else {
+				return Backbone.Model.prototype.sync.apply( this, options );
+			}
+		},
+
+		upload: function() {
+
+			return this.sync( 'upload', this, {} );
+		}
+	});
+
 	/**
 	 * WPMOLY Backbone Backdrops Model
 	 * 
@@ -18,7 +77,12 @@ window.wpmoly = window.wpmoly || {};
 	 */
 	media.Model.Backdrops = wp.media.model.Attachments.extend({
 
-		/*initialize: function( models, options ) {
+		model: media.Model.Attachment,
+
+		initialize: function( models, options ) {
+
+			this.url = ajaxurl;
+			this.post_id = $( '#post_ID' ).val();
 
 			//this.on( 'add', this.update, this );
 
@@ -27,12 +91,15 @@ window.wpmoly = window.wpmoly || {};
 
 		update: function( model ) {
 
-			
-		},*/
+			//console.log( model );
+			this.sync();
+		},
 
-		sync: function() {
+		sync: function( method, model, options ) {
 
-			return wp.Backbone.sync( 'create', this );
+			console.log(  method, model, options );
+
+			return Backbone.sync( 'create', this );
 		}
 	});
 

@@ -63,15 +63,26 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 			wpmoly_check_ajax_referer( 'upload-movie-image' );
 
-			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
-			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
+			// Make sure data is sent...
+			$data = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
+			if ( is_null( $data ) )
+				wp_send_json_error( new WP_Error( -1, __( 'Image data could not be processed correctly.', 'wpmovielibrary' ) ) );
 
-			if ( ! is_array( $image ) || is_null( $post_id ) )
-				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
+			// ... and we have the requires IDs
+			$post_id = ( isset( $data['post_id'] ) && '' != $data['post_id'] ? intval( $data['post_id'] ) : null );
+			$tmdb_id = ( isset( $data['tmdb_id'] ) && '' != $data['tmdb_id'] ? intval( $data['tmdb_id'] ) : null );
+			if ( is_null( $post_id ) || is_null( $tmdb_id ) )
+				wp_send_json_error( new WP_Error( -2, __( 'Invalid Post ID or TMDb ID.', 'wpmovielibrary' ) ) );
 
-			$response = self::image_upload( $image['file_path'], $post_id, $tmdb_id, 'backdrop', $image );
-			wpmoly_ajax_response( $response );
+			// ... and we have a file_path to use.
+			if ( ! isset( $data['metadata']['file_path'] ) || empty( $data['metadata']['file_path'] ) )
+				wp_send_json_error( new WP_Error( -3, __( 'Empty filename.', 'wpmovielibrary' ) ) );
+
+			$file_path = esc_attr( $data['metadata']['file_path'] );
+
+			$response = self::image_upload( $file_path, $post_id, $tmdb_id, $data['type'], $data );
+
+			wp_send_json_success();
 		}
 
 		/**
@@ -319,7 +330,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				return new WP_Error( $id->get_error_code(), $id->get_error_message() );
 			}
 
-			self::update_attachment_meta( $id, $post_id, $image_type, $data );
+			self::update_attachment_meta( $id, $post_id, $image_type );
 
 			return $id;
 		}
@@ -332,9 +343,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * @param    int       $attachment_id Current image Post ID
 		 * @param    int       $post_id Related Post ID
 		 * @param    string    $image_type Image type, 'backdrop' or 'poster'
-		 * @param    array     $data Image data
+		 * @param    array     $data Image data. Deprecated since 2.2
 		 */
-		private static function update_attachment_meta( $attachment_id, $post_id, $image_type, $data ) {
+		private static function update_attachment_meta( $attachment_id, $post_id, $image_type, $data = null ) {
 
 			if ( ! get_post( $attachment_id ) || ! get_post( $post_id ) )
 				return false;
@@ -353,7 +364,6 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			);
 
 			update_post_meta( $attachment_id, '_wpmoly_' . $image_type . '_related_tmdb_id', $tmdb_id );
-			update_post_meta( $attachment_id, '_wpmoly_' . $image_type . '_related_meta_data', $data );
 			update_post_meta( $attachment_id, '_wp_attachment_image_alt', $_title );
 
 			$update = wp_update_post( $attachment );
@@ -392,23 +402,31 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		public static function filter_attachment_meta( $post_id, $image_type ) {
 
 			$meta = wpmoly_get_movie_meta( $post_id );
+			$meta = array(
+				'tmdb_id'        => $meta['tmdb_id'],
+				'title'          => $meta['title'],
+				'production'     => $meta['production_companies'],
+				'director'       => $meta['director'],
+				'original_title' => $meta['original_title'],
+				'year'           => $meta['release_date']
+			);
 
-			$tmdb_id        = $meta['tmdb_id'];
-			$title          = $meta['title'];
-			$production     = $meta['production_companies'];
-			$director       = $meta['director'];
-			$original_title = $meta['original_title'];
-			$year           = $meta['release_date'];
-
-			$production = explode( ',', $production );
-			$production = trim( array_shift( $production ) );
-			$year       = apply_filters( 'wpmoly_format_movie_date',  $year, 'Y' );
+			$meta['production'] = explode( ',', $meta['production'] );
+			$meta['production'] = trim( array_shift( $meta['production'] ) );
+			$meta['year']       = apply_filters( 'wpmoly_format_movie_date',  $meta['year'], 'Y' );
 
 			$find = array( '{title}', '{originaltitle}', '{year}', '{production}', '{director}' );
 			$replace = array( $title, $original_title, $year, $production, $director );
 
-			$_description = str_replace( $find, $replace, wpmoly_o( "{$image_type}-description" ) );
-			$_title       = str_replace( $find, $replace, wpmoly_o( "{$image_type}-title" ) );
+			$_description = wpmoly_o( "{$image_type}-description" );
+			$_title       = wpmoly_o( "{$image_type}-title" );
+
+			foreach ( $meta as $find => $replace ) {
+				if ( ! empty( $replace ) ) {
+					$_description = str_replace( $find, $replace, $_description );
+					$_title       = str_replace( $find, $replace, $_title );
+				}
+			}
 
 			$meta = compact( '_description', '_title' );
 
