@@ -40,6 +40,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 			add_filter( 'wpmoly_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
 			add_filter( 'wpmoly_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
+			add_action( 'wp_ajax_wpmoly_load_images', __CLASS__ . '::load_images_callback' );
 			add_action( 'wp_ajax_wpmoly_upload_image', __CLASS__ . '::upload_image_callback' );
 			add_action( 'wp_ajax_wpmoly_set_featured', __CLASS__ . '::set_featured_image_callback' );
 		}
@@ -49,6 +50,33 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 *                             Callbacks
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * Load a movie images.
+		 *
+		 * @since    2.2
+		 */
+		public static function load_images_callback() {
+
+			wpmoly_check_ajax_referer( 'load-movie-images' );
+
+			// Make sure data is sent...
+			$data = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
+			if ( is_null( $data ) )
+				wp_send_json_error( new WP_Error( -1, __( 'Data could not be processed correctly.', 'wpmovielibrary' ) ) );
+
+			// ... and we have the requires IDs and type
+			$post_id = ( isset( $data['post_id'] ) && '' != $data['post_id'] ? intval( $data['post_id'] ) : null );
+			$type    = ( isset( $data['type'] )    && '' != $data['type']    ? esc_attr( $data['type'] )  : null );
+			if ( is_null( $post_id ) || is_null( $type ) )
+				wp_send_json_error( new WP_Error( -2, __( 'Invalid Post ID or Image type.', 'wpmovielibrary' ) ) );
+
+			$images = self::get_movie_imported_attachments( $type, $post_id, $format = 'raw' );
+			$images = array_map( 'wp_prepare_attachment_for_js', $images );
+			$images = array_filter( $images );
+
+			wp_send_json_success( $images );
+		}
 
 		/**
 		 * Upload a movie image.
@@ -206,15 +234,21 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * @since    1.0
 		 * 
 		 * @param    string    $type Attachment type, 'image' or 'poster'
+		 * @param    int       $post_id Post ID to find related attachments
+		 * @param    string    $format Output format, raw or filtered
 		 * 
 		 * @return   array    Attachment list
 		 */
-		public static function get_movie_imported_attachments( $type = 'image' ) {
+		public static function get_movie_imported_attachments( $type = 'image', $post_id = null, $format = 'filtered' ) {
 
-			global $post;
+			if ( is_null( $post_id ) )
+				$post_id = get_the_ID();
 
-			if ( 'movie' != get_post_type() )
+			if ( 'movie' != get_post_type( $post_id ) )
 				return false;
+
+			if ( 'raw' != $format )
+				$format = 'filtered';
 
 			if ( 'poster' != $type )
 				$type = 'image';
@@ -224,14 +258,20 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				'post_status'    => 'inherit',
 				'meta_key'       => "_wpmoly_{$type}_related_tmdb_id",
 				'posts_per_page' => -1,
-				'post_parent'    => get_the_ID()
+				'post_parent'    => $post_id
 			);
 
 			$attachments = new WP_Query( $args );
 			$images = array();
 
-			if ( $attachments->posts ) {
-				foreach ( $attachments->posts as $attachment ) {
+			if ( empty( $attachments->posts ) )
+				return array();
+			
+			foreach ( $attachments->posts as $attachment ) {
+
+				if ( 'raw' == $format ) {
+					$images[] = $attachment;
+				} else {
 					$images[] = array(
 						'id'     => $attachment->ID,
 						//'meta'   => wp_get_attachment_metadata( $attachment->ID ),
@@ -402,7 +442,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		public static function filter_attachment_meta( $post_id, $image_type ) {
 
 			if ( $image_type != 'poster' )
-				$image_type != 'image';
+				$image_type = 'image';
 
 			$meta = wpmoly_get_movie_meta( $post_id );
 			$meta = array(
@@ -410,7 +450,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				'title'          => $meta['title'],
 				'production'     => $meta['production_companies'],
 				'director'       => $meta['director'],
-				'original_title' => $meta['original_title'],
+				'originaltitle'  => $meta['original_title'],
 				'year'           => $meta['release_date']
 			);
 
@@ -418,16 +458,13 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			$meta['production'] = trim( array_shift( $meta['production'] ) );
 			$meta['year']       = apply_filters( 'wpmoly_format_movie_date',  $meta['year'], 'Y' );
 
-			$find = array( '{title}', '{originaltitle}', '{year}', '{production}', '{director}' );
-			$replace = array( $title, $original_title, $year, $production, $director );
-
 			$_description = wpmoly_o( "{$image_type}-description", '' );
 			$_title       = wpmoly_o( "{$image_type}-title", '' );
 
 			foreach ( $meta as $find => $replace ) {
 				if ( ! empty( $replace ) ) {
-					$_description = str_replace( $find, $replace, $_description );
-					$_title       = str_replace( $find, $replace, $_title );
+					$_description = str_replace( '{' . $find . '}', $replace, $_description );
+					$_title       = str_replace( '{' . $find . '}', $replace, $_title );
 				}
 			}
 

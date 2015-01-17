@@ -169,14 +169,18 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		add: function( model ) {
 
-			var model = new media.Model.Attachment( _.extend( model.attributes, { type: this._type } ) ),
-			     view = $( '<li id="attachment-' + model.attributes.id + '" class="wpmoly-' + this._type + ' wpmoly-imported-' + this._type + '">' )
-			    _view = new this._subview( { el: view, model: model } );
+			var _model = new media.Model.Attachment( _.extend( model.attributes, { type: this._type } ) ),
+			      view = $( '<li id="attachment-' + model.attributes.id + '" class="wpmoly-' + this._type + ' wpmoly-imported-' + this._type + '">' )
+			     _view = new this._subview( { el: view, model: _model } );
 
 			this.$el.prepend( view );
 			this._views.push( _view );
 
-			model.upload();
+			_model.upload();
+			_model.on( 'uploading:end', function() {
+				var __model = this._frame.state().get( 'library' ).models.find( function( m ) { return model.cid === m.cid; } );
+				    //__model.destroy();
+			}, this );
 		},
 
 		/**
@@ -296,7 +300,7 @@ wpmoly.media = wpmoly.media || {};
 					return 'Images';
 				},
 				priority:           20,
-				library:            wp.media.query( { type: 'backdrops', s: wpmoly.editor.models.movie.get( 'tmdb_id' ) } ),
+				library:            wp.media.query( { type: 'backdrops', s: wpmoly.editor.models.movie.get( 'tmdb_id' ), post__in: [ $( '#post_ID' ).val() ] } ),
 				content:            'browse',
 				search:             false,
 				searchable:         false,

@@ -92,26 +92,6 @@ window.wpmoly = window.wpmoly || {};
 	media.Model.Attachments = wp.media.model.Attachments.extend({
 
 		model: media.Model.Attachment,
-
-		/*initialize: function( models, options ) {
-
-			this.url = ajaxurl;
-			this.post_id = $( '#post_ID' ).val();
-
-			//this.on( 'add', this.update, this );
-
-			return wp.media.model.Attachments.prototype.initialize.call( this, models, options );
-		},
-
-		update: function( model ) {
-
-			this.sync();
-		},
-
-		sync: function( method, model, options ) {
-
-			return Backbone.sync( 'create', this );
-		}*/
 	});
 
 	wpmoly.media = media;

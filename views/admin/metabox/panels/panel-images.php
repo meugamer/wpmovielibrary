@@ -3,7 +3,8 @@
 
 			<div class="no-js-alert hide-if-js"><?php _e( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', 'wpmovielibrary' ); ?></div>
 
-			<?php echo $nonce; ?>
+			<?php echo wpmoly_nonce_field( 'upload-movie-image', $referer = false ); ?>
+			<?php echo wpmoly_nonce_field( 'load-movie-images', $referer = false ); ?>
 			<input type="hidden" id="wp-version" value="<?php echo $version ?>" />
 
 			<div id="wpmoly-backdrops-preview" class="hide-if-no-js">

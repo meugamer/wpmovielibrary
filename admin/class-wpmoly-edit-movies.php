@@ -68,6 +68,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		public static function footer_scripts() {
 
+			$backdrops = WPMOLY_Media::get_movie_imported_images();
 ?>
 		<script type="text/template" id="wpmoly-search-results-template">
 								<% _.each( results, function( result ) { %>
@@ -85,6 +86,17 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				<div id="wpmoly-meta-status-content"<% if ( true === status.active ) { %> class="active" <% } %>><%= status.message %></div></div>
 		</script>
 		<script type="text/template" id="wpmoly-imported-backdrops-template">
+<?php
+			if ( ! empty( $backdrops ) ) :
+				foreach ( $backdrops as $backdrop ) :
+?>
+					<li id="id="attachment-<?php echo $backdrop['id'] ?>" class="wpmoly-backdrop wpmoly-imported-backdrop">
+						<img width="<?php echo $backdrop['width'] ?>" height="<?php echo $backdrop['height'] ?>" src="<?php echo $backdrop['image'][0] ?>" class="attachment-medium" alt="" />
+					</li>
+<?php
+				endforeach;
+			endif;
+?>
 								<% _.each( attachments, function( attachment ) { %>
 					<li class="wpmoly-backdrop wpmoly-imported-backdrop">
 						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
@@ -411,6 +423,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			if ( ! isset( $wp_query->query['s'] ) || '' == $wp_query->query['s'] )
 				return $posts;
 
+			if ( empty( $posts ) && ! empty( $wp_query->query_vars['post__in'] ) ) {
+				$post_id = intval( array_shift( $wp_query->query_vars['post__in'] ) );
+				$posts = array( get_post( $post_id ) );
+			}
+
 			$tmdb_id  = intval( $wp_query->query['s'] );
 			$paged    = intval( $wp_query->query['paged'] );
 			$per_page = intval( $wp_query->query['posts_per_page'] );
@@ -733,7 +750,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			global $wp_version;
 
 			$attributes = array(
-				'nonce'   => wpmoly_nonce_field( 'upload-movie-image', $referer = false ),
 				'images'  => WPMOLY_Media::get_movie_imported_images(),
 				'version' => ( version_compare( $wp_version, '4.0', '>=' ) ? 4 : 0 )
 			);
