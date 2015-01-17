@@ -392,10 +392,11 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			extract( $data, EXTR_SKIP );
 
 			$poster_path = $movie['poster_path'];
+			$tmdb_id = $movie['id'];
 			$movie = apply_filters( 'wpmoly_filter_meta_data', $movie );
 			$casts = apply_filters( 'wpmoly_filter_crew_data', $casts );
 			$meta  = array_merge( $movie, $casts );
-			$meta['tmdb_id'] = $movie['id'];
+			$meta['tmdb_id'] = $tmdb_id;
 			$meta['certification'] = '';
 
 			if ( isset( $release['countries'] ) ) {

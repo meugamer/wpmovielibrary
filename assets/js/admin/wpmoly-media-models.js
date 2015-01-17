@@ -6,11 +6,18 @@ window.wpmoly = window.wpmoly || {};
 	var media = wpmoly.media = function() {
 
 		// Init models
-		media.models.backdrops = new media.Model.Backdrops();
+		media.models.backdrops = new media.Model.Attachments();
 	};
 
 	_.extend( media, { models: {}, views: {}, Model: {}, View: {} } );
 
+	/**
+	 * WPMOLY Backbone basic Attachment Model
+	 * 
+	 * @since    2.2
+	 * 
+	 * @return   void
+	 */
 	media.Model.Attachment = wp.media.model.Attachment.extend({
 
 		url: ajaxurl,
@@ -18,19 +25,16 @@ window.wpmoly = window.wpmoly || {};
 		post_id: $( '#post_ID' ).val(),
 
 		/**
-		 * Initialize Model. Set the AJAX url and current Post ID.
+		 * Overload Backbone sync method
 		 * 
 		 * @since    2.2
 		 * 
-		 * @return   void
+		 * @param    string    method Are we searching or is it a regular sync?
+		 * @param    object    model Current model
+		 * @param    object    options Query options
+		 * 
+		 * @return   mixed
 		 */
-		initialize: function( models, options ) {
-
-			//this.url = ajaxurl;
-
-			return wp.media.model.Attachment.prototype.initialize.call( this, models, options );
-		},
-
 		sync: function( method, model, options ) {
 
 			if ( 'upload' == method ) {
@@ -45,7 +49,10 @@ window.wpmoly = window.wpmoly || {};
 					data: _.extend( options.data || {}, {
 						action: 'wpmoly_upload_image',
 						nonce: wpmoly.get_nonce( 'upload-movie-image' ),
-						data: _.extend( this.toJSON(), { post_id: this.post_id } )
+						data: _.extend( this.toJSON(), {
+							post_id: this.post_id,
+							tmdb_id: wpmoly.editor.models.movie.get( 'tmdb_id' )
+						} )
 					}),
 					complete: function() {
 						editor.models.status.trigger( 'loading:end' );
@@ -64,6 +71,13 @@ window.wpmoly = window.wpmoly || {};
 			}
 		},
 
+		/**
+		 * Alias for sync( 'upload' )
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   object   this
+		 */
 		upload: function() {
 
 			return this.sync( 'upload', this, {} );
@@ -71,15 +85,15 @@ window.wpmoly = window.wpmoly || {};
 	});
 
 	/**
-	 * WPMOLY Backbone Backdrops Model
+	 * WPMOLY Backbone basic Attachments Model
 	 * 
 	 * @since    2.2
 	 */
-	media.Model.Backdrops = wp.media.model.Attachments.extend({
+	media.Model.Attachments = wp.media.model.Attachments.extend({
 
 		model: media.Model.Attachment,
 
-		initialize: function( models, options ) {
+		/*initialize: function( models, options ) {
 
 			this.url = ajaxurl;
 			this.post_id = $( '#post_ID' ).val();
@@ -91,16 +105,13 @@ window.wpmoly = window.wpmoly || {};
 
 		update: function( model ) {
 
-			//console.log( model );
 			this.sync();
 		},
 
 		sync: function( method, model, options ) {
 
-			console.log(  method, model, options );
-
 			return Backbone.sync( 'create', this );
-		}
+		}*/
 	});
 
 	wpmoly.media = media;

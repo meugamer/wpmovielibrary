@@ -401,6 +401,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 		public static function filter_attachment_meta( $post_id, $image_type ) {
 
+			if ( $image_type != 'poster' )
+				$image_type != 'image';
+
 			$meta = wpmoly_get_movie_meta( $post_id );
 			$meta = array(
 				'tmdb_id'        => $meta['tmdb_id'],
@@ -418,8 +421,8 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			$find = array( '{title}', '{originaltitle}', '{year}', '{production}', '{director}' );
 			$replace = array( $title, $original_title, $year, $production, $director );
 
-			$_description = wpmoly_o( "{$image_type}-description" );
-			$_title       = wpmoly_o( "{$image_type}-title" );
+			$_description = wpmoly_o( "{$image_type}-description", '' );
+			$_title       = wpmoly_o( "{$image_type}-title", '' );
 
 			foreach ( $meta as $find => $replace ) {
 				if ( ! empty( $replace ) ) {

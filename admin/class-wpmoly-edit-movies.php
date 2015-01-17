@@ -85,18 +85,17 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				<div id="wpmoly-meta-status-content"<% if ( true === status.active ) { %> class="active" <% } %>><%= status.message %></div></div>
 		</script>
 		<script type="text/template" id="wpmoly-imported-backdrops-template">
-								<% _.each( backdrops, function( backdrop ) { %>
-					<li class="wpmoly-image wpmoly-imported-image">
-						<img width="<%= backdrop.sizes.medium.width %>" height="<%= backdrop.sizes.medium.height %>" src="<%= backdrop.sizes.medium.url %>" class="attachment-medium" alt="<%= backdrop.title %>" />
+								<% _.each( attachments, function( attachment ) { %>
+					<li class="wpmoly-backdrop wpmoly-imported-backdrop">
+						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
 					</li>
 
 								<% }); %>
 
-					<li class="wpmoly-image wpmoly-imported-image"><a href="#" id="wpmoly-load-backdrops"><?php _e( 'Load Images', 'wpmovielibrary' ); ?></a></li>
+					<li class="wpmoly-backdrop wpmoly-imported-backdrop"><a href="#" id="wpmoly-load-backdrops"><?php _e( 'Load Images', 'wpmovielibrary' ); ?></a></li>
 		</script>
 <script type="text/template" id="wpmoly-imported-backdrop-template">
-						<img width="<%= backdrop.sizes.medium.width %>" height="<%= backdrop.sizes.medium.height %>" src="<%= backdrop.sizes.medium.url %>" class="attachment-medium" alt="<%= backdrop.title %>" />
-						<%= backdrop.loader %>
+						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
 
 		</script>
 <?php

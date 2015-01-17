@@ -10,7 +10,7 @@
 				<ul id="wpmoly-imported-backdrops" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
 
 <?php foreach ( $images as $image ) : ?>
-					<li class="wpmoly-image wpmoly-imported-image">
+					<li class="wpmoly-backdrop wpmoly-imported-backdrop">
 						<a class="open-editor" href="<?php echo $image['link'] ?>" data-id="<?php echo $image['id'] ?>">
 							<div class="js--select-attachment type-image <?php echo $image['type'] . $image['format'] ?>">
 								<div class="thumbnail">
@@ -22,7 +22,7 @@
 
 <?php endforeach; ?>
 
-					<li class="wpmoly-image wpmoly-imported-image"><a href="#" id="wpmoly-load-images"><?php _e( 'Load Images', 'wpmovielibrary' ); ?></a></li>
+					<li class="wpmoly-backdrop wpmoly-imported-backdrop"><a href="#" id="wpmoly-load-backdrops"><?php _e( 'Load Images', 'wpmovielibrary' ); ?></a></li>
 
 				</ul>
 			</div>
