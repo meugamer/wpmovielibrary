@@ -178,8 +178,7 @@ wpmoly.media = wpmoly.media || {};
 
 			_model.upload();
 			_model.on( 'uploading:end', function() {
-				var __model = this._frame.state().get( 'library' ).models.find( function( m ) { return model.cid === m.cid; } );
-				    //__model.destroy();
+				model.trigger( 'destroy', model, model.collection, {} );
 			}, this );
 		},
 
