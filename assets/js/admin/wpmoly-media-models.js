@@ -5,8 +5,12 @@ window.wpmoly = window.wpmoly || {};
 
 	var media = wpmoly.media = function() {
 
+		var backdrops = $( '#wpmoly-imported-backdrops-json' ).text();
+		    backdrops = $.parseJSON( backdrops );
+
 		// Init models
 		media.models.backdrops = new media.Model.Attachments();
+		media.models.backdrops.add( backdrops );
 	};
 
 	_.extend( media, { models: {}, views: {}, Model: {}, View: {} } );

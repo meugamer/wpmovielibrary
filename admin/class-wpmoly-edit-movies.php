@@ -86,17 +86,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				<div id="wpmoly-meta-status-content"<% if ( true === status.active ) { %> class="active" <% } %>><%= status.message %></div></div>
 		</script>
 		<script type="text/template" id="wpmoly-imported-backdrops-template">
-<?php
-			if ( ! empty( $backdrops ) ) :
-				foreach ( $backdrops as $backdrop ) :
-?>
-					<li id="id="attachment-<?php echo $backdrop['id'] ?>" class="wpmoly-backdrop wpmoly-imported-backdrop">
-						<img width="<?php echo $backdrop['width'] ?>" height="<?php echo $backdrop['height'] ?>" src="<?php echo $backdrop['image'][0] ?>" class="attachment-medium" alt="" />
-					</li>
-<?php
-				endforeach;
-			endif;
-?>
 								<% _.each( attachments, function( attachment ) { %>
 					<li class="wpmoly-backdrop wpmoly-imported-backdrop">
 						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
@@ -415,6 +404,20 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		/**
+		 * This is the hijack trick. Use the 'the_posts' filter hook to
+		 * determine whether we're looking for movie images or regular
+		 * posts. If the query has a 'tmdb_id' field, images wanted, we
+		 * load them. If not, it's just a regular Post query, return the
+		 * Posts.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    array    $posts Posts concerned by the hijack, should be only one
+		 * @param    array    $wp_query concerned WP_Query instance
+		 * 
+		 * @return   array    Posts return by the query if we're not looking for movie images
+		 */
 		public static function images_media_modal_query( $posts, $wp_query ) {
 
 			if ( ! isset( $wp_query->query['post_mime_type'] ) || ! in_array( $wp_query->query['post_mime_type'], array( 'backdrops', 'posters' ) ) )
@@ -440,83 +443,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$images = array_slice( $images, ( ( $paged - 1 ) * $per_page ), $per_page );
 
 			wp_send_json_success( $images );
-		}
-
-		/**
-		 * Handle dummy arguments for AJAX Query. Movie Edit page adds
-		 * an extended WP Media Modal to allow user to pick up which
-		 * images he wants to download from the current movie. Media Modals
-		 * are filled with the latest uploaded media, in order to avoid
-		 * this with restrict the selection in the Javascript part by 
-		 * querying only the post's attachment. We also need the movie
-		 * TMDb ID, so we pass it as a search query.
-		 * 
-		 * This method cleans up the options and add the TMDb ID to the
-		 * WP Query to bypass wp_ajax_query_attachments() filtering of
-		 * the query options.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    array    $query List of options for the query
-		 * 
-		 * @return   array    Filtered list of query options
-		 */
-		public static function load_images_dummy_query_args( $query ) {
-
-			return $query;
-
-			/*if ( isset( $query['s'] ) && 1 == preg_match_all( '/^TMDb_ID=([0-9]+),type=(image|poster)$/i', $query['s'], $m ) ) {
-
-				unset( $query['post__not_in'] );
-				unset( $query['post_mime_type'] );
-				unset( $query['post_status'] );
-				unset( $query['s'] );
-
-				$query['post_type'] = 'movie';
-				$query['tmdb_id'] = $m[1][0];
-				$query['tmdb_type'] = $m[2][0];
-
-			}
-
-			return $query;*/
-		}
-
-		/**
-		 * This is the hijack trick. Use the 'the_posts' filter hook to
-		 * determine whether we're looking for movie images or regular
-		 * posts. If the query has a 'tmdb_id' field, images wanted, we
-		 * load them. If not, it's just a regular Post query, return the
-		 * Posts.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    array    $posts Posts concerned by the hijack, should be only one
-		 * @param    array    $wp_query concerned WP_Query instance
-		 * 
-		 * @return   array    Posts return by the query if we're not looking for movie images
-		 */
-		public static function the_posts_hijack( $posts, $wp_query ) {
-
-			return $posts;
-
-			/*if ( ! is_null( $wp_query ) && isset( $wp_query->query['tmdb_id'] ) && isset( $wp_query->query['tmdb_type'] ) ) {
-
-				$tmdb_id   = esc_attr( $wp_query->query['tmdb_id'] );
-				$tmdb_type = esc_attr( $wp_query->query['tmdb_type'] );
-				$paged     = intval( $wp_query->query['paged'] );
-				$per_page  = intval( $wp_query->query['posts_per_page'] );
-
-				if ( 'image' == $tmdb_type )
-					$images = self::load_movie_images( $tmdb_id, $posts[0] );
-				else if ( 'poster' == $tmdb_type )
-					$images = self::load_movie_posters( $tmdb_id, $posts[0] );
-
-				$images = array_slice( $images, ( ( $paged - 1 ) * $per_page ), $per_page );
-
-				wp_send_json_success( $images );
-			}
-
-			return $posts;*/
 		}
 
 		/**
@@ -749,11 +675,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			global $wp_version;
 
-			$attributes = array(
-				'images'  => WPMOLY_Media::get_movie_imported_images(),
-				'version' => ( version_compare( $wp_version, '4.0', '>=' ) ? 4 : 0 )
-			);
+			$images = WPMOLY_Media::get_movie_imported_images( $post_id, $format = 'raw' );
+			$images = array_map( 'wp_prepare_attachment_for_js', $images );
+			$images = array_filter( $images );
 
+			$data = json_encode( $images );
+
+			$attributes = compact( 'images', 'data' );
 			$panel = self::render_admin_template( 'metabox/panels/panel-images.php', $attributes  );
 
 			return $panel;

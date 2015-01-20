@@ -39,7 +39,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::load_posters_link', 10, 2 );
 
 			add_filter( 'wpmoly_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
-			add_filter( 'wpmoly_jsonify_movie_images', __CLASS__ . '::fake_jsonify_movie_images', 10, 3 );
+			add_filter( 'wpmoly_jsonify_movie_images', __CLASS__ . '::jsonify_movie_images', 10, 3 );
 			add_action( 'wp_ajax_wpmoly_load_images', __CLASS__ . '::load_images_callback' );
 			add_action( 'wp_ajax_wpmoly_upload_image', __CLASS__ . '::upload_image_callback' );
 			add_action( 'wp_ajax_wpmoly_set_featured', __CLASS__ . '::set_featured_image_callback' );
@@ -207,11 +207,14 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
+		 * @param    int       $post_id Post ID to find related attachments
+		 * @param    string    $format Output format, raw or filtered
+		 * 
 		 * @return   array    Images list
 		 */
-		public static function get_movie_imported_images() {
+		public static function get_movie_imported_images( $post_id = null, $format = 'filtered' ) {
 
-			return self::get_movie_imported_attachments( $type = 'image' );
+			return self::get_movie_imported_attachments( $type = 'image', $post_id, $format );
 		}
 
 		/**
@@ -220,11 +223,14 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
+		 * @param    int       $post_id Post ID to find related attachments
+		 * @param    string    $format Output format, raw or filtered
+		 * 
 		 * @return   array    Posters list
 		 */
-		public static function get_movie_imported_posters() {
+		public static function get_movie_imported_posters( $post_id = null, $format = 'filtered' ) {
 
-			return self::get_movie_imported_attachments( $type = 'poster' );
+			return self::get_movie_imported_attachments( $type = 'poster', $post_id, $format );
 		}
 
 		/**
@@ -274,11 +280,11 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				} else {
 					$images[] = array(
 						'id'     => $attachment->ID,
-						//'meta'   => wp_get_attachment_metadata( $attachment->ID ),
+						/*'meta'   => wp_get_attachment_metadata( $attachment->ID ),
 						'type'   => ( isset( $meta['sizes']['medium']['mime-type'] ) ? str_replace( 'image/', ' subtype-', $meta['sizes']['medium']['mime-type'] ) : '' ),
 						'height' => ( isset( $meta['sizes']['medium']['height'] ) ? $meta['sizes']['medium']['height'] : 0 ),
 						'width'  => ( isset( $meta['sizes']['medium']['width'] ) ? $meta['sizes']['medium']['width'] : 0 ),
-						'format' => ( $width && $height ? ( $height > $width ? ' portrait' : ' landscape' ) : '' ),
+						'format' => ( $width && $height ? ( $height > $width ? ' portrait' : ' landscape' ) : '' ),*/
 						'image'  => wp_get_attachment_image_src( $attachment->ID, 'medium' ),
 						'link'   => get_edit_post_link( $attachment->ID )
 					);
@@ -549,7 +555,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   array    The prepared images
 		 */
-		public static function fake_jsonify_movie_images( $images, $post, $image_type ) {
+		public static function jsonify_movie_images( $images, $post, $image_type ) {
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
 
