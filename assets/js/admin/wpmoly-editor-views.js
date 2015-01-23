@@ -464,6 +464,10 @@ window.wpmoly = window.wpmoly || {};
 			
 			_.bindAll( this, 'render', 'fix' );
 
+			var template = $( '#wpmoly-metabox' ).html();
+			if ( undefined === template )
+				return false;
+
 			this.template = _.template( $( '#wpmoly-metabox' ).html() );
 			this.render();
 

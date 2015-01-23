@@ -204,11 +204,25 @@ wpmoly.media = wpmoly.media || {};
 
 			this._frame.options.button.reset = false;
 
+			this._frame.on( 'open', this.open, this );
+
 			this._frame.state( this._library.id ).on( 'select', this.select, this );
 
 			wp.Uploader.queue.on( 'add', this.upload, this );
 
 			return this._frame;
+		},
+
+		/**
+		 * Hide Modal Menu
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		open: function() {
+
+			this._frame.$el.addClass( 'hide-menu' );
 		},
 
 		/**
