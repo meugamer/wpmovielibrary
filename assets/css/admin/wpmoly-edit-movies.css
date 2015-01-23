@@ -14,7 +14,11 @@
 	z-index: 10;
 }
 
-#wpmoly-metabox.postbox .inside {
+#postbox-container-1 #wpmoly-metabox.postbox .inside #wpmoly-convert-button {
+	text-align: center;
+}
+
+#postbox-container-2 #wpmoly-metabox.postbox .inside {
 	margin: 0;
 	padding: 0;
 }

@@ -38,22 +38,35 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 9 );
 
-			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
-			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::movies_columns_content', 10, 2 );
-			add_filter( 'manage_edit-movie_sortable_columns', __CLASS__ . '::movies_sortable_columns', 10, 1 );
-			add_action( 'pre_get_posts', __CLASS__ . '::movies_sortable_columns_order', 10, 1 );
+			// Bulk/quick edit
+			add_filter( 'bulk_post_updated_messages', __CLASS__ . '::movie_bulk_updated_messages', 10, 2 );
 
 			add_action( 'quick_edit_custom_box', __CLASS__ . '::quick_edit_movies', 10, 2 );
 			add_action( 'bulk_edit_custom_box', __CLASS__ . '::bulk_edit_movies', 10, 2 );
 			add_filter( 'post_row_actions', __CLASS__ . '::expand_quick_edit_link', 10, 2 );
 
+			// Post List Table
+			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
+			add_action( 'manage_movie_posts_custom_column', __CLASS__ . '::movies_columns_content', 10, 2 );
+			add_filter( 'manage_edit-movie_sortable_columns', __CLASS__ . '::movies_sortable_columns', 10, 1 );
+			add_action( 'pre_get_posts', __CLASS__ . '::movies_sortable_columns_order', 10, 1 );
+
+			// Post Convert
+			if ( 1 == wpmoly_o( 'convert-enable' ) ) {
+				add_action( 'admin_footer-edit.php', 'WPMOLY_Edit_Movies::bulk_admin_footer', 10 );
+				add_action( 'load-post.php', 'WPMOLY_Edit_Movies::convert_post_type', 10 );
+				add_action( 'load-edit.php', 'WPMOLY_Edit_Movies::bulk_convert_post_type', 10 );
+			}
+
 			add_action( 'the_posts', __CLASS__ . '::images_media_modal_query', 10, 2 );
 
-			add_action( 'add_meta_boxes_movie', __CLASS__ . '::add_meta_box', 10 );
+			// Post edit
+			add_filter( 'post_updated_messages', __CLASS__ . '::movie_updated_messages', 10, 1 );
 			add_action( 'save_post_movie', __CLASS__ . '::save_movie', 10, 4 );
 			add_action( 'wp_insert_post_empty_content', __CLASS__ . '::filter_empty_content', 10, 2 );
 			add_action( 'wp_insert_post_data', __CLASS__ . '::filter_empty_title', 10, 2 );
 
+			// Callbacks
 			add_action( 'wp_ajax_wpmoly_save_meta', __CLASS__ . '::save_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
 
@@ -115,11 +128,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				return false;
 
 			wp_enqueue_media();
-			//wp_enqueue_script( 'media-grid' );
 			wp_enqueue_script( 'media' );
-			/*wp_localize_script( 'media-grid', '_wpMediaGridSettings', array(
-				'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH ),
-			) );*/
 
 			wp_register_script( 'select2-sortable-js', ReduxFramework::$_url . 'assets/js/vendor/select2.sortable.min.js', array( 'jquery' ), WPMOLY_VERSION, true );
 			wp_register_script( 'select2-js', ReduxFramework::$_url . 'assets/js/vendor/select2/select2.min.js', array( 'jquery', 'select2-sortable-js' ), WPMOLY_VERSION, true );
@@ -171,6 +180,208 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$response = self::save_movie_meta( $post_id, $data );
 
 			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'save-movie-meta' ) );
+		}
+
+		/**
+		 * Add message support for movies in Post Editor.
+		 * 
+		 * @since    2.1.4
+		 * 
+		 * @param    array    $messages Default Post update messages
+		 * 
+		 * @return   array    Updated Post update messages
+		 */
+		public static function movie_updated_messages( $messages ) {
+
+			global $post;
+			$post_ID = $post->ID;
+
+			$new_messages = array(
+				'movie' => array(
+					1  => sprintf( __( 'Movie updated. <a href="%s">View movie</a>', 'wpmovielibrary' ), esc_url( get_permalink( $post_ID ) ) ),
+					2  => __( 'Custom field updated.', 'wpmovielibrary' ) ,
+					3  => __( 'Custom field deleted.', 'wpmovielibrary' ),
+					4  => __( 'Movie updated.', 'wpmovielibrary' ),
+					5  => isset( $_GET['revision'] ) ? sprintf( __( 'Movie restored to revision from %s', 'wpmovielibrary' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+					6  => sprintf( __( 'Movie published. <a href="%s">View movie</a>', 'wpmovielibrary' ), esc_url( get_permalink( $post_ID ) ) ),
+					7  => __( 'Movie saved.' ),
+					8  => sprintf( __( 'Movie submitted. <a target="_blank" href="%s">Preview movie</a>', 'wpmovielibrary' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
+					9  => sprintf( __( 'Movie scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview movie</a>', 'wpmovielibrary' ), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink( $post_ID ) ) ),
+					10 => sprintf( __( 'Movie draft updated. <a target="_blank" href="%s">Preview movie</a>', 'wpmovielibrary' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
+					11 => __( 'Successfully converted to movie.', 'wpmovielibrary' )
+				)
+			);
+
+			$messages = array_merge( $messages, $new_messages );
+
+			return $messages;
+		}
+
+		/**
+		 * Add message support for movies in Post Editor bulk edit.
+		 * 
+		 * @since    2.1.4
+		 * 
+		 * @param    array    $messages Default Post bulk edit messages
+		 * 
+		 * @return   array    Updated Post bulk edit messages
+		 */
+		public static function movie_bulk_updated_messages( $bulk_messages, $bulk_counts ) {
+
+			$new_messages = array(
+				'movie' => array(
+					'updated'   => _n( '%s movie updated.', '%s movies updated.', $bulk_counts['updated'], 'wpmovielibrary' ),
+					'locked'    => _n( '%s movie not updated, somebody is editing it.', '%s movies not updated, somebody is editing them.', $bulk_counts['locked'], 'wpmovielibrary' ),
+					'deleted'   => _n( '%s movie permanently deleted.', '%s movies permanently deleted.', $bulk_counts['deleted'], 'wpmovielibrary' ),
+					'trashed'   => _n( '%s movie moved to the Trash.', '%s movies moved to the Trash.', $bulk_counts['trashed'], 'wpmovielibrary' ),
+					'untrashed' => _n( '%s movie restored from the Trash.', '%s movies restored from the Trash.', $bulk_counts['untrashed'], 'wpmovielibrary' ),
+				)
+			);
+
+			$messages = array_merge( $bulk_messages, $new_messages );
+
+			return $messages;
+		}
+
+		/**
+		 * Add custom bulk action to edit.php
+		 * 
+		 * This is needed as WordPress does not provide a way to add new
+		 * actions via filters, only remove existing actions.
+		 * 
+		 * @since    2.1.4
+		 */
+		public static function bulk_admin_footer() {
+
+			global $post_type;
+ 
+			$post_types = wpmoly_o( 'convert-post-types' );
+			if ( ! in_array( $post_type, $post_types ) )
+				return false;
+?>
+	<script type="text/javascript">
+		(function( $ ) {
+			$( '<option>' ).val( 'bulk_convert_post_type' ).text( '<?php _e( 'Convert to movie', 'wpmovielibrary' )?>' ).appendTo( "select[name='action']" );
+			$( '<option>' ).val( 'bulk_convert_post_type' ).text( '<?php _e( 'Convert to movie', 'wpmovielibrary' )?>' ).appendTo( "select[name='action2']" );
+		})(jQuery);
+	</script>
+
+<?php
+		}
+
+		/**
+		 * Convert a Post (or Page) to Movie.
+		 * 
+		 * This is used to convert regular posts and pages to movies to
+		 * avoid having to duplicate content of manually create/delete
+		 * contents to use WPMOLY features.
+		 * 
+		 * @since    2.1.4
+		 */
+		public static function convert_post_type() {
+
+			if ( ! isset( $_REQUEST['wpmoly_convert_post_type'] ) || '1' != $_REQUEST['wpmoly_convert_post_type'] )
+				return false;
+
+			wpmoly_check_admin_referer( 'convert-post-type' );
+
+			$post_id = intval( esc_attr( $_REQUEST['post'] ) );
+			$post_types = wpmoly_o( 'convert-post-types' );
+			if ( is_null( get_post( $post_id ) ) || ! in_array( get_post_type( $post_id ), $post_types ) )
+				return false;
+
+			$update = self::bulk_convert_posts( $post_id );
+			if ( ! is_wp_error( $update ) ) {
+				$update = "&message=11";
+			} else {
+				$update = '';
+			}
+
+			wp_safe_redirect( admin_url( "post.php?post={$post_id}&action=edit{$update}" ) );
+		}
+
+		/**
+		 * Bulk Convert Posts (or Pages) to Movie.
+		 * 
+		 * @since    2.1.4
+		 * 
+		 * @param    array    List of Post IDs to update
+		 * 
+		 * @return   WP_Error|bool    True on success, WP_Error if any post was not updated
+		 */
+		public static function bulk_convert_posts( $post_ids ) {
+
+			$error = new WP_Error();
+
+			if ( ! is_array( $post_ids ) )
+				$post_ids = array( $post_ids );
+
+			foreach ( $post_ids as $post_id ) {
+				$update = set_post_type( $post_id, $post_type = 'movie' );
+
+				if ( ! $update )
+					$error->add( $post_id, sprintf( __( 'Error update Post #%d post_type.', 'wpmovielibrary' ), $post_id ) );
+			}
+
+			if ( ! empty( $error->errors ) )
+				return $error;
+
+			return true;
+		}
+
+		/**
+		 * Handle Bulk Convert action.
+		 * 
+		 * Intercept a custom 'bulk_convert_post_type' action in edit.php,
+		 * convert the concerned posts and redirects.
+		 * 
+		 * @since    2.1.4
+		 */
+		public static function bulk_convert_post_type() {
+
+			global $typenow;
+
+			$post_types = wpmoly_o( 'convert-post-types' );
+
+			if ( ! in_array( $typenow, $post_types ) )
+				return false;
+
+			$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
+			$action = $wp_list_table->current_action();
+
+			if ( 'bulk_convert_post_type' != $action )
+				return false;
+
+			check_admin_referer( 'bulk-posts' );
+
+			if ( isset( $_REQUEST['post'] ) )
+				$post_ids = array_map( 'intval', $_REQUEST['post'] );
+			
+			if ( empty( $post_ids ) )
+				return false;
+			
+			// this is based on wp-admin/edit.php
+			$sendback = remove_query_arg( array( 'exported', 'untrashed', 'deleted', 'ids' ), wp_get_referer() );
+			if ( ! $sendback )
+				$sendback = admin_url( "edit.php?post_type=$typenow" );
+			
+			$pagenum  = $wp_list_table->get_pagenum();
+			$sendback = add_query_arg( 'paged', $pagenum, $sendback );
+
+			$result = self::bulk_convert_posts( $post_ids );
+			if ( ! is_wp_error( $result ) ) {
+				$updated = count( $post_ids );
+			} else {
+				$updated = null;
+			}
+
+			$ids = implode( ',', $post_ids );
+
+			$sendback = add_query_arg( compact( 'updated', 'ids' ), $sendback );
+			$sendback = remove_query_arg( array( 'action', 'paged', 'mode', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view' ), $sendback );
+			
+			wp_safe_redirect( $sendback );
+			exit();
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -489,13 +700,49 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Register WPMOLY Metabox
+		 * Posts Metabox content callback.
 		 * 
-		 * @since    2.0
+		 * @since    2.1.4
+		 * 
+		 * @param    object    Current Post object
 		 */
-		public static function add_meta_box() {
+		public static function metabox( $post, $args = array() ) {
 
-			add_meta_box( 'wpmoly-metabox', __( 'WordPress Movie Library', 'wpmovielibrary' ), __CLASS__ . '::metabox', 'movie', 'normal', 'high', null );
+			if ( 'movie' == $post->post_type ) {
+				self::movie_metabox( $post, $args );
+			} else {
+				self::standard_metabox( $post, $args );
+			}
+		}
+
+		/**
+		 * Movie Metabox content callback.
+		 * 
+		 * @since    2.1.4
+		 * 
+		 * @param    object    $post Current Post object
+		 * @param    array     $args Metabox parameters
+		 */
+		public static function standard_metabox( $post, $args = array() ) {
+
+			global $wp_post_types;
+
+			$post_type = $post->post_type;
+			$post_id   = $post->ID;
+
+			$post_types = wpmoly_o( 'convert-post-types' );
+
+			if ( in_array( $post_type, $post_types ) ) {
+				if ( isset( $wp_post_types[ $post_type ]->labels->singular_name ) ) {
+					$post_type = $wp_post_types[ $post_type ]->labels->singular_name;
+				}
+			} else {
+				$post_type = null;
+			}
+
+			$attributes = compact( 'post_type', 'post_id' );
+
+			echo self::render_admin_template( 'metabox/metabox.php', $attributes );
 		}
 
 		/**
@@ -503,15 +750,32 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @since    2.0
 		 * 
-		 * @param    object    Current Post object
+		 * @param    object    $post Current Post object
+		 * @param    array     $args Metabox parameters
 		 */
-		public static function metabox( $post ) {
+		public static function movie_metabox( $post, $args = array() ) {
 
-			$default_panels = WPMOLY_Settings::get_metabox_panels();
+			$defaults = array(
+				'panels' => array()
+			);
+			$args = wp_parse_args( $args['args'], $defaults );
+
+			/**
+			 * Filter the Metabox Panels to add/remove tabs.
+			 *
+			 * This should be used through Plugins to create additionnal
+			 * Metabox panels.
+			 *
+			 * @since    2.0
+			 *
+			 * @param    array    $wpmoly_metabox_panels Existing Panels
+			 */
+			$args['panels'] = apply_filters( 'wpmoly_filter_metabox_panels', $args['panels'] );
+
 			$tabs   = array();
 			$panels = array();
 
-			foreach ( $default_panels as $id => $panel ) {
+			foreach ( $args['panels'] as $id => $panel ) {
 
 				if ( ! is_callable( $panel['callback'] ) )
 					continue;

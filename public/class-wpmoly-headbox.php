@@ -13,14 +13,74 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 
 	class WPMOLY_Headbox extends WPMOLY_Movies {
 
+		/**
+		 * Available Headbox Themes.
+		 *
+		 * @since    2.1.4
+		 * @var      array
+		 */
+		protected $themes;
+
+		/**
+		 * Show WPMOLY 2.0 modern metadata/details headbox content.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @param    string      $content The original post content
+		 *
+		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
+		 */
+		public function render( $content = null ) {
+
+			$themes = array(
+				'wpmoly'   => 'WPMOLY_Headbox',
+				'allocine' => 'WPMOLY_Headbox_Allocine',
+				'imdb'     => 'WPMOLY_Headbox_IMDb'
+			);
+
+			/**
+			 * Filter the list of available themes to add additional
+			 * Headbox styles.
+			 * 
+			 * @since    2.1.4
+			 * 
+			 * @param    array    Default available Headbox themes
+			 */
+			$this->themes = apply_filters( 'wpmoly_filter_headbox_themes', $themes );
+
+			$theme = wpmoly_o( 'headbox-theme' );
+			if ( ! in_array( $theme, array_keys( $this->themes ) ) )
+				$theme = 'wpmoly';
+
+			if ( '' != $theme ) {
+
+				$theme = esc_attr( $theme );
+				$class = WPMOLY_PATH . "/public/class-wpmoly-headbox-$theme.php";
+
+				if ( file_exists( $class ) )
+					require_once $class;
+
+				if ( class_exists( $this->themes[ $theme ] ) ) {
+					$class   = new $this->themes[ $theme ];
+					$headbox = $class->render( $content );
+				} else {
+					$headbox = self::get_wpmoly_headbox( $content );
+				}
+			} else {
+				$headbox = self::get_wpmoly_headbox( $content );
+			}
+
+			return $headbox;
+		}
+
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
-		 *                          Movie Headbox
+		 *                       Default Movie Headbox
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Show WPMOLY 2.0 modern metadata/details headbox content.
+		 * Show WPMOLY 2.0 modern metadata/details default headbox content.
 		 *
 		 * @since    2.0
 		 * 
@@ -28,7 +88,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 *
 		 * @return   string      The filtered content containing original content plus movie infos if available, the untouched original content else.
 		 */
-		public static function get_content( $content = null ) {
+		public function get_wpmoly_headbox( $content = null ) {
 
 			$theme = wp_get_theme();
 			if ( ! is_null( $theme->stylesheet ) )
@@ -41,14 +101,17 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 			$poster  = $poster[0];
 
 			$headbox = array(
-				'title'     => wpmoly_o( 'headbox-title', $default = true ),
-				'subtitle'  => wpmoly_o( 'headbox-subtitle', $default = true ),
-				'details_1' => wpmoly_o( 'headbox-details-1', $default = true ),
-				'details_2' => wpmoly_o( 'headbox-details-2', $default = true ),
-				'details_3' => wpmoly_o( 'headbox-details-3', $default = true )
+				'title'     => wpmoly_o( 'headbox-title' ),
+				'subtitle'  => wpmoly_o( 'headbox-subtitle' ),
+				'details_1' => wpmoly_o( 'headbox-details-1' ),
+				'details_2' => wpmoly_o( 'headbox-details-2' ),
+				'details_3' => wpmoly_o( 'headbox-details-3' )
 			);
 
 			foreach ( $headbox as $slug => $content ) {
+
+				if ( ! $content || empty( $content ) )
+					continue;
 
 				$line = '';
 				foreach ( $content as $item ) {
@@ -84,8 +147,8 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 			$attributes = array(
 				'id'      => get_the_ID(),
 				'headbox' => $headbox,
-				'menu'    => self::get_menu(),
-				'tabs'    => self::get_tabs(),
+				'menu'    => $this->get_wpmoly_headbox_menu(),
+				'tabs'    => $this->get_wpmoly_headbox_tabs(),
 				'theme'   => $theme,
 			);
 			$content = WPMovieLibrary::render_template( 'movies/movie-headbox.php', $attributes, $require = 'always' );
@@ -100,7 +163,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Headbox Menu HTML markup
 		 */
-		public static function get_menu() {
+		public function get_wpmoly_headbox_menu() {
 
 			$links = array(
 				'overview' => array(
@@ -166,33 +229,33 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Headbox Tabs content HTML markup
 		 */
-		public static function get_tabs() {
+		public function get_wpmoly_headbox_tabs() {
 
 			$tabs = array(
 				'overview' => array(
 					'title'   => __( 'Overview', 'wpmovielibrary' ),
 					'icon'    => 'overview',
-					'content' => self::get_overview_tab()
+					'content' => $this->get_wpmoly_headbox_overview_tab()
 				),
 				'meta' => array(
 					'title'   => __( 'Metadata', 'wpmovielibrary' ),
 					'icon'    => 'meta',
-					'content' => self::get_meta_tab()
+					'content' => $this->get_wpmoly_headbox_meta_tab()
 				),
 				'details' => array(
 					'title'   => __( 'Details', 'wpmovielibrary' ),
 					'icon'    => 'details',
-					'content' => self::get_details_tab()
+					'content' => $this->get_wpmoly_headbox_details_tab()
 				),
 				'actors' => array(
 					'title'   => __( 'Actors', 'wpmovielibrary' ),
 					'icon'    => 'actor',
-					'content' => self::get_actors_tab()
+					'content' => $this->get_wpmoly_headbox_actors_tab()
 				),
 				'images' => array(
 					'title'   => __( 'Images', 'wpmovielibrary' ),
 					'icon'    => 'images',
-					'content' => self::get_images_tab()
+					'content' => $this->get_wpmoly_headbox_images_tab()
 				)
 			);
 
@@ -221,7 +284,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_overview_tab() {
+		public function get_wpmoly_headbox_overview_tab() {
 
 			$attributes = array(
 				'overview' => wpmoly_get_movie_meta( get_the_ID(), 'overview' )
@@ -239,7 +302,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_meta_tab() {
+		public function get_wpmoly_headbox_meta_tab() {
 
 			// TODO: better filtering/formatting
 			$metadata = wpmoly_get_movie_meta();
@@ -289,7 +352,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_details_tab() {
+		public function get_wpmoly_headbox_details_tab() {
 
 			// TODO: better filtering/formatting
 			$details = wpmoly_get_movie_details();
@@ -356,7 +419,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_actors_tab() {
+		public function get_wpmoly_headbox_actors_tab() {
 
 			$actors = wpmoly_get_movie_meta( get_the_ID(), 'cast' );
 			$actors = apply_filters( 'wpmoly_format_movie_actors', $actors );
@@ -377,7 +440,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 		 * 
 		 * @return   string    Tab content HTML markup
 		 */
-		public static function get_images_tab() {
+		public function get_wpmoly_headbox_images_tab() {
 
 			$attachments = get_posts( array(
 				'post_type'   => 'attachment',

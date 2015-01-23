@@ -110,7 +110,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			else
 				$attributes['theme'] = '';
 
-			$content = self::render_template( 'movies/grid/menu.php', $attributes );
+			$content = self::render_template( 'movies/grid/menu.php', $attributes, $require = 'always' );
 
 			return $content;
 		}
@@ -253,7 +253,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			global $wp_rewrite;
 			$format = '/page/%#%';
 			if ( '' == $wp_rewrite->permalink_structure )
-				$format = '&_page=%#%';
+				$format = '&paged=%#%';
 
 			$args = array(
 				'type'    => 'list',

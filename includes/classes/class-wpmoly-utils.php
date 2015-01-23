@@ -707,10 +707,15 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			else
 				$type = 'movie';
 
-			$page = intval( wpmoly_o( $type . '-archives' ) );
-			$base  = 'index.php?';
-			if ( $page )
-				$base .= 'page_id=' . $page . '&';
+			if ( ! isset( $args['baseurl'] ) || empty( $args['baseurl'] ) ) {
+				$page = intval( wpmoly_o( $type . '-archives' ) );
+				$base  = 'index.php?';
+				if ( $page )
+					$base .= 'page_id=' . $page . '&';
+				$base = home_url( "/${base}" );
+			} else {
+				$base = $args['baseurl'];
+			}
 
 			$url = array();
 
@@ -725,7 +730,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 				if ( '' != $arg )
 					$url[ $slug ] = $arg;
 
-			$url = add_query_arg( $url, home_url( "/${base}" ) );
+			$url = add_query_arg( $url, $base );
 
 			return $url;
 		}
@@ -817,7 +822,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			else if ( 10 == $base ) {
 				$_filled = $rating * 2;
 				$_empty  = 10 - $_filled;
-				$title   = "{$rating}/10 − {$title}";
+				$title   = "{$_filled}/10 − {$title}";
 
 				$stars  = '<div id="wpmoly-movie-rating-' . $post_id . '" class="' . $class . '" title="' . $title . '">';
 				$stars .= str_repeat( $filled, $_filled );
@@ -1234,16 +1239,18 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 		 */
 		public static function get_ordered_object_terms( $terms, $object_ids, $taxonomies, $args ) {
 
+			$total = count( $terms );
+			$original_terms = $terms;
+
 			// Term ordering is killing quick/bulk edit, avoid it
 			if ( is_admin() && ( function_exists( 'get_current_screen' ) && 'edit-movie' == get_current_screen()->id ) )
 				return $terms;
 
-			global $wpdb;
-
 			$taxonomies = explode( ', ', str_replace( "'", "", $taxonomies ) );
-
 			if ( empty( $object_ids ) || ( $taxonomies != "'collection', 'actor', 'genre'" && ( ! in_array( 'collection', $taxonomies ) && ! in_array( 'actor', $taxonomies ) && ! in_array( 'genre', $taxonomies ) ) ) )
 				return $terms;
+
+			global $wpdb;
 
 			foreach ( (array) $taxonomies as $taxonomy ) {
 				if ( ! taxonomy_exists( $taxonomy ) )
@@ -1263,7 +1270,7 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 					$t = get_taxonomy($taxonomy);
 					if ( isset($t->args) && is_array($t->args) && $args != array_merge($args, $t->args) ) {
 						unset($taxonomies[$index]);
-						$terms = array_merge($terms, $this->get_ordered_object_terms($object_ids, $taxonomy, array_merge($args, $t->args)));
+						$terms = array_merge($terms, self::get_ordered_object_terms($object_ids, $taxonomy, array_merge($args, $t->args)));
 					}
 				}
 			}
@@ -1318,6 +1325,9 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 
 			if ( ! $terms )
 				$terms = array();
+
+			if ( $total != count( $terms ) )
+				$terms = $original_terms;
 
 			return $terms;
 		}

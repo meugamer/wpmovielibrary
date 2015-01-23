@@ -28,7 +28,7 @@ $wpmoly_config = array(
 	array(
 		'icon'    => 'wpmolicon icon-movie',
 		'title'   => __( 'Movies', 'wpmovielibrary' ),
-				'desc' => __( 'WPMovieLibrary handles movies as regular WordPress posts, but you can define some specific behaviours movies only should have.', 'wpmovielibrary'),
+		'desc'    => __( 'WPMovieLibrary handles movies as regular WordPress posts, but you can define some specific behaviours movies only should have.', 'wpmovielibrary'),
 		'subsection' => true,
 		'fields'  => array(
 
@@ -294,6 +294,40 @@ $wpmoly_config = array(
 					'10' => __( '10 stars', 'wpmovielibrary' )
 				),
 				'default'  => '5'
+			),
+		),
+	),
+
+	// 'wpmoly-converting' Formatting settings subsection
+	array(
+		'icon'    => 'wpmolicon icon-import',
+		'title'   => __( 'Converting', 'wpmovielibrary' ),
+		'heading' => __( 'Converting settings', 'wpmovielibrary' ),
+		'desc'    => __( 'This section allows you to configure the post types convertor tool. This can be usefull to convert regular posts, pages and possibly other custom post types into movies to avoid duplicate contents or having to manually recreate already existing contents. Note that this will most likely affect your SEO as it will change Posts’ URLs.', 'wpmovielibrary' ),
+		'subsection' => true,
+		'fields'  => array(
+
+			// Post type convert enable
+			'convert-enable' => array(
+				'id'       => 'wpmoly-convert-enable',
+				'type'     => 'switch',
+				'title'    => __( 'Convert Post Types', 'wpmovielibrary' ),
+				'desc'     => __( 'Enable post types conversion tools.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+			),
+
+			// Post type to convert
+			'convert-post-types' => array(
+				'id'       => 'wpmoly-convert-post-types',
+				'type'     => 'select',
+				'title'    => __( 'Post Types available to convert', 'wpmovielibrary' ),
+				'desc'     => __( 'Select which post types should be convertible to movie.', 'wpmovielibrary' ),
+				'data'     => 'post_types',
+				'multi'    => true,
+				'required' => array( 'wpmoly-convert-enable', "=", '1' ),
+				'default'  => array( 'post', 'page', 'review' )
 			),
 		),
 	),
@@ -1109,6 +1143,20 @@ $wpmoly_config = array(
 		'subsection' => true,
 		'fields'  => array(
 
+			// Headbox theme
+			'headbox-theme' => array(
+				'id'       => 'wpmoly-headbox-theme',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Theme', 'wpmovielibrary' ),
+				'desc'     => __( 'Select a Theme to use for your Headbox.', 'wpmovielibrary' ),
+				'options'  => array(
+					'wpmoly'   => __( 'WPMovieLibrary', 'wpmovielibrary' ),
+					'imdb'     => __( 'IMDb', 'wpmovielibrary' ),
+					'allocine' => __( 'Allociné', 'wpmovielibrary' ),
+				),
+				'default'  => 'wpmoly'
+			),
+
 			// Headbox Position
 			'headbox-position' => array(
 				'id'       => 'wpmoly-headbox-position',
@@ -1119,7 +1167,7 @@ $wpmoly_config = array(
 					'top'    => __( 'Top', 'wpmovielibrary' ),
 					'bottom' => __( 'Bottom', 'wpmovielibrary' )
 				),
-				'default'  => 'top'
+				'default'  => 'top',
 			),
 
 			// Headbox Tabs
@@ -1137,7 +1185,8 @@ $wpmoly_config = array(
 					'actors'   => __( 'Actors', 'wpmovielibrary' ),
 					'images'   => __( 'Images', 'wpmovielibrary' )
 				),
-				'default' => array( 'overview', 'meta', 'details', 'images', 'actors' )
+				'default' => array( 'overview', 'meta', 'details', 'images', 'actors' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			// Title Content
@@ -1149,7 +1198,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'title' )
+				'default'  => array( 'title' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			// Subtitle Content
@@ -1161,7 +1211,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'tagline' )
+				'default'  => array( 'tagline' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			//  Content
@@ -1173,7 +1224,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'status', 'media' )
+				'default'  => array( 'status', 'media' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			//  Content
@@ -1185,7 +1237,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'release_date', 'runtime' )
+				'default'  => array( 'release_date', 'runtime' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			),
 
 			//  Content
@@ -1197,7 +1250,8 @@ $wpmoly_config = array(
 				'multi'    => true,
 				'sortable' => true,
 				'options'  => array(),
-				'default'  => array( 'rating' )
+				'default'  => array( 'rating' ),
+				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
 			)
 		)
 	),
