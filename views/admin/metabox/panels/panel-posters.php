@@ -3,24 +3,27 @@
 
 			<div class="no-js-alert hide-if-js"><?php _e( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', 'wpmovielibrary' ); ?></div>
 
-			<input type="hidden" id="wp-version" value="<?php echo $version ?>" />
+			<?php echo wpmoly_nonce_field( 'upload-movie-poster', $referer = false ); ?>
+			<?php echo wpmoly_nonce_field( 'load-movie-posters', $referer = false ); ?>
 
-			<div id="tmdb_posters_preview" class="hide-if-no-js">
-				<ul id="__attachments-view" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
+			<div id="wpmoly-posters-preview" class="hide-if-no-js">
+				<textarea id="wpmoly-imported-posters-json" style="display:none"><?php echo $data ?></textarea>
+				<ul id="wpmoly-imported-posters" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
 
-<?php 
-foreach ( $posters as $poster ) : ?>
-					<li class="tmdb_movie_images tmdb_movie_imported_image">
-						<a class="open-editor" href="<?php echo $poster['link'] ?>" data-id="<?php echo $poster['id'] ?>">
+<?php foreach ( $posters as $poster ) : ?>
+					<li class="wpmoly-poster wpmoly-imported-poster">
+						<a class="open-editor" href="<?php echo $poster['sizes']['medium']['url'] ?>" data-id="<?php echo $poster['id'] ?>">
 							<div class="js--select-attachment type-image <?php echo $poster['type'] . $poster['format'] ?>">
 								<div class="thumbnail">
-									<div class="centered"><img src="<?php echo $poster['image'][0] ?>" draggable="false" alt=""></div>
+									<div class="centered"><img src="<?php echo $poster['sizes']['medium']['url'] ?>" draggable="false" alt=""></div>
 								</div>
 							</div>
 						</a>
 					</li>
 
 <?php endforeach; ?>
+
+					<li class="wpmoly-poster wpmoly-imported-poster"><a href="#" id="wpmoly-load-posters" title="<?php _e( 'Load Posters', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
 
 				</ul>
 			</div>

@@ -5,7 +5,6 @@
 
 			<?php echo wpmoly_nonce_field( 'upload-movie-image', $referer = false ); ?>
 			<?php echo wpmoly_nonce_field( 'load-movie-images', $referer = false ); ?>
-			<!--<input type="hidden" id="wp-version" value="<?php echo $version ?>" />-->
 
 			<div id="wpmoly-backdrops-preview" class="hide-if-no-js">
 				<textarea id="wpmoly-imported-backdrops-json" style="display:none"><?php echo $data ?></textarea>
@@ -16,7 +15,7 @@
 						<a class="open-editor" href="<?php echo $image['sizes']['medium']['url'] ?>" data-id="<?php echo $image['id'] ?>">
 							<div class="js--select-attachment type-image <?php echo $image['type'] . ' ' . $image['orientation'] ?>">
 								<div class="thumbnail">
-									<div class="centered"><img src="<?php echo $image['image'][0] ?>" draggable="false" alt="<?php echo $image['title'] ?>" alt="<?php echo $image['alt'] ?>"></div>
+									<div class="centered"><img src="<?php echo $poster['sizes']['medium']['url'] ?>" draggable="false" alt="<?php echo $image['title'] ?>" alt="<?php echo $image['alt'] ?>"></div>
 								</div>
 							</div>
 						</a>
@@ -24,7 +23,7 @@
 
 <?php endforeach; ?>
 
-					<li class="wpmoly-backdrop wpmoly-imported-backdrop"><a href="#" id="wpmoly-load-backdrops"><?php _e( 'Load Images', 'wpmovielibrary' ); ?></a></li>
+					<li class="wpmoly-backdrop wpmoly-imported-backdrop"><a href="#" id="wpmoly-load-backdrops" title="<?php _e( 'Load Images', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
 
 				</ul>
 			</div>

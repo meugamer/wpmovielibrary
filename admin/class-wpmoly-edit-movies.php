@@ -106,9 +106,19 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 								<% }); %>
 
-					<li class="wpmoly-backdrop wpmoly-imported-backdrop"><a href="#" id="wpmoly-load-backdrops"><?php _e( 'Load Images', 'wpmovielibrary' ); ?></a></li>
+					<li class="wpmoly-backdrop wpmoly-imported-backdrop"><a href="#" id="wpmoly-load-backdrops" title="<?php _e( 'Load Images', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
 		</script>
-<script type="text/template" id="wpmoly-imported-backdrop-template">
+		<script type="text/template" id="wpmoly-imported-posters-template">
+								<% _.each( attachments, function( attachment ) { %>
+					<li class="wpmoly-poster wpmoly-imported-poster">
+						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
+					</li>
+
+								<% }); %>
+
+					<li class="wpmoly-poster wpmoly-imported-posters"><a href="#" id="wpmoly-load-posters" title="<?php _e( 'Load Posters', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
+		</script>
+		<script type="text/template" id="wpmoly-imported-attachment-template">
 						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
 
 		</script>
@@ -781,6 +791,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					continue;
 
 				$is_active = ( ( 'images' == $id && ! $empty ) || ( 'images' == $id && $empty ) );
+				$is_active = ( 'posters' == $id );
 				$tabs[ $id ] = array(
 					'title'  => $panel['title'],
 					'icon'   => $panel['icon'],
@@ -937,8 +948,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		private static function render_images_panel( $post_id ) {
 
-			global $wp_version;
-
 			$images = WPMOLY_Media::get_movie_imported_images( $post_id, $format = 'raw' );
 			$images = array_map( 'wp_prepare_attachment_for_js', $images );
 			$images = array_filter( $images );
@@ -964,13 +973,13 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		private static function render_posters_panel( $post_id ) {
 
-			global $wp_version;
+			$posters = WPMOLY_Media::get_movie_imported_posters( $post_id, $format = 'raw' );
+			$posters = array_map( 'wp_prepare_attachment_for_js', $posters );
+			$posters = array_filter( $posters );
 
-			$attributes = array(
-				'posters' => WPMOLY_Media::get_movie_imported_posters(),
-				'version' => ( version_compare( $wp_version, '4.0', '>=' ) ? 4 : 0 )
-			);
+			$data = json_encode( $posters );
 
+			$attributes = compact( 'posters', 'data' );
 			$panel = self::render_admin_template( 'metabox/panels/panel-posters.php', $attributes  );
 
 			return $panel;

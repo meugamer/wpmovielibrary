@@ -410,9 +410,10 @@
 	float: right;
 }
 
-/* Images */
+/* Attachments */
 
-#wpmoly-backdrops-preview .wpmoly-backdrop {
+#wpmoly-backdrops-preview .wpmoly-backdrop,
+#wpmoly-posters-preview .wpmoly-poster {
 	float: left;
 	height: 112px;
 	margin: 4px;
@@ -420,15 +421,18 @@
 	width: 200px;
 }
 
-#wpmoly-backdrops-preview .wpmoly-backdrop.wpmoly-backdrop-loading {
+#wpmoly-backdrops-preview .wpmoly-backdrop.wpmoly-backdrop-loading,
+#wpmoly-posters-preview .wpmoly-poster.wpmoly-poster-loading {
 	position: relative;
 }
 
-#wpmoly-backdrops-preview .wpmoly-backdrop.wpmoly-backdrop-loading img {
+#wpmoly-backdrops-preview .wpmoly-backdrop.wpmoly-backdrop-loading img,
+#wpmoly-posters-preview .wpmoly-poster.wpmoly-poster-loading img {
 	opacity: 0.5;
 }
 
-#wpmoly-backdrops-preview .wpmoly-backdrop.wpmoly-backdrop-loading::after {
+#wpmoly-backdrops-preview .wpmoly-backdrop.wpmoly-backdrop-loading::after,
+#wpmoly-posters-preview .wpmoly-poster.wpmoly-poster-loading::after {
 	background: url(../../img/grid.svg) center center no-repeat;
 	background-size: 18px 18px;
 	content: '';
@@ -439,29 +443,51 @@
 	width: 100%;
 }
 
-#tmdb_posters_preview .wpmoly-backdrop {
+#wpmoly-backdrops-preview .wpmoly-backdrop,
+#wpmoly-posters-preview .wpmoly-poster {
 	border-radius: 4px;
 	float: left;
-	height: 240px;
+	height: 120px;
 	margin: 4px;
 	overflow: hidden;
-	width: 160px;
+	position: relative;
+	width: 200px;
+}
+
+#wpmoly-posters-preview .wpmoly-poster {
+	height: 200px;
+	width: 140px;
 }
 
 #wpmoly-backdrops-preview .wpmoly-backdrop img,
-#tmdb_posters_preview .wpmoly-image img {
-	height: auto;
+#wpmoly-posters-preview .wpmoly-poster img {
+	height: 100%;
+	position: absolute;
 	width: 100%;
 }
 
-#wpmoly-backdrops-preview #wpmoly-load-backdrops {
+#wpmoly-backdrops-preview #wpmoly-load-backdrops,
+#wpmoly-posters-preview #wpmoly-load-posters {
 	border: 2px dashed #ccc;
 	display: block;
-	line-height: 108px;
+	line-height: 116px;
 	text-align: center;
 	text-decoration: none;
 }
 
-#wpmoly-backdrops-preview #wpmoly-load-backdrops:hover {
-	border-color: #2EA2CC;
+#wpmoly-backdrops-preview #wpmoly-load-backdrops .wpmolicon,
+#wpmoly-posters-preview #wpmoly-load-posters .wpmolicon {
+	font-size: 36px;
+	line-height: 126px;
+	width: 100%;
+}
+
+#wpmoly-posters-preview #wpmoly-load-posters,
+#wpmoly-posters-preview #wpmoly-load-posters .wpmolicon {
+	line-height: 196px;
+}
+
+#wpmoly-backdrops-preview #wpmoly-load-backdrops:hover,
+#wpmoly-posters-preview #wpmoly-load-posters:hover {
+	border-color: #2ea2cc;
 }

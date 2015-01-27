@@ -5,12 +5,16 @@ window.wpmoly = window.wpmoly || {};
 
 	var media = wpmoly.media = function() {
 
-		var backdrops = $( '#wpmoly-imported-backdrops-json' ).text();
-		    backdrops = $.parseJSON( backdrops );
+		var backdrops = $( '#wpmoly-imported-backdrops-json' ).val(),
+		      posters = $( '#wpmoly-imported-posters-json' ).val(),
+		    backdrops = $.parseJSON( backdrops ),
+		      posters = $.parseJSON( posters );
 
 		// Init models
 		media.models.backdrops = new media.Model.Attachments();
+		media.models.posters = new media.Model.Attachments();
 		media.models.backdrops.add( backdrops );
+		media.models.posters.add( posters );
 	};
 
 	_.extend( media, { models: {}, views: {}, Model: {}, View: {} } );
