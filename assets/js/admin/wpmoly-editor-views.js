@@ -73,9 +73,11 @@ window.wpmoly = window.wpmoly || {};
 	 */
 	wpmoly.editor.View.Search = Backbone.View.extend({
 
-		el: '#wpmoly-movie-meta-search',
+		el: '#wpmoly-meta-search',
 
 		model: editor.models.search,
+
+		target: editor.models.movie,
 
 		events: {
 			"click #wpmoly-search": "search",
@@ -93,14 +95,20 @@ window.wpmoly = window.wpmoly || {};
 		 * 
 		 * @return   void
 		 */
-		initialize: function() {
+		initialize: function( options ) {
 
-			//this.unspin();
+			// Allow model and target override to use search with
+			// alternative content
+			_.extend( this, _.pick( options, 'model', 'target' ) );
 
-			this.template = _.template( $( '#wpmoly-movie-meta-search' ).html() );
+			var template = $( this.el ).html();
+			if ( undefined === template )
+				return false;
+
+			this.template = _.template( template );
 			this.render();
 
-			editor.models.movie.on( 'sync:done', this.reset, this );
+			this.target.on( 'sync:done', this.reset, this );
 		},
 
 		/**
@@ -153,7 +161,7 @@ window.wpmoly = window.wpmoly || {};
 			if ( query != this.model.get( 'query' ) )
 				this.model.set( { query: query, type: 'title', lang: lang } );
 
-			editor.models.movie.sync( 'search', this.model, {} );
+			this.target.sync( 'search', this.model, {} );
 		},
 
 		/**
@@ -169,13 +177,13 @@ window.wpmoly = window.wpmoly || {};
 
 			event.preventDefault();
 
-			var tmdb_id = editor.models.movie.get( 'tmdb_id' ),
-			    imdb_id = editor.models.movie.get( 'imdb_id' ),
+			var tmdb_id = this.target.get( 'tmdb_id' ),
+			    imdb_id = this.target.get( 'imdb_id' ),
 			         id = tmdb_id || imdb_id;
 
 			if ( undefined != id && '' != id ) {
 				this.model.set( { query: id, type: 'id' } );
-				editor.models.movie.sync( 'search', this.model, {} );
+				this.target.sync( 'search', this.model, {} );
 			}
 		},
 
@@ -233,7 +241,11 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		initialize: function() {
 
-			this.template = _.template( $( '#wpmoly-movie-meta' ).html() );
+			var template = $( '#wpmoly-movie-meta' ).html();
+			if ( undefined === template )
+				return false;
+
+			this.template = _.template( template );
 			this.render();
 
 			_.bindAll( this, 'render' );
@@ -316,7 +328,11 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		initialize: function() {
 
-			this.template = _.template( $( '#wpmoly-search-results-template' ).html() );
+			var template = $( '#wpmoly-search-results-template' ).html();
+			if ( undefined === template )
+				return false;
+
+			this.template = _.template( template );
 
 			_.bindAll( this, 'render' );
 			this.collection.bind( 'change', this.render );
@@ -443,11 +459,12 @@ window.wpmoly = window.wpmoly || {};
 	 */
 	wpmoly.editor.View.Panel = Backbone.View.extend({
 
-		el: '#wpmoly-metabox',
+		el: '#wpmoly-meta',
 
 		meta: '#wpmoly-meta',
 		menu: '#wpmoly-meta-menu',
 		status: '#wpmoly-meta-status',
+		panels: '#wpmoly-meta-panels',
 
 		events: {
 			"click #wpmoly-meta-menu a": "navigate",
@@ -464,15 +481,17 @@ window.wpmoly = window.wpmoly || {};
 			
 			_.bindAll( this, 'render', 'fix' );
 
-			var template = $( '#wpmoly-metabox' ).html();
+			var template = $( this.el ).html();
 			if ( undefined === template )
 				return false;
 
-			this.template = _.template( $( '#wpmoly-metabox' ).html() );
+			this.template = _.template( template );
 			this.render();
 
 			if ( window.innerWidth < 1180 )
 				this.resize();
+
+			$( this.panels ).css( { minHeight: $( $( this.menu ) ).height() } );
 
 			$( window ).scroll( this.fix );
 		},

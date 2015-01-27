@@ -1277,7 +1277,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function filter_empty_content( $maybe_empty, $postarr ) {
 
-			if ( ! isset( $postarr['post_type'] ) || 'movie' != $postarr['post_type'] )
+			$supported = apply_filters( 'wpmoly_supported_post_types', array( 'movie' ) );
+
+			if ( ! isset( $postarr['post_type'] ) || ! in_array( $postarr['post_type'], $supported ) )
 				return $maybe_empty;
 
 			if ( '' == trim( $postarr['post_title'] ) )
@@ -1299,7 +1301,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 */
 		public static function filter_empty_title( $data, $postarr ) {
 
-			if ( '' != $data['post_title'] || ! isset( $data['post_type'] ) || 'movie' != $data['post_type'] || in_array( $data['post_status'], array( 'import-queued', 'import-draft' ) ) )
+			$supported = apply_filters( 'wpmoly_supported_post_types', array( 'movie' ) );
+
+			if ( '' != $data['post_title'] || ! isset( $data['post_type'] ) || ! in_array( $data['post_type'], $supported ) || in_array( $data['post_status'], array( 'import-queued', 'import-draft' ) ) )
 				return $data;
 
 			$no_title   = __( '(no title)' );

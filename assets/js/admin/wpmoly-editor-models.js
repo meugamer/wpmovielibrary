@@ -34,6 +34,8 @@ window.wpmoly = window.wpmoly || {};
 	 * WPMOLY Backbone Status Model
 	 * 
 	 * Basic Model for the metabox movie search form status.
+	 * 
+	 * @since    2.2
 	 */
 	wpmoly.editor.Model.Status = Backbone.Model.extend({
 
@@ -97,6 +99,8 @@ window.wpmoly = window.wpmoly || {};
 	 * Model for the metabox movie search form. This bascillay handle
 	 * search data for movies: lang, type, query and a bunch of handy
 	 * options.
+	 * 
+	 * @since    2.2
 	 */
 	wpmoly.editor.Model.Search = Backbone.Model.extend({
 
@@ -117,6 +121,8 @@ window.wpmoly = window.wpmoly || {};
 	 * Model for the metabox movie metadata fields. Holy Grail! That model
 	 * is linked to a view containing all the inputs and handles the sync
 	 * with the server to search for movies.
+	 * 
+	 * @since    2.2
 	 */
 	wpmoly.editor.Model.Movie = Backbone.Model.extend({
 
@@ -284,6 +290,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		parse: function( data ) {
 
+			var data = _.pick( data, _.keys( this.defaults ) );
 			_.map( data, function( meta, key ) {
 				if ( _.isArray( meta ) )
 					data[ key ] = meta.toString();

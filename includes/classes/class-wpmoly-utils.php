@@ -1137,6 +1137,20 @@ if ( ! class_exists( 'WPMOLY_Utils' ) ) :
 			return $a['count'] - $b['count'];
 		}
 
+		/**
+		 * Order an array by a release date value set in subarrays
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    int    First date
+		 * @param    int    Second date
+		 * 
+		 * @return   int
+		 */
+		public static function order_by_date( $a, $b ) {
+			return strtotime( $a['release_date'] ) - strtotime( $b['release_date'] );
+		}
+
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
 		 *                      Overrides and bypassings
