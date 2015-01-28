@@ -107,7 +107,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 			$file_path = esc_attr( $data['metadata']['file_path'] );
 
-			$response = self::image_upload( $file_path, $post_id, $tmdb_id, $data['type'], $data );
+			//$response = self::image_upload( $file_path, $post_id, $tmdb_id, $data['type'], $data );
 
 			wp_send_json_success();
 		}

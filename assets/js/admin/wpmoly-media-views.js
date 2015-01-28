@@ -31,8 +31,7 @@ wpmoly.media = wpmoly.media || {};
 	 * 
 	 * @return   void
 	 */
-	//media.View.Attachment = Backbone.View.extend({
-	media.View.Attachment = wp.media.view.Attachment.extend({
+	media.View.Attachment = Backbone.View.extend({
 
 		tagName: 'li',
 
@@ -104,23 +103,42 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		toggleMenu: function( event ) {
 
-			event.preventDefault();
+			if ( undefined != event )
+				event.preventDefault();
+
 			this.$el.find( '.wpmoly-imported-attachment-menu' ).toggleClass( 'active' );
 		},
 
+		/**
+		 * Delete Attachment
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
 		deleteAttachment: function( event ) {
 
 			event.preventDefault();
-			//if ( true === confirm( 'Delete Attachment?' ) ) {
-				console.log( this );
+			if ( true === confirm( 'Delete Attachment?' ) ) {
 				this.model.trigger( 'destroy', this.model, this.collection, {} );
-				//this.model.destroy();
-			//}
+				this.collection.trigger( 'change', this );
+				this.model.destroy();
+			}
+			this.toggleMenu();
 		},
 
+		/**
+		 * Set Attachment as Featured Image
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
 		setFeatured: function( event ) {
 
 			event.preventDefault();
+			wp.media.featuredImage.set( this.model.get( 'id' ) );
+			this.toggleMenu();
 		}
 	});
 
@@ -157,6 +175,7 @@ wpmoly.media = wpmoly.media || {};
 			this.modal = this.frame();
 
 			this.collection.on( 'add', this.add, this );
+			this.collection.on( 'change', this.render, this );
 		},
 
 		/**
@@ -176,8 +195,7 @@ wpmoly.media = wpmoly.media || {};
 
 		renderAttachment: function( model ) {
 
-			var model = new media.Model.Attachment( model.attributes );
-			var attachment = new this._subview( { model: model, collection: this.collection } );
+			var attachment = new this._subview( { model: model, collection: this.collection, type: this._type } );
 
 			var el = attachment.render().el;
 
@@ -211,27 +229,14 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		add: function( model ) {
 
-			/*var _model = new media.Model.Attachment( _.extend( model.attributes, { type: this._type } ) );
-			var attachment = new this._subview( { model: _model, collection: this.collection } );
+			var _model = new media.Model.Attachment( model.attributes );
 
-			this.$el.prepend( view );
-			this._views.push( _view );
+			this.renderAttachment( _model );
 
 			_model.upload();
 			_model.on( 'uploading:end', function() {
 				model.trigger( 'destroy', model, model.collection, {} );
 			}, this );
-
-			/*      view = $( '<li id="attachment-' + model.attributes.id + '" class="wpmoly-' + this._type + ' wpmoly-imported-' + this._type + '">' )
-			     _view = new this._subview( { el: view, model: _model } );
-
-			this.$el.prepend( view );
-			this._views.push( _view );
-
-			_model.upload();
-			_model.on( 'uploading:end', function() {
-				model.trigger( 'destroy', model, model.collection, {} );
-			}, this );*/
 		},
 
 		/**
@@ -258,7 +263,6 @@ wpmoly.media = wpmoly.media || {};
 
 			this._frame.on( 'open', this.hidemenu, this );
 
-			console.log( this._frame );
 			this._frame.state( this._library.id ).on( 'select', this.select, this );
 
 			wp.Uploader.queue.on( 'add', this.upload, this );
@@ -289,7 +293,6 @@ wpmoly.media = wpmoly.media || {};
 
 			var selection = this._frame.state( this._library.id ).get( 'selection' ),
 			       models = selection.models;
-			console.log( models );
 
 			this.collection.add( models );
 		},

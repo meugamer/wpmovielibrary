@@ -804,7 +804,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					continue;
 
 				$is_active = ( ( 'images' == $id && ! $empty ) || ( 'images' == $id && $empty ) );
-				$is_active = ( 'posters' == $id );
+				//$is_active = ( 'posters' == $id );
 				$tabs[ $id ] = array(
 					'title'  => $panel['title'],
 					'icon'   => $panel['icon'],
