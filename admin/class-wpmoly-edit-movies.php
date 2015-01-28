@@ -120,6 +120,17 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		</script>
 		<script type="text/template" id="wpmoly-imported-attachment-template">
 						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
+						<div class="wpmoly-imported-attachment-menu">
+							<a href="#" class="wpmoly-imported-attachment-menu-toggle"><span class="wpmolicon icon-ellipsis-h"></span></a>
+							<div class="wpmoly-imported-attachment-menu-inner">
+								<ul>
+									<li>Options</li>
+									<li><a class="wpmoly-imported-attachment-menu-edit" href="#"><span class="wpmolicon icon-edit-page"></span>&nbsp; <?php _e( 'Edit' ) ?></a></li>
+									<li><a class="wpmoly-imported-attachment-menu-delete" href="#"><span class="wpmolicon icon-trash"></span>&nbsp; <?php _e( 'Delete' ) ?></a></a></li>
+									<li><a class="wpmoly-imported-attachment-menu-featured" href="#"><span class="wpmolicon icon-poster"></span>&nbsp; <?php _e( 'Featured' ) ?></a></a></li>
+								</ul>
+							</div>
+						</div>
 
 		</script>
 <?php

@@ -36,7 +36,6 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		public function register_hook_callbacks() {
 
 			add_action( 'before_delete_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
-			add_action( 'admin_post_thumbnail_html', __CLASS__ . '::load_posters_link', 10, 2 );
 
 			add_filter( 'wpmoly_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
 			add_filter( 'wpmoly_jsonify_movie_images', __CLASS__ . '::jsonify_movie_images', 10, 3 );
@@ -413,30 +412,6 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			update_post_meta( $attachment_id, '_wp_attachment_image_alt', $_title );
 
 			$update = wp_update_post( $attachment );
-		}
-
-		/**
-		 * Add a link to the current Post's Featured Image Metabox to trigger
-		 * a Modal window. This will be used by the future Movie Posters
-		 * selection Modal, yet to be implemented.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $content Current Post's Featured Image Metabox content, ready to be edited.
-		 * @param    string    $post_id Current Post's ID (unused at that point)
-		 * 
-		 * @return   string    Updated $content
-		 */
-		public static function load_posters_link( $content, $post_id ) {
-
-			$post = get_post( $post_id );
-			if ( ! $post || 'movie' != get_post_type( $post ) )
-				return $content;
-
-			$content .= '<a id="tmdb_load_posters" class="hide-if-no-js" href="#">' . __( 'See available Movie Posters', 'wpmovielibrary' ) . '</a>';
-			$content .= wpmoly_nonce_field( 'set-movie-poster', false, false );
-
-			return $content;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

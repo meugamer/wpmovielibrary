@@ -491,3 +491,107 @@
 #wpmoly-posters-preview #wpmoly-load-posters:hover {
 	border-color: #2ea2cc;
 }
+
+.wpmoly-imported-attachment-menu {
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+
+.wpmoly-imported-attachment-menu.active .wpmoly-imported-attachment-menu-toggle,
+.wpmoly-imported-attachment-menu.active .wpmoly-imported-attachment-menu-inner {
+	background: rgba(0, 116, 162, 0.9);
+}
+
+.wpmoly-imported-attachment-menu.active .wpmoly-imported-attachment-menu-inner {
+	display: block;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-toggle {
+	border-radius: 4px 4px 0 0;
+	box-shadow: 0 0 0;
+	color: #fff;
+	height: 18px;
+	left: 0;
+	padding: 6px 8px;
+	position: absolute;
+	text-decoration: none;
+	transition: none;
+	top: 0;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner {
+	border-radius: 0 4px 4px;
+	display: none;
+	height: 100%;
+	position: absolute;
+	top: 30px;
+	width: 100%;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner ul {
+	margin: 8px 0;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner li:first-child {
+	border: 0;
+	color: #fff;
+	font-size: 11px;
+	margin-bottom: 6px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner li:last-child {
+	border-bottom-width: 2px;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner li:last-child + li {
+	border-top-width: 2px
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner li {
+	border-top: 1px solid #0c6a8f;
+	border-bottom: 1px solid #0c6a8f;
+	margin: 0;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner li a {
+	border-left: 3px solid #0074a2;
+	color: #fff;
+	display: block;
+	margin: 0;
+	padding: 8px 4px 4px;
+	text-decoration: none;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner li a:hover {
+	background: #429abd;
+	font-weight: bold;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner li a.wpmoly-imported-attachment-menu-edit:hover {
+	border-left-color: #01C650;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner li a.wpmoly-imported-attachment-menu-delete:hover {
+	border-left-color: #c60101;
+}
+
+.wpmoly-imported-attachment-menu .wpmoly-imported-attachment-menu-inner li a.wpmoly-imported-attachment-menu-featured:hover {
+	border-left-color: #00b7ff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

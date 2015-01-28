@@ -31,7 +31,13 @@ wpmoly.media = wpmoly.media || {};
 	 * 
 	 * @return   void
 	 */
-	media.View.Attachment = wp.Backbone.View.extend({
+	media.View.Attachment = Backbone.View.extend({
+
+		tagName: 'li',
+
+		events: {
+			"click .wpmoly-imported-attachment-menu-toggle": "togglemenu"
+		},
 
 		/**
 		 * Initialize the View
@@ -58,9 +64,7 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		render: function() {
 
-			var attachment = this.template( { attachment: _.extend( this.model.toJSON() ) } );
-			$( this.el ).html( attachment );
-
+			this.$el.html( this.template( { attachment: this.model.toJSON(), type: this._type } ) );
 			return this;
 		},
 
@@ -86,6 +90,12 @@ wpmoly.media = wpmoly.media || {};
 		uploaded: function() {
 
 			this.$el.removeClass( 'wpmoly-' + this._type + '-loading' );
+		},
+
+		togglemenu: function( event ) {
+
+			event.preventDefault();
+			this.$el.find( '.wpmoly-imported-attachment-menu' ).toggleClass( 'active' );
 		}
 	});
 
@@ -117,7 +127,7 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		initialize: function() {
 
-			this.template = _.template( $( this._tmpl ).html() );
+			//this.template = _.template( $( this._tmpl ).html() );
 			this.render();
 
 			this.modal = this.frame();
@@ -134,12 +144,18 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		render: function() {
 
-			var attachments = this.template( { attachments : this.collection.toJSON() } );
-
-			$( this.el ).show();
-			$( this.el ).html( attachments );
-
+			this.collection.forEach( this.renderAttachment, this );
 			return this;
+		},
+
+		renderAttachment: function( model ) {
+
+			var model = new media.Model.Attachment( model.attributes );
+			var attachment = new this._subview( { model: model } );
+
+			var el = attachment.render().el;
+
+			this.$el.prepend( el );  
 		},
 
 		/**
@@ -208,6 +224,8 @@ wpmoly.media = wpmoly.media || {};
 
 			this._frame.state( this._library.id ).on( 'select', this.select, this );
 
+			this._frame.on( 'toolbar:create', function( toolbar ) { console.log( toolbar.view.primary ); }, this );
+
 			wp.Uploader.queue.on( 'add', this.upload, this );
 
 			return this._frame;
@@ -272,6 +290,7 @@ wpmoly.media = wpmoly.media || {};
 	 */
 	media.View.Backdrop = media.View.Attachment.extend({
 
+		className: 'wpmoly-backdrop wpmoly-imported-backdrop',
 		_tmpl: '#wpmoly-imported-attachment-template',
 		_type: 'backdrop',
 	});
@@ -287,6 +306,7 @@ wpmoly.media = wpmoly.media || {};
 	 */
 	media.View.Poster = media.View.Attachment.extend({
 
+		className: 'wpmoly-poster wpmoly-imported-poster',
 		_tmpl: '#wpmoly-imported-attachment-template',
 		_type: 'poster',
 	});
@@ -349,7 +369,8 @@ wpmoly.media = wpmoly.media || {};
 	 */
 	media.View.Posters = media.View.Attachments.extend({
 
-		el: '#wpmoly-posters-preview',
+		//el: '#wpmoly-posters-preview',
+		el: '#wpmoly-imported-posters',
 
 		events: {
 			"click #wpmoly-load-posters": "open"

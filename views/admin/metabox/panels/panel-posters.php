@@ -10,7 +10,7 @@
 				<textarea id="wpmoly-imported-posters-json" style="display:none"><?php echo $data ?></textarea>
 				<ul id="wpmoly-imported-posters" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
 
-<?php foreach ( $posters as $poster ) : ?>
+<?php /*foreach ( $posters as $poster ) : ?>
 					<li class="wpmoly-poster wpmoly-imported-poster">
 						<a class="open-editor" href="<?php echo $poster['sizes']['medium']['url'] ?>" data-id="<?php echo $poster['id'] ?>">
 							<div class="js--select-attachment type-image <?php echo $poster['type'] . $poster['format'] ?>">
@@ -21,7 +21,7 @@
 						</a>
 					</li>
 
-<?php endforeach; ?>
+<?php endforeach;*/ ?>
 
 					<li class="wpmoly-poster wpmoly-imported-poster"><a href="#" id="wpmoly-load-posters" title="<?php _e( 'Load Posters', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
 
