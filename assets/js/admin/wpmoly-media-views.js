@@ -31,12 +31,15 @@ wpmoly.media = wpmoly.media || {};
 	 * 
 	 * @return   void
 	 */
-	media.View.Attachment = Backbone.View.extend({
+	//media.View.Attachment = Backbone.View.extend({
+	media.View.Attachment = wp.media.view.Attachment.extend({
 
 		tagName: 'li',
 
 		events: {
-			"click .wpmoly-imported-attachment-menu-toggle": "togglemenu"
+			"click .wpmoly-imported-attachment-menu-toggle": "toggleMenu",
+			"click .wpmoly-imported-attachment-menu-delete": "deleteAttachment",
+			"click .wpmoly-imported-attachment-menu-featured": "setFeatured",
 		},
 
 		/**
@@ -92,10 +95,32 @@ wpmoly.media = wpmoly.media || {};
 			this.$el.removeClass( 'wpmoly-' + this._type + '-loading' );
 		},
 
-		togglemenu: function( event ) {
+		/**
+		 * Toggle Attachment custom menu
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		toggleMenu: function( event ) {
 
 			event.preventDefault();
 			this.$el.find( '.wpmoly-imported-attachment-menu' ).toggleClass( 'active' );
+		},
+
+		deleteAttachment: function( event ) {
+
+			event.preventDefault();
+			//if ( true === confirm( 'Delete Attachment?' ) ) {
+				console.log( this );
+				this.model.trigger( 'destroy', this.model, this.collection, {} );
+				//this.model.destroy();
+			//}
+		},
+
+		setFeatured: function( event ) {
+
+			event.preventDefault();
 		}
 	});
 
@@ -127,7 +152,6 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		initialize: function() {
 
-			//this.template = _.template( $( this._tmpl ).html() );
 			this.render();
 
 			this.modal = this.frame();
@@ -144,6 +168,8 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		render: function() {
 
+			this.$el.find( '.wpmoly-imported-' + this._type ).remove();
+
 			this.collection.forEach( this.renderAttachment, this );
 			return this;
 		},
@@ -151,7 +177,7 @@ wpmoly.media = wpmoly.media || {};
 		renderAttachment: function( model ) {
 
 			var model = new media.Model.Attachment( model.attributes );
-			var attachment = new this._subview( { model: model } );
+			var attachment = new this._subview( { model: model, collection: this.collection } );
 
 			var el = attachment.render().el;
 
@@ -185,9 +211,8 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		add: function( model ) {
 
-			var _model = new media.Model.Attachment( _.extend( model.attributes, { type: this._type } ) ),
-			      view = $( '<li id="attachment-' + model.attributes.id + '" class="wpmoly-' + this._type + ' wpmoly-imported-' + this._type + '">' )
-			     _view = new this._subview( { el: view, model: _model } );
+			/*var _model = new media.Model.Attachment( _.extend( model.attributes, { type: this._type } ) );
+			var attachment = new this._subview( { model: _model, collection: this.collection } );
 
 			this.$el.prepend( view );
 			this._views.push( _view );
@@ -196,6 +221,17 @@ wpmoly.media = wpmoly.media || {};
 			_model.on( 'uploading:end', function() {
 				model.trigger( 'destroy', model, model.collection, {} );
 			}, this );
+
+			/*      view = $( '<li id="attachment-' + model.attributes.id + '" class="wpmoly-' + this._type + ' wpmoly-imported-' + this._type + '">' )
+			     _view = new this._subview( { el: view, model: _model } );
+
+			this.$el.prepend( view );
+			this._views.push( _view );
+
+			_model.upload();
+			_model.on( 'uploading:end', function() {
+				model.trigger( 'destroy', model, model.collection, {} );
+			}, this );*/
 		},
 
 		/**
@@ -212,7 +248,7 @@ wpmoly.media = wpmoly.media || {};
 
 			this._frame = wp.media( {
 				state: this._library.id,
-				states: [ this._library.state ],
+				states: this._library.state,
 				button: {
 					text: this._library.button
 				}
@@ -222,9 +258,8 @@ wpmoly.media = wpmoly.media || {};
 
 			this._frame.on( 'open', this.hidemenu, this );
 
+			console.log( this._frame );
 			this._frame.state( this._library.id ).on( 'select', this.select, this );
-
-			this._frame.on( 'toolbar:create', function( toolbar ) { console.log( toolbar.view.primary ); }, this );
 
 			wp.Uploader.queue.on( 'add', this.upload, this );
 
@@ -252,8 +287,9 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		select: function() {
 
-			var selection = this._frame.state().get( 'selection' ),
+			var selection = this._frame.state( this._library.id ).get( 'selection' ),
 			       models = selection.models;
+			console.log( models );
 
 			this.collection.add( models );
 		},
@@ -322,7 +358,7 @@ wpmoly.media = wpmoly.media || {};
 	 */
 	media.View.Backdrops = media.View.Attachments.extend({
 
-		el: '#wpmoly-backdrops-preview',
+		el: '#wpmoly-imported-backdrops',
 
 		events: {
 			"click #wpmoly-load-backdrops": "open"
@@ -369,7 +405,6 @@ wpmoly.media = wpmoly.media || {};
 	 */
 	media.View.Posters = media.View.Attachments.extend({
 
-		//el: '#wpmoly-posters-preview',
 		el: '#wpmoly-imported-posters',
 
 		events: {

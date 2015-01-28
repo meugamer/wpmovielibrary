@@ -23,7 +23,7 @@
 
 <?php endforeach;*/ ?>
 
-					<li class="wpmoly-poster wpmoly-imported-poster"><a href="#" id="wpmoly-load-posters" title="<?php _e( 'Load Posters', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
+					<li class="wpmoly-poster"><a href="#" id="wpmoly-load-posters" title="<?php _e( 'Load Posters', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
 
 				</ul>
 			</div>

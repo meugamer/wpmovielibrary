@@ -45,13 +45,15 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		sync: function( method, model, options ) {
 
+			options = options || {};
+			options.url = options.url || this.url;
+
 			if ( 'upload' == method ) {
 
 				this.trigger( 'uploading:start' );
 				editor.models.status.trigger( 'loading:start' );
 				editor.models.status.trigger( 'status:say', wpmoly_lang.import_images_wait );
 				
-				options = options || {};
 				_.extend( options, {
 					context: this,
 					data: _.extend( options.data || {}, {
@@ -75,7 +77,7 @@ window.wpmoly = window.wpmoly || {};
 			}
 			// Fallback to Backbone sync
 			else {
-				return Backbone.Model.prototype.sync.apply( this, options );
+				return  wp.media.model.Attachment.prototype.sync.apply( this, arguments );
 			}
 		},
 

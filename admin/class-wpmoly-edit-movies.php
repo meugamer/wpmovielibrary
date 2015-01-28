@@ -106,7 +106,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 								<% }); %>
 
-					<li class="wpmoly-backdrop wpmoly-imported-backdrop"><a href="#" id="wpmoly-load-backdrops" title="<?php _e( 'Load Images', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
+					<li class="wpmoly-backdrop"><a href="#" id="wpmoly-load-backdrops" title="<?php _e( 'Load Images', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
 		</script>
 		<script type="text/template" id="wpmoly-imported-posters-template">
 								<% _.each( attachments, function( attachment ) { %>
@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 								<% }); %>
 
-					<li class="wpmoly-poster wpmoly-imported-posters"><a href="#" id="wpmoly-load-posters" title="<?php _e( 'Load Posters', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
+					<li class="wpmoly-poster"><a href="#" id="wpmoly-load-posters" title="<?php _e( 'Load Posters', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
 		</script>
 		<script type="text/template" id="wpmoly-imported-attachment-template">
 						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
@@ -125,9 +125,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 							<div class="wpmoly-imported-attachment-menu-inner">
 								<ul>
 									<li>Options</li>
-									<li><a class="wpmoly-imported-attachment-menu-edit" href="#"><span class="wpmolicon icon-edit-page"></span>&nbsp; <?php _e( 'Edit' ) ?></a></li>
+									<li><a class="wpmoly-imported-attachment-menu-edit" href="<%= attachment.editLink %>" target="_blank"><span class="wpmolicon icon-edit-page"></span>&nbsp; <?php _e( 'Edit' ) ?></a></li>
 									<li><a class="wpmoly-imported-attachment-menu-delete" href="#"><span class="wpmolicon icon-trash"></span>&nbsp; <?php _e( 'Delete' ) ?></a></a></li>
+<% if ( 'poster' == type ) { %>
 									<li><a class="wpmoly-imported-attachment-menu-featured" href="#"><span class="wpmolicon icon-poster"></span>&nbsp; <?php _e( 'Featured' ) ?></a></a></li>
+<% } %>
 								</ul>
 							</div>
 						</div>

@@ -447,11 +447,11 @@
 #wpmoly-posters-preview .wpmoly-poster {
 	border-radius: 4px;
 	float: left;
-	height: 120px;
+	height: 140px;
 	margin: 4px;
 	overflow: hidden;
 	position: relative;
-	width: 200px;
+	width: 240px;
 }
 
 #wpmoly-posters-preview .wpmoly-poster {
@@ -470,7 +470,7 @@
 #wpmoly-posters-preview #wpmoly-load-posters {
 	border: 2px dashed #ccc;
 	display: block;
-	line-height: 116px;
+	line-height: 136px;
 	text-align: center;
 	text-decoration: none;
 }
@@ -478,7 +478,7 @@
 #wpmoly-backdrops-preview #wpmoly-load-backdrops .wpmolicon,
 #wpmoly-posters-preview #wpmoly-load-posters .wpmolicon {
 	font-size: 36px;
-	line-height: 126px;
+	line-height: 146px;
 	width: 100%;
 }
 

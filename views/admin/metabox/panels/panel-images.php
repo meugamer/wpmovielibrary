@@ -10,7 +10,7 @@
 				<textarea id="wpmoly-imported-backdrops-json" style="display:none"><?php echo $data ?></textarea>
 				<ul id="wpmoly-imported-backdrops" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
 
-<?php foreach ( $images as $image ) : ?>
+<?php /*foreach ( $images as $image ) : ?>
 					<li class="wpmoly-backdrop wpmoly-imported-backdrop">
 						<a class="open-editor" href="<?php echo $image['sizes']['medium']['url'] ?>" data-id="<?php echo $image['id'] ?>">
 							<div class="js--select-attachment type-image <?php echo $image['type'] . ' ' . $image['orientation'] ?>">
@@ -21,9 +21,9 @@
 						</a>
 					</li>
 
-<?php endforeach; ?>
+<?php endforeach;*/ ?>
 
-					<li class="wpmoly-backdrop wpmoly-imported-backdrop"><a href="#" id="wpmoly-load-backdrops" title="<?php _e( 'Load Images', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
+					<li class="wpmoly-backdrop"><a href="#" id="wpmoly-load-backdrops" title="<?php _e( 'Load Images', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
 
 				</ul>
 			</div>
