@@ -233,6 +233,10 @@ wpmoly.media = wpmoly.media || {};
 
 			this.renderAttachment( _model );
 
+			// TODO: set metadata without upload
+			if ( undefined != model._previousAttributes.uploading )
+				return false;
+
 			_model.upload();
 			_model.on( 'uploading:end', function() {
 				model.trigger( 'destroy', model, model.collection, {} );
@@ -309,11 +313,11 @@ wpmoly.media = wpmoly.media || {};
 		upload: function( attachment ) {
 
 			var attachments = attachment.collection.models,
-			         models = this._frame.state().get( 'library' ).models;
+			         models = this._frame.state( this._library.id ).get( 'library' ).models;
 			    attachments = _.filter( attachments, function( obj ) { return ! _.findWhere( models, obj ); });
 
 			_.each( attachments, function( _attachment ) {
-				this._frame.state().get( 'library' ).models.unshift( _attachment );
+				this._frame.state( this._library.id ).get( 'library' ).models.unshift( _attachment );
 			}, this );
 		}
 	});
