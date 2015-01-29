@@ -37,6 +37,7 @@ wpmoly.media = wpmoly.media || {};
 
 		events: {
 			"click .wpmoly-imported-attachment-menu-toggle": "toggleMenu",
+			"click .wpmoly-imported-attachment-menu-edit": "editAttachment",
 			"click .wpmoly-imported-attachment-menu-delete": "deleteAttachment",
 			"click .wpmoly-imported-attachment-menu-featured": "setFeatured",
 		},
@@ -99,6 +100,8 @@ wpmoly.media = wpmoly.media || {};
 		 * 
 		 * @since    2.2
 		 * 
+		 * @param    event    JS 'click' Event
+		 * 
 		 * @return   void
 		 */
 		toggleMenu: function( event ) {
@@ -110,9 +113,25 @@ wpmoly.media = wpmoly.media || {};
 		},
 
 		/**
+		 * Close Attachment menu when editing
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    event    JS 'click' Event
+		 * 
+		 * @return   void
+		 */
+		editAttachment: function( event ) {
+
+			this.toggleMenu();
+		},
+
+		/**
 		 * Delete Attachment
 		 * 
 		 * @since    2.2
+		 * 
+		 * @param    event    JS 'click' Event
 		 * 
 		 * @return   void
 		 */
