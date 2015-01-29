@@ -104,24 +104,32 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 
 			wpmoly_check_ajax_referer( 'search-movies' );
 
-			$type = ( isset( $_POST['type'] ) && '' != $_POST['type'] ? $_POST['type'] : '' );
-			$data = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : '' );
-			$lang = ( isset( $_POST['lang'] ) && '' != $_POST['lang'] ? $_POST['lang'] : wpmoly_o( 'api-language' ) );
-			$_id  = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
+			$query   = ( isset( $_POST['query'] )   && '' != $_POST['query']   ? esc_html( $_POST['query'] ) : null );
+			$lang    = ( isset( $_POST['lang'] )    && '' != $_POST['lang']    ? esc_html( $_POST['lang'] )  : wpmoly_o( 'api-language' ) );
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
 
-			if ( '' == $data || '' == $type )
-				return false;
+			if ( is_null( $query ) ) {
+				$response = new WP_Error( 'empty_search', __( 'Empty search query.', 'wpmovielibrary' ) );
+				wp_send_json_error( $response );
+			}
 
-			if ( preg_match( '/(tt\d{5,7})/i', $data, $m ) )
+			if ( preg_match( '/(tt\d{5,7})/i', $query, $m ) ) {
 				$type = 'id';
+			} elseif ( preg_match( '/(\d{1,7})/i', $query, $m ) ) {
+				$type = 'id';
+			} else {
+				$type = 'title';
+			}
 
 			if ( 'title' == $type )
-				$response = self::get_movie_by_title( $data, $lang, $_id );
+				$response = self::get_movie_by_title( $query, $lang, $post_id );
 			else if ( 'id' == $type )
-				$response = self::get_movie_by_id( $data, $lang, $_id );
+				$response = self::get_movie_by_id( $query, $lang, $post_id );
 
-			if ( empty( $response ) )
-				wp_send_json_error( 'empty' );
+			if ( empty( $response ) ) {
+				$response = new WP_Error( 'empty', __( 'Search returned no result. Try a different query?', 'wpmovielibrary' ) );
+				wp_send_json_error( $response );
+			}
 
 			if ( is_wp_error( $response ) )
 				wp_send_json_error( $response );
@@ -273,62 +281,6 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 					);
 				}
 			}
-
-			/*$_result  = 'empty';
-			$_message = __( 'Sorry, your search returned no result. Try a more specific query?', 'wpmovielibrary' );
-			$_movies  = array();
-			$_post_id = $post_id;
-
-			if ( isset( $data['status_code'] ) ) {
-				return new WP_Error( esc_attr( $data['status_code'] ), esc_attr( $data['status_message'] ), array( '_id' => $post_id ) );
-			}
-			else if ( ! isset( $data['total_results'] ) ) {
-
-				$_result  = 'empty';
-				$_message = __( 'Sorry, your search returned no result. Try a more specific query?', 'wpmovielibrary' );
-				$_post_id = $post_id;
-			}
-			else if ( 1 == $data['total_results'] ) {
-
-				$_result   = 'movie';
-				$_message  = null;
-				$_movie    = self::get_movie_by_id( $data['results'][0]['id'], $lang, $post_id );
-				if ( is_wp_error( $_movie ) )
-					return $_movie;
-				$_movies[] = $_movie;
-				$_post_id  = $post_id;
-			}
-			else if ( $data['total_results'] > 1 ) {
-
-				$_result  = 'movies';
-				$_message = __( 'Your request showed multiple results. Select your movie in the list or try another search:', 'wpmovielibrary' );
-				$_movies  = array();
-				$_post_id = $post_id;
-
-				foreach ( $data['results'] as $movie ) {
-
-					if ( ! is_null( $movie['poster_path'] ) )
-						$movie['poster_path'] = self::get_image_url( $movie['poster_path'], 'poster', 'small' );
-					else
-						$movie['poster_path'] = str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL );
-
-					$_movies[] = array(
-						'id'     => $movie['id'],
-						'poster' => $movie['poster_path'],
-						'title'  => $movie['title'],
-						'year'   => apply_filters( 'wpmoly_format_movie_date', $movie['release_date'], 'Y' ),
-						'json'   => json_encode( $movie ),
-						'_id'    => $post_id
-					);
-				}
-			}
-
-			$movies = array(
-				'result'  => $_result,
-				'message' => $_message,
-				'movies'  => $_movies,
-				'post_id' => $_post_id
-			);*/
 
 			return $movies;
 		}

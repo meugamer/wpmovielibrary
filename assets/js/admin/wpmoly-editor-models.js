@@ -3,7 +3,7 @@ window.wpmoly = window.wpmoly || {};
 
 (function( $ ) {
 
-	editor = wpmoly.editor = function() {
+	var editor = wpmoly.editor = function() {
 
 		// Trick of treats
 		redux.field_objects.select.init();
@@ -199,9 +199,8 @@ window.wpmoly = window.wpmoly || {};
 				options.data = _.extend( options.data || {}, {
 					action: 'wpmoly_search_movie',
 					nonce: wpmoly.get_nonce( 'search-movies' ),
-					lang: editor.models.search.get( 'lang' ),
-					data: editor.models.search.get( 'query' ),
-					type: editor.models.search.get( 'type' )
+					query: editor.models.search.get( 'query' ),
+					lang: editor.models.search.get( 'lang' )
 				});
 
 				// Let know we're done queryring
@@ -297,26 +296,6 @@ window.wpmoly = window.wpmoly || {};
 			} );
 
 			return data;
-		},
-
-		/**
-		 * Make sure the attributes are correct. Additional attributes
-		 * are not welcomed here.
-		 * 
-		 * @since    2.2
-		 * 
-		 * @param    object    attributes
-		 * @param    object    options
-		 * 
-		 * @return   mixed
-		 */
-		validate: function( attributes, options ) {
-
-			_.each( attributes, function( value, attr ) {
-				if ( undefined == this.defaults[ attr ] ) {
-					this.unset( attr, attributes );
-				}
-			}, this );
 		}
 	});
 
@@ -337,9 +316,7 @@ window.wpmoly = window.wpmoly || {};
 			year: '',
 			release_date: '',
 			adult: ''
-		},
-
-		initialize: function() {}
+		}
 
 	});
 
@@ -350,12 +327,7 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	wpmoly.editor.Model.Results = Backbone.Collection.extend({
-
-		model: editor.Model.Result,
-
-		initialize: function() {}
-	});
+	wpmoly.editor.Model.Results = Backbone.Collection.extend( { model: editor.Model.Result } );
 
 	/**
 	 * WPMOLY Backbone Preview Model
@@ -395,26 +367,6 @@ window.wpmoly = window.wpmoly || {};
 		},
 
 		/**
-		 * Make sure the attributes are correct. Additional attributes
-		 * are not welcomed here.
-		 * 
-		 * @since    2.2
-		 * 
-		 * @param    object    attributes
-		 * @param    object    options
-		 * 
-		 * @return   mixed
-		 */
-		validate: function( attributes, options ) {
-
-			_.each( attributes, function( value, attr ) {
-				if ( undefined == this.defaults[ attr ] ) {
-					this.unset( attr, attributes );
-				}
-			}, this );
-		},
-
-		/**
 		 * Update Model to match the Movie Model changes
 		 * 
 		 * @since    2.2
@@ -444,21 +396,7 @@ window.wpmoly = window.wpmoly || {};
 	 */
 	wpmoly.editor.Model.Panel = Backbone.Model.extend({});
 
-	/**
-	 * Override Movie and Preview Models set() method.
-	 * 
-	 * We want attributes validation to be run each time attributes are set
-	 * to avoid unknown attributes.
-	 */
-	_.each( [ wpmoly.editor.Model.Movie, wpmoly.editor.Model.Preview ], function( model ) {
-		model.prototype.set = function( attributes, options ) {
-			options = options || {};
-			options.validate = true;
-			return Backbone.Model.prototype.set.call( this, attributes, options );
-		};
-	}, this );
-
 	// To infinity... And beyond!
-	wpmoly.editor();
+	editor();
 
 })(jQuery);

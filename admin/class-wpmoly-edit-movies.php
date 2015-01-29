@@ -803,8 +803,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				if ( ! is_callable( $panel['callback'] ) )
 					continue;
 
-				$is_active = ( ( 'images' == $id && ! $empty ) || ( 'images' == $id && $empty ) );
-				//$is_active = ( 'posters' == $id );
+				$is_active = ( ( 'meta' == $id && ! $empty ) || ( 'meta' == $id && $empty ) );
 				$tabs[ $id ] = array(
 					'title'  => $panel['title'],
 					'icon'   => $panel['icon'],

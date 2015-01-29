@@ -3,10 +3,9 @@ window.wpmoly = window.wpmoly || {};
 
 (function( $ ) {
 
-	editor = wpmoly.editor || {};
-	editor.views = editor.views || {};
+	var editor = wpmoly.editor;
 
-	editor.views.init = function() {
+	var load = function() {
 
 		editor.views.status = new wpmoly.editor.View.Status();
 		editor.views.panel = new wpmoly.editor.View.Panel();
@@ -23,7 +22,7 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	wpmoly.editor.View.Status = Backbone.View.extend({
+	editor.View.Status = Backbone.View.extend({
 
 		events: {},
 
@@ -71,7 +70,7 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	wpmoly.editor.View.Search = Backbone.View.extend({
+	editor.View.Search = Backbone.View.extend({
 
 		el: '#wpmoly-meta-search',
 
@@ -99,7 +98,7 @@ window.wpmoly = window.wpmoly || {};
 
 			// Allow model and target override to use search with
 			// alternative content
-			_.extend( this, _.pick( options, 'model', 'target' ) );
+			//_.extend( this, _.pick( options, 'model', 'target' ) );
 
 			var template = $( this.el ).html();
 			if ( undefined === template )
@@ -222,7 +221,7 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	wpmoly.editor.View.Movie = Backbone.View.extend({
+	editor.View.Movie = Backbone.View.extend({
 
 		el: '#wpmoly-movie-meta',
 
@@ -309,7 +308,7 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	wpmoly.editor.View.Results = Backbone.View.extend({
+	editor.View.Results = Backbone.View.extend({
 
 		el: '#wpmoly-meta-search-results',
 
@@ -401,7 +400,7 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	wpmoly.editor.View.Preview = Backbone.View.extend({
+	editor.View.Preview = Backbone.View.extend({
 
 		el: '#wpmoly-meta-preview-panel',
 
@@ -457,7 +456,7 @@ window.wpmoly = window.wpmoly || {};
 	 * 
 	 * @since    2.2
 	 */
-	wpmoly.editor.View.Panel = Backbone.View.extend({
+	editor.View.Panel = Backbone.View.extend({
 
 		el: '#wpmoly-meta',
 
@@ -583,6 +582,6 @@ window.wpmoly = window.wpmoly || {};
 		}
 	});
 
-	wpmoly.editor.views.init();
+	load();
 
 })(jQuery);
