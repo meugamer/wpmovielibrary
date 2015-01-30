@@ -27,9 +27,6 @@
 
 							<div id="wpmoly-meta-search-results"></div>
 
-							<input type="hidden" id="wpmoly-actor-limit" class="hide-if-js hide-if-no-js" value="<?php echo wpmoly_o( 'actor-limit' ) ?>" />
-							<input type="hidden" id="wpmoly-poster-featured" class="hide-if-js hide-if-no-js" value="<?php echo ( 1 == wpmoly_o( 'poster-featured' ) ? '1' : '0' ) ?>" />
-
 						</div>
 
 						<div id="wpmoly-movie-meta" class="wpmoly-meta">

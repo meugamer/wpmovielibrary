@@ -381,13 +381,31 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			$posters = $images['posters'];
 			$images  = $images['backdrops'];
 
-			$movie = array(
-				'meta'		=> $meta,
-				'images'	=> $images,
-				'posters'	=> $posters,
-				'poster'	=> $poster,
-				'poster_path'	=> $poster_path,
-			);
+			$taxonomies = array();
+
+			$actors = array();
+			$genres = array();
+			// Prepare Custom Taxonomy
+			if ( ! empty( $meta['cast'] ) && wpmoly_o( 'enable-actor' ) && wpmoly_o( 'actor-autocomplete' ) ) {
+				foreach ( $meta['cast'] as $actor ) {
+					$actors[] = $actor;
+				}
+			}
+			// Prepare Custom Taxonomy
+			if ( ! empty( $meta['genres'] ) && wpmoly_o( 'enable-genre' ) && wpmoly_o( 'genre-autocomplete' ) ) {
+				foreach ( $meta['genres'] as $genre ) {
+					$genres[] = $genre;
+				}
+			}
+			// Prepare Custom Taxonomy
+			if ( ! empty( $meta['director'] ) && wpmoly_o( 'enable-collection' ) && wpmoly_o( 'collection-autocomplete' ) ) {
+				foreach ( $meta['director'] as $director ) {
+					$collections[] = $director;
+				}
+			}
+			$taxonomies = compact( 'collections', 'genres', 'actors' );
+
+			$movie = compact( 'meta', 'images', 'posters', 'taxonomies', 'poster', 'poster_path' );
 
 			return $movie;
 		}

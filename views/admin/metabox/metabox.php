@@ -10,6 +10,8 @@
 		<input type="hidden" id="wpmoly-autocomplete-collection" value="<?php echo wpmoly_o( 'collection-autocomplete' ); ?>" />
 		<input type="hidden" id="wpmoly-autocomplete-genre" value="<?php echo wpmoly_o( 'genre-autocomplete' ); ?>" />
 		<input type="hidden" id="wpmoly-autocomplete-actor" value="<?php echo wpmoly_o( 'actor-autocomplete' ); ?>" />
+		<input type="hidden" id="wpmoly-actor-limit" value="<?php echo wpmoly_o( 'actor-limit' ) ?>" />
+		<input type="hidden" id="wpmoly-poster-featured" value="<?php echo wpmoly_o( 'poster-featured' ) ?>" />
 
 		<div id="wpmoly-meta" class="wpmoly-meta">
 

@@ -109,8 +109,13 @@ window.wpmoly = window.wpmoly || {};
 			type: $( '#wpmoly-search-type' ).val(),
 			query: '',
 			options: {
-				actor_limit: $( '#wpmoly-actor-limit' ).val(),
-				poster_featured: $( '#wpmoly-poster-featured' ).val()
+				actorlimit: parseInt( $( '#wpmoly-actor-limit' ).val() ),
+				setfeatured: parseInt( $( '#wpmoly-poster-featured' ).val() ),
+				autocomplete: {
+					collection: parseInt( $( '#wpmoly-autocomplete-collection' ).val() ),
+					genre: parseInt( $( '#wpmoly-autocomplete-genre' ).val() ),
+					actor: parseInt( $( '#wpmoly-autocomplete-actor' ).val() )
+				}
 			}
 		}
 	});
@@ -213,9 +218,17 @@ window.wpmoly = window.wpmoly || {};
 				options.success = function( response ) {
 
 					// Response has meta, that's a single movie
-					if ( undefined != response.meta ) {
+					if ( undefined !== response.meta ) {
 
-						this.set_meta( response );
+						// Set metadata
+						this.setMeta( response.meta );
+
+						// Set Taxonomies
+						if ( undefined !== response.taxonomies )
+							this.setTaxonomies( response.taxonomies );
+
+						// Triggers
+						editor.models.movie.trigger( 'sync:done', this, response );
 						editor.models.status.trigger( 'status:say', wpmoly_lang.done );
 
 						return true;
@@ -242,17 +255,58 @@ window.wpmoly = window.wpmoly || {};
 		 * 
 		 * @since    2.2
 		 * 
-		 * @param    object    data Movie metadata
+		 * @param    object    Movie metadata
 		 * 
 		 * @return   void
 		 */
-		set_meta: function( data ) {
+		setMeta: function( meta ) {
 
-			var meta = _.extend( this.defaults, data.meta );
+			var meta = _.extend( this.defaults, meta );
 			this.set( meta );
 
-			editor.models.movie.trigger( 'sync:done', this, data );
 			editor.models.status.trigger( 'status:say', wpmoly_lang.metadata_saved );
+		},
+
+		/**
+		 * Set the movie's taxonomies if any (an needed)
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Movie taxonomies
+		 * 
+		 * @return   void
+		 */
+		setTaxonomies: function( taxonomies ) {
+
+			var  options = editor.models.search.get( 'options' ),
+			autocomplete = options.autocomplete;
+
+			if ( autocomplete.actor && undefined != taxonomies.actors ) {
+				var limit = options.actorlimit || 0,
+				   actors = limit ? taxonomies.actors.splice( 0, limit ) : taxonomies.actors;
+
+				_.each( actors, function( actor, index ) {
+					$( '#tagsdiv-actor .tagchecklist' ).append( '<span><a id="actor-check-num-' + index + '" class="ntdelbutton">X</a>&nbsp;' + actor + '</span>' );
+					tagBox.flushTags( $( '#actor.tagsdiv' ), $( '<span>' + actor + '</span>' ) );
+				});
+			}
+
+			if ( autocomplete.genre && undefined != taxonomies.genres ) {
+				_.each( taxonomies.genres, function( genre, index ) {
+					$( '#tagsdiv-genre .tagchecklist' ).append( '<span><a id="genre-check-num-' + index + '" class="ntdelbutton">X</a>&nbsp;' + genre + '</span>' );
+					tagBox.flushTags( $( '#genre.tagsdiv' ), $( '<span>' + genre + '</span>' ) );
+				});
+			}
+
+			if ( autocomplete.collection && undefined != taxonomies.collections ) {
+				_.each( taxonomies.collections, function( collection, index ) {
+					$( '#newcollection' ).delay( 1000 ).queue( function( next ) {
+						$( this ).prop( 'value', collection );
+						$( '#collection-add-submit' ).click();
+						next();
+					});
+				});
+			}
 		},
 
 		/**
