@@ -35,10 +35,14 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
+			add_action( 'the_posts', array( $this, 'images_media_modal_query' ), 10, 2 );
+
 			add_action( 'before_delete_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
 
-			add_filter( 'wpmoly_check_for_existing_images', __CLASS__ . '::check_for_existing_images', 10, 3 );
-			add_filter( 'wpmoly_jsonify_movie_images', __CLASS__ . '::jsonify_movie_images', 10, 3 );
+			add_filter( 'wpmoly_check_for_existing_images', array( $this, 'check_for_existing_images' ), 10, 3 );
+			add_filter( 'wpmoly_jsonify_movie_images', array( $this, 'jsonify_movie_images' ), 10, 3 );
+
+			// Callbacks
 			add_action( 'wp_ajax_wpmoly_load_images', __CLASS__ . '::load_images_callback' );
 			add_action( 'wp_ajax_wpmoly_upload_image', __CLASS__ . '::upload_image_callback' );
 			add_action( 'wp_ajax_wpmoly_set_featured', __CLASS__ . '::set_featured_image_callback' );
@@ -143,6 +147,93 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			$response = self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
 			wpmoly_ajax_response( $response );
 		}
+
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                      Movie images Media Modal
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		/**
+		 * This is the hijack trick. Use the 'the_posts' filter hook to
+		 * determine whether we're looking for movie images or regular
+		 * posts. If the query has a 'tmdb_id' field, images wanted, we
+		 * load them. If not, it's just a regular Post query, return the
+		 * Posts.
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    array    $posts Posts concerned by the hijack, should be only one
+		 * @param    array    $wp_query concerned WP_Query instance
+		 * 
+		 * @return   array    Posts return by the query if we're not looking for movie images
+		 */
+		public function images_media_modal_query( $posts, $wp_query ) {
+
+			if ( ! isset( $wp_query->query['post_mime_type'] ) || ! in_array( $wp_query->query['post_mime_type'], array( 'backdrops', 'posters' ) ) )
+				return $posts;
+
+			$image_type = $wp_query->query['post_mime_type'];
+
+			if ( ! isset( $wp_query->query['s'] ) || '' == $wp_query->query['s'] )
+				return $posts;
+
+			if ( empty( $posts ) && ! empty( $wp_query->query_vars['post__in'] ) ) {
+				$post_id = intval( array_shift( $wp_query->query_vars['post__in'] ) );
+				$posts = array( get_post( $post_id ) );
+			}
+
+			$tmdb_id  = intval( $wp_query->query['s'] );
+			$paged    = intval( $wp_query->query['paged'] );
+			$per_page = intval( $wp_query->query['posts_per_page'] );
+
+			if ( 'backdrops' == $image_type )
+				$images = $this->load_movie_images( $tmdb_id, $posts[0] );
+			else if ( 'posters' == $image_type )
+				$images = $this->load_movie_posters( $tmdb_id, $posts[0] );
+
+			$images = array_slice( $images, ( ( $paged - 1 ) * $per_page ), $per_page );
+
+			wp_send_json_success( $images );
+		}
+
+		/**
+		 * Load the Movie Images and display a jsonified result.s
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
+		 * @param    array    $post Related Movie Post
+		 * 
+		 * @return   array    Movie images
+		 */
+		public function load_movie_images( $tmdb_id, $post ) {
+
+			$images = WPMOLY_TMDb::get_movie_images( $tmdb_id );
+			$images = apply_filters( 'wpmoly_jsonify_movie_images', $images, $post, 'image' );
+
+			return $images;
+		}
+
+		/**
+		 * Load the Movie Images and display a jsonified result.s
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
+		 * @param    array    $post Related Movie Post
+		 * 
+		 * @return   array    Movie posters
+		 */
+		public function load_movie_posters( $tmdb_id, $post ) {
+
+			$posters = WPMOLY_TMDb::get_movie_posters( $tmdb_id );
+			$posters = apply_filters( 'wpmoly_jsonify_movie_images', $posters, $post, 'poster' );
+
+			return $posters;
+		}
+
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
@@ -472,12 +563,13 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   mixed     Return the last found image's ID if any, false if no matching image was found.
 		 */
-		public static function check_for_existing_images( $tmdb_id, $image_type = 'backdrop', $image = null ) {
+		public function check_for_existing_images( $tmdb_id, $image_type = 'image', $image = null ) {
 
 			if ( ! isset( $tmdb_id ) || '' == $tmdb_id )
 				return false;
 
-			$image_type = ( 'poster' == $image_type ? 'poster' : 'image' );
+			if ( 'poster' != $image_type )
+				$image_type = 'image';
 
 			$check = get_posts(
 				array(
@@ -491,24 +583,15 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				)
 			);
 
-			// Check for matching files
-			if ( 'poster' == $image_type && ! empty( $check ) ) {
-				foreach ( $check as $c ) {
-					$meta = get_post_meta( $c->ID, '_wpmoly_' . $image_type . '_related_meta_data' );
-					if ( isset( $meta['file_path'] ) && in_array( $meta['file_path'], array( $image, '/' . $image ) ) )
-						return $c;
-				}
+			if ( empty( $check ) )
+				return false;
+
+			foreach ( $check as $c ) {
+				$post_name = strtolower( $c->post_name );
+				$image     = strtolower( str_replace( '.jpg', '', $image ) );
+				if ( $post_name == $image )
+					return true;
 			}
-			else if ( ! is_null( $image ) ) {
-				foreach ( $check as $c ) {
-					$try = get_attached_file( $c->ID );
-					if ( $image == basename ( $try ) ) {
-						return $try;
-					}
-				}
-			}
-			else if ( ! empty( $check ) )
-				return $check;
 
 			return false;
 		}
@@ -530,7 +613,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   array    The prepared images
 		 */
-		public static function jsonify_movie_images( $images, $post, $image_type ) {
+		public function jsonify_movie_images( $images, $post, $image_type ) {
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
 

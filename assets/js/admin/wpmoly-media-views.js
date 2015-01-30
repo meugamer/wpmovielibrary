@@ -286,6 +286,7 @@ wpmoly.media = wpmoly.media || {};
 
 			this._frame.on( 'open', this.hidemenu, this );
 
+			
 			this._frame.state( this._library.id ).on( 'select', this.select, this );
 
 			wp.Uploader.queue.on( 'add', this.upload, this );

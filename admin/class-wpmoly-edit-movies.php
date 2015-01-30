@@ -58,8 +58,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				add_action( 'load-edit.php', 'WPMOLY_Edit_Movies::bulk_convert_post_type', 10 );
 			}
 
-			add_action( 'the_posts', __CLASS__ . '::images_media_modal_query', 10, 2 );
-
 			// Post edit
 			add_filter( 'post_updated_messages', __CLASS__ . '::movie_updated_messages', 10, 1 );
 			add_action( 'save_post_movie', __CLASS__ . '::save_movie', 10, 4 );
@@ -630,89 +628,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$actions['inline hide-if-no-js'] .= '</a>';
 
 			return $actions;
-		}
-
-		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-		 *
-		 *                      Movie images Media Modal
-		 * 
-		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		/**
-		 * This is the hijack trick. Use the 'the_posts' filter hook to
-		 * determine whether we're looking for movie images or regular
-		 * posts. If the query has a 'tmdb_id' field, images wanted, we
-		 * load them. If not, it's just a regular Post query, return the
-		 * Posts.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    array    $posts Posts concerned by the hijack, should be only one
-		 * @param    array    $wp_query concerned WP_Query instance
-		 * 
-		 * @return   array    Posts return by the query if we're not looking for movie images
-		 */
-		public static function images_media_modal_query( $posts, $wp_query ) {
-
-			if ( ! isset( $wp_query->query['post_mime_type'] ) || ! in_array( $wp_query->query['post_mime_type'], array( 'backdrops', 'posters' ) ) )
-				return $posts;
-
-			if ( ! isset( $wp_query->query['s'] ) || '' == $wp_query->query['s'] )
-				return $posts;
-
-			if ( empty( $posts ) && ! empty( $wp_query->query_vars['post__in'] ) ) {
-				$post_id = intval( array_shift( $wp_query->query_vars['post__in'] ) );
-				$posts = array( get_post( $post_id ) );
-			}
-
-			$tmdb_id  = intval( $wp_query->query['s'] );
-			$paged    = intval( $wp_query->query['paged'] );
-			$per_page = intval( $wp_query->query['posts_per_page'] );
-
-			if ( 'backdrops' == $wp_query->query['post_mime_type'] )
-				$images = self::load_movie_images( $tmdb_id, $posts[0] );
-			else if ( 'posters' == $wp_query->query['post_mime_type'] )
-				$images = self::load_movie_posters( $tmdb_id, $posts[0] );
-
-			$images = array_slice( $images, ( ( $paged - 1 ) * $per_page ), $per_page );
-
-			wp_send_json_success( $images );
-		}
-
-		/**
-		 * Load the Movie Images and display a jsonified result.s
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
-		 * @param    array    $post Related Movie Post
-		 * 
-		 * @return   array    Movie images
-		 */
-		public static function load_movie_images( $tmdb_id, $post ) {
-
-			$images = WPMOLY_TMDb::get_movie_images( $tmdb_id );
-			$images = apply_filters( 'wpmoly_jsonify_movie_images', $images, $post, 'image' );
-
-			return $images;
-		}
-
-		/**
-		 * Load the Movie Images and display a jsonified result.s
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    int      $tmdb_id Movie TMDb ID to fetch images
-		 * @param    array    $post Related Movie Post
-		 * 
-		 * @return   array    Movie posters
-		 */
-		public static function load_movie_posters( $tmdb_id, $post ) {
-
-			$posters = WPMOLY_TMDb::get_movie_posters( $tmdb_id );
-			$posters = apply_filters( 'wpmoly_jsonify_movie_images', $posters, $post, 'poster' );
-
-			return $posters;
 		}
 
 
