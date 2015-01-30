@@ -43,9 +43,8 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			add_filter( 'wpmoly_jsonify_movie_images', array( $this, 'jsonify_movie_images' ), 10, 3 );
 
 			// Callbacks
-			add_action( 'wp_ajax_wpmoly_load_images', __CLASS__ . '::load_images_callback' );
-			add_action( 'wp_ajax_wpmoly_upload_image', __CLASS__ . '::upload_image_callback' );
-			add_action( 'wp_ajax_wpmoly_set_featured', __CLASS__ . '::set_featured_image_callback' );
+			add_action( 'wp_ajax_wpmoly_load_images', array( $this, 'load_images_callback' ) );
+			add_action( 'wp_ajax_wpmoly_upload_image', array( $this, 'upload_image_callback' ) );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -59,7 +58,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 *
 		 * @since    2.2
 		 */
-		public static function load_images_callback() {
+		public function load_images_callback() {
 
 			wpmoly_check_ajax_referer( 'load-movie-images' );
 
@@ -90,7 +89,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 *
 		 * @since    1.0
 		 */
-		public static function upload_image_callback() {
+		public function upload_image_callback() {
 
 			wpmoly_check_ajax_referer( 'upload-movie-image' );
 
@@ -111,41 +110,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 			$file_path = esc_attr( $data['metadata']['file_path'] );
 
-			$response = self::image_upload( $file_path, $post_id, $tmdb_id, $data['type'], $data );
+			$response = $this->image_upload( $file_path, $post_id, $tmdb_id, $data['type'], $data );
 
-			wp_send_json_success();
-		}
-
-		/**
-		 * Upload an image and set it as featured image of the submitted
-		 * post.
-		 * 
-		 * Extract params from $_POST values. Image URL and post ID are
-		 * required, title is optional. If no title is submitted file's
-		 * basename will be used as image name.
-		 * 
-		 * Return the uploaded image ID to updated featured image preview
-		 * in editor.
-		 *
-		 * @since    1.0
-		 */
-		public static function set_featured_image_callback() {
-
-			wpmoly_check_ajax_referer( 'set-movie-poster' );
-
-			$image   = ( isset( $_POST['image'] )   && '' != $_POST['image']   ? $_POST['image']   : null );
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? $_POST['post_id'] : null );
-			$title   = ( isset( $_POST['title'] )   && '' != $_POST['title']   ? $_POST['title']   : null );
-			$tmdb_id = ( isset( $_POST['tmdb_id'] ) && '' != $_POST['tmdb_id'] ? $_POST['tmdb_id'] : null );
-
-			if ( 1 != wpmoly_o( 'poster-featured' ) )
-				return new WP_Error( 'no_featured', __( 'Movie Posters as featured images option is deactivated. Update your settings to activate this.', 'wpmovielibrary' ) );
-
-			if ( is_null( $image ) || is_null( $post_id ) )
-				return new WP_Error( 'invalid', __( 'An error occured when trying to import image: invalid data or Post ID.', 'wpmovielibrary' ) );
-
-			$response = self::set_image_as_featured( $image, $post_id, $tmdb_id, $title );
-			wpmoly_ajax_response( $response );
+			wp_send_json_success( $response );
 		}
 
 
@@ -396,9 +363,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   int|WP_Error Uploaded image ID if successfull, WP_Error if an error occured.
 		 */
-		public static function set_image_as_featured( $file, $post_id, $tmdb_id ) {
+		public function set_image_as_featured( $file, $post_id, $tmdb_id ) {
 
-			$image = self::image_upload( $file, $post_id, $tmdb_id, 'poster' );
+			$image = $this->image_upload( $file, $post_id, $tmdb_id, 'poster' );
 			return $image;
 		}
 
@@ -420,7 +387,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   string|WP_Error Populated HTML img tag on success
 		 */
-		private static function image_upload( $file, $post_id, $tmdb_id, $image_type = 'backdrop', $data = null ) {
+		private function image_upload( $file, $post_id, $tmdb_id, $image_type = 'backdrop', $data = null ) {
 
 			if ( empty( $file ) )
 				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload is empty.', 'wpmovielibrary' ) );
@@ -445,7 +412,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 			$image = substr( $image, 1 );
 
-			$existing = self::check_for_existing_images( $tmdb_id, $image_type, $image );
+			$existing = $this->check_for_existing_images( $tmdb_id, $image_type, $image );
 			if ( false !== $existing )
 				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload already exists.', 'wpmovielibrary' ) );
 

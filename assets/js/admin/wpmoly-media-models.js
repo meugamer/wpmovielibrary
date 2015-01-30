@@ -3,6 +3,8 @@ window.wpmoly = window.wpmoly || {};
 
 (function( $ ) {
 
+	editor = wpmoly.editor || {};
+
 	var media = wpmoly.media = function() {
 
 		var backdrops = $( '#wpmoly-imported-backdrops-json' ).val(),
@@ -67,8 +69,8 @@ window.wpmoly = window.wpmoly || {};
 					complete: function() {
 						editor.models.status.trigger( 'loading:end' );
 					},
-					success: function() {
-						this.trigger( 'uploading:end' );
+					success: function( response ) {
+						this.trigger( 'uploading:end', response );
 						editor.models.status.trigger( 'status:say', wpmoly_lang.images_uploaded );
 					}
 				});

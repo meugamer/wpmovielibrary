@@ -378,33 +378,38 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			else
 				$poster = self::get_image_url( $poster_path, 'poster', 'small' );
 
-			$posters = $images['posters'];
-			$images  = $images['backdrops'];
+			if ( ! is_null( $post_id ) )
+				$post = get_post( $post_id );
 
-			$taxonomies = array();
+			// Prepare attachments
+			$posters = apply_filters( 'wpmoly_jsonify_movie_images', $images['posters'], $post, $image_type = 'poster' );
+			$images  = apply_filters( 'wpmoly_jsonify_movie_images', $images['backdrops'], $post, $image_type = 'backdrop' );
 
+			// Prepare Taxonomies
 			$actors = array();
 			$genres = array();
-			// Prepare Custom Taxonomy
+
 			if ( ! empty( $meta['cast'] ) && wpmoly_o( 'enable-actor' ) && wpmoly_o( 'actor-autocomplete' ) ) {
 				foreach ( $meta['cast'] as $actor ) {
 					$actors[] = $actor;
 				}
 			}
-			// Prepare Custom Taxonomy
+
 			if ( ! empty( $meta['genres'] ) && wpmoly_o( 'enable-genre' ) && wpmoly_o( 'genre-autocomplete' ) ) {
 				foreach ( $meta['genres'] as $genre ) {
 					$genres[] = $genre;
 				}
 			}
-			// Prepare Custom Taxonomy
+
 			if ( ! empty( $meta['director'] ) && wpmoly_o( 'enable-collection' ) && wpmoly_o( 'collection-autocomplete' ) ) {
 				foreach ( $meta['director'] as $director ) {
 					$collections[] = $director;
 				}
 			}
+
 			$taxonomies = compact( 'collections', 'genres', 'actors' );
 
+			// Final data
 			$movie = compact( 'meta', 'images', 'posters', 'taxonomies', 'poster', 'poster_path' );
 
 			return $movie;

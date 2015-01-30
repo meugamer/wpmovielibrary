@@ -189,6 +189,8 @@ wpmoly.media = wpmoly.media || {};
 		 */
 		initialize: function() {
 
+			_.bindAll( this, 'render' );
+
 			this.render();
 
 			this.modal = this.frame();
@@ -212,13 +214,23 @@ wpmoly.media = wpmoly.media || {};
 			return this;
 		},
 
+		/**
+		 * Render the Attachment subview
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Attachment Model
+		 * 
+		 * @return   void
+		 */
 		renderAttachment: function( model ) {
 
-			var attachment = new this._subview( { model: model, collection: this.collection, type: this._type } );
+			var view = new this._subview( { model: model, collection: this.collection, type: this._type } ),
+			      el = view.render().el;
 
-			var el = attachment.render().el;
+			this.$el.prepend( el );
 
-			this.$el.prepend( el );  
+			return view;
 		},
 
 		/**
@@ -244,22 +256,28 @@ wpmoly.media = wpmoly.media || {};
 		 * 
 		 * @param    object    wp.media.model.Attachment instance
 		 * 
-		 * @return   void
+		 * @return   object    Attachment Model
 		 */
 		add: function( model ) {
 
-			var _model = new media.Model.Attachment( model.attributes );
+			// Create required custom Model and view
+			var attachment = new media.Model.Attachment( model.attributes ),
+			          view = this.renderAttachment( attachment );
 
-			this.renderAttachment( _model );
+			/*if ( true === attachment.get( 'uploaded' ) ) {
+				console.log( this.collection );
+				return attachment;
+			}*/
 
-			// TODO: set metadata without upload
-			if ( undefined != model._previousAttributes.uploading )
-				return false;
+			// Upload Attachment, update Model and trigger end
+			attachment.upload();
+			attachment.on( 'uploading:end', function( response ) {
+				model.set( { id: response } );
+				model.fetch();
+				model.trigger( 'uploading:done', model );
+			});
 
-			_model.upload();
-			_model.on( 'uploading:end', function() {
-				model.trigger( 'destroy', model, model.collection, {} );
-			}, this );
+			return model;
 		},
 
 		/**
@@ -464,6 +482,50 @@ wpmoly.media = wpmoly.media || {};
 				multiple:           true,
 				contentUserSetting: false
 			})
+		},
+
+		/**
+		 * Initialize the View.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   this
+		 */
+		initialize: function() {
+
+			media.View.Attachments.prototype.initialize.apply( this, arguments );
+
+			// Bind to the editor sync:done event to set featured image
+			this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
+
+			return this;
+		},
+
+		
+		/**
+		 * Set an Attachment as Featured Image.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Attachment Model
+		 * @param    object    Movie Metadata
+		 * 
+		 * @return   this
+		 */
+		setFeatured: function( model, data ) {
+
+			var poster = _.first( data.posters );
+			if ( undefined == poster )
+				return false;
+
+			// Create needed Attachment Model
+			poster = new media.Model.Attachment( _.extend( poster, { type: 'poster' } ) );
+			poster = this.add( poster );
+
+			// Wait for the upload to end
+			poster.on( 'uploading:done', function( model ) {
+				wp.media.featuredImage.set( model.get( 'id' ) );
+			}, this );
 		}
 
 	});

@@ -108,6 +108,7 @@ window.wpmoly = window.wpmoly || {};
 			lang: $( '#wpmoly-search-lang' ).val(),
 			type: $( '#wpmoly-search-type' ).val(),
 			query: '',
+			post_id: parseInt( $( '#post_ID' ).val() ),
 			options: {
 				actorlimit: parseInt( $( '#wpmoly-actor-limit' ).val() ),
 				setfeatured: parseInt( $( '#wpmoly-poster-featured' ).val() ),
@@ -205,7 +206,8 @@ window.wpmoly = window.wpmoly || {};
 					action: 'wpmoly_search_movie',
 					nonce: wpmoly.get_nonce( 'search-movies' ),
 					query: editor.models.search.get( 'query' ),
-					lang: editor.models.search.get( 'lang' )
+					lang: editor.models.search.get( 'lang' ),
+					post_id: editor.models.search.get( 'post_id' )
 				});
 
 				// Let know we're done queryring
