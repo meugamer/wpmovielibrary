@@ -460,7 +460,7 @@ wpmoly.media = wpmoly.media || {};
 
 		_tmpl: '#wpmoly-imported-posters-template',
 
-		_type: 'backdrop',
+		_type: 'poster',
 
 		_library: {
 			id: 'posters',
@@ -496,7 +496,7 @@ wpmoly.media = wpmoly.media || {};
 			media.View.Attachments.prototype.initialize.apply( this, arguments );
 
 			// Bind to the editor sync:done event to set featured image
-			//this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
+			this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
 			this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.reload );
 
 			return ;

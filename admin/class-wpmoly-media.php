@@ -40,7 +40,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			add_action( 'before_delete_post', __CLASS__ . '::delete_movies_attachments', 10, 1 );
 
 			add_filter( 'wpmoly_check_for_existing_images', array( $this, 'check_for_existing_images' ), 10, 3 );
-			add_filter( 'wpmoly_jsonify_movie_images', array( $this, 'jsonify_movie_images' ), 10, 3 );
+			add_filter( 'wpmoly_jsonify_movie_images', array( $this, 'jsonify_movie_images' ), 10, 4 );
 
 			// Callbacks
 			add_action( 'wp_ajax_wpmoly_load_images', array( $this, 'load_images_callback' ) );
@@ -166,7 +166,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		}
 
 		/**
-		 * Load the Movie Images and display a jsonified result.s
+		 * Load the Movie Images and display a jsonified result.
 		 * 
 		 * @since    1.0
 		 * 
@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		}
 
 		/**
-		 * Load the Movie Images and display a jsonified result.s
+		 * Load the Movie Images and display a jsonified result.
 		 * 
 		 * @since    1.0
 		 * 
@@ -479,12 +479,14 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		public static function filter_attachment_meta( $post_id, $image_type ) {
+		public static function filter_attachment_meta( $post_id, $image_type, $meta = null ) {
 
 			if ( $image_type != 'poster' )
 				$image_type = 'image';
 
-			$meta = wpmoly_get_movie_meta( $post_id );
+			if ( is_null( $meta ) )
+				$meta = wpmoly_get_movie_meta( $post_id );
+
 			$meta = array(
 				'tmdb_id'        => $meta['tmdb_id'],
 				'title'          => $meta['title'],
@@ -493,10 +495,15 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				'originaltitle'  => $meta['original_title'],
 				'year'           => $meta['release_date']
 			);
-
-			$meta['production'] = explode( ',', $meta['production'] );
-			$meta['production'] = trim( array_shift( $meta['production'] ) );
 			$meta['year']       = apply_filters( 'wpmoly_format_movie_date',  $meta['year'], 'Y' );
+
+			if ( ! is_array( $meta['production'] ) )
+				$meta['production'] = explode( ',', $meta['production'] );
+			$meta['production'] = trim( array_shift( $meta['production'] ) );
+
+			if ( ! is_array( $meta['director'] ) )
+				$meta['director'] = explode( ',', $meta['director'] );
+			$meta['director'] = trim( array_shift( $meta['director'] ) );
 
 			$_description = wpmoly_o( "{$image_type}-description", '' );
 			$_title       = wpmoly_o( "{$image_type}-title", '' );
@@ -578,10 +585,11 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * @param    array     $images The images to prepare
 		 * @param    object    $post Related Movie Posts
 		 * @param    string    $image_type Which type of image we're dealing with, simple image or poster.
+		 * @param    string    $meta Optional: movie metadata. Will be used to generate title/alt/description/caption
 		 * 
 		 * @return   array    The prepared images
 		 */
-		public function jsonify_movie_images( $images, $post, $image_type ) {
+		public function jsonify_movie_images( $images, $post, $image_type, $meta = null ) {
 
 			$image_type = ( 'poster' == $image_type ? 'poster' : 'backdrop' );
 
@@ -600,7 +608,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				$edit_nonce = current_user_can( 'edit_post', $post->ID ) ? wp_create_nonce( 'update-post_' . $post->ID ) : false;
 				$image_editor_none = current_user_can( 'edit_post', $post->ID ) ? wp_create_nonce( 'image_editor-' . $post->ID ) : false;
 
-				$filtered_meta = self::filter_attachment_meta( $post->ID, $image_type );
+				$filtered_meta = self::filter_attachment_meta( $post->ID, $image_type, $meta );
 				extract( $filtered_meta );
 
 				$json_images[] = array(

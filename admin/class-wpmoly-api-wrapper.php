@@ -382,8 +382,8 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				$post = get_post( $post_id );
 
 			// Prepare attachments
-			$posters = apply_filters( 'wpmoly_jsonify_movie_images', $images['posters'], $post, $image_type = 'poster' );
-			$images  = apply_filters( 'wpmoly_jsonify_movie_images', $images['backdrops'], $post, $image_type = 'backdrop' );
+			$posters = apply_filters( 'wpmoly_jsonify_movie_images', $images['posters'], $post, $image_type = 'poster', $meta );
+			$images  = apply_filters( 'wpmoly_jsonify_movie_images', $images['backdrops'], $post, $image_type = 'backdrop', $meta );
 
 			// Prepare Taxonomies
 			$actors = array();

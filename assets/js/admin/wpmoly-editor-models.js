@@ -266,7 +266,7 @@ window.wpmoly = window.wpmoly || {};
 			var meta = _.extend( this.defaults, meta );
 			this.set( meta );
 
-			editor.models.status.trigger( 'status:say', wpmoly_lang.metadata_saved );
+			wpmoly.editor.models.movie.save();
 		},
 
 		/**
@@ -327,7 +327,10 @@ window.wpmoly = window.wpmoly || {};
 					nonce: wpmoly.get_nonce( 'save-movie-meta' ),
 					post_id: this.post_id,
 					data: this.parse( this.toJSON() )
-				} 
+				},
+				success: function() {
+					editor.models.status.trigger( 'status:say', wpmoly_lang.metadata_saved );
+				}
 			};
 
 			return Backbone.sync( 'create', this, params );

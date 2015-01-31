@@ -123,7 +123,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 							<div class="wpmoly-imported-attachment-menu-inner">
 								<ul>
 									<li>Options</li>
-									<li><a class="wpmoly-imported-attachment-menu-edit" href="<%= attachment.editLink %>" target="_blank"><span class="wpmolicon icon-edit-page"></span>&nbsp; <?php _e( 'Edit' ) ?></a></li>
+									<li><a class="wpmoly-imported-attachment-menu-edit" href="<?php echo admin_url( '/upload.php?item=' ) ?><%= attachment.id %>" target="_blank"><span class="wpmolicon icon-edit-page"></span>&nbsp; <?php _e( 'Edit' ) ?></a></li>
 									<li><a class="wpmoly-imported-attachment-menu-delete" href="#"><span class="wpmolicon icon-trash"></span>&nbsp; <?php _e( 'Delete' ) ?></a></a></li>
 <% if ( 'poster' == type ) { %>
 									<li><a class="wpmoly-imported-attachment-menu-featured" href="#"><span class="wpmolicon icon-poster"></span>&nbsp; <?php _e( 'Featured' ) ?></a></a></li>

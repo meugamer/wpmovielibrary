@@ -94,6 +94,7 @@ window.wpmoly = window.wpmoly || {};
 
 			return this.sync( 'upload', this, {} );
 		}
+
 	});
 
 	/**
