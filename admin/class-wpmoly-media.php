@@ -433,7 +433,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				return new WP_Error( $id->get_error_code(), $id->get_error_message() );
 			}
 
-			self::update_attachment_meta( $id, $post_id, $image_type );
+			self::update_attachment_meta( $id, $post_id, $tmdb_id, $image_type );
 
 			return $id;
 		}
@@ -445,10 +445,11 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @param    int       $attachment_id Current image Post ID
 		 * @param    int       $post_id Related Post ID
+		 * @param    int       $tmdb_id The TMDb Movie ID the image is associated with
 		 * @param    string    $image_type Image type, 'backdrop' or 'poster'
 		 * @param    array     $data Image data. Deprecated since 2.2
 		 */
-		private static function update_attachment_meta( $attachment_id, $post_id, $image_type, $data = null ) {
+		private static function update_attachment_meta( $attachment_id, $post_id, $tmdb_id, $image_type, $data = null ) {
 
 			if ( ! get_post( $attachment_id ) || ! get_post( $post_id ) )
 				return false;

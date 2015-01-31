@@ -496,12 +496,33 @@ wpmoly.media = wpmoly.media || {};
 			media.View.Attachments.prototype.initialize.apply( this, arguments );
 
 			// Bind to the editor sync:done event to set featured image
-			this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
+			//this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
+			this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.reload );
 
-			return this;
+			return ;
 		},
 
-		
+		/**
+		 * Preload the Posters by update the Modal collection with posters
+		 * fetched along with metadata.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Attachment Model
+		 * @param    object    Movie Metadata
+		 * 
+		 * @return   void
+		 */
+		reload: function( model, data ) {
+
+			// Tricky: if modal hasn't been opened yet, open-close quickly.
+			// Not doing means there's no collection to populate.
+			if ( null == this.modal.content.get( 'backdrops' ) )
+				this.modal.open().close();
+
+			this.modal.content.get( 'backdrops' ).collection.add( data.posters );
+		},
+
 		/**
 		 * Set an Attachment as Featured Image.
 		 * 
