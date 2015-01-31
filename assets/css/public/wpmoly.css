@@ -740,7 +740,7 @@
 }
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.value .not-rated {
-	display: none;
+	display: inline-block;
 }
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.more {
@@ -1153,6 +1153,10 @@
 	display: block;
 	font-weight: 600;
 	margin: 0.5em 0;
+	max-width: 150px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .widget .wpmoly.movies .wpmoly.link {

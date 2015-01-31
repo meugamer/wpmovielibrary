@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'wpmovielibrary';
-	src:url('fonts/wpmovielibrary.eot?tafoe1');
-	src:url('fonts/wpmovielibrary.eot?#iefixtafoe1') format('embedded-opentype'),
-		url('fonts/wpmovielibrary.woff?tafoe1') format('woff'),
-		url('fonts/wpmovielibrary.ttf?tafoe1') format('truetype'),
-		url('fonts/wpmovielibrary.svg?tafoe1#wpmovielibrary') format('svg');
+	src:url('fonts/wpmovielibrary.eot?-245orh');
+	src:url('fonts/wpmovielibrary.eot?#iefix-245orh') format('embedded-opentype'),
+		url('fonts/wpmovielibrary.woff?-245orh') format('woff'),
+		url('fonts/wpmovielibrary.ttf?-245orh') format('truetype'),
+		url('fonts/wpmovielibrary.svg?-245orh#wpmovielibrary') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -21,6 +21,34 @@
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-oscars:before {
+	content: "\e674";
+}
+
+.icon-oscars-empty:before {
+	content: "\e675";
+}
+
+.icon-oscars-half:before {
+	content: "\e676";
+}
+
+.icon-sort-date-asc-alt:before {
+	content: "\e672";
+}
+
+.icon-sort-date-desc-alt:before {
+	content: "\e673";
+}
+
+.icon-sort-date-asc:before {
+	content: "\e670";
+}
+
+.icon-sort-date-desc:before {
+	content: "\e671";
 }
 
 .icon-images-alt-2:before {
