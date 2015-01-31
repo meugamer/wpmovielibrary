@@ -264,12 +264,13 @@ wpmoly.media = wpmoly.media || {};
 			var attachment = new media.Model.Attachment( model.attributes ),
 			          view = this.renderAttachment( attachment );
 
-			/*if ( true === attachment.get( 'uploaded' ) ) {
-				console.log( this.collection );
-				return attachment;
-			}*/
+			if ( true === model._previousAttributes.uploading ) {
+				model.trigger( 'uploading:end', model );
+				return model;
+			}
 
 			// Upload Attachment, update Model and trigger end
+			attachment.set( { type: this._type } );
 			attachment.upload();
 			attachment.on( 'uploading:end', function( response ) {
 				model.set( { id: response } );
