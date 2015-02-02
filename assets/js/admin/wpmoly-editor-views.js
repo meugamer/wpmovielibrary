@@ -466,7 +466,8 @@ window.wpmoly = window.wpmoly || {};
 		panels: '#wpmoly-meta-panels',
 
 		events: {
-			"click #wpmoly-meta-menu a": "navigate",
+			"click #wpmoly-meta-menu a.navigate": "navigate",
+			"click #wpmoly-meta-menu .tab.off a": "resize"
 		},
 
 		/**
@@ -577,7 +578,9 @@ window.wpmoly = window.wpmoly || {};
 		 *
 		 * @since 2.0
 		 */
-		resize: function() {
+		resize: function( event ) {
+			if ( undefined !== event )
+				event.preventDefault();
 			$( this.el ).toggleClass( 'small' );
 		}
 	});

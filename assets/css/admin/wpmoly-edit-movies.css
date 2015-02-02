@@ -166,6 +166,10 @@
 	display: none !important;
 }
 
+#wpmoly-meta.small #wpmoly-meta-status-loader {
+	margin-left: 5em;
+}
+
 /* Movie Preview */
 
 #wpmoly-movie-preview {
