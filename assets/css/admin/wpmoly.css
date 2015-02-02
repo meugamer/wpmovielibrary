@@ -241,7 +241,7 @@ body.post-php.post-type-movie #postimagediv {
 	}
 	
 	#wpmoly-details .wpmoly-details-item {
-		width: 49% !important;
+		width: 48% !important;
 	}
 	
 	#wpmoly-home #dashboard-widgets #postbox-container-1 {
@@ -255,8 +255,8 @@ body.post-php.post-type-movie #postimagediv {
 
 @media (max-width: 1280px) {
 	
-	#wpmoly-tmdb .wpmoly-movie-meta-edit.half {
-		width: 100% !important;
+	#wpmoly-meta .wpmoly-meta-edit.half {
+		width: 99.75% !important;
 	}
 	
 	#wpmoly-movie-preview {
