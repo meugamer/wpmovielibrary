@@ -289,14 +289,70 @@ wpmoly.media = wpmoly.media || {};
 				if ( this._frame )
 					return this._frame;
 
-				this._frame = wp.media( {
+				var media = wp.media,
+				  browser = media.view.AttachmentsBrowser;
+
+				media.view.AttachmentsBrowser = media.view.AttachmentsBrowser.extend({
+
+					createToolbar: function() {
+
+						media.model.Query.defaultArgs.filterSource = 'filter-media-country';
+
+						browser.prototype.createToolbar.apply( this, arguments );
+
+						console.log( this.events );
+						filters = media.view.AttachmentFilters.extend({
+							id: 'media-attachment-country-filters',
+							className: 'attachment-filters attachment-country-filters',
+							
+							createFilters: function() {
+								this.filters = {
+									all: {
+										text:  'Tous les pays',
+										props: {
+											code: ''
+										},
+										priority: 10
+									},
+									US: {
+										text: 'United States',
+										props: {
+											code: 'US'
+										}
+									},
+									FR: {
+										text: 'France',
+										props: {
+											code: 'FR'
+										}
+									}
+									/*{ code: 'US', label: 'United States' },
+									{ code: 'FR', label: 'France' }*/
+								}
+							},
+
+							change: function() {
+								var filter = this.filters[ this.el.value ];
+								console.log( filter );
+							},
+						});
+
+						this.toolbar.set( 'country', new filters({
+								controller: this.controller,
+								model: this.collection.props,
+								priority: -80
+							}).render()
+						);
+					}
+				});
+
+				this._frame = media( {
 					state: this._library.id,
 					states: this._library.state
 				} );
 
 				this._frame.on( 'open', this.hidemenu, this );
 
-				
 				this._frame.state( this._library.id ).on( 'select', this.select, this );
 
 				wp.Uploader.queue.on( 'add', this.upload, this );
@@ -415,6 +471,8 @@ wpmoly.media = wpmoly.media || {};
 
 			_type: 'backdrop',
 
+			filter: wp.media.view.AttachmentFilters.extend({}),
+
 			_library: {
 				id: 'backdrops',
 				state: new wp.media.controller.Library({
@@ -498,6 +556,33 @@ wpmoly.media = wpmoly.media || {};
 			_tmpl: '#wpmoly-imported-posters-template',
 
 			_type: 'poster',
+
+			_filter: wp.media.view.AttachmentFilters.extend({
+	
+				tagName:   'select',
+				
+				createFilters: function() {
+					var filters = {};
+					_.each( wp.media.view.settings.months || {}, function( value, index ) {
+						filters[ index ] = {
+							text: value.text,
+							props: {
+								year: value.year,
+								monthnum: value.month
+							}
+						};
+					});
+					filters.all = {
+						text:  "Toutes les dates",
+						props: {
+							monthnum: false,
+							year:  false
+						},
+						priority: 10
+					};
+					this.filters = filters;
+				}
+			}),
 
 			_library: {
 				id: 'posters',
