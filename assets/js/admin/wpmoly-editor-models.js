@@ -196,9 +196,9 @@ window.wpmoly = window.wpmoly || {};
 
 				editor.models.status.trigger( 'loading:start' );
 				if ( 'id' == editor.models.search.get( 'type' ) )
-					editor.models.status.trigger( 'status:say', wpmoly_lang.search_movie );
+					editor.models.status.trigger( 'status:say', wpmoly.l10n.movies.loading );
 				else
-					editor.models.status.trigger( 'status:say', wpmoly_lang.search_movie_title );
+					editor.models.status.trigger( 'status:say', wpmoly.l10n.movies.searching );
 
 				options = options || {};
 				options.context = this;
@@ -231,7 +231,7 @@ window.wpmoly = window.wpmoly || {};
 
 						// Triggers
 						editor.models.movie.trigger( 'sync:done', this, response );
-						editor.models.status.trigger( 'status:say', wpmoly_lang.done );
+						editor.models.status.trigger( 'status:say', wpmoly.l10n.misc.done );
 
 						return true;
 					}
@@ -241,7 +241,7 @@ window.wpmoly = window.wpmoly || {};
 						var result = new editor.Model.Result( result );
 						editor.models.results.add( result );
 					} );
-					editor.models.status.trigger( 'status:say', wpmoly_lang.multiple_results );
+					editor.models.status.trigger( 'status:say', wpmoly.l10n.movies.multiple_results );
 				};
 
 				return wp.ajax.send( options );
@@ -329,7 +329,7 @@ window.wpmoly = window.wpmoly || {};
 					data: this.parse( this.toJSON() )
 				},
 				success: function() {
-					editor.models.status.trigger( 'status:say', wpmoly_lang.metadata_saved );
+					editor.models.status.trigger( 'status:say', wpmoly.l10n.movies.saved );
 				}
 			};
 

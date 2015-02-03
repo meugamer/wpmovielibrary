@@ -13,8 +13,8 @@ window.wpmoly = window.wpmoly || {};
 		      posters = $.parseJSON( posters );
 
 		// Init models
-		media.models.backdrops = new media.Model.Attachments();
-		media.models.posters = new media.Model.Attachments();
+		media.models.backdrops = new media.Model.Backdrops;
+		media.models.posters = new media.Model.Posters;
 		media.models.backdrops.add( backdrops );
 		media.models.posters.add( posters );
 	};
@@ -54,7 +54,7 @@ window.wpmoly = window.wpmoly || {};
 
 				this.trigger( 'uploading:start' );
 				editor.models.status.trigger( 'loading:start' );
-				editor.models.status.trigger( 'status:say', wpmoly_lang.import_images_wait );
+				editor.models.status.trigger( 'status:say', wpmoly.l10n[ this._type ].uploading );
 				
 				_.extend( options, {
 					context: this,
@@ -71,7 +71,7 @@ window.wpmoly = window.wpmoly || {};
 					},
 					success: function( response ) {
 						this.trigger( 'uploading:end', response );
-						editor.models.status.trigger( 'status:say', wpmoly_lang.images_uploaded );
+						editor.models.status.trigger( 'status:say', wpmoly.l10n[ this._type ].uploaded );
 					}
 				});
 
@@ -98,14 +98,32 @@ window.wpmoly = window.wpmoly || {};
 	});
 
 	/**
-	 * WPMOLY Backbone basic Attachments Model
+	 * WPMOLY Backbone Backdrop Model
 	 * 
 	 * @since    2.2
 	 */
-	media.Model.Attachments = wp.media.model.Attachments.extend({
+	media.Model.Backdrop = media.Model.Attachment.extend( { _type: 'backdrops' } );
 
-		model: media.Model.Attachment,
-	});
+	/**
+	 * WPMOLY Backbone Poster Model
+	 * 
+	 * @since    2.2
+	 */
+	media.Model.Poster = media.Model.Attachment.extend( { _type: 'posters' } );
+
+	/**
+	 * WPMOLY Backbone Backdrops Collection Model
+	 * 
+	 * @since    2.2
+	 */
+	media.Model.Backdrops = wp.media.model.Attachments.extend( { model: media.Model.Backdrop } );
+
+	/**
+	 * WPMOLY Backbone Posters Collection Model
+	 * 
+	 * @since    2.2
+	 */
+	media.Model.Posters = wp.media.model.Attachments.extend( { model: media.Model.Poster } );
 
 	wpmoly.media = media;
 	wpmoly.media();

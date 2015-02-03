@@ -295,13 +295,8 @@ wpmoly.media = wpmoly.media || {};
 
 			this._frame = wp.media( {
 				state: this._library.id,
-				states: this._library.state,
-				button: {
-					text: this._library.button
-				}
+				states: this._library.state
 			} );
-
-			this._frame.options.button.reset = false;
 
 			this._frame.on( 'open', this.hidemenu, this );
 
@@ -418,13 +413,12 @@ wpmoly.media = wpmoly.media || {};
 
 		_library: {
 			id: 'backdrops',
-			button: wpmoly_lang.import_images,
 			state: new wp.media.controller.Library({
 				id:                 'backdrops',
 				title:              function() {
 					var title = wpmoly.editor.models.movie.get( 'title' )
 					if ( '' != title && undefined != title )
-						return wpmoly_lang.import_images_title.replace( '%s', title );
+						return wpmoly.l10n.media.backdrops.title.replace( '%s', title );
 					return 'Images';
 				},
 				priority:           20,
@@ -503,13 +497,12 @@ wpmoly.media = wpmoly.media || {};
 
 		_library: {
 			id: 'posters',
-			button: wpmoly_lang.import_posters,
 			state: new wp.media.controller.Library({
 				id:                 'posters',
 				title:              function() {
 					var title = wpmoly.editor.models.movie.get( 'title' )
 					if ( '' != title && undefined != title )
-						return wpmoly_lang.import_posters_title.replace( '%s', title );
+						return wpmoly.l10n.media.posters.title.replace( '%s', title );
 					return 'Images';
 				},
 				priority:           20,

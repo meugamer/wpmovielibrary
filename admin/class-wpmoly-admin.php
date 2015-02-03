@@ -257,7 +257,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				wp_enqueue_script( WPMOLY_SLUG . '-' . $slug, WPMOLY_URL . $script[ 0 ], $script[ 1 ], WPMOLY_VERSION, $script[ 2 ] );
 
 			wp_localize_script(
-				WPMOLY_SLUG . '-admin', 'wpmoly_lang',
+				WPMOLY_SLUG . '-admin', 'wpmoly_l10n',
 				WPMOLY_L10n::localize_script()
 			);
 		}
