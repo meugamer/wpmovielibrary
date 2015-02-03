@@ -422,7 +422,7 @@ wpmoly.media = wpmoly.media || {};
 					title:              function() {
 						var title = wpmoly.editor.models.movie.get( 'title' )
 						if ( '' != title && undefined != title )
-							return wpmoly.l10n.media.backdrops.title.replace( '%s', title );
+							return wpmoly.l10n.media.backdrop.title.replace( '%s', title );
 						return 'Images';
 					},
 					priority:           20,
@@ -506,7 +506,7 @@ wpmoly.media = wpmoly.media || {};
 					title:              function() {
 						var title = wpmoly.editor.models.movie.get( 'title' )
 						if ( '' != title && undefined != title )
-							return wpmoly.l10n.media.posters.title.replace( '%s', title );
+							return wpmoly.l10n.media.poster.title.replace( '%s', title );
 						return 'Images';
 					},
 					priority:           20,
@@ -576,7 +576,7 @@ wpmoly.media = wpmoly.media || {};
 					return false;
 
 				// Create needed Attachment Model
-				poster = new media.Model.Attachment( _.extend( poster, { type: 'poster' } ) );
+				poster = new media.Model.Poster( _.extend( poster, { type: 'poster' } ) );
 				poster = this.add( poster );
 
 				// Wait for the upload to end

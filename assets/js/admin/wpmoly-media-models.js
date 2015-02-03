@@ -57,8 +57,8 @@ window.wpmoly = window.wpmoly || {};
 				if ( 'upload' == method ) {
 
 					this.trigger( 'uploading:start' );
-					editor.models.status.trigger( 'loading:start' );
-					editor.models.status.trigger( 'status:say', wpmoly.l10n[ this._type ].uploading );
+					wpmoly.editor.models.status.trigger( 'loading:start' );
+					wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ model.get( 'type' ) ].uploading );
 					
 					_.extend( options, {
 						context: this,
@@ -71,11 +71,11 @@ window.wpmoly = window.wpmoly || {};
 							} )
 						}),
 						complete: function() {
-							editor.models.status.trigger( 'loading:end' );
+							wpmoly.editor.models.status.trigger( 'loading:end' );
 						},
 						success: function( response ) {
 							this.trigger( 'uploading:end', response );
-							editor.models.status.trigger( 'status:say', wpmoly.l10n[ this._type ].uploaded );
+							wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ model.get( 'type' ) ].uploaded );
 						}
 					});
 

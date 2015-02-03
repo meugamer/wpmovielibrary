@@ -8,15 +8,12 @@ window.wpmoly = window.wpmoly || {};
 		// Trick of treats
 		redux.field_objects.select.init();
 
-		$( '.add-new-h2' ).on( 'click', function() {
-			document.location.href = this.href;
-		});
-
 		// Extract metadata from view
-		var data = {}
-		$.each( $( '.meta-data-field' ), function() {
-			var name = this.name.replace(/meta\[(.*)\]/g, '$1');
-			data[ name ] = this.value;
+		var data = {},
+		  fields = document.getElementsByClassName( 'meta-data-field' );
+		_.each( fields, function( field ) {
+			var name = field.name.replace( /meta\[(.*)\]/g, '$1' );
+			data[ name ] = field.value;
 		});
 
 		// Init models
@@ -27,12 +24,16 @@ window.wpmoly = window.wpmoly || {};
 		editor.models.results = new wpmoly.editor.Model.Results();
 
 		// Init views
-		editor.views.status = new wpmoly.editor.View.Status();
 		editor.views.panel = new wpmoly.editor.View.Panel();
 		editor.views.movie = new wpmoly.editor.View.Movie( { model: editor.models.movie } );
 		editor.views.preview = new wpmoly.editor.View.Preview( { model: editor.models.movie } );
 		editor.views.search = new wpmoly.editor.View.Search( { model: editor.models.search, target: editor.models.movie } );
 		editor.views.results = new wpmoly.editor.View.Results( { collection: editor.models.results } );
+		editor.views.status = new wpmoly.editor.View.Status( { model: editor.models.status } );
+
+		document.getElementById( 'title' ).addEventListener( 'input', function( event ) {
+			editor.models.search.set( { query: event.target.value } );
+		});
 	};
 
 	_.extend( editor, { models: {}, views: {}, Model: {}, View: {} } );
@@ -114,17 +115,17 @@ window.wpmoly = window.wpmoly || {};
 		Search: Backbone.Model.extend({
 
 			defaults: {
-				lang: $( '#wpmoly-search-lang' ).val(),
-				type: $( '#wpmoly-search-type' ).val(),
+				lang: document.getElementById( 'wpmoly-search-lang' ).value,
+				//type: document.getElementById( 'wpmoly-search-type' ).value,
 				query: '',
-				post_id: parseInt( $( '#post_ID' ).val() ),
+				post_id: parseInt( document.getElementById( 'post_ID' ).value ),
 				options: {
-					actorlimit: parseInt( $( '#wpmoly-actor-limit' ).val() ),
-					setfeatured: parseInt( $( '#wpmoly-poster-featured' ).val() ),
+					actorlimit: parseInt( document.getElementById( 'wpmoly-actor-limit' ).value ),
+					setfeatured: parseInt( document.getElementById( 'wpmoly-poster-featured' ).value ),
 					autocomplete: {
-						collection: parseInt( $( '#wpmoly-autocomplete-collection' ).val() ),
-						genre: parseInt( $( '#wpmoly-autocomplete-genre' ).val() ),
-						actor: parseInt( $( '#wpmoly-autocomplete-actor' ).val() )
+						collection: parseInt( document.getElementById( 'wpmoly-autocomplete-collection' ).value ),
+						genre: parseInt( document.getElementById( 'wpmoly-autocomplete-genre' ).value ),
+						actor: parseInt( document.getElementById( 'wpmoly-autocomplete-actor' ).value )
 					}
 				}
 			}
@@ -180,7 +181,7 @@ window.wpmoly = window.wpmoly || {};
 			initialize: function() {
 
 				this.url = ajaxurl;
-				this.post_id = $( '#post_ID' ).val();
+				this.post_id = document.getElementById( 'post_ID' ).value;
 			},
 
 			/**

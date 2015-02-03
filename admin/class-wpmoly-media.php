@@ -414,7 +414,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 			$existing = $this->check_for_existing_images( $tmdb_id, $image_type, $image );
 			if ( false !== $existing )
-				return new WP_Error( 'invalid', __( 'The image you\'re trying to upload already exists.', 'wpmovielibrary' ) );
+				return $existing;
 
 			$tmp = download_url( $file );
 
@@ -565,7 +565,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				$post_name = strtolower( $c->post_name );
 				$image     = strtolower( str_replace( '.jpg', '', $image ) );
 				if ( $post_name == $image )
-					return true;
+					return $c->ID;
 			}
 
 			return false;

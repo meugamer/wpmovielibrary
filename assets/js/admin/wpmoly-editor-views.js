@@ -8,28 +8,26 @@ window.wpmoly = window.wpmoly || {};
 	_.extend( editor.View, {
 
 		/**
-		* WPMOLY Backbone Status View
-		* 
-		* View for metabox movie search form
-		* 
-		* @since    2.2
-		*/
+		 * WPMOLY Backbone Status View
+		 * 
+		 * View for metabox movie search form
+		 * 
+		 * @since    2.2
+		 */
 		Status: Backbone.View.extend({
+
+			el: '#wpmoly-meta-status',
 
 			events: {},
 
 			/**
-			* Initialize the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			initialize: function() {
-
-				// View will not update if this is set elsewhere
-				this.el = '#wpmoly-meta-status';
-				this.model = editor.models.status;
 
 				this.template = _.template( $( '#wpmoly-meta-status-template' ).html() );
 				this.render();
@@ -41,27 +39,27 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Render the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			render: function() {
 
-				$( this.el ).html( this.template( { status: this.model.toJSON() } ) );
+				this.$el.html( this.template( { status: this.model.toJSON() } ) );
 				return this;
 			}
 
 		}),
 
 		/**
-		* WPMOLY Backbone Search View
-		* 
-		* View for metabox movie search form
-		* 
-		* @since    2.2
-		*/
+		 * WPMOLY Backbone Search View
+		 * 
+		 * View for metabox movie search form
+		 * 
+		 * @since    2.2
+		 */
 		Search: Backbone.View.extend({
 
 			el: '#wpmoly-meta-search',
@@ -76,35 +74,36 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Initialize the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			initialize: function( options ) {
 
 				// Allow model and target override to use search with
 				// alternative content
 				_.extend( this, _.pick( options, 'model', 'target' ) );
 
-				var template = $( this.el ).html();
+				var template = this.$el.html();
 				if ( undefined === template )
 					return false;
 
 				this.template = _.template( template );
 				this.render();
 
+				this.model.on( 'change:query', this.updateQuery, this );
 				this.target.on( 'sync:done', this.reset, this );
 			},
 
 			/**
-			* Render the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			render: function() {
 
 				this.$el.html( this.template() );
@@ -112,14 +111,14 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Update the Model's search query value when changed.
-			* 
-			* @since    2.2
-			* 
-			* @param    object    JS Event
-			* 
-			* @return   void
-			*/
+			 * Update the Model's search query value when changed.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Event
+			 * 
+			 * @return   void
+			 */
 			set: function( event ) {
 
 				var data = [],
@@ -131,20 +130,20 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Trigger the search process
-			* 
-			* @since    2.2
-			* 
-			* @param    object    JS Event
-			* 
-			* @return   void
-			*/
+			 * Trigger the search process
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Event
+			 * 
+			 * @return   void
+			 */
 			search: function( event ) {
 
 				event.preventDefault();
 
-				var query = $( '#wpmoly-search-query' ).val(),
-				    lang = $( '#wpmoly-search-lang' ).val();
+				var query = this.$el.find( '#wpmoly-search-query' ).val(),
+				     lang = this.$el.find( '#wpmoly-search-lang' ).val();
 				if ( query != this.model.get( 'query' ) )
 					this.model.set( { query: query, type: 'title', lang: lang } );
 
@@ -152,14 +151,14 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Not implemented yet.
-			* 
-			* @since    2.2
-			* 
-			* @param    object    JS Event
-			* 
-			* @return   void
-			*/
+			 * 
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Event
+			 * 
+			 * @return   void
+			 */
 			update: function( event ) {
 
 				event.preventDefault();
@@ -175,14 +174,28 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Not implemented yet.
-			* 
-			* @since    2.2
-			* 
-			* @param    object    JS Event
-			* 
-			* @return   void
-			*/
+			 * Update the view's query value when model changes
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Event
+			 * 
+			 * @return   void
+			 */
+			updateQuery: function( model ) {
+
+				this.$el.find( '#wpmoly-search-query' ).val( model.changed.query )
+			},
+
+			/**
+			 * Not implemented yet.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Event
+			 * 
+			 * @return   void
+			 */
 			empty: function( event ) {
 
 				event.preventDefault();
@@ -190,12 +203,12 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Reset search results
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Reset search results
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			reset: function() {
 
 				editor.models.results.reset();
@@ -203,12 +216,12 @@ window.wpmoly = window.wpmoly || {};
 		}),
 
 		/**
-		* WPMOLY Backbone Movie View
-		* 
-		* View for metabox movie metadata fields
-		* 
-		* @since    2.2
-		*/
+		 * WPMOLY Backbone Movie View
+		 * 
+		 * View for metabox movie metadata fields
+		 * 
+		 * @since    2.2
+		 */
 		Movie: Backbone.View.extend({
 
 			el: '#wpmoly-movie-meta',
@@ -218,17 +231,17 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Initialize the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			initialize: function() {
 
-				var template = $( '#wpmoly-movie-meta' ).html();
+				var template = $( this.el ).html();
 				if ( undefined === template )
-					return false;
+					return this;
 
 				this.template = _.template( template );
 				this.render();
@@ -239,14 +252,14 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Render the View
-			* 
-			* @since    2.2
-			* 
-			* @param    object    Model
-			* 
-			* @return   void
-			*/
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    Model
+			 * 
+			 * @return   void
+			 */
 			render: function( model ) {
 
 				this.$el.html( this.template() );
@@ -254,14 +267,14 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Update the View to match the Model's changes
-			* 
-			* @since    2.2
-			* 
-			* @param    object    Model
-			* 
-			* @return   void
-			*/
+			 * Update the View to match the Model's changes
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    Model
+			 * 
+			 * @return   void
+			 */
 			changed: function( model ) {
 
 				_.each( model.changed, function( meta, key ) {
@@ -270,14 +283,14 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Update the Model whenever an input value is changed
-			* 
-			* @since    2.2
-			* 
-			* @param    object    JS Event
-			* 
-			* @return   void
-			*/
+			 * Update the Model whenever an input value is changed
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Event
+			 * 
+			 * @return   void
+			 */
 			update: function( event ) {
 
 				var meta = event.currentTarget.id.replace( 'meta_data_', '' ),
@@ -288,12 +301,12 @@ window.wpmoly = window.wpmoly || {};
 		}),
 
 		/**
-		* WPMOLY Backbone Results View
-		* 
-		* View for movie search results collection.
-		* 
-		* @since    2.2
-		*/
+		 * WPMOLY Backbone Results View
+		 * 
+		 * View for movie search results collection.
+		 * 
+		 * @since    2.2
+		 */
 		Results: Backbone.View.extend({
 
 			el: '#wpmoly-meta-search-results',
@@ -303,12 +316,12 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Initialize the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			initialize: function() {
 
 				var template = $( '#wpmoly-search-results-template' ).html();
@@ -325,31 +338,31 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Render the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			render: function() {
 
 				var results = this.template( { results : this.collection.toJSON() } );
 
-				$( this.el ).show();
-				$( this.el ).html( results );
+				this.$el.show();
+				this.$el.html( results );
 
 				return this;
 			},
 
 			/**
-			* Fetch movie metadata based on the select result
-			* 
-			* @since    2.2
-			* 
-			* @param    object    JS Event
-			* 
-			* @return   void
-			*/
+			 * Fetch movie metadata based on the select result
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Event
+			 * 
+			 * @return   void
+			 */
 			get: function( event ) {
 
 				event.preventDefault();
@@ -363,12 +376,12 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Reset the results view
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Reset the results view
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			reset: function() {
 
 				this.$el.empty();
@@ -378,23 +391,23 @@ window.wpmoly = window.wpmoly || {};
 		}),
 
 		/**
-		* WPMOLY Backbone Preview View
-		* 
-		* View for movie metabox preview panel.
-		* 
-		* @since    2.2
-		*/
+		 * WPMOLY Backbone Preview View
+		 * 
+		 * View for movie metabox preview panel.
+		 * 
+		 * @since    2.2
+		 */
 		Preview: Backbone.View.extend({
 
 			el: '#wpmoly-meta-preview-panel',
 
 			/**
-			* Initialize the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			initialize: function () {
 				
 				_.bindAll( this, 'render' );
@@ -406,14 +419,14 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Update the View to match the Model's changes
-			* 
-			* @since    2.2
-			* 
-			* @param    object    Model
-			* 
-			* @return   void
-			*/
+			 * Update the View to match the Model's changes
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    Model
+			 * 
+			 * @return   void
+			 */
 			changed: function( model ) {
 
 				var meta = model.changed;
@@ -432,12 +445,12 @@ window.wpmoly = window.wpmoly || {};
 		}),
 
 		/**
-		* WPMOLY Backbone Panel View
-		* 
-		* View for movie metabox panels.
-		* 
-		* @since    2.2
-		*/
+		 * WPMOLY Backbone Panel View
+		 * 
+		 * View for movie metabox panels.
+		 * 
+		 * @since    2.2
+		 */
 		Panel: Backbone.View.extend({
 
 			el: '#wpmoly-meta',
@@ -453,12 +466,12 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Initialize the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			initialize: function () {
 				
 				_.bindAll( this, 'render', 'fix' );
@@ -479,12 +492,12 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Render the View
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			render: function () {
 
 				this.$el.html( this.template() );
@@ -492,14 +505,14 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Jump through the panels
-			* 
-			* @since    2.2
-			* 
-			* @param    object    JS Event
-			* 
-			* @return   void
-			*/
+			 * Jump through the panels
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Event
+			 * 
+			 * @return   void
+			 */
 			navigate: function( event ) {
 
 				event.preventDefault();
@@ -519,13 +532,13 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Set a fixed position for the panel tabs when scrolling long
-			* panels (essentially the meta one).
-			* 
-			* @since    2.2
-			* 
-			* @return   void
-			*/
+			 * Set a fixed position for the panel tabs when scrolling long
+			 * panels (essentially the meta one).
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			fix: function() {
 
 				var $meta = $( this.meta ),
@@ -556,10 +569,10 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Resize Metabox Panel
-			*
-			* @since 2.0
-			*/
+			 * Resize Metabox Panel
+			 *
+			 * @since 2.0
+			 */
 			resize: function( event ) {
 				if ( undefined !== event )
 					event.preventDefault();
