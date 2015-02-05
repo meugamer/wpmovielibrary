@@ -600,7 +600,8 @@
 }
 
 .wpmoly-media-modal .attachments-browser .attachments .attachment.wpmoly-filtered-attachment {
-	opacity: 0.25;
+	display: none;
+	/*opacity: 0.25;*/
 }
 
 .wpmoly-media-modal .attachments-browser .attachment-info .thumbnail,

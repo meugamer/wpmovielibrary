@@ -301,6 +301,7 @@ wpmoly.media = wpmoly.media || {};
 				this._frame.on( 'open', this.classNames, this );
 
 				this._frame.state( this._library.id ).on( 'select', this.select, this );
+				this._frame.state( this._library.id ).get( 'library' ).on( 'add', this.filterLanguageFilters, this );
 				this._frame.state( this._library.id ).get( 'library' ).on( 'selection:single selection:unsingle', this.selectionResize, this );
 
 				wp.Uploader.queue.on( 'add', this.upload, this );
@@ -341,6 +342,14 @@ wpmoly.media = wpmoly.media || {};
 							id: 'media-attachment-language-filters',
 
 							className: 'attachment-filters attachment-language-filters',
+
+							initialize: function() {
+
+								wp.media.view.AttachmentFilters.prototype.initialize.apply( this, arguments );
+
+								// Make ALL languages disabled so that we can enable the available ones later
+								this.$el.find( 'option' ).not( ':first' ).prop( 'disabled', true );
+							},
 							
 							createFilters: function() {
 								this.filters = wpmoly.l10n.languages;
@@ -378,6 +387,14 @@ wpmoly.media = wpmoly.media || {};
 						);
 					}
 				});
+			},
+
+			filterLanguageFilters: function( model, collection ) {
+
+				var browser = this._frame.state().frame.views.get('.media-frame-content')[0],
+				   language = browser.toolbar.secondary.get('language');
+
+				language.$el.find( 'option[value="' + model.get( 'metadata' ).iso_639_1 + '"]' ).prop( 'disabled', false );
 			},
 
 			/**
