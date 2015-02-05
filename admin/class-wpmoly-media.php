@@ -642,15 +642,13 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 						'thumbnail' => array(
 							'height' => 154,
 							'orientation' => $_orientation,
-							'url' => $base_url['small'] . $image['file_path'],
+							'url' => $base_url['medium'] . $image['file_path'],
 							'width' => 154,
 						),
 						'medium' => array(
 							'height' => floor( 300 / $image['aspect_ratio'] ),
 							'orientation' => $_orientation,
-							// Modal thumbs are actually Medium size, so we set a small one
-							// for posters, a really small one
-							'url' => ( 'poster' == $image_type ? $base_url['x-small'] : $base_url['small'] ) . $image['file_path'],
+							'url' => $base_url['small'] . $image['file_path'],
 							'width' => 300,
 						),
 						'large' => array(

@@ -586,11 +586,29 @@
 	border-left-color: #00b7ff;
 }
 
+/**
+ * Media Modal
+ **/
 
+.wpmoly-media-modal .attachments-browser .attachment-filters {
+	display: none;
+}
 
+.wpmoly-media-modal.poster-modal .attachments-browser .attachment-language-filters {
+	display: inline-block;
+	min-width: 128px;
+}
 
+.wpmoly-media-modal .attachments-browser .attachments .attachment.wpmoly-filtered-attachment {
+	opacity: 0.25;
+}
 
-
+.wpmoly-media-modal .attachments-browser .attachment-info .thumbnail,
+.wpmoly-media-modal .attachments-browser .attachment-info .thumbnail img {
+	max-width: none;
+	max-height: none;
+	width: 256px;
+}
 
 
 

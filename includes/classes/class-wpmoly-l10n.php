@@ -455,10 +455,18 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 					'saved'			=> __( 'Metadata saved!', 'wpmovielibrary' ),
 					'searching'		=> __( 'Searching...', 'wpmovielibrary' )
 				),
+				'languages' => array(
+					'all' => array( 'code' => '', 'text' => __( 'All languages', 'wpmovielibrary' ), 'priority' => 10 )
+				)
 				/*'' => array(
 					'' => ''
 				),*/
 			);
+
+			$languages = WPMOLY_Settings::get_supported_languages();
+			asort( $languages );
+			foreach ( $languages as $code => $name )
+				$lang['languages'][ $code ] = array( 'code' => $code, 'text' => $name );
 
 			$localize = array_merge( $localize, $lang );
 

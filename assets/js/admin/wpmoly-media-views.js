@@ -186,6 +186,7 @@ wpmoly.media = wpmoly.media || {};
 
 				this.render();
 
+				this.media = wp.media;
 				this.modal = this.frame();
 
 				this.collection.on( 'add', this.add, this );
@@ -289,55 +290,87 @@ wpmoly.media = wpmoly.media || {};
 				if ( this._frame )
 					return this._frame;
 
-				var media = wp.media,
-				  browser = media.view.AttachmentsBrowser;
+				if ( true === this._filterbycountry )
+					this.createLanguageFilter();
 
+				this._frame = this.media( {
+					state: this._library.id,
+					states: this._library.state
+				} );
+
+				this._frame.on( 'open', this.classNames, this );
+
+				this._frame.state( this._library.id ).on( 'select', this.select, this );
+				this._frame.state( this._library.id ).get( 'library' ).on( 'selection:single selection:unsingle', this.selectionResize, this );
+
+				wp.Uploader.queue.on( 'add', this.upload, this );
+
+				return this._frame;
+			},
+
+			/**
+			 * Add a custom Language filter to the AttachmentsBrowser
+			 * 
+			 * @since    2.2
+			 */
+			createLanguageFilter: function() {
+
+				var media = this.media;
+				var browser = media.view.AttachmentsBrowser;
+
+				/**
+				 * Customized AttachmentsBrowser
+				 * 
+				 * @since    2.2
+				 */
 				media.view.AttachmentsBrowser = media.view.AttachmentsBrowser.extend({
 
+					/**
+					 * Customize Toolbar
+					 * 
+					 * @since    2.2
+					 */
 					createToolbar: function() {
 
-						media.model.Query.defaultArgs.filterSource = 'filter-media-country';
-
+						// Prototype call
 						browser.prototype.createToolbar.apply( this, arguments );
 
-						console.log( this.events );
+						// Custom Attachments Filter
 						filters = media.view.AttachmentFilters.extend({
-							id: 'media-attachment-country-filters',
-							className: 'attachment-filters attachment-country-filters',
+
+							id: 'media-attachment-language-filters',
+
+							className: 'attachment-filters attachment-language-filters',
 							
 							createFilters: function() {
-								this.filters = {
-									all: {
-										text:  'Tous les pays',
-										props: {
-											code: ''
-										},
-										priority: 10
-									},
-									US: {
-										text: 'United States',
-										props: {
-											code: 'US'
-										}
-									},
-									FR: {
-										text: 'France',
-										props: {
-											code: 'FR'
-										}
-									}
-									/*{ code: 'US', label: 'United States' },
-									{ code: 'FR', label: 'France' }*/
-								}
+								this.filters = wpmoly.l10n.languages;
 							},
 
 							change: function() {
-								var filter = this.filters[ this.el.value ];
-								console.log( filter );
+
+								var  filter = this.filters[ this.el.value ],
+								     models = this.controller.state().get( 'library' ).models,
+								    browser = this.controller.state().frame.views.get('.media-frame-content')[0],
+								attachments = browser.$el.find( 'li.attachment' );
+
+								if ( undefined === models || ! models.length || '' == filter.code ) {
+									attachments.removeClass( 'wpmoly-filtered-attachment' );
+									return;
+								}
+
+								attachments.addClass( 'wpmoly-filtered-attachment' );
+
+								_.map( models, function( model ) {
+									if ( filter.code === model.get( 'metadata' ).iso_639_1 ) {
+										var id = model.get( 'id' );
+										attachments.filter( '[data-id="' + id + '"]' ).removeClass( 'wpmoly-filtered-attachment' );
+									}
+								} );
+								
 							},
 						});
 
-						this.toolbar.set( 'country', new filters({
+						this.toolbar.set( 'language', new filters({
 								controller: this.controller,
 								model: this.collection.props,
 								priority: -80
@@ -345,20 +378,26 @@ wpmoly.media = wpmoly.media || {};
 						);
 					}
 				});
-
-				this._frame = media( {
-					state: this._library.id,
-					states: this._library.state
-				} );
-
-				this._frame.on( 'open', this.hidemenu, this );
-
-				this._frame.state( this._library.id ).on( 'select', this.select, this );
-
-				wp.Uploader.queue.on( 'add', this.upload, this );
-
-				return this._frame;
 			},
+
+			/**
+			 * Mess with size attributes to show a bigger image
+			 * in detail Sidebar.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    Attachment Model
+			 * 
+			 * @return   void
+			 */
+			selectionResize: function( model ) {
+
+				var thumbnail = _.clone( model.get( 'sizes' ).thumbnail ),
+				       medium = _.clone( model.get( 'sizes' ).medium );
+				model.attributes.sizes.thumbnail = medium;
+				model.attributes.sizes.medium = thumbnail;
+			},
+
 
 			/**
 			 * Hide Modal Menu
@@ -367,9 +406,9 @@ wpmoly.media = wpmoly.media || {};
 			 * 
 			 * @return   void
 			 */
-			hidemenu: function() {
+			classNames: function() {
 
-				this._frame.$el.addClass( 'hide-menu' );
+				this._frame.$el.addClass( 'wpmoly-media-modal ' + this._type + '-modal hide-menu' );
 			},
 
 			/**
@@ -471,7 +510,7 @@ wpmoly.media = wpmoly.media || {};
 
 			_type: 'backdrop',
 
-			filter: wp.media.view.AttachmentFilters.extend({}),
+			_filterbycountry: false,
 
 			_library: {
 				id: 'backdrops',
@@ -557,32 +596,7 @@ wpmoly.media = wpmoly.media || {};
 
 			_type: 'poster',
 
-			_filter: wp.media.view.AttachmentFilters.extend({
-	
-				tagName:   'select',
-				
-				createFilters: function() {
-					var filters = {};
-					_.each( wp.media.view.settings.months || {}, function( value, index ) {
-						filters[ index ] = {
-							text: value.text,
-							props: {
-								year: value.year,
-								monthnum: value.month
-							}
-						};
-					});
-					filters.all = {
-						text:  "Toutes les dates",
-						props: {
-							monthnum: false,
-							year:  false
-						},
-						priority: 10
-					};
-					this.filters = filters;
-				}
-			}),
+			_filterbycountry: true,
 
 			_library: {
 				id: 'posters',
@@ -619,6 +633,8 @@ wpmoly.media = wpmoly.media || {};
 				// Bind to the editor sync:done event to set featured image
 				this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
 				this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.reload );
+
+				//this.on( 'prepare:media', this.prepareMedia, this );
 
 				return ;
 			},
