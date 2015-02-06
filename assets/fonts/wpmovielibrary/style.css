@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'wpmovielibrary';
-	src:url('fonts/wpmovielibrary.eot?-245orh');
-	src:url('fonts/wpmovielibrary.eot?#iefix-245orh') format('embedded-opentype'),
-		url('fonts/wpmovielibrary.woff?-245orh') format('woff'),
-		url('fonts/wpmovielibrary.ttf?-245orh') format('truetype'),
-		url('fonts/wpmovielibrary.svg?-245orh#wpmovielibrary') format('svg');
+	src:url('fonts/wpmovielibrary.eot?-gj5bip');
+	src:url('fonts/wpmovielibrary.eot?#iefix-gj5bip') format('embedded-opentype'),
+		url('fonts/wpmovielibrary.woff?-gj5bip') format('woff'),
+		url('fonts/wpmovielibrary.ttf?-gj5bip') format('truetype'),
+		url('fonts/wpmovielibrary.svg?-gj5bip#wpmovielibrary') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -285,6 +285,10 @@
 
 .icon-wpmoly:before {
 	content: "\e62c";
+}
+
+.icon-settings:before {
+	content: "\e677";
 }
 
 .icon-dollar2:before {

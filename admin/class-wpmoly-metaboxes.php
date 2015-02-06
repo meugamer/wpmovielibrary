@@ -50,6 +50,7 @@ if ( ! class_exists( 'WPMovieLibrary_Metaboxes' ) ) :
 			$this->metaboxes = array(
 				'movie' => array(
 					'wpmoly' => array(
+						'id'            => 'wpmoly',
 						'title'         => __( 'WordPress Movie Library', 'wpmovielibrary' ),
 						'callback'      => 'WPMOLY_Edit_Movies::metabox',
 						'screen'        => 'movie',
@@ -92,6 +93,7 @@ if ( ! class_exists( 'WPMovieLibrary_Metaboxes' ) ) :
 				),
 				'default' => array(
 					'wpmoly' => array(
+						'id'            => 'wpmoly',
 						'title'         => __( 'WordPress Movie Library', 'wpmovielibrary' ),
 						'callback'      => 'WPMOLY_Edit_Movies::metabox',
 						'screen'        => wpmoly_o( 'convert-post-types', array() ),
@@ -161,6 +163,8 @@ if ( ! class_exists( 'WPMovieLibrary_Metaboxes' ) ) :
 
 					extract( $metabox );
 
+					$callback_args['_metabox'] = $metabox;
+
 					if ( ! is_array( $screen ) )
 						$screen = array( $screen );
 
@@ -178,6 +182,7 @@ if ( ! class_exists( 'WPMovieLibrary_Metaboxes' ) ) :
 
 			foreach ( $metaboxes as $id => $metabox ) {
 				extract( $metabox );
+				$callback_args['_metabox'] = $metabox;
 				add_meta_box( $id . '-metabox', $title, $callback, $screen, $context, $priority, $callback_args );
 			}
 		}

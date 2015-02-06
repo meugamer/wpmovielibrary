@@ -52,7 +52,7 @@ window.wpmoly = window.wpmoly || {};
 			defaults: {
 				active: true,
 				loading: false,
-				message: 'ready!'
+				message: wpmoly.l10n.misc.api_connected
 			},
 
 			/**
@@ -100,6 +100,18 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			say: function( message ) {
 				this.set( { message: message } );
+			},
+
+			/**
+			 * Reset Model to default
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			reset: function() {
+
+				this.clear().set( this.defaults );
 			}
 		}),
 
@@ -396,7 +408,17 @@ window.wpmoly = window.wpmoly || {};
 		 * 
 		 * @since    2.2
 		 */
-		Results: Backbone.Collection.extend( { model: editor.Model.Result } ),
+		Results: Backbone.Collection.extend({
+
+			model: editor.Model.Result,
+
+			reset: function() {
+
+				editor.models.status.reset();
+
+				return Backbone.Collection.prototype.reset.apply( this, arguments );
+			}
+		} ),
 
 		/**
 		 * WPMOLY Backbone Preview Model

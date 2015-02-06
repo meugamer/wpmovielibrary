@@ -16,9 +16,12 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		Status: Backbone.View.extend({
 
-			el: '#wpmoly-meta-status',
+			el: '#wpmoly-search-status',
 
-			events: {},
+			events: {
+				'mouseenter .wpmoly-status-text' : 'extend',
+				'mouseleave .wpmoly-status-text' : 'collapse'
+			},
 
 			/**
 			 * Initialize the View
@@ -29,7 +32,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			initialize: function() {
 
-				this.template = _.template( $( '#wpmoly-meta-status-template' ).html() );
+				this.template = _.template( $( '#wpmoly-search-status-template' ).html() );
 				this.render();
 
 				_.bindAll( this, 'render' );
@@ -49,6 +52,31 @@ window.wpmoly = window.wpmoly || {};
 
 				this.$el.html( this.template( { status: this.model.toJSON() } ) );
 				return this;
+			},
+
+			/**
+			 *Set Status bar full width to display long messages
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			extend: function( event ) {
+
+				if ( event.currentTarget.scrollWidth > event.currentTarget.clientWidth )
+					this.$el.addClass( 'active' );
+			},
+
+			/**
+			 * Reset Status bar to default width
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			collapse: function( event ) {
+
+				this.$el.removeClass( 'active' );
 			}
 
 		}),
@@ -62,7 +90,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		Search: Backbone.View.extend({
 
-			el: '#wpmoly-meta-search',
+			el: '#wpmoly-search-box',
 
 			events: {
 				"click #wpmoly-search": "search",
@@ -312,7 +340,8 @@ window.wpmoly = window.wpmoly || {};
 			el: '#wpmoly-meta-search-results',
 
 			events : {
-				'click .wpmoly-select-movie a' : 'get'
+				'click .wpmoly-select-movie a' : 'get',
+				'click #wpmoly-empty-select-results' : '_reset'
 			},
 
 			/**
@@ -373,6 +402,21 @@ window.wpmoly = window.wpmoly || {};
 				editor.models.search.set( 'query', id );
 
 				editor.models.movie.sync( 'search', this.model, {} );
+			},
+
+			/**
+			 * Reset the results Collection
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Event
+			 * 
+			 * @return   void
+			 */
+			_reset: function( event ) {
+
+				event.preventDefault();
+				this.collection.reset();
 			},
 
 			/**

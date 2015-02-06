@@ -38,6 +38,10 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 9 );
 
+			// Metabox
+			add_action( 'wpmoly_before_metabox_content', __CLASS__ . '::before_metabox_content' );
+			add_action( 'wpmoly_before_metabox_menu', __CLASS__ . '::before_metabox_menu' );
+
 			// Bulk/quick edit
 			add_filter( 'bulk_post_updated_messages', __CLASS__ . '::movie_bulk_updated_messages', 10, 2 );
 
@@ -91,10 +95,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 									</div>
 
 								<% }); %>
+									<a id="wpmoly-empty-select-results" href="#"><span class="wpmolicon icon-no-alt"></span></a>
 		</script>
-		<script type="text/template" id="wpmoly-meta-status-template">
-				<div id="wpmoly-meta-status-loader"<% if ( true === status.active ) { %> class="active" <% } %>><% if ( true === status.loading ) { %><img src="<?php echo WPMOLY_URL . '/assets/img/puff.svg'; ?>" width="20" height="15" alt="" /><% } else { %><span class="wpmolicon icon-status"></span><% } %> <strong>wpmovielibrary:</strong> 
-				<div id="wpmoly-meta-status-content"<% if ( true === status.active ) { %> class="active" <% } %>><%= status.message %></div></div>
+		<script type="text/template" id="wpmoly-search-status-template">
+						<div class="wpmoly-status-icon"><% if ( true === status.loading ) { %><img src="<?php echo WPMOLY_URL . '/assets/img/puff.svg'; ?>" width="20" height="15" alt="" /><% } else { %><span class="wpmolicon icon-api"></span><% } %></div>
+						<div class="wpmoly-status-text"><%= status.message %></div>
 		</script>
 		<script type="text/template" id="wpmoly-imported-backdrops-template">
 								<% _.each( attachments, function( attachment ) { %>
@@ -202,6 +207,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'save-movie-meta' ) );
 		}
+
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                     Messages and convert
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
 		 * Add message support for movies in Post Editor.
@@ -638,13 +649,96 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
+		 * Add a status div before the Metabox menu
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    array    $metabox Metabox parameters
+		 */
+		public static function before_metabox_menu( $metabox ) {
+
+			if ( 'wpmoly' != $metabox['id'] )
+				return false;
+		}
+
+		/**
+		 * Add hidden inputs before the Metabox content
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    array    $metabox Metabox parameters
+		 */
+		public static function before_metabox_content( $metabox ) {
+
+			if ( 'wpmoly' != $metabox['id'] )
+				return false;
+
+			$fields = array(
+				'autocomplete-collection' => wpmoly_o( 'autocomplete-collection' ),
+				'autocomplete-genre'      => wpmoly_o( 'autocomplete-genre' ),
+				'autocomplete-actor'      => wpmoly_o( 'autocomplete-actor' ),
+				'actor-limit'             => wpmoly_o( 'actor-limit' ),
+				'poster-featured'         => wpmoly_o( 'poster-featured' ),
+				'search-lang'             => wpmoly_o( 'api-language' )
+			);
+
+			foreach ( $fields as $id => $field ) {
+?>
+		<input type="hidden" id="wpmoly-<?php echo $id; ?>" value="<?php echo $field; ?>" />
+<?php
+			}
+
+			$languages = WPMOLY_Settings::get_supported_languages();
+
+?>
+
+			<div id="wpmoly-movie-meta-search" class="wpmoly-movie-meta-search">
+
+				<?php wpmoly_nonce_field( 'empty-movie-meta' ) ?>
+				<?php wpmoly_nonce_field( 'save-movie-meta' ) ?>
+				<?php wpmoly_nonce_field( 'search-movies' ) ?>
+
+				<div id="wpmoly-search-box">
+					<div id="wpmoly-search-status">
+						<div class="wpmoly-status-icon"><span class="wpmolicon icon-api"></span></div>
+						<div class="wpmoly-status-text">API connectée</div>
+					</div>
+					<div id="wpmoly-search-form">
+						<div class="wpmoly-search-settings"><a class="icon" href="#" title="<?php _e( 'Search options', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-settings"></span></a></div>
+						<div class="wpmoly-search-query">
+							<input id="wpmoly-search-query" type="text" placeholder="<?php _e( 'ex: Interstellar', 'wpmovielibrary' ); ?>" />
+							<a class="icon" href="#" id="wpmoly-lang"><span class="wpmolicon icon-language"></span></a><a class="icon" href="#" id="wpmoly-search"><span class="wpmolicon icon-search"></span></a>
+							<div id="wpmoly-lang-select">
+								<div class="wpmoly-lang-select"><?php _e( 'Select a language', 'wpmovielibrary' ) ?></div>
+								<ul>
+<?php foreach ( $languages as $code => $lang ) : ?>
+									<li><a href="#" data-lang="<?php echo $code ?>"><?php echo $lang ?></a></li>
+<?php endforeach; ?>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="wpmoly-search-tools">
+						<a class="icon" id="wpmoly-update" href="#"><span class="wpmolicon icon-update"></span></a><a class="icon" id="wpmoly-empty" href="#"><span class="wpmolicon icon-no-alt"></span></a>
+					</div>
+				</div>
+
+				<div id="wpmoly-meta-search-results"></div>
+
+			</div>
+
+<?php
+		}
+
+		/**
 		 * Posts Metabox content callback.
 		 * 
 		 * @since    2.1.4
 		 * 
-		 * @param    object    Current Post object
+		 * @param    object    $post Current Post object
+		 * @param    array     $args Metabox parameters
 		 */
-		public static function metabox( $post, $args = array() ) {
+		public static function metabox( $post, $args ) {
 
 			if ( 'movie' == $post->post_type ) {
 				self::movie_metabox( $post, $args );
@@ -669,6 +763,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$post_id   = $post->ID;
 
 			$post_types = wpmoly_o( 'convert-post-types' );
+			$metabox    = $args['_metabox'];
 
 			if ( in_array( $post_type, $post_types ) ) {
 				if ( isset( $wp_post_types[ $post_type ]->labels->singular_name ) ) {
@@ -678,9 +773,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				$post_type = null;
 			}
 
-			$attributes = compact( 'post_type', 'post_id' );
+			$attributes = compact( 'post_type', 'post_id', 'metabox' );
 
-			echo self::render_admin_template( 'metabox/metabox.php', $attributes );
+			echo self::render_admin_template( 'metabox/metabox-convert.php', $attributes );
 		}
 
 		/**
@@ -710,8 +805,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			 */
 			$args['panels'] = apply_filters( 'wpmoly_filter_metabox_panels', $args['panels'] );
 
-			$tabs   = array();
-			$panels = array();
+			$metabox = $args['_metabox'];
+			$tabs    = array();
+			$panels  = array();
 
 			foreach ( $args['panels'] as $id => $panel ) {
 
@@ -731,8 +827,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			}
 
 			$attributes = array(
-				'tabs'   => $tabs,
-				'panels' => $panels
+				'tabs'    => $tabs,
+				'panels'  => $panels,
+				'metabox' => $metabox
 			);
 
 			echo self::render_admin_template( 'metabox/metabox.php', $attributes );

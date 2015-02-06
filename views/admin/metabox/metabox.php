@@ -1,21 +1,9 @@
 
-<?php if ( ! is_null( $post_type ) ) : ?>
-
-		<p><?php printf( __( 'You can convert this %s to Movie to access WPMovieLibrary features without duplicating your content.', 'wpmovielibrary' ), $post_type ); ?></p>
-		<p id="wpmoly-convert-button">
-			<a href="<?php echo wpmoly_nonce_url( admin_url( "post.php?post={$post_id}&action=edit&wpmoly_convert_post_type=1" ), 'convert-post-type' ) ?>" class="button button-primary button-large"><?php printf( __( 'Convert %s to Movie', 'wpmovielibrary' ), $post_type ); ?></a>
-		</p>
-<?php else : ?>
-		<?php do_action( 'wpmoly_before_metabox_content' ); ?>
-		<input type="hidden" id="wpmoly-autocomplete-collection" value="<?php echo wpmoly_o( 'collection-autocomplete' ); ?>" />
-		<input type="hidden" id="wpmoly-autocomplete-genre" value="<?php echo wpmoly_o( 'genre-autocomplete' ); ?>" />
-		<input type="hidden" id="wpmoly-autocomplete-actor" value="<?php echo wpmoly_o( 'actor-autocomplete' ); ?>" />
-		<input type="hidden" id="wpmoly-actor-limit" value="<?php echo wpmoly_o( 'actor-limit' ) ?>" />
-		<input type="hidden" id="wpmoly-poster-featured" value="<?php echo wpmoly_o( 'poster-featured' ) ?>" />
+<?php do_action( 'wpmoly_before_metabox_content', $metabox ); ?>
 
 		<div id="wpmoly-meta" class="wpmoly-meta">
 
-			<div id="wpmoly-meta-status"></div>
+<?php do_action( 'wpmoly_before_metabox_menu', $metabox ); ?>
 
 			<div id="wpmoly-meta-menu-bg"></div>
 			<ul id="wpmoly-meta-menu" class="hide-if-no-js">
@@ -27,21 +15,22 @@
 				<li class="tab off hide-if-no-js"><a href="#"><span class="wpmolicon icon-collapse"></span>&nbsp; <span class="text"><?php _e( 'Collapse', 'wpmovielibrary' ) ?></span></a></li>
 			</ul>
 
-			<div id="wpmoly-meta-panels">
+<?php do_action( 'wpmoly_after_metabox_menu', $metabox ); ?>
+<?php do_action( 'wpmoly_before_metabox_panels', $metabox ); ?>
 
-				<?php do_action( 'wpmoly_before_metabox_panels' ); ?>
+			<div id="wpmoly-meta-panels">
 
 <?php foreach ( $panels as $id => $panel ) : ?>
 
 				<div id="wpmoly-meta-<?php echo $id ?>-panel" class="panel<?php echo $panel['active'] ?> hide-if-js"><?php echo $panel['content'] ?></div>
 <?php endforeach; ?>
 
-				<?php do_action( 'wpmoly_after_metabox_panels' ); ?>
 			</div>
+
+<?php do_action( 'wpmoly_after_metabox_panels', $metabox ); ?>
+
 			<div style="clear:both"></div>
 
 		</div>
 
-		<?php do_action( 'wpmoly_after_metabox_content' ); ?>
-
-<?php endif; ?>
+<?php do_action( 'wpmoly_after_metabox_content', $metabox ); ?>

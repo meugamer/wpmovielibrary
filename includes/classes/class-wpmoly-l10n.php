@@ -422,6 +422,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 					)
 				),
 				'misc' => array(
+					'api_connected'		=> __( 'API connected', 'wpmovielibrary' ),
 					'available'		=> __( 'Available', 'wpmovielibrary' ),
 					'done'			=> __( 'Done!', 'wpmovielibrary' ),
 					'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
