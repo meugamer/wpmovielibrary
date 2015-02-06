@@ -52,7 +52,7 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 			if ( ! in_array( $theme, array_keys( $this->themes ) ) )
 				$theme = 'wpmoly';
 
-			if ( '' != $theme ) {
+			if ( ! empty( $theme ) && 'wpmoly' != $theme ) {
 
 				$theme = esc_attr( $theme );
 				$class = WPMOLY_PATH . "/public/class-wpmoly-headbox-$theme.php";
@@ -64,10 +64,10 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 					$class   = new $this->themes[ $theme ];
 					$headbox = $class->render( $content );
 				} else {
-					$headbox = self::get_wpmoly_headbox( $content );
+					$headbox = $this->get_wpmoly_headbox( $content );
 				}
 			} else {
-				$headbox = self::get_wpmoly_headbox( $content );
+				$headbox = $this->get_wpmoly_headbox( $content );
 			}
 
 			return $headbox;
@@ -119,18 +119,18 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 					$_item = '';
 					switch ( $item ) {
 						case 'rating':
-							$_item = apply_filters( 'wpmoly_movie_rating_stars', self::get_movie_meta( $id, 'rating' ) );
+							$_item = apply_filters( 'wpmoly_movie_rating_stars', wpmoly_get_movie_meta( $id, 'rating' ) );
 							$item  = 'rating starlined';
 							break;
 						case 'media':
 						case 'status':
-							$_item = apply_filters( "wpmoly_format_movie_$item", self::get_movie_meta( $id, $item ), $format = 'html', $icon = true );
+							$_item = apply_filters( "wpmoly_format_movie_$item", wpmoly_get_movie_meta( $id, $item ), $format = 'html', $icon = true );
 							break;
 						case 'release_date':
-							$_item = apply_filters( 'wpmoly_format_movie_year', self::get_movie_meta( $id, 'release_date' ), 'Y' );
+							$_item = apply_filters( 'wpmoly_format_movie_year', wpmoly_get_movie_meta( $id, 'release_date' ), 'Y' );
 							break;
 						default:
-							$_item = apply_filters( "wpmoly_format_movie_$item", self::get_movie_meta( $id, $item ) );
+							$_item = apply_filters( "wpmoly_format_movie_$item", wpmoly_get_movie_meta( $id, $item ) );
 							break;
 					}
 
@@ -260,17 +260,33 @@ if ( ! class_exists( 'WPMOLY_Headbox' ) ) :
 			);
 
 			/**
+			 * Filter the Headbox tabs before applying settings.
+			 * 
+			 * @since    2.1
+			 * 
+			 * @param    array    $tabs default menu links
+			 */
+			$tabs = apply_filters( 'wpmoly_pre_filter_headbox_menu_tabs', $tabs );
+
+			$_tabs = array();
+			$select  = wpmoly_o( 'headbox-tabs' );
+			if ( is_array( $select ) )
+				foreach ( $select as $s )
+					if ( isset( $tabs[ $s ] ) )
+						$_tabs[ $s ] = $tabs[ $s ];
+
+			/**
 			 * Filter the Headbox tabs.
 			 * 
 			 * @since    2.0
 			 * 
 			 * @param    array    $tabs default headbox tabs
 			 */
-			$tabs = apply_filters( 'wpmoly_filter_headbox_menu_tabs', $tabs );
+			$_tabs = apply_filters( 'wpmoly_filter_headbox_menu_tabs', $_tabs );
 
 			$attributes = array(
 				'id'   => get_the_ID(),
-				'tabs' => $tabs
+				'tabs' => $_tabs
 			);
 			$content = WPMovieLibrary::render_template( 'movies/headbox/tabs.php', $attributes, $require = 'always' );
 
