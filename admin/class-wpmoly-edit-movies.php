@@ -704,7 +704,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 						<div class="wpmoly-status-text">API connectée</div>
 					</div>
 					<div id="wpmoly-search-form">
-						<div class="wpmoly-search-settings"><a class="icon" href="#" title="<?php _e( 'Search options', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-settings"></span></a></div>
+						<div class="wpmoly-search-settings"><a id="wpmoly-search-settings" class="icon" href="#" title="<?php _e( 'Search options', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-settings"></span></a></div>
 						<div class="wpmoly-search-query">
 							<input id="wpmoly-search-query" type="text" placeholder="<?php _e( 'ex: Interstellar', 'wpmovielibrary' ); ?>" />
 							<a class="icon" href="#" id="wpmoly-lang"><span class="wpmolicon icon-language"></span></a><a class="icon" href="#" id="wpmoly-search"><span class="wpmolicon icon-search"></span></a>
@@ -724,6 +724,25 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				</div>
 
 				<div id="wpmoly-meta-search-results"></div>
+
+				<div id="wpmoly-meta-search-settings">
+					<div class="wpmoly-meta-search-settings">
+						<span class="setting-icon"><span class="wpmolicon icon-heart"></span></span>
+						<span class="setting-text"><a href="#"><span class="wpmolicon icon-no-alt"></span>&nbsp; Include adult movies</a></span>
+					</div>
+					<div class="wpmoly-meta-search-settings">
+						<span class="setting-icon"><span class="wpmolicon icon-ellipsis-h"></span></span>
+						<span class="setting-text"><a href="#"><span class="wpmolicon icon-no-alt"></span>&nbsp; Enable paginated results</a></span>
+					</div>
+					<div class="wpmoly-meta-search-settings">
+						<span class="setting-icon"><span class="wpmolicon icon-date"></span></span>
+						<span class="setting-text"><label>Search a specific year:&nbsp; <input type="text" size="4" maxlength="4" /></label></span>
+					</div>
+					<div class="wpmoly-meta-search-settings">
+						<span class="setting-icon"><span class="wpmolicon icon-date"></span></span>
+						<span class="setting-text"><label>Search a specific primary year:&nbsp; <input type="text" size="4" maxlength="4" /></label></span>
+					</div>
+				</div>
 
 			</div>
 

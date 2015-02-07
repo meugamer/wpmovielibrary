@@ -111,6 +111,7 @@ window.wpmoly = window.wpmoly || {};
 				"click #wpmoly-empty": "empty",
 				"click #wpmoly-lang": "toggleLangSelect",
 				"click .wpmoly-lang-selector": "setSearchLang",
+				"click #wpmoly-search-settings": "toggleSettings",
 				"change #wpmoly-search-query": "set",
 				"change #wpmoly-search-lang": "set",
 				"change #wpmoly-search-type": "set"
@@ -204,6 +205,14 @@ window.wpmoly = window.wpmoly || {};
 				   language = $target.attr( 'data-lang' );
 				
 				this.model.set( { lang: language } );
+			},
+
+			toggleSettings: function( event ) {
+
+				event.preventDefault();
+
+				$( event.currentTarget.parentElement ).toggleClass( 'active' );
+				$( '#wpmoly-meta-search-settings' ).slideToggle( 250 );
 			},
 
 			/**
@@ -449,7 +458,7 @@ window.wpmoly = window.wpmoly || {};
 
 				var results = this.template( { results : this.collection.toJSON() } );
 
-				this.$el.show();
+				this.$el.slideDown( 400 );
 				this.$el.html( results );
 
 				return this;
@@ -500,8 +509,8 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			reset: function() {
 
+				this.$el.slideUp( 250 );
 				this.$el.empty();
-				this.$el.hide();
 			},
 
 		}),
