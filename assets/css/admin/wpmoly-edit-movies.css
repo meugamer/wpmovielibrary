@@ -372,6 +372,11 @@
 	width: 36px;
 }
 
+#wpmoly-search-box #wpmoly-search-status .wpmoly-status-icon .wpmolicon.icon-warning {
+	color: #ff3c20;
+	font-size: 18px;
+}
+
 #wpmoly-search-box #wpmoly-search-status .wpmoly-status-icon img {
 	margin: 0 0 0 8px;
 	position: relative;
@@ -383,6 +388,10 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: 8.5em;
+}
+
+#wpmoly-search-box #wpmoly-search-status .wpmoly-status-text.warning {
+	color: #b42915;
 }
 
 #wpmoly-search-box #wpmoly-search-status.active .wpmoly-status-text {
@@ -397,7 +406,7 @@
 }
 
 #wpmoly-search-box > #wpmoly-search-form {
-	
+	padding-left: 50px;
 }
 
 #wpmoly-search-box > #wpmoly-search-form a.icon,
@@ -440,6 +449,12 @@
 
 #wpmoly-search-box #wpmoly-search-status .wpmoly-status-icon .wpmolicon {
 	margin-left: 8px;
+}
+
+#wpmoly-search-box #wpmoly-search-form .wpmoly-search-settings {
+	float: left;
+	margin-left: -50px;
+	width: 50px;
 }
 
 #wpmoly-search-box #wpmoly-search-form .wpmoly-search-settings .wpmolicon {
@@ -510,6 +525,10 @@
 	height: 32px;
 	line-height: 32px !important;
 	width: 32px !important;
+}
+
+#wpmoly-search-box .wpmoly-search-query > a:hover .wpmolicon {
+	color: #666 !important;
 }
 
 #wpmoly-search-box .wpmoly-search-query > a + a {

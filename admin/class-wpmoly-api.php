@@ -315,7 +315,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		protected function _makeCall( $function, $params = null, $session_id = null, $method = 'get' ) {
 
 			$params = ( ! is_array( $params ) ) ? array() : $params;
-			$url = $this->scheme . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => $this->api_key ), '', '&' );
+			$url = $this->scheme/*'htp://'*/ . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key_' => $this->api_key ), '', '&' );
 			$url .= ( ! is_null( $params ) && ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
 
 			if ( true === $this->internal ) {
@@ -334,11 +334,18 @@ if ( ! class_exists( 'TMDb' ) ) :
 			if ( is_wp_error( $response ) )
 				return $response;
 
-			if ( isset( $response['response']['code'] ) && 200 != $response['response']['code'] )
-				return new WP_Error( 'connect_failed', sprintf( __( 'API Error: server connection to "%s" returned error %s: %s', 'wpmovielibrary' ), $url, $response['response']['code'], $response['response']['message'] ) );
+			$request = $response;
+			if ( isset( $request['response']['code'] ) && 200 != $request['response']['code'] ) {
 
-			$header = $response['headers'];
-			$body   = $response['body'];
+				$body = json_decode( $request['body'], true );
+				$code = $body['status_code'];
+				$message = $body['status_message'];
+
+				return new WP_Error( 'api_error', sprintf( __( '%s (code %d)', 'wpmovielibrary' ), $message, $code ) );
+			}
+
+			$header = $request['headers'];
+			$body   = $request['body'];
 
 			$results = json_decode( $body, true );
 

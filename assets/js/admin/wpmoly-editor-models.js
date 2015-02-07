@@ -34,6 +34,10 @@ window.wpmoly = window.wpmoly || {};
 		document.getElementById( 'title' ).addEventListener( 'input', function( event ) {
 			editor.models.search.set( { query: event.target.value } );
 		});
+
+		window.addEventListener( 'resize', function() {
+			editor.views.search.render();
+		});
 	};
 
 	_.extend( editor, { models: {}, views: {}, Model: {}, View: {} } );
@@ -50,7 +54,7 @@ window.wpmoly = window.wpmoly || {};
 		Status: Backbone.Model.extend({
 
 			defaults: {
-				active: true,
+				error: false,
 				loading: false,
 				message: wpmoly.l10n.misc.api_connected
 			},
@@ -236,6 +240,20 @@ window.wpmoly = window.wpmoly || {};
 					options.complete = function() {
 						editor.models.movie.trigger( 'sync:end', this );
 						editor.models.status.trigger( 'loading:end' );
+					};
+
+					// Handle errors
+					options.error = function( response ) {
+
+						var error = response;
+						if ( _.isArray( error ) )
+							error = _.first( error );
+
+						editor.models.status.set({
+							error: true,
+							code: error.code,
+							message: error.message
+						});
 					};
 
 					// Let's go!

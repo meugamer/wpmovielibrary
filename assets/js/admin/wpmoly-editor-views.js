@@ -20,7 +20,8 @@ window.wpmoly = window.wpmoly || {};
 
 			events: {
 				'mouseenter .wpmoly-status-text' : 'extend',
-				'mouseleave .wpmoly-status-text' : 'collapse'
+				'mouseleave .wpmoly-status-text' : 'collapse',
+				'click' : 'reset'
 			},
 
 			/**
@@ -77,6 +78,18 @@ window.wpmoly = window.wpmoly || {};
 			collapse: function( event ) {
 
 				this.$el.removeClass( 'active' );
+			},
+
+			/**
+			 * Reset Status attributes
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			reset: function() {
+
+				this.model.reset();
 			}
 
 		}),
@@ -135,7 +148,33 @@ window.wpmoly = window.wpmoly || {};
 			render: function() {
 
 				this.$el.html( this.template() );
+				this.resize();
+
 				return this;
+			},
+
+			/**
+			 * Resize the query input to fit smoothly
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			resize: function() {
+
+				var container = this.$el.outerWidth(),
+				       status = document.getElementById( 'wpmoly-search-status' ).scrollWidth,
+				        tools = document.getElementById( 'wpmoly-search-tools' ).scrollWidth,
+				       search = document.getElementById( 'wpmoly-search' ).scrollWidth,
+				         lang = document.getElementById( 'wpmoly-lang' ).scrollWidth,
+				         form = document.getElementById( 'wpmoly-search-form' ),
+				        query = document.getElementById( 'wpmoly-search-query' );
+
+				var formwidth = ( container - ( status + tools + 106 ) );
+				   inputwidth = ( formwidth - ( lang + search + 12 ) );
+
+				form.style.width  = formwidth  + 'px';
+				query.style.width = inputwidth + 'px';
 			},
 
 			/**
