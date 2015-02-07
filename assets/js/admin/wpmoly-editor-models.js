@@ -32,7 +32,7 @@ window.wpmoly = window.wpmoly || {};
 		editor.views.status = new wpmoly.editor.View.Status( { model: editor.models.status } );
 
 		document.getElementById( 'title' ).addEventListener( 'input', function( event ) {
-			editor.models.search.set( { query: event.target.value } );
+			editor.models.search.set( { s: event.target.value } );
 		});
 
 		window.addEventListener( 'resize', function() {
@@ -100,10 +100,18 @@ window.wpmoly = window.wpmoly || {};
 			 * 
 			 * @since    2.2
 			 * 
+			 * @param    string     New status message
+			 * @param    boolean    Error status
+			 * 
 			 * @return   void
 			 */
-			say: function( message ) {
-				this.set( { message: message } );
+			say: function( message, error ) {
+
+				var options = { error: false, message: message };
+				if ( true === error )
+					options.error = true;
+
+				this.set( options );
 			},
 
 			/**
@@ -131,19 +139,13 @@ window.wpmoly = window.wpmoly || {};
 		Search: Backbone.Model.extend({
 
 			defaults: {
-				lang: document.getElementById( 'wpmoly-search-lang' ).value,
-				//type: document.getElementById( 'wpmoly-search-type' ).value,
-				query: '',
 				post_id: parseInt( document.getElementById( 'post_ID' ).value ),
-				options: {
-					actorlimit: parseInt( document.getElementById( 'wpmoly-actor-limit' ).value ),
-					setfeatured: parseInt( document.getElementById( 'wpmoly-poster-featured' ).value ),
-					autocomplete: {
-						collection: parseInt( document.getElementById( 'wpmoly-autocomplete-collection' ).value ),
-						genre: parseInt( document.getElementById( 'wpmoly-autocomplete-genre' ).value ),
-						actor: parseInt( document.getElementById( 'wpmoly-autocomplete-actor' ).value )
-					}
-				}
+				s: '',
+				lang: document.getElementById( 'wpmoly-search-lang' ).value,
+				adult: '',
+				year: '',
+				pyear: '',
+				page: 1
 			}
 		}),
 
@@ -185,6 +187,16 @@ window.wpmoly = window.wpmoly || {};
 				imdb_id: '',
 				adult: '',
 				homepage: ''
+			},
+
+			settings: {
+				actorlimit: parseInt( document.getElementById( 'wpmoly-actor-limit' ).value ),
+				setfeatured: parseInt( document.getElementById( 'wpmoly-poster-featured' ).value ),
+				autocomplete: {
+					collection: parseInt( document.getElementById( 'wpmoly-autocomplete-collection' ).value ),
+					genre: parseInt( document.getElementById( 'wpmoly-autocomplete-genre' ).value ),
+					actor: parseInt( document.getElementById( 'wpmoly-autocomplete-actor' ).value )
+				}
 			},
 
 			/**
@@ -231,9 +243,7 @@ window.wpmoly = window.wpmoly || {};
 					options.data = _.extend( options.data || {}, {
 						action: 'wpmoly_search_movie',
 						nonce: wpmoly.get_nonce( 'search-movies' ),
-						query: editor.models.search.get( 'query' ),
-						lang: editor.models.search.get( 'lang' ),
-						post_id: editor.models.search.get( 'post_id' )
+						query: editor.models.search.toJSON()
 					});
 
 					// Let know we're done queryring
@@ -320,11 +330,11 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			setTaxonomies: function( taxonomies ) {
 
-				var  options = editor.models.search.get( 'options' ),
-				autocomplete = options.autocomplete;
+				var settings = editor.models.movie.settings,
+				autocomplete = settings.autocomplete;
 
 				if ( autocomplete.actor && undefined != taxonomies.actors ) {
-					var limit = options.actorlimit || 0,
+					var limit = settings.actorlimit || 0,
 					actors = limit ? taxonomies.actors.splice( 0, limit ) : taxonomies.actors;
 
 					_.each( actors, function( actor, index ) {

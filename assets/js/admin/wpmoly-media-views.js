@@ -648,7 +648,8 @@ wpmoly.media = wpmoly.media || {};
 				media.View.Attachments.prototype.initialize.apply( this, arguments );
 
 				// Bind to the editor sync:done event to set featured image
-				this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
+				if ( 1 == wpmoly.editor.models.movie.settings.setfeatured )
+					this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
 				this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.reload );
 
 				//this.on( 'prepare:media', this.prepareMedia, this );

@@ -104,27 +104,37 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 
 			wpmoly_check_ajax_referer( 'search-movies' );
 
-			$query   = ( isset( $_POST['query'] )   && '' != $_POST['query']   ? esc_html( $_POST['query'] ) : null );
-			$lang    = ( isset( $_POST['lang'] )    && '' != $_POST['lang']    ? esc_html( $_POST['lang'] )  : wpmoly_o( 'api-language' ) );
-			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
+			$defaults = array(
+				's'     => null,
+				'lang'  => wpmoly_o( 'api-language' ),
+				'adult' => wpmoly_o( 'api-adult' ),
+				'year'  => null,
+				'pyear' => null,
+				'page'  => 1
+			);
 
-			if ( is_null( $query ) ) {
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
+			$query   = ( isset( $_POST['query'] )   && '' != $_POST['query']   ? $_POST['query'] : null );
+
+			$query = wp_parse_args( $query, $defaults );
+
+			if ( is_null( $query['s'] ) ) {
 				$response = new WP_Error( 'empty_search', __( 'Empty search query.', 'wpmovielibrary' ) );
 				wp_send_json_error( $response );
 			}
 
-			if ( preg_match( '/(tt\d{5,7})/i', $query, $m ) ) {
+			if ( preg_match( '/(tt\d{5,7})/i', $query['s'], $m ) ) {
 				$type = 'id';
-			} elseif ( preg_match( '/(\d{1,7})/i', $query, $m ) ) {
+			} elseif ( preg_match( '/(\d{1,7})/i', $query['s'], $m ) ) {
 				$type = 'id';
 			} else {
 				$type = 'title';
 			}
 
 			if ( 'title' == $type )
-				$response = self::get_movie_by_title( $query, $lang, $post_id );
+				$response = self::get_movie_by_title( $query );
 			else if ( 'id' == $type )
-				$response = self::get_movie_by_id( $query, $lang, $post_id );
+				$response = self::get_movie_by_id( $query );
 
 			if ( empty( $response ) ) {
 				$response = new WP_Error( 'empty', __( 'Search returned no result. Try a different query?', 'wpmovielibrary' ) );
@@ -195,24 +205,55 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * 
 		 * @since    1.0
 		 * 
-		 * @param    string    $title Query to search after in the TMDb database
-		 * @param    string    $lang Lang to use in the query
-		 * @param    int       $post_id Related Post ID
+		 * @param    array     $query Search parameters
+		 * @param    string    $lang Lang to use in the query. Deprecated since 2.2
+		 * @param    int       $post_id Related Post ID. Deprecated since 2.2
+		 * 
+		 * @return   
 		 */
-		private static function get_movie_by_title( $title, $lang, $post_id = null ) {
+		private static function get_movie_by_title( $query, $lang = null, $post_id = null ) {
 
-			$movies = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$title}_{$lang}" ) : false );
+			$hash   = md5( serialize( $query ) );
+			$movies = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$hash}" ) : false );
 
 			if ( false === $movies ) {
-				$movies = self::_get_movie_by_title( $title, $lang, $post_id );
+				$movies = self::_get_movie_by_title( $query );
 
 				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movies ) ) {
 					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
-					set_transient( "wpmoly_movies_{$title}_{$lang}", $movies, $expire );
+					set_transient( "wpmoly_movies_{$hash}", $movies, $expire );
 				}
 			}
 
 			return $movies;
+		}
+
+		/**
+		 * Cache method for _get_movie_by_id.
+		 * 
+		 * @see _get_movie_by_id()
+		 * 
+		 * @since    1.0
+		 * 
+		 * @param    string    $query Search parameters
+		 * @param    string    $lang Lang to use in the query. Deprecated since 2.2
+		 * @param    int       $post_id Related Post ID. Deprecated since 2.2
+		 */
+		public static function get_movie_by_id( $query, $lang = null, $post_id = null ) {
+
+			$hash  = md5( serialize( $query ) );
+			$movie = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$hash}" ) : false );
+
+			if ( false === $movie ) {
+				$movie = self::_get_movie_by_id( $query );
+
+				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movie ) ) {
+					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
+					set_transient( "wpmoly_movie_{$hash}", $movie, 3600 * 24 );
+				}
+			}
+
+			return $movie;
 		}
 
 		/**
@@ -230,17 +271,27 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 *
 		 * @since    1.0
 		 * 
-		 * @param    string    $title Query to search after in the TMDb database
-		 * @param    string    $lang Lang to use in the query
-		 * @param    int       $post_id Related Post ID
+		 * @param    string    $query Search parameters
+		 * @param    string    $lang Lang to use in the query. Deprecated since 2.2
+		 * @param    int       $post_id Related Post ID. Deprecated since 2.2
 		 */
-		public static function _get_movie_by_title( $title, $lang, $post_id = null ) {
+		private static function _get_movie_by_title( $query, $lang = null, $post_id = null ) {
 
 			$tmdb = new TMDb;
 			$config = $tmdb->getConfig();
 
-			$title  = preg_replace( '/[^\p{L}\p{N}\s]/u', '', trim( $title ) );
-			$data   = $tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
+			$query = array(
+				's'       => esc_attr( $query['s'] ),
+				'lang'    => esc_attr( $query['lang'] ),
+				'adult'   => esc_attr( $query['adult'] ),
+				'year'    => esc_attr( $query['year'] ),
+				'pyear'   => esc_attr( $query['pyear'] ),
+				'post_id' => intval( $query['post_id'] ),
+				'page'    => intval( $query['page'] )
+			);
+
+			$title  = preg_replace( '/[^\p{L}\p{N}\s]/u', '', trim( $query['s'] ) );
+			$data   = $tmdb->searchMovie( $query );
 
 			$error = new WP_Error();
 
@@ -259,7 +310,8 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			}
 			else if ( 1 == $data['total_results'] ) {
 
-				$movies = self::get_movie_by_id( $data['results'][0]['id'], $lang, $post_id );
+				$query['s'] = $data['results'][0]['id'];
+				$movies = self::get_movie_by_id( $query );
 			}
 			else if ( $data['total_results'] > 1 ) {
 
@@ -286,33 +338,6 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		}
 
 		/**
-		 * Cache method for _get_movie_by_id.
-		 * 
-		 * @see _get_movie_by_id()
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $id Id to search in the TMDb database
-		 * @param    string    $lang Lang to use in the query
-		 * @param    int       $post_id Related Post ID
-		 */
-		public static function get_movie_by_id( $id, $lang, $post_id = null ) {
-
-			$movie = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$id}_{$lang}" ) : false );
-
-			if ( false === $movie ) {
-				$movie = self::_get_movie_by_id( $id, $lang, $post_id );
-
-				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movie ) ) {
-					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
-					set_transient( "wpmoly_movie_{$id}_{$lang}", $movie, 3600 * 24 );
-				}
-			}
-
-			return $movie;
-		}
-
-		/**
 		 * Get movie by ID. Load casts and images too.
 		 * 
 		 * Return a JSON string containing fetched data. Apply some filtering
@@ -320,21 +345,30 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 *
 		 * @since    1.0
 		 * 
-		 * @param    string    $id Id to search in the TMDb database
-		 * @param    string    $lang Lang to use in the query
-		 * @param    int       $post_id Related Post ID
+		 * @param    string    $query Search parameters
+		 * @param    string    $lang Lang to use in the query. Deprecated since 2.2
+		 * @param    int       $post_id Related Post ID. Deprecated since 2.2
 		 *
 		 * @return   string    JSON formatted results.
 		 */
-		public static function _get_movie_by_id( $id, $lang, $post_id = null ) {
+		private static function _get_movie_by_id( $query, $lang = null, $post_id = null ) {
 
 			$tmdb = new TMDb;
 
+			$query = array(
+				's'       => intval( $query['s'] ),
+				'lang'    => esc_attr( $query['lang'] ),
+				'adult'   => esc_attr( $query['adult'] ),
+				'year'    => esc_attr( $query['year'] ),
+				'pyear'   => esc_attr( $query['pyear'] ),
+				'post_id' => intval( $query['post_id'] )
+			);
+
 			$data = array(
-				'movie'   => $tmdb->getMovie( $id, $lang ),
-				'casts'   => $tmdb->getMovieCast( $id ),
-				'images'  => $tmdb->getMovieImages( $id, '' ),
-				'release' => $tmdb->getMovieRelease( $id )
+				'movie'   => $tmdb->getMovie( $query ),
+				'casts'   => $tmdb->getMovieCast( $query['s'] ),
+				'images'  => $tmdb->getMovieImages( $query['s'], $query['lang'] ),
+				'release' => $tmdb->getMovieRelease( $query['s'] )
 			);
 
 			foreach ( $data as $d )

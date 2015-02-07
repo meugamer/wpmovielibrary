@@ -712,7 +712,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 								<div class="wpmoly-lang-select"><?php _e( 'Select a language', 'wpmovielibrary' ) ?></div>
 								<ul>
 <?php foreach ( $languages as $code => $lang ) : ?>
-									<li><a href="#" data-lang="<?php echo $code ?>"><?php echo $lang ?></a></li>
+									<li><a class="wpmoly-lang-selector<?php if ( $code == $fields['search-lang'] ) echo ' selected'; ?>" href="#" data-lang="<?php echo $code ?>"><?php echo $lang ?></a></li>
 <?php endforeach; ?>
 								</ul>
 							</div>

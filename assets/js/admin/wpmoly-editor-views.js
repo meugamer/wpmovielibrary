@@ -109,6 +109,8 @@ window.wpmoly = window.wpmoly || {};
 				"click #wpmoly-search": "search",
 				"click #wpmoly-update": "update",
 				"click #wpmoly-empty": "empty",
+				"click #wpmoly-lang": "toggleLangSelect",
+				"click .wpmoly-lang-selector": "setSearchLang",
 				"change #wpmoly-search-query": "set",
 				"change #wpmoly-search-lang": "set",
 				"change #wpmoly-search-type": "set"
@@ -134,7 +136,8 @@ window.wpmoly = window.wpmoly || {};
 				this.template = _.template( template );
 				this.render();
 
-				this.model.on( 'change:query', this.updateQuery, this );
+				this.model.on( 'change:s', this.updateQuery, this );
+				this.model.on( 'change:lang', this.toggleLangSelect, this );
 				this.target.on( 'sync:done', this.reset, this );
 			},
 
@@ -177,6 +180,32 @@ window.wpmoly = window.wpmoly || {};
 				query.style.width = inputwidth + 'px';
 			},
 
+			toggleLangSelect: function( event ) {
+
+				if ( undefined !== event.preventDefault )
+					event.preventDefault();
+
+				this.$el.find( '#wpmoly-lang-select' ).toggle();
+				this.$el.find( '#wpmoly-lang-select a.selected' ).removeClass( 'selected' );
+				
+				var $selected = this.$el.find( '#wpmoly-lang-select a[data-lang="' + this.model.get( 'lang' ) + '"]' ),
+				        $list = this.$el.find( '#wpmoly-lang-select ul' ),
+				      $parent = $selected.parent( 'li' )[0];
+				
+				$selected.addClass( 'selected' );
+				$list.scrollTop( $parent.offsetTop - 42 );
+			},
+
+			setSearchLang: function( event ) {
+
+				event.preventDefault();
+
+				var $target = $( event.currentTarget ),
+				   language = $target.attr( 'data-lang' );
+				
+				this.model.set( { lang: language } );
+			},
+
 			/**
 			 * Update the Model's search query value when changed.
 			 * 
@@ -190,7 +219,11 @@ window.wpmoly = window.wpmoly || {};
 
 				var data = [],
 				    type = event.currentTarget.id.replace( 'wpmoly-search-', '' ),
-				value = event.currentTarget.value;
+				   value = event.currentTarget.value;
+
+				if ( 'query' == type )
+					type = 's';
+
 				data[ type ] = value;
 
 				this.model.set( data );
@@ -211,8 +244,8 @@ window.wpmoly = window.wpmoly || {};
 
 				var query = this.$el.find( '#wpmoly-search-query' ).val(),
 				     lang = this.$el.find( '#wpmoly-search-lang' ).val();
-				if ( query != this.model.get( 'query' ) )
-					this.model.set( { query: query, type: 'title', lang: lang } );
+				if ( query != this.model.get( 's' ) )
+					this.model.set( { s: query, type: 'title', lang: lang } );
 
 				this.target.sync( 'search', this.model, {} );
 			},
@@ -235,7 +268,7 @@ window.wpmoly = window.wpmoly || {};
 					id = tmdb_id || imdb_id;
 
 				if ( undefined != id && '' != id ) {
-					this.model.set( { query: id, type: 'id' } );
+					this.model.set( { s: id, type: 'id' } );
 					this.target.sync( 'search', this.model, {} );
 				}
 			},
@@ -251,7 +284,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			updateQuery: function( model ) {
 
-				this.$el.find( '#wpmoly-search-query' ).val( model.changed.query )
+				this.$el.find( '#wpmoly-search-query' ).val( model.changed.s )
 			},
 
 			/**
@@ -438,7 +471,7 @@ window.wpmoly = window.wpmoly || {};
 				var id = event.currentTarget.hash.replace( '#', '' );
 
 				editor.models.search.set( 'type', 'id' );
-				editor.models.search.set( 'query', id );
+				editor.models.search.set( 's', id );
 
 				editor.models.movie.sync( 'search', this.model, {} );
 			},

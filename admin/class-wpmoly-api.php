@@ -113,21 +113,22 @@ if ( ! class_exists( 'TMDb' ) ) :
 		 * @since    1.0
 		 *
 		 * @param    string    $query Query to search after in the TMDb database
-		 * @param    int       $page Number of the page with results (default first page)
-		 * @param    bool      $adult Whether of not to include adult movies in the results (default false)
-		 * @param    mixed     $year Filter the result with a year
-		 * @param    mixed     $lang Filter the result with a language
+		 * @param    int       $page Deprecated since 2.2
+		 * @param    bool      $adult Deprecated since 2.2
+		 * @param    mixed     $year Deprecated since 2.2
+		 * @param    mixed     $lang Deprecated since 2.2
 		 * 
 		 * @return   array     TMDb result 
 		 */
-		public function searchMovie( $query, $page = 1, $adult = false, $year = null, $lang = null ) {
+		public function searchMovie( $query, $page = null, $adult = null, $year = null, $lang = null ) {
 
 			$params = array(
-				'query'         => $query,
-				'page'          => (int) $page,
-				'language'      => is_null( $lang ) ? wpmoly_o( 'api-language' ) : $lang,
-				'include_adult' => (bool) $adult,
-				'year'          => $year,
+				'query'         => esc_attr( $query['s'] ),
+				'page'          => intval( $query['page'] ),
+				'language'      => is_null( $query['lang'] ) ? wpmoly_o( 'api-language' ) : $query['lang'],
+				'include_adult' => (bool) $query['adult'],
+				'year'          => esc_attr( $query['year'] ),
+				'primary_release_year' => esc_attr( $query['year'] ),
 			);
 
 			return self::_makeCall( 'search/movie', $params );
@@ -315,7 +316,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 		protected function _makeCall( $function, $params = null, $session_id = null, $method = 'get' ) {
 
 			$params = ( ! is_array( $params ) ) ? array() : $params;
-			$url = $this->scheme/*'htp://'*/ . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key_' => $this->api_key ), '', '&' );
+			$url = $this->scheme . TMDb::API_URL . '/' . TMDb::API_VERSION . '/' . $function . '?' . http_build_query( array( 'api_key' => $this->api_key ), '', '&' );
 			$url .= ( ! is_null( $params ) && ! empty( $params ) ) ? '&' . http_build_query( $params, '', '&' ) : '';
 
 			if ( true === $this->internal ) {
@@ -348,10 +349,6 @@ if ( ! class_exists( 'TMDb' ) ) :
 			$body   = $request['body'];
 
 			$results = json_decode( $body, true );
-
-			// Using array_key_exists() instead of isset() to prevent weird bug in PHP 5.3
-			if ( is_array( $body ) && array_key_exists( 'status_code', $body ) && array_key_exists( 'status_message', $body ) )
-				return new WP_Error( 'connect_failed', sprintf( __( 'API Error: connection to TheMovieDB API failed with message "%s" (code %s)', 'wpmovielibrary' ), $body['status_code'], $body['status_message'] ) );
 
 			if ( is_null( $results ) )
 				return new WP_Error( 'unknown_error', __( 'API Error: unknown server error, unable to perform request.', 'wpmovielibrary' ) );

@@ -596,6 +596,7 @@
 	text-decoration: none;
 }
 
+#wpmoly-search-box .wpmoly-search-query #wpmoly-lang-select li a.selected,
 #wpmoly-search-box .wpmoly-search-query #wpmoly-lang-select li a:hover {
 	background: #3390c7;
 	border-radius: 0.25em;
