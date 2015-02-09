@@ -365,7 +365,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			);
 
 			$data = array(
-				'movie'   => $tmdb->getMovie( $query ),
+				'movie'   => $tmdb->getMovie( $query['s'], $query['lang'] ),
 				'casts'   => $tmdb->getMovieCast( $query['s'] ),
 				'images'  => $tmdb->getMovieImages( $query['s'], $query['lang'] ),
 				'release' => $tmdb->getMovieRelease( $query['s'] )

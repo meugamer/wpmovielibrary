@@ -181,6 +181,13 @@ window.wpmoly = window.wpmoly || {};
 				query.style.width = inputwidth + 'px';
 			},
 
+			/**
+			 * Toggle Search Language Selectlist
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Click Event
+			 */
 			toggleLangSelect: function( event ) {
 
 				if ( undefined !== event.preventDefault )
@@ -197,6 +204,13 @@ window.wpmoly = window.wpmoly || {};
 				$list.scrollTop( $parent.offsetTop - 42 );
 			},
 
+			/**
+			 * Set Search language
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Click Event
+			 */
 			setSearchLang: function( event ) {
 
 				event.preventDefault();
@@ -207,6 +221,13 @@ window.wpmoly = window.wpmoly || {};
 				this.model.set( { lang: language } );
 			},
 
+			/**
+			 * Toggle Search Settings toolbar
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Click Event
+			 */
 			toggleSettings: function( event ) {
 
 				event.preventDefault();
@@ -277,7 +298,7 @@ window.wpmoly = window.wpmoly || {};
 					id = tmdb_id || imdb_id;
 
 				if ( undefined != id && '' != id ) {
-					this.model.set( { s: id, type: 'id' } );
+					this.model.set( { s: id, type: 'id' }, { silent: true } );
 					this.target.sync( 'search', this.model, {} );
 				}
 			},
@@ -479,8 +500,8 @@ window.wpmoly = window.wpmoly || {};
 
 				var id = event.currentTarget.hash.replace( '#', '' );
 
-				editor.models.search.set( 'type', 'id' );
-				editor.models.search.set( 's', id );
+				editor.models.search.set( { type: 'id' } );
+				editor.models.search.set( { s: id }, { silent: true } );
 
 				editor.models.movie.sync( 'search', this.model, {} );
 			},

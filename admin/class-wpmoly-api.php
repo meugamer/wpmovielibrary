@@ -342,7 +342,7 @@ if ( ! class_exists( 'TMDb' ) ) :
 				$code = $body['status_code'];
 				$message = $body['status_message'];
 
-				return new WP_Error( 'api_error', sprintf( __( '%s (code %d)', 'wpmovielibrary' ), $message, $code ) );
+				return new WP_Error( 'api_error', sprintf( __( '%s (code %d)', 'wpmovielibrary' ), $message, $code ), $url );
 			}
 
 			$header = $request['headers'];
