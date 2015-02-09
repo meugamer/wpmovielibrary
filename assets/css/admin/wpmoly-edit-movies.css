@@ -362,7 +362,7 @@
 
 #wpmoly-search-box #wpmoly-search-status.active {
 	position: absolute;
-	width: 99%;
+	width: 99% !important;
 	z-index: 9;
 }
 
@@ -395,7 +395,7 @@
 }
 
 #wpmoly-search-box #wpmoly-search-status.active .wpmoly-status-text {
-	width: 90%;
+	width: 90% !important;
 }
 
 #wpmoly-search-box > div,

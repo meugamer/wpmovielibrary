@@ -64,6 +64,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			extend: function( event ) {
 
+				console.log( event.currentTarget.scrollWidth, event.currentTarget.clientWidth );
 				if ( event.currentTarget.scrollWidth > event.currentTarget.clientWidth )
 					this.$el.addClass( 'active' );
 			},
@@ -420,7 +421,9 @@ window.wpmoly = window.wpmoly || {};
 			empty: function( event ) {
 
 				event.preventDefault();
-				console.log( 'empty', event.currentTarget );
+				editor.models.movie.clear();
+				editor.models.movie.set( editor.models.movie.defaults );
+				editor.models.movie.save();
 			},
 
 			/**
