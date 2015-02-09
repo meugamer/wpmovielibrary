@@ -283,6 +283,7 @@ window.wpmoly = window.wpmoly || {};
 				if ( undefined !== event.preventDefault )
 					event.preventDefault();
 
+				this.$el.find( '#wpmoly-lang' ).attr( 'data-lang', this.model.get( 'lang' ) );
 				this.$el.find( '#wpmoly-lang-select' ).toggle();
 				this.$el.find( '#wpmoly-lang-select a.selected' ).removeClass( 'selected' );
 				

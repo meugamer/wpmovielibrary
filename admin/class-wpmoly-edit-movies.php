@@ -725,7 +725,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 						<div class="wpmoly-search-settings"><a id="wpmoly-search-settings" class="icon" href="#" title="<?php _e( 'Search options', 'wpmovielibrary' ) ?>"><span class="wpmolicon icon-settings"></span></a></div>
 						<div class="wpmoly-search-query">
 							<input id="wpmoly-search-query" type="text" placeholder="<?php _e( 'ex: Interstellar', 'wpmovielibrary' ); ?>" />
-							<a class="icon" href="#" id="wpmoly-lang"><span class="wpmolicon icon-language"></span></a><a class="icon" href="#" id="wpmoly-search"><span class="wpmolicon icon-search"></span></a>
+							<a class="icon" href="#" id="wpmoly-lang" data-lang="<?php echo $fields['search-lang'] ?>"><span class="wpmolicon icon-language"></span></a><a class="icon" href="#" id="wpmoly-search"><span class="wpmolicon icon-search"></span></a>
 							<div id="wpmoly-lang-select">
 								<div class="wpmoly-lang-select"><?php _e( 'Select a language', 'wpmovielibrary' ) ?></div>
 								<ul>
