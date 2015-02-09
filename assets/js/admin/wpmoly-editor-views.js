@@ -95,6 +95,96 @@ window.wpmoly = window.wpmoly || {};
 		}),
 
 		/**
+		 * WPMOLY Backbone Settings View
+		 * 
+		 * View for metabox movie search settings toolbar
+		 * 
+		 * @since    2.2
+		 */
+		Settings: Backbone.View.extend({
+
+			el: '#wpmoly-meta-search-settings',
+
+			events: {
+				"click #wpmoly-search-adult" : "set",
+				"click #wpmoly-search-paginate" : "set",
+				"change #wpmoly-search-year" : "set",
+				"change #wpmoly-search-pyear" : "set",
+			},
+
+			/**
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			initialize: function( options ) {
+
+				this.template = _.template( $( '#wpmoly-search-settings-template' ).html() );
+				this.render();
+
+				this.model.on( 'change', this.render, this );
+			},
+
+			/**
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			render: function() {
+
+				this.$el.html( this.template( { settings: this.model.toJSON() } ) );
+
+				return this;
+			},
+
+			/**
+			 * Update Search Model attributes
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			set: function( event ) {
+
+				var elem = event.currentTarget,
+				    type = elem.id.replace( 'wpmoly-search-', '' ),
+				    data = {};
+
+				switch ( type ) {
+					case 'adult':
+					case 'paginate':
+						event.preventDefault();
+						data[ type ] = ! this.model.get( type );
+						this.model.set( data );
+						break;
+					case 'year':
+					case 'pyear':
+						data[ type ] = elem.value;
+						this.model.set( data );
+						break;
+					default:
+						break;
+				}
+			},
+
+			/**
+			 * Toogle View's element
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			toggle: function() {
+
+				this.$el.slideToggle( 250 );
+			}
+		}),
+
+		/**
 		 * WPMOLY Backbone Search View
 		 * 
 		 * View for metabox movie search form
@@ -233,7 +323,7 @@ window.wpmoly = window.wpmoly || {};
 				event.preventDefault();
 
 				$( event.currentTarget.parentElement ).toggleClass( 'active' );
-				$( '#wpmoly-meta-search-settings' ).slideToggle( 250 );
+				editor.views.settings.toggle();
 			},
 
 			/**

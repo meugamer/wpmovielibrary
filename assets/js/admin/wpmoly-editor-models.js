@@ -28,6 +28,7 @@ window.wpmoly = window.wpmoly || {};
 		editor.views.movie = new wpmoly.editor.View.Movie( { model: editor.models.movie } );
 		editor.views.preview = new wpmoly.editor.View.Preview( { model: editor.models.movie } );
 		editor.views.search = new wpmoly.editor.View.Search( { model: editor.models.search, target: editor.models.movie } );
+		editor.views.settings = new wpmoly.editor.View.Settings( { model: editor.models.search } );
 		editor.views.results = new wpmoly.editor.View.Results( { collection: editor.models.results } );
 		editor.views.status = new wpmoly.editor.View.Status( { model: editor.models.status } );
 
@@ -145,7 +146,8 @@ window.wpmoly = window.wpmoly || {};
 				adult: '',
 				year: '',
 				pyear: '',
-				page: 1
+				page: 1,
+				paginate: false
 			}
 		}),
 

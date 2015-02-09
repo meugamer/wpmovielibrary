@@ -85,6 +85,24 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$backdrops = WPMOLY_Media::get_movie_imported_images();
 ?>
+		<script type="text/template" id="wpmoly-search-settings-template">
+					<div class="wpmoly-meta-search-settings">
+						<span class="setting-icon"><span class="wpmolicon icon-heart"></span></span>
+						<span class="setting-text"><a id="wpmoly-search-adult" href="#"><span class="wpmolicon icon-<% if ( ! settings.adult ) { %>no-alt<% } else { %>yes<% } %>"></span>&nbsp; <?php _e( 'Include adult movies', 'wpmovielibrary' ); ?></a></span>
+					</div>
+					<div class="wpmoly-meta-search-settings">
+						<span class="setting-icon"><span class="wpmolicon icon-ellipsis-h"></span></span>
+						<span class="setting-text"><a id="wpmoly-search-paginate" href="#"><span class="wpmolicon icon-<% if ( ! settings.paginate ) { %>no-alt<% } else { %>yes<% } %>"></span>&nbsp; <?php _e( 'Enable paginated results', 'wpmovielibrary' ); ?></a></span>
+					</div>
+					<div class="wpmoly-meta-search-settings">
+						<span class="setting-icon"><span class="wpmolicon icon-date"></span></span>
+						<span class="setting-text"><label><?php _e( 'Search a specific year:', 'wpmovielibrary' ); ?>&nbsp; <input id="wpmoly-search-year" type="text" size="4" maxlength="4" value="<% if ( settings.year ) { %><%= settings.year %><% } %>" /></label></span>
+					</div>
+					<div class="wpmoly-meta-search-settings">
+						<span class="setting-icon"><span class="wpmolicon icon-date"></span></span>
+						<span class="setting-text"><label><?php _e( 'Search a specific primary year:', 'wpmovielibrary' ); ?>&nbsp; <input id="wpmoly-search-pyear" type="text" size="4" maxlength="4" value="<% if ( settings.pyear ) { %><%= settings.pyear %><% } %>" /></label></span>
+					</div>
+		</script>
 		<script type="text/template" id="wpmoly-search-results-template">
 								<% _.each( results, function( result ) { %>
 									<div class="wpmoly-select-movie">
@@ -725,24 +743,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 				<div id="wpmoly-meta-search-results"></div>
 
-				<div id="wpmoly-meta-search-settings">
-					<div class="wpmoly-meta-search-settings">
-						<span class="setting-icon"><span class="wpmolicon icon-heart"></span></span>
-						<span class="setting-text"><a href="#"><span class="wpmolicon icon-no-alt"></span>&nbsp; Include adult movies</a></span>
-					</div>
-					<div class="wpmoly-meta-search-settings">
-						<span class="setting-icon"><span class="wpmolicon icon-ellipsis-h"></span></span>
-						<span class="setting-text"><a href="#"><span class="wpmolicon icon-no-alt"></span>&nbsp; Enable paginated results</a></span>
-					</div>
-					<div class="wpmoly-meta-search-settings">
-						<span class="setting-icon"><span class="wpmolicon icon-date"></span></span>
-						<span class="setting-text"><label>Search a specific year:&nbsp; <input type="text" size="4" maxlength="4" /></label></span>
-					</div>
-					<div class="wpmoly-meta-search-settings">
-						<span class="setting-icon"><span class="wpmolicon icon-date"></span></span>
-						<span class="setting-text"><label>Search a specific primary year:&nbsp; <input type="text" size="4" maxlength="4" /></label></span>
-					</div>
-				</div>
+				<div id="wpmoly-meta-search-settings"></div>
 
 			</div>
 

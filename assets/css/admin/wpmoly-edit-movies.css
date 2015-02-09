@@ -348,16 +348,16 @@
 	border: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	min-height: 48px;
-	padding-left: 12em;
+	padding-left: 14em;
 }
 
 #wpmoly-search-box #wpmoly-search-status {
 	background: #fff;
 	float: left;
 	height: 48px;
-	margin-left: -12em;
+	margin-left: -14em;
 	overflow: hidden;
-	width: 11.5em;
+	width: 13.5em;
 }
 
 #wpmoly-search-box #wpmoly-search-status.active {
@@ -387,7 +387,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	width: 8.5em;
+	width: 10.5em;
 }
 
 #wpmoly-search-box #wpmoly-search-status .wpmoly-status-text.warning {
@@ -664,11 +664,11 @@
 	text-decoration: none;
 }
 
-#wpmoly-meta-search-settings .wpmoly-meta-search-settings a:hover .wpmolicon.icon-yes:before {
+#wpmoly-meta-search-settings .wpmoly-meta-search-settings a:not(.locked):hover .wpmolicon.icon-yes:before {
 	content: '\e619';
 }
 
-#wpmoly-meta-search-settings .wpmoly-meta-search-settings a:hover .wpmolicon.icon-no-alt:before {
+#wpmoly-meta-search-settings .wpmoly-meta-search-settings a:not(.locked):hover .wpmolicon.icon-no-alt:before {
 	content: '\e663';
 }
 
