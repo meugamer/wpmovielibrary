@@ -755,6 +755,10 @@
 	margin-left: 1px;
 }
 
+/*
+ * Movie search results
+ */
+
 #wpmoly-meta-search-results {
 	background: none repeat scroll 0% 0% rgb(255, 255, 255);
 	border: 1px solid #e5e5e5;
@@ -762,8 +766,86 @@
 	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.04), 0px 2px 2px #eee inset;
 	display: none;
 	margin: 0;
+	max-height: 46em;
+	overflow: hidden;
 	padding: 0.75em 0;
 	position: relative;
+}
+
+#wpmoly-meta-search-results.paginated {
+	padding-top: 0;
+}
+
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination {
+	/*background: #efefef;*/
+	border-bottom: 1px solid #e5e5e5;
+	/*box-shadow: 0px -2px 4px #e5e5e5 inset;*/
+	max-height: 48px;
+}
+
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination .wpmoly-meta-search-results-nav {
+	position: absolute;
+	top: 0;
+}
+
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination .wpmoly-meta-search-results-nav:first-child {
+	left: 0;
+}
+
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination .wpmoly-meta-search-results-nav:last-child {
+	right: 0;
+}
+
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination .wpmoly-meta-search-results-text {
+	display: inline-block;
+	color: #666;
+	height: 48px;
+	line-height: 48px;
+	text-align: center;
+	width: 100%;
+}
+
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination .wpmoly-meta-search-results-text span {
+	padding-right: 18px;
+}
+
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination .wpmoly-meta-search-results-nav,
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination .wpmoly-meta-search-results-nav a,
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination .wpmoly-meta-search-results-nav a .wpmolicon {
+	box-shadow: 0 0 0;
+	display: inline-block;
+	height: 48px;
+	line-height: 48px;
+	text-decoration: none;
+	width: 48px;
+}
+
+#wpmoly-meta-search-results #wpmoly-meta-search-results-pagination .wpmoly-meta-search-results-nav a .wpmolicon {
+	font-size: 32px;
+}
+
+#wpmoly-meta-search-results-loading {
+	background: rgba(255, 255, 255, 0.8);
+	display: none;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 49px;
+	width: 100%;
+}
+
+#wpmoly-meta-search-results-loading img {
+	left: 50%;
+	margin: -12px 0 0 -12px;
+	position: absolute;
+	top: 50%;
+}
+
+#wpmoly-meta-search-results-container {
+	max-height: 40em;
+	overflow-y: scroll;
+	padding: 0.75em 1em 0.75em 0.75em;
+	text-align: center;
 }
 
 #wpmoly-meta-search-results #wpmoly-empty-select-results {

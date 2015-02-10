@@ -104,6 +104,18 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					</div>
 		</script>
 		<script type="text/template" id="wpmoly-search-results-template">
+								<% if ( true === paginated ) { %>
+								<div id="wpmoly-meta-search-results-pagination">
+									<% if ( page > 1 ) { %>
+									<div class="wpmoly-meta-search-results-nav"><a id="wpmoly-meta-search-results-prev" href="#"><span class="wpmolicon icon-arrow-left"></span></a></div>
+									<% } %>
+									<div class="wpmoly-meta-search-results-text"><span>Page <%= page %> of <%= total %></span></div>
+									<% if ( page < total ) { %>
+									<div class="wpmoly-meta-search-results-nav"><a id="wpmoly-meta-search-results-next" href="#"><span class="wpmolicon icon-arrow-right"></span></a></div>
+									<% } %>
+								</div>
+								<% } %>
+								<div id="wpmoly-meta-search-results-container">
 								<% _.each( results, function( result ) { %>
 									<div class="wpmoly-select-movie">
 										<a id="wpmoly-select-movie-<%= result.id %>" href="#<%= result.id %>">
@@ -114,6 +126,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 								<% }); %>
 									<a id="wpmoly-empty-select-results" href="#"><span class="wpmolicon icon-no-alt"></span></a>
+								</div>
+								<div id="wpmoly-meta-search-results-loading"><img src="<?php echo WPMOLY_URL . '/assets/img/grid.svg'; ?>" width="24" height="24" alt="" /></div>
 		</script>
 		<script type="text/template" id="wpmoly-search-status-template">
 						<div class="wpmoly-status-icon"><% if ( true === status.loading ) { %><img src="<?php echo WPMOLY_URL . '/assets/img/puff.svg'; ?>" width="20" height="15" alt="" /><% } else { %><span class="wpmolicon icon-<% if ( status.error ) { %>warning<% } else { %>api<% } %>"></span><% } %></div>

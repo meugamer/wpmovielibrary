@@ -432,7 +432,8 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			 * 
+			 * Update the meta by running a new search using the
+			 * existing TMDb ID
 			 * 
 			 * @since    2.2
 			 * 
@@ -606,7 +607,9 @@ window.wpmoly = window.wpmoly || {};
 
 			events : {
 				'click .wpmoly-select-movie a' : 'get',
-				'click #wpmoly-empty-select-results' : '_reset'
+				'click #wpmoly-empty-select-results' : '_reset',
+				'click #wpmoly-meta-search-results-prev' : 'prev',
+				'click #wpmoly-meta-search-results-next' : 'next',
 			},
 
 			/**
@@ -624,10 +627,8 @@ window.wpmoly = window.wpmoly || {};
 
 				this.template = _.template( template );
 
-				_.bindAll( this, 'render' );
-				this.collection.bind( 'change', this.render );
-				this.collection.bind( 'add', this.render );
-
+				this.collection.on( 'change', this.render, this );
+				this.collection.on( 'add', this.render, this );
 				this.collection.on( 'reset', this.reset, this );
 			},
 
@@ -640,12 +641,49 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			render: function() {
 
-				var results = this.template( { results : this.collection.toJSON() } );
+				var results = this.template({
+					results : this.collection.toJSON(),
+					paginated: editor.models.search.get( 'paginate' ),
+					page: editor.models.search.get( 'page' ),
+					total: this.collection.pages
+				});
 
 				this.$el.slideDown( 400 );
 				this.$el.html( results );
 
+				if ( true === editor.models.search.get( 'paginate' ) )
+					this.$el.addClass( 'paginated' );
+
+				this.resize();
+
 				return this;
+			},
+
+			/**
+			 * Adapt movie results posters' size to show properly in
+			 * the view.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			resize: function() {
+
+				var container = document.getElementById( 'wpmoly-meta-search-results-container' ),
+				       fwidth = container.clientWidth,
+				        width = 120;
+
+				if ( this.$el.hasClass( 'paginated' ) )
+					fwidth -= 80;
+				else
+					fwidth -= 80;
+
+				if ( fwidth >= 800 )
+					width = Math.round( fwidth / 5 );
+				else if ( fwidth >= 500 )
+					width = Math.round( fwidth / 4 );
+
+				this.$el.find( '.wpmoly-select-movie' ).width( width );
 			},
 
 			/**
@@ -670,6 +708,61 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
+			 * Previous result page
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Click Event
+			 * 
+			 * @return   void
+			 */
+			prev: function( event ) {
+
+				this.search( -1, event );
+			},
+
+			/**
+			 * Next result page
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Click Event
+			 * 
+			 * @return   void
+			 */
+			next: function( event ) {
+
+				this.search( 1, event );
+			},
+
+			/**
+			 * Trigger the search after setting the new page value
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    int       Direction, next (1) ou prev (-1)
+			 * @param    object    JS Click Event
+			 * 
+			 * @return   void
+			 */
+			search: function( i, event ) {
+
+				var page = editor.models.search.get( 'page' );
+				    page = page + i;
+
+				if ( page <= 0 )
+					page = 1;
+
+				editor.models.search.set( { page: page } );
+				this.$el.find( '#wpmoly-meta-search-results-loading' ).show();
+
+				editor.views.search.unlock();
+				editor.views.search.search( event );
+
+				this.listenToOnce( editor.views.search, 'add', this.render );
+			},
+
+			/**
 			 * Reset the results Collection
 			 * 
 			 * @since    2.2
@@ -681,7 +774,11 @@ window.wpmoly = window.wpmoly || {};
 			_reset: function( event ) {
 
 				event.preventDefault();
+
 				this.collection.reset();
+				this.close();
+
+				editor.views.search.unlock();
 			},
 
 			/**
@@ -693,9 +790,20 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			reset: function() {
 
-				this.$el.slideUp( 250 );
 				this.$el.empty();
 			},
+
+			/**
+			 * Close the results view
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			close: function() {
+
+				this.$el.slideUp( 250 );
+			}
 
 		}),
 

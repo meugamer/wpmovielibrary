@@ -38,6 +38,7 @@ window.wpmoly = window.wpmoly || {};
 
 		window.addEventListener( 'resize', function() {
 			editor.views.search.render();
+			editor.views.results.resize();
 		});
 	};
 
@@ -147,7 +148,7 @@ window.wpmoly = window.wpmoly || {};
 				year: '',
 				pyear: '',
 				page: 1,
-				paginate: false
+				paginate: true
 			}
 		}),
 
@@ -288,11 +289,20 @@ window.wpmoly = window.wpmoly || {};
 							return true;
 						}
 
+						editor.models.results.pages = response.total_pages;
+						editor.models.results.results = response.total_results;
+						var results = [];
+
 						// If not, means multiple movies, show a choice
-						_.each( response, function( result ) {
+						_.each( response.results, function( result ) {
+
 							var result = new editor.Model.Result( result );
-							editor.models.results.add( result );
-						} );
+							results.push( result );
+						}, this );
+
+						editor.models.results.reset( [], { silent: true } );
+						editor.models.results.add( results );
+
 						editor.models.status.trigger( 'status:say', wpmoly.l10n.movies.multiple_results );
 					};
 
@@ -442,7 +452,10 @@ window.wpmoly = window.wpmoly || {};
 
 			model: editor.Model.Result,
 
-			reset: function() {
+			pages: '',
+			results: '',
+
+			reset: function( models, options ) {
 
 				editor.models.status.reset();
 

@@ -105,12 +105,13 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			wpmoly_check_ajax_referer( 'search-movies' );
 
 			$defaults = array(
-				's'     => null,
-				'lang'  => wpmoly_o( 'api-language' ),
-				'adult' => wpmoly_o( 'api-adult' ),
-				'year'  => null,
-				'pyear' => null,
-				'page'  => 1
+				's'        => null,
+				'lang'     => wpmoly_o( 'api-language' ),
+				'adult'    => wpmoly_o( 'api-adult' ),
+				'year'     => null,
+				'pyear'    => null,
+				'page'     => 1,
+				'paginate' => wpmoly_o( 'api-paginate' )
 			);
 
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
@@ -300,11 +301,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 
 			$movies = array();
 
-			if ( isset( $data['status_code'] ) ) {
-
-				$error->add( esc_attr( $data['status_code'] ), esc_attr( $data['status_message'] ), $data );
-			}
-			else if ( ! isset( $data['total_results'] ) ) {
+			if ( ! isset( $data['total_results'] ) ) {
 
 				$error->add( 'empty',  __( 'Sorry, your search returned no result. Try a more specific query?', 'wpmovielibrary' ), $data );
 			}
@@ -315,14 +312,14 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			}
 			else if ( $data['total_results'] > 1 ) {
 
-				foreach ( $data['results'] as $movie ) {
+				foreach ( $data['results'] as $i => $movie ) {
 
 					if ( ! is_null( $movie['poster_path'] ) )
 						$movie['poster_path'] = self::get_image_url( $movie['poster_path'], 'poster', 'small' );
 					else
 						$movie['poster_path'] = str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL );
 
-					$movies[] = array(
+					$data['results'][ $i ] = array(
 						'id'             => $movie['id'],
 						'poster'         => $movie['poster_path'],
 						'title'          => $movie['title'],
@@ -332,6 +329,8 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 						'adult'          => $movie['adult']
 					);
 				}
+
+				$movies = $data;
 			}
 
 			return $movies;
