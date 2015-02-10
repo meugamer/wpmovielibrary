@@ -540,7 +540,7 @@ wpmoly.media = wpmoly.media || {};
 						return 'Images';
 					},
 					priority:           20,
-					library:            wp.media.query( { type: 'backdrops', s: wpmoly.editor.models.movie.get( 'tmdb_id' ), post__in: [ $( '#post_ID' ).val() ] } ),
+					library:            wp.media.query( { type: 'backdrops', s: undefined !== wpmoly.editor.models.movie ? wpmoly.editor.models.movie.get( 'tmdb_id' ) : '', post__in: [ $( '#post_ID' ).val() ] } ),
 					content:            'browse',
 					search:             false,
 					searchable:         false,
@@ -626,7 +626,7 @@ wpmoly.media = wpmoly.media || {};
 						return 'Images';
 					},
 					priority:           20,
-					library:            wp.media.query( { type: 'posters', s: wpmoly.editor.models.movie.get( 'tmdb_id' ), post__in: [ $( '#post_ID' ).val() ] } ),
+					library:            wp.media.query( { type: 'posters', s: undefined !== wpmoly.editor.models.movie ? wpmoly.editor.models.movie.get( 'tmdb_id' ) : '', post__in: [ $( '#post_ID' ).val() ] } ),
 					content:            'browse',
 					search:             false,
 					searchable:         false,

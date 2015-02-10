@@ -436,6 +436,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 					'x_selected'		=> _n( 'selected', 'selected', 2, 'wpmovielibrary' )
 				),
 				'movies' => array(
+					'confirm_empty'		=> __( 'You’re about to delete all metadata related to this movie. Are you sure you want to do that?', 'wpmovielibrary' ),
 					'deleted_movie'		=> __( 'One movie successfully deleted.', 'wpmovielibrary' ),
 					'deleted_movies'	=> __( '%s movies successfully deleted.', 'wpmovielibrary' ),
 					'dequeued_movie'	=> __( 'One movie removed from the queue.', 'wpmovielibrary' ),

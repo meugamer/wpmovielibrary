@@ -107,7 +107,7 @@ body.post-php.post-type-movie #postimagediv {
 	padding: 0.25em;
 	text-align: center;
 	vertical-align: top;
-	width: 12.5em;
+	width: 12em;
 }
 
 .wpmoly-select-movie a {
@@ -118,7 +118,7 @@ body.post-php.post-type-movie #postimagediv {
 .wpmoly-select-movie img {
 	box-shadow: 0 1px 3px #888;
 	max-height: 16em;
-	max-width: 12.5em;
+	max-width: 12em;
 }
 
 .wpmoly-select-movie em {

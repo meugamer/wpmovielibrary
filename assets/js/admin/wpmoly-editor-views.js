@@ -196,11 +196,14 @@ window.wpmoly = window.wpmoly || {};
 
 			el: '#wpmoly-search-box',
 
+			locked: false,
+
 			events: {
 				"click #wpmoly-search": "search",
 				"click #wpmoly-update": "update",
 				"click #wpmoly-empty": "empty",
-				"click #wpmoly-lang": "toggleLangSelect",
+				"click #wpmoly-lang": "openLangSelect",
+				"keydown #wpmoly-lang": "closeLangSelect",
 				"click .wpmoly-lang-selector": "setSearchLang",
 				"click #wpmoly-search-settings": "toggleSettings",
 				"change #wpmoly-search-query": "set",
@@ -230,7 +233,33 @@ window.wpmoly = window.wpmoly || {};
 
 				this.model.on( 'change:s', this.updateQuery, this );
 				this.model.on( 'change:lang', this.toggleLangSelect, this );
+
+				this.target.on( 'sync:start', this.lock, this );
 				this.target.on( 'sync:done', this.reset, this );
+			},
+
+			/**
+			 * Lock the View to avoid sending useless multiple queries
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			lock: function() {
+
+				this.locked = true;
+			},
+
+			/**
+			 * Unlock the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			unlock: function() {
+
+				this.locked = false;
 			},
 
 			/**
@@ -279,14 +308,22 @@ window.wpmoly = window.wpmoly || {};
 			 * 
 			 * @param    object    JS Click Event
 			 */
-			toggleLangSelect: function( event ) {
+			openLangSelect: function( event ) {
 
 				if ( undefined !== event.preventDefault )
 					event.preventDefault();
 
-				this.$el.find( '#wpmoly-lang' ).attr( 'data-lang', this.model.get( 'lang' ) );
-				this.$el.find( '#wpmoly-lang-select' ).toggle();
-				this.$el.find( '#wpmoly-lang-select a.selected' ).removeClass( 'selected' );
+				var $select = this.$el.find( '#wpmoly-lang-select' );
+
+				if ( 'none' !== $select.css( 'display' ) )
+					return this.closeLangSelect();
+
+				var $lang = this.$el.find( '#wpmoly-lang' ),
+				$selected = this.$el.find( '#wpmoly-lang-select a.selected' );
+
+				$lang.attr( 'data-lang', this.model.get( 'lang' ) );
+				$select.slideDown( 250 );
+				$selected.removeClass( 'selected' );
 				
 				var $selected = this.$el.find( '#wpmoly-lang-select a[data-lang="' + this.model.get( 'lang' ) + '"]' ),
 				        $list = this.$el.find( '#wpmoly-lang-select ul' ),
@@ -294,6 +331,25 @@ window.wpmoly = window.wpmoly || {};
 				
 				$selected.addClass( 'selected' );
 				$list.scrollTop( $parent.offsetTop - 42 );
+
+				return this;
+			},
+
+			/**
+			 * Close Search Language Selectlist
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Click Event
+			 */
+			closeLangSelect: function( event ) {
+
+				if ( undefined !== event && 27 !== event.keyCode )
+					return false;
+
+				this.$el.find( '#wpmoly-lang-select' ).slideUp( 200 );
+
+				return this;
 			},
 
 			/**
@@ -364,6 +420,9 @@ window.wpmoly = window.wpmoly || {};
 
 				event.preventDefault();
 
+				if ( false !== this.locked )
+					return;
+
 				var query = this.$el.find( '#wpmoly-search-query' ).val(),
 				     lang = this.$el.find( '#wpmoly-search-lang' ).val();
 				if ( query != this.model.get( 's' ) )
@@ -384,6 +443,9 @@ window.wpmoly = window.wpmoly || {};
 			update: function( event ) {
 
 				event.preventDefault();
+
+				if ( false !== this.locked )
+					return;
 
 				var tmdb_id = this.target.get( 'tmdb_id' ),
 				    imdb_id = this.target.get( 'imdb_id' ),
@@ -421,6 +483,13 @@ window.wpmoly = window.wpmoly || {};
 			empty: function( event ) {
 
 				event.preventDefault();
+
+				if ( false !== this.locked )
+					return;
+
+				if ( true !== confirm( wpmoly.l10n.movies.confirm_empty ) )
+					return false;
+
 				editor.models.movie.clear();
 				editor.models.movie.set( editor.models.movie.defaults );
 				editor.models.movie.save();

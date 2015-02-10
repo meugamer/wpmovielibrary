@@ -565,6 +565,10 @@
 	width: 15px;
 }
 
+#wpmoly-search-box .wpmoly-search-query #wpmoly-lang:hover::before {
+	color: #333;
+}
+
 #wpmoly-search-box .wpmoly-search-query #wpmoly-lang:after {
 	color: #333;
 	content: '\e645';
