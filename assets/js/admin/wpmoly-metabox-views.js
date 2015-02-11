@@ -187,6 +187,8 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		Metabox: Backbone.View.extend({
 
+			el: '#wpmoly-meta', 
+
 			meta: '#wpmoly-meta',
 			menu: '#wpmoly-meta-menu',
 			status: '#wpmoly-meta-status',
@@ -205,11 +207,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			initialize: function() {
 
-				var template = $( this.el ).html();
-				if ( undefined === template )
-					return false;
-
-				this.template = _.template( template );
+				this.template = _.template( this.$el.html() );
 				this.render();
 
 				_.bindAll( this, 'render', 'fix' );
@@ -329,7 +327,5 @@ window.wpmoly = window.wpmoly || {};
 		})
 
 	} );
-
-	metabox();
 
 })(jQuery);

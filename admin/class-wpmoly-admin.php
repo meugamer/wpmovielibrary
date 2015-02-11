@@ -457,8 +457,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$scripts['metabox-views']      = array( '/assets/js/admin/wpmoly-metabox-views.js', array( $wpmoly_slug, 'jquery' ), true );
 				$scripts['editor-models']     = array( '/assets/js/admin/wpmoly-editor-models.js', array( $wpmoly_slug, 'jquery' ), true );
 				$scripts['editor-views']      = array( '/assets/js/admin/wpmoly-editor-views.js', array( $wpmoly_slug, 'jquery' ), true );
-// 				$scripts['media-models']      = array( '/assets/js/admin/wpmoly-media-models.js', array( $wpmoly_slug, 'jquery' ), true );
-// 				$scripts['media-views']       = array( '/assets/js/admin/wpmoly-media-views.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['media-models']      = array( '/assets/js/admin/wpmoly-media-models.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['media-views']       = array( '/assets/js/admin/wpmoly-media-views.js', array( $wpmoly_slug, 'jquery' ), true );
 			}
 
 			if ( $hook_suffix == $movies ) {

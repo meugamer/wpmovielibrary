@@ -6,7 +6,7 @@ window.wpmoly = window.wpmoly || {};
 	var metabox = wpmoly.metabox = function() {
 
 		metabox.models.metabox = new metabox.Model.Metabox();
-		metabox.views.metabox = new metabox.View.Metabox( { el: '#wpmoly-meta', collection: metabox.models.metabox } );
+		metabox.views.metabox = new metabox.View.Metabox( { collection: metabox.models.metabox } );
 
 		var panels = document.getElementsByClassName( 'tab' ),
 		    states = [];

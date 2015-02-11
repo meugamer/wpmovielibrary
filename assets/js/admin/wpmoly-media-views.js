@@ -708,7 +708,4 @@ wpmoly.media = wpmoly.media || {};
 
 	});
 
-	// Let's get this party started
-	wpmoly.media();
-
 })(jQuery);

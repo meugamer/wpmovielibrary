@@ -120,7 +120,7 @@ window.wpmoly = window.wpmoly || {};
 			 * 
 			 * @return   void
 			 */
-			initialize: function( options ) {
+			initialize: function() {
 
 				this.template = _.template( $( '#wpmoly-search-settings-template' ).html() );
 				this.render();
@@ -227,11 +227,7 @@ window.wpmoly = window.wpmoly || {};
 				// alternative content
 				_.extend( this, _.pick( options, 'model', 'target' ) );
 
-				var template = this.$el.html();
-				if ( undefined === template )
-					return false;
-
-				this.template = _.template( template );
+				this.template = _.template( this.$el.html() );
 				this.render();
 
 				this.model.on( 'change:s', this.updateQuery, this );
@@ -298,7 +294,7 @@ window.wpmoly = window.wpmoly || {};
 				        query = document.getElementById( 'wpmoly-search-query' );
 
 				var formwidth = ( container - ( status + tools + 106 ) );
-				   inputwidth = ( formwidth - ( lang + search + 12 ) );
+				   inputwidth = ( formwidth - ( lang + search + 16 ) );
 
 				form.style.width  = formwidth  + 'px';
 				query.style.width = inputwidth + 'px';
@@ -546,11 +542,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			initialize: function() {
 
-				var template = $( this.el ).html();
-				if ( undefined === template )
-					return this;
-
-				this.template = _.template( template );
+				this.template = _.template( this.$el.html() );
 				this.render();
 
 				_.bindAll( this, 'render' );
@@ -634,11 +626,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			initialize: function() {
 
-				var template = $( '#wpmoly-search-results-template' ).html();
-				if ( undefined === template )
-					return false;
-
-				this.template = _.template( template );
+				this.template = _.template( $( '#wpmoly-search-results-template' ).html() );
 
 				this.collection.on( 'change', this.render, this );
 				this.collection.on( 'add', this.render, this );
@@ -845,7 +833,7 @@ window.wpmoly = window.wpmoly || {};
 				
 				_.bindAll( this, 'render' );
 
-				this.template = _.template( $( this.el ).html() );
+				this.template = _.template( this.$el.html() );
 				this.render();
 
 				this.model.on( 'change', this.changed, this );
@@ -878,8 +866,5 @@ window.wpmoly = window.wpmoly || {};
 		})
 
 	});
-
-	// To infinity... And beyond!
-	wpmoly.editor();
 
 })(jQuery);
