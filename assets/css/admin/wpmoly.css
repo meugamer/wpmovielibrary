@@ -122,6 +122,10 @@ body.post-php.post-type-movie #postimagediv {
 	width: 100%;
 }
 
+.wpmoly-select-movie:hover img {
+	opacity: 0.8;
+}
+
 .wpmoly-select-movie em {
 	display: block;
 }

@@ -24,7 +24,6 @@ window.wpmoly = window.wpmoly || {};
 		editor.models.results = new wpmoly.editor.Model.Results();
 
 		// Init views
-		editor.views.panel = new wpmoly.editor.View.Panel();
 		editor.views.movie = new wpmoly.editor.View.Movie( { model: editor.models.movie } );
 		editor.views.preview = new wpmoly.editor.View.Preview( { model: editor.models.movie } );
 		editor.views.search = new wpmoly.editor.View.Search( { model: editor.models.search, target: editor.models.movie } );

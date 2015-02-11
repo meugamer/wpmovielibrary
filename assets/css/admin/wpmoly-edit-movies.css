@@ -117,9 +117,15 @@
 	border-top: 1px solid #eaeaea;
 	box-shadow: 0 0 0;
 	display: block;
-	line-height: 1.4em;
+	height: 26px;
+	line-height: 26px;
 	padding: 0.75em 1em;
 	text-decoration: none;
+}
+
+#wpmoly-meta-menu .tab a .wpmolicon,
+#wpmoly-meta-menu .tab a .dashicons {
+	line-height: 26px;
 }
 
 #wpmoly-meta-menu .tab.active a {
