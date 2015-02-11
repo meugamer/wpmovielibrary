@@ -119,30 +119,20 @@ if ( ! class_exists( 'WPMovieLibrary_Metaboxes' ) ) :
 				add_action( "add_meta_boxes_{$post_type}", array( $this, 'add_meta_box' ), 10 );
 
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ), 10 );
+
+			add_action( 'admin_footer-post.php', __CLASS__ . '::footer_scripts' );
+			add_action( 'admin_footer-post-new.php', __CLASS__ . '::footer_scripts' );
 		}
 
-		
+		public static function footer_scripts() {
 
-		/**
-		 * Register and enqueue admin-specific style sheet.
-		 *
-		 * @since    2.1.4
-		 * 
-		 * @param    string    $hook_suffix The current admin page.
-		 */
-		public function enqueue_admin_styles( $hook_suffix ) {
-
-			
-		}
-
-		/**
-		 * Register and enqueue global admin JavaScript.
-		 * 
-		 * @since    2.1.4
-		 */
-		public function enqueue_admin_scripts() {
-
-			
+			if ( 'movie' != get_post_type() )
+				return false;
+?>
+		<script type="text/template" id="wpmoly-metabox-menu-collapse-template">
+			<a href="#"><span class="wpmolicon icon-collapse"></span>&nbsp; <span class="text"><?php _e( 'Collapse', 'wpmovielibrary' ) ?></span></a>
+		</script>
+<?php
 		}
 
 		/**

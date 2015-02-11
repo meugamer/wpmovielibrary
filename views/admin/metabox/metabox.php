@@ -10,9 +10,8 @@
 
 <?php foreach ( $tabs as $id => $tab ) : ?>
 
-				<li id="wpmoly-meta-<?php echo $id ?>" class="tab<?php echo $tab['active'] ?>"><a class="navigate" href="#wpmoly-meta-<?php echo $id ?>-panel"><span class="<?php echo $tab['icon'] ?>"></span>&nbsp; <span class="text"><?php echo $tab['title'] ?></span></a></li>
+				<li id="wpmoly-meta-<?php echo $id ?>" class="tab<?php echo $tab['active'] ?>"><a class="navigate" href="#wpmoly-meta-<?php echo $id ?>-panel"><span class="<?php echo $tab['icon'] ?>"></span>&nbsp; <span class="text"><?php echo $tab['title'] ?></span><span class="label hide-if-js" title=""><span></a></li>
 <?php endforeach; ?>
-				<!--<li class="tab off hide-if-no-js"><a href="#"><span class="wpmolicon icon-collapse"></span>&nbsp; <span class="text"><?php _e( 'Collapse', 'wpmovielibrary' ) ?></span></a></li>-->
 			</ul>
 
 <?php do_action( 'wpmoly_after_metabox_menu', $metabox ); ?>

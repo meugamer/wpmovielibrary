@@ -17,14 +17,14 @@ window.wpmoly = window.wpmoly || {};
 		});
 
 		// Init models
-		editor.models.status = new wpmoly.editor.Model.Status();
+		/*editor.models.status = new wpmoly.editor.Model.Status();
 		editor.models.movie = new wpmoly.editor.Model.Movie( data );
 		editor.models.preview = new wpmoly.editor.Model.Preview();
 		editor.models.search = new wpmoly.editor.Model.Search();
-		editor.models.results = new wpmoly.editor.Model.Results();
+		editor.models.results = new wpmoly.editor.Model.Results();*/
 
 		// Init views
-		editor.views.movie = new wpmoly.editor.View.Movie( { model: editor.models.movie } );
+		/*editor.views.movie = new wpmoly.editor.View.Movie( { model: editor.models.movie } );
 		editor.views.preview = new wpmoly.editor.View.Preview( { model: editor.models.movie } );
 		editor.views.search = new wpmoly.editor.View.Search( { model: editor.models.search, target: editor.models.movie } );
 		editor.views.settings = new wpmoly.editor.View.Settings( { model: editor.models.search } );
@@ -38,7 +38,7 @@ window.wpmoly = window.wpmoly || {};
 		window.addEventListener( 'resize', function() {
 			editor.views.search.render();
 			editor.views.results.resize();
-		});
+		});*/
 	};
 
 	_.extend( editor, { models: {}, views: {}, Model: {}, View: {} } );

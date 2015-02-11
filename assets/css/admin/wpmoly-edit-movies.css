@@ -108,11 +108,13 @@
 	z-index: 2;
 }
 
-#wpmoly-meta-menu .tab {
+#wpmoly-meta-menu .tab,
+#wpmoly-meta-menu .tab-off {
 	margin: 0;
 }
 
-#wpmoly-meta-menu .tab a {
+#wpmoly-meta-menu .tab a,
+#wpmoly-meta-menu .tab-off a {
 	border-bottom: 1px solid #f1f1f1;
 	border-top: 1px solid #eaeaea;
 	box-shadow: 0 0 0;
@@ -123,12 +125,34 @@
 	text-decoration: none;
 }
 
+#wpmoly-meta-menu .tab a .label {
+	background: #0074a2;
+	border-radius: 28px;
+	color: #fff;
+	float: right;
+	font-size: 11px;
+	font-weight: 800;
+	height: 24px;
+	line-height: 24px;
+	margin-right: 6px;
+	min-width: 24px;
+	padding-right: 1px;
+	text-align: center;
+}
+
+#wpmoly-meta-menu .tab a .label .wpmolicon {
+	font-size: 16px;
+}
+
 #wpmoly-meta-menu .tab a .wpmolicon,
-#wpmoly-meta-menu .tab a .dashicons {
+#wpmoly-meta-menu .tab a .dashicons,
+#wpmoly-meta-menu .tab-off a .wpmolicon,
+#wpmoly-meta-menu .tab-off a .dashicons {
 	line-height: 26px;
 }
 
-#wpmoly-meta-menu .tab.active a {
+#wpmoly-meta-menu .tab.active a,
+#wpmoly-meta-menu .tab-off.active a {
 	background-color: #fff;
 	border-color: #dfdfdf;
 	border-left: 1px solid #dfdfdf;
@@ -180,7 +204,8 @@
 	width: 4em !important;
 }
 
-#wpmoly-meta.small #wpmoly-meta-menu .tab a .text {
+#wpmoly-meta.small #wpmoly-meta-menu .tab a .text,
+#wpmoly-meta.small #wpmoly-meta-menu .tab-off a .text {
 	display: none !important;
 }
 

@@ -27,19 +27,75 @@ window.wpmoly = window.wpmoly || {};
 			 * 
 			 * @return   void
 			 */
-			initialize: function( options ) {
+			initialize: function() {
 
 				this.template = _.template( $( this.el ).html() );
 				this.render();
 
 				_.bindAll( this, 'render' );
+				this.model.on( 'change:label', this.setLabel, this );
+				this.model.on( 'change:labeltitle', this.setLabel, this );
 			},
 
+			/**
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			render: function() {
+
+				this.$el.html( this.template() );
+				this.setLabel( this.model );
+
+				return this;
+			},
+
+			/**
+			 * Fill in notification label
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			setLabel: function( model ) {
+
+				var label = model.get( 'label' ),
+				    title = model.get( 'labeltitle' ),
+				    $elem = this.$el.find( '.label' );
+
+				if ( '' === label && '' === title ) {
+					$elem.hide();
+					return this;
+				} else {
+					$elem.show();
+				}
+
+				if ( '' != label )
+					this.$el.find( '.label' ).html( label );
+
+				if ( '' != title )
+					this.$el.find( '.label' ).prop( 'title', title );
+
+				return this;
+			},
+
+			/**
+			 * Set current panel as state
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS Click Event
+			 * 
+			 * @return   void
+			 */
 			togglePanel: function( event ) {
 
 				event.preventDefault();
 
 				this.model.collection.setState( this.model.id );
+				this.model.collection.enqueueLabel( this.model );
 			}
 		}),
 
@@ -51,10 +107,6 @@ window.wpmoly = window.wpmoly || {};
 		 * @since    2.2
 		 */
 		Panel: Backbone.View.extend({
-
-			events: {
-				
-			},
 
 			/**
 			 * Initialize the View
@@ -70,8 +122,58 @@ window.wpmoly = window.wpmoly || {};
 
 				_.bindAll( this, 'render' );
 			},
+
+			/**
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			render: function() {
+
+				this.$el.html( this.template() );
+
+				return this;
+			},
 		})
 
+	} );
+
+	_.extend( metabox.View, {
+
+		MenuCollapse: Backbone.View.extend({
+
+			tagName: 'li',
+
+			className: 'tab-off',
+
+			/**
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			initialize: function() {
+
+				this.template = _.template( '<a href="#"><span class="wpmolicon icon-collapse"></span>&nbsp; <span class="text">Collapse</span></a>' );
+			},
+
+			/**
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			render: function() {
+
+				this.$el.html( this.template() );
+
+				return this;
+			},
+		})
 	} );
 
 	_.extend( metabox.View, {
@@ -85,15 +187,13 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		Metabox: Backbone.View.extend({
 
-			el: '#wpmoly-meta',
-
 			meta: '#wpmoly-meta',
 			menu: '#wpmoly-meta-menu',
 			status: '#wpmoly-meta-status',
 			panels: '#wpmoly-meta-panels',
 
 			events: {
-				"click #wpmoly-meta-menu .tab.off a": "resize"
+				"click #wpmoly-meta-menu .tab-off a": "resize"
 			},
 
 			/**
@@ -135,7 +235,15 @@ window.wpmoly = window.wpmoly || {};
 			render: function() {
 
 				this.$el.html( this.template() );
+				this.renderMenuCollapse();
+
 				return this;
+			},
+
+			renderMenuCollapse: function() {
+
+				var collapse = new metabox.View.MenuCollapse();
+				$( this.menu ).append( collapse.render().el );
 			},
 
 			/**

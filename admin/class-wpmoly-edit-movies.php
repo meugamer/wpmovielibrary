@@ -72,7 +72,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'wp_ajax_wpmoly_save_meta', __CLASS__ . '::save_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
 
-			add_action( 'admin_footer', __CLASS__ . '::footer_scripts' );
+			add_action( 'admin_footer-post.php', __CLASS__ . '::footer_scripts' );
+			add_action( 'admin_footer-post-new.php', __CLASS__ . '::footer_scripts' );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -83,7 +84,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		public static function footer_scripts() {
 
-			$backdrops = WPMOLY_Media::get_movie_imported_images();
+			if ( 'movie' != get_post_type() )
+				return false;
 ?>
 		<script type="text/template" id="wpmoly-search-settings-template">
 					<div class="wpmoly-meta-search-settings">
