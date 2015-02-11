@@ -153,7 +153,7 @@ window.wpmoly = window.wpmoly || {};
 
 				var elem = event.currentTarget,
 				    type = elem.id.replace( 'wpmoly-search-', '' ),
-				    data = {};
+				    data = { page: 1 };
 
 				switch ( type ) {
 					case 'adult':
@@ -202,10 +202,13 @@ window.wpmoly = window.wpmoly || {};
 				"click #wpmoly-search": "search",
 				"click #wpmoly-update": "update",
 				"click #wpmoly-empty": "empty",
+
 				"click #wpmoly-lang": "openLangSelect",
 				"keydown #wpmoly-lang": "closeLangSelect",
 				"click .wpmoly-lang-selector": "setSearchLang",
 				"click #wpmoly-search-settings": "toggleSettings",
+
+				"keydown #wpmoly-search-query": "submit",
 				"change #wpmoly-search-query": "set",
 				"change #wpmoly-search-lang": "set",
 				"change #wpmoly-search-type": "set"
@@ -407,6 +410,15 @@ window.wpmoly = window.wpmoly || {};
 				this.model.set( data );
 			},
 
+			submit: function( event ) {
+
+				if ( 13 !== event.keyCode )
+					return event;
+
+				this.search();
+				event.preventDefault();
+			},
+
 			/**
 			 * Trigger the search process
 			 * 
@@ -418,7 +430,8 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			search: function( event ) {
 
-				event.preventDefault();
+				if ( undefined !== event )
+					event.preventDefault();
 
 				if ( false !== this.locked )
 					return;
@@ -669,9 +682,12 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			resize: function() {
 
-				var container = document.getElementById( 'wpmoly-meta-search-results-container' ),
-				       fwidth = container.clientWidth,
-				        width = 120;
+				var container = document.getElementById( 'wpmoly-meta-search-results-container' );
+				if ( _.isNull( container ) )
+					return false;
+
+				var fwidth = container.clientWidth,
+				     width = 120;
 
 				if ( this.$el.hasClass( 'paginated' ) )
 					fwidth -= 80;

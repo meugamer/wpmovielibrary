@@ -711,7 +711,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				'autocomplete-actor'      => wpmoly_o( 'autocomplete-actor' ),
 				'actor-limit'             => wpmoly_o( 'actor-limit' ),
 				'poster-featured'         => wpmoly_o( 'poster-featured' ),
-				'search-lang'             => wpmoly_o( 'api-language' )
+				'search-lang'             => wpmoly_o( 'api-language' ),
+				'search-paginate'         => wpmoly_o( 'api-paginate', true ),
+				'search-adult'            => wpmoly_o( 'api-adult', false )
 			);
 
 			foreach ( $fields as $id => $field ) {

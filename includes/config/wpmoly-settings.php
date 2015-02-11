@@ -1409,6 +1409,39 @@ $wpmoly_config = array(
 				'options'  => $wpmoly_supported_countries,
 				'default' => 'US'
 			),
+
+			// API Adult filtering
+			'adult' => array(
+				'id'       => 'wpmoly-api-adult',
+				'type'     => 'switch',
+				'title'    => __( 'API Adult filter', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, API search results will include movies for adults only.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default' => 0
+			),
+
+			// API 
+			'paginate' => array(
+				'id'       => 'wpmoly-api-paginate',
+				'type'     => 'switch',
+				'title'    => __( 'API Search Pagination', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, allow API search to show multiple pages of results instead of the first 20 results.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default' => 1
+			),
+
+			// API 
+			/*'' => array(
+				'id'       => 'wpmoly-api-',
+				'type'     => 'select',
+				'title'    => __( '', 'wpmovielibrary' ),
+				'desc'     => __( '', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default' => 0
+			),*/
 		)
 	),
 

@@ -144,11 +144,11 @@ window.wpmoly = window.wpmoly || {};
 				post_id: parseInt( document.getElementById( 'post_ID' ).value ),
 				s: '',
 				lang: document.getElementById( 'wpmoly-search-lang' ).value,
-				adult: '',
+				adult: Boolean( parseInt( document.getElementById( 'wpmoly-search-adult' ).value ) ),
 				year: '',
 				pyear: '',
 				page: 1,
-				paginate: true
+				paginate: Boolean( parseInt( document.getElementById( 'wpmoly-search-paginate' ).value ) )
 			}
 		}),
 

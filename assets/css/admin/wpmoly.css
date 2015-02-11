@@ -239,11 +239,15 @@ body.post-php.post-type-movie #postimagediv {
 		width: 8.5em !important;
 	}
 	
+	#wpmoly-meta-search-settings {
+		margin-left: 12.15em;
+	}
+	
 	#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-label {
 		width: 8em !important;
 	}
 	
-	#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-value {
+	#wpmoly-meta .wpmoly-movie-meta-edit .wpmoly-movie-meta-value {
 		margin-left: 8.5em !important;
 	}
 	
