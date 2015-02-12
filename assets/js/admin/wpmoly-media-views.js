@@ -189,7 +189,7 @@ wpmoly.media = wpmoly.media || {};
 				this.media = wp.media;
 				this.modal = this.frame();
 
-				this.collection.on( 'add', this.add, this );
+				this.collection.on( 'add', this.render, this );
 				this.collection.on( 'change', this.render, this );
 			},
 
@@ -255,7 +255,7 @@ wpmoly.media = wpmoly.media || {};
 			 * 
 			 * @return   object    Attachment Model
 			 */
-			add: function( model ) {
+			/*add: function( model ) {
 
 				// Create required custom Model and view
 				var attachment = new media.Model.Attachment( model.attributes ),
@@ -276,7 +276,7 @@ wpmoly.media = wpmoly.media || {};
 				});
 
 				return model;
-			},
+			},*/
 
 			/**
 			 * Create/return the Modal frame
@@ -536,7 +536,7 @@ wpmoly.media = wpmoly.media || {};
 					title:              function() {
 						var title = wpmoly.editor.models.movie.get( 'title' )
 						if ( '' != title && undefined != title )
-							return wpmoly.l10n.media.backdrop.title.replace( '%s', title );
+							return wpmoly.l10n.media.backdrops.title.replace( '%s', title );
 						return 'Images';
 					},
 					priority:           20,
@@ -627,7 +627,7 @@ wpmoly.media = wpmoly.media || {};
 					title:              function() {
 						var title = wpmoly.editor.models.movie.get( 'title' )
 						if ( '' != title && undefined != title )
-							return wpmoly.l10n.media.poster.title.replace( '%s', title );
+							return wpmoly.l10n.media.posters.title.replace( '%s', title );
 						return 'Images';
 					},
 					priority:           20,

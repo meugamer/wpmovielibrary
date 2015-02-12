@@ -396,7 +396,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 					'' => ''
 				),
 				'media' => array(
-					'backdrop' => array(
+					'backdrops' => array(
 						'added'		=> __( 'Images added!', 'wpmovielibrary' ),
 						'from'		=> __( 'Image from', 'wpmovielibrary' ),
 						'uploaded'	=> __( 'Images uploaded!', 'wpmovielibrary' ),
@@ -407,7 +407,7 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 						'load'		=> __( 'Load Image(s)', 'wpmovielibrary' ),
 						'loading'	=> __( 'Loading Image(s)...', 'wpmovielibrary' )
 					),
-					'poster' => array(
+					'posters' => array(
 						'added'		=> __( 'Poster(s) added!', 'wpmovielibrary' ),
 						'for'		=> __( 'Poster for', 'wpmovielibrary' ),
 						'uploaded'	=> __( 'Poster(s) uploaded!', 'wpmovielibrary' ),
