@@ -517,6 +517,25 @@ window.wpmoly = window.wpmoly || {};
 				meta.poster = data.poster;
 
 				this.set( meta );
+
+				this.notify();
+			},
+
+			/**
+			 * Update Metabox Menu to show a notification label
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    Movie Model
+			 * 
+			 * @return   mixed
+			 */
+			notify: function( model ) {
+
+				wpmoly.metabox.models.metabox.state( 'preview' ).set({
+					label: '<span class="wpmolicon icon-certification"></span>',
+					labeltitle: 'Preview updated'
+				});
 			}
 		})
 

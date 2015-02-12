@@ -64,7 +64,6 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			extend: function( event ) {
 
-				console.log( event.currentTarget.scrollWidth, event.currentTarget.clientWidth );
 				if ( event.currentTarget.scrollWidth > event.currentTarget.clientWidth )
 					this.$el.addClass( 'active' );
 			},
@@ -515,6 +514,7 @@ window.wpmoly = window.wpmoly || {};
 			reset: function() {
 
 				editor.models.results.reset();
+				this.unlock();
 			}
 		}),
 

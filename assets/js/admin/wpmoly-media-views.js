@@ -586,6 +586,11 @@ wpmoly.media = wpmoly.media || {};
 					this.modal.open().close();
 
 				this.modal.content.get( 'backdrops' ).collection.add( data.images );
+
+				wpmoly.metabox.models.metabox.state( 'images' ).set({
+					label: data.images.length,
+					labeltitle: data.images.length + ' images available for download'
+				});
 			},
 
 		}),
@@ -676,6 +681,11 @@ wpmoly.media = wpmoly.media || {};
 					this.modal.open().close();
 
 				this.modal.content.get( 'posters' ).collection.add( data.posters );
+
+				wpmoly.metabox.models.metabox.state( 'posters' ).set({
+					label: data.posters.length,
+					labeltitle: data.posters.length + ' posters available for download'
+				});
 			},
 
 			/**
