@@ -160,6 +160,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			else if ( 'posters' == $image_type )
 				$images = $this->load_movie_posters( $tmdb_id, $posts[0] );
 
+			if ( is_wp_error( $images ) )
+				wp_send_json_success( array() );
+
 			$images = array_slice( $images, ( ( $paged - 1 ) * $per_page ), $per_page );
 
 			wp_send_json_success( $images );
@@ -178,6 +181,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		public function load_movie_images( $tmdb_id, $post ) {
 
 			$images = WPMOLY_TMDb::get_movie_images( $tmdb_id );
+			if ( is_wp_error( $images ) )
+				return $images;
+
 			$images = apply_filters( 'wpmoly_jsonify_movie_images', $images, $post, 'image' );
 
 			return $images;
@@ -196,6 +202,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		public function load_movie_posters( $tmdb_id, $post ) {
 
 			$posters = WPMOLY_TMDb::get_movie_posters( $tmdb_id );
+			if ( is_wp_error( $posters ) )
+				return $posters;
+
 			$posters = apply_filters( 'wpmoly_jsonify_movie_images', $posters, $post, 'poster' );
 
 			return $posters;

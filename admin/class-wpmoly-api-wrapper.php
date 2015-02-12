@@ -366,7 +366,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			$data = array(
 				'movie'   => $tmdb->getMovie( $query['s'], $query['lang'] ),
 				'casts'   => $tmdb->getMovieCast( $query['s'] ),
-				'images'  => $tmdb->getMovieImages( $query['s'], $query['lang'] ),
+				'images'  => $tmdb->getMovieImages( $query['s'], '' ),
 				'release' => $tmdb->getMovieRelease( $query['s'] )
 			);
 
@@ -468,6 +468,9 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				return false;
 
 			$images = $tmdb->getMovieImages( $tmdb_id, '' );
+			if ( is_wp_error( $images ) )
+				return $images;
+
 			if ( ! isset( $images['backdrops'] ) )
 				return array();
 
@@ -502,6 +505,9 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				return false;
 
 			$images = $tmdb->getMovieImages( $tmdb_id, '' );
+			if ( is_wp_error( $images ) )
+				return $images;
+
 			if ( ! isset( $images['posters'] ) )
 				return array();
 

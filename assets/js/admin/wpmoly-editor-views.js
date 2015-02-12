@@ -631,6 +631,7 @@ window.wpmoly = window.wpmoly || {};
 				this.collection.on( 'change', this.render, this );
 				this.collection.on( 'add', this.render, this );
 				this.collection.on( 'reset', this.reset, this );
+				this.listenTo( editor.models.movie, 'sync:done', this.close );
 			},
 
 			/**
