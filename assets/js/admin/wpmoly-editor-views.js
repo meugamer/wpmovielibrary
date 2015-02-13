@@ -499,8 +499,12 @@ window.wpmoly = window.wpmoly || {};
 				if ( true !== confirm( wpmoly.l10n.movies.confirm_empty ) )
 					return false;
 
+				var attributes = _.clone( editor.models.movie.defaults );
+				_.each( attributes, function( attr, i ) { attributes[ i ] = null; } );
+
+				this.reset();
 				editor.models.movie.clear();
-				editor.models.movie.set( editor.models.movie.defaults );
+				editor.models.movie.set( attributes );
 				editor.models.movie.save();
 			},
 

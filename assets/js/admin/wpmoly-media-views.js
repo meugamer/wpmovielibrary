@@ -672,7 +672,7 @@ wpmoly.media = wpmoly.media || {};
 					return false;
 
 				// Create needed Attachment Model
-				var poster = new media.Model.Attachment( _.extend( attr, { type: 'posters' } ) );
+				var poster = new media.Model.Poster( _.extend( attr, { type: 'poster' } ) );
 				this.collection.add( [ poster ], { upload: false } );
 
 				// Wait for the upload to end

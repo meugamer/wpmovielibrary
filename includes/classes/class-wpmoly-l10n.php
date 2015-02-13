@@ -400,26 +400,32 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 						'added'		=> __( 'Images added!', 'wpmovielibrary' ),
 						'from'		=> __( 'Image from', 'wpmovielibrary' ),
 						'uploaded'	=> __( 'Images uploaded!', 'wpmovielibrary' ),
-						'import'	=> __( 'Import Image(s)', 'wpmovielibrary' ),
-						'title'		=> __( 'Import Image(s) for "%s"', 'wpmovielibrary' ),
-						'uploading'	=> __( 'Image(s) uploading...', 'wpmovielibrary' ),
-						'save'		=> __( 'Saving Image(s)...', 'wpmovielibrary' ),
-						'load'		=> __( 'Load Image(s)', 'wpmovielibrary' ),
-						'loading'	=> __( 'Loading Image(s)...', 'wpmovielibrary' )
+						'import'	=> __( 'Import Images', 'wpmovielibrary' ),
+						'title'		=> __( 'Import Images for "%s"', 'wpmovielibrary' ),
+						'uploading'	=> __( 'Images uploading...', 'wpmovielibrary' ),
+						'save'		=> __( 'Saving Images...', 'wpmovielibrary' ),
+						'load'		=> __( 'Load Images', 'wpmovielibrary' ),
+						'loading'	=> __( 'Loading Images...', 'wpmovielibrary' )
 					),
 					'posters' => array(
-						'added'		=> __( 'Poster(s) added!', 'wpmovielibrary' ),
+						'added'		=> __( 'Posters added!', 'wpmovielibrary' ),
 						'for'		=> __( 'Poster for', 'wpmovielibrary' ),
-						'uploaded'	=> __( 'Poster(s) uploaded!', 'wpmovielibrary' ),
-						'import'	=> __( 'Import Poster(s)', 'wpmovielibrary' ),
+						'uploaded'	=> __( 'Posters uploaded!', 'wpmovielibrary' ),
+						'import'	=> __( 'Import Posters', 'wpmovielibrary' ),
 						'title'		=> __( 'Select a poster for "%s"', 'wpmovielibrary' ),
-						'uploading'	=> __( 'Poster(s) uploading...', 'wpmovielibrary' ),
+						'uploading'	=> __( 'Posters uploading...', 'wpmovielibrary' ),
 						'featuring'	=> __( 'Setting featured image…', 'wpmovielibrary' ),
 						'poster'	=> __( 'Poster', 'wpmovielibrary' ),
-						'save'		=> __( 'Saving Poster(s)...', 'wpmovielibrary' ),
-						'load'		=> __( 'Load Poster(s)', 'wpmovielibrary' ),
-						'loading'	=> __( 'Loading Poster(s)...', 'wpmovielibrary' )
-					)
+						'save'		=> __( 'Saving Posters...', 'wpmovielibrary' ),
+						'load'		=> __( 'Load Posters', 'wpmovielibrary' ),
+						'loading'	=> __( 'Loading Posters...', 'wpmovielibrary' )
+					),
+					'backdrop' => array(
+						'uploading'	=> __( 'Image uploading...', 'wpmovielibrary' ),
+					),
+					'poster' => array(
+						'uploading'	=> __( 'Poster uploading...', 'wpmovielibrary' ),
+					),
 				),
 				'misc' => array(
 					'api_connected'		=> __( 'API connected', 'wpmovielibrary' ),
