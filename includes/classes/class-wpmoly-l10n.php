@@ -398,10 +398,12 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				'media' => array(
 					'backdrops' => array(
 						'added'		=> __( 'Images added!', 'wpmovielibrary' ),
+						'available'	=> __( '%d images available for download', 'wpmovielibrary' ),
 						'from'		=> __( 'Image from', 'wpmovielibrary' ),
 						'uploaded'	=> __( 'Images uploaded!', 'wpmovielibrary' ),
 						'import'	=> __( 'Import Images', 'wpmovielibrary' ),
 						'title'		=> __( 'Import Images for "%s"', 'wpmovielibrary' ),
+						'default_title'	=> __( 'Import Images', 'wpmovielibrary' ),
 						'uploading'	=> __( 'Images uploading...', 'wpmovielibrary' ),
 						'save'		=> __( 'Saving Images...', 'wpmovielibrary' ),
 						'load'		=> __( 'Load Images', 'wpmovielibrary' ),
@@ -409,10 +411,12 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 					),
 					'posters' => array(
 						'added'		=> __( 'Posters added!', 'wpmovielibrary' ),
+						'available'	=> __( '%d posters available for download', 'wpmovielibrary' ),
 						'for'		=> __( 'Poster for', 'wpmovielibrary' ),
 						'uploaded'	=> __( 'Posters uploaded!', 'wpmovielibrary' ),
 						'import'	=> __( 'Import Posters', 'wpmovielibrary' ),
 						'title'		=> __( 'Select a poster for "%s"', 'wpmovielibrary' ),
+						'default_title'	=> __( 'Select a poster', 'wpmovielibrary' ),
 						'uploading'	=> __( 'Posters uploading...', 'wpmovielibrary' ),
 						'featuring'	=> __( 'Setting featured image…', 'wpmovielibrary' ),
 						'poster'	=> __( 'Poster', 'wpmovielibrary' ),
@@ -422,14 +426,17 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 					),
 					'backdrop' => array(
 						'uploading'	=> __( 'Image uploading...', 'wpmovielibrary' ),
+						'available'	=> __( 'One image available for download', 'wpmovielibrary' )
 					),
 					'poster' => array(
 						'uploading'	=> __( 'Poster uploading...', 'wpmovielibrary' ),
+						'available'	=> __( 'One poster available for download', 'wpmovielibrary' )
 					),
 				),
 				'misc' => array(
 					'api_connected'		=> __( 'API connected', 'wpmovielibrary' ),
 					'available'		=> __( 'Available', 'wpmovielibrary' ),
+					'delete_attachment'	=> __( 'You’re about to delete this attachment. Are you sure you want to do that?', 'wpmovielibrary' ),
 					'done'			=> __( 'Done!', 'wpmovielibrary' ),
 					'load_more'		=> __( 'Load More', 'wpmovielibrary' ),
 					'oops'			=> __( 'Oops… Did something went wrong?', 'wpmovielibrary' ),
@@ -453,14 +460,14 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 					'imported_movie'	=> __( 'One movie successfully imported!', 'wpmovielibrary' ),
 					'imported_movies'	=> __( '%s movies successfully imported!', 'wpmovielibrary' ),
 					'in_progress'		=> __( 'Progressing', 'wpmovielibrary' ),
-					'loading_meta'		=> __( 'Loading metadata...', 'wpmovielibrary' ),
+					'loading'		=> __( 'Loading...', 'wpmovielibrary' ),
 					'missing_meta'		=> __( 'No metadata could be found, please import metadata before queuing.', 'wpmovielibrary' ),
 					'movie'			=> __( 'Movie', 'wpmovielibrary' ),
 					'movie_updated'		=> _n( 'movie updated', 'movies updated', 0, 'wpmovielibrary' ),
 					'movies_updated'	=> _n( 'movie updated', 'movies updated', 2, 'wpmovielibrary' ),
-					'multiple_results'	=> __( 'multiple results, make your choice!', 'wpmovielibrary' ),
+					'multiple_results'	=> __( '%d results', 'wpmovielibrary' ),
 					'not_updated'		=> __( 'not updated', 'wpmovielibrary' ),
-					'saved'			=> __( 'Metadata saved!', 'wpmovielibrary' ),
+					'saved'			=> __( 'Saved!', 'wpmovielibrary' ),
 					'searching'		=> __( 'Searching...', 'wpmovielibrary' )
 				),
 				'languages' => array(

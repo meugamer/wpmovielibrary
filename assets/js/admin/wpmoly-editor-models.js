@@ -283,7 +283,7 @@ window.wpmoly = window.wpmoly || {};
 
 							// Triggers
 							editor.models.movie.trigger( 'sync:done', this, response );
-							editor.models.status.trigger( 'status:say', wpmoly.l10n.misc.done );
+							//editor.models.status.trigger( 'status:say', wpmoly.l10n.misc.done );
 
 							return true;
 						}
@@ -302,7 +302,7 @@ window.wpmoly = window.wpmoly || {};
 						editor.models.results.reset( [], { silent: true } );
 						editor.models.results.add( results );
 
-						editor.models.status.trigger( 'status:say', wpmoly.l10n.movies.multiple_results );
+						editor.models.status.trigger( 'status:say', wpmoly.l10n.movies.multiple_results.replace( '%d', results.length ) );
 					};
 
 					return wp.ajax.send( options );

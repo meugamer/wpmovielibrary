@@ -708,9 +708,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				return false;
 
 			$fields = array(
-				'autocomplete-collection' => wpmoly_o( 'autocomplete-collection' ),
-				'autocomplete-genre'      => wpmoly_o( 'autocomplete-genre' ),
-				'autocomplete-actor'      => wpmoly_o( 'autocomplete-actor' ),
+				'autocomplete-collection' => wpmoly_o( 'collection-autocomplete' ),
+				'autocomplete-genre'      => wpmoly_o( 'genre-autocomplete' ),
+				'autocomplete-actor'      => wpmoly_o( 'actor-autocomplete' ),
 				'actor-limit'             => wpmoly_o( 'actor-limit' ),
 				'poster-featured'         => wpmoly_o( 'poster-featured' ),
 				'search-lang'             => wpmoly_o( 'api-language' ),

@@ -127,7 +127,7 @@ wpmoly.media = wpmoly.media || {};
 			deleteAttachment: function( event ) {
 
 				event.preventDefault();
-				if ( true === confirm( 'Delete Attachment?' ) ) {
+				if ( true === confirm( wpmoly.l10n.misc.delete_attachment ) ) {
 					this.model.trigger( 'destroy', this.model, this.collection, {} );
 					this.collection.trigger( 'change', this );
 					this.model.destroy();
@@ -504,7 +504,7 @@ wpmoly.media = wpmoly.media || {};
 						var title = wpmoly.editor.models.movie.get( 'title' )
 						if ( '' != title && undefined != title )
 							return wpmoly.l10n.media.backdrops.title.replace( '%s', title );
-						return 'Images';
+						return wpmoly.l10n.media.backdrops.default_title;
 					},
 					priority:           20,
 					library:            wp.media.query( { type: 'backdrops', s: $( '#meta_data_tmdb_id' ).val(), post__in: [ $( '#post_ID' ).val() ] } ),
@@ -556,7 +556,7 @@ wpmoly.media = wpmoly.media || {};
 
 				wpmoly.metabox.models.metabox.state( 'images' ).set({
 					label: data.images.length,
-					labeltitle: data.images.length + ' images available for download'
+					labeltitle: ( data.images.length > 1 ? wpmoly.l10n.media.backdrops.available.replace( '%d', data.images.length ) : wpmoly.l10n.media.backdrop.available )
 				});
 			},
 
@@ -595,7 +595,7 @@ wpmoly.media = wpmoly.media || {};
 						var title = wpmoly.editor.models.movie.get( 'title' )
 						if ( '' != title && undefined != title )
 							return wpmoly.l10n.media.posters.title.replace( '%s', title );
-						return 'Images';
+						return wpmoly.l10n.media.posters.default_title;
 					},
 					priority:           20,
 					library:            wp.media.query( { type: 'posters', s: $( '#meta_data_tmdb_id' ).val(), post__in: [ $( '#post_ID' ).val() ] } ),
@@ -651,7 +651,7 @@ wpmoly.media = wpmoly.media || {};
 
 				wpmoly.metabox.models.metabox.state( 'posters' ).set({
 					label: data.posters.length,
-					labeltitle: data.posters.length + ' posters available for download'
+					labeltitle: ( data.posters.length > 1 ? wpmoly.l10n.media.posters.available.replace( '%d', data.posters.length ) : wpmoly.l10n.media.poster.available )
 				});
 			},
 

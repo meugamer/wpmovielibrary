@@ -41,6 +41,8 @@ window.wpmoly = window.wpmoly || {};
 
 			post_id: $( '#post_ID' ).val(),
 
+			tmdb_id: $( '#meta_data_tmdb_id' ).val(),
+
 			/**
 			 * Overload Backbone sync method
 			 * 
@@ -67,20 +69,15 @@ window.wpmoly = window.wpmoly || {};
 							nonce: wpmoly.get_nonce( 'upload-movie-image' ),
 							data: _.extend( this.toJSON(), {
 								post_id: this.post_id,
-								tmdb_id: wpmoly.editor.models.movie.get( 'tmdb_id' )
+								tmdb_id: this.tmdb_id
 							} )
 						}),
 						beforeSend: function() {
 							model.trigger( 'uploading:start' );
-							wpmoly.editor.models.status.trigger( 'loading:start' );
-							wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ model.get( 'type' ) ].uploading );
 						},
-						complete: function() {
-							wpmoly.editor.models.status.trigger( 'loading:end' );
-						},
+						complete: function() {},
 						success: function( response ) {
 							model.trigger( 'uploading:end', response );
-							wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ model.get( 'type' ) ].uploaded );
 						}
 					});
 
@@ -130,6 +127,8 @@ window.wpmoly = window.wpmoly || {};
 		Attachments: wp.media.model.Attachments.extend({
 
 			_queue: [],
+
+			_uploading: false,
 
 			/**
 			 * Initialize Model.
@@ -217,11 +216,25 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			dequeue: function() {
 
+				if ( false === this._uploading ) {
+
+					// Let it be known we've started the queue
+					this.trigger( 'dequeue:start' );
+					this._uploading = true;
+
+					wpmoly.editor.models.status.trigger( 'loading:start' );
+					wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ this._type ].uploading );
+				}
+
 				// If we reached the end of the queue, don't go further
 				if ( ! this._queue.length ) {
 
 					// Let it be known we're done here
 					this.trigger( 'dequeue:done' );
+					this._uploading = false;
+
+					wpmoly.editor.models.status.trigger( 'loading:end' );
+					wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ this._type ].uploaded );
 
 					return this;
 				}

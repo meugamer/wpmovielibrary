@@ -15,6 +15,7 @@ _.extend( wpmoly, {
 wpmoly_l10n = undefined;
 
 jQuery( document ).ready( function() {
+
 	wpmoly.metabox();
 	wpmoly.editor();
 	wpmoly.media();
