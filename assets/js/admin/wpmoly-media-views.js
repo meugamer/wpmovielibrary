@@ -189,7 +189,7 @@ wpmoly.media = wpmoly.media || {};
 				this.media = wp.media;
 				this.modal = this.frame();
 
-				this.collection.on( 'add', this.render, this );
+				this.collection.on( 'add', this.renderAttachment, this );
 				this.collection.on( 'change', this.render, this );
 			},
 
@@ -223,7 +223,7 @@ wpmoly.media = wpmoly.media || {};
 					return;
 
 				var view = new this._subview( { model: model, collection: this.collection, type: this._type } ),
-				    el = view.render().el;
+				      el = view.render().el;
 
 				this.$el.prepend( el );
 
@@ -244,39 +244,6 @@ wpmoly.media = wpmoly.media || {};
 				this.modal.open();
 				event.preventDefault();
 			},
-
-			/**
-			 * Add a new Attachment to the Attachments Collection View and
-			 * upload the Attachment.
-			 * 
-			 * @since    2.2
-			 * 
-			 * @param    object    wp.media.model.Attachment instance
-			 * 
-			 * @return   object    Attachment Model
-			 */
-			/*add: function( model ) {
-
-				// Create required custom Model and view
-				var attachment = new media.Model.Attachment( model.attributes ),
-					view = this.renderAttachment( attachment );
-
-				if ( true === model._previousAttributes.uploading ) {
-					model.trigger( 'uploading:end', model );
-					return model;
-				}
-
-				// Upload Attachment, update Model and trigger end
-				attachment.set( { type: this._type } );
-				attachment.upload();
-				attachment.on( 'uploading:end', function( response ) {
-					model.set( { id: response } );
-					model.fetch();
-					model.trigger( 'uploading:done', model );
-				});
-
-				return model;
-			},*/
 
 			/**
 			 * Create/return the Modal frame
@@ -455,7 +422,7 @@ wpmoly.media = wpmoly.media || {};
 			upload: function( attachment ) {
 
 				var attachments = attachment.collection.models,
-					models = this._frame.state( this._library.id ).get( 'library' ).models;
+					 models = this._frame.state( this._library.id ).get( 'library' ).models;
 				    attachments = _.filter( attachments, function( obj ) { return ! _.findWhere( models, obj ); });
 
 				_.each( attachments, function( _attachment ) {
@@ -654,7 +621,7 @@ wpmoly.media = wpmoly.media || {};
 
 				// Bind to the editor sync:done event to set featured image
 				if ( 1 == wpmoly.editor.models.movie.settings.setfeatured )
-					this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
+					this.listenToOnce( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
 				this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.reload );
 
 				//this.on( 'prepare:media', this.prepareMedia, this );
@@ -700,18 +667,25 @@ wpmoly.media = wpmoly.media || {};
 			 */
 			setFeatured: function( model, data ) {
 
-				var poster = _.first( data.posters );
-				if ( undefined == poster )
+				var attr = _.first( data.posters );
+				if ( undefined == attr )
 					return false;
 
 				// Create needed Attachment Model
-				poster = new media.Model.Poster( _.extend( poster, { type: 'poster' } ) );
-				poster = this.add( poster );
+				var poster = new media.Model.Attachment( _.extend( attr, { type: 'posters' } ) );
+				this.collection.add( [ poster ], { upload: false } );
 
 				// Wait for the upload to end
-				poster.on( 'uploading:done', function( model ) {
-					wp.media.featuredImage.set( model.get( 'id' ) );
+				poster.on( 'uploading:end', function( response ) {
+
+					poster.set( { id: response } );
+					poster.fetch();
+					poster.trigger( 'uploading:done', poster );
+
+					wp.media.featuredImage.set( poster.get( 'id' ) );
 				}, this );
+
+				poster.upload();
 			}
 
 		})

@@ -45,6 +45,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			// Callbacks
 			add_action( 'wp_ajax_wpmoly_load_images', array( $this, 'load_images_callback' ) );
 			add_action( 'wp_ajax_wpmoly_upload_image', array( $this, 'upload_image_callback' ) );
+			add_action( 'wp_ajax_wpmoly_attach_image', array( $this, 'attach_image_callback' ) );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -110,9 +111,33 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 			$file_path = esc_attr( $data['metadata']['file_path'] );
 
-			//$response = $this->image_upload( $file_path, $post_id, $tmdb_id, $data['type'], $data );
-			$response = 0;
-			usleep( 2500000 );
+			$response = $this->image_upload( $file_path, $post_id, $tmdb_id, $data['type'], $data );
+
+			wp_send_json_success( $response );
+		}
+
+		public function attach_image_callback() {
+
+			wpmoly_check_ajax_referer( 'upload-movie-image' );
+
+			// Make sure data is sent...
+			$data = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
+			if ( is_null( $data ) )
+				wp_send_json_error( new WP_Error( -1, __( 'Image data could not be processed correctly.', 'wpmovielibrary' ) ) );
+
+			// ... and we have the requires IDs
+			$post_id = ( isset( $data['post_id'] ) && '' != $data['post_id'] ? intval( $data['post_id'] ) : null );
+			$tmdb_id = ( isset( $data['tmdb_id'] ) && '' != $data['tmdb_id'] ? intval( $data['tmdb_id'] ) : null );
+			if ( is_null( $post_id ) || is_null( $tmdb_id ) )
+				wp_send_json_error( new WP_Error( -2, __( 'Invalid Post ID or TMDb ID.', 'wpmovielibrary' ) ) );
+
+			// ... and we have a file_path to use.
+			if ( ! isset( $data['id'] ) || empty( $data['id'] ) || is_null( get_post( intval( $data['id'] ) ) ) )
+				wp_send_json_error( new WP_Error( -3, __( 'Invalid attachment.', 'wpmovielibrary' ) ) );
+
+			$response = self::update_attachment_meta( intval( $data['id'] ), $post_id, $tmdb_id, esc_attr( $data['type'] ) );
+			if ( ! $response )
+				wp_send_json_error( $response );
 
 			wp_send_json_success( $response );
 		}
@@ -482,6 +507,8 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			update_post_meta( $attachment_id, '_wp_attachment_image_alt', $_title );
 
 			$update = wp_update_post( $attachment );
+
+			return $update;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

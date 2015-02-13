@@ -57,12 +57,13 @@ window.wpmoly = window.wpmoly || {};
 				options = options || {};
 				options.url = options.url || this.url;
 
-				if ( 'upload' == method ) {
+				if ( 'upload' == method || 'attach' == method ) {
 
+					var action = 'wpmoly_' + method + '_image';
 					_.extend( options, {
 						context: this,
 						data: _.extend( options.data || {}, {
-							action: 'wpmoly_upload_image',
+							action: action,
 							nonce: wpmoly.get_nonce( 'upload-movie-image' ),
 							data: _.extend( this.toJSON(), {
 								post_id: this.post_id,
@@ -70,7 +71,7 @@ window.wpmoly = window.wpmoly || {};
 							} )
 						}),
 						beforeSend: function() {
-							this.trigger( 'uploading:start' );
+							model.trigger( 'uploading:start' );
 							wpmoly.editor.models.status.trigger( 'loading:start' );
 							wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ model.get( 'type' ) ].uploading );
 						},
@@ -78,7 +79,7 @@ window.wpmoly = window.wpmoly || {};
 							wpmoly.editor.models.status.trigger( 'loading:end' );
 						},
 						success: function( response ) {
-							this.trigger( 'uploading:end', response );
+							model.trigger( 'uploading:end', response );
 							wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ model.get( 'type' ) ].uploaded );
 						}
 					});
@@ -89,6 +90,18 @@ window.wpmoly = window.wpmoly || {};
 				else {
 					return  wp.media.model.Attachment.prototype.sync.apply( this, arguments );
 				}
+			},
+
+			/**
+			 * Alias for sync( 'attach' )
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   object   this
+			 */
+			attach: function() {
+
+				return this.sync( 'attach', this, {} );
 			},
 
 			/**
@@ -105,15 +118,46 @@ window.wpmoly = window.wpmoly || {};
 
 		}),
 
+		/**
+		 * WPMOLY Backbone Attachments Collection Model
+		 * 
+		 * Used to handle the sequenced upload of Attachments.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
 		Attachments: wp.media.model.Attachments.extend({
 
 			_queue: [],
 
+			/**
+			 * Initialize Model.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			initialize: function() {
 
 				this.on( 'dequeue', this.dequeue, this );
 			},
 
+			/**
+			 * Add Models to the Collection.
+			 * 
+			 * This overrides the Backbone Collection add() method to
+			 * create a queue of Models to upload. If not specifically
+			 * disable using options.upload = false, every single
+			 * Attachment added to the collection will be uploaded.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    array     Array of Attachment Models
+			 * @param    object    Options
+			 * 
+			 * @return   void
+			 */
 			add: function( models, options ) {
 
 				var options = options || {};
@@ -124,53 +168,93 @@ window.wpmoly = window.wpmoly || {};
 
 				if ( true === options.upload )
 					_.each( models, this.enqueue, this );
+			
+				return models;
 			},
 
+			/**
+			 * Add an Attachment Model to the queue.
+			 * 
+			 * Attachments should be instances of wpmoly.media.Model.Attachment
+			 * and will be converted if not.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    Attachment Model
+			 * 
+			 * @return   this
+			 */
 			enqueue: function( model ) {
 
-				if ( undefined !== model._previousAttributes && true === model._previousAttributes.uploading ) {
-					model.trigger( 'uploading:end', model );
+				// Make sure we're queueing a media.Model.Attachment object
+				var attachment = new media.Model.Attachment( model.attributes );
+
+				// Set the Attachment type (backdrop, poster...)
+				attachment.set( { type: this._type } );
+
+				// Add to queue
+				this._queue.push( attachment );
+
+				return this;
+			},
+
+			/**
+			 * Remove an Attachment from the queue and upload it.
+			 * 
+			 * This is the tricky part, so pay attention. We need a
+			 * media.Model.Attachment object to handle the upload,
+			 * but the corresponding View in the Metabox is related
+			 * a WP Attachment model, so we have to relay the events
+			 * triggered by our custom Attachment to the 'real' model
+			 * to interact with the View.
+			 * 
+			 * Interaction is done by relaying 'uploading;{start|end|done}'
+			 * to the model.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			dequeue: function() {
+
+				// If we reached the end of the queue, don't go further
+				if ( ! this._queue.length ) {
+
+					// Let it be known we're done here
+					this.trigger( 'dequeue:done' );
+
 					return this;
 				}
 
-				model = new media.Model.Attachment( model.attributes ),
-				model.set( { type: this._type } );
+				// Get current Attachment and related model
+				var attachment = this._queue.pop(),
+				         model = this.model.get( attachment.id );
 
-				this._queue.unshift( model );
+				// Detect Attachment upload start
+				attachment.once( 'uploading:start', function() {
+					model.trigger( 'uploading:start' );
+				}, this );
 
-				return this
-			},
+				// Detect Attachment upload end
+				attachment.once( 'uploading:end', function( response ) {
 
-			dequeue: function() {
-
-				if ( ! this._queue.length )
-					return this;
-
-				var model = this._queue.pop();
-				    model.upload();
-
-				model.on( 'uploading:end', function( response ) {
-
+					// Update the 'real' model
 					model.set( { id: response } );
 					model.fetch();
 					model.trigger( 'uploading:done', model );
 
-					this.dequeue();
+					// Next!
+					this.trigger( 'dequeue' );
+
 				}, this );
+
+				// Already uploaded? Attach to the movie
+				if ( undefined !== attachment.get( 'uploadedToLink' ) && _.isNumber( attachment.get( 'id' ) ) )
+					return attachment.attach();
+
+				// Launch the upload
+				return attachment.upload();
 			}
-
-			/*enqueue: function( model ) {
-
-				this._queue.push( model );
-			},
-
-			dequeue: function() {
-
-				var model = _.first( this._queue );
-				    model.upload();
-			},*/
-
-			
 
 		})
 
