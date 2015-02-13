@@ -194,6 +194,7 @@ window.wpmoly = window.wpmoly || {};
 			settings: {
 				actorlimit: parseInt( document.getElementById( 'wpmoly-actor-limit' ).value ),
 				setfeatured: parseInt( document.getElementById( 'wpmoly-poster-featured' ).value ),
+				importimages: parseInt( document.getElementById( 'wpmoly-auto-import-images' ).value ),
 				autocomplete: {
 					collection: parseInt( document.getElementById( 'wpmoly-autocomplete-collection' ).value ),
 					genre: parseInt( document.getElementById( 'wpmoly-autocomplete-genre' ).value ),

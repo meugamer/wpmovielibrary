@@ -434,6 +434,16 @@ $wpmoly_config = array(
 				'default'  =>'original'
 			),
 
+			
+			'import-images' => array(
+				'id'       => 'wpmoly-import-images',
+				'type'     => 'text',
+				'title'    => __( 'Images auto import', 'wpmovielibrary' ),
+				'desc'     => __( 'Set a number of images to import automatically when creating new movies. Set to <code>0</code> to disable, <code>-1</code> to import all available images. Note that this slow down the import process, especially if you are import full-sized images and/or each available images.', 'wpmovielibrary' ),
+				'default'  => 0,
+				'validate' => 'numeric'
+			),
+
 			// Maximum number of image to show
 			'images-delete' => array(
 				'id'       => 'wpmoly-images-delete',

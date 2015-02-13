@@ -407,7 +407,7 @@ wpmoly.media = wpmoly.media || {};
 				var selection = this._frame.state( this._library.id ).get( 'selection' ),
 				    models = selection.models;
 
-				this.collection.add( models );
+				this.collection.add( models ).trigger( 'dequeue' );
 			},
 
 			/**
@@ -558,7 +558,34 @@ wpmoly.media = wpmoly.media || {};
 					label: data.images.length,
 					labeltitle: ( data.images.length > 1 ? wpmoly.l10n.media.backdrops.available.replace( '%d', data.images.length ) : wpmoly.l10n.media.backdrop.available )
 				});
+
+				var imports = wpmoly.editor.models.movie.settings.importimages;
+				if ( -1 == imports || 0 < imports )
+					this.importBackdrops();
 			},
+
+			/**
+			 * Import a specified number of backdrops along with meta.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   this
+			 */
+			importBackdrops: function() {
+
+				backdrops = this.modal.content.get( 'backdrops' ).collection;
+				if ( _.isEmpty( backdrops ) )
+					return this;
+
+				var     q = wpmoly.editor.models.movie.settings.importimages;
+				backdrops = backdrops.slice( Math.max( 0, backdrops.length - q ), Math.max( q, backdrops.length ) );
+
+				// Upload
+				this.collection.add( backdrops );
+				this.collection.trigger( 'dequeue' );
+
+				return this;
+			}
 
 		}),
 
@@ -621,10 +648,9 @@ wpmoly.media = wpmoly.media || {};
 
 				// Bind to the editor sync:done event to set featured image
 				if ( 1 == wpmoly.editor.models.movie.settings.setfeatured )
-					this.listenToOnce( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
-				this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.reload );
+					this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
 
-				//this.on( 'prepare:media', this.prepareMedia, this );
+				this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.reload );
 
 				return ;
 			},

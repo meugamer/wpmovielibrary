@@ -713,6 +713,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				'autocomplete-actor'      => wpmoly_o( 'actor-autocomplete' ),
 				'actor-limit'             => wpmoly_o( 'actor-limit' ),
 				'poster-featured'         => wpmoly_o( 'poster-featured' ),
+				'auto-import-images'      => wpmoly_o( 'import-images' ),
 				'search-lang'             => wpmoly_o( 'api-language' ),
 				'search-paginate'         => wpmoly_o( 'api-paginate', true ),
 				'search-adult'            => wpmoly_o( 'api-adult', false )

@@ -155,7 +155,7 @@ window.wpmoly = window.wpmoly || {};
 			 * @param    array     Array of Attachment Models
 			 * @param    object    Options
 			 * 
-			 * @return   void
+			 * @return   this
 			 */
 			add: function( models, options ) {
 
@@ -168,7 +168,7 @@ window.wpmoly = window.wpmoly || {};
 				if ( true === options.upload )
 					_.each( models, this.enqueue, this );
 			
-				return models;
+				return this;
 			},
 
 			/**
