@@ -45,9 +45,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			// Bulk/quick edit
 			add_filter( 'bulk_post_updated_messages', __CLASS__ . '::movie_bulk_updated_messages', 10, 2 );
 
-			add_action( 'quick_edit_custom_box', __CLASS__ . '::quick_edit_movies', 10, 2 );
 			add_action( 'bulk_edit_custom_box', __CLASS__ . '::bulk_edit_movies', 10, 2 );
-			add_filter( 'post_row_actions', __CLASS__ . '::expand_quick_edit_link', 10, 2 );
+			add_filter( 'post_row_actions', __CLASS__ . '::quick_edit_metadata', 10, 2 );
 
 			// Post List Table
 			add_filter( 'manage_movie_posts_columns', __CLASS__ . '::movies_columns_head' );
@@ -569,23 +568,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		}
 
 		/**
-		 * Add new fields to Movies' Quick Edit form in Movies Lists to edit
-		 * Movie Details directly from the list.
-		 * 
-		 * @since    1.0
-		 * 
-		 * @param    string    $column_name WP List Table Column name
-		 * @param    string    $post_type Post type
-		 */
-		public static function quick_edit_movies( $column_name, $post_type ) {
-
-			if ( 'movie' != $post_type || 'wpmoly-poster' != $column_name || 1 !== did_action( 'quick_edit_custom_box' ) )
-				return false;
-
-			self::quickbulk_edit( 'quick' );
-		}
-
-		/**
 		 * Add new fields to Movies' Bulk Edit form in Movies Lists.
 		 * 
 		 * @since    1.0
@@ -634,43 +616,30 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		}
 
 		/**
-		 * Alter the Quick Edit link in Movies Lists to update the Movie Details
-		 * current values.
+		 * Add a new 'Edit metadata' link to the movies Edit-in-line menu.
 		 * 
-		 * @since    1.0
+		 * @since    2.2
 		 * 
 		 * @param    array     $actions List of current actions
 		 * @param    object    $post Current Post object
 		 * 
-		 * @return   string    Edited Post Actions
+		 * @return   array     Edited Post Actions
 		 */
-		public static function expand_quick_edit_link( $actions, $post ) {
+		public static function quick_edit_metadata( $actions, $post ) {
 
-			global $current_screen;
-
-			if ( isset( $current_screen ) && ( ( $current_screen->id != 'edit-movie' ) || ( $current_screen->post_type != 'movie' ) ) )
+			if ( 'movie' != get_post_type( $post ) )
 				return $actions;
 
-			$nonce    = wpmoly_create_nonce( 'set-quickedit-movie-details' );
-			$details  = WPMOLY_Settings::get_supported_movie_details();
-			$_details = array_keys( $details );
+			$offset = array_search( 'inline hide-if-no-js', array_keys( $actions ) );
+			if ( false === $offset )
+				return $actions;
 
-			foreach ( $_details as $i => $detail ) {
-				$data = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post->ID, 'meta' => $detail ) );
-				if ( is_array( $data ) && isset( $details[ $detail ]['multi'] ) && true == $details[ $detail ]['multi'] )
-					$data = '[' . implode( ',', array_map( create_function( '$d', 'return "\'" . $d . "\'";' ), $data ) ) . ']';
-				else
-					$data = "'{$data}'";
-				$_details[ $i ] = sprintf( "{$detail}: %s" , $data );
-			}
-
-			$_details = '{' . implode( ', ', $_details ) . '}';
-
-			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="';
-			$actions['inline hide-if-no-js'] .= esc_attr( __( 'Edit this item inline' ) ) . '" ';
-			$actions['inline hide-if-no-js'] .= " onclick=\"wpmoly_edit_movies.quick_edit({$_details}, '{$nonce}')\">"; 
-			$actions['inline hide-if-no-js'] .= __( 'Quick&nbsp;Edit' );
-			$actions['inline hide-if-no-js'] .= '</a>';
+			$offset++;
+			$actions = array_merge(
+					array_slice( $actions, 0, $offset ),
+					array( '<a href="#" class="hide-if-no-js" title="' . esc_attr( __( 'Edit this movie’s metadata', 'wpmovielibrary' ) ) . '">' . __( 'Edit metadata', 'wpmovielibrary' ) . '</a>' ),
+					array_slice( $actions, $offset, count( $actions ) )
+			);
 
 			return $actions;
 		}
