@@ -70,6 +70,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			// Callbacks
 			add_action( 'wp_ajax_wpmoly_save_meta', __CLASS__ . '::save_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
+			add_action( 'wp_ajax_wpmoly_fetch_movies', __CLASS__ . '::fetch_movies_callback' );
 
 			add_action( 'admin_footer-post.php', __CLASS__ . '::footer_scripts' );
 			add_action( 'admin_footer-post-new.php', __CLASS__ . '::footer_scripts' );
@@ -239,6 +240,30 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$response = self::save_movie_meta( $post_id, $data );
 
 			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'save-movie-meta' ) );
+		}
+
+		/**
+		 * Fetch movies metadata.
+		 * 
+		 * This is used to fill the Backbone Collection on 'All movies'
+		 * page and provide quick metadata edit features.
+		 * 
+		 * TODO: nonce
+		 * 
+		 * @since    2.2
+		 */
+		public static function fetch_movies_callback() {
+
+			$data = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
+			if ( is_null( $data ) )
+				return new WP_Error( 'invalid', __( 'Empty data', 'wpmovielibrary' ) );
+
+			if ( ! is_array( $data ) )
+				$data = array( $data );
+
+			$response = WPMOLY_Movies::get_movies_meta( $data );
+
+			wp_send_json_success( $response );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
