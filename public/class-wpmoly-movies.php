@@ -200,6 +200,54 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		}
  
 		/**
+		 * Return a list of Movies' Post Meta. Currently only basic meta
+		 * are supported.
+		 * 
+		 * TODO: add support additional meta support (details at least)
+		 * TODO: secure and cache queries
+		 *
+		 * @since    2.2
+		 * 
+		 * @param    array     Movie Post IDs
+		 * @param    string    Meta type to return (unused yet)
+		 *
+		 * @return   array|boolead    Metadata if available, false else
+		 */
+		public static function get_movies_meta( $post_ids, $meta = null ) {
+
+			if ( ! is_array( $post_ids ) )
+				$post_ids = array( $post_ids );
+
+			if ( empty( $post_ids ) )
+				return false;
+
+			global $wpdb;
+
+			$supported = WPMOLY_Settings::get_supported_movie_meta();
+			$supported = array_map( 'esc_attr', array_keys( $supported ) );
+			$supported = '"_wpmoly_movie_' . implode( '","_wpmoly_movie_', $supported ) . '"';
+
+			$post_ids  = array_map( 'intval', $post_ids );
+			$post_ids  = '"' . implode( '","', $post_ids ) . '"';
+
+			$meta = $wpdb->get_results(
+				"SELECT post_id, REPLACE( meta_key, '_wpmoly_movie_', '' ) AS meta_key, meta_value
+				   FROM {$wpdb->postmeta}
+				  WHERE post_id
+				     IN ( {$post_ids} )
+				    AND meta_key
+				     IN ( {$supported} )
+				  ORDER BY post_id"
+			);
+
+			$movies = array();
+			foreach ( $meta as $m )
+				$movies[ $m->post_id ][ $m->meta_key ] = esc_attr( $m->meta_value );
+
+			return $movies;
+		}
+
+		/**
 		 * Show movies in default home page post list.
 		 * 
 		 * Add action on pre_get_posts hook to add movie to the list of
