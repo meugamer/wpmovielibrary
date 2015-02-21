@@ -114,7 +114,6 @@
 	line-height: 1.25em;
 }
 
-
 #wpmoly-movie-grid-menu .wpmoly.grid.menu.item,
 #wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item {
 	border-left: 1px solid #ddd;
@@ -134,6 +133,42 @@
 	font-weight: bold;
 }
 
+#wpmoly-movie-grid-menu-2 .wpmoly.grid.menu.item select {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 4px 8px;
+	width: 100%;
+}
+
+#wpmoly-movie-grid-menu-2-sorting {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	box-shadow: 0 2px 2px #111;
+	display: none;
+	left: 18px;
+	max-width: 200px;
+	padding: 4px 8px;
+	position: absolute;
+	top: 40px;
+	width: 100%;
+}
+
+#wpmoly-movie-grid-menu-2-sorting a {
+	background: #0074a2;
+	border-radius: 3px;
+	color: #fff;
+	display: block;
+	margin-top: 10px;
+	padding: 4px 8px;
+	text-align: center;
+}
+
+#wpmoly-movie-grid-menu-2-sorting a:hover {
+	opacity: 0.9;
+}
+
 #wpmoly-movie-grid {
 	margin: 1em 0.5em;
 }
@@ -151,6 +186,12 @@
 	display: inline-block;
 	margin: 0.2%;
 	vertical-align: top;
+}
+
+#wpmoly-movie-grid > .movie.with-title,
+#wpmoly-movie-grid > .movie.with-rating,
+#wpmoly-movie-grid > .movie.with-year {
+	margin-bottom: 1em;
 }
 
 #wpmoly-movie-grid.grid-col-8 > .movie {
@@ -242,6 +283,8 @@
  ***************************************************/
 
 #wpmoly-movie-grid-menu-2 {
+	max-height: 32px;
+	position: relative;
 	text-align: left;
 }
 
@@ -581,6 +624,7 @@
 	background: #fff;
 	border: 1px solid #dbdbdb;
 	border-radius: 3px;
+	margin-bottom: 20px;
 	padding: 8px 14px;
 }
 
@@ -706,8 +750,9 @@
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.meta.sub-title {
 	color: #c00;
 	font-family: 'Arial', 'Helvetica', sans-serif;
-	font-size: 22px;
+	font-size: 22px !important;
 	font-weight: normal;
+	margin-bottom: 16px !important;
 }
 
 .wpmoly.headbox.allocine.movie .wpmoly.headbox.movie.section h6 {

@@ -27,6 +27,11 @@ $wpmoly_shortcodes = array(
 				'values'  => array( 'ASC', 'DESC' ),
 				'filter'  => 'esc_attr'
 			),
+			'orderby' => array(
+				'default' => wpmoly_o( 'movie-archives-movies-orderby' ),
+				'values'  => array( 'title', 'date', 'localdate', 'rating' ),
+				'filter'  => 'esc_attr'
+			),
 			'number' => array(
 				'default' => wpmoly_o( 'movie-archives-movies-per-page' ),
 				'values'  => null,
@@ -48,6 +53,21 @@ $wpmoly_shortcodes = array(
 				'filter'  => 'esc_attr'
 			),
 			'letter' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'collection' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'genre' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'actor' => array(
 				'default' => null,
 				'values'  => null,
 				'filter'  => 'esc_attr'
@@ -409,8 +429,13 @@ $wpmoly_shortcodes = array(
 				'values'  => array( 'none', 'thumb', 'thumbnail', 'medium', 'large', 'full' ),
 				'filter'  => 'esc_attr'
 			),
+			'type' => array(
+				'default' => 'all',
+				'values'  => array( 'all', 'images', 'backdrops', 'posters' ),
+				'filter'  => 'esc_attr'
+			),
 			'count' => array(
-				'default' => null,
+				'default' => -1,
 				'values'  => null,
 				'filter'  => 'intval'
 			),
@@ -422,7 +447,40 @@ $wpmoly_shortcodes = array(
 		),
 		'content'  => null,
 		'callback' => 'movie_images_shortcode',
-		'aliases'  => array( 'movie_pictures', 'movie_photos' )
+		'aliases'  => array( 'movie_pictures', 'movie_photos', 'movie_posters' )
+	),
+
+	'movie_rating' => array(
+		'atts'     => array(
+			'id' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'title' => array(
+				'default' => null,
+				'values'  => null,
+				'filter'  => 'esc_attr'
+			),
+			'stars' => array(
+				'default' => false,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			),
+			'numbers' => array(
+				'default' => false,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			),
+			'raw' => array(
+				'default' => true,
+				'values'  => 'boolean',
+				'filter'  => 'esc_attr'
+			)
+		),
+		'content'  => null,
+		'callback' => 'movie_rating_shortcode',
+		'aliases'  => null
 	),
 
 	'movie_detail' => array(
@@ -450,10 +508,9 @@ $wpmoly_shortcodes = array(
 		),
 		'content'  => null,
 		'callback' => 'movie_detail_shortcode',
-		'aliases' => array(
+		'aliases'  => array(
 			'movie_media',
 			'movie_status',
-			'movie_rating',
 			'movie_languages',
 			'movie_subtitles',
 			'movie_format'

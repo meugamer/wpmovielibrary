@@ -38,6 +38,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
 				'rows'     => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
 				'editable' => wpmoly_o( 'movie-archives-frontend-edit', $default = true ),
+				'advanced' => wpmoly_o( 'movie-archives-frontend-advanced-edit', $default = false ),
 				'meta'     => '',
 				'detail'   => '',
 				'value'    => '',
@@ -52,11 +53,12 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			extract( $args );
 
-			if ( true === $shortcode ) {
+			$baseurl = get_permalink();
+			/*if ( true === $shortcode ) {
 				$baseurl = get_permalink();
 			} else {
 				$baseurl = get_post_type_archive_link( 'movie' );
-			}
+			}*/
 
 			$views = array( 'grid', 'archives', 'list' );
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
@@ -75,12 +77,12 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			$limit = wpmoly_o( 'movie-archives-movies-limit' );
 
-			$attributes = compact( 'letters', 'default', 'letter', 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'editable', 'limit', 'view' );
+			$attributes = compact( 'letters', 'default', 'letter', 'order', 'orderby', 'columns', 'rows', 'meta', 'detail', 'value', 'editable', 'advanced', 'limit', 'view' );
 
 			$urls = array();
 			$l10n = false;
 
-			$args = compact( 'order', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl', 'view' );
+			$args = compact( 'order', 'orderby', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl', 'view' );
 			$urls['all'] = WPMOLY_Utils::build_meta_permalink( $args );
 
 			$args['letter'] = $letter;
@@ -133,26 +135,24 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			global $wpdb, $wp_query;
 
 			$defaults = array(
-				'columns'   => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
-				'rows'      => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
-				'paged'     => 1,
-				'meta'      => null,
-				'detail'    => null,
-				'value'     => null,
-				'title'     => false,
-				'year'      => false,
-				'rating'    => false,
-				'letter'    => null,
-				'order'     => wpmoly_o( 'movie-archives-movies-order', $default = true ),
-				'view'      => 'grid'
+				'columns'    => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
+				'rows'       => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
+				'paged'      => 1,
+				'collection' => null,
+				'actor'      => null,
+				'genre'      => null,
+				'meta'       => null,
+				'detail'     => null,
+				'value'      => null,
+				'title'      => false,
+				'year'       => false,
+				'rating'     => false,
+				'letter'     => null,
+				'order'      => wpmoly_o( 'movie-archives-movies-order', $default = true ),
+				'orderby'    => 'post_title',
+				'view'       => 'grid'
 			);
 			$args = wp_parse_args( $args, $defaults );
-
-			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
-			$grid_meta = array_keys( $grid_meta['used'] );
-			$title  = in_array( 'title', $grid_meta );
-			$rating = in_array( 'rating', $grid_meta );
-			$year   = in_array( 'year', $grid_meta );
 
 			// Allow URL params to override Shortcode settings
 			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
@@ -161,19 +161,29 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			extract( $args, EXTR_SKIP );
 			$total  = 0;
 
+			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
+			$grid_meta = array_keys( $grid_meta['used'] );
+			$title  = ( $title || in_array( 'title', $grid_meta ) );
+			$rating = ( $rating || in_array( 'rating', $grid_meta ) );
+			$year   = ( $year || in_array( 'year', $grid_meta ) );
+
 			$views = array( 'grid', 'archives', 'list' );
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
 				$views = array( 'grid' => __( 'grid', 'wpmovielibrary' ), 'archives' => __( 'archives', 'wpmovielibrary' ), 'list' => __( 'list', 'wpmovielibrary' ) );
 
-			$_view = array_search( $view, $views );
-			if ( false != $_view )
-				$view = $_view;
-			else
-				$view = 'grid';
+			if ( ! isset( $views[ $view ] ) ) {
+				$_view = array_search( $view, $views );
+				if ( false != $_view )
+					$view = $_view;
+				else
+					$view = 'grid';
+			}
 
 			$movies = array();
 			$total  = wp_count_posts( 'movie' );
 			$total  = $total->publish;
+
+			$select = array( 'SQL_CALC_FOUND_ROWS DISTINCT ID' );
 
 			// Limit the maximum number of terms to get
 			$number = $columns * $rows;
@@ -212,6 +222,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				$where[] = " AND post_title LIKE '" . wpmoly_esc_like( $letter ) . "%'";
 
 			$join = array();
+			$meta_query = array( 'join' => array(), 'where' => array() );
 			if ( '' != $value && '' != $meta ) {
 
 				$meta_query = call_user_func( "WPMOLY_Search::by_$meta", $value, 'sql' );
@@ -220,9 +231,66 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				$where[] = $meta_query['where'];
 			}
 
-			$where = implode( '', $where );
-			$join  = implode( '', $join );
-			$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT ID FROM {$wpdb->posts} {$join} WHERE {$where} ORDER BY post_title {$order} {$limit}";
+			$tax_query = array();
+			if ( ! is_null( $collection ) && ! empty( $collection ) ) {
+				$tax_query = array(
+					'taxonomy' => 'collection',
+					'terms'    => $collection,
+				);
+			} elseif ( ! is_null( $genre ) && ! empty( $genre ) ) {
+				$tax_query = array(
+					'taxonomy' => 'genre',
+					'terms'    => $genre,
+				);
+			} elseif ( ! is_null( $actor ) && ! empty( $actor ) ) {
+				$tax_query = array(
+					'taxonomy' => 'actor',
+					'terms'    => $actor,
+				);
+			}
+
+			if ( ! empty( $tax_query ) ) {
+
+				$tax_query = array(
+					'relation' => 'OR',
+					array(
+						'taxonomy' => $tax_query['taxonomy'],
+						'field'    => 'slug',
+						'terms'    => $tax_query['terms'],
+					),
+					array(
+						'taxonomy' => $tax_query['taxonomy'],
+						'field'    => 'name',
+						'terms'    => $tax_query['terms'],
+					)
+				);
+				$tax_query = get_tax_sql( $tax_query, $wpdb->posts, 'ID' );
+
+				$join[]  = $tax_query['join'];
+				$where[] = $tax_query['where'];
+			}
+
+			$_orderby = array(
+				'year'      => 'release_date',
+				'date'      => 'release_date',
+				'localdate' => 'local_release_date',
+				'rating'    => 'rating'
+			);
+			if ( in_array( $orderby, array_keys( $_orderby ) ) ) {
+
+				$select[] = ' pm.meta_value AS value';
+				$join[]   = ' INNER JOIN wp_postmeta AS pm ON ( wp_posts.ID = pm.post_id )';
+				$where[]  = ' AND pm.meta_key = "_wpmoly_movie_' . $_orderby[ $orderby ] . '"';
+				$orderby = 'value';
+			} else {
+				$orderby = 'post_title';
+			}
+
+			$where  = implode( '', $where );
+			$join   = implode( '', $join );
+			$select = implode( ',', $select );
+
+			$query = "SELECT {$select} FROM {$wpdb->posts} {$join} WHERE {$where} ORDER BY {$orderby} {$order} {$limit}";
 
 			$movies = $wpdb->get_col( $query );
 			$total  = $wpdb->get_var( 'SELECT FOUND_ROWS() AS total' );
@@ -231,11 +299,12 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			if ( 'list' == $view )
 				$movies = self::prepare_list_view( $movies );
 
-			if ( true === $shortcode ) {
+			$baseurl = get_permalink();
+			/*if ( true === $shortcode ) {
 				$baseurl = get_permalink();
 			} else {
 				$baseurl = get_post_type_archive_link( 'movie' );
-			}
+			}*/
 
 			$args = array(
 				'order'   => $order,

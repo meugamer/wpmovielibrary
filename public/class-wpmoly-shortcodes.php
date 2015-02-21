@@ -623,16 +623,21 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 		}
 
 		/**
-		 * Movie Poster shortcode.
+		 * Movie Images shortcode. This shortcode supports aliases.
 		 *
 		 * @since    1.1
 		 * 
 		 * @param    array     Shortcode attributes
 		 * @param    string    Shortcode content
+		 * @param    string    Shortcode tag name
 		 * 
 		 * @return   string    Shortcode display
 		 */
-		public static function movie_images_shortcode( $atts = array(), $content = null ) {
+		public static function movie_images_shortcode( $atts = array(), $content = null, $tag = null ) {
+
+			// Is this an alias?
+			if ( ! is_null( $tag ) && "{$tag}_shortcode" != __FUNCTION__ )
+				$atts['type'] = str_replace( 'movie_', '', $tag );
 
 			$atts = self::filter_shortcode_atts( 'movie_images', $atts );
 
@@ -648,36 +653,106 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$images = '';
+				if ( ! in_array( $type, array( 'all', 'images', 'backdrops', 'posters' ) ) )
+					$type = 'images';
 
-				$args = array(
-					'post_type'   => 'attachment',
-					'orderby'     => 'title',
-					'numberposts' => -1,
-					'post_status' => null,
-					'post_parent' => $movie_id,
-					'exclude'     => get_post_thumbnail_id( $movie_id )
-				);
+				$args = array();
+				if ( 'posters' == $type ) {
+					$args = array(
+						'meta_key' => '_wpmoly_poster_related_tmdb_id'
+					);
+				} elseif ( 'images' == $type || 'backdrops' == $type ) {
+					$args = array(
+						'meta_key' => '_wpmoly_image_related_tmdb_id'
+					);
+				} else {
+					$args = array(
+						'exclude' => get_post_thumbnail_id( $movie_id )
+					);
+				}
 
-				$attachments = get_posts( $args );
-				$images = array();
-				$content = '';
-				
-				if ( $attachments ) {
+				if ( ! empty( $args ) ) {
 
-					if ( ! is_null( $count ) )
-						$attachments = array_splice( $attachments, 0, $count );
+					$images = array();
+					$args = array_merge(
+						$args,
+						array(
+							'post_type'   => 'attachment',
+							'orderby'     => 'title',
+							'numberposts' => intval( $count ),
+							'post_status' => null,
+							'post_parent' => $movie_id,
+						)
+					);
 
-					foreach ( $attachments as $attachment )
-						$images[] = array(
-							'thumbnail' => wp_get_attachment_image_src( $attachment->ID, $size ),
-							'full'      => wp_get_attachment_image_src( $attachment->ID, 'full' )
-						);
+					$attachments = get_posts( $args );
+					if ( $attachments ) {
 
-					$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'movie_id' => $movie_id, 'images' => $images ), $require = 'always' );
+						foreach ( $attachments as $attachment )
+							$images[] = array(
+								'thumbnail' => wp_get_attachment_image_src( $attachment->ID, $size ),
+								'full'      => wp_get_attachment_image_src( $attachment->ID, 'full' )
+							);
+
+						$content = WPMovieLibrary::render_template( 'shortcodes/images.php', array( 'size' => $size, 'movie_id' => $movie_id, 'images' => $images ), $require = 'always' );
+					}
 				}
 
 				return $content;
+
+			}, $echo = false );
+
+			return $content;
+		}
+
+		/**
+		 * Movie Rating shortcode.
+		 *
+		 * @since    2.1.4
+		 * 
+		 * @param    array     Shortcode attributes
+		 * @param    string    Shortcode content
+		 * 
+		 * @return   string    Shortcode display
+		 */
+		public static function movie_rating_shortcode( $atts = array(), $content = null ) {
+
+			$atts = self::filter_shortcode_atts( 'movie_rating', $atts );
+
+			$movie_id = WPMOLY_Shortcodes::find_movie_id( $atts['id'], $atts['title'] );
+			if ( is_null( $movie_id ) )
+				return $content;
+
+			$atts['movie_id'] = $movie_id;
+
+			// Caching
+			$name = apply_filters( 'wpmoly_cache_name', 'movie_rating_shortcode', $atts );
+			$content = WPMOLY_Cache::output( $name, function() use ( $atts, $content ) {
+
+				extract( $atts );
+
+				$content = wpmoly_get_movie_rating( $movie_id );
+
+				if ( $stars || $numbers ) {
+
+					$output = '';
+					if ( $stars )
+						$output .= apply_filters( 'wpmoly_format_movie_rating', $content, $format = 'html' );
+
+					if ( $numbers ) {
+						$output .= '&nbsp;−&nbsp;';
+						if ( 10 == wpmoly_o( 'format-rating' ) ) {
+							$output .= sprintf( '%d/10', ( $content * 2 ) );
+						} else {
+							$output .= sprintf( '%s/5', $content );
+						}
+					}
+				} else {
+					$format = ( ! $raw ? 'html' : 'raw' );
+					$output = apply_filters( 'wpmoly_format_movie_rating', $content, $format );
+				}
+
+				return $output;
 
 			}, $echo = false );
 

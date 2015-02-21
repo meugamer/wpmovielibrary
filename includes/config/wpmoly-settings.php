@@ -307,6 +307,17 @@ $wpmoly_config = array(
 		'subsection' => true,
 		'fields'  => array(
 
+			// Notice
+			array(
+                            'id'     => 'wpmoly-convert-notice',
+                            'type'   => 'info',
+                            'notice' => true,
+                            'style'  => 'critical',
+                            'icon'   => 'wpmolicon icon-warning',
+                            'title'  => __( 'Experimental', 'wpmovielibrary' ),
+                            'desc'   => __( 'Posts to Movies conversion is still experimental. Do not activate this unless you are sure of what you are doing, and make sure you have backups of your database before using this feature.', 'wpmovielibrary' )
+                        ),
+
 			// Post type convert enable
 			'convert-enable' => array(
 				'id'       => 'wpmoly-convert-enable',
@@ -783,6 +794,21 @@ $wpmoly_config = array(
 				'default'  => 'ASC'
 			),
 
+			// Movie archives page grid default sorting order
+			'movies-orderby' => array(
+				'id'       => 'wpmoly-movie-archives-movies-orderby',
+				'type'     => 'button_set',
+				'title'    => __( 'Movies Sorting', 'wpmovielibrary' ),
+				'desc'     => __( 'Default movies sorting.', 'wpmovielibrary' ),
+				'options'  => array(
+					'title'     => __( 'Title', 'wpmovielibrary' ),
+					'date'      => __( 'Release Date', 'wpmovielibrary' ),
+					'localdate' => __( 'Local Release Date', 'wpmovielibrary' ),
+					'rating'    => __( 'Rating', 'wpmovielibrary' ),
+				),
+				'default'  => 'title'
+			),
+
 			// Movie archives page max number of movies per page
 			'movies-limit' => array(
 				'id'       => 'wpmoly-movie-archives-movies-limit',
@@ -796,8 +822,8 @@ $wpmoly_config = array(
 			'movies-meta' => array(
 				'id'       => 'wpmoly-movie-archives-movies-meta',
 				'type'     => 'sorter',
-				'title'    => __( 'Grid Movies Meta', 'redux-framework-demo' ),
-				'desc'     => __( 'You can show some metadata along with posters in the grid.', 'redux-framework-demo' ),
+				'title'    => __( 'Grid Movies Meta', 'wpmovielibrary' ),
+				'desc'     => __( 'You can show some metadata along with posters in the grid.', 'wpmovielibrary' ),
 				'compiler' => 'true',
 				'options'  => array(
 					'used' => array(),
@@ -815,6 +841,17 @@ $wpmoly_config = array(
 				'type'     => 'switch',
 				'title'    => __( 'Editable movies-per-page value', 'wpmovielibrary' ),
 				'desc'     => __( 'If enabled, allows movies-per-page value to be modified on frontend. The sorting menu will show an input where visitors can change the movies-per-page value to display more or less movies. It is recommended to set a limit above if this feature is to be activated.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+			),
+
+			// Movie archives page frontend advanced edit settings
+			'frontend-advanced-edit' => array(
+				'id'       => 'wpmoly-movie-archives-frontend-advanced-edit',
+				'type'     => 'switch',
+				'title'    => __( 'Advanced Editable grid settings', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, allows the grid sorting to be modified on frontend. The sorting menu will show a list of possible sortings (rating, release date, title, …) that visitors can select to sort the grid. <strong>This feature is experimental!</strong> Be sure to test it thoroughly before enabling it publicly.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0
