@@ -40,6 +40,12 @@ window.wpmoly = window.wpmoly || {};
 			id: '',
 
 			defaults: {
+				post_title: '',
+				post_date: '',
+				post_author: '',
+				post_author_url: '',
+				post_author_name: '',
+				post_status: '',
 				tmdb_id: '',
 				title: '',
 				original_title: '',

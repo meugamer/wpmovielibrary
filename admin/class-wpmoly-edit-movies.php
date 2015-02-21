@@ -72,6 +72,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_fetch_movies', __CLASS__ . '::fetch_movies_callback' );
 
+			add_action( 'admin_footer-edit.php', __CLASS__ . '::footer_scripts' );
 			add_action( 'admin_footer-post.php', __CLASS__ . '::footer_scripts' );
 			add_action( 'admin_footer-post-new.php', __CLASS__ . '::footer_scripts' );
 		}
@@ -86,6 +87,93 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			if ( 'movie' != get_post_type() )
 				return false;
+
+			global $pagenow;
+			if ( 'edit.php' == $pagenow ) {
+?>
+		<script type="text/html" id="tmpl-movie-metadata-quickedit">
+		<div class="attachment-media-view movie-metadata-view">
+			<div class="movie-metadata">
+				
+			</div>
+		</div>
+		<div class="attachment-info">
+			<span class="settings-save-status">
+				<span class="spinner"></span>
+				<span class="saved"><?php _e( 'Saved.' ); ?></span>
+			</span>
+			<div class="details">
+				<div class="filename"><strong><?php _e( 'Title' ); ?>&nbsp;:</strong> {{ data.post_title }}</div>
+				<div class="filename"><strong><?php _e( 'Published on:'); ?></strong> {{ data.post_date }}</div>
+				<div class="uploaded"><strong><?php _e( 'Author' ); ?>&nbsp;:</strong> <a href="{{ data.post_author_url }}">{{ data.post_author_name }}</a></div>
+				<div class="filename"><strong><?php _e( 'Status' ); ?>&nbsp;:</strong> <# if ( undefined !== wpmoly.l10n.misc[ data.post_status ] ) { #>{{ wpmoly.l10n.misc[ data.post_status ] }} <# } else { #>−<# } #></div>
+			</div>
+
+			<div class="settings">
+				<label class="setting" data-setting="url">
+					<span class="name">Adresse web</span>
+					<input type="text" value="{{ data.url }}" readonly />
+				</label>
+				<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
+				<label class="setting" data-setting="title">
+					<span class="name">Titre</span>
+					<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
+				</label>
+				<# if ( 'audio' === data.type ) { #>
+								<label class="setting" data-setting="artist">
+					<span class="name">Artiste</span>
+					<input type="text" value="{{ data.artist || data.meta.artist || '' }}" />
+				</label>
+								<label class="setting" data-setting="album">
+					<span class="name">Album</span>
+					<input type="text" value="{{ data.album || data.meta.album || '' }}" />
+				</label>
+								<# } #>
+				<label class="setting" data-setting="caption">
+					<span class="name">Légende</span>
+					<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
+				</label>
+				<# if ( 'image' === data.type ) { #>
+					<label class="setting" data-setting="alt">
+						<span class="name">Texte alternatif</span>
+						<input type="text" value="{{ data.alt }}" {{ maybeReadOnly }} />
+					</label>
+				<# } #>
+				<label class="setting" data-setting="description">
+					<span class="name">Description</span>
+					<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
+				</label>
+				<label class="setting">
+					<span class="name">Mise en ligne par</span>
+					<span class="value">{{ data.authorName }}</span>
+				</label>
+				<# if ( data.uploadedToTitle ) { #>
+					<label class="setting">
+						<span class="name">Mis en ligne sur</span>
+						<# if ( data.uploadedToLink ) { #>
+							<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
+						<# } else { #>
+							<span class="value">{{ data.uploadedToTitle }}</span>
+						<# } #>
+					</label>
+				<# } #>
+				<div class="attachment-compat"></div>
+			</div>
+
+			<div class="actions">
+				<a class="view-attachment" href="{{ data.link }}">Afficher la page du fichier</a>
+				<# if ( data.can.save ) { #> |
+					<a href="post.php?post={{ data.id }}&action=edit"> Indiquer plus de détails</a>
+				<# } #>
+				<# if ( ! data.uploading && data.can.remove ) { #> |
+											<a class="delete-attachment" href="#">Supprimer définitivement</a>
+									<# } #>
+			</div>
+
+		</div>
+		</script>
+<?php
+			} else if ( 'post.php' == $pagenow || 'post-new.php' == $pagenow ) {
 ?>
 		<script type="text/template" id="wpmoly-search-settings-template">
 					<div class="wpmoly-meta-search-settings">
@@ -173,6 +261,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 		</script>
 <?php
+			}
 		}
 
 		/**
@@ -261,7 +350,36 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			if ( ! is_array( $data ) )
 				$data = array( $data );
 
+			$args = array(
+				'post_type'      => 'movie',
+				'post__in'       => $data,
+				'posts_per_page' => count( $data )
+			);
+			$movies = new WP_Query( $args );
+			if ( empty( $movies->posts ) )
+				wp_send_json_error();
+
+			$posts = $movies->posts;
+			$movies = array();
+			foreach ( $posts as $post ) {
+
+				$movies[ $post->ID ] = array(
+					'post_title'       => apply_filters( 'the_title', $post->post_title ),
+					'post_author'      => intval( $post->post_author ),
+					'post_author_name' => esc_attr( get_the_author_meta( 'user_nicename', $post->post_author ) ),
+					'post_author_url'  => esc_url( add_query_arg( array( 'post_type' => 'movie', 'author' => $post->post_author ), 'edit.php' ) ),
+					'post_status'      => esc_attr( $post->post_status ),
+					'post_date'        => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date ) ),
+				);
+			}
+
 			$response = WPMOLY_Movies::get_movies_meta( $data );
+			if ( empty( $response ) )
+				wp_send_json_error();
+
+			foreach ( $response as $id => $data )
+				if ( $movies[ $id ] )
+					$response[ $id ] = array_merge( $data, $movies[ $id ] );
 
 			wp_send_json_success( $response );
 		}

@@ -28,6 +28,230 @@ window.wpmoly = window.wpmoly || {};
 		})
 	} );
 
+	/**
+	 * editor.View.Movie
+	 * 
+	 * Altered version of wp.media.view.Attachment
+	 *
+	 * @class
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	editor.View.Movie = wp.media.View.extend({
+		tagName:   'li',
+		className: 'attachment',
+		template:  wp.media.template('attachment'),
+
+		attributes: function() {
+			return {
+				'tabIndex':     0,
+				'role':         'checkbox',
+				'aria-label':   this.model.get( 'title' ),
+				'aria-checked': false,
+				'data-id':      this.model.get( 'id' )
+			};
+		},
+
+		events: {
+			'click .js--select-attachment':   'toggleSelectionHandler',
+			'change [data-setting]':          'updateSetting',
+			'change [data-setting] input':    'updateSetting',
+			'change [data-setting] select':   'updateSetting',
+			'change [data-setting] textarea': 'updateSetting',
+			'click .close':                   'removeFromLibrary',
+			'click a':                        'preventDefault',
+			'keydown .close':                 'removeFromLibrary',
+		},
+
+		initialize: function() {
+			var selection = this.options.selection,
+				options = _.defaults( this.options, {
+					rerenderOnModelChange: true
+				} );
+
+			if ( options.rerenderOnModelChange ) {
+				this.model.on( 'change', this.render, this );
+			}
+			this.model.on( 'change:title', this._syncTitle, this );
+			this.model.on( 'change:caption', this._syncCaption, this );
+			this.model.on( 'change:artist', this._syncArtist, this );
+			this.model.on( 'change:album', this._syncAlbum, this );
+
+			this.listenTo( this.controller, 'attachment:compat:waiting attachment:compat:ready', this.updateSave );
+		},
+		/**
+		 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+		 */
+		dispose: function() {
+			var selection = this.options.selection;
+
+			// Make sure all settings are saved before removing the view.
+			this.updateAll();
+
+			if ( selection ) {
+				selection.off( null, null, this );
+			}
+			/**
+			 * call 'dispose' directly on the parent class
+			 */
+			wp.media.View.prototype.dispose.apply( this, arguments );
+			return this;
+		},
+		/**
+		 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+		 */
+		render: function() {
+			var options = _.extend(
+				this.options,
+				_.defaults(
+					this.model.toJSON(),
+					this.model.defaults
+				  )
+			);
+
+			options.can = {};
+			if ( options.nonces ) {
+				options.can.remove = !! options.nonces['delete'];
+				options.can.save = !! options.nonces.update;
+			}
+
+			if ( this.controller.state().get('allowLocalEdits') ) {
+				options.allowLocalEdits = true;
+			}
+
+			if ( options.uploading && ! options.percent ) {
+				options.percent = 0;
+			}
+
+			this.views.detach();
+			this.$el.html( this.template( options ) );
+
+			// Update the save status.
+			this.updateSave();
+
+			this.views.render();
+
+			return this;
+		},
+
+		/**
+		 * @param {Backbone.Model} model
+		 * @param {Backbone.Collection} collection
+		 */
+		details: function( model, collection ) {
+			var selection = this.options.selection,
+				details;
+
+			if ( selection !== collection ) {
+				return;
+			}
+
+			details = selection.single();
+			this.$el.toggleClass( 'details', details === this.model );
+		},
+		/**
+		 * @param {Object} event
+		 */
+		preventDefault: function( event ) {
+			event.preventDefault();
+		},
+
+		/**
+		 * @param {Object} event
+		 */
+		updateSetting: function( event ) {
+			var $setting = $( event.target ).closest('[data-setting]'),
+				setting, value;
+
+			if ( ! $setting.length ) {
+				return;
+			}
+
+			setting = $setting.data('setting');
+			value   = event.target.value;
+
+			if ( this.model.get( setting ) !== value ) {
+				this.save( setting, value );
+			}
+		},
+
+		/**
+		 * Pass all the arguments to the model's save method.
+		 *
+		 * Records the aggregate status of all save requests and updates the
+		 * view's classes accordingly.
+		 */
+		save: function() {
+			var view = this,
+				save = this._save = this._save || { status: 'ready' },
+				request = this.model.save.apply( this.model, arguments ),
+				requests = save.requests ? $.when( request, save.requests ) : request;
+
+			// If we're waiting to remove 'Saved.', stop.
+			if ( save.savedTimer ) {
+				clearTimeout( save.savedTimer );
+			}
+
+			this.updateSave('waiting');
+			save.requests = requests;
+			requests.always( function() {
+				// If we've performed another request since this one, bail.
+				if ( save.requests !== requests ) {
+					return;
+				}
+
+				view.updateSave( requests.state() === 'resolved' ? 'complete' : 'error' );
+				save.savedTimer = setTimeout( function() {
+					view.updateSave('ready');
+					delete save.savedTimer;
+				}, 2000 );
+			});
+		},
+		/**
+		 * @param {string} status
+		 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+		 */
+		updateSave: function( status ) {
+			var save = this._save = this._save || { status: 'ready' };
+
+			if ( status && status !== save.status ) {
+				this.$el.removeClass( 'save-' + save.status );
+				save.status = status;
+			}
+
+			this.$el.addClass( 'save-' + save.status );
+			return this;
+		},
+
+		updateAll: function() {
+			var $settings = this.$('[data-setting]'),
+				model = this.model,
+				changed;
+
+			changed = _.chain( $settings ).map( function( el ) {
+				var $input = $('input, textarea, select, [value]', el ),
+					setting, value;
+
+				if ( ! $input.length ) {
+					return;
+				}
+
+				setting = $(el).data('setting');
+				value = $input.val();
+
+				// Record the value if it changed.
+				if ( model.get( setting ) !== value ) {
+					return [ setting, value ];
+				}
+			}).compact().object().value();
+
+			if ( ! _.isEmpty( changed ) ) {
+				model.save( changed );
+			}
+		},
+	});
+
 	_.extend( editor.View, {
 
 		/**
@@ -41,13 +265,13 @@ window.wpmoly = window.wpmoly || {};
 		 * @augments wp.Backbone.View
 		 * @augments Backbone.View
 		 */
-		TwoColumn: wp.media.view.Attachment.extend({
+		TwoColumn: editor.View.Movie.extend({
 
 			tagName:   'div',
 
 			className: 'attachment-details',
 
-			template:   wp.media.template( 'attachment-details-two-column' ),
+			template:   wp.media.template( 'movie-metadata-quickedit' ),
 
 			attributes: function() {
 				return {
@@ -69,15 +293,15 @@ window.wpmoly = window.wpmoly || {};
 				'keydown':                        'toggleSelectionHandler'
 			},
 
-			initialize: function() {
+			/*initialize: function() {
 				this.options = _.defaults( this.options, {
 					rerenderOnModelChange: false
 				});
 
 				//this.on( 'ready', this.initialFocus );
 				// Call 'initialize' directly on the parent class.
-				wp.media.view.Attachment.prototype.initialize.apply( this, arguments );
-			},
+				editor.View.Movie.prototype.initialize.apply( this, arguments );
+			},*/
 
 			/*initialFocus: function() {
 				if ( ! isTouchDevice ) {

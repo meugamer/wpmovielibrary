@@ -449,7 +449,13 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 					'updated'		=> __( 'updated successfully', 'wpmovielibrary' ),
 					'used'			=> __( 'Used', 'wpmovielibrary' ),
 					'updating'		=> __( 'updating movies...', 'wpmovielibrary' ),
-					'x_selected'		=> _n( 'selected', 'selected', 2, 'wpmovielibrary' )
+					'x_selected'		=> _n( 'selected', 'selected', 2, 'wpmovielibrary' ),
+					'publish'		=> __( 'Published' ),
+					'schedule'		=> __( 'Schedule' ),
+					'private'		=> __( 'Private' ),
+					'public'		=> __( 'Public' ),
+					'password'		=> __( 'Password Protected' ),
+					'published'		=> __( 'Published' ),
 				),
 				'movies' => array(
 					'confirm_empty'		=> __( 'You’re about to delete all metadata related to this movie. Are you sure you want to do that?', 'wpmovielibrary' ),
