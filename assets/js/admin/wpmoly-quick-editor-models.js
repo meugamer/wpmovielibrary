@@ -17,7 +17,7 @@ window.wpmoly = window.wpmoly || {};
 
 		editor.frame = new editor.View.EditMovies( {
 			frame: 'select',
-			library: editor.models.movies.models,
+			library: editor.models.movies,
 			model: editor.models.movies.get( 24 )
 		} );
 	};

@@ -475,7 +475,8 @@ window.wpmoly = window.wpmoly || {};
 
 					this.modal.on( 'open', function () {
 						$( 'body' ).on( 'keydown.media-modal', _.bind( self.keyEvent, self ) );
-					} );
+						this.toggleNav();
+					}, this );
 
 					// Completely destroy the modal DOM element when closing it.
 					this.modal.on( 'close', function() {
@@ -487,7 +488,7 @@ window.wpmoly = window.wpmoly || {};
 
 					// Set this frame as the modal's content.
 					this.modal.content( this );
-					this.modal.open();
+					//this.modal.open();
 				}
 			},
 
@@ -565,7 +566,7 @@ window.wpmoly = window.wpmoly || {};
 			/**
 			* Rerender the view.
 			*/
-			/*rerender: function() {
+			rerender: function() {
 				// Only rerender the `content` region.
 				if ( this.content.mode() !== 'edit-metadata' ) {
 					this.content.mode( 'edit-metadata' );
@@ -579,7 +580,7 @@ window.wpmoly = window.wpmoly || {};
 			/**
 			* Click handler to switch to the previous media item.
 			*/
-			/*previousMediaItem: function() {
+			previousMediaItem: function() {
 				if ( ! this.hasPrevious() ) {
 					this.$( '.left' ).blur();
 					return;
@@ -592,23 +593,23 @@ window.wpmoly = window.wpmoly || {};
 			/**
 			* Click handler to switch to the next media item.
 			*/
-			/*nextMediaItem: function() {
+			nextMediaItem: function() {
 				if ( ! this.hasNext() ) {
 					this.$( '.right' ).blur();
 					return;
 				}
+				console.log( this.library );
 				this.model = this.library.at( this.getCurrentIndex() + 1 );
 				this.rerender();
 				this.$( '.right' ).focus();
-			},*/
+			},
 
 			getCurrentIndex: function() {
-				return 2;
-				//return this.library.indexOf( this.model );
+				return this.library.indexOf( this.model );
 			},
 
 			hasNext: function() {
-				return ( this.getCurrentIndex() + 1 ) < 6;//this.library.length;
+				return ( this.getCurrentIndex() + 1 ) < this.library.length;
 			},
 
 			hasPrevious: function() {
