@@ -223,7 +223,12 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			global $wpdb;
 
-			$supported = WPMOLY_Settings::get_supported_movie_meta();
+			if ( 'details' == $meta ) {
+				$supported = WPMOLY_Settings::get_supported_movie_details();
+			} else {
+				$supported = WPMOLY_Settings::get_supported_movie_meta();
+			}
+
 			$supported = array_map( 'esc_attr', array_keys( $supported ) );
 			$supported = '"_wpmoly_movie_' . implode( '","_wpmoly_movie_', $supported ) . '"';
 
@@ -241,8 +246,20 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			);
 
 			$movies = array();
-			foreach ( $meta as $m )
-				$movies[ $m->post_id ][ $m->meta_key ] = esc_attr( $m->meta_value );
+			foreach ( $meta as $m ) {
+
+				if ( is_serialized( $m->meta_value ) ) {
+					$m->meta_value = unserialize( $m->meta_value );
+				}
+
+				if ( is_array( $m->meta_value ) ) {
+					$m->meta_value = array_map( 'esc_attr', $m->meta_value );
+				} else {
+					$m->meta_value = esc_attr( $m->meta_value );
+				}
+
+				$movies[ $m->post_id ][ $m->meta_key ] = $m->meta_value;
+			}
 
 			return $movies;
 		}

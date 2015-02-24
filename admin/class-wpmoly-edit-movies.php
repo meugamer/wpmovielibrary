@@ -95,7 +95,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		<script type="text/html" id="tmpl-movie-metadata-quickedit">
 		<div class="attachment-media-view movie-metadata-view">
 			<div class="movie-metadata">
-				<?php echo self::render_meta_panel( 0 ); ?> 
+				<?php echo self::render_meta_panel( 0 ); ?>
 			</div>
 		</div>
 		<div class="attachment-info">
@@ -104,61 +104,18 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				<span class="saved"><?php _e( 'Saved.' ); ?></span>
 			</span>
 			<div class="details">
-				<div class="filename"><strong><?php _e( 'Title' ); ?>&nbsp;:</strong> {{ data.post_title }}</div>
-				<div class="filename"><strong><?php _e( 'Published on:'); ?></strong> {{ data.post_date }}</div>
-				<div class="uploaded"><strong><?php _e( 'Author' ); ?>&nbsp;:</strong> <a href="{{ data.post_author_url }}">{{ data.post_author_name }}</a></div>
-				<div class="filename"><strong><?php _e( 'Status' ); ?>&nbsp;:</strong> <# if ( undefined !== wpmoly.l10n.misc[ data.post_status ] ) { #>{{ wpmoly.l10n.misc[ data.post_status ] }} <# } else { #>−<# } #></div>
+				<div class="poster">
+					<img src="{{ data.post.post_thumbnail }}" alt=""/>
+					<a href="<?php echo admin_url( 'post.php?post={{ data.post.post_id }}&amp;action=edit&edit-poster=1' ); ?>" title="<?php _e( 'Change featured poster', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
+				</div>
+				<div class="filename"><strong><?php _e( 'Title' ); ?>&nbsp;:</strong> {{ data.post.post_title }}</div>
+				<div class="filename"><strong><?php _e( 'Published on:'); ?></strong> {{ data.post.post_date }}</div>
+				<div class="uploaded"><strong><?php _e( 'Author' ); ?>&nbsp;:</strong> <a href="{{ data.post.post_author_url }}">{{ data.post.post_author_name }}</a></div>
+				<div class="filename"><strong><?php _e( 'Status' ); ?>&nbsp;:</strong> <# if ( undefined !== wpmoly.l10n.misc[ data.post.post_status ] ) { #>{{ wpmoly.l10n.misc[ data.post.post_status ] }} <# } else { #>−<# } #></div>
 			</div>
 
 			<div class="settings">
-				<label class="setting" data-setting="url">
-					<span class="name">Adresse web</span>
-					<input type="text" value="{{ data.url }}" readonly />
-				</label>
-				<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
-				<label class="setting" data-setting="title">
-					<span class="name">Titre</span>
-					<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
-				</label>
-				<# if ( 'audio' === data.type ) { #>
-								<label class="setting" data-setting="artist">
-					<span class="name">Artiste</span>
-					<input type="text" value="{{ data.artist || data.meta.artist || '' }}" />
-				</label>
-								<label class="setting" data-setting="album">
-					<span class="name">Album</span>
-					<input type="text" value="{{ data.album || data.meta.album || '' }}" />
-				</label>
-								<# } #>
-				<label class="setting" data-setting="caption">
-					<span class="name">Légende</span>
-					<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
-				</label>
-				<# if ( 'image' === data.type ) { #>
-					<label class="setting" data-setting="alt">
-						<span class="name">Texte alternatif</span>
-						<input type="text" value="{{ data.alt }}" {{ maybeReadOnly }} />
-					</label>
-				<# } #>
-				<label class="setting" data-setting="description">
-					<span class="name">Description</span>
-					<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
-				</label>
-				<label class="setting">
-					<span class="name">Mise en ligne par</span>
-					<span class="value">{{ data.authorName }}</span>
-				</label>
-				<# if ( data.uploadedToTitle ) { #>
-					<label class="setting">
-						<span class="name">Mis en ligne sur</span>
-						<# if ( data.uploadedToLink ) { #>
-							<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
-						<# } else { #>
-							<span class="value">{{ data.uploadedToTitle }}</span>
-						<# } #>
-					</label>
-				<# } #>
-				<div class="attachment-compat"></div>
+				<?php echo self::render_details_panel( 0 ); ?>
 			</div>
 
 			<div class="actions">
@@ -364,23 +321,48 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$movies = array();
 			foreach ( $posts as $post ) {
 
+				$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
 				$movies[ $post->ID ] = array(
+					'post_id'          => $post->ID,
 					'post_title'       => apply_filters( 'the_title', $post->post_title ),
 					'post_author'      => intval( $post->post_author ),
 					'post_author_name' => esc_attr( get_the_author_meta( 'user_nicename', $post->post_author ) ),
 					'post_author_url'  => esc_url( add_query_arg( array( 'post_type' => 'movie', 'author' => $post->post_author ), 'edit.php' ) ),
 					'post_status'      => esc_attr( $post->post_status ),
 					'post_date'        => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date ) ),
+					'post_thumbnail'   => $thumbnail[0]
 				);
 			}
 
-			$response = WPMOLY_Movies::get_movies_meta( $data );
-			if ( empty( $response ) )
+			$meta = WPMOLY_Movies::get_movies_meta( $data );
+			if ( empty( $meta ) )
 				wp_send_json_error();
 
-			foreach ( $response as $id => $data )
-				if ( $movies[ $id ] )
-					$response[ $id ] = array_merge( $data, $movies[ $id ] );
+			$details = WPMOLY_Movies::get_movies_meta( $data, 'details' );
+			if ( empty( $details ) )
+				wp_send_json_error();
+			
+
+			$response = array();
+			foreach ( $movies as $id => $movie ) {
+
+				$response[ $id ] = array(
+					'post'    => $movie,
+					'meta'    => array(),
+					'details' => array()
+				);
+
+				if ( isset( $meta[ $id ] ) ) {
+					$response[ $id ]['meta'] = $meta[ $id ];
+				}
+
+				if ( isset( $details[ $id ] ) ) {
+					foreach ( $details[ $id ] as $key => $value )
+						if ( is_array( $value ) )
+							$details[ $id ][ $key ] = implode( ',', $value );
+					$response[ $id ]['details'] = $details[ $id ];
+				}
+			}
 
 			wp_send_json_success( $response );
 		}
@@ -1055,7 +1037,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			if ( '1' == $metadata['_empty'] ) {
 				foreach ( $metadata as $key => $value) {
-					$metadata[ $key ] = "{{ data.{$key} }}";
+					$metadata[ $key ] = "{{ data.meta.{$key} }}";
 				}
 			}
 
@@ -1095,7 +1077,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 				$field_name = $detail['type'];
 				$class_name = "ReduxFramework_{$field_name}";
-				$value      = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $slug ) );
+
+				if ( ! $post_id ) {
+					$value = "{{ data.details.{$field_name} }}";
+				} else {
+					$value = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $slug ) );
+				}
 
 				if ( ! class_exists( $class_name ) )
 					require_once WPMOLY_PATH . "includes/framework/redux/ReduxCore/inc/fields/{$field_name}/field_{$field_name}.php";

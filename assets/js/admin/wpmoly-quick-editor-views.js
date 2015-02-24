@@ -333,6 +333,24 @@ window.wpmoly = window.wpmoly || {};
 				'keydown':                        'toggleSelectionHandler'
 			},
 
+			render: function() {
+
+				editor.View.Movie.prototype.render.apply( this, arguments );
+
+				_.each( this.$( '.redux-container-select select' ), function( select ) {
+					var  id = select.name.replace( /wpmoly_details\[(.*?)\](\[\])?/g, '$1' ),
+					details = this.model.get( 'details' );
+
+					if ( undefined !== details[ id ] && '' != details[ id ] ) {
+						this.$( select ).val( details[ id ] );
+					}
+
+					this.$( select ).select2();
+				}, this );
+				/*$('#wpmoly-details-media select').val( wpmoly.editor.models.movies.get(24).get('details').media )
+				this..select2();*/
+			},
+
 			/**
 			* @param {Object} event
 			*/
@@ -446,8 +464,6 @@ window.wpmoly = window.wpmoly || {};
 			events: {
 				'click .left':  'previousMediaItem',
 				'click .right': 'nextMediaItem',
-				'mouseenter .movie-metadata-view': 'makeScrollable',
-				'mouseleave .movie-metadata-view': 'makeUnscrollable',
 			},
 
 			initialize: function() {
@@ -515,7 +531,7 @@ window.wpmoly = window.wpmoly || {};
 
 					// Set this frame as the modal's content.
 					this.modal.content( this );
-					//this.modal.open();
+					this.modal.open();
 				}
 			},
 
@@ -546,10 +562,10 @@ window.wpmoly = window.wpmoly || {};
 				* Attach a subview to display fields added via the
 				* `attachment_fields_to_edit` filter.
 				*/
-				contentRegion.view.views.set( '.attachment-compat', new wp.media.view.AttachmentCompat({
+				/*contentRegion.view.views.set( '.attachment-compat', new wp.media.view.AttachmentCompat({
 					controller: this,
 					model:      this.model
-				}) );
+				}) );*/
 
 				// Update browser url when navigating media details
 				if ( this.model ) {
@@ -584,16 +600,6 @@ window.wpmoly = window.wpmoly || {};
 			editImageModeRender: function( view ) {
 				view.on( 'ready', view.loadEditor );
 			},*/
-
-			makeScrollable: function( event ) {
-
-				this.$( '.movie-metadata-view' ).addClass( 'scrollable' );
-			},
-
-			makeUnscrollable: function( event ) {
-
-				this.$( '.movie-metadata-view' ).removeClass( 'scrollable' );
-			},
 
 			toggleNav: function() {
 				this.$('.left').toggleClass( 'disabled', ! this.hasPrevious() );
