@@ -15,11 +15,12 @@ window.wpmoly = window.wpmoly || {};
 		editor.models.movies = new editor.Model.Movies();
 		editor.models.movies.add( movies );
 
-		editor.frame = new editor.View.EditMovies( {
+		editor.views.movies = new editor.View.Movies();
+		/*editor.frame = new editor.View.EditMovies( {
 			frame: 'select',
 			library: editor.models.movies,
 			model: editor.models.movies.get( 24 )
-		} );
+		} );*/
 	};
 
 	_.extend( editor, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );

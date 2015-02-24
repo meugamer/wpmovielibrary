@@ -781,7 +781,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$offset++;
 			$actions = array_merge(
 					array_slice( $actions, 0, $offset ),
-					array( '<a href="#" class="hide-if-no-js" title="' . esc_attr( __( 'Edit this movie’s metadata', 'wpmovielibrary' ) ) . '">' . __( 'Edit metadata', 'wpmovielibrary' ) . '</a>' ),
+					array( 'quick-edit-meta' => '<a data-id="' . $post->ID . '" href="#" class="hide-if-no-js" title="' . esc_attr( __( 'Edit this movie’s metadata', 'wpmovielibrary' ) ) . '">' . __( 'Edit metadata', 'wpmovielibrary' ) . '</a>' ),
 					array_slice( $actions, $offset, count( $actions ) )
 			);
 

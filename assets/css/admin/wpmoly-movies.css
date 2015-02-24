@@ -101,12 +101,31 @@ td.column-wpmoly-media .wpmolicon {
  * Movie Metadata Modal
  */
 
-.media-modal .movie-metadata-view .movie-metadata {
+.media-modal .edit-attachment-frame .attachment-details {
+	height: 100%;
 	overflow: hidden;
-	padding: 1.5em;
-	width: 90%;
 }
 
-.media-modal .movie-metadata-view .movie-metadata .wpmoly-meta-edit:nth-child(even).half .wpmoly-meta-value .meta-data-field {
+.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view {
+	overflow-y: scroll;
+}
+
+.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata {
+	padding: 1.5em;
+}
+
+.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-meta .wpmoly-meta-edit.half {
+	width: 49.75%;
+}
+
+.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-meta .wpmoly-meta-edit.full {
+	width: 100%;
+}
+
+.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata .wpmoly-meta-edit.half .wpmoly-meta-value .meta-data-field {
 	width: 90% !important;
+}
+
+.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata .wpmoly-meta-edit.full .wpmoly-meta-value .meta-data-field {
+	width: 96% !important;
 }

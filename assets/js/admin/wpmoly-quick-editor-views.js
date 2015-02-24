@@ -5,7 +5,7 @@ window.wpmoly = window.wpmoly || {};
 
 	var editor = wpmoly.editor;
 
-	_.extend( editor.controller, {
+	editor.controller = {
 
 		/**
 		 * wp.media.controller.EditAttachmentMetadata
@@ -26,7 +26,44 @@ window.wpmoly = window.wpmoly || {};
 				router:  false
 			}
 		})
-	} );
+	};
+
+	/**
+	 * editor.View.Movies
+	 *
+	 * @class
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	editor.View.Movies = wp.media.View.extend({
+
+		el: '#the-list',
+
+		events: {
+			'click .quick-edit-meta a': 'openMetaModal',
+		},
+
+		initialize: function() {},
+
+		openMetaModal: function( event ) {
+
+			event.preventDefault();
+
+			var id = parseInt( event.currentTarget.dataset.id ),
+			 model = editor.models.movies.get( id );
+
+			if ( undefined == model )
+				return;
+
+			editor.frame = new editor.View.EditMovies( {
+				frame:  'select',
+				library: editor.models.movies,
+				model:   model
+			} ).open();
+		}
+
+	});
 
 	/**
 	 * editor.View.Movie
@@ -39,9 +76,12 @@ window.wpmoly = window.wpmoly || {};
 	 * @augments Backbone.View
 	 */
 	editor.View.Movie = wp.media.View.extend({
+
 		tagName:   'li',
-		className: 'attachment',
-		template:  wp.media.template('attachment'),
+
+		className: 'attachment movie',
+
+		template:  wp.media.template( 'attachment' ),
 
 		attributes: function() {
 			return {
@@ -269,7 +309,7 @@ window.wpmoly = window.wpmoly || {};
 
 			tagName:   'div',
 
-			className: 'attachment-details',
+			className: 'attachment-details movie-metadata',
 
 			template:   wp.media.template( 'movie-metadata-quickedit' ),
 
@@ -293,21 +333,6 @@ window.wpmoly = window.wpmoly || {};
 				'keydown':                        'toggleSelectionHandler'
 			},
 
-			/*initialize: function() {
-				this.options = _.defaults( this.options, {
-					rerenderOnModelChange: false
-				});
-
-				//this.on( 'ready', this.initialFocus );
-				// Call 'initialize' directly on the parent class.
-				editor.View.Movie.prototype.initialize.apply( this, arguments );
-			},*/
-
-			/*initialFocus: function() {
-				if ( ! isTouchDevice ) {
-					this.$( ':input' ).eq( 0 ).focus();
-				}
-			},*/
 			/**
 			* @param {Object} event
 			*/
@@ -412,7 +437,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		EditMovies: wp.media.view.MediaFrame.extend({
 
-			className: 'edit-attachment-frame',
+			className: 'edit-attachment-frame edit-movie-frame',
 
 			template: wp.media.template( 'edit-attachment-frame' ),
 
@@ -420,7 +445,9 @@ window.wpmoly = window.wpmoly || {};
 
 			events: {
 				'click .left':  'previousMediaItem',
-				'click .right': 'nextMediaItem'
+				'click .right': 'nextMediaItem',
+				'mouseenter .movie-metadata-view': 'makeScrollable',
+				'mouseleave .movie-metadata-view': 'makeUnscrollable',
 			},
 
 			initialize: function() {
@@ -481,7 +508,7 @@ window.wpmoly = window.wpmoly || {};
 					// Completely destroy the modal DOM element when closing it.
 					this.modal.on( 'close', function() {
 
-						//self.modal.remove();
+						self.modal.remove();
 						$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown event */
 						self.resetRoute();
 					} );
@@ -557,6 +584,16 @@ window.wpmoly = window.wpmoly || {};
 			editImageModeRender: function( view ) {
 				view.on( 'ready', view.loadEditor );
 			},*/
+
+			makeScrollable: function( event ) {
+
+				this.$( '.movie-metadata-view' ).addClass( 'scrollable' );
+			},
+
+			makeUnscrollable: function( event ) {
+
+				this.$( '.movie-metadata-view' ).removeClass( 'scrollable' );
+			},
 
 			toggleNav: function() {
 				this.$('.left').toggleClass( 'disabled', ! this.hasPrevious() );
