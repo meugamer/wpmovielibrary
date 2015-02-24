@@ -90,11 +90,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			global $pagenow;
 			if ( 'edit.php' == $pagenow ) {
+
 ?>
 		<script type="text/html" id="tmpl-movie-metadata-quickedit">
 		<div class="attachment-media-view movie-metadata-view">
 			<div class="movie-metadata">
-				
+				<?php echo self::render_meta_panel( 0 ); ?> 
 			</div>
 		</div>
 		<div class="attachment-info">
@@ -1051,6 +1052,12 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$languages = WPMOLY_Settings::get_supported_languages();
 			$metadata  = wpmoly_get_movie_meta( $post_id );
 			$metadata  = wpmoly_filter_empty_array( $metadata );
+
+			if ( '1' == $metadata['_empty'] ) {
+				foreach ( $metadata as $key => $value) {
+					$metadata[ $key ] = "{{ data.{$key} }}";
+				}
+			}
 
 			$attributes = array(
 				'languages' => $languages,

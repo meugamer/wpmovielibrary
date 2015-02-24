@@ -513,12 +513,14 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			}
 
 			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
-				$styles['movies']  = '/assets/css/admin/wpmoly-edit-movies.css';
+				$styles['edit-movies']  = '/assets/css/admin/wpmoly-edit-movies.css';
 				$styles['media']   = '/assets/css/admin/wpmoly-media.css';
 			}
 
-			if ( $hook_suffix == $movies )
+			if ( $hook_suffix == $movies ) {
+				$styles['edit-movies'] = '/assets/css/admin/wpmoly-edit-movies.css';
 				$styles['movies'] = '/assets/css/admin/wpmoly-movies.css';
+			}
 
 			if ( $hook_suffix == $update_movies )
 				$styles['legacy'] = '/assets/css/admin/wpmoly-legacy.css';

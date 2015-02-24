@@ -96,3 +96,17 @@ td.column-wpmoly-media .wpmolicon {
 .inline-edit-col-wpmoly .inline-edit-group select[multiple="true"] {
 	height: 4em;
 }
+
+/*
+ * Movie Metadata Modal
+ */
+
+.media-modal .movie-metadata-view .movie-metadata {
+	overflow: hidden;
+	padding: 1.5em;
+	width: 90%;
+}
+
+.media-modal .movie-metadata-view .movie-metadata .wpmoly-meta-edit:nth-child(even).half .wpmoly-meta-value .meta-data-field {
+	width: 90% !important;
+}
