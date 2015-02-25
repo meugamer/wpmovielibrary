@@ -106,6 +106,7 @@ window.wpmoly = window.wpmoly || {};
 			el: '#wpmoly-meta-search-settings',
 
 			events: {
+				"click a" : "stopPropagation",
 				"click #wpmoly-search-adult" : "set",
 				"click #wpmoly-search-paginate" : "set",
 				"change #wpmoly-search-year" : "set",
@@ -181,6 +182,20 @@ window.wpmoly = window.wpmoly || {};
 			toggle: function() {
 
 				this.$el.slideToggle( 250 );
+			},
+
+			/**
+			 * Toogle View's element
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS 'Click' Event
+			 * 
+			 * @return   void
+			 */
+			stopPropagation: function( event ) {
+
+				event.stopPropagation();
 			}
 		}),
 
@@ -377,9 +392,15 @@ window.wpmoly = window.wpmoly || {};
 			toggleSettings: function( event ) {
 
 				event.preventDefault();
+				event.stopPropagation();
 
 				$( event.currentTarget.parentElement ).toggleClass( 'active' );
+
 				editor.views.settings.toggle();
+				$( "body" ).addClass( 'waitee' ).on( 'click', function() {
+					editor.views.settings.toggle();
+					$( "body.waitee" ).removeClass( 'waitee' ).off( 'click' );
+				});
 			},
 
 			/**
