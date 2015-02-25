@@ -244,7 +244,7 @@ body.post-php.post-type-movie #postimagediv {
 	}
 	
 	#wpmoly-meta-search-settings {
-		margin-left: 12.15em;
+		margin-left: 12.15em !important;
 	}
 	
 	#wpmoly-tmdb .wpmoly-movie-meta-edit .wpmoly-movie-meta-label {

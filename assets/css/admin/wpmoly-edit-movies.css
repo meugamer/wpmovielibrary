@@ -683,6 +683,7 @@
 	display: inline-block;
 	margin: 0.25em 0px 0.25em 1%;
 	padding: 0.5em 0px 0.5em 1em;
+	vertical-align: top;
 	width: 45%;
 }
 

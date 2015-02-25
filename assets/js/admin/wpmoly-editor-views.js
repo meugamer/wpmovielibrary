@@ -106,7 +106,7 @@ window.wpmoly = window.wpmoly || {};
 			el: '#wpmoly-meta-search-settings',
 
 			events: {
-				"click a" : "stopPropagation",
+				"click" : "stopPropagation",
 				"click #wpmoly-search-adult" : "set",
 				"click #wpmoly-search-paginate" : "set",
 				"change #wpmoly-search-year" : "set",
@@ -394,11 +394,17 @@ window.wpmoly = window.wpmoly || {};
 				event.preventDefault();
 				event.stopPropagation();
 
-				$( event.currentTarget.parentElement ).toggleClass( 'active' );
+				var $settings = $( event.currentTarget.parentElement );
+				    $settings.toggleClass( 'active' );
 
 				editor.views.settings.toggle();
+
+				if ( $( 'body' ).hasClass( 'waitee' ) )
+					return;
+
 				$( "body" ).addClass( 'waitee' ).on( 'click', function() {
 					editor.views.settings.toggle();
+					$settings.removeClass( 'active' );
 					$( "body.waitee" ).removeClass( 'waitee' ).off( 'click' );
 				});
 			},
