@@ -110,8 +110,12 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				wp_send_json_error( new WP_Error( -3, __( 'Empty filename.', 'wpmovielibrary' ) ) );
 
 			$file_path = esc_attr( $data['metadata']['file_path'] );
-
-			$response = $this->image_upload( $file_path, $post_id, $tmdb_id, $data['type'], $data );
+			if ( 'posters' == $data['type'] ) {
+				$type = 'poster';
+			} else {
+				$type = 'backdrop';
+			}
+			$response = $this->image_upload( $file_path, $post_id, $tmdb_id, $type, $data );
 
 			wp_send_json_success( $response );
 		}
