@@ -8,13 +8,9 @@ $ = $ || jQuery;
 
 wpmoly = {};
 
-var wpmoly_l10n = wpmoly_l10n || {};
-
 _.extend( wpmoly, {
-	l10n: wpmoly_l10n
+	l10n: wpmoly_l10n || {}
 });
-
-wpmoly_l10n = undefined;
 
 jQuery( document ).ready( function() {
 

@@ -107,7 +107,10 @@ td.column-wpmoly-media .wpmolicon {
 }
 
 .media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view {
+	border-left: 1px solid #ddd;
+	margin-right: -1px;
 	overflow-y: scroll;
+	width: 48% !important;
 }
 
 .media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata {
@@ -131,28 +134,56 @@ td.column-wpmoly-media .wpmolicon {
 }
 
 .media-modal .edit-attachment-frame .attachment-info {
-	overflow-x: hidden;
-	overflow-y: scroll;
+	/*overflow-x: hidden;
+	overflow-y: scroll;*/
+	width: 26% !important;
+	float: left;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .poster {
-	background: #111;
-	float: left;
-	margin-right: 14px;
-	max-width: 36%;
+.media-modal .edit-attachment-frame .attachment-info .post {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 12px;
+	padding-bottom: 8px;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .posters {
 	position: relative;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .poster:hover img {
+.media-modal .edit-attachment-frame .attachment-info .poster,
+.media-modal .edit-attachment-frame .attachment-info .additional-poster {
+	background: #111;
+	float: left;
+	max-width: 49.9%;
+	position: relative;
+	vertical-align: top;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .additional-poster {
+	margin-bottom: 1%;
+	margin-left: 1%;
+	max-width: 24%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .additional-poster:last-child::after {
+	content: ' ';
+	clear: both;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .poster:hover img,
+.media-modal .edit-attachment-frame .attachment-info .additional-poster:hover img {
 	opacity: 0.5;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .poster img {
+.media-modal .edit-attachment-frame .attachment-info .poster img,
+.media-modal .edit-attachment-frame .attachment-info .additional-poster img {
 	height: auto;
 	width: 100%
 }
 
-.media-modal .edit-attachment-frame .attachment-info .poster a {
+.media-modal .edit-attachment-frame .attachment-info .poster a,
+.media-modal .edit-attachment-frame .attachment-info .additional-poster a {
+	box-shadow: 0 0 0;
 	color: #fff;
 	left: 50%;
 	margin: -10px 0 0 -10px;
@@ -167,6 +198,7 @@ td.column-wpmoly-media .wpmolicon {
 
 .media-modal .edit-attachment-frame .attachment-info .wpmoly-details .wpmoly-details-item {
 	display: inline-block;
+	width: 48%;
 }
 
 .media-modal .edit-attachment-frame .attachment-info .wpmoly-details .wpmoly-details-item:nth-child(odd) {

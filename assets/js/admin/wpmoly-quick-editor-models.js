@@ -19,7 +19,7 @@ window.wpmoly = window.wpmoly || {};
 		editor.frame = new editor.View.EditMovies( {
 			frame: 'select',
 			library: editor.models.movies,
-			model: editor.models.movies.get( 24 )
+			model: editor.models.movies.get( 11 )
 		} );
 	};
 
@@ -36,7 +36,8 @@ window.wpmoly = window.wpmoly || {};
 			post_author_name: '',
 			post_status: '',
 			post_thumbnail: '',
-			post_images: ''
+			post_images: '',
+			post_posters: ''
 		},
 	});
 

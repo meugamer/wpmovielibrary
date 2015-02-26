@@ -921,15 +921,6 @@
 
 /* Attachments */
 
-#wpmoly-backdrops-preview .wpmoly-backdrop,
-#wpmoly-posters-preview .wpmoly-poster {
-	float: left;
-	height: 112px;
-	margin: 4px;
-	overflow: hidden;
-	width: 200px;
-}
-
 #wpmoly-backdrops-preview .wpmoly-backdrop.wpmoly-backdrop-loading,
 #wpmoly-posters-preview .wpmoly-poster.wpmoly-poster-loading {
 	position: relative;
@@ -955,7 +946,7 @@
 #wpmoly-backdrops-preview .wpmoly-backdrop,
 #wpmoly-posters-preview .wpmoly-poster {
 	border-radius: 4px;
-	float: left;
+	display: inline-block;
 	height: 140px;
 	margin: 4px;
 	overflow: hidden;

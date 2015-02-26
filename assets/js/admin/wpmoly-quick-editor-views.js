@@ -333,9 +333,39 @@ window.wpmoly = window.wpmoly || {};
 				'keydown':                        'toggleSelectionHandler'
 			},
 
+			/**
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   object    this
+			 */
+			initialize: function() {
+
+				this.on( 'ready', this.setSelects, this );
+				this.on( 'ready', this.resizePosters, this );
+
+				editor.View.Movie.prototype.initialize.apply( this, arguments );
+
+				return this;
+			},
+
 			render: function() {
 
 				editor.View.Movie.prototype.render.apply( this, arguments );
+
+				this.setSelects();
+				this.resizePosters();
+			},
+
+			/**
+			 * Prepare details select elements using Select2
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			setSelects: function() {
 
 				_.each( this.$( '.redux-container-select select' ), function( select ) {
 					var  id = select.name.replace( /wpmoly_details\[(.*?)\](\[\])?/g, '$1' ),
@@ -347,8 +377,62 @@ window.wpmoly = window.wpmoly || {};
 
 					this.$( select ).select2();
 				}, this );
-				/*$('#wpmoly-details-media select').val( wpmoly.editor.models.movies.get(24).get('details').media )
-				this..select2();*/
+			},
+
+			/**
+			 * Resize the Metadata Modal Posters to show a nice-looking
+			 * grid.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			resizePosters: function() {
+
+				var $posters = this.$( '.additional-poster' ),
+				     $poster = this.$( '.poster' ),
+				  $container = this.$( '.posters' ),
+				           w = $container.width(),
+				           h = $container.height(),
+				      margin = Math.ceil( w * 0.01 );
+
+				// Resize main poster (featured image)
+				var width = Math.ceil( ( w * 0.499 ) - margin ),
+				   height = Math.ceil( width * 1.5 );
+
+				// Avoid resize a to 0
+				if ( ! width || ! height )
+					return;
+
+				$poster.css({
+					height: height,
+					width: width
+				});
+
+				if ( ! $posters.length )
+					return;
+
+				// Resize small posters
+				var width = Math.ceil( ( width - margin ) * 0.5 ),
+				   height = Math.ceil( width * 1.5 );
+				$posters.css({
+					height: height,
+					width: width
+				});
+
+				// Adjust margins
+				var testee = $poster.width();
+				_.each( $posters, function( poster, index ) {
+					var marginLeft = margin + 1,
+					   marginRight = 0;
+					if ( testee >= poster.offsetLeft ) {
+						marginRight = marginLeft - 1;
+						 marginLeft = 0;
+					}
+					poster.style.marginLeft   = marginLeft + 'px';
+					poster.style.marginRight  = marginRight + 'px';
+					poster.style.marginBottom = margin + 1 + 'px';
+				} );
 			},
 
 			/**
