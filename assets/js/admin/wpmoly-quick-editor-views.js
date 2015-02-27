@@ -117,8 +117,6 @@ window.wpmoly = window.wpmoly || {};
 			this.model.on( 'change:caption', this._syncCaption, this );
 			this.model.on( 'change:artist', this._syncArtist, this );
 			this.model.on( 'change:album', this._syncAlbum, this );
-
-			this.listenTo( this.controller, 'attachment:compat:waiting attachment:compat:ready', this.updateSave );
 		},
 		/**
 		 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
@@ -389,50 +387,75 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			resizePosters: function() {
 
-				var $posters = this.$( '.additional-poster' ),
-				     $poster = this.$( '.poster' ),
-				  $container = this.$( '.posters' ),
-				           w = $container.width(),
-				           h = $container.height(),
-				      margin = Math.ceil( w * 0.01 );
-
-				// Resize main poster (featured image)
-				var width = Math.ceil( ( w * 0.499 ) - margin ),
-				   height = Math.ceil( width * 1.5 );
-
-				// Avoid resize a to 0
-				if ( ! width || ! height )
-					return;
+				var $poster = this.$( '.poster' ),
+				   $posters = this.$( '.posters .additional-poster' ),
+				 $backdrops = this.$( '.backdrops .image' ),
+				    _height = Math.floor( $poster.width() * 1.5 );
 
 				$poster.css({
-					height: height,
-					width: width
+					height: _height
 				});
 
-				if ( ! $posters.length )
+				// Resize posters
+				_.each( $posters, function( poster, index ) {
+
+					var $this = this.$( poster ),
+					   height = Math.floor( _height / 4 );
+
+					if ( ! index ) {
+						if ( _height > height * 4 )
+							height = ( height * 2 ) + ( _height - ( height * 4 ) );
+						else
+							height *= 2;
+					}
+
+					$this.css({
+						height: height
+					});
+
+					if ( $this.hasClass( 'more' ) )
+						$this.find( 'a' ).css( { lineHeight: height + 'px' } );
+				} );
+
+				
+
+				// Resize backdrops
+				_.each( $backdrops, function( backdrop, index ) {
+
+					var $this = this.$( backdrop ),
+					   height = Math.floor( $this.width() / 1.7 );
+
+					if ( index > 2 ) {
+						height = $this.width();
+					}
+
+					$this.css({
+						height: height
+					});
+
+					if ( $this.hasClass( 'more' ) )
+						$this.find( 'a' ).css( { lineHeight: height + 'px' } );
+				} );
+
+				if ( 2 > $backdrops.length )
 					return;
 
-				// Resize small posters
-				var width = Math.ceil( ( width - margin ) * 0.5 ),
-				   height = Math.ceil( width * 1.5 );
-				$posters.css({
-					height: height,
-					width: width
-				});
+				// Fix middle backdrop
+				var backdrop = $backdrops.get( 2 ),
+				       first = $backdrops.get( 0 ),
+				        prev = $backdrops.get( 1 ),
+				        next = $backdrops.get( 3 );
 
-				// Adjust margins
-				var testee = $poster.width();
-				_.each( $posters, function( poster, index ) {
-					var marginLeft = margin + 1,
-					   marginRight = 0;
-					if ( testee >= poster.offsetLeft ) {
-						marginRight = marginLeft - 1;
-						 marginLeft = 0;
-					}
-					poster.style.marginLeft   = marginLeft + 'px';
-					poster.style.marginRight  = marginRight + 'px';
-					poster.style.marginBottom = margin + 1 + 'px';
-				} );
+				if ( undefined === backdrop )
+					return;
+
+				var height = Math.floor( ( prev.offsetHeight - first.offsetHeight ) + ( prev.offsetWidth / 3 ) );
+
+				this.$( backdrop ).css({
+					height: height,
+					marginTop: 0 - ( prev.offsetHeight - this.$( backdrop ).height() )
+				});
+				
 			},
 
 			/**

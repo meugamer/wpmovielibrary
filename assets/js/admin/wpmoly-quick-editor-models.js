@@ -37,7 +37,9 @@ window.wpmoly = window.wpmoly || {};
 			post_status: '',
 			post_thumbnail: '',
 			post_images: '',
-			post_posters: ''
+			post_images_total: '',
+			post_posters: '',
+			post_posters_total: ''
 		},
 	});
 

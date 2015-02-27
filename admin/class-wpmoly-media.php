@@ -309,9 +309,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   array    Images list
 		 */
-		public static function get_movie_imported_images( $post_id = null, $format = 'filtered' ) {
+		public static function get_movie_imported_images( $post_id = null, $format = 'filtered', $size = 'medium' ) {
 
-			return self::get_movie_imported_attachments( $type = 'image', $post_id, $format );
+			return self::get_movie_imported_attachments( $type = 'image', $post_id, $format, $size );
 		}
 
 		/**
@@ -325,14 +325,16 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   array    Posters list
 		 */
-		public static function get_movie_imported_posters( $post_id = null, $format = 'filtered' ) {
+		public static function get_movie_imported_posters( $post_id = null, $format = 'filtered', $size = 'medium' ) {
 
-			return self::get_movie_imported_attachments( $type = 'poster', $post_id, $format );
+			return self::get_movie_imported_attachments( $type = 'poster', $post_id, $format, $size );
 		}
 
 		/**
 		 * Get all the imported images/posters related to current movie
 		 * and format them to be showed in the Movie Edit page.
+		 * 
+		 * TODO: Use an array for parameters
 		 * 
 		 * @since    1.0
 		 * 
@@ -342,7 +344,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @return   array    Attachment list
 		 */
-		public static function get_movie_imported_attachments( $type = 'image', $post_id = null, $format = 'filtered' ) {
+		public static function get_movie_imported_attachments( $type = 'image', $post_id = null, $format = 'filtered', $size = 'medium' ) {
 
 			if ( is_null( $post_id ) )
 				$post_id = get_the_ID();
@@ -355,6 +357,9 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 
 			if ( 'poster' != $type )
 				$type = 'image';
+
+			if ( ! in_array( $size, array( 'thumbnail', 'medium', 'large', 'full' ) ) )
+				$size = 'medium';
 
 			$args = array(
 				'post_type'      => 'attachment',
@@ -382,7 +387,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 						'height' => ( isset( $meta['sizes']['medium']['height'] ) ? $meta['sizes']['medium']['height'] : 0 ),
 						'width'  => ( isset( $meta['sizes']['medium']['width'] ) ? $meta['sizes']['medium']['width'] : 0 ),
 						'format' => ( $width && $height ? ( $height > $width ? ' portrait' : ' landscape' ) : '' ),*/
-						'image'  => wp_get_attachment_image_src( $attachment->ID, 'medium' ),
+						'image'  => wp_get_attachment_image_src( $attachment->ID, $size ),
 						'link'   => get_edit_post_link( $attachment->ID )
 					);
 				}

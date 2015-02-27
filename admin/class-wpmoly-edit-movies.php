@@ -93,7 +93,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 ?>
 		<script type="text/html" id="tmpl-movie-metadata-quickedit">
-		<div class="attachment-info">
+		<div class="attachment-info movie-images">
 			<span class="settings-save-status">
 				<span class="spinner"></span>
 				<span class="saved"><?php _e( 'Saved.' ); ?></span>
@@ -105,17 +105,36 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					<div class="uploaded"><strong><?php _e( 'Author' ); ?>&nbsp;:</strong> <a href="{{ data.post.post_author_url }}">{{ data.post.post_author_name }}</a></div>
 					<div class="filename"><strong><?php _e( 'Status' ); ?>&nbsp;:</strong> <# if ( undefined !== wpmoly.l10n.misc[ data.post.post_status ] ) { #>{{ wpmoly.l10n.misc[ data.post.post_status ] }} <# } else { #>−<# } #></div>
 				</div>
-				<div class="posters">
+				<div class="images">
 					<div class="poster">
 						<img src="<# if ( ! _.isNull( data.post.post_thumbnail ) ) { #>{{ data.post.post_thumbnail }}<# } else { #><?php echo str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL ); ?> <# } #>" alt="" />
 						<a href="<?php echo admin_url( 'post.php?post={{ data.post.post_id }}&amp;action=edit&edit-poster=1' ); ?>" title="<?php _e( 'Change featured poster', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
 					</div>
-					<# if ( undefined !== data.post.post_posters && data.post.post_posters.length ) { _.each( data.post.post_posters, function( poster ) { #>
-					<div class="additional-poster">
-						<img src="{{ poster.image[0] }}" alt="" />
-						<a href="{{ poster.link }}" title="<?php _e( 'Edit this poster', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
+					<# if ( undefined !== data.post.post_posters && data.post.post_posters.length ) { #>
+					<div class="posters">
+						<# _.each( data.post.post_posters, function( poster ) { #>
+						<div class="additional-poster">
+							<img src="{{ poster.image[0] }}" alt="" />
+							<a href="{{ poster.link }}" title="<?php _e( 'Edit this poster', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
+						</div>
+						<# } ); if ( ! _.isNull( data.post.post_posters_total ) ) { #>
+						<div class="additional-poster more"><a href="<?php echo admin_url( 'post.php?post={{ data.post.post_id }}&amp;action=edit&edit-poster=1' ); ?>" title="<?php _e( 'View all posters', 'wpmovielibrary' ); ?>"><?php printf( '%s more', '{{ data.post.post_posters_total }}' ); ?></a></div>
+						<# } #>
 					</div>
-					<# } ); } #>
+					<# } #>
+					<div class="sep"></div>
+					<# if ( undefined !== data.post.post_images && data.post.post_images.length ) { #>
+					<div class="backdrops">
+						<# _.each( data.post.post_images, function( image ) { #>
+						<div class="image">
+							<img src="{{ image.image[0] }}" alt="" />
+							<a href="{{ image.link }}" title="<?php _e( 'Edit this image', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
+						</div>
+						<# } ); if ( ! _.isNull( data.post.post_images_total ) ) { #>
+						<div class="image more"><a href="<?php echo admin_url( 'post.php?post={{ data.post.post_id }}&amp;action=edit&edit-backdrop=1' ); ?>" title="<?php _e( 'View all images', 'wpmovielibrary' ); ?>"><?php printf( '%s more', '{{ data.post.post_images_total }}' ); ?></a></div>
+						<# } #>
+					<# } #>
+					</div>
 					<div style="clear:both"></div>
 				</div>
 			</div>
@@ -128,7 +147,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				<?php echo self::render_meta_panel( 0 ); ?>
 			</div>
 		</div>
-		<div class="attachment-info">
+		<div class="attachment-info movie-details">
 			<div class="settings">
 				<?php echo self::render_details_panel( 0 ); ?>
 			</div>
@@ -337,20 +356,28 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			foreach ( $posts as $post ) {
 
 				$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-				$images    = WPMOLY_Media::get_movie_imported_images( $post->ID, $format = 'filtered' );
-				$posters   = WPMOLY_Media::get_movie_imported_posters( $post->ID, $format = 'filtered' );
+				$images    = WPMOLY_Media::get_movie_imported_images( $post->ID, $format = 'filtered', $size = 'medium' );
+				$posters   = WPMOLY_Media::get_movie_imported_posters( $post->ID, $format = 'filtered', $size = 'thumbnail' );
+
+				foreach ( $images as $i => $image ) {
+					if ( $i > 2 ) {
+						$images[ $i ]['image'][0] = preg_replace( '/[0-9]{1,3}x[0-9]{1,3}/i', '150x150', $image['image'][0] );
+					}
+				}
 
 				$movies[ $post->ID ] = array(
-					'post_id'          => $post->ID,
-					'post_title'       => apply_filters( 'the_title', $post->post_title ),
-					'post_author'      => intval( $post->post_author ),
-					'post_author_name' => esc_attr( get_the_author_meta( 'user_nicename', $post->post_author ) ),
-					'post_author_url'  => esc_url( add_query_arg( array( 'post_type' => 'movie', 'author' => $post->post_author ), 'edit.php' ) ),
-					'post_status'      => esc_attr( $post->post_status ),
-					'post_date'        => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date ) ),
-					'post_thumbnail'   => $thumbnail[0],
-					'post_images'      => $images,
-					'post_posters'     => $posters
+					'post_id'            => $post->ID,
+					'post_title'         => apply_filters( 'the_title', $post->post_title ),
+					'post_author'        => intval( $post->post_author ),
+					'post_author_name'   => esc_attr( get_the_author_meta( 'user_nicename', $post->post_author ) ),
+					'post_author_url'    => esc_url( add_query_arg( array( 'post_type' => 'movie', 'author' => $post->post_author ), 'edit.php' ) ),
+					'post_status'        => esc_attr( $post->post_status ),
+					'post_date'          => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date ) ),
+					'post_thumbnail'     => $thumbnail[0],
+					'post_posters'       => array_slice( $posters, 0, 4 ),
+					'post_images'        => array_slice( $images, 0, 5 ),
+					'post_posters_total' => max( 0, count( $posters ) - 4 ),
+					'post_images_total'  => max( 0, count( $images ) - 5 )
 				);
 			}
 

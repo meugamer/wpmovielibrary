@@ -107,9 +107,13 @@ td.column-wpmoly-media .wpmolicon {
 }
 
 .media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view {
+	background: #fff;
 	border-left: 1px solid #ddd;
+	float: none;
+	left: 26%;
 	margin-right: -1px;
 	overflow-y: scroll;
+	position: absolute;
 	width: 48% !important;
 }
 
@@ -133,11 +137,28 @@ td.column-wpmoly-media .wpmolicon {
 	width: 96% !important;
 }
 
+.media-modal .edit-attachment-frame .attachment-details {
+	box-shadow: 0 0 0;
+}
+
+/*
+ * Movie Images
+ */
+
 .media-modal .edit-attachment-frame .attachment-info {
-	/*overflow-x: hidden;
-	overflow-y: scroll;*/
-	width: 26% !important;
-	float: left;
+	box-shadow: 0 0 0;
+	overflow-x: hidden;
+	position: absolute;
+	width: 27.5% !important;
+}
+
+.media-modal .edit-attachment-frame .attachment-info.movie-images {
+	max-width: 440px;
+	padding-right: 1.5%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info.movie-details {
+	right: 0;
 }
 
 .media-modal .edit-attachment-frame .attachment-info .post {
@@ -146,41 +167,47 @@ td.column-wpmoly-media .wpmolicon {
 	padding-bottom: 8px;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .posters {
+.media-modal .edit-attachment-frame .attachment-info .images {
 	position: relative;
 }
 
+.media-modal .edit-attachment-frame .attachment-info .images .sep {
+	clear: both;
+	height: 12px;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .image,
 .media-modal .edit-attachment-frame .attachment-info .poster,
 .media-modal .edit-attachment-frame .attachment-info .additional-poster {
 	background: #111;
 	float: left;
-	max-width: 49.9%;
+	/*max-width: 49.9%;*/
+	overflow: hidden;
 	position: relative;
 	vertical-align: top;
 }
 
+.media-modal .edit-attachment-frame .attachment-info .image,
 .media-modal .edit-attachment-frame .attachment-info .additional-poster {
-	margin-bottom: 1%;
+	/*margin-bottom: 1%;
 	margin-left: 1%;
-	max-width: 24%;
+	max-width: 24%;*/
 }
 
-.media-modal .edit-attachment-frame .attachment-info .additional-poster:last-child::after {
-	content: ' ';
-	clear: both;
-}
-
+.media-modal .edit-attachment-frame .attachment-info .image:hover img,
 .media-modal .edit-attachment-frame .attachment-info .poster:hover img,
 .media-modal .edit-attachment-frame .attachment-info .additional-poster:hover img {
 	opacity: 0.5;
 }
 
+.media-modal .edit-attachment-frame .attachment-info .image img,
 .media-modal .edit-attachment-frame .attachment-info .poster img,
 .media-modal .edit-attachment-frame .attachment-info .additional-poster img {
-	height: auto;
+	height: 100%;
 	width: 100%
 }
 
+.media-modal .edit-attachment-frame .attachment-info .image a,
 .media-modal .edit-attachment-frame .attachment-info .poster a,
 .media-modal .edit-attachment-frame .attachment-info .additional-poster a {
 	box-shadow: 0 0 0;
@@ -191,6 +218,63 @@ td.column-wpmoly-media .wpmolicon {
 	text-decoration: none;
 	top: 50%;
 }
+
+.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster.more,
+.media-modal .edit-attachment-frame .attachment-info .backdrops .image.more {
+	background: #0074a2;
+	color: #fff;
+	font-size: smaller;
+	text-align: center;
+	text-transform: uppercase;
+	width: 21.5%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster.more a,
+.media-modal .edit-attachment-frame .attachment-info .backdrops .image.more a {
+	display: block;
+	height: 100%;
+	left: auto;
+	margin: 0;
+	position: static;
+	top: auto;
+	width: 100%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .poster {
+	width: 57%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster:nth-child(1) {
+	width: 43%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster:nth-child(2),
+.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster:nth-child(3),
+.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster:nth-child(4) {
+	width: 21.5%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(1) {
+	width: 43%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(2) {
+	width: 57%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(3) {
+	width: 43%;
+}
+
+.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(4),
+.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(5),
+.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(6) {
+	width: 19%;
+}
+
+/*
+ * Movie Details
+ */
 
 .media-modal .edit-attachment-frame .attachment-info .wpmoly-details > p:first-child {
 	display: none;
