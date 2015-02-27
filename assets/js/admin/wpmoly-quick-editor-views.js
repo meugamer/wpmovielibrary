@@ -389,7 +389,6 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			resizeImages: function() {
 
-				console.log( '!' );
 				var $poster = this.$( '.poster' ),
 				   $posters = this.$( '.posters .additional-poster' ),
 				 $backdrops = this.$( '.backdrops .image' ),

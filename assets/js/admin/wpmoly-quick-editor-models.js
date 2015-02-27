@@ -36,10 +36,13 @@ window.wpmoly = window.wpmoly || {};
 			post_author_name: '',
 			post_status: '',
 			post_thumbnail: '',
-			post_images: '',
-			post_images_total: '',
-			post_posters: '',
-			post_posters_total: ''
+			images: '',
+			posters: '',
+			images_total: '',
+			posters_total: '',
+			edit_poster: '',
+			edit_posters: '',
+			edit_images: ''
 		},
 	});
 

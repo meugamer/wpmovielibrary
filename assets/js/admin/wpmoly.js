@@ -12,6 +12,10 @@ _.extend( wpmoly, {
 	l10n: wpmoly_l10n || {}
 });
 
+_.isDefined = function( elem ) {
+	return undefined !== elem;
+};
+
 jQuery( document ).ready( function() {
 
 	if ( 'movie' == pagenow && 'post-php' == adminpage ) {
