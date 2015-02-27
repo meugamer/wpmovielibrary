@@ -216,6 +216,100 @@ body.post-php.post-type-movie #postimagediv {
 .stars-4-5 {background-position: 0 -144px;}
 .stars-5-0 {background-position: 0 -160px;}
 
+/*
+ * Select2
+ */
+
+.select2-container .select2-choice,
+.select2-dropdown-open .select2-choice,
+.select2-drop-active {
+	background: #fff !important;
+	border-color: #fff !important;
+	border-radius: 0 !important;
+}
+
+.select2-container .select2-choice {
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+.select2-container .select2-choice:hover,
+.select2-dropdown-open .select2-choice,
+.select2-drop-active {
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) !important;
+}
+
+.select2-container .select2-choice {
+	height: 32px !important;
+	line-height: 32px !important;
+}
+
+.select2-dropdown-open .select2-choice {
+	height: 32px !important;
+	line-height: 32px !important;
+}
+
+.select2-container .select2-choice .select2-arrow {
+	background: #fff !important;
+	border: 0 !important;
+	width: 24px !important;
+}
+
+.select2-container .select2-choice .select2-arrow b {
+	background-position: 2px 3px !important;
+}
+
+.select2-dropdown-open .select2-choice .select2-arrow b {
+	background-position: -18px 3px !important;
+}
+
+.select2-container .select2-choice > .select2-chosen {
+	font-size: 14px;
+	padding-left: 2px;
+}
+
+.select2-container-multi .select2-choices {
+	/*background: transparent !important;
+	border-color: transparent !important;*/
+	background: #fff !important;
+	border-color: #fff !important;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+	min-height: 32px !important;
+}
+
+.select2-container-multi.select2-dropdown-open .select2-choices {
+	background: #fff !important;
+	border-color: #fff !important;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+	background: #0074a2 !important;
+	border: 2px solid #0074a2 !important;
+	box-shadow: 0 0 0 !important;
+	color: #fff !important;
+	margin-top: 5px !important;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input.select2-default {
+	background: #fff !important;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+	height: 32px;
+	line-height: 32px;
+	padding: 0px 8px;
+}
+
+.select2-search-choice-close {
+	/*background: transparent !important;
+	content: "\e619";
+	font-family: "wpmovielibrary";*/
+}
+
+.select2-search-choice-close:before {
+}
+
+/*
+ * Responsive
+ */
 
 @media (max-width: 1440px) {
 	
@@ -286,4 +380,30 @@ body.post-php.post-type-movie #postimagediv {
 	#tmdb_search_lang {
 		display: block !important;
 	}
+
+	.media-modal #wpmoly-details .wpmoly-details-item,
+	.media-modal #wpmoly-movie-meta .wpmoly-meta-edit.half {
+		width: 100% !important;
+	}
+
+	.media-modal #wpmoly-movie-meta .wpmoly-meta-edit.half .wpmoly-meta-value .meta-data-field {
+		width: 96% !important;
+	}
+}
+
+@media (max-width: 1024px) {
+
+	.media-modal .edit-attachment-frame .attachment-info.movie-images {
+		display: none;
+	}
+
+	.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view {
+		left: 0 !important;
+		width: 64% !important;
+	}
+
+	.media-modal .edit-attachment-frame .attachment-info.movie-details {
+		width: 36% !important;
+	}
+
 }

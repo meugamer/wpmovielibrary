@@ -746,6 +746,7 @@
 
 #wpmoly-movie-meta .wpmoly-meta-edit {
 	display: inline-block;
+	min-height: 36px;
 	margin: 0.25em 0;
 }
 
@@ -770,10 +771,10 @@
 	color: #888;
 	display: block;
 	font-size: 11px;
-	font-weight: bold;
+	/*font-weight: bold;*/
 	margin: 2px 0;
 	padding: 6px 10px;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 }
 
 #wpmoly-movie-meta .wpmoly-meta-edit .wpmoly-meta-value {
@@ -782,16 +783,25 @@
 }
 
 #wpmoly-movie-meta .wpmoly-meta-edit .wpmoly-meta-value .meta-data-field {
-	background: #fafafa;
+	background: #fff;
 	border: 0;
 	border-bottom: 1px solid #e6e6e6;
 	box-shadow: 0 0 0;
+	font-size: 16px;
+	height: 32px;
 	padding: 6px 10px;
 	width: 100%;
 }
 
+#wpmoly-movie-meta .wpmoly-meta-edit .wpmoly-meta-value .meta-data-field:focus {
+	border-bottom-color: #0096d2;
+	box-shadow: 0 1px 0px #0074a2;
+}
+
 #wpmoly-movie-meta .wpmoly-meta-edit .wpmoly-meta-value textarea.meta-data-field {
+	line-height: 1.5;
 	margin-left: 1px;
+	min-height: 36px;
 }
 
 /*

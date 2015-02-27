@@ -330,7 +330,7 @@ window.wpmoly = window.wpmoly || {};
 				'click .refresh-attachment':      'refreshAttachment',
 				'keydown':                        'toggleSelectionHandler'
 			},
-
+			
 			/**
 			 * Initialize the View
 			 * 
@@ -341,7 +341,8 @@ window.wpmoly = window.wpmoly || {};
 			initialize: function() {
 
 				this.on( 'ready', this.setSelects, this );
-				this.on( 'ready', this.resizePosters, this );
+				this.on( 'ready', this.resizeImages, this );
+				this.on( 'ready', this.resizeTextareas, this );
 
 				editor.View.Movie.prototype.initialize.apply( this, arguments );
 
@@ -353,7 +354,8 @@ window.wpmoly = window.wpmoly || {};
 				editor.View.Movie.prototype.render.apply( this, arguments );
 
 				this.setSelects();
-				this.resizePosters();
+				this.resizeImages();
+				this.resizeTextareas();
 			},
 
 			/**
@@ -385,8 +387,9 @@ window.wpmoly = window.wpmoly || {};
 			 * 
 			 * @return   void
 			 */
-			resizePosters: function() {
+			resizeImages: function() {
 
+				console.log( '!' );
 				var $poster = this.$( '.poster' ),
 				   $posters = this.$( '.posters .additional-poster' ),
 				 $backdrops = this.$( '.backdrops .image' ),
@@ -416,8 +419,6 @@ window.wpmoly = window.wpmoly || {};
 					if ( $this.hasClass( 'more' ) )
 						$this.find( 'a' ).css( { lineHeight: height + 'px' } );
 				} );
-
-				
 
 				// Resize backdrops
 				_.each( $backdrops, function( backdrop, index ) {
@@ -456,6 +457,15 @@ window.wpmoly = window.wpmoly || {};
 					marginTop: 0 - ( prev.offsetHeight - this.$( backdrop ).height() )
 				});
 				
+			},
+
+			resizeTextareas: function() {
+
+				var elems = this.$( 'textarea' );
+				_.each( elems, function( elem ) {
+					if ( elem.scrollHeight )
+						elem.style.height = elem.scrollHeight + 'px';
+				} );
 			},
 
 			/**
