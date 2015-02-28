@@ -156,7 +156,7 @@ window.wpmoly = window.wpmoly || {};
 			value = event.target.value;
 
 			if ( this.model.get( 'meta' ).get( meta ) !== value ) {
-				this.save( meta, value );
+				this.save( this.model.get( 'meta' ), meta, value );
 			}
 		},
 
@@ -192,11 +192,11 @@ window.wpmoly = window.wpmoly || {};
 		 * Records the aggregate status of all save requests and updates the
 		 * view's classes accordingly.
 		 */
-		save: function() {
+		save: function( model, attribute, value ) {
 
 			var view = this,
 			    save = this._save = this._save || { status: 'ready' },
-			 request = this.model.save.apply( this.model, arguments ),
+			 request = model.save( attribute, value ),
 			requests = save.requests ? $.when( request, save.requests ) : request;
 
 			// If we're waiting to remove 'Saved.', stop.

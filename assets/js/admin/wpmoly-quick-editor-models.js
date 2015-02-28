@@ -25,6 +25,55 @@ window.wpmoly = window.wpmoly || {};
 
 	_.extend( editor, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
 
+	/**
+	 * Basic data model to manipulate metadata and details.
+	 * 
+	 * @since    2.2
+	 */
+	editor.Model.Data = Backbone.Model.extend({
+
+		url: ajaxurl,
+
+		id: '',
+
+		type: '',
+
+		save: function( attribute, value ) {
+
+			this.set( attribute, value );
+			return this.sync( 'save', this, {} );
+		},
+
+		sync: function( method, model, options ) {
+
+			console.log( method, model, options );
+			if ( 'save' == method ) {
+
+				_.extend( options, {
+					context: this,
+					data: {
+						action: 'wpmoly_save_' + this.type,
+						//nonce: wpmoly.get_nonce( 'fetch-movies' ),
+						data: {}
+					},
+					success: function( response ) {
+						console.log( response );
+					}
+				});
+
+				return wp.ajax.send( options );
+
+			} else {
+				return Backbone.sync.apply( this, arguments );
+			}
+		},
+	});
+
+	/**
+	 * Basic data model to store post data.
+	 * 
+	 * @since    2.2
+	 */
 	editor.Model.Post = Backbone.Model.extend({
 
 		defaults: {
@@ -46,7 +95,14 @@ window.wpmoly = window.wpmoly || {};
 		},
 	});
 
-	editor.Model.Meta = Backbone.Model.extend({
+	/**
+	 * Movie Meta Model
+	 * 
+	 * @since    2.2
+	 */
+	editor.Model.Meta = editor.Model.Data.extend({
+
+		type: 'meta',
 
 		defaults: {
 			tmdb_id: '',
@@ -77,7 +133,14 @@ window.wpmoly = window.wpmoly || {};
 		}
 	});
 
-	editor.Model.Details = Backbone.Model.extend({
+	/**
+	 * Movie Details Model
+	 * 
+	 * @since    2.2
+	 */
+	editor.Model.Details = editor.Model.Data.extend({
+
+		type: 'details',
 
 		defaults: {
 			status: '',
@@ -106,7 +169,7 @@ window.wpmoly = window.wpmoly || {};
 			post: {},
 			meta: {},
 			details: {}
-		},
+		}
 	});
 
 	_.extend( editor.Model, {
@@ -153,10 +216,11 @@ window.wpmoly = window.wpmoly || {};
 						complete: function() {},
 						success: function( response ) {
 							_.each( response, function( data, id ) {
-								var model = this.get( id ),
-								     post = new editor.Model.Post,
-								     meta = new editor.Model.Meta,
-								  details = new editor.Model.Details;
+								var  id = parseInt( id ),
+								  model = this.get( id ),
+								   post = new editor.Model.Post,
+								   meta = _.extend( new editor.Model.Meta, { id: id } ),
+								details = _.extend( new editor.Model.Details, { id: id } );
 
 								model.set( {
 									post:    post.set(    _.pick( data.post,    _.keys( post.defaults ) ) ),
