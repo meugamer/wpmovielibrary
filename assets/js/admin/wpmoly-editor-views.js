@@ -185,6 +185,30 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
+			 * Open Settings View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			open: function() {
+
+				this.$el.slideDown( 250 );
+			},
+
+			/**
+			 * Close Settings View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			close: function() {
+
+				this.$el.slideUp( 250 );
+			},
+
+			/**
 			 * Toogle View's element
 			 * 
 			 * @since    2.2
@@ -402,10 +426,10 @@ window.wpmoly = window.wpmoly || {};
 				if ( $( 'body' ).hasClass( 'waitee' ) )
 					return;
 
-				$( "body" ).addClass( 'waitee' ).on( 'click', function() {
-					editor.views.settings.toggle();
+				$( "body" ).addClass( 'waitee' ).one( 'click', function() {
+					editor.views.settings.close();
 					$settings.removeClass( 'active' );
-					$( "body.waitee" ).removeClass( 'waitee' ).off( 'click' );
+					$( "body.waitee" ).removeClass( 'waitee' );
 				});
 			},
 

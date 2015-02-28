@@ -101,12 +101,13 @@ td.column-wpmoly-media .wpmolicon {
  * Movie Metadata Modal
  */
 
-.media-modal .edit-attachment-frame .attachment-details {
-	height: 100%;
+.media-modal .edit-movie-frame .movie-metadata-view,
+.media-modal .edit-movie-frame .movie-info.movie-images,
+.media-modal .edit-movie-frame .movie-info.movie-details {
 	overflow: hidden;
 }
 
-.media-modal .edit-attachment-frame .attachment-details {
+.media-modal .edit-movie-frame .movie-metadata {
 	box-shadow: 0 0 0;
 }
 
@@ -114,67 +115,76 @@ td.column-wpmoly-media .wpmolicon {
  * Movie Images
  */
 
-.media-modal .edit-attachment-frame .attachment-info {
+.media-modal .edit-movie-frame .movie-info {
 	box-shadow: 0 0 0;
-	overflow-x: hidden;
-	position: absolute;
-	width: 27.5% !important;
+	float: left;
+	position: relative;
+	width: 26%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info.movie-images {
+.media-modal .edit-movie-frame .movie-info .actions {
+	margin-bottom: 32px;
+}
+
+.media-modal .edit-movie-frame .movie-info.movie-images {
 	border-right: 1px solid #ddd;
-	min-width: 300px;
-	z-index: 10;
-	/*padding-right: 1%;*/
+	height: 100%;
+	padding: 0;
 }
 
-.media-modal .edit-attachment-frame .attachment-info.movie-details {
-	right: 0;
+.media-modal .edit-movie-frame .movie-info.movie-details {
+	height: 100%;
+	padding: 0;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .post {
+.media-modal .edit-movie-frame .movie-info.movie-details .container,
+.media-modal .edit-movie-frame .movie-info.movie-images .container {
+	height: 100%;
+	margin-right: -16px;
+	overflow-y: scroll;
+	padding: 12px 16px 0;
+}
+
+.media-modal .edit-movie-frame .movie-info.movie-images  .settings-save-status {
+	position: absolute;
+	right: 10px;
+}
+
+.media-modal .edit-movie-frame .movie-info .post {
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 12px;
 	padding-bottom: 8px;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .images {
+.media-modal .edit-movie-frame .movie-info .images {
 	position: relative;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .images .sep {
+.media-modal .edit-movie-frame .movie-info .images .sep {
 	clear: both;
 	height: 12px;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .image,
-.media-modal .edit-attachment-frame .attachment-info .poster,
-.media-modal .edit-attachment-frame .attachment-info .additional-poster {
+.media-modal .edit-movie-frame .movie-info .image,
+.media-modal .edit-movie-frame .movie-info .poster,
+.media-modal .edit-movie-frame .movie-info .additional-poster {
 	background: #111;
 	float: left;
-	/*max-width: 49.9%;*/
 	overflow: hidden;
 	position: relative;
 	vertical-align: top;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .image,
-.media-modal .edit-attachment-frame .attachment-info .additional-poster {
-	/*margin-bottom: 1%;
-	margin-left: 1%;
-	max-width: 24%;*/
-}
-
-.media-modal .edit-attachment-frame .attachment-info .image img,
-.media-modal .edit-attachment-frame .attachment-info .poster img,
-.media-modal .edit-attachment-frame .attachment-info .additional-poster img {
+.media-modal .edit-movie-frame .movie-info .image img,
+.media-modal .edit-movie-frame .movie-info .poster img,
+.media-modal .edit-movie-frame .movie-info .additional-poster img {
 	height: 100%;
 	width: 100%
 }
 
-.media-modal .edit-attachment-frame .attachment-info .image a,
-.media-modal .edit-attachment-frame .attachment-info .poster a,
-.media-modal .edit-attachment-frame .attachment-info .additional-poster a {
+.media-modal .edit-movie-frame .movie-info .image a,
+.media-modal .edit-movie-frame .movie-info .poster a,
+.media-modal .edit-movie-frame .movie-info .additional-poster a {
 	box-shadow: 0 0 0;
 	color: #fff;
 	display: none;
@@ -185,9 +195,9 @@ td.column-wpmoly-media .wpmolicon {
 	top: 50%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster.more,
-.media-modal .edit-attachment-frame .attachment-info .backdrops .image.more {
-	background: #0074a2;
+.media-modal .edit-movie-frame .movie-info .posters .additional-poster.more,
+.media-modal .edit-movie-frame .movie-info .backdrops .image.more {
+	background: #3390c7;
 	color: #fff;
 	font-size: smaller;
 	text-align: center;
@@ -195,8 +205,8 @@ td.column-wpmoly-media .wpmolicon {
 	width: 21.5%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster.more a,
-.media-modal .edit-attachment-frame .attachment-info .backdrops .image.more a {
+.media-modal .edit-movie-frame .movie-info .posters .additional-poster.more a,
+.media-modal .edit-movie-frame .movie-info .backdrops .image.more a {
 	display: block;
 	height: 100%;
 	left: auto;
@@ -206,47 +216,47 @@ td.column-wpmoly-media .wpmolicon {
 	width: 100%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .image:hover img,
-.media-modal .edit-attachment-frame .attachment-info .poster:hover img,
-.media-modal .edit-attachment-frame .attachment-info .additional-poster:hover img {
+.media-modal .edit-movie-frame .movie-info .image:hover img,
+.media-modal .edit-movie-frame .movie-info .poster:hover img,
+.media-modal .edit-movie-frame .movie-info .additional-poster:hover img {
 	opacity: 0.5;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .image:hover a,
-.media-modal .edit-attachment-frame .attachment-info .poster:hover a,
-.media-modal .edit-attachment-frame .attachment-info .additional-poster:hover a {
+.media-modal .edit-movie-frame .movie-info .image:hover a,
+.media-modal .edit-movie-frame .movie-info .poster:hover a,
+.media-modal .edit-movie-frame .movie-info .additional-poster:hover a {
 	display: block;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .poster {
+.media-modal .edit-movie-frame .movie-info .poster {
 	width: 57%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster:nth-child(1) {
+.media-modal .edit-movie-frame .movie-info .posters .additional-poster:nth-child(1) {
 	width: 43%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster:nth-child(2),
-.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster:nth-child(3),
-.media-modal .edit-attachment-frame .attachment-info .posters .additional-poster:nth-child(4) {
+.media-modal .edit-movie-frame .movie-info .posters .additional-poster:nth-child(2),
+.media-modal .edit-movie-frame .movie-info .posters .additional-poster:nth-child(3),
+.media-modal .edit-movie-frame .movie-info .posters .additional-poster:nth-child(4) {
 	width: 21.5%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(1) {
+.media-modal .edit-movie-frame .movie-info .backdrops .image:nth-child(1) {
 	width: 43%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(2) {
+.media-modal .edit-movie-frame .movie-info .backdrops .image:nth-child(2) {
 	width: 57%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(3) {
+.media-modal .edit-movie-frame .movie-info .backdrops .image:nth-child(3) {
 	width: 43%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(4),
-.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(5),
-.media-modal .edit-attachment-frame .attachment-info .backdrops .image:nth-child(6) {
+.media-modal .edit-movie-frame .movie-info .backdrops .image:nth-child(4),
+.media-modal .edit-movie-frame .movie-info .backdrops .image:nth-child(5),
+.media-modal .edit-movie-frame .movie-info .backdrops .image:nth-child(6) {
 	width: 19%;
 }
 
@@ -254,61 +264,65 @@ td.column-wpmoly-media .wpmolicon {
  * Movie Meta
  */
 
-.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view {
+.media-modal .edit-movie-frame .movie-metadata-view {
 	background: #fff;
-	float: none;
-	left: 27.5%;
-	margin-right: -1px;
-	overflow-y: scroll;
-	padding-right: 18px;
-	position: absolute;
-	width: 45%;
+	float: left;
+	height: 100%;
+	position: relative;
+	width: 48%;
 }
 
-.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata {
+.media-modal .edit-movie-frame .movie-metadata-view .container {
+	height: 100%;
+	margin-right: -16px;
+	overflow-y: scroll;
+}
+
+.media-modal .edit-movie-frame .movie-metadata-view .movie-metadata {
 	padding: 1.5em;
 }
 
-.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata .wpmoly-meta-edit.half {
+.media-modal .edit-movie-frame .movie-metadata-view .movie-metadata .wpmoly-meta-edit.half {
 	width: 49.5% !important;
 }
 
-.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata .wpmoly-meta-edit.full {
+.media-modal .edit-movie-frame .movie-metadata-view .movie-metadata .wpmoly-meta-edit.full {
 	width: 100%;
 }
 
-.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata .wpmoly-meta-edit.half .wpmoly-meta-value .meta-data-field {
+.media-modal .edit-movie-frame .movie-metadata-view .movie-metadata .wpmoly-meta-edit.half .wpmoly-meta-value .meta-data-field {
 	width: 90% !important;
 }
 
-.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata .wpmoly-meta-edit.full .wpmoly-meta-value .meta-data-field {
+.media-modal .edit-movie-frame .movie-metadata-view .movie-metadata .wpmoly-meta-edit.full .wpmoly-meta-value .meta-data-field {
 	width: 96% !important;
 }
 
-.media-modal .edit-attachment-frame .attachment-media-view.movie-metadata-view .movie-metadata .wpmoly-meta-edit .wpmoly-meta-label label {
+.media-modal .edit-movie-frame .movie-metadata-view .movie-metadata .wpmoly-meta-edit .wpmoly-meta-label label {
 	height: 32px;
 	line-height: 32px;
+	padding: 6px 10px 6px 6px;
 }
 
 /*
  * Movie Details
  */
 
-.media-modal .edit-attachment-frame .attachment-info .wpmoly-details > p:first-child {
+.media-modal .edit-movie-frame .movie-info .wpmoly-details > p:first-child {
 	display: none;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .wpmoly-details .wpmoly-details-item {
+.media-modal .edit-movie-frame .movie-info .wpmoly-details .wpmoly-details-item {
 	display: inline-block;
 	vertical-align: top;
 	width: 48%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .wpmoly-details .wpmoly-details-item:nth-child(odd) {
+.media-modal .edit-movie-frame .movie-info .wpmoly-details .wpmoly-details-item:nth-child(odd) {
 	margin-left: 2%;
 }
 
-.media-modal .edit-attachment-frame .attachment-info .wpmoly-details .select2-container.redux-select-item {
+.media-modal .edit-movie-frame .movie-info .wpmoly-details .select2-container.redux-select-item {
 	width: 100% !important;
 }
 

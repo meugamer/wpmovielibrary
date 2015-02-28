@@ -153,11 +153,15 @@ window.wpmoly = window.wpmoly || {};
 						complete: function() {},
 						success: function( response ) {
 							_.each( response, function( data, id ) {
-								var model = this.get( id );
+								var model = this.get( id ),
+								     post = new editor.Model.Post,
+								     meta = new editor.Model.Meta,
+								  details = new editor.Model.Details;
+
 								model.set( {
-									post:    _.pick( data.post, _.keys( ( new wpmoly.editor.Model.Post ).defaults ) ),
-									meta:    _.pick( data.meta, _.keys( ( new wpmoly.editor.Model.Meta ).defaults ) ),
-									details: _.pick( data.details, _.keys( ( new wpmoly.editor.Model.Details ).defaults ) )
+									post:    post.set(    _.pick( data.post,    _.keys( post.defaults ) ) ),
+									meta:    meta.set(    _.pick( data.meta,    _.keys( meta.defaults ) ) ),
+									details: details.set( _.pick( data.details, _.keys( details.defaults ) ) )
 								} );
 							}, this );
 						}

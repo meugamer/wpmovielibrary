@@ -301,7 +301,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				foreach ( $posters as $i => $poster ) {
 					if ( $thumbnail_id == $poster['id'] ) {
 						unset( $posters[ $i ] );
-						break;
 					} else {
 						$posters[ $i ] = array(
 							'link' => htmlspecialchars_decode( $poster['link'] ),
@@ -1046,7 +1045,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			if ( '1' == $metadata['_empty'] ) {
 				foreach ( $metadata as $key => $value) {
-					$metadata[ $key ] = "{{ data.meta.{$key} }}";
+					$metadata[ $key ] = "{{ meta.{$key} }}";
 				}
 			}
 
@@ -1088,7 +1087,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				$class_name = "ReduxFramework_{$field_name}";
 
 				if ( ! $post_id ) {
-					$value = "{{ data.details.{$field_name} }}";
+					$value = "{{ details.{$field_name} }}";
 				} else {
 					$value = call_user_func_array( 'wpmoly_get_movie_meta', array( 'post_id' => $post_id, 'meta' => $slug ) );
 				}

@@ -268,8 +268,6 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 .select2-container-multi .select2-choices {
-	/*background: transparent !important;
-	border-color: transparent !important;*/
 	background: #fff !important;
 	border-color: #fff !important;
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
@@ -283,8 +281,8 @@ body.post-php.post-type-movie #postimagediv {
 }
 
 .select2-container-multi .select2-choices .select2-search-choice {
-	background: #0074a2 !important;
-	border: 2px solid #0074a2 !important;
+	background: #3390c7 !important;
+	border: 2px solid #3390c7 !important;
 	box-shadow: 0 0 0 !important;
 	color: #fff !important;
 	margin-top: 5px !important;

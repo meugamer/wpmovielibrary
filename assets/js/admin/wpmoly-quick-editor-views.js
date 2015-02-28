@@ -46,6 +46,13 @@ window.wpmoly = window.wpmoly || {};
 
 		initialize: function() {},
 
+		/**
+		 * Open the Metadata Modal
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   boolean
+		 */
 		openMetaModal: function( event ) {
 
 			event.preventDefault();
@@ -83,63 +90,26 @@ window.wpmoly = window.wpmoly || {};
 
 		template:  wp.media.template( 'attachment' ),
 
-		attributes: function() {
-			return {
-				'tabIndex':     0,
-				'role':         'checkbox',
-				'aria-label':   this.model.get( 'title' ),
-				'aria-checked': false,
-				'data-id':      this.model.get( 'id' )
-			};
-		},
-
-		events: {
-			'click .js--select-attachment':   'toggleSelectionHandler',
-			'change [data-setting]':          'updateSetting',
-			'change [data-setting] input':    'updateSetting',
-			'change [data-setting] select':   'updateSetting',
-			'change [data-setting] textarea': 'updateSetting',
-			'click .close':                   'removeFromLibrary',
-			'click a':                        'preventDefault',
-			'keydown .close':                 'removeFromLibrary',
-		},
-
 		initialize: function() {
-			var selection = this.options.selection,
-				options = _.defaults( this.options, {
-					rerenderOnModelChange: true
-				} );
+
+			var options = _.defaults( this.options, {
+				rerenderOnModelChange: true
+			} );
 
 			if ( options.rerenderOnModelChange ) {
 				this.model.on( 'change', this.render, this );
 			}
-			this.model.on( 'change:title', this._syncTitle, this );
-			this.model.on( 'change:caption', this._syncCaption, this );
-			this.model.on( 'change:artist', this._syncArtist, this );
-			this.model.on( 'change:album', this._syncAlbum, this );
 		},
-		/**
-		 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
-		 */
-		dispose: function() {
-			var selection = this.options.selection;
 
-			// Make sure all settings are saved before removing the view.
-			this.updateAll();
-
-			if ( selection ) {
-				selection.off( null, null, this );
-			}
-			/**
-			 * call 'dispose' directly on the parent class
-			 */
-			wp.media.View.prototype.dispose.apply( this, arguments );
-			return this;
-		},
 		/**
-		 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+		 * Render the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   object    Returns itself to allow chaining
 		 */
 		render: function() {
+
 			var options = _.extend(
 				this.options,
 				_.defaults(
@@ -154,14 +124,6 @@ window.wpmoly = window.wpmoly || {};
 				options.can.save = !! options.nonces.update;
 			}
 
-			if ( this.controller.state().get('allowLocalEdits') ) {
-				options.allowLocalEdits = true;
-			}
-
-			if ( options.uploading && ! options.percent ) {
-				options.percent = 0;
-			}
-
 			this.views.detach();
 			this.$el.html( this.template( options ) );
 
@@ -174,31 +136,41 @@ window.wpmoly = window.wpmoly || {};
 		},
 
 		/**
-		 * @param {Backbone.Model} model
-		 * @param {Backbone.Collection} collection
+		 * Update changed metadata
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    JS 'Change' event
+		 * 
+		 * @return   void
 		 */
-		details: function( model, collection ) {
-			var selection = this.options.selection,
-				details;
+		updateMeta: function( event ) {
 
-			if ( selection !== collection ) {
+			var $meta = this.$( event.target ).closest( '.meta-data-field' ), meta, value;
+
+			if ( ! $meta.length ) {
 				return;
 			}
 
-			details = selection.single();
-			this.$el.toggleClass( 'details', details === this.model );
-		},
-		/**
-		 * @param {Object} event
-		 */
-		preventDefault: function( event ) {
-			event.preventDefault();
+			meta  = event.target.name.replace( /meta\[(.*)\]/g, '$1' );
+			value = event.target.value;
+
+			if ( this.model.get( 'meta' ).get( meta ) !== value ) {
+				this.save( meta, value );
+			}
 		},
 
 		/**
-		 * @param {Object} event
+		 * Update changed metadata
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    JS 'Change' event
+		 * 
+		 * @return   void
 		 */
 		updateSetting: function( event ) {
+
 			var $setting = $( event.target ).closest('[data-setting]'),
 				setting, value;
 
@@ -221,17 +193,18 @@ window.wpmoly = window.wpmoly || {};
 		 * view's classes accordingly.
 		 */
 		save: function() {
+
 			var view = this,
-				save = this._save = this._save || { status: 'ready' },
-				request = this.model.save.apply( this.model, arguments ),
-				requests = save.requests ? $.when( request, save.requests ) : request;
+			    save = this._save = this._save || { status: 'ready' },
+			 request = this.model.save.apply( this.model, arguments ),
+			requests = save.requests ? $.when( request, save.requests ) : request;
 
 			// If we're waiting to remove 'Saved.', stop.
 			if ( save.savedTimer ) {
 				clearTimeout( save.savedTimer );
 			}
 
-			this.updateSave('waiting');
+			this.updateSave( 'waiting' );
 			save.requests = requests;
 			requests.always( function() {
 				// If we've performed another request since this one, bail.
@@ -241,16 +214,23 @@ window.wpmoly = window.wpmoly || {};
 
 				view.updateSave( requests.state() === 'resolved' ? 'complete' : 'error' );
 				save.savedTimer = setTimeout( function() {
-					view.updateSave('ready');
+					view.updateSave( 'ready' );
 					delete save.savedTimer;
 				}, 2000 );
 			});
 		},
+
 		/**
-		 * @param {string} status
-		 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
+		 * Update Attachment/Movie View status
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    string    status
+		 * 
+		 * @return   object    Returns itself to allow chaining
 		 */
 		updateSave: function( status ) {
+
 			var save = this._save = this._save || { status: 'ready' };
 
 			if ( status && status !== save.status ) {
@@ -263,6 +243,7 @@ window.wpmoly = window.wpmoly || {};
 		},
 
 		updateAll: function() {
+
 			var $settings = this.$('[data-setting]'),
 				model = this.model,
 				changed;
@@ -311,24 +292,8 @@ window.wpmoly = window.wpmoly || {};
 
 			template:   wp.media.template( 'movie-metadata-quickedit' ),
 
-			attributes: function() {
-				return {
-					'tabIndex':     0,
-					'data-id':      this.model.get( 'id' )
-				};
-			},
-
 			events: {
-				'change [data-setting]':          'updateSetting',
-				'change [data-setting] input':    'updateSetting',
-				'change [data-setting] select':   'updateSetting',
-				'change [data-setting] textarea': 'updateSetting',
-				'click .delete-attachment':       'deleteAttachment',
-				'click .trash-attachment':        'trashAttachment',
-				'click .untrash-attachment':      'untrashAttachment',
-				'click .edit-attachment':         'editAttachment',
-				'click .refresh-attachment':      'refreshAttachment',
-				'keydown':                        'toggleSelectionHandler'
+				'change .meta-data-field':          'updateMeta',
 			},
 			
 			/**
@@ -344,11 +309,22 @@ window.wpmoly = window.wpmoly || {};
 				this.on( 'ready', this.resizeImages, this );
 				this.on( 'ready', this.resizeTextareas, this );
 
+				var options = _.defaults( this.options, {
+					rerenderOnModelChange: true
+				} );
+
 				editor.View.Movie.prototype.initialize.apply( this, arguments );
 
 				return this;
 			},
 
+			/**
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   boolean
+			 */
 			render: function() {
 
 				editor.View.Movie.prototype.render.apply( this, arguments );
@@ -368,14 +344,19 @@ window.wpmoly = window.wpmoly || {};
 			setSelects: function() {
 
 				_.each( this.$( '.redux-container-select select' ), function( select ) {
+
 					var  id = select.name.replace( /wpmoly_details\[(.*?)\](\[\])?/g, '$1' ),
-					details = this.model.get( 'details' );
+					 detail = this.model.get( 'details' );
 
-					if ( undefined !== details[ id ] && '' != details[ id ] ) {
-						this.$( select ).val( details[ id ] );
+					if ( _.isFunction( detail.get ) ) {
+
+						detail = detail.get( id );
+						if ( _.isDefined( detail ) && '' != detail ) {
+							this.$( select ).val( detail );
+						}
+
+						this.$( select ).select2();
 					}
-
-					this.$( select ).select2();
 				}, this );
 			},
 
@@ -458,6 +439,13 @@ window.wpmoly = window.wpmoly || {};
 				
 			},
 
+			/**
+			 * Resize Metadata text areas to fit their full height
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   boolean
+			 */
 			resizeTextareas: function() {
 
 				var elems = this.$( 'textarea' );
@@ -467,88 +455,7 @@ window.wpmoly = window.wpmoly || {};
 				} );
 			},
 
-			/**
-			* @param {Object} event
-			*/
-			deleteAttachment: function( event ) {
-				event.preventDefault();
-
-				if ( confirm( l10n.warnDelete ) ) {
-					this.model.destroy();
-					// Keep focus inside media modal
-					// after image is deleted
-					this.controller.modal.focusManager.focus();
-				}
-			},
-			/**
-			* @param {Object} event
-			*/
-			trashAttachment: function( event ) {
-				var library = this.controller.library;
-				event.preventDefault();
-
-				if ( wp.media.view.settings.mediaTrash &&
-					'edit-metadata' === this.controller.content.mode() ) {
-
-					this.model.set( 'status', 'trash' );
-					this.model.save().done( function() {
-						library._requery( true );
-					} );
-				}  else {
-					this.model.destroy();
-				}
-			},
-			/**
-			* @param {Object} event
-			*/
-			untrashAttachment: function( event ) {
-				var library = this.controller.library;
-				event.preventDefault();
-
-				this.model.set( 'status', 'inherit' );
-				this.model.save().done( function() {
-					library._requery( true );
-				} );
-			},
-			/**
-			* @param {Object} event
-			*/
-			editAttachment: function( event ) {
-				var editState = this.controller.states.get( 'edit-image' );
-				if ( window.imageEdit && editState ) {
-					event.preventDefault();
-
-					editState.set( 'image', this.model );
-					this.controller.setState( 'edit-image' );
-				} else {
-					this.$el.addClass('needs-refresh');
-				}
-			},
-			/**
-			* @param {Object} event
-			*/
-			refreshAttachment: function( event ) {
-				this.$el.removeClass('needs-refresh');
-				event.preventDefault();
-				this.model.fetch();
-			},
-			/**
-			* When reverse tabbing(shift+tab) out of the right details panel, deliver
-			* the focus to the item in the list that was being edited.
-			*
-			* @param {Object} event
-			*/
-			toggleSelectionHandler: function( event ) {
-				if ( 'keydown' === event.type && 9 === event.keyCode && event.shiftKey && event.target === this.$( ':tabbable' ).get( 0 ) ) {
-					this.controller.trigger( 'attachment:details:shift-tab', event );
-					return false;
-				}
-
-				if ( 37 === event.keyCode || 38 === event.keyCode || 39 === event.keyCode || 40 === event.keyCode ) {
-					this.controller.trigger( 'attachment:keydown:arrow', event );
-					return;
-				}
-			}
+			
 		})
 
 	} );
@@ -582,6 +489,13 @@ window.wpmoly = window.wpmoly || {};
 				'click .right': 'nextMediaItem',
 			},
 
+			/**
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   boolean
+			 */
 			initialize: function() {
 
 				wp.media.view.Frame.prototype.initialize.apply( this, arguments );
@@ -607,19 +521,27 @@ window.wpmoly = window.wpmoly || {};
 				this.toggleNav();
 			},
 
+			/**
+			 * Bind the View's event handlers
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   boolean
+			 */
 			bindHandlers: function() {
-				// Bind default title creation.
+
 				this.on( 'title:create:default', this.createTitle, this );
-
-				// Close the modal if the attachment is deleted.
-				//this.listenTo( this.model, 'change:status destroy', this.close, this );
-
 				this.on( 'content:create:edit-metadata', this.editMetadataMode, this );
-				/*this.on( 'content:create:edit-image', this.editImageMode, this );
-				this.on( 'content:render:edit-image', this.editImageModeRender, this );*/
 				this.on( 'close', this.detach );
 			},
 
+			/**
+			 * Create the modal window
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   boolean
+			 */
 			createModal: function() {
 
 				var self = this;
@@ -652,8 +574,12 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Add the default states to the frame.
-			*/
+			 * Add the default states to the frame.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			createStates: function() {
 
 				this.states.add( [
@@ -662,26 +588,20 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Content region rendering callback for the `edit-metadata` mode.
-			*
-			* @param {Object} contentRegion Basic object with a `view` property, which
-			*                               should be set with the proper region view.
-			*/
+			 * Content region rendering callback for the `edit-metadata` mode.
+			 * 
+			 * @since    2.2
+			 *
+			 * @param    object    contentRegion Basic object with a `view` property, which should be set with the proper region view.
+			 * 
+			 * @return   void
+			 */
 			editMetadataMode: function( contentRegion ) {
 
 				contentRegion.view = new editor.View.TwoColumn({
 					controller: this,
 					model:      this.model
 				});
-
-				/**
-				* Attach a subview to display fields added via the
-				* `attachment_fields_to_edit` filter.
-				*/
-				/*contentRegion.view.views.set( '.attachment-compat', new wp.media.view.AttachmentCompat({
-					controller: this,
-					model:      this.model
-				}) );*/
 
 				// Update browser url when navigating media details
 				if ( this.model ) {
@@ -690,42 +610,27 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Render the EditImage view into the frame's content region.
-			*
-			* @param {Object} contentRegion Basic object with a `view` property, which
-			*                               should be set with the proper region view.
-			*/
-			/*editImageMode: function( contentRegion ) {
-
-				var editImageController = new wp.media.controller.EditImage( {
-					model: this.model,
-					frame: this
-				} );
-				// Noop some methods.
-				editImageController._toolbar = function() {};
-				editImageController._router = function() {};
-				editImageController._menu = function() {};
-
-				contentRegion.view = new wp.media.view.EditImage.Details( {
-					model: this.model,
-					frame: this,
-					controller: editImageController
-				} );
-			},
-
-			editImageModeRender: function( view ) {
-				view.on( 'ready', view.loadEditor );
-			},*/
-
+			 * Disable nav menu items depending on collection
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			toggleNav: function() {
+
 				this.$('.left').toggleClass( 'disabled', ! this.hasPrevious() );
 				this.$('.right').toggleClass( 'disabled', ! this.hasNext() );
 			},
 
 			/**
-			* Rerender the view.
-			*/
+			 * Rerender the view.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			rerender: function() {
+
 				// Only rerender the `content` region.
 				if ( this.content.mode() !== 'edit-metadata' ) {
 					this.content.mode( 'edit-metadata' );
@@ -737,9 +642,14 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Click handler to switch to the previous media item.
-			*/
+			 * Switch modal to the previous model
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			previousMediaItem: function() {
+
 				if ( ! this.hasPrevious() ) {
 					this.$( '.left' ).blur();
 					return;
@@ -750,9 +660,14 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			/**
-			* Click handler to switch to the next media item.
-			*/
+			 * Switch modal to the next model
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			nextMediaItem: function() {
+
 				if ( ! this.hasNext() ) {
 					this.$( '.right' ).blur();
 					return;
@@ -763,25 +678,59 @@ window.wpmoly = window.wpmoly || {};
 				this.$( '.right' ).focus();
 			},
 
+			/**
+			 * Get current model's index in collection.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   boolean
+			 */
 			getCurrentIndex: function() {
+
 				return this.library.indexOf( this.model );
 			},
 
+			/**
+			 * Make sure there is a model in collection after the 
+			 * current one.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   boolean
+			 */
 			hasNext: function() {
+
 				return ( this.getCurrentIndex() + 1 ) < this.library.length;
 			},
 
+			/**
+			 * Make sure there is a model in collection before the 
+			 * current one.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   boolean
+			 */
 			hasPrevious: function() {
+
 				return ( this.getCurrentIndex() - 1 ) > -1;
 			},
 
 			/**
-			* Respond to the keyboard events: right arrow, left arrow, except when
-			* focus is in a textarea or input field.
-			*/
+			 * Respond to the keyboard events: right arrow, left arrow, except when
+			 * focus is in a textarea or input field.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @param    object    JS 'Keydown' event
+			 * 
+			 * @return   void
+			 */
 			keyEvent: function( event ) {
 
-				if ( ( 'INPUT' === event.target.nodeName || 'TEXTAREA' === event.target.nodeName ) && ! ( event.target.readOnly || event.target.disabled ) ) {
+				if ( ( 'INPUT' === event.target.nodeName ||
+				    'TEXTAREA' === event.target.nodeName ) &&
+				 ! ( event.target.readOnly || event.target.disabled ) ) {
 					return;
 				}
 
@@ -789,12 +738,20 @@ window.wpmoly = window.wpmoly || {};
 				if ( 39 === event.keyCode ) {
 					this.nextMediaItem();
 				}
+
 				// The left arrow key
 				if ( 37 === event.keyCode ) {
 					this.previousMediaItem();
 				}
 			},
 
+			/**
+			 * Reset Router
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
 			resetRoute: function() {
 				//this.gridRouter.navigate( this.gridRouter.baseUrl( '' ) );
 			}
