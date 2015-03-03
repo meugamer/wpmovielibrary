@@ -161,6 +161,36 @@ window.wpmoly = window.wpmoly || {};
 		},
 
 		/**
+		 * Update changed details
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    JS 'Change' event
+		 * 
+		 * @return   void
+		 */
+		updateDetails: function( event ) {
+
+			var $detail = this.$( event.target ).closest( '.wpmoly-details-item input, .wpmoly-details-item select' ), detail, value;
+
+			if ( ! $detail.length ) {
+				return;
+			}
+
+			detail = event.target.name.replace( /wpmoly_details\[(.*)\]/g, '$1' );
+			if ( true === event.target.multiple ) {
+				value = event.target.selectedOptions;
+				value = _.map( value, function( v ) { return v.value; } );
+			} else {
+				value = event.target.value;
+			}
+
+			if ( this.model.get( 'details' ).get( detail ) !== value ) {
+				this.save( this.model.get( 'details' ), detail, value );
+			}
+		},
+
+		/**
 		 * Update changed metadata
 		 * 
 		 * @since    2.2
@@ -242,7 +272,7 @@ window.wpmoly = window.wpmoly || {};
 			return this;
 		},
 
-		updateAll: function() {
+		/*updateAll: function() {
 
 			var $settings = this.$('[data-setting]'),
 				model = this.model,
@@ -268,7 +298,7 @@ window.wpmoly = window.wpmoly || {};
 			if ( ! _.isEmpty( changed ) ) {
 				model.save( changed );
 			}
-		},
+		},*/
 	});
 
 	_.extend( editor.View, {
@@ -293,7 +323,9 @@ window.wpmoly = window.wpmoly || {};
 			template:   wp.media.template( 'movie-metadata-quickedit' ),
 
 			events: {
-				'change .meta-data-field':          'updateMeta',
+				'change .meta-data-field':            'updateMeta',
+				'change .wpmoly-details-item input':  'updateDetails',
+				'change .wpmoly-details-item select': 'updateDetails',
 			},
 			
 			/**

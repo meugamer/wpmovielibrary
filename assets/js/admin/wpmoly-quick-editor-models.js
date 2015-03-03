@@ -46,7 +46,6 @@ window.wpmoly = window.wpmoly || {};
 
 		sync: function( method, model, options ) {
 
-			console.log( method, model, options );
 			if ( 'save' == method ) {
 
 				_.extend( options, {
@@ -54,10 +53,10 @@ window.wpmoly = window.wpmoly || {};
 					data: {
 						action: 'wpmoly_save_' + this.type,
 						//nonce: wpmoly.get_nonce( 'fetch-movies' ),
-						data: {}
-					},
-					success: function( response ) {
-						console.log( response );
+						post_id: this.id,
+						method: 'update',
+						type: this.type,
+						data: model.changed
 					}
 				});
 

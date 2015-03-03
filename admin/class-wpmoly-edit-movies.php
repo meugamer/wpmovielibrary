@@ -69,6 +69,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			// Callbacks
 			add_action( 'wp_ajax_wpmoly_save_meta', __CLASS__ . '::save_meta_callback' );
+			add_action( 'wp_ajax_wpmoly_save_details', __CLASS__ . '::save_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_fetch_movies', __CLASS__ . '::fetch_movies_callback' );
 
@@ -238,23 +239,34 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		}
 
 		/**
-		 * Save metadata once they're collected.
+		 * Save movie metadata.
+		 * 
+		 * TODO: nonce
 		 *
 		 * @since    2.0.3
 		 */
 		public static function save_meta_callback() {
 
-			$post_id  = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
-			$data     = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
+			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
+			$type    = ( isset( $_POST['type'] ) && '' != $_POST['type'] ? esc_attr( $_POST['type'] ) : null );
+			$type    = ( isset( $_POST['type'] ) && '' != $_POST['type'] ? esc_attr( $_POST['type'] ) : null );
+			$method  = ( isset( $_POST['method'] ) && '' != $_POST['method'] ? esc_attr( $_POST['method'] ) : 'save' );
+			$data    = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
 
-			if ( is_null( $post_id ) )
-				return new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
+			if ( is_null( $post_id ) || is_null( $type ) ) {
+				$response = new WP_Error( 'invalid', __( 'Empty or invalid Post ID or Movie Details', 'wpmovielibrary' ) );
+				wp_send_json_error( $response );
+			}
 
-			wpmoly_check_ajax_referer( 'save-movie-meta' );
+			//wpmoly_check_ajax_referer( 'save-movie-meta' );
 
-			$response = self::save_movie_meta( $post_id, $data );
+			if ( 'details' == $type ) {
+				$response = self::save_movie_details( $post_id, $data, $method );
+			} else {
+				$response = self::save_movie_meta( $post_id, $data, $method );
+			}
 
-			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'save-movie-meta' ) );
+			wp_send_json_success( $response );
 		}
 
 		/**
@@ -365,9 +377,9 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				}
 
 				if ( isset( $details[ $id ] ) ) {
-					foreach ( $details[ $id ] as $key => $value )
+					/*foreach ( $details[ $id ] as $key => $value )
 						if ( is_array( $value ) )
-							$details[ $id ][ $key ] = implode( ',', $value );
+							$details[ $id ][ $key ] = implode( ',', $value );*/
 					$response[ $id ]['details'] = $details[ $id ];
 				}
 			}
@@ -1172,15 +1184,21 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Save movie details.
 		 * 
+		 * If $method is set to 'update', only non-empty detail will be
+		 * saved to the database. This is usefull to prevent unwanted
+		 * overwriting of details.
+		 * 
 		 * @since    1.0
 		 * 
-		 * @param    int      $post_id ID of the current Post
-		 * @param    array    $details Movie details: media, status, rating
+		 * @param    int        $post_id ID of the current Post
+		 * @param    array      $details Movie details: media, status, rating
+		 * @param    string     $method What to do: save or update?
+		 * @param    boolean    $clean Shall we clean cache after saving?
 		 * 
 		 * @return   int|object    WP_Error object is anything went
 		 *                                  wrong, true else
 		 */
-		public static function save_movie_details( $post_id, $details ) {
+		public static function save_movie_details( $post_id, $details, $method = 'save', $clean = true ) {
 
 			$post = get_post( $post_id );
 			if ( ! $post || 'movie' != get_post_type( $post ) )
@@ -1192,10 +1210,14 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			if ( ! is_array( $details ) )
 				return new WP_Error( 'invalid_details', __( 'Error: the submitted movie details are invalid.', 'wpmovielibrary' ) );
 
-			foreach ( $details as $slug => $detail )
-				update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $detail );
+			foreach ( $details as $slug => $detail ) {
+				if ( ( isset( $supported[ $slug ] ) ) && ( 'update' != $method || ( 'update' == $method && ! empty( $detail ) ) ) ) {
+					$update = update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $detail );
+				}
+			}
 
-			WPMOLY_Cache::clean_transient( 'clean', $force = true );
+			if ( false !== $clean )
+				WPMOLY_Cache::clean_transient( 'clean', $force = true );
 
 			return $post_id;
 		}
@@ -1203,24 +1225,33 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		/**
 		 * Save movie metadata.
 		 * 
+		 * If $method is set to 'update', only non-empty meta will be
+		 * saved to the database. This is usefull to prevent unwanted
+		 * overwriting of metadata.
+		 * 
 		 * @since    1.3
 		 * 
-		 * @param    int      $post_id ID of the current Post
-		 * @param    array    $details Movie details: media, status, rating
+		 * @param    int        $post_id ID of the current Post
+		 * @param    array      $meta Movie details: media, status, rating
+		 * @param    string     $method What to do: save or update?
+		 * @param    boolean    $clean Shall we clean cache after saving?
 		 * 
 		 * @return   int|object    WP_Error object is anything went wrong, true else
 		 */
-		public static function save_movie_meta( $post_id, $movie_meta, $clean = true ) {
+		public static function save_movie_meta( $post_id, $meta, $method = 'save', $clean = true ) {
 
 			$post = get_post( $post_id );
 			if ( ! $post || 'movie' != get_post_type( $post ) )
 				return new WP_Error( 'invalid_post', __( 'Error: submitted post is not a movie.', 'wpmovielibrary' ) );
 
-			$movie_meta = self::validate_meta( $movie_meta );
-			unset( $movie_meta['post_id'] );
+			$meta = self::validate_meta( $meta );
+			unset( $meta['post_id'] );
 
-			foreach ( $movie_meta as $slug => $meta )
-				$update = update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $meta );
+			foreach ( $meta as $slug => $data ) {
+				if ( 'update' != $method || ( 'update' == $method && ! empty( $data ) ) ) {
+					$update = update_post_meta( $post_id, "_wpmoly_movie_{$slug}", $data );
+				}
+			}
 
 			if ( false !== $clean )
 				WPMOLY_Cache::clean_transient( 'clean', $force = true );
