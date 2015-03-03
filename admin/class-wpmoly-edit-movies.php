@@ -73,9 +73,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_fetch_movies', __CLASS__ . '::fetch_movies_callback' );
 
-			add_action( 'admin_footer-edit.php', __CLASS__ . '::footer_scripts' );
-			add_action( 'admin_footer-post.php', __CLASS__ . '::footer_scripts' );
-			add_action( 'admin_footer-post-new.php', __CLASS__ . '::footer_scripts' );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -83,113 +80,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 *                        Scripts & Styles
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		public static function footer_scripts() {
-
-			if ( 'movie' != get_post_type() )
-				return false;
-
-			global $pagenow;
-			if ( 'edit.php' == $pagenow ) {
-
-				$template = 'movie-metadata-quickedit';
-				    $file = WPMOLY_PATH . '/assets/js/admin/templates/' . $template . '.php';
-				if ( file_exists( $file ) ) {
-?>
-		<script type="text/html" id="tmpl-<?php echo $template; ?>"><?php require_once $file; ?></script>
-<?php
-				}
-
-			} else if ( 'post.php' == $pagenow || 'post-new.php' == $pagenow ) {
-?>
-		<script type="text/template" id="wpmoly-search-settings-template">
-					<div class="wpmoly-meta-search-settings">
-						<span class="setting-icon"><span class="wpmolicon icon-heart"></span></span>
-						<span class="setting-text"><a id="wpmoly-search-adult" href="#"><span class="wpmolicon icon-<% if ( ! settings.adult ) { %>no-alt<% } else { %>yes<% } %>"></span>&nbsp; <?php _e( 'Include adult movies', 'wpmovielibrary' ); ?></a></span>
-					</div>
-					<div class="wpmoly-meta-search-settings">
-						<span class="setting-icon"><span class="wpmolicon icon-ellipsis-h"></span></span>
-						<span class="setting-text"><a id="wpmoly-search-paginate" href="#"><span class="wpmolicon icon-<% if ( ! settings.paginate ) { %>no-alt<% } else { %>yes<% } %>"></span>&nbsp; <?php _e( 'Enable paginated results', 'wpmovielibrary' ); ?></a></span>
-					</div>
-					<div class="wpmoly-meta-search-settings">
-						<span class="setting-icon"><span class="wpmolicon icon-date"></span></span>
-						<span class="setting-text"><label><?php _e( 'Search a specific year:', 'wpmovielibrary' ); ?>&nbsp; <input id="wpmoly-search-year" type="text" size="4" maxlength="4" value="<% if ( settings.year ) { %><%= settings.year %><% } %>" /></label></span>
-					</div>
-					<div class="wpmoly-meta-search-settings">
-						<span class="setting-icon"><span class="wpmolicon icon-date"></span></span>
-						<span class="setting-text"><label><?php _e( 'Search a specific primary year:', 'wpmovielibrary' ); ?>&nbsp; <input id="wpmoly-search-pyear" type="text" size="4" maxlength="4" value="<% if ( settings.pyear ) { %><%= settings.pyear %><% } %>" /></label></span>
-					</div>
-		</script>
-		<script type="text/template" id="wpmoly-search-results-template">
-								<% if ( true === paginated ) { %>
-								<div id="wpmoly-meta-search-results-pagination">
-									<% if ( page > 1 ) { %>
-									<div class="wpmoly-meta-search-results-nav"><a id="wpmoly-meta-search-results-prev" href="#"><span class="wpmolicon icon-arrow-left"></span></a></div>
-									<% } %>
-									<div class="wpmoly-meta-search-results-text"><span>Page <%= page %> of <%= total %></span></div>
-									<% if ( page < total ) { %>
-									<div class="wpmoly-meta-search-results-nav"><a id="wpmoly-meta-search-results-next" href="#"><span class="wpmolicon icon-arrow-right"></span></a></div>
-									<% } %>
-								</div>
-								<% } %>
-								<div id="wpmoly-meta-search-results-container">
-								<% _.each( results, function( result ) { %>
-									<div class="wpmoly-select-movie">
-										<a id="wpmoly-select-movie-<%= result.id %>" href="#<%= result.id %>">
-											<img src="<%= result.poster %>" alt="<%= result.title %>" />
-											<em><%= result.title %></em> (<%= result.year %>)
-										</a>
-									</div>
-
-								<% }); %>
-									<a id="wpmoly-empty-select-results" href="#"><span class="wpmolicon icon-no-alt"></span></a>
-								</div>
-								<div id="wpmoly-meta-search-results-loading"><img src="<?php echo WPMOLY_URL . '/assets/img/grid.svg'; ?>" width="24" height="24" alt="" /></div>
-		</script>
-		<script type="text/template" id="wpmoly-search-status-template">
-						<div class="wpmoly-status-icon"><% if ( true === status.loading ) { %><img src="<?php echo WPMOLY_URL . '/assets/img/puff.svg'; ?>" width="20" height="15" alt="" /><% } else { %><span class="wpmolicon icon-<% if ( status.error ) { %>warning<% } else { %>api<% } %>"></span><% } %></div>
-						<div class="wpmoly-status-text<% if ( status.error ) { %> warning<% } %>"><%= status.message %></div>
-		</script>
-		<script type="text/template" id="wpmoly-imported-backdrops-template">
-								<% _.each( attachments, function( attachment ) { %>
-					<li class="wpmoly-backdrop wpmoly-imported-backdrop">
-						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
-					</li>
-
-								<% }); %>
-
-					<li class="wpmoly-backdrop"><a href="#" id="wpmoly-load-backdrops" title="<?php _e( 'Load Images', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
-		</script>
-		<script type="text/template" id="wpmoly-imported-posters-template">
-								<% _.each( attachments, function( attachment ) { %>
-					<li class="wpmoly-poster wpmoly-imported-poster">
-						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
-					</li>
-
-								<% }); %>
-
-					<li class="wpmoly-poster"><a href="#" id="wpmoly-load-posters" title="<?php _e( 'Load Posters', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a></li>
-		</script>
-		<script type="text/template" id="wpmoly-imported-attachment-template">
-						<img width="<%= attachment.sizes.medium.width %>" height="<%= attachment.sizes.medium.height %>" src="<%= attachment.sizes.medium.url %>" class="attachment-medium" alt="<%= attachment.title %>" />
-						<div class="wpmoly-imported-attachment-menu">
-							<a href="#" class="wpmoly-imported-attachment-menu-toggle"><span class="wpmolicon icon-ellipsis-h"></span></a>
-							<div class="wpmoly-imported-attachment-menu-inner">
-								<ul>
-									<li>Options</li>
-									<li><a class="wpmoly-imported-attachment-menu-edit" href="<?php echo admin_url( '/upload.php?item=' ) ?><%= attachment.id %>" target="_blank"><span class="wpmolicon icon-edit-page"></span>&nbsp; <?php _e( 'Edit' ) ?></a></li>
-									<li><a class="wpmoly-imported-attachment-menu-delete" href="#"><span class="wpmolicon icon-trash"></span>&nbsp; <?php _e( 'Delete' ) ?></a></a></li>
-<% if ( 'poster' == type ) { %>
-									<li><a class="wpmoly-imported-attachment-menu-featured" href="#"><span class="wpmolicon icon-poster"></span>&nbsp; <?php _e( 'Featured' ) ?></a></a></li>
-<% } %>
-								</ul>
-							</div>
-						</div>
-
-		</script>
-<?php
-			}
-		}
 
 		/**
 		 * Enqueue required media scripts and styles
@@ -275,8 +165,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * @since    2.2
 		 */
 		public static function fetch_movies_callback() {
-
-			wpmoly_check_ajax_referer( 'fetch-movies' );
 
 			$data = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
 			if ( is_null( $data ) )
@@ -367,7 +255,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					'meta'    => array(),
 					'details' => array(),
 					'nonces'  => array(
-						'fetch_movies'    => wpmoly_create_nonce( 'fetch-movies' ),
 						'save_movie_meta' => wpmoly_create_nonce( 'save-movie-meta' )
 					)
 				);
@@ -998,7 +885,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @return   string    Panel HTML Markup
 		 */
-		private static function render_preview_panel( $post_id ) {
+		protected static function render_preview_panel( $post_id ) {
 
 			$rating   = wpmoly_get_movie_rating( $post_id );
 			$metadata = wpmoly_get_movie_meta( $post_id );
@@ -1046,7 +933,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @return   string    Panel HTML Markup
 		 */
-		private static function render_meta_panel( $post_id ) {
+		protected static function render_meta_panel( $post_id ) {
 
 			$metas     = WPMOLY_Settings::get_supported_movie_meta();
 			$languages = WPMOLY_Settings::get_supported_languages();
@@ -1081,7 +968,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @return   string    Panel HTML Markup
 		 */
-		private static function render_details_panel( $post_id ) {
+		protected static function render_details_panel( $post_id ) {
 
 			$details = WPMOLY_Settings::get_supported_movie_details();
 			$class   = new ReduxFramework();
@@ -1133,7 +1020,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @return   string    Panel HTML Markup
 		 */
-		private static function render_images_panel( $post_id ) {
+		protected static function render_images_panel( $post_id ) {
 
 			$images = WPMOLY_Media::get_movie_imported_images( $post_id, $format = 'raw' );
 			$images = array_map( 'wp_prepare_attachment_for_js', $images );
@@ -1158,7 +1045,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * 
 		 * @return   string    Panel HTML Markup
 		 */
-		private static function render_posters_panel( $post_id ) {
+		protected static function render_posters_panel( $post_id ) {
 
 			$posters = WPMOLY_Media::get_movie_imported_posters( $post_id, $format = 'raw' );
 			$posters = array_map( 'wp_prepare_attachment_for_js', $posters );

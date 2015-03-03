@@ -40,7 +40,7 @@ wpmoly.media = wpmoly.media || {};
 			 */
 			initialize: function() {
 
-				this.template = _.template( $( this._tmpl ).html() );
+				this.template = wp.template( this._tmpl );
 				this.render();
 
 				this.model.on( 'uploading:start', this.uploading, this );
@@ -447,7 +447,7 @@ wpmoly.media = wpmoly.media || {};
 		Backdrop: media.View.Attachment.extend({
 
 			className: 'wpmoly-backdrop wpmoly-imported-backdrop',
-			_tmpl: '#wpmoly-imported-attachment-template',
+			_tmpl: 'wpmoly-imported-attachment',
 			_type: 'backdrop',
 		}),
 
@@ -463,7 +463,7 @@ wpmoly.media = wpmoly.media || {};
 		Poster: media.View.Attachment.extend({
 
 			className: 'wpmoly-poster wpmoly-imported-poster',
-			_tmpl: '#wpmoly-imported-attachment-template',
+			_tmpl: 'wpmoly-imported-attachment',
 			_type: 'poster',
 		})
 
@@ -490,7 +490,7 @@ wpmoly.media = wpmoly.media || {};
 
 			_subview: media.View.Backdrop,
 
-			_tmpl: '#wpmoly-imported-backdrops-template',
+			_tmpl: 'wpmoly-imported-backdrops',
 
 			_type: 'backdrop',
 
@@ -608,7 +608,7 @@ wpmoly.media = wpmoly.media || {};
 
 			_subview: media.View.Poster,
 
-			_tmpl: '#wpmoly-imported-posters-template',
+			_tmpl: 'wpmoly-imported-posters',
 
 			_type: 'poster',
 

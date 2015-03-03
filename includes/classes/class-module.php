@@ -45,6 +45,50 @@ if ( ! class_exists( 'WPMOLY_Module' ) ) {
 		}
 
 		/**
+		 * Render a JavaScript template
+		 * 
+		 * Works similarily to self::render_template() except that JS
+		 * Template files can't be overriden nor filtered.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    string    $template The template name
+		 * @param    array     $args Template parameters
+		 * 
+		 * @return   string
+		 */
+		public static function render_js_template( $template, $args ) {
+
+			$defaults = array(
+				'admin'   => false
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args );
+
+			$path = 'public';
+			if ( true === $admin ) {
+				$path = 'admin';
+			}
+
+			$template = esc_attr( $template );
+			$template_path = WPMOLY_PATH . "assets/js/{$path}/templates/{$template}.php";
+			var_dump( $template_path );
+
+			if ( is_file( $template_path ) ) {
+
+				ob_start();
+?>
+		<script type="text/html" id="tmpl-wpmoly-<?php echo $template ?>"><?php require_once( $template_path ); ?></script>
+<?php
+				$template_content = ob_get_clean();
+			} else {
+				$template_content = '';
+			}
+
+			return $template_content;
+		}
+
+		/**
 		 * Render a template
 		 *
 		 * Allows parent/child themes to override the markup by placing 
@@ -86,9 +130,9 @@ if ( ! class_exists( 'WPMOLY_Module' ) ) {
 					require_once( $template_path );
 
 				$template_content = apply_filters( "wpmoly_{$admin}template_content", ob_get_clean(), $default_template_path, $template_path, $variables );
-			}
-			else
+			} else {
 				$template_content = '';
+			}
 
 			do_action( "wpmoly_render_{$admin}template_after", $default_template_path, $variables, $template_path, $template_content );
 

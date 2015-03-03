@@ -56,14 +56,14 @@
 		<div class="attachment-media-view movie-metadata-view">
 			<div class="container">
 				<div class="movie-metadata">
-					<?php echo self::render_meta_panel( 0 ); ?>
+					<?php echo WPMOLY_Edit_Movies::render_meta_panel( 0 ); ?>
 				</div>
 			</div>
 		</div>
 		<div class="attachment-info movie-info movie-details">
 			<div class="container">
 				<div class="settings">
-					<?php echo self::render_details_panel( 0 ); ?>
+					<?php echo WPMOLY_Edit_Movies::render_details_panel( 0 ); ?>
 				</div>
 			</div>
 		</div>

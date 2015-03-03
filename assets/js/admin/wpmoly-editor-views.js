@@ -33,7 +33,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			initialize: function() {
 
-				this.template = _.template( $( '#wpmoly-search-status-template' ).html() );
+				this.template = wp.media.template( 'wpmoly-search-status' );
 				this.render();
 
 				_.bindAll( this, 'render' );
@@ -122,7 +122,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			initialize: function() {
 
-				this.template = _.template( $( '#wpmoly-search-settings-template' ).html() );
+				this.template = wp.media.template( 'wpmoly-search-settings' );
 				this.render();
 
 				this.model.on( 'change', this.render, this );
@@ -681,7 +681,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			initialize: function() {
 
-				this.template = _.template( $( '#wpmoly-search-results-template' ).html() );
+				this.template = wp.template( 'wpmoly-search-results' );
 
 				this.collection.on( 'change', this.render, this );
 				this.collection.on( 'add', this.render, this );
@@ -699,10 +699,10 @@ window.wpmoly = window.wpmoly || {};
 			render: function() {
 
 				var results = this.template({
-					results : this.collection.toJSON(),
+					results:   this.collection.toJSON(),
 					paginated: editor.models.search.get( 'paginate' ),
-					page: editor.models.search.get( 'page' ),
-					total: this.collection.pages
+					page:      editor.models.search.get( 'page' ),
+					total:     this.collection.pages
 				});
 
 				this.$el.slideDown( 400 );

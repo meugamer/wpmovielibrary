@@ -320,7 +320,7 @@ window.wpmoly = window.wpmoly || {};
 
 			className: 'attachment-details movie-metadata',
 
-			template:   wp.media.template( 'movie-metadata-quickedit' ),
+			template:   wp.media.template( 'wpmoly-movie-metadata-quickedit' ),
 
 			events: {
 				'change .meta-data-field':            'updateMeta',

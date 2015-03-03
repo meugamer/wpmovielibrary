@@ -103,10 +103,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			// highlight the proper top level menu
 			add_action( 'parent_file', array( $this, 'admin_menu_highlight' ) );
 
-			// Load admin style sheet and JavaScript.
+			// Load admin style sheets, JavaScript scripts and templates.
 			add_action( 'admin_enqueue_scripts', array( $this, 'pre_enqueue_admin_scripts' ), 8 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
+
+			add_action( 'admin_footer', array( $this, 'footer_scripts' ) );
+			/*add_action( 'admin_footer-edit.php', __CLASS__ . '::footer_scripts' );
+			add_action( 'admin_footer-post.php', __CLASS__ . '::footer_scripts' );
+			add_action( 'admin_footer-post-new.php', __CLASS__ . '::footer_scripts' );*/
+			
 
 			add_action( 'in_admin_footer', array( $this, 'legal_mentions' ) );
 
@@ -265,6 +271,29 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				WPMOLY_SLUG . '-admin', 'wpmoly_l10n',
 				WPMOLY_L10n::localize_script()
 			);
+		}
+
+		/**
+		 * Echo required JavaScript Templates files in the dashboard
+		 * footer.
+		 * 
+		 * @since    2.2
+		 */
+		public function footer_scripts() {
+
+			$templates = $this->admin_templates();
+			$scripts   = array();
+
+			foreach ( $templates as $template ) {
+				$scripts[] = self::render_js_template( $template, array( 'admin' => true ) );
+			}
+
+			if ( empty( $scripts ) )
+				return false;
+
+			$scripts = implode( "\n", $scripts );
+
+			echo $scripts;
 		}
 
 		/**
@@ -534,6 +563,39 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$styles['legacy'] = '/assets/css/admin/wpmoly-legacy.css';
 
 			return $styles;
+		}
+
+		/**
+		 * Define all admin templates but use only those needed by the
+		 * current page.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   array     Current page's styles
+		 */
+		private function admin_templates() {
+
+			global $pagenow;
+			$is_movie = ( 'movie' == get_post_type() );
+
+			extract( $this->screen_hooks );
+
+			$templates = array();
+
+			if ( $is_movie && 'edit.php' == $pagenow ) {
+				$templates[] = 'movie-metadata-quickedit';
+			}
+
+			if ( $is_movie && ( 'post.php' == $pagenow || 'post-new.php' == $pagenow ) ) {
+				$templates[] = 'search-settings';
+				$templates[] = 'search-results';
+				$templates[] = 'search-status';
+				$templates[] = 'imported-backdrops';
+				$templates[] = 'imported-posters';
+				$templates[] = 'imported-attachment';
+			}
+
+			return $templates;
 		}
 
 		/**
