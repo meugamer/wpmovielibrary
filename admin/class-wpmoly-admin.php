@@ -499,8 +499,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$scripts['select2-sortable-js'] = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2.sortable.min.js', array( $wpmoly_slug, 'jquery' ), false );
 				$scripts['select2-js']          = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.min.js', array( $wpmoly_slug, 'jquery', ), false );
 				$scripts['field-select-js']     = array( '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.min.js', array( $wpmoly_slug, 'jquery' ), false );
-				$scripts['quick-editor-models'] = array( '/assets/js/admin/wpmoly-quick-editor-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['quick-editor-views']  = array( '/assets/js/admin/wpmoly-quick-editor-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
+				$scripts['grid-models']  = array( '/assets/js/admin/wpmoly-grid-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone' ), true );
+				$scripts['grid-editor-models']  = array( '/assets/js/admin/wpmoly-grid-editor-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
+				$scripts['grid-editor-views']   = array( '/assets/js/admin/wpmoly-grid-editor-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
 			}
 
 			if ( $hook_suffix == $update_movies ) {

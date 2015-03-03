@@ -394,7 +394,7 @@ window.wpmoly = window.wpmoly || {};
 
 			/**
 			 * Resize the Metadata Modal Posters to show a nice-looking
-			 * grid.
+			 * editor.
 			 * 
 			 * @since    2.2
 			 * 
@@ -538,7 +538,7 @@ window.wpmoly = window.wpmoly || {};
 				});
 
 				this.controller = this.options.controller;
-				//this.gridRouter = this.controller.gridRouter;
+				//this.editorRouter = this.controller.editorRouter;
 				this.library = this.options.library;
 
 				if ( this.options.model ) {
@@ -637,7 +637,7 @@ window.wpmoly = window.wpmoly || {};
 
 				// Update browser url when navigating media details
 				if ( this.model ) {
-					//this.gridRouter.navigate( this.gridRouter.baseUrl( '?item=' + this.model.id ) );
+					//this.editorRouter.navigate( this.editorRouter.baseUrl( '?item=' + this.model.id ) );
 				}
 			},
 
@@ -785,7 +785,7 @@ window.wpmoly = window.wpmoly || {};
 			 * @return   void
 			 */
 			resetRoute: function() {
-				//this.gridRouter.navigate( this.gridRouter.baseUrl( '' ) );
+				//this.editorRouter.navigate( this.editorRouter.baseUrl( '' ) );
 			}
 		})
 

@@ -25,7 +25,7 @@ jQuery( document ).ready( function() {
 	}
 
 	if ( 'edit-movie' == pagenow && 'edit-php' == adminpage ) {
-		wpmoly.editor();
+		wpmoly.grid();
 	}
 
 } );

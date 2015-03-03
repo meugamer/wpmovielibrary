@@ -7,20 +7,14 @@ window.wpmoly = window.wpmoly || {};
 
 		var movies = [];
 		_.each( document.querySelectorAll( '#the-list tr' ), function( movie ) {
-			var id = movie.id.replace( 'post-', '' ),
-			 movie = new editor.Model.Movie;
-			movies.push( _.extend( movie, { id: id } ) );
+			var id = movie.id.replace( 'post-', '' );
+			movies.push( _.extend( new editor.Model.Movie, { id: id } ) );
 		} );
 
-		editor.models.movies = new editor.Model.Movies();
+		editor.models.movies = new editor.Model.Movies;
 		editor.models.movies.add( movies );
 
-		editor.views.movies = new editor.View.Movies();
-		editor.frame = new editor.View.EditMovies( {
-			frame: 'select',
-			library: editor.models.movies,
-			model: editor.models.movies.get( 11 )
-		} );
+		editor.views.movies = new editor.View.Movies;
 	};
 
 	_.extend( editor, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
