@@ -67,3 +67,6 @@
 				</div>
 			</div>
 		</div>
+		<# _.each( data.nonces, function( nonce, key ) { #>
+		<input type="hidden" id="_wpmolynonce_{{ key }}" value="{{ nonce }}" />
+		<# } ); #>

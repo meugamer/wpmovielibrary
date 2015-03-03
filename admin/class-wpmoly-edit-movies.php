@@ -235,20 +235,17 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$response = self::empty_movie_meta( $post_id );
 
-			wpmoly_ajax_response( $response, array(), wpmoly_create_nonce( 'empty-movie-meta' ) );
+			wp_send_json_success( $response );
 		}
 
 		/**
 		 * Save movie metadata.
-		 * 
-		 * TODO: nonce
 		 *
 		 * @since    2.0.3
 		 */
 		public static function save_meta_callback() {
 
 			$post_id = ( isset( $_POST['post_id'] ) && '' != $_POST['post_id'] ? intval( $_POST['post_id'] ) : null );
-			$type    = ( isset( $_POST['type'] ) && '' != $_POST['type'] ? esc_attr( $_POST['type'] ) : null );
 			$type    = ( isset( $_POST['type'] ) && '' != $_POST['type'] ? esc_attr( $_POST['type'] ) : null );
 			$method  = ( isset( $_POST['method'] ) && '' != $_POST['method'] ? esc_attr( $_POST['method'] ) : 'save' );
 			$data    = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
@@ -258,7 +255,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				wp_send_json_error( $response );
 			}
 
-			//wpmoly_check_ajax_referer( 'save-movie-meta' );
+			wpmoly_check_ajax_referer( 'save-movie-meta' );
 
 			if ( 'details' == $type ) {
 				$response = self::save_movie_details( $post_id, $data, $method );
@@ -275,11 +272,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		 * This is used to fill the Backbone Collection on 'All movies'
 		 * page and provide quick metadata edit features.
 		 * 
-		 * TODO: nonce
-		 * 
 		 * @since    2.2
 		 */
 		public static function fetch_movies_callback() {
+
+			wpmoly_check_ajax_referer( 'fetch-movies' );
 
 			$data = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
 			if ( is_null( $data ) )
@@ -368,7 +365,11 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				$response[ $id ] = array(
 					'post'    => $movie,
 					'meta'    => array(),
-					'details' => array()
+					'details' => array(),
+					'nonces'  => array(
+						'fetch_movies'    => wpmoly_create_nonce( 'fetch-movies' ),
+						'save_movie_meta' => wpmoly_create_nonce( 'save-movie-meta' )
+					)
 				);
 
 				if ( isset( $meta[ $id ] ) ) {
@@ -377,9 +378,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				}
 
 				if ( isset( $details[ $id ] ) ) {
-					/*foreach ( $details[ $id ] as $key => $value )
-						if ( is_array( $value ) )
-							$details[ $id ][ $key ] = implode( ',', $value );*/
 					$response[ $id ]['details'] = $details[ $id ];
 				}
 			}

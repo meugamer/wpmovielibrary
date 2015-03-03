@@ -52,7 +52,7 @@ window.wpmoly = window.wpmoly || {};
 					context: this,
 					data: {
 						action: 'wpmoly_save_' + this.type,
-						//nonce: wpmoly.get_nonce( 'fetch-movies' ),
+						nonce: wpmoly.get_nonce( 'save-movie-meta' ),
 						post_id: this.id,
 						method: 'update',
 						type: this.type,
@@ -167,7 +167,8 @@ window.wpmoly = window.wpmoly || {};
 		defaults: {
 			post: {},
 			meta: {},
-			details: {}
+			details: {},
+			nonces: {}
 		}
 	});
 
@@ -206,10 +207,9 @@ window.wpmoly = window.wpmoly || {};
 						context: this,
 						data: {
 							action: 'wpmoly_fetch_movies',
-							//nonce: wpmoly.get_nonce( 'fetch-movies' ),
+							nonce: wpmoly.get_nonce( 'fetch-movies' ),
 							data: _.map( this.models, function( model ) {
-								//if ( _.isEmpty( _.filter( model.attributes, function( attr ) { return '' != attr; } ) ) )
-									return model.id;
+								return model.id;
 							}, this )
 						},
 						complete: function() {},
@@ -224,7 +224,8 @@ window.wpmoly = window.wpmoly || {};
 								model.set( {
 									post:    post.set(    _.pick( data.post,    _.keys( post.defaults ) ) ),
 									meta:    meta.set(    _.pick( data.meta,    _.keys( meta.defaults ) ) ),
-									details: details.set( _.pick( data.details, _.keys( details.defaults ) ) )
+									details: details.set( _.pick( data.details, _.keys( details.defaults ) ) ),
+									nonces:  data.nonces
 								} );
 							}, this );
 						}
