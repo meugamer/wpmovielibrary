@@ -37,6 +37,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 		public function register_hook_callbacks() {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 9 );
+			add_filter( 'admin_body_class', array( $this, 'admin_body_class' ), 10 );
 
 			// Metabox
 			add_action( 'wpmoly_before_metabox_content', __CLASS__ . '::before_metabox_content' );
@@ -101,6 +102,24 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			wp_enqueue_script( 'field-select-js', ReduxFramework::$_url . 'inc/fields/select/field_select.min.js', array( 'jquery', 'select2-js' ), WPMOLY_VERSION, true );
 			wp_enqueue_style( 'select2-css', ReduxFramework::$_url . 'assets/js/vendor/select2/select2.css', array(), WPMOLY_VERSION, 'all' );
 			wp_enqueue_style( 'redux-field-select-css', ReduxFramework::$_url . 'inc/fields/select/field_select.css', WPMOLY_VERSION, true );
+		}
+
+		/**
+		 * Add custom CSS classes to the admin body tag
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    string    $classes Admin BODY tag classes
+		 */
+		public function admin_body_class( $classes ) {
+
+			global $pagenow;
+			if ( 'edit.php' != $pagenow || 'movie' != get_post_type() )
+				return $classes;
+
+			$classes .= ' wpmoly-grid-editor';
+
+			return $classes;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

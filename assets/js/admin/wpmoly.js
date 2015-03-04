@@ -9,8 +9,17 @@ $ = $ || jQuery;
 wpmoly = {};
 
 _.extend( wpmoly, {
-	l10n: wpmoly_l10n || {}
-});
+
+	l10n: wpmoly_l10n || {},
+
+	parseSearchQuery: function() {
+		return _.chain( location.search.slice( 1 ).split( '&' ) )
+			.map( function( item ) { if ( item ) return item.split( '=' ); } )
+			.compact()
+			.object()
+			.value();
+	}
+} );
 
 _.isDefined = function( elem ) {
 	return undefined !== elem;

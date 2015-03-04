@@ -72,7 +72,6 @@ if ( ! class_exists( 'WPMOLY_Module' ) ) {
 
 			$template = esc_attr( $template );
 			$template_path = WPMOLY_PATH . "assets/js/{$path}/templates/{$template}.php";
-			var_dump( $template_path );
 
 			if ( is_file( $template_path ) ) {
 

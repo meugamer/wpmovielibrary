@@ -1,154 +1,107 @@
 
 ( function( $, _, Backbone, wp, wpmoly ) {
 
-	var grid = wpmoly.grid || {};
+	var grid = wpmoly.grid || {}, media = wp.media;
 
-	grid.controller.State = wp.media.controller.State.extend({});
+	grid.View.Menu = media.View.extend({
 
-	grid.View.Manage = wp.media.View.extend({
+		id: 'grid-menu',
+
+		template: media.template( 'wpmoly-grid-menu' ),
 
 		initialize: function() {
-			_.defaults( this.options, {
-				mode: [ 'select' ]
-			});
-			this._createRegions();
-			this._createStates();
-			this._createModes();
+
+			this.mode = this.controller.get( 'mode' );
 		},
 
-		_createRegions: function() {
-			// Clone the regions array.
-			this.regions = this.regions ? this.regions.slice() : [];
+		render: function() {
 
-			// Initialize regions.
-			_.each( this.regions, function( region ) {
-				this[ region ] = new media.controller.Region({
-					view:     this,
-					id:       region,
-					selector: '.media-frame-' + region
-				});
-			}, this );
-		},
-		/**
-		 * Create the frame's states.
-		 *
-		 * @see wp.media.controller.State
-		 * @see wp.media.controller.StateMachine
-		 *
-		 * @fires wp.media.controller.State#ready
-		 */
-		_createStates: function() {
-			// Create the default `states` collection.
-			this.states = new Backbone.Collection( null, {
-				model: media.controller.State
-			});
-
-			// Ensure states have a reference to the frame.
-			this.states.on( 'add', function( model ) {
-				model.frame = this;
-				model.trigger('ready');
-			}, this );
-
-			if ( this.options.states ) {
-				this.states.add( this.options.states );
-			}
-		},
-
-		/**
-		 * A frame can be in a mode or multiple modes at one time.
-		 *
-		 * For example, the manage media frame can be in the `Bulk Select` or `Edit` mode.
-		 */
-		_createModes: function() {
-			// Store active "modes" that the frame is in. Unrelated to region modes.
-			this.activeModes = new Backbone.Collection();
-			this.activeModes.on( 'add remove reset', _.bind( this.triggerModeEvents, this ) );
-
-			_.each( this.options.mode, function( mode ) {
-				this.activateMode( mode );
-			}, this );
-		},
-		/**
-		 * Reset all states on the frame to their defaults.
-		 *
-		 * @returns {wp.media.view.Frame} Returns itself to allow chaining
-		 */
-		reset: function() {
-			this.states.invoke( 'trigger', 'reset' );
-			return this;
-		},
-		/**
-		 * Map activeMode collection events to the frame.
-		 */
-		triggerModeEvents: function( model, collection, options ) {
-			var collectionEvent,
-				modeEventMap = {
-					add: 'activate',
-					remove: 'deactivate'
-				},
-				eventToTrigger;
-			// Probably a better way to do this.
-			_.each( options, function( value, key ) {
-				if ( value ) {
-					collectionEvent = key;
-				}
-			} );
-
-			if ( ! _.has( modeEventMap, collectionEvent ) ) {
-				return;
-			}
-
-			eventToTrigger = model.get('id') + ':' + modeEventMap[collectionEvent];
-			this.trigger( eventToTrigger );
-		},
-		/**
-		 * Activate a mode on the frame.
-		 *
-		 * @param string mode Mode ID.
-		 * @returns {this} Returns itself to allow chaining.
-		 */
-		activateMode: function( mode ) {
-			// Bail if the mode is already active.
-			if ( this.isModeActive( mode ) ) {
-				return;
-			}
-			this.activeModes.add( [ { id: mode } ] );
-			// Add a CSS class to the frame so elements can be styled for the mode.
-			this.$el.addClass( 'mode-' + mode );
+			this.$el.html( this.template( this.mode ) );
 
 			return this;
-		},
-		/**
-		 * Deactivate a mode on the frame.
-		 *
-		 * @param string mode Mode ID.
-		 * @returns {this} Returns itself to allow chaining.
-		 */
-		deactivateMode: function( mode ) {
-			// Bail if the mode isn't active.
-			if ( ! this.isModeActive( mode ) ) {
-				return this;
-			}
-			this.activeModes.remove( this.activeModes.where( { id: mode } ) );
-			this.$el.removeClass( 'mode-' + mode );
-			/**
-			 * Frame mode deactivation event.
-			 *
-			 * @event this#{mode}:deactivate
-			 */
-			this.trigger( mode + ':deactivate' );
-
-			return this;
-		},
-		/**
-		 * Check if a mode is enabled on the frame.
-		 *
-		 * @param  string mode Mode ID.
-		 * @return bool
-		 */
-		isModeActive: function( mode ) {
-			return Boolean( this.activeModes.where( { id: mode } ).length );
 		}
+
+	});
+
+	grid.View.Content = media.View.extend({
+
+		id: 'grid-content',
+
+		initialize: function() {
+
+			
+			
+		},
+
+		/*render: function() {
+
+			return this;
+		}*/
+
+	});
+
+	grid.View.Frame = media.View.extend({
+
+		id: 'movie-grid-frame',
+
+		tagName: 'div',
+
+		className: 'movie-grid',
+
+		template: media.template( 'wpmoly-grid-frame' ),
+
+		initialize: function() {
+
+			this.controller = new grid.controller.State;
+			this.controller.set( { mode: this.options.mode } );
+			this.controller.on( 'change:mode', this.changeMode, this );
+
+			this.states = [
+				
+			];
+
+			this.menu    = new grid.View.Menu( { frame: this, controller: this.controller } );
+			this.content = new grid.View.Content( { frame: this, controller: this.controller } );
+
+			this.preRender();
+			this.render();
+			this.postRender();
+		},
+
+		preRender: function() {
+
+			$( '.wrap' ).append( '<div id="grid-list"></div>' );
+			$( '.wrap > *' ).not( 'h2' ).appendTo( '#grid-list' );
+
+			return this;
+		},
+
+		render: function() {
+
+			this.$el.html( this.template() );
+
+			this.$( '.grid-frame-menu' ).append( this.menu.render().$el );
+			this.$( '.grid-frame-content' ).append( this.content.render().$el );
+
+			return this;
+		},
+
+		postRender: function() {
+
+			this.$el.appendTo( $( '.wrap' ) );
+
+			$( '#grid-list' ).appendTo( this.$( '.grid-frame-content' ) );
+
+			return this;
+		},
+
+		changeMode: function( mode ) {
+
+			this.render();
+			/*this.mode = mode;
+			this.trigger( 'change:mode', mode, this );*/
+		},
+
 	});
 
 	

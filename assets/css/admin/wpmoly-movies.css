@@ -1,5 +1,44 @@
-/* WPMOLY Movie List
- ****************************************************/
+
+body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap > *,
+body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie #screen-meta-links {
+	display: none;
+}
+
+body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap h2,
+body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap .movie-grid {
+	display: block;
+}
+
+/*
+ * WPMOLY Movie Grid
+ */
+
+#movie-grid-frame.movie-grid {
+	position: relative;
+}
+
+.view-switch a:focus {
+	box-shadow: 0 0 0;
+}
+
+.view-switch a span.wpmolicon::before,
+.view-switch a span.dashicons::before {
+	color: #bbb;
+}
+
+.view-switch a:hover span.wpmolicon::before,
+.view-switch a:hover span.dashicons::before {
+	color: #727272;
+}
+
+.view-switch a.current span.wpmolicon::before,
+.view-switch a.current span.dashicons::before {
+	color: #0074a2;
+}
+
+/* 
+ * WPMOLY Movie List
+ */
 
 .column-wpmoly-poster {
 	width: 4em;
