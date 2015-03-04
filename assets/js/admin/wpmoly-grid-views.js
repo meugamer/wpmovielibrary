@@ -25,11 +25,9 @@
 
 	grid.View.Content = media.View.extend({
 
-		id: 'grid-content',
+		initialize: function(options) {
 
-		initialize: function() {
-
-			
+			this.id = 'grid-content-' + options.id;
 			
 		},
 
@@ -56,16 +54,25 @@
 			this.controller.set( { mode: this.options.mode } );
 			this.controller.on( 'change:mode', this.changeMode, this );
 
-			this.states = [
-				
-			];
-
 			this.menu    = new grid.View.Menu( { frame: this, controller: this.controller } );
-			this.content = new grid.View.Content( { frame: this, controller: this.controller } );
+			//this.content = new grid.View.Content( { frame: this, controller: this.controller } );
+
+			this.createStates();
 
 			this.preRender();
 			this.render();
 			this.postRender();
+		},
+
+		createStates: function() {
+
+			this.states = [];
+			_.each( this.controller._modes, function( mode ) {
+
+				this.states.push( new grid.View.Content({
+					id: mode
+				}) );
+			}, this );
 		},
 
 		preRender: function() {
@@ -81,7 +88,7 @@
 			this.$el.html( this.template() );
 
 			this.$( '.grid-frame-menu' ).append( this.menu.render().$el );
-			this.$( '.grid-frame-content' ).append( this.content.render().$el );
+			//this.$( '.grid-frame-content' ).append( this.content.render().$el );
 
 			return this;
 		},

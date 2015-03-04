@@ -17,14 +17,15 @@
 
 		_previousMode: '',
 
+		_modes: [ 'grid', 'exerpt', 'list', 'import' ],
+
 		defaults: {
-			mode: 'grid',
-			modes: [ 'grid', 'exerpt', 'list', 'import' ]
+			mode: 'grid'
 		},
 
 		setMode: function( mode ) {
 
-			if ( mode == this.get( 'mode' ) || ! _.isDefined( this.defaults.modes[ mode ] ) ) {
+			if ( mode == this.get( 'mode' ) || ! _.isDefined( this.modes[ mode ] ) ) {
 				return false;
 			}
 
