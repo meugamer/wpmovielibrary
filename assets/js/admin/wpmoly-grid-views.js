@@ -44,7 +44,7 @@
 		 */
 		render: function() {
 
-			this.$el.html( this.template( this.frame._mode ) );
+			this.$el.html( this.template( this.frame.mode() ) );
 
 			return this;
 		},
@@ -82,6 +82,30 @@
 
 		template: media.template( 'wpmoly-grid-content-grid' ),
 
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
+		initialize: function() {
+
+			_.defaults( this.options, {
+				frame:   {},
+				library: {}
+			} );
+
+			this.library = this.options.library;
+			this.frame   = this.options.frame;
+
+			this.collection = this.library;
+
+			this.prepare();
+		},
+
 	});
 
 	grid.View.ContentList   = media.View.extend({
@@ -117,6 +141,93 @@
 	 */
 	grid.View.Frame = media.View.extend({
 
+		_mode: 'grid',
+
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
+		initialize: function() {
+
+			this._createRegions();
+			this._createStates();
+		},
+
+		/**
+		 * Create the frame's regions.
+		 * 
+		 * @since    2.2
+		 */
+		_createRegions: function() {
+
+			// Clone the regions array.
+			this.regions = this.regions ? this.regions.slice() : [];
+
+			// Initialize regions.
+			_.each( this.regions, function( region ) {
+				this[ region ] = new media.controller.Region({
+					view:     this,
+					id:       region,
+					selector: '.grid-frame-' + region
+				});
+			}, this );
+		},
+	
+		/**
+		 * Create the frame's states.
+		 * 
+		 * @since    2.2
+		 */
+		_createStates: function() {
+
+			// Create the default `states` collection.
+			this.states = new Backbone.Collection( null, {
+				model: media.controller.State
+			});
+
+			// Ensure states have a reference to the frame.
+			this.states.on( 'add', function( model ) {
+				model.frame = this;
+				model.trigger('ready');
+			}, this );
+
+			if ( this.options.states ) {
+				this.states.add( this.options.states );
+			}
+		},
+
+		/**
+		 * 
+		 */
+		render: function() {
+
+			// Activate the default state if no active state exists.
+			if ( ! this.state() && this.options.state ) {
+				this.setState( this.options.state );
+			}
+
+			return media.View.prototype.render.apply( this, arguments );
+		}
+
+	});
+
+	// Make the `Frame` a `StateMachine`.
+	_.extend( grid.View.Frame.prototype, media.controller.StateMachine.prototype );
+
+	/**
+	 * WPMOLY Admin Movie Grid View
+	 * 
+	 * This View renders the Admin Movie Grid.
+	 * 
+	 * @since    2.2
+	 */
+	grid.View.GridFrame = grid.View.Frame.extend({
+
 		id: 'movie-grid-frame',
 
 		tagName: 'div',
@@ -138,9 +249,16 @@
 		 */
 		initialize: function( options ) {
 
-			this._mode = this.options.mode;
+			grid.View.Frame.prototype.initialize.apply( this, arguments );
 
-			this.createRegions();
+			_.defaults( this.options, {
+				//selection: [],
+				mode:     'grid',
+				library:   {},
+				state:    'library'
+			});
+
+			this.createStates();
 			this.bindHandlers();
 
 			this.preRender();
@@ -172,25 +290,28 @@
 		},
 
 		/**
-		 * Create the View's Regions
+		 * Create the default states on the frame.
 		 * 
 		 * @since    2.2
 		 * 
 		 * @return   Returns itself to allow chaining.
 		 */
-		createRegions: function() {
+		createStates: function() {
 
-			// Clone the regions array.
-			this.regions = this.regions ? this.regions.slice() : [];
+			var options = this.options;
 
-			// Initialize regions.
-			_.each( this.regions, function( region ) {
-				this[ region ] = new media.controller.Region({
-					view:     this,
-					id:       region,
-					selector: '.grid-frame-' + region
-				});
-			}, this );
+			if ( this.options.states ) {
+				return;
+			}
+
+			// Add the default states.
+			this.states.add([
+				// Main states.
+				new grid.controller.Library({
+					id:     'library',
+					library: grid.query( options.library ),
+				})
+			]);
 
 			return this;
 		},
@@ -222,7 +343,12 @@
 		 */
 		createContentGrid: function( region ) {
 
-			region.view = new grid.View.ContentGrid( { frame: this } );
+			var state = this.state();
+
+			region.view = new grid.View.ContentGrid({
+				frame:   this,
+				library: state.get( 'library' )
+			});
 		},
 
 		/**
@@ -298,11 +424,15 @@
 		 */
 		render: function() {
 
+			grid.View.Frame.prototype.render.apply( this, arguments );
+
+			var options = this.options;
+
 			this.$el.html( this.template() );
-			this.el.className = 'mode-' + this._mode;
+			this.el.className = 'mode-' + options.mode;
 
 			_.each( this.regions, function( region ) {
-				this[ region ].mode( this._mode );
+				this[ region ].mode( options.mode );
 			}, this );
 
 			return this;
@@ -333,13 +463,15 @@
 		 */
 		mode: function( mode ) {
 
-			if ( ! mode )
-				return this._mode;
+			var options = this.options;
 
-			if ( mode === this._mode )
+			if ( ! mode )
+				return options.mode;
+
+			if ( mode === options.mode )
 				return this;
 
-			this._mode = mode;
+			options.mode = mode;
 			this.trigger( 'change:mode', mode );
 
 			return this;

@@ -1,47 +1,9 @@
 
 window.wpmoly = window.wpmoly || {};
 
-(function( $ ) {
+(function( $, _, Backbone, wp, wpmoly ) {
 
-	var editor = wpmoly.editor = function() {
-
-		// Trick of treats
-		redux.field_objects.select.init();
-
-		// Extract metadata from view
-		var data = {},
-		  fields = document.getElementsByClassName( 'meta-data-field' );
-		_.each( fields, function( field ) {
-			var name = field.name.replace( /meta\[(.*)\]/g, '$1' );
-			data[ name ] = field.value;
-		});
-
-		// Init models
-		editor.models.status = new wpmoly.editor.Model.Status();
-		editor.models.movie = new wpmoly.editor.Model.Movie( data );
-		editor.models.preview = new wpmoly.editor.Model.Preview();
-		editor.models.search = new wpmoly.editor.Model.Search();
-		editor.models.results = new wpmoly.editor.Model.Results();
-
-		// Init views
-		editor.views.movie = new wpmoly.editor.View.Movie( { model: editor.models.movie } );
-		editor.views.preview = new wpmoly.editor.View.Preview( { model: editor.models.movie } );
-		editor.views.search = new wpmoly.editor.View.Search( { model: editor.models.search, target: editor.models.movie } );
-		editor.views.settings = new wpmoly.editor.View.Settings( { model: editor.models.search } );
-		editor.views.results = new wpmoly.editor.View.Results( { collection: editor.models.results } );
-		editor.views.status = new wpmoly.editor.View.Status( { model: editor.models.status } );
-
-		document.getElementById( 'title' ).addEventListener( 'input', function( event ) {
-			editor.models.search.set( { s: event.target.value } );
-		});
-
-		window.addEventListener( 'resize', function() {
-			editor.views.search.render();
-			editor.views.results.resize();
-		});
-	};
-
-	_.extend( editor, { models: {}, views: {}, Model: {}, View: {} } );
+	var editor = wpmoly.editor;
 
 	_.extend( editor.Model, {
 
@@ -140,14 +102,14 @@ window.wpmoly = window.wpmoly || {};
 		Search: Backbone.Model.extend({
 
 			defaults: {
-				post_id: parseInt( document.getElementById( 'post_ID' ).value ),
+				post_id: '',
 				s: '',
-				lang: document.getElementById( 'wpmoly-search-lang' ).value,
-				adult: Boolean( parseInt( document.getElementById( 'wpmoly-search-adult' ).value ) ),
+				lang: '',
+				adult: false,
 				year: '',
 				pyear: '',
 				page: 1,
-				paginate: Boolean( parseInt( document.getElementById( 'wpmoly-search-paginate' ).value ) )
+				paginate: true
 			}
 		}),
 
@@ -192,13 +154,13 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			settings: {
-				actorlimit: parseInt( document.getElementById( 'wpmoly-actor-limit' ).value ),
-				setfeatured: parseInt( document.getElementById( 'wpmoly-poster-featured' ).value ),
-				importimages: parseInt( document.getElementById( 'wpmoly-auto-import-images' ).value ),
+				actorlimit:   0,
+				setfeatured:  1,
+				importimages: 0,
 				autocomplete: {
-					collection: parseInt( document.getElementById( 'wpmoly-autocomplete-collection' ).value ),
-					genre: parseInt( document.getElementById( 'wpmoly-autocomplete-genre' ).value ),
-					actor: parseInt( document.getElementById( 'wpmoly-autocomplete-actor' ).value )
+					collection: 1,
+					genre:      1,
+					actor:      1
 				}
 			},
 
@@ -212,7 +174,12 @@ window.wpmoly = window.wpmoly || {};
 			initialize: function() {
 
 				this.url = ajaxurl;
-				this.post_id = document.getElementById( 'post_ID' ).value;
+
+				var post_id = 0
+				if ( ! _.isNull( document.querySelector( 'post_ID' ) ) )
+					post_id = document.querySelector( 'post_ID' ).value;
+
+				this.post_id = post_id;
 			},
 
 			/**
@@ -542,4 +509,4 @@ window.wpmoly = window.wpmoly || {};
 
 	});
 
-})(jQuery);
+}( jQuery, _, Backbone, wp, wpmoly ) );

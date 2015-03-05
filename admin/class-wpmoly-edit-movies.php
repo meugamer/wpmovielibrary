@@ -73,6 +73,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			add_action( 'wp_ajax_wpmoly_save_details', __CLASS__ . '::save_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_empty_meta', __CLASS__ . '::empty_meta_callback' );
 			add_action( 'wp_ajax_wpmoly_fetch_movies', __CLASS__ . '::fetch_movies_callback' );
+			add_action( 'wp_ajax_wpmoly_query_movies', __CLASS__ . '::query_movies_callback' );
 
 		}
 
@@ -170,6 +171,118 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				$response = self::save_movie_details( $post_id, $data, $method );
 			} else {
 				$response = self::save_movie_meta( $post_id, $data, $method );
+			}
+
+			wp_send_json_success( $response );
+		}
+
+		/**
+		 * Query movies metadata.
+		 * 
+		 * @since    2.2
+		 */
+		public static function query_movies_callback() {
+
+			$query    = ( isset( $_POST['query'] ) && ! empty( $_POST['query'] ) ? $_POST['query'] : array() );
+			$defaults = array(
+				'post_type'      => 'movie',
+				'post__in'       => array(),
+				'posts_per_page' => 40
+			);
+			$args = wp_parse_args( $defaults, $query );
+
+			$movies = new WP_Query( $args );
+			if ( empty( $movies->posts ) )
+				wp_send_json_error();
+
+			$posts  = $movies->posts;
+			$movies = array();
+			$ids    = array();
+			foreach ( $posts as $post ) {
+
+				$ids[] = $post->ID;
+
+				$thumbnail_id = get_post_thumbnail_id( $post->ID );
+				$thumbnail    = wp_get_attachment_image_src( $thumbnail_id, 'medium' );
+				if ( is_null( $thumbnail ) )
+					$thumbnail = str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL );
+
+				$images    = WPMOLY_Media::get_movie_imported_images( $post->ID, $format = 'filtered', $size = 'medium' );
+				$posters   = WPMOLY_Media::get_movie_imported_posters( $post->ID, $format = 'filtered', $size = 'thumbnail' );
+
+				// Don't include featured image
+				foreach ( $posters as $i => $poster ) {
+					if ( $thumbnail_id == $poster['id'] ) {
+						unset( $posters[ $i ] );
+					} else {
+						$posters[ $i ] = array(
+							'link' => htmlspecialchars_decode( $poster['link'] ),
+							'url'  => $poster['image'][0]
+						);
+					}
+				}
+
+				// Only the 3 first backdrops should be medium sized
+				foreach ( $images as $i => $image ) {
+					if ( $i > 2 ) {
+						$url = preg_replace( '/[0-9]{1,3}x[0-9]{1,3}/i', '150x150', $image['image'][0] );
+					} else {
+						$url = $image['image'][0];
+					}
+					$images[ $i ] = array(
+						'link' => htmlspecialchars_decode( $image['link'] ),
+						'url'  => $url
+					);
+				}
+
+				$movies[ $post->ID ] = array(
+					'post_id'          => $post->ID,
+					'post_title'       => apply_filters( 'the_title', $post->post_title ),
+					'post_author'      => intval( $post->post_author ),
+					'post_author_name' => esc_attr( get_the_author_meta( 'user_nicename', $post->post_author ) ),
+					'post_author_url'  => add_query_arg( array( 'post_type' => 'movie', 'author' => $post->post_author ), 'edit.php' ),
+					'post_status'      => esc_attr( $post->post_status ),
+					'post_date'        => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date ) ),
+					'post_thumbnail'   => $thumbnail[0],
+					'posters'          => array_slice( $posters, 0, 4 ),
+					'images'           => array_slice( $images, 0, 5 ),
+					'posters_total'    => max( 0, count( $posters ) - 4 ),
+					'images_total'     => max( 0, count( $images ) - 5 ),
+					'edit_poster'      => add_query_arg( array( 'post' => $thumbnail_id, 'action' => 'edit' ), admin_url( 'post.php' ) ),
+					'edit_posters'     => add_query_arg( array( 'post' => $post->ID, 'action' => 'edit', 'edit-poster' => 1 ), admin_url( 'post.php' ) ),
+					'edit_images'      => add_query_arg( array( 'post' => $post->ID, 'action' => 'edit', 'edit-backdrop' => 1 ), admin_url( 'post.php' ) )
+				);
+			}
+
+			$meta = WPMOLY_Movies::get_movies_meta( $ids );
+			if ( empty( $meta ) )
+				wp_send_json_error();
+
+			$details = WPMOLY_Movies::get_movies_meta( $ids, 'details' );
+			if ( empty( $details ) )
+				wp_send_json_error();
+			
+
+			$response = array();
+			foreach ( $movies as $id => $movie ) {
+
+				$response[ $id ] = array(
+					'post'    => $movie,
+					'meta'    => array(),
+					'details' => array(),
+					'nonces'  => array(
+						'save_movie_meta' => wpmoly_create_nonce( 'save-movie-meta' )
+					)
+				);
+
+				if ( isset( $meta[ $id ] ) ) {
+					foreach ( $meta[ $id ] as $k => $v )
+						$response[ $id ]['meta'][ $k ] = htmlspecialchars_decode( $v, ENT_QUOTES );
+				}
+
+				if ( isset( $details[ $id ] ) ) {
+					$response[ $id ]['details'] = $details[ $id ];
+				}
 			}
 
 			wp_send_json_success( $response );

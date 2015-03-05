@@ -1,21 +1,7 @@
 
-window.wpmoly = window.wpmoly || {};
+( function( $, _, Backbone, wp, wpmoly ) {
 
-(function( $, _, Backbone, wp ) {
-
-	var editor = wpmoly.editor = function() {
-
-		var movies = [];
-		_.each( document.querySelectorAll( '#the-list tr' ), function( movie ) {
-			var id = movie.id.replace( 'post-', '' );
-			movies.push( _.extend( new editor.Model.Movie, { id: id } ) );
-		} );
-
-		editor.models.movies = new editor.Model.Movies;
-		editor.models.movies.add( movies );
-
-		editor.views.movies = new editor.View.Movies;
-	};
+	var editor = wpmoly.editor;
 
 	_.extend( editor, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
 
@@ -257,8 +243,7 @@ window.wpmoly = window.wpmoly || {};
 				this.fetch();
 			}
 
-			
 		} )
 	} );
 
-}(jQuery, _, Backbone, wp));
+}( jQuery, _, Backbone, wp, wpmoly ) );

@@ -1,7 +1,7 @@
 
 window.wpmoly = window.wpmoly || {};
 
-(function( $ ) {
+( function( $, _, Backbone, wp, wpmoly ) {
 
 	var editor = wpmoly.editor;
 
@@ -923,4 +923,4 @@ window.wpmoly = window.wpmoly || {};
 
 	});
 
-})(jQuery);
+}( jQuery, _, Backbone, wp, wpmoly ) );
