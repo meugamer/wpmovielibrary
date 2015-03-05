@@ -3,41 +3,87 @@
 
 	var grid = wpmoly.grid || {}, media = wp.media;
 
+	/**
+	 * WPMOLY Admin Movie Grid Menu View
+	 * 
+	 * This View renders the Admin Movie Grid Menu.
+	 * 
+	 * @since    2.2
+	 */
 	grid.View.Menu = media.View.extend({
 
 		id: 'grid-menu',
 
 		template: media.template( 'wpmoly-grid-menu' ),
 
-		initialize: function() {
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.2
+		 *
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
+		initialize: function( options ) {
 
-			this.mode = this.controller.get( 'mode' );
+			this.frame = this.options.frame;
 		},
 
+		/**
+		 * Render the Menu
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		render: function() {
 
-			this.$el.html( this.template( this.mode ) );
+			this.$el.html( this.template( this.frame._mode ) );
 
 			return this;
 		}
 
 	});
 
-	grid.View.Content = media.View.extend({
+	grid.View.ContentGrid = media.View.extend({
 
-		initialize: function(options) {
+		id: 'grid-content-grid',
 
-			this.id = 'grid-content-' + options.id;
-			
-		},
-
-		/*render: function() {
-
-			return this;
-		}*/
+		template: media.template( 'wpmoly-grid-content-grid' ),
 
 	});
 
+	grid.View.ContentList   = media.View.extend({
+
+		el: '#grid-list',
+
+		render: function() {
+			this.$el.html( this.$( this.el ).html() );
+		}
+	});
+
+	grid.View.ContentExerpt = media.View.extend({
+
+		id: 'grid-content-exerpt',
+
+		template: media.template( 'wpmoly-grid-content-exerpt' ),
+	});
+
+	grid.View.ContentImport = media.View.extend({
+
+		id: 'grid-content-import',
+
+		template: media.template( 'wpmoly-grid-content-import' ),
+	});
+
+	/**
+	 * WPMOLY Admin Movie Grid View
+	 * 
+	 * This View renders the Admin Movie Grid.
+	 * 
+	 * @since    2.2
+	 */
 	grid.View.Frame = media.View.extend({
 
 		id: 'movie-grid-frame',
@@ -48,33 +94,162 @@
 
 		template: media.template( 'wpmoly-grid-frame' ),
 
-		initialize: function() {
+		regions: [ 'menu', 'content' ],
 
-			this.controller = new grid.controller.State;
-			this.controller.set( { mode: this.options.mode } );
-			this.controller.on( 'change:mode', this.changeMode, this );
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.2
+		 *
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
+		initialize: function( options ) {
 
-			this.menu    = new grid.View.Menu( { frame: this, controller: this.controller } );
-			//this.content = new grid.View.Content( { frame: this, controller: this.controller } );
+			this._mode = this.options.mode;
 
-			this.createStates();
+			this.createRegions();
+			this.bindHandlers();
 
 			this.preRender();
 			this.render();
 			this.postRender();
 		},
 
-		createStates: function() {
+		/**
+		 * Bind events
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		bindHandlers: function() {
 
-			this.states = [];
-			_.each( this.controller._modes, function( mode ) {
+			this.on( 'change:mode', this.render, this );
 
-				this.states.push( new grid.View.Content({
-					id: mode
-				}) );
-			}, this );
+			this.on( 'menu:create:grid', this.createMenu, this );
+			this.on( 'menu:create:list', this.createMenu, this );
+			this.on( 'menu:create:exerpt', this.createMenu, this );
+			this.on( 'menu:create:import', this.createMenu, this );
+			this.on( 'content:create:grid', this.createContent, this );
+			this.on( 'content:create:list', this.createContent, this );
+			this.on( 'content:create:exerpt', this.createContent, this );
+			this.on( 'content:create:import', this.createContent, this );
+
+			return this;
 		},
 
+		/**
+		 * Create the View's Regions
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		createRegions: function() {
+
+			// Clone the regions array.
+			this.regions = this.regions ? this.regions.slice() : [];
+
+			// Initialize regions.
+			_.each( this.regions, function( region ) {
+				this[ region ] = new media.controller.Region({
+					view:     this,
+					id:       region,
+					selector: '.grid-frame-' + region
+				});
+			}, this );
+
+			return this;
+		},
+
+		/**
+		 * Create the Menu View
+		 * 
+		 * This Content View show the WPMOLY 2.2 Movie Grid view
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Region
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		createMenu: function( region ) {
+
+			region.view = new grid.View.Menu( { frame: this } );
+		},
+
+		/**
+		 * Create the Content Grid View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Region
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		createContentGrid: function( region ) {
+
+			region.view = new grid.View.ContentGrid( { frame: this } );
+		},
+
+		/**
+		 * Create the Content List View
+		 * 
+		 * This Content View show the basic, WPish Post List Table.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Region
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		createContentList: function( region ) {
+
+			region.view = new grid.View.ContentList( { frame: this } );
+		},
+
+		/**
+		 * Create the Content Exerpt View
+		 * 
+		 * This Content View shows a larger Grid including some additional
+		 * data from Movies.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Region
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		createContentExerpt: function( region ) {
+
+			region.view = new grid.View.ContentExerpt( { frame: this } );
+		},
+
+		/**
+		 * Create the Content Importer View
+		 * 
+		 * This Content View include the WPMOLY < 2.2 Importer.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Region
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		createContentImport: function( region ) {
+
+			region.view = new grid.View.ContentImport( { frame: this } );
+		},
+
+		/**
+		 * 
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		preRender: function() {
 
 			$( '.wrap' ).append( '<div id="grid-list"></div>' );
@@ -83,16 +258,31 @@
 			return this;
 		},
 
+		/**
+		 * 
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		render: function() {
 
 			this.$el.html( this.template() );
 
-			this.$( '.grid-frame-menu' ).append( this.menu.render().$el );
-			//this.$( '.grid-frame-content' ).append( this.content.render().$el );
+			_.each( this.regions, function( region ) {
+				this[ region ].mode( this._mode );
+			}, this );
 
 			return this;
 		},
 
+		/**
+		 * 
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		postRender: function() {
 
 			this.$el.appendTo( $( '.wrap' ) );
@@ -102,12 +292,26 @@
 			return this;
 		},
 
-		changeMode: function( mode ) {
+		/**
+		 * 
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		mode: function( mode ) {
 
-			this.render();
-			/*this.mode = mode;
-			this.trigger( 'change:mode', mode, this );*/
-		},
+			if ( ! mode )
+				return this._mode;
+
+			if ( mode === this._mode )
+				return this;
+
+			this._mode = mode;
+			this.trigger( 'change:mode', mode );
+
+			return this;
+		}
 
 	});
 

@@ -13,7 +13,7 @@
 
 	_.extend( grid, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
 
-	grid.controller.State = Backbone.Model.extend({
+	grid.controller.Mode = Backbone.Model.extend({
 
 		_previousMode: '',
 

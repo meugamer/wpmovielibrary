@@ -589,6 +589,10 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$templates[] = 'grid-frame';
 				$templates[] = 'grid-menu';
 				$templates[] = 'grid-content';
+				$templates[] = 'grid-content-grid';
+				$templates[] = 'grid-content-list';
+				$templates[] = 'grid-content-exerpt';
+				$templates[] = 'grid-content-import';
 			}
 
 			if ( $is_movie && ( 'post.php' == $pagenow || 'post-new.php' == $pagenow ) ) {
