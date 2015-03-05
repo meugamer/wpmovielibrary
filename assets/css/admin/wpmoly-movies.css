@@ -5,7 +5,7 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie #screen-met
 }
 
 body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap h2,
-body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap .movie-grid {
+body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movie-grid-frame {
 	display: block;
 }
 
@@ -13,7 +13,7 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap .movi
  * WPMOLY Movie Grid
  */
 
-#movie-grid-frame.movie-grid {
+#movie-grid-frame {
 	position: relative;
 }
 

@@ -16,6 +16,11 @@
 
 		template: media.template( 'wpmoly-grid-menu' ),
 
+		/*events: {
+			'click a':              'preventDefault',
+			'click .view-switch a': 'switchView',
+		},*/
+
 		/**
 		 * Initialize the View
 		 * 
@@ -42,6 +47,31 @@
 			this.$el.html( this.template( this.frame._mode ) );
 
 			return this;
+		},
+
+		/**
+		 * Prevent click events default effect
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.2
+		 */
+		switchView: function( event ) {
+
+			var mode = event.currentTarget.dataset.mode;
+			this.frame.mode( mode );
+		},
+
+		/**
+		 * Prevent click events default effect
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.2
+		 */
+		preventDefault: function( event ) {
+
+			event.preventDefault();
 		}
 
 	});
@@ -56,10 +86,11 @@
 
 	grid.View.ContentList   = media.View.extend({
 
-		el: '#grid-list',
+		el: '#grid-content-list',
 
 		render: function() {
 			this.$el.html( this.$( this.el ).html() );
+			this.$el.find( '> *' ).show();
 		}
 	});
 
@@ -132,10 +163,10 @@
 			this.on( 'menu:create:list', this.createMenu, this );
 			this.on( 'menu:create:exerpt', this.createMenu, this );
 			this.on( 'menu:create:import', this.createMenu, this );
-			this.on( 'content:create:grid', this.createContent, this );
-			this.on( 'content:create:list', this.createContent, this );
-			this.on( 'content:create:exerpt', this.createContent, this );
-			this.on( 'content:create:import', this.createContent, this );
+			this.on( 'content:create:grid', this.createContentGrid, this );
+			this.on( 'content:create:list', this.createContentList, this );
+			this.on( 'content:create:exerpt', this.createContentExerpt, this );
+			this.on( 'content:create:import', this.createContentImport, this );
 
 			return this;
 		},
@@ -252,8 +283,8 @@
 		 */
 		preRender: function() {
 
-			$( '.wrap' ).append( '<div id="grid-list"></div>' );
-			$( '.wrap > *' ).not( 'h2' ).appendTo( '#grid-list' );
+			$( '.wrap' ).append( '<div id="grid-content-list"></div>' );
+			$( '.wrap > *' ).not( 'h2' ).appendTo( '#grid-content-list' );
 
 			return this;
 		},
@@ -268,6 +299,7 @@
 		render: function() {
 
 			this.$el.html( this.template() );
+			this.el.className = 'mode-' + this._mode;
 
 			_.each( this.regions, function( region ) {
 				this[ region ].mode( this._mode );
@@ -287,7 +319,7 @@
 
 			this.$el.appendTo( $( '.wrap' ) );
 
-			$( '#grid-list' ).appendTo( this.$( '.grid-frame-content' ) );
+			$( '#grid-content-list' ).appendTo( this.$( '.grid-frame-content' ) );
 
 			return this;
 		},
