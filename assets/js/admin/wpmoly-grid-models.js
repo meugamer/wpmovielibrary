@@ -63,6 +63,7 @@
 				this.observe( options.observe );
 			}
 		},
+
 		/**
 		 * Sort the collection when the order attribute changes.
 		 *
@@ -391,7 +392,7 @@
 		parse: function( resp, xhr ) {
 
 			if ( _.isObject( resp ) && false === resp instanceof editor.Model.Movie ) {
-				resp = _.toArray( resp );
+				return _.toArray( resp );
 			}
 
 			if ( ! _.isArray( resp ) ) {
@@ -400,29 +401,28 @@
 			
 			resp = _.map( resp, function( attrs, id ) {
 
-				var id, model, post, meta, details;
+				var attributes, id, model, post, meta, details;
 
 				if ( false === attrs instanceof editor.Model.Movie ) {
-					id = attrs.post.post_id;
+					attributes = attrs;
 				} else {
-					id = attrs.attributes.post.post_id;
+					attributes = attrs.attributes;
 				}
 
+				     id = attributes.post.post_id;
 				  model = _.extend( new editor.Model.Movie,   { id: id } ),
 				   post = _.extend( new editor.Model.Post,    { id: id } ),
 				   meta = _.extend( new editor.Model.Meta,    { id: id } ),
 				details = _.extend( new editor.Model.Details, { id: id } );
 
 				model.set( {
-					post:    post.set(    _.pick( attrs.post    || {}, _.keys( post.defaults ) ) ),
-					meta:    meta.set(    _.pick( attrs.meta    || {}, _.keys( meta.defaults ) ) ),
-					details: details.set( _.pick( attrs.details || {}, _.keys( details.defaults ) ) ),
-					nonces:  attrs.nonces || {}
+					post:    post.set(    _.pick( attributes.post    || {}, _.keys( post.defaults ) ) ),
+					meta:    meta.set(    _.pick( attributes.meta    || {}, _.keys( meta.defaults ) ) ),
+					details: details.set( _.pick( attributes.details || {}, _.keys( details.defaults ) ) ),
+					nonces:  attributes.nonces || {}
 				} );
 
-				model = grid.Model.Movies.all.push( model );
-
-				return model;
+				return grid.Model.Movies.all.push( model );
 			});
 
 			return resp;
@@ -748,6 +748,7 @@
 
 			// Overload the read method
 			if ( 'read' === method ) {
+
 				options = options || {};
 				options.context = this;
 				options.data = _.extend( options.data || {}, {
@@ -764,10 +765,7 @@
 				}
 
 				options.data.query = args;
-
-				var resp = wp.ajax.send( options );
-
-				return resp;
+				return wp.ajax.send( options );
 
 			// Otherwise, fall back to Backbone.sync()
 			} else {
@@ -943,6 +941,14 @@
 			if ( ! this.get( 'library' ) ) {
 				this.set( 'library', grid.query() );
 			}
+
+			//this.on( 'ready', this.ready, this );
+		},
+
+		ready: function() {
+
+			//console.log( 'Go!' );
+			
 		}
 
 	});

@@ -76,11 +76,39 @@
 
 	});
 
+	grid.View.Movie = media.View.extend({
+
+		tagName:   'li',
+
+		className: 'attachment movie',
+
+		template:  media.template( 'wpmoly-movie' ),
+
+		initialize: function() {
+		},
+
+		render: function() {
+
+			this.$el.html(
+				this.template({
+					post:    this.model.get( 'post' ).toJSON(),
+					meta:    this.model.get( 'meta' ).toJSON(),
+					details: this.model.get( 'details' ).toJSON(),
+				})
+			);
+
+			return this;
+		},
+
+	});
+
 	grid.View.ContentGrid = media.View.extend({
 
 		id: 'grid-content-grid',
 
-		template: media.template( 'wpmoly-grid-content-grid' ),
+		tagName:   'ul',
+
+		className: 'attachments movies',
 
 		/**
 		 * Initialize the View
@@ -94,16 +122,104 @@
 		initialize: function() {
 
 			_.defaults( this.options, {
-				frame:   {},
-				library: {}
+				resize:            true,
+				idealColumnWidth:  $( window ).width() < 640 ? 135 : 180,
+				frame:             {},
+				library:           {},
+				MovieView:         grid.View.Movie
 			} );
 
-			this.library = this.options.library;
-			this.frame   = this.options.frame;
+			this._viewsByCid = {};
+			this.$window = $( window );
+			this.resizeEvent = 'resize.media-modal-columns';
 
-			this.collection = this.library;
+			this.collection.on( 'add', function( movie ) {
+				this.views.add( this.createMovieView( movie ), {
+					at: this.collection.indexOf( movie )
+				});
+			}, this );
 
-			this.prepare();
+			_.bindAll( this, 'setColumns' );
+
+			if ( this.options.resize ) {
+				this.on( 'ready', this.bindEvents );
+				this.controller.on( 'open', this.setColumns );
+
+				// Call this.setColumns() after this view has been rendered in the DOM so
+				// attachments get proper width applied.
+				_.defer( this.setColumns, this );
+			}
+
+		},
+
+		bindEvents: function() {
+
+			this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.setColumns, 50 ) );
+		},
+
+		setColumns: function() {
+
+			var prev = this.columns,
+			   width = this.$el.width();
+
+			if ( width ) {
+				this.columns = Math.min( Math.round( width / this.options.idealColumnWidth ), 12 ) || 1;
+
+				if ( ! prev || prev !== this.columns ) {
+					this.$el.closest( '.grid-frame-content' ).attr( 'data-columns', this.columns );
+				}
+			}
+
+			
+				this.fixThumbnails();
+		},
+
+		fixThumbnails: function() {
+
+			if ( ! this.collection.length )
+				return;
+
+			var width = this.$( 'li:first' ).width(),
+			   height = Math.floor( ( width + 16 ) * 1.49 );
+
+			// TODO: for resize in options
+			this.$( 'li' ).not( 'resized' ).addClass( 'resized' ).css( { height: height } );
+		},
+
+		/**
+		 * @param {grid.Model.Movie} movie
+		 * @returns {Backbone.View}
+		 */
+		createMovieView: function( movie ) {
+
+			var view = new this.options.MovieView({
+				controller:           this.controller,
+				model:                movie,
+				collection:           this.collection
+			});
+
+			return this._viewsByCid[ movie.cid ] = view;
+		},
+
+		prepare: function() {
+
+			// Create all of the Attachment views, and replace
+			// the list in a single DOM operation.
+			if ( this.collection.length ) {
+				this.views.set( this.collection.map( this.MovieView, this ) );
+
+			// If there are no elements, clear the views and load some.
+			} else {
+				this.views.unset();
+
+				var self = this;
+				this.$el.addClass( 'loading' );
+				this.dfd = this.collection.more().done( function() {
+					self.$el.removeClass( 'loading' );
+					self.setColumns();
+					self.scroll;
+				} );
+			}
 		},
 
 	});
@@ -193,7 +309,7 @@
 			// Ensure states have a reference to the frame.
 			this.states.on( 'add', function( model ) {
 				model.frame = this;
-				model.trigger('ready');
+				model.trigger( 'ready' );
 			}, this );
 
 			if ( this.options.states ) {
@@ -252,10 +368,8 @@
 			grid.View.Frame.prototype.initialize.apply( this, arguments );
 
 			_.defaults( this.options, {
-				//selection: [],
-				mode:     'grid',
-				library:   {},
-				state:    'library'
+				mode:  'grid',
+				state: 'library'
 			});
 
 			this.createStates();
@@ -308,8 +422,8 @@
 			this.states.add([
 				// Main states.
 				new grid.controller.Library({
-					id:     'library',
-					library: grid.query( options.library ),
+					id:      'library',
+					library: grid.query( options.library )
 				})
 			]);
 
@@ -346,8 +460,10 @@
 			var state = this.state();
 
 			region.view = new grid.View.ContentGrid({
-				frame:   this,
-				library: state.get( 'library' )
+				frame:      this,
+				library:    state,
+				collection: state.get( 'library' ),
+				controller: this,
 			});
 		},
 

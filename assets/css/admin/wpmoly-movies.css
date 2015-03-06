@@ -36,6 +36,84 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 	color: #0074a2;
 }
 
+#grid-content-grid.attachments.movies {
+	padding-bottom: 100px;
+}
+
+#grid-content-grid.attachments.movies.loading {
+	background: url(../../img/oval.svg) center bottom no-repeat;
+	background-size: 36px 36px;
+}
+
+#grid-content-grid.attachments .attachment.movie {
+}
+
+#grid-content-grid.attachments .attachment.movie .attachment-preview.movie-preview {
+	height: 100%;
+	position: relative;
+	width: 100%;
+}
+
+#grid-content-grid.attachments .attachment.movie .attachment-preview.movie-preview::before {
+	content: "";
+	display: none;
+	padding-top: 0;
+}
+
+#grid-content-grid.attachments .attachment.movie .attachment-preview.movie-preview .poster img {
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+
+.grid-frame-content[data-columns="1"] .attachment.movie {
+	width: 100%;
+}
+
+.grid-frame-content[data-columns="2"] .attachment.movie {
+	width: 50%;
+}
+
+.grid-frame-content[data-columns="3"] .attachment.movie {
+	width: 33.33%;
+}
+
+.grid-frame-content[data-columns="4"] .attachment.movie {
+	width: 25%;
+}
+
+.grid-frame-content[data-columns="5"] .attachment.movie {
+	width: 20%;
+}
+
+.grid-frame-content[data-columns="6"] .attachment.movie {
+	width: 16.66%;
+}
+
+.grid-frame-content[data-columns="7"] .attachment.movie {
+	width: 14.28%;
+}
+
+.grid-frame-content[data-columns="8"] .attachment.movie {
+	width: 12.5%;
+}
+
+.grid-frame-content[data-columns="9"] .attachment.movie {
+	width: 11.11%;
+}
+
+.grid-frame-content[data-columns="10"] .attachment.movie {
+	width: 10%;
+}
+
+.grid-frame-content[data-columns="11"] .attachment.movie {
+	width: 9.09%;
+}
+
+.grid-frame-content[data-columns="12"] .attachment.movie {
+	width: 8.33%;
+}
+
 /* 
  * WPMOLY Movie List
  */

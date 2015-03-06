@@ -589,6 +589,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			if ( $is_movie && 'edit.php' == $pagenow ) {
 				$templates[] = 'movie-metadata-quickedit';
+				$templates[] = 'movie';
 				$templates[] = 'grid-frame';
 				$templates[] = 'grid-menu';
 				$templates[] = 'grid-content';

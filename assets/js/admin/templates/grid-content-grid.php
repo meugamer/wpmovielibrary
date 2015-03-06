@@ -1,2 +1,2 @@
 
-			Hello world! This is the grid!
+			<div id="container"></div>
