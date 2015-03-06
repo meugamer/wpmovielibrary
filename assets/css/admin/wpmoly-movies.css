@@ -62,6 +62,7 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 
 #grid-content-grid.attachments .attachment.movie .attachment-preview.movie-preview .poster img {
 	height: 100%;
+	left: 0;
 	position: absolute;
 	width: 100%;
 }

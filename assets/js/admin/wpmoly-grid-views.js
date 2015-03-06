@@ -124,14 +124,15 @@
 			_.defaults( this.options, {
 				resize:            true,
 				idealColumnWidth:  $( window ).width() < 640 ? 135 : 180,
-				frame:             {},
-				library:           {},
 				MovieView:         grid.View.Movie
 			} );
 
+			this.model = this.options.model;
+			this.frame = this.options.frame;
+
 			this._viewsByCid = {};
 			this.$window = $( window );
-			this.resizeEvent = 'resize.media-modal-columns';
+			this.resizeEvent = 'resize.grid-content-columns';
 
 			this.collection.on( 'add', function( movie ) {
 				this.views.add( this.createMovieView( movie ), {
@@ -142,7 +143,9 @@
 			_.bindAll( this, 'setColumns' );
 
 			if ( this.options.resize ) {
-				this.on( 'ready', this.bindEvents );
+
+				this.bindEvents();
+
 				this.controller.on( 'open', this.setColumns );
 
 				// Call this.setColumns() after this view has been rendered in the DOM so
@@ -170,50 +173,83 @@
 				}
 			}
 
-			
-				this.fixThumbnails();
+			this.fixThumbnails( force = true );
 		},
 
-		fixThumbnails: function() {
+		/**
+		 * Fix movie thumbnails height to display properly in the grid.
+		 * 
+		 * If the force parameter is set to true every movie in the 
+		 * grid will be resized; it set to false only movies not already
+		 * resized will be considered.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    boolean    force resize
+		 * 
+		 * @return   void
+		 */
+		fixThumbnails: function( force ) {
 
 			if ( ! this.collection.length )
 				return;
 
-			var width = this.$( 'li:first' ).width(),
-			   height = Math.floor( ( width + 16 ) * 1.49 );
+			if ( true === force ) {
+				var $items = this.$( 'li' );
+				    $items.css( { width: '' } );
+			} else {
+				var $items = this.$( 'li' ).not( '.resized' );
+			}
 
-			// TODO: for resize in options
-			this.$( 'li' ).not( 'resized' ).addClass( 'resized' ).css( { height: height } );
+			var width = this.$( 'li:first' ).width() + 14,
+			   height = Math.floor( width * 1.5 );
+
+			$items.addClass( 'resized' ).css( { height: height, width: width } );
 		},
 
 		/**
-		 * @param {grid.Model.Movie} movie
-		 * @returns {Backbone.View}
+		 * Create a view for a movie.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    grid.Model.Movie
+		 * 
+		 * @return   object    Backbone.View
 		 */
 		createMovieView: function( movie ) {
 
 			var view = new this.options.MovieView({
-				controller:           this.controller,
-				model:                movie,
-				collection:           this.collection
+				controller: this.controller,
+				model:      movie,
+				collection: this.collection
 			});
 
 			return this._viewsByCid[ movie.cid ] = view;
 		},
 
+		/**
+		 * Prepare the view. If the collection is already set, create
+		 * views for each movie. If the collection is empty, fill it.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    grid.Model.Movie
+		 * 
+		 * @return   object    Backbone.View
+		 */
 		prepare: function() {
 
-			// Create all of the Attachment views, and replace
-			// the list in a single DOM operation.
 			if ( this.collection.length ) {
 				this.views.set( this.collection.map( this.MovieView, this ) );
-
-			// If there are no elements, clear the views and load some.
 			} else {
+				// Clear existing views
 				this.views.unset();
 
+				// Access this from deferred
 				var self = this;
+				// Loading...
 				this.$el.addClass( 'loading' );
+				// Deferring
 				this.dfd = this.collection.more().done( function() {
 					self.$el.removeClass( 'loading' );
 					self.setColumns();
@@ -461,7 +497,7 @@
 
 			region.view = new grid.View.ContentGrid({
 				frame:      this,
-				library:    state,
+				model:      state,
 				collection: state.get( 'library' ),
 				controller: this,
 			});
