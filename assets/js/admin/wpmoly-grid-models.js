@@ -5,6 +5,15 @@
 	      grid = wpmoly.grid,
 	     media = wp.media;
 
+	compare = function( a, b, ac, bc ) {
+
+		if ( _.isEqual( a, b ) ) {
+			return ac === bc ? 0 : (ac > bc ? -1 : 1);
+		} else {
+			return a > b ? -1 : 1;
+		}
+	};
+
 	/**
 	 * grid.Model.Movies
 	 *
@@ -218,8 +227,9 @@
 		 * Start observing another movies collection change events
 		 * and replicate them on this collection.
 		 *
-		 * @param {editor.Model.Movies} The movies collection to observe.
-		 * @returns {editor.Model.Movies} Returns itself to allow chaining.
+		 * @param    object    Instance of editor.Model.Movies, the movies collection to observe.
+		 * 
+		 * @return   object    Returns itself to allow chaining.
 		 */
 		observe: function( movies ) {
 
@@ -228,9 +238,10 @@
 
 			movies.on( 'add change remove', this._validateHandler, this );
 			movies.on( 'reset', this._validateAllHandler, this );
-			this.validateAll( movies );
+
 			return this;
 		},
+
 		/**
 		 * Stop replicating collection change events from another movies collection.
 		 *
@@ -256,11 +267,11 @@
 		/**
 		 * @access private
 		 *
-		 * @param {editor.Model.Movies} movie
-		 * @param {editor.Model.Movies} movies
-		 * @param {Object} options
+		 * @param    object    Instance of editor.Model.Movie
+		 * @param    object    Instance of editor.Model.Movies
+		 * @param    object    options
 		 *
-		 * @returns {editor.Model.Movies} Returns itself to allow chaining
+		 * @return   object    Returns itself to allow chaining
 		 */
 		_validateHandler: function( movie, movies, options ) {
 
@@ -379,23 +390,42 @@
 		 */
 		parse: function( resp, xhr ) {
 
-			return resp = _.map( resp, function( attrs, id ) {
+			if ( _.isObject( resp ) && false === resp instanceof editor.Model.Movie ) {
+				resp = _.toArray( resp );
+			}
 
-				var  id = parseInt( id ),
-				  model = new editor.Model.Movie,
-				   post = new editor.Model.Post,
-				   meta = _.extend( new editor.Model.Meta, { id: id } ),
+			if ( ! _.isArray( resp ) ) {
+				resp = [resp];
+			}
+			
+			resp = _.map( resp, function( attrs, id ) {
+
+				var id, model, post, meta, details;
+
+				if ( false === attrs instanceof editor.Model.Movie ) {
+					id = attrs.post.post_id;
+				} else {
+					id = attrs.attributes.post.post_id;
+				}
+
+				  model = _.extend( new editor.Model.Movie,   { id: id } ),
+				   post = _.extend( new editor.Model.Post,    { id: id } ),
+				   meta = _.extend( new editor.Model.Meta,    { id: id } ),
 				details = _.extend( new editor.Model.Details, { id: id } );
 
 				model.set( {
-					post:    post.set(    _.pick( attrs.post,    _.keys( post.defaults ) ) ),
-					meta:    meta.set(    _.pick( attrs.meta,    _.keys( meta.defaults ) ) ),
-					details: details.set( _.pick( attrs.details, _.keys( details.defaults ) ) ),
-					nonces:  attrs.nonces
+					post:    post.set(    _.pick( attrs.post    || {}, _.keys( post.defaults ) ) ),
+					meta:    meta.set(    _.pick( attrs.meta    || {}, _.keys( meta.defaults ) ) ),
+					details: details.set( _.pick( attrs.details || {}, _.keys( details.defaults ) ) ),
+					nonces:  attrs.nonces || {}
 				} );
+
+				model = grid.Model.Movies.all.push( model );
 
 				return model;
 			});
+
+			return resp;
 		},
 
 		/**
@@ -567,6 +597,20 @@
 		}
 	});
 
+	/**
+	 * A collection of all attachments that have been fetched from the server.
+	 *
+	 * @static
+	 * @member {grid.Model.Movies}
+	 */
+	grid.Model.Movies.all = new grid.Model.Movies();
+
+	/**
+	 * Shorthand for creating a new Movies Query.
+	 *
+	 * @param {object} [props]
+	 * @returns {grid.Model.Movies}
+	 */
 	grid.query = function( props ) {
 		return new grid.Model.Movies( null, {
 			props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )

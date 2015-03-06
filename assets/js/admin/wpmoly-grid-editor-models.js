@@ -149,7 +149,7 @@
 			meta: {},
 			details: {},
 			nonces: {}
-		}
+		},
 	});
 
 	_.extend( editor.Model, {
