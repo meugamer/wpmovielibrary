@@ -135,9 +135,7 @@
 			this.resizeEvent = 'resize.grid-content-columns';
 
 			this.collection.on( 'add', function( movie ) {
-				this.views.add( this.createMovieView( movie ), {
-					at: this.collection.indexOf( movie )
-				});
+				this.views.add( this.createMovieView( movie ) );
 			}, this );
 
 			_.bindAll( this, 'setColumns' );
@@ -201,10 +199,13 @@
 				var $items = this.$( 'li' ).not( '.resized' );
 			}
 
-			var width = this.$( 'li:first' ).width() + 14,
-			   height = Math.floor( width * 1.5 );
+			this.thumbnail_width = this.$( 'li:first' ).width() + 14,
+			this.thumbnail_height = Math.floor( this.thumbnail_width * 1.5 );
 
-			$items.addClass( 'resized' ).css( { height: height, width: width } );
+			$items.addClass( 'resized' ).css({
+				height: this.thumbnail_height,
+				width: this.thumbnail_width
+			});
 		},
 
 		/**
@@ -223,6 +224,13 @@
 				model:      movie,
 				collection: this.collection
 			});
+
+			if ( ! _.isUndefined( this.thumbnail_height ) && ( this.thumbnail_width ) ) {
+				view.$el.css({
+					height: this.thumbnail_height,
+					width: this.thumbnail_width
+				});
+			}
 
 			return this._viewsByCid[ movie.cid ] = view;
 		},
