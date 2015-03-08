@@ -46,6 +46,9 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 }
 
 #grid-content-grid.attachments .attachment.movie {
+	display: inline-block;
+	display: inline-flex;
+	float: none;
 }
 
 #grid-content-grid.attachments .attachment.movie .attachment-preview.movie-preview {

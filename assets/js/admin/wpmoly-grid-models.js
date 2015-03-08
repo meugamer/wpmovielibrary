@@ -728,6 +728,9 @@
 			options.remove = false;
 
 			return this._more = this.fetch( options ).done( function( resp ) {
+				if ( ! _.isArray(  ) ) {
+					resp = _.toArray( resp );
+				}
 				if ( _.isEmpty( resp ) || -1 === this.args.posts_per_page || resp.length < this.args.posts_per_page ) {
 					query._hasMore = false;
 				}

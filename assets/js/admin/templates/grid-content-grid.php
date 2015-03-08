@@ -1,2 +1,2 @@
 
-			<div id="container"></div>
+			<li style="clear:both"></li>

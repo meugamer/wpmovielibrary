@@ -1,17 +1,21 @@
 
 ( function( $, _, Backbone, wp, wpmoly ) {
 
+	var search = wpmoly.parseSearchQuery(),
+	      mode = search.mode || 'grid';
+
 	var grid = wpmoly.grid = function() {
 
 		$( '.wrap > *' ).not( 'h2' ).hide();
-
-		var search = wpmoly.parseSearchQuery(),
-		      mode = search.mode || 'grid';
 
 		grid.frame = new grid.View.GridFrame( { mode: mode } );
 	};
 
 	var editor = wpmoly.editor = function() {
+
+		if ( 'list' != mode ) {
+			return;
+		}
 
 		var movies = [];
 		_.each( document.querySelectorAll( '#the-list tr' ), function( movie ) {

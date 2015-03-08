@@ -190,7 +190,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				'posts_per_page' => 40,
 				'paged'          => 0
 			);
-			$args = wp_parse_args( $defaults, $query );
+			$args = wp_parse_args( $query, $defaults );
 
 			$movies = new WP_Query( $args );
 			if ( empty( $movies->posts ) )
@@ -266,7 +266,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$response = array();
 			foreach ( $movies as $id => $movie ) {
 
-				$response[ $id ] = array(
+				$data = array(
 					'post'    => $movie,
 					'meta'    => array(),
 					'details' => array(),
@@ -277,12 +277,14 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 				if ( isset( $meta[ $id ] ) ) {
 					foreach ( $meta[ $id ] as $k => $v )
-						$response[ $id ]['meta'][ $k ] = htmlspecialchars_decode( $v, ENT_QUOTES );
+						$data['meta'][ $k ] = htmlspecialchars_decode( $v, ENT_QUOTES );
 				}
 
 				if ( isset( $details[ $id ] ) ) {
-					$response[ $id ]['details'] = $details[ $id ];
+					$data['details'] = $details[ $id ];
 				}
+
+				$response[] = $data;
 			}
 
 			wp_send_json_success( $response );

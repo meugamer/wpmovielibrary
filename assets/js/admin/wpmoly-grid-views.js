@@ -1,7 +1,7 @@
 
 ( function( $, _, Backbone, wp, wpmoly ) {
 
-	var grid = wpmoly.grid || {}, media = wp.media;
+	var grid = wpmoly.grid || {}, media = wp.media, isTouchDevice = ( 'ontouchend' in document );
 
 	/**
 	 * WPMOLY Admin Movie Grid Menu View
@@ -76,6 +76,11 @@
 
 	});
 
+	/**
+	 * Custom attachment-like Movie View.
+	 * 
+	 * @since    2.2
+	 */
 	grid.View.Movie = media.View.extend({
 
 		tagName:   'li',
@@ -102,6 +107,14 @@
 
 	});
 
+	/**
+	 * Basic grid view.
+	 * 
+	 * This displays a grid view of movies very similar to the WordPress
+	 * Media Library grid.
+	 * 
+	 * @since    2.2
+	 */
 	grid.View.ContentGrid = media.View.extend({
 
 		id: 'grid-content-grid',
@@ -109,6 +122,10 @@
 		tagName:   'ul',
 
 		className: 'attachments movies',
+
+		_viewsByCid: {},
+
+		_lastPosition: 0,
 
 		/**
 		 * Initialize the View
@@ -122,42 +139,58 @@
 		initialize: function() {
 
 			_.defaults( this.options, {
-				resize:            true,
-				idealColumnWidth:  $( window ).width() < 640 ? 135 : 180,
-				MovieView:         grid.View.Movie
+				resize:             true,
+				idealColumnWidth:   $( window ).width() < 640 ? 135 : 180,
+				refreshSensitivity: isTouchDevice ? 300 : 200,
+				refreshThreshold:   3,
+				scrollElement:      document,
+				resizeEvent:        'resize.grid-content-columns',
+				subview:            grid.View.Movie
 			} );
 
 			this.model = this.options.model;
 			this.frame = this.options.frame;
-
-			this._viewsByCid = {};
 			this.$window = $( window );
-			this.resizeEvent = 'resize.grid-content-columns';
 
+			// Add new views for new movies
 			this.collection.on( 'add', function( movie ) {
-				this.views.add( this.createMovieView( movie ) );
+				this.views.add( this.createSubView( movie ) );
 			}, this );
 
+			// Re-render the view when collection is emptied
+			this.collection.on( 'reset', this.render, this );
+
+			// Event handlers
 			_.bindAll( this, 'setColumns' );
 
+			// Throttle the scroll handler and bind this.
+			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
+
+			// Handle scrolling
+			$( this.options.scrollElement ).on( 'scroll', this.scroll );
+
+			// Detect Window resize to readjust thumbnails
 			if ( this.options.resize ) {
+				this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.setColumns, 50 ) );
+			}
 
-				this.bindEvents();
-
+			// Determine optimal columns number and adjust thumbnails
+			if ( this.options.resize ) {
 				this.controller.on( 'open', this.setColumns );
-
 				// Call this.setColumns() after this view has been rendered in the DOM so
 				// attachments get proper width applied.
 				_.defer( this.setColumns, this );
 			}
-
 		},
 
-		bindEvents: function() {
-
-			this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.setColumns, 50 ) );
-		},
-
+		/**
+		 * Calcul the best number of columns to use and resize thumbnails
+		 * to fit correctly.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
 		setColumns: function() {
 
 			var prev = this.columns,
@@ -217,9 +250,9 @@
 		 * 
 		 * @return   object    Backbone.View
 		 */
-		createMovieView: function( movie ) {
+		createSubView: function( movie ) {
 
-			var view = new this.options.MovieView({
+			var view = new this.options.subview({
 				controller: this.controller,
 				model:      movie,
 				collection: this.collection
@@ -248,7 +281,7 @@
 		prepare: function() {
 
 			if ( this.collection.length ) {
-				this.views.set( this.collection.map( this.MovieView, this ) );
+				this.views.set( this.collection.map( this.options.subview, this ) );
 			} else {
 				// Clear existing views
 				this.views.unset();
@@ -265,6 +298,52 @@
 				} );
 			}
 		},
+
+		/**
+		 * Handle the infinite scroll.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		scroll: function() {
+
+			var  view = this,
+			       el = document.body,
+			scrollTop = this.$window.scrollTop();
+
+			// Already loading? Don't bother.
+			if ( this._loading ) {
+				return;
+			}
+
+			// Scroll elem is hidden or collection has no more movie
+			if ( ! $( el ).is( ':visible' ) || ! this.collection.hasMore() ) {
+				this.$el.removeClass( 'loading' );
+				return;
+			}
+
+			// Don't go further if we're scrolling up
+			if ( scrollTop <= this._lastPosition ) {
+				return;
+			}
+
+			this._lastPosition = scrollTop;
+			if ( scrollTop >= ( el.scrollHeight - el.clientHeight - 100 ) ) {
+
+				this._loading = true;
+				this.$el.addClass( 'loading' );
+
+				this.dfd = this.collection.more().done( function() {
+					view.$el.removeClass( 'loading' );
+					view._loading = false;
+				} );
+
+			} else {
+				this.$el.removeClass( 'loading' );
+				this._loading = false;
+			}
+		}
 
 	});
 
@@ -362,7 +441,9 @@
 		},
 
 		/**
+		 * Render the View.
 		 * 
+		 * @since    2.2
 		 */
 		render: function() {
 
@@ -561,7 +642,7 @@
 		},
 
 		/**
-		 * 
+		 * Run actions before rendering.
 		 * 
 		 * @since    2.2
 		 * 
@@ -576,7 +657,7 @@
 		},
 
 		/**
-		 * 
+		 * Render the View.
 		 * 
 		 * @since    2.2
 		 * 
@@ -599,7 +680,7 @@
 		},
 
 		/**
-		 * 
+		 * Run actions after rendering.
 		 * 
 		 * @since    2.2
 		 * 
@@ -615,7 +696,7 @@
 		},
 
 		/**
-		 * 
+		 * Switch mode.
 		 * 
 		 * @since    2.2
 		 * 
