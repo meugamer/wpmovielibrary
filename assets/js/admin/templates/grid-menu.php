@@ -2,16 +2,13 @@
 			<div class="movie-menu wp-filter">
 				<div class="media-toolbar-secondary">
 					<div class="view-switch movie-grid-view-switch">
-						<a data-mode="grid" href="<?php echo admin_url( 'edit.php?post_type=movie' ); ?>" class="<# if ( 'grid' == data ) { #>current<# } #>">
+						<a data-mode="grid" href="<?php echo admin_url( 'edit.php?post_type=movie' ); ?>" class="movie-grid-grid <# if ( 'grid' == data ) { #>current<# } #>">
 							<span class="dashicons dashicons-grid-view"></span>
-						</a>
-						<a data-mode="exerpt" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=exerpt' ); ?>" class="<# if ( 'exerpt' == data ) { #>current<# } #>">
+						</a><a data-mode="exerpt" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=exerpt' ); ?>" class="movie-grid-exerpt <# if ( 'exerpt' == data ) { #>current<# } #>">
 							<span class="dashicons dashicons-exerpt-view"></span>
-						</a>
-						<a data-mode="list" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=list' ); ?>" class="<# if ( 'list' == data ) { #>current<# } #>">
+						</a><a data-mode="list" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=list' ); ?>" class="movie-grid-list <# if ( 'list' == data ) { #>current<# } #>">
 							<span class="dashicons dashicons-list-view"></span>
-						</a>
-						<a data-mode="import" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=import' ); ?>" class="<# if ( 'import' == data ) { #>current<# } #>">
+						</a><a data-mode="import" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=import' ); ?>" class="movie-grid-import <# if ( 'import' == data ) { #>current<# } #>">
 							<span class="wpmolicon icon-import"></span>
 						</a>
 					</div>
@@ -35,7 +32,7 @@
 						<option value="3">décembre 2014</option>
 					</select>
 
-					<a class="button media-button button-large  select-mode-toggle-button" href="#">Sélection en masse</a>
+					<!--<a class="button media-button button-large  select-mode-toggle-button" href="#">Sélection en masse</a>-->
 					<span style="display: none;" class="spinner"></span>
 
 					<a disabled="disabled" class="button media-button button-primary button-large  delete-selected-button hidden" href="#">Supprimer la sélection</a>

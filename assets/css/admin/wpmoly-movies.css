@@ -17,24 +17,76 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 	position: relative;
 }
 
-.view-switch a:focus {
+/*
+ * Grid menu
+ */
+
+#grid-menu .movie-menu.wp-filter {
+	min-height: 48px;
+	padding: 0;
+}
+
+#grid-menu .media-toolbar-secondary {
+	min-height: 46px;
+}
+
+#grid-menu .movie-menu.wp-filter .view-switch {
+	padding: 0;
+}
+
+#grid-menu .movie-menu.wp-filter .view-switch a {
+	border-right: 1px solid #e6e6e6;
+	display: inline-block;
+	height: 48px;
+	line-height: 48px;
+	margin: 0;
+	width: 48px;
+}
+
+#grid-menu .movie-menu.wp-filter .view-switch a:hover,
+#grid-menu .movie-menu.wp-filter .view-switch a.current {
+	background: #0074a2;
+	border-color: #0074a2;
+	color: #efefef;
+}
+
+#grid-menu .movie-menu.wp-filter .view-switch a.movie-grid-import:hover,
+#grid-menu .movie-menu.wp-filter .view-switch a.movie-grid-import.current {
+	background: #a2ce51;
+	border-color: #a2ce51;
+	color: #efefef;
+}
+
+#grid-menu .movie-menu.wp-filter .view-switch a:hover span.wpmolicon::before,
+#grid-menu .movie-menu.wp-filter .view-switch a:hover span.dashicons::before,
+#grid-menu .movie-menu.wp-filter .view-switch a.current span.wpmolicon::before,
+#grid-menu .movie-menu.wp-filter .view-switch a.current span.dashicons::before {
+	color: inherit;
+}
+
+#grid-menu .movie-menu.wp-filter .view-switch a:focus {
 	box-shadow: 0 0 0;
 }
 
-.view-switch a span.wpmolicon::before,
-.view-switch a span.dashicons::before {
+#grid-menu .movie-menu.wp-filter .view-switch a span.wpmolicon,
+#grid-menu .movie-menu.wp-filter .view-switch a span.dashicons {
+	height: 48px;
+	width: 48px;
+	line-height: 48px;
+}
+
+#grid-menu .movie-menu.wp-filter .view-switch a span.wpmolicon::before,
+#grid-menu .movie-menu.wp-filter .view-switch a span.dashicons::before {
 	color: #bbb;
 }
 
-.view-switch a:hover span.wpmolicon::before,
-.view-switch a:hover span.dashicons::before {
-	color: #727272;
+#grid-menu .movie-menu.wp-filter .search-form {
+	margin: 0;
 }
 
-.view-switch a.current span.wpmolicon::before,
-.view-switch a.current span.dashicons::before {
-	color: #0074a2;
-}
+/*
+ * Grid content
+ */
 
 #grid-content-grid.attachments.movies {
 	padding-bottom: 100px;
