@@ -550,15 +550,16 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			}
 
 			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
-				$styles['edit-movies']  = '/assets/css/admin/wpmoly-edit-movies.css';
-				$styles['media']   = '/assets/css/admin/wpmoly-media.css';
+				$styles['edit-movies'] = '/assets/css/admin/wpmoly-edit-movies.css';
+				$styles['media']       = '/assets/css/admin/wpmoly-media.css';
 			}
 
 			if ( $hook_suffix == $movies ) {
 				$styles['edit-movies'] = '/assets/css/admin/wpmoly-edit-movies.css';
-				$styles['movies'] = '/assets/css/admin/wpmoly-movies.css';
+				$styles['movies']      = '/assets/css/admin/wpmoly-movies.css';
 				$styles['select2-css'] = '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.css';
 				$styles['redux-field-select-css'] = '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.css';
+				$styles['importer']    = '/assets/css/admin/wpmoly-importer.css';
 			}
 
 			if ( $hook_suffix == $update_movies )

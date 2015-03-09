@@ -1,4 +1,36 @@
 
+#importer-search-form {
+	padding-top: 120px;
+	text-align: center;
+}
+
+#importer-search-query {
+	background: transparent;
+	border: 0;
+	border-bottom: 1px solid #ccc;
+	box-shadow: 0 0 0;
+	font-size: 1.75rem;
+	font-weight: 100;
+	max-width: 36rem;
+	padding: 0.25rem 1rem;
+	width: 50%;
+}
+
+#importer-search {
+	color: #bbb;
+	text-decoration: none;
+}
+
+#importer-search span {
+	font-size: 2.25rem;
+	height: 3rem;
+	line-height: 3rem;
+	margin-left: -3rem;
+	width: 3rem;
+}
+
+
+
 /* Tabs Settings */
 
 #wpmoly-tabs {

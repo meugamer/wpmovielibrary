@@ -13,18 +13,19 @@
 
 	var editor = wpmoly.editor = function() {
 
-		if ( 'list' != mode ) {
-			return;
+		if ( 'list' == mode ) {
+
+			var movies = [];
+			_.each( document.querySelectorAll( '#the-list tr' ), function( movie ) {
+				var id = movie.id.replace( 'post-', '' );
+				movies.push( _.extend( new editor.Model.Movie, { id: id } ) );
+			} );
+
+			editor.models.movies = new editor.Model.Movies;
+			editor.models.movies.add( movies );
+		} else {
+			editor.models.movies = grid.frame.state().get( 'library' );
 		}
-
-		var movies = [];
-		_.each( document.querySelectorAll( '#the-list tr' ), function( movie ) {
-			var id = movie.id.replace( 'post-', '' );
-			movies.push( _.extend( new editor.Model.Movie, { id: id } ) );
-		} );
-
-		editor.models.movies = new editor.Model.Movies;
-		editor.models.movies.add( movies );
 
 		editor.views.movies = new editor.View.Movies;
 	};
