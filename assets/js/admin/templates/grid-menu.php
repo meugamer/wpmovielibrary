@@ -16,8 +16,9 @@
 						</a>
 					</div>
 
+					<# if ( 'grid' == data || 'exerpt' == data ) { #>
 					<label class="screen-reader-text" for="media-attachment-filters">Filtrer par type</label>
-					<select class="attachment-filters" id="media-attachment-filters"<# if ( 'list' == data ) { #> disabled="disabled"<# } #>>
+					<select class="attachment-filters" id="media-attachment-filters">
 						<option value="all">Tous les éléments média</option>
 						<option value="image">Images</option>
 						<option value="audio">Sons</option>
@@ -26,7 +27,7 @@
 					</select>
 
 					<label class="screen-reader-text" for="media-attachment-date-filters">Filtrer par date</label>
-					<select class="attachment-filters" id="media-attachment-date-filters"<# if ( 'list' == data ) { #> disabled="disabled"<# } #>>
+					<select class="attachment-filters" id="media-attachment-date-filters">
 						<option value="all">Toutes les dates</option>
 						<option value="0">mars 2015</option>
 						<option value="1">février 2015</option>
@@ -34,13 +35,16 @@
 						<option value="3">décembre 2014</option>
 					</select>
 
-					<a class="button media-button button-large  select-mode-toggle-button" href="#"<# if ( 'list' == data ) { #> disabled="disabled"<# } #>>Sélection en masse</a>
+					<a class="button media-button button-large  select-mode-toggle-button" href="#">Sélection en masse</a>
 					<span style="display: none;" class="spinner"></span>
 
 					<a disabled="disabled" class="button media-button button-primary button-large  delete-selected-button hidden" href="#">Supprimer la sélection</a>
+					<# } #>
 				</div>
+				<# if ( 'grid' == data || 'exerpt' == data ) { #>
 				<div class="media-toolbar-primary search-form">
 					<label class="screen-reader-text" for="media-search-input">Rechercher un média</label>
-					<input class="search" id="media-search-input" placeholder="Recherche" type="search"<# if ( 'list' == data ) { #> disabled="disabled"<# } #>>
+					<input class="search" id="media-search-input" placeholder="Recherche" type="search" />
 				</div>
+				<# } #>
 			</div>
