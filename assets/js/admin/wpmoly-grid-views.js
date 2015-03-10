@@ -90,15 +90,32 @@
 		template:  media.template( 'wpmoly-movie' ),
 
 		initialize: function() {
+
+			this.grid = this.options.grid || {};
 		},
 
 		render: function() {
+
+			var rating = parseFloat( this.model.get( 'details' ).get( 'rating' ) ),
+			      star = 'empty';
+
+			if ( '' != rating ) {
+				if ( 3.5 < rating ) {
+					star = 'filled';
+				} else if ( 2 < rating ) {
+					star = 'half';
+				}
+			}
 
 			this.$el.html(
 				this.template({
 					post:    this.model.get( 'post' ).toJSON(),
 					meta:    this.model.get( 'meta' ).toJSON(),
-					details: this.model.get( 'details' ).toJSON(),
+					details: _.extend( this.model.get( 'details' ).toJSON(), { star: star } ),
+					size:    {
+						height: this.grid.thumbnail_height || '',
+						width:  this.grid.thumbnail_width  || ''
+					}
 				})
 			);
 
@@ -171,7 +188,7 @@
 
 			// Detect Window resize to readjust thumbnails
 			if ( this.options.resize ) {
-				this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.setColumns, 50 ) );
+				this.$window.off( this.options.resizeEvent ).on( this.options.resizeEvent, _.debounce( this.setColumns, 50 ) );
 			}
 
 			// Determine optimal columns number and adjust thumbnails
@@ -226,18 +243,25 @@
 				return;
 
 			if ( true === force ) {
-				var $items = this.$( 'li' );
-				    $items.css( { width: '' } );
+				var $li = this.$( 'li' ),
+				 $items = $li.find( '.movie-preview' );
+
+				$items.css( { width: '', height: '' } );
+				$li.css( { width: '' } );
 			} else {
-				var $items = this.$( 'li' ).not( '.resized' );
+				var $li = this.$( 'li' ).not( '.resized' ),
+				 $items = $li.find( '.movie-preview' );
 			}
 
-			this.thumbnail_width = this.$( 'li:first' ).width() + 14,
+			this.thumbnail_width  = this.$( 'li:first' ).width() - 26;
 			this.thumbnail_height = Math.floor( this.thumbnail_width * 1.5 );
 
-			$items.addClass( 'resized' ).css({
-				height: this.thumbnail_height,
+			$li.addClass( 'resized' ).css({
 				width: this.thumbnail_width
+			});
+			$items.css({
+				width: this.thumbnail_width,
+				height: this.thumbnail_height
 			});
 		},
 
@@ -253,14 +277,14 @@
 		createSubView: function( movie ) {
 
 			var view = new this.options.subview({
+				grid:       this,
 				controller: this.controller,
 				model:      movie,
 				collection: this.collection
 			});
 
-			if ( ! _.isUndefined( this.thumbnail_height ) && ( this.thumbnail_width ) ) {
+			if ( ! _.isUndefined( this.thumbnail_width ) ) {
 				view.$el.css({
-					height: this.thumbnail_height,
 					width: this.thumbnail_width
 				});
 			}
@@ -281,7 +305,8 @@
 		prepare: function() {
 
 			if ( this.collection.length ) {
-				this.views.set( this.collection.map( this.options.subview, this ) );
+				//this.views.set( this.collection.map( this.options.subview, this ) );
+				this.collection.map( this.createSubView, this );
 			} else {
 				// Clear existing views
 				this.views.unset();

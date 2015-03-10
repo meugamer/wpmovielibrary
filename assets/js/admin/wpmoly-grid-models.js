@@ -401,7 +401,7 @@
 			
 			resp = _.map( resp, function( attrs, id ) {
 
-				var attributes, id, model, post, meta, details;
+				var attributes, id, model, post, meta, details, _post, _meta, _details;
 
 				if ( false === attrs instanceof editor.Model.Movie ) {
 					attributes = attrs;
@@ -415,10 +415,19 @@
 				   meta = _.extend( new editor.Model.Meta,    { id: id } ),
 				details = _.extend( new editor.Model.Details, { id: id } );
 
+				   _post = _.pick( attributes.post    || {}, _.keys( post.defaults ) );
+				   _meta = _.pick( attributes.meta    || {}, _.keys( meta.defaults ) );
+				_details = _.pick( attributes.details || {}, _.keys( details.defaults ) );
+
+				
+				_.extend( _meta, {
+					year: new Date( _meta.release_date ).getFullYear()
+				} );
+
 				model.set( {
-					post:    post.set(    _.pick( attributes.post    || {}, _.keys( post.defaults ) ) ),
-					meta:    meta.set(    _.pick( attributes.meta    || {}, _.keys( meta.defaults ) ) ),
-					details: details.set( _.pick( attributes.details || {}, _.keys( details.defaults ) ) ),
+					post:    post.set( _post ),
+					meta:    meta.set( _meta ),
+					details: details.set( _details ),
 					nonces:  attributes.nonces || {}
 				} );
 

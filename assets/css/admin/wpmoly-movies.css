@@ -88,38 +88,156 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
  * Grid content
  */
 
-#grid-content-grid.attachments.movies {
+.grid-frame-content .attachments.movies {
 	padding-bottom: 100px;
 }
 
-#grid-content-grid.attachments.movies.loading {
+.grid-frame-content .attachments.movies.loading {
 	background: url(../../img/oval.svg) center bottom no-repeat;
 	background-size: 36px 36px;
 }
 
-#grid-content-grid.attachments .attachment.movie {
+.grid-frame-content .attachments.movies .attachment.movie {
+	cursor: auto;
 	display: inline-block;
-	display: inline-flex;
 	float: none;
+	margin: 12px;
+	padding: 0;
+	vertical-align: top;
 }
 
-#grid-content-grid.attachments .attachment.movie .attachment-preview.movie-preview {
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview {
+	box-shadow: 0 0 0;
+	display: block;
 	height: 100%;
 	position: relative;
 	width: 100%;
 }
 
-#grid-content-grid.attachments .attachment.movie .attachment-preview.movie-preview::before {
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview::before {
 	content: "";
 	display: none;
 	padding-top: 0;
 }
 
-#grid-content-grid.attachments .attachment.movie .attachment-preview.movie-preview .poster img {
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-action {
+	box-shadow: 0 0 0;
+	display: none;
+	position: absolute;
+	z-index: 10;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie:hover .attachment-preview.movie-preview .movie-action {
+	display: block;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-action.center {
+	background: #fff;
+	border-radius: 24px;
+	left: 50%;
+	height: 42px;
+	margin: -22px 0 0 -20px;
+	text-decoration: none;
+	top: 50%;
+	width: 42px;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-action.center span.wpmolicon {
+	height: 42px;
+	line-height: 42px;
+	width: 42px;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-action.top-right {
+	color: #efefef;
+	right: 12px;
+	text-decoration: none;
+	top: 12px;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-action.bottom-left {
+	bottom: 12px;
+	left: 12px;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-available:before,
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-loaned:before,
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-scheduled:before,
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-unavailable:before {
+	content: '\f10c';
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-available {
+	color: #a2ce51;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-loaned {
+	color: #ffc335;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-scheduled {
+	color: #0074a2;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-unavailable {
+	color: #ff7966;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-action.bottom-right {
+	bottom: 12px;
+	color: #ffc335;
+	right: 12px;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .poster {
+	background: #162329;
+	border-radius: 4px;
+	height: 100%;
+	width: 100%;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .poster img {
+	border-radius: 4px;
 	height: 100%;
 	left: 0;
 	position: absolute;
 	width: 100%;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie:hover .attachment-preview.movie-preview .poster img {
+	opacity: 0.1;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-meta.movie-meta {
+	display: block;
+	line-height: 1rem;
+	padding: 8px 4px;
+	text-align: left;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-meta.movie-meta .movie-title {
+	color: #2f6277;
+	font-weight: 600;
+	overflow: hidden;
+	padding-right: 6px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-meta.movie-meta .movie-genres {
+	color: #7d8b92;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-meta.movie-meta .movie-year {
+	color: #7d8b92;
+	float: right;
+}
+
+.grid-frame-content .attachments.movies .attachment.movie .attachment-meta.movie-meta .movie-runtime {
+	color: #7d8b92;
 }
 
 .grid-frame-content[data-columns="1"] .attachment.movie {
