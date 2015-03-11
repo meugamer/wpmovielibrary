@@ -53,12 +53,17 @@ window.wpmoly = window.wpmoly || {};
 		 * 
 		 * @return   boolean
 		 */
-		openMetaModal: function( event ) {
+		openMetaModal: function( event, id ) {
+
+			var id, model;
 
 			event.preventDefault();
 
-			var id = parseInt( event.currentTarget.dataset.id ),
-			 model = editor.models.movies.get( id );
+			if ( _.isUndefined( id ) ) {
+				id = parseInt( this.$( event.currentTarget ).attr( 'data-id' ) );
+			}
+
+			model = editor.models.movies.get( id );
 
 			if ( undefined == model )
 				return;
@@ -704,7 +709,7 @@ window.wpmoly = window.wpmoly || {};
 					this.$( '.right' ).blur();
 					return;
 				}
-				console.log( this.library );
+
 				this.model = this.library.at( this.getCurrentIndex() + 1 );
 				this.rerender();
 				this.$( '.right' ).focus();

@@ -237,21 +237,22 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 				}
 
 				$movies[ $post->ID ] = array(
-					'post_id'          => $post->ID,
-					'post_title'       => apply_filters( 'the_title', $post->post_title ),
-					'post_author'      => intval( $post->post_author ),
-					'post_author_name' => esc_attr( get_the_author_meta( 'user_nicename', $post->post_author ) ),
-					'post_author_url'  => add_query_arg( array( 'post_type' => 'movie', 'author' => $post->post_author ), 'edit.php' ),
-					'post_status'      => esc_attr( $post->post_status ),
-					'post_date'        => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date ) ),
-					'post_thumbnail'   => $thumbnail[0],
-					'posters'          => array_slice( $posters, 0, 4 ),
-					'images'           => array_slice( $images, 0, 5 ),
-					'posters_total'    => max( 0, count( $posters ) - 4 ),
-					'images_total'     => max( 0, count( $images ) - 5 ),
-					'edit_poster'      => add_query_arg( array( 'post' => $thumbnail_id, 'action' => 'edit' ), admin_url( 'post.php' ) ),
-					'edit_posters'     => add_query_arg( array( 'post' => $post->ID, 'action' => 'edit', 'edit-poster' => 1 ), admin_url( 'post.php' ) ),
-					'edit_images'      => add_query_arg( array( 'post' => $post->ID, 'action' => 'edit', 'edit-backdrop' => 1 ), admin_url( 'post.php' ) )
+					'post_id'             => $post->ID,
+					'post_title'          => apply_filters( 'the_title', $post->post_title ),
+					'post_author'         => intval( $post->post_author ),
+					'post_author_name'    => esc_attr( get_the_author_meta( 'user_nicename', $post->post_author ) ),
+					'post_author_url'     => add_query_arg( array( 'post_type' => 'movie', 'author' => $post->post_author ), 'edit.php' ),
+					'post_status'         => esc_attr( $post->post_status ),
+					'post_date'           => strtotime( $post->post_date ) * 1000,
+					'post_date_formatted' => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date ) ),
+					'post_thumbnail'      => $thumbnail[0],
+					'posters'             => array_slice( $posters, 0, 4 ),
+					'images'              => array_slice( $images, 0, 5 ),
+					'posters_total'       => max( 0, count( $posters ) - 4 ),
+					'images_total'        => max( 0, count( $images ) - 5 ),
+					'edit_poster'         => add_query_arg( array( 'post' => $thumbnail_id, 'action' => 'edit' ), admin_url( 'post.php' ) ),
+					'edit_posters'        => add_query_arg( array( 'post' => $post->ID, 'action' => 'edit', 'edit-poster' => 1 ), admin_url( 'post.php' ) ),
+					'edit_images'         => add_query_arg( array( 'post' => $post->ID, 'action' => 'edit', 'edit-backdrop' => 1 ), admin_url( 'post.php' ) )
 				);
 			}
 

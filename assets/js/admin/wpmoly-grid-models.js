@@ -399,7 +399,7 @@
 				resp = [resp];
 			}
 			
-			resp = _.map( resp, function( attrs, id ) {
+			resp = _.map( resp, function( attrs ) {
 
 				var attributes, id, model, post, meta, details, _post, _meta, _details;
 
@@ -419,7 +419,10 @@
 				   _meta = _.pick( attributes.meta    || {}, _.keys( meta.defaults ) );
 				_details = _.pick( attributes.details || {}, _.keys( details.defaults ) );
 
-				
+				_.extend( _post, {
+					post_date: new Date( _post.post_date )
+				} );
+
 				_.extend( _meta, {
 					year: new Date( _meta.release_date ).getFullYear()
 				} );
@@ -452,40 +455,6 @@
 				
 				this.mirror( query );
 			}
-		},
-
-		/**
-		 * If this collection is sorted by `menuOrder`, recalculates and saves
-		 * the menu order to the database.
-		 *
-		 * @returns {undefined|Promise}
-		 */
-		saveMenuOrder: function() {
-			if ( 'menuOrder' !== this.props.get( 'orderby' ) ) {
-				return;
-			}
-
-			// Removes any uploading movies, updates each movie's
-			// menu order, and returns an object with an { id: menuOrder }
-			// mapping to pass to the request.
-			var movies = this.chain().filter( function( movie ) {
-				return ! _.isUndefined( movie.id );
-			}).map( function( movie, index ) {
-				// Indices start at 1.
-				index = index + 1;
-				movie.set( 'menuOrder', index );
-				return [ movie.id, index ];
-			}).object().value();
-
-			if ( _.isEmpty( movies ) ) {
-				return;
-			}
-
-			return media.post( 'save-movie-order', {
-				nonce:       media.model.settings.post.nonce,
-				post_id:     media.model.settings.post.id,
-				movies: movies
-			});
 		}
 	}, {
 		/**
@@ -510,8 +479,14 @@
 			     ac = a.cid,
 			     bc = b.cid;
 
-			a = a.get( key );
-			b = b.get( key );
+			if ( 'date' === key || 'modified' === key ) {
+			     var _key = 'post_date';
+			} else {
+			     var _key = 'post_date';
+			}
+
+			a = a.get( 'post' )[ _key ];
+			b = b.get( 'post' )[ _key ];
 
 			if ( 'date' === key || 'modified' === key ) {
 				a = a || new Date();
@@ -523,6 +498,7 @@
 				ac = bc = null;
 			}
 
+			return 0;
 			return ( 'DESC' === order ) ? compare( a, b, ac, bc ) : compare( b, a, bc, ac );
 		},
 
@@ -664,7 +640,7 @@
 
 			this.filters.order = function( movie ) {
 				var orderby = this.props.get( 'orderby' ),
-					order = this.props.get( 'order' );
+				      order = this.props.get( 'order' );
 
 				if ( ! this.comparator ) {
 					return true;
@@ -953,14 +929,6 @@
 			if ( ! this.get( 'library' ) ) {
 				this.set( 'library', grid.query() );
 			}
-
-			//this.on( 'ready', this.ready, this );
-		},
-
-		ready: function() {
-
-			//console.log( 'Go!' );
-			
 		}
 
 	});

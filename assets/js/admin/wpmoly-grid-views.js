@@ -1,7 +1,10 @@
 
 ( function( $, _, Backbone, wp, wpmoly ) {
 
-	var grid = wpmoly.grid || {}, media = wp.media, isTouchDevice = ( 'ontouchend' in document );
+	var grid = wpmoly.grid,
+	  editor = wpmoly.editor,
+	   media = wp.media,
+	hasTouch = ( 'ontouchend' in document );
 
 	/**
 	 * WPMOLY Admin Movie Grid Menu View
@@ -89,6 +92,11 @@
 
 		template:  media.template( 'wpmoly-movie' ),
 
+		events: {
+			'click a':            'preventDefault',
+			'click a.edit-movie': 'editMovie',
+		},
+
 		initialize: function() {
 
 			this.grid = this.options.grid || {};
@@ -121,6 +129,26 @@
 
 			return this;
 		},
+
+		editMovie: function( event ) {
+
+			var id = this.$( event.currentTarget ).attr( 'data-id' );
+			    id = parseInt( id );
+
+			editor.views.movies.openMetaModal( event, id );
+		},
+
+		/**
+		 * Prevent click events default effect
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.2
+		 */
+		preventDefault: function( event ) {
+
+			event.preventDefault();
+		}
 
 	});
 
@@ -158,7 +186,7 @@
 			_.defaults( this.options, {
 				resize:             true,
 				idealColumnWidth:   $( window ).width() < 640 ? 135 : 180,
-				refreshSensitivity: isTouchDevice ? 300 : 200,
+				refreshSensitivity: hasTouch ? 300 : 200,
 				refreshThreshold:   3,
 				scrollElement:      document,
 				resizeEvent:        'resize.grid-content-columns',
