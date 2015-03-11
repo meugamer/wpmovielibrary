@@ -25,6 +25,26 @@ window.wpmoly = window.wpmoly || {};
 				toolbar: false,
 				router:  false
 			}
+		}),
+
+		/**
+		 * wp.media.controller.EditAttachmentMetadata
+		 *
+		 * A state for editing an attachment's metadata.
+		 *
+		 * @constructor
+		 * @augments wp.media.controller.State
+		 * @augments Backbone.Model
+		 */
+		PreviewMovie: wp.media.controller.State.extend({
+			defaults: {
+				id:      'preview-movie',
+				title:   'Preview Movie',
+				content: 'preview-movie',
+				menu:    false,
+				toolbar: false,
+				router:  false
+			}
 		})
 	};
 
@@ -493,7 +513,51 @@ window.wpmoly = window.wpmoly || {};
 			},
 
 			
-		})
+		}),
+
+		PreviewMovie: editor.View.Movie.extend({
+
+			tagName:   'div',
+
+			className: 'preview-movie',
+
+			//template:   wp.media.template( 'wpmoly-movie-metadata-quickedit' ),
+
+			events: {
+				
+			},
+			
+			/**
+			 * Initialize the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   object    this
+			 */
+			initialize: function() {
+
+				var options = _.defaults( this.options, {
+					rerenderOnModelChange: true
+				} );
+
+				editor.View.Movie.prototype.initialize.apply( this, arguments );
+
+				return this;
+			},
+
+			/**
+			 * Render the View
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   boolean
+			 */
+			render: function() {
+
+				//editor.View.Movie.prototype.render.apply( this, arguments );
+
+			},
+		} )
 
 	} );
 
@@ -569,6 +633,7 @@ window.wpmoly = window.wpmoly || {};
 
 				this.on( 'title:create:default', this.createTitle, this );
 				this.on( 'content:create:edit-metadata', this.editMetadataMode, this );
+				this.on( 'content:create:preview-movie', this.PreviewMovieMode, this );
 				this.on( 'close', this.detach );
 			},
 
@@ -620,7 +685,8 @@ window.wpmoly = window.wpmoly || {};
 			createStates: function() {
 
 				this.states.add( [
-					new editor.controller.EditMovieMetadata( { model: this.model } )
+					new editor.controller.EditMovieMetadata( { model: this.model } ),
+					new editor.controller.PreviewMovie( { model: this.model } )
 				] );
 			},
 
@@ -644,6 +710,14 @@ window.wpmoly = window.wpmoly || {};
 				if ( this.model ) {
 					//this.editorRouter.navigate( this.editorRouter.baseUrl( '?item=' + this.model.id ) );
 				}
+			},
+
+			PreviewMovieMode: function( contentRegion ) {
+
+				contentRegion.view = new editor.View.PreviewMovie({
+					controller: this,
+					model:      this.model
+				});
 			},
 
 			/**
