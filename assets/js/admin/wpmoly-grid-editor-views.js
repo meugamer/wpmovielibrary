@@ -3,34 +3,61 @@ window.wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone, wp, wpmoly ) {
 
-	var editor = wpmoly.editor;
+	var editor = wpmoly.editor,
+	controller = editor.controller = {};
 
-	editor.controller = {
+	/**
+	 * wp.media.controller.State extension to change frame class upon
+	 * state changes.
+	 * 
+	 * @since    2.2
+	 */
+	controller.State = wp.media.controller.State.extend({
 
-		State: wp.media.controller.State.extend({
+		/**
+		 * Initialize the State
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Return itself to allow chaining
+		 */
+		initialize: function() {
 
-			initialize: function() {
+			// Use Underscore's debounce to let the DOM load properly
+			this.on( 'activate', _.debounce( this.activateState, 25 ), this );
+			this.on( 'deactivate', _.debounce( this.deactivateState, 25 ), this );
 
-				this.on( 'activate', _.debounce( this.activateState, 50 ), this );
-				this.on( 'deactivate', _.debounce( this.deactivateState, 50 ), this );
-			},
+			return this;
+		},
 
-			activateState: function() {
+		/**
+		 * State activation: update frame class
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Return itself to allow chaining
+		 */
+		activateState: function() {
 
-				this.frame.$el.parents( '.media-modal' ).addClass( 'movie-modal ' + this.id + '-modal' );
+			this.frame.$el.parents( '.media-modal' ).addClass( this.id + '-modal' );
 
-				return this;
-			},
+			return this;
+		},
 
-			deactivateState: function() {
+		/**
+		 * State deactivation: update frame class
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Return itself to allow chaining
+		 */
+		deactivateState: function() {
 
-				this.frame.$el.parents( '.media-modal' ).removeClass( this.id + '-modal' );
+			this.frame.$el.parents( '.media-modal' ).removeClass( this.id + '-modal' );
 
-				return this;
-			}
-		})
-
-	};
+			return this;
+		}
+	});
 
 	/**
 	 * wp.media.controller.EditAttachmentMetadata
@@ -41,11 +68,11 @@ window.wpmoly = window.wpmoly || {};
 	 * @augments wp.media.controller.State
 	 * @augments Backbone.Model
 	 */
-	editor.controller.EditMovie = editor.controller.State.extend({
+	controller.EditMovie = controller.State.extend({
 
 		defaults: {
 			id:      'edit-movie',
-			title:   'Edit Movie Metadata',
+			title:   'Edit Movie',
 			content: 'edit-metadata',
 			menu:    false,
 			toolbar: false,
@@ -62,7 +89,7 @@ window.wpmoly = window.wpmoly || {};
 	 * @augments wp.media.controller.State
 	 * @augments Backbone.Model
 	 */
-	editor.controller.PreviewMovie = editor.controller.State.extend({
+	controller.PreviewMovie = controller.State.extend({
 
 		defaults: {
 			id:      'preview-movie',
@@ -93,13 +120,17 @@ window.wpmoly = window.wpmoly || {};
 		initialize: function() {},
 
 		/**
-		 * Open the Metadata Modal
+		 * Open the Movie Modal
 		 * 
 		 * @since    2.2
 		 * 
+		 * @param    object    JS 'Click' event
+		 * @param    int       Optional movie model ID
+		 * @param    string    state to use for the frame
+		 * 
 		 * @return   boolean
 		 */
-		openMetaModal: function( event, id ) {
+		openMovieModal: function( event, id, state ) {
 
 			var id, model;
 
@@ -114,8 +145,12 @@ window.wpmoly = window.wpmoly || {};
 			if ( undefined == model )
 				return;
 
-			editor.frame = new editor.View.EditMovies( {
-				frame:  '',
+			if ( 'preview-movie' !== state ) {
+				state = 'edit-movie';
+			}
+
+			editor.frame = new editor.View.MovieModal( {
+				state:   state,
 				library: editor.models.movies,
 				model:   model
 			} ).open();
@@ -371,7 +406,7 @@ window.wpmoly = window.wpmoly || {};
 
 			className: 'attachment-details movie-metadata',
 
-			template:   wp.media.template( 'wpmoly-movie-metadata-quickedit' ),
+			template:   wp.media.template( 'wpmoly-edit-movie-frame-content' ),
 
 			events: {
 				'change .meta-data-field':            'updateMeta',
@@ -545,9 +580,9 @@ window.wpmoly = window.wpmoly || {};
 
 			tagName:   'div',
 
-			className: 'preview-movie',
+			className: 'movie-preview',
 
-			//template:   wp.media.template( 'wpmoly-movie-metadata-quickedit' ),
+			template:   wp.media.template( 'wpmoly-preview-movie-frame-content' ),
 
 			events: {
 				
@@ -576,11 +611,19 @@ window.wpmoly = window.wpmoly || {};
 			 * 
 			 * @since    2.2
 			 * 
-			 * @return   boolean
+			 * @return   Returns itself to allow chaining
 			 */
 			render: function() {
 
-				//editor.View.Movie.prototype.render.apply( this, arguments );
+				var options = {
+					post: this.model.get( 'post' ).toJSON(),
+					meta: this.model.get( 'meta' ).toJSON(),
+					details: this.model.get( 'details' ).toJSON()
+				};
+
+				this.$el.html( this.template( options ) );
+
+				return this;
 
 			},
 		} )
@@ -603,20 +646,19 @@ window.wpmoly = window.wpmoly || {};
 		 * @augments Backbone.View
 		 * @mixes wp.media.controller.StateMachine
 		 */
-		EditMovies: wp.media.view.MediaFrame.extend({
+		MovieModal: wp.media.view.MediaFrame.extend({
 
 			className: 'edit-attachment-frame edit-movie-frame',
 
-			template: wp.media.template( 'edit-attachment-frame' ),
+			template: wp.media.template( 'wpmoly-edit-movie-frame' ),
 
 			regions:   [ 'title', 'content' ],
 
 			events: {
-				'click .left':  'previousMediaItem',
-				'click .right': 'nextMediaItem',
+				'click .switch-mode': 'switchMode',
+				'click .left':        'previousMediaItem',
+				'click .right':       'nextMediaItem',
 			},
-
-			mode: 'edit-movie',
 
 			/**
 			 * Initialize the View
@@ -631,8 +673,13 @@ window.wpmoly = window.wpmoly || {};
 
 				_.defaults( this.options, {
 					modal: true,
+					mode:  [
+						'edit-movie'
+					],
 					state: 'edit-movie'
 				});
+
+				this.mode = this.options.mode;
 
 				this.controller = this.options.controller;
 				//this.editorRouter = this.controller.editorRouter;
@@ -674,7 +721,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			createModal: function() {
 
-				var self = this;
+				//var self = this;
 
 				// Initialize modal container view.
 				if ( this.options.modal ) {
@@ -684,18 +731,10 @@ window.wpmoly = window.wpmoly || {};
 						title:      'Title'
 					});
 
-					this.modal.on( 'open', function () {
-						$( 'body' ).on( 'keydown.media-modal', _.bind( self.keyEvent, self ) );
-						this.toggleNav();
-					}, this );
-
-					// Completely destroy the modal DOM element when closing it.
-					this.modal.on( 'close', function() {
-
-						self.modal.remove();
-						$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown event */
-						self.resetRoute();
-					} );
+					// Customize the media frame
+					this.modal.on( 'ready', this.prepareModal, this );
+					this.modal.on( 'open',  this.openModal,    this );
+					this.modal.on( 'close', this.closeModal,   this );
 
 					// Set this frame as the modal's content.
 					this.modal.content( this );
@@ -713,8 +752,8 @@ window.wpmoly = window.wpmoly || {};
 			createStates: function() {
 
 				this.states.add( [
-					new editor.controller.EditMovie( { model: this.model } ),
-					new editor.controller.PreviewMovie( { model: this.model } )
+					new controller.EditMovie( { model: this.model } ),
+					new controller.PreviewMovie( { model: this.model } )
 				] );
 			},
 
@@ -740,12 +779,83 @@ window.wpmoly = window.wpmoly || {};
 				}
 			},
 
+			/**
+			 * Content region rendering callback for the `preview-movie` mode.
+			 * 
+			 * @since    2.2
+			 *
+			 * @param    object    contentRegion Basic object with a `view` property, which should be set with the proper region view.
+			 * 
+			 * @return   void
+			 */
 			PreviewMovieMode: function( contentRegion ) {
 
 				contentRegion.view = new editor.View.PreviewMovie({
 					controller: this,
 					model:      this.model
 				});
+			},
+
+			/**
+			 * Add custom classes to the modal container to allow
+			 * frame customization
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   Returns itself to allow chaining
+			 */
+			prepareModal: function() {
+
+				this.modal.$( '.media-modal' ).addClass( 'movie-modal ' + this.options.mode + '-modal' );
+
+				return this;
+			},
+
+			/**
+			 * Open the Modal.
+			 * 
+			 * Bind event and store the scroll position.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   Returns itself to allow chaining
+			 */
+			openModal: function() {
+
+				// Bind keydown event
+				$( 'body' ).on( 'keydown.media-modal', _.bind( this.keyEvent, this ) );
+
+				// Adapt nav menu
+				this.toggleNav();
+
+				// Store the scroll position
+				var $body = $( 'html,body' );
+				this._scrollTop = $body.scrollTop();
+
+				$body.scrollTop( 0 );
+
+				return this;
+			},
+
+			/**
+			 * Close the Modal.
+			 * 
+			 * Completely destroy the modal DOM element when closing it.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			closeModal: function() {
+
+				// remove the keydown event
+				$( 'body' ).off( 'keydown.media-modal' );
+
+				// Scroll back to the initial position
+				$( 'html,body' ).scrollTop( this._scrollTop || 0 );
+
+				this.modal.remove();
+				this.resetRoute();
 			},
 
 			/**
@@ -771,13 +881,27 @@ window.wpmoly = window.wpmoly || {};
 			rerender: function() {
 
 				// Only rerender the `content` region.
-				if ( this.content.mode() !== 'edit-metadata' ) {
+				if ( 'preview-movie' == this.content.mode() ) {
+					this.content.mode( 'preview-movie' );
+				} else if ( 'edit-metadata' !== this.content.mode() ) {
 					this.content.mode( 'edit-metadata' );
 				} else {
 					this.content.render();
 				}
 
 				this.toggleNav();
+			},
+
+			switchMode: function( event ) {
+
+				var state = this.$( event.currentTarget ).attr( 'data-state' );
+
+				if ( _.isUndefined( this.states.get( state ) ) ) {
+					return;
+				}
+
+				console.log( state );
+				this.setState( state );
 			},
 
 			/**

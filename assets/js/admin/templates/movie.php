@@ -5,7 +5,7 @@
 			<div class="movie-action bottom-left movie-status"><# if ( '' != data.details.status ) { #><span title="{{ wpmoly.l10n.misc[ data.details.status ] }}" class="wpmolicon icon-{{ data.details.status }}"></span><# } #></div>
 			<div class="movie-action bottom-right movie-rating"><span title="{{ data.details.rating }}" class="wpmolicon icon-star-{{ data.details.star }}"></span></div>
 			<div class="poster">
-				<img src="{{ data.post.post_thumbnail }}" alt="{{ data.post.post_title }}" />
+				<img src="{{ data.post.post_thumbnail.medium }}" alt="{{ data.post.post_title }}" />
 			</div>
 		</div>
 		<div class="attachment-meta movie-meta">

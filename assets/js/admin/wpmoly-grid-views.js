@@ -93,8 +93,9 @@
 		template:  media.template( 'wpmoly-movie' ),
 
 		events: {
-			'click a':            'preventDefault',
-			'click a.edit-movie': 'editMovie',
+			'click a':               'preventDefault',
+			'click a.edit-movie':    'editMovie',
+			'click a.preview-movie': 'previewMovie',
 		},
 
 		initialize: function() {
@@ -135,7 +136,15 @@
 			var id = this.$( event.currentTarget ).attr( 'data-id' );
 			    id = parseInt( id );
 
-			editor.views.movies.openMetaModal( event, id );
+			editor.views.movies.openMovieModal( event, id, 'edit-movie' );
+		},
+
+		previewMovie: function( event ) {
+
+			var id = this.$( event.currentTarget ).attr( 'data-id' );
+			    id = parseInt( id );
+
+			editor.views.movies.openMovieModal( event, id, 'preview-movie' );
 		},
 
 		/**

@@ -203,39 +203,6 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 				$ids[] = $post->ID;
 
-				$thumbnail_id = get_post_thumbnail_id( $post->ID );
-				$thumbnail    = wp_get_attachment_image_src( $thumbnail_id, 'medium' );
-				if ( is_null( $thumbnail ) )
-					$thumbnail = str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL );
-
-				$images    = WPMOLY_Media::get_movie_imported_images( $post->ID, $format = 'filtered', $size = 'medium' );
-				$posters   = WPMOLY_Media::get_movie_imported_posters( $post->ID, $format = 'filtered', $size = 'thumbnail' );
-
-				// Don't include featured image
-				foreach ( $posters as $i => $poster ) {
-					if ( $thumbnail_id == $poster['id'] ) {
-						unset( $posters[ $i ] );
-					} else {
-						$posters[ $i ] = array(
-							'link' => htmlspecialchars_decode( $poster['link'] ),
-							'url'  => $poster['image'][0]
-						);
-					}
-				}
-
-				// Only the 3 first backdrops should be medium sized
-				foreach ( $images as $i => $image ) {
-					if ( $i > 2 ) {
-						$url = preg_replace( '/[0-9]{1,3}x[0-9]{1,3}/i', '150x150', $image['image'][0] );
-					} else {
-						$url = $image['image'][0];
-					}
-					$images[ $i ] = array(
-						'link' => htmlspecialchars_decode( $image['link'] ),
-						'url'  => $url
-					);
-				}
-
 				$movies[ $post->ID ] = array(
 					'post_id'             => $post->ID,
 					'post_title'          => apply_filters( 'the_title', $post->post_title ),
@@ -245,24 +212,63 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 					'post_status'         => esc_attr( $post->post_status ),
 					'post_date'           => strtotime( $post->post_date ) * 1000,
 					'post_date_formatted' => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date ) ),
-					'post_thumbnail'      => $thumbnail[0],
-					'posters'             => array_slice( $posters, 0, 4 ),
-					'images'              => array_slice( $images, 0, 5 ),
-					'posters_total'       => max( 0, count( $posters ) - 4 ),
-					'images_total'        => max( 0, count( $images ) - 5 ),
 					'edit_poster'         => add_query_arg( array( 'post' => $thumbnail_id, 'action' => 'edit' ), admin_url( 'post.php' ) ),
 					'edit_posters'        => add_query_arg( array( 'post' => $post->ID, 'action' => 'edit', 'edit-poster' => 1 ), admin_url( 'post.php' ) ),
 					'edit_images'         => add_query_arg( array( 'post' => $post->ID, 'action' => 'edit', 'edit-backdrop' => 1 ), admin_url( 'post.php' ) )
 				);
+
+				$sizes = array( 'thumbnail', 'medium', 'large', 'full' );
+
+				$thumbnail_id = get_post_thumbnail_id( $post->ID );
+				if ( '' == $thumbnail_id ) {
+					$thumbnail = array(
+						'thumbnail' => str_replace( '{size}', '-thumbnail', WPMOLY_DEFAULT_POSTER_URL ),
+						'medium'    => str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL ),
+						'large'     => str_replace( '{size}', '-large', WPMOLY_DEFAULT_POSTER_URL ),
+						'full'      => str_replace( '{size}', '', WPMOLY_DEFAULT_POSTER_URL )
+					);
+				} else {
+					$thumbnail = array();
+					foreach ( $sizes as $size ) {
+						$_image = wp_get_attachment_image_src( $thumbnail_id, $size );
+						if ( $_image ) {
+							$thumbnail[ $size ] = $_image[0];
+						}
+					}
+				}
+
+				$images    = WPMOLY_Media::get_movie_imported_images( $post->ID, $format = 'filtered', $size = 'all' );
+				$posters   = WPMOLY_Media::get_movie_imported_posters( $post->ID, $format = 'filtered', $size = 'all' );
+
+				// Don't include featured image
+				foreach ( $posters as $i => $poster ) {
+					if ( $thumbnail_id == $poster['id'] ) {
+						unset( $posters[ $i ] );
+					} else {
+						$posters[ $i ] = array(
+							'link'  => htmlspecialchars_decode( $poster['link'] ),
+							'sizes' => $poster['image']
+						);
+					}
+				}
+
+				// Only the 3 first backdrops should be medium sized
+				foreach ( $images as $i => $image ) {
+					$images[ $i ] = array(
+						'link'  => htmlspecialchars_decode( $image['link'] ),
+						'sizes' => $image['image']
+					);
+				}
+
+				$movies[ $post->ID ]['post_thumbnail'] = $thumbnail;
+				$movies[ $post->ID ]['posters']        = array_slice( $posters, 0, 4 );
+				$movies[ $post->ID ]['images']         = array_slice( $images, 0, 5 );
+				$movies[ $post->ID ]['posters_total']  = max( 0, count( $posters ) - 4 );
+				$movies[ $post->ID ]['images_total']   = max( 0, count( $images ) - 5 );
 			}
 
-			$meta = WPMOLY_Movies::get_movies_meta( $ids );
-			/*if ( empty( $meta ) )
-				wp_send_json_error();*/
-
+			$meta    = WPMOLY_Movies::get_movies_meta( $ids );
 			$details = WPMOLY_Movies::get_movies_meta( $ids, 'details' );
-			/*if ( empty( $details ) )
-				wp_send_json_error();*/
 
 			$response = array();
 			foreach ( $movies as $id => $movie ) {

@@ -17,14 +17,14 @@
 					</div>
 					<div class="images">
 						<div class="poster">
-							<img src="{{ post.post_thumbnail }}" alt="" />
+							<img src="{{ post.post_thumbnail.medium }}" alt="" />
 							<a href="{{ post.edit_poster }}" title="<?php _e( 'Change featured poster', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
 						</div>
 						<# if ( _.isDefined( post.posters ) && post.posters.length ) { #>
 						<div class="posters">
-							<# _.each( post.posters, function( poster ) { #>
+							<# _.each( post.posters, function( poster, i ) { #>
 							<div class="additional-poster">
-								<img src="{{ poster.url }}" alt="" />
+								<img src="<# if ( i > 2 ) { #>{{ poster.sizes.medium }}<# } else { #>{{ poster.sizes.thumbnail }}<# } #>" alt="" />
 								<a href="{{ poster.link }}" title="<?php _e( 'Edit this poster', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
 							</div>
 							<# } ); if ( ! _.isNull( post.posters_total ) ) { #>
@@ -37,7 +37,7 @@
 						<div class="backdrops">
 							<# _.each( post.images, function( image ) { #>
 							<div class="image">
-								<img src="{{ image.url }}" alt="" />
+								<img src="{{ image.sizes.medium }}" alt="" />
 								<a href="{{ image.link }}" title="<?php _e( 'Edit this image', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
 							</div>
 							<# } ); if ( ! _.isNull( post.images_total ) ) { #>

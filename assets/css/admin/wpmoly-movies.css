@@ -9,21 +9,249 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 	display: block;
 }
 
-/*
- * Movie Modal
- */
-
-.media-modal.movie-modal.edit-movie-modal,
-.media-modal.movie-modal.preview-movie-modal {
+.media-modal.movie-modal {
 	bottom: 20px;
 	left: 180px;
 	right: 20px;
 	top: 50px;
 }
 
-.media-modal.movie-modal.edit-movie-modal .media-frame-title h1 {
+/*
+ * Edit Movie Modal
+ */
+
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .preview {
+	background-color: transparent;
+	border: 0;
+	border-left: 1px solid #ddd;
+	color: #777;
+	cursor: pointer;
+	height: 50px;
+	padding: 0;
+	position: absolute;
+	right: 152px;
+	text-align: center;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+	        transition: color .1s ease-in-out, background .1s ease-in-out;
+	width: 50px;
+}
+
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .preview:hover {
+	background: #a2ce51;
+	border-color: #a2ce51;
+	color: #fff;
+}
+
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .preview:hover::before {
+	color: inherit;
+}
+
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .preview::before {
+	cursor: default;
+	font-family: 'wpmovielibrary';
+	pointer-events: none;
+}
+
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .edit {
+	display: none;
+}
+
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .preview::before {
+	content: "\e62a";
+}
+
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .right {
+	border-right: 1px solid #ddd;
+	right: 50px;
+}
+
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .left:hover,
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .right:hover {
+	background: #2ea2cc;
+	border-color: #2ea2cc;
+	box-shadow: 0 0 0;
+	color: #fff;
+}
+
+.media-modal.movie-modal.edit-movie-modal .edit-movie-header .right:focus {
+	background: #fff;
+	border-color: #ddd;
+	color: #444;
+}
+
+.media-modal.movie-modal.edit-movie-modal .media-modal-close {
+	box-shadow: 0 0 0;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	top: 0;
+	right: 0;
+	width: 50px;
+}
+
+.media-modal.movie-modal.edit-movie-modal .media-modal-close span.media-modal-icon {
+	margin-top: 0;
+	width: 50px;
+	height: 50px;
+}
+
+.media-modal.movie-modal.edit-movie-modal .media-modal-close:hover {
+	background: #ff7966;
+	color: #fff;
+}
+
+.media-modal.movie-modal.edit-movie-modal .media-modal-close:hover .media-modal-icon::before {
+	color: inherit;
+}
+
+.media-modal.movie-modal.edit-movie-modal .movie-frame-title {
+	right: 202px;
+}
+
+.media-modal.movie-modal.edit-movie-modal .movie-frame-title h1 {
 	font-family: 'Lato', sans-serif;
 	font-weight: 400;
+}
+
+/*
+ * Preview Movie Modal
+ */
+
+.media-modal.movie-modal.preview-movie-modal {
+	
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-title {
+	display: none;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content {
+	border: 0;
+	overflow: hidden;
+	top: 0;
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .preview {
+	display: none;
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit {
+	
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit:hover {
+	
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit::before {
+	content: "\e605";
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit:hover::before {
+	
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit::before {
+	
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview {
+	height: 100%;
+	width: 100%;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-poster {
+	float: left;
+	height: 100%;
+	position: relative;
+	width: 36%;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-poster img {
+	height: auto;
+	max-width: 100%;
+	width: 100%;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content {
+	float: left;
+	height: 100%;
+	width: 64%;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header,
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-details,
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-meta {
+	padding: 24px 30px;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background {
+	background-color: #fff;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	overflow: hidden;
+	padding-top: 120px;
+	position: relative;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background:before {
+	box-shadow: 0 -16px 24px #162329, 0 -64px 48px #162329;
+	bottom: -120px;
+	content:'';
+	height: 120px;
+	left: -10%;
+	position: absolute;
+	width: 120%;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background:before {
+	z-index: 1;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background.default-background:after {
+	background: #162329;
+	content:'';
+	height: 100%;
+	left: 0;
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 0;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-title {
+	font-size: 24px;
+	font-weight: 400;
+	margin: 12px 0 4px 0;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-title .year {
+	font-size: 14px;
+	color: #777;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-genres {
+	color: #777;
+	font-size: 14px;
+	margin: 0;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background .movie-title,
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background .movie-title .year,
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background .movie-genres {
+	position: relative;
+	z-index: 2;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background .movie-title {
+	color: #fdfdfd;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background .movie-title .year,
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background .movie-genres {
+	color: #ddd;
 }
 
 /*
@@ -62,8 +290,8 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 
 #grid-menu .movie-menu.wp-filter .view-switch a:hover,
 #grid-menu .movie-menu.wp-filter .view-switch a.current {
-	background: #0074a2;
-	border-color: #0074a2;
+	background: #2ea2cc;
+	border-color: #2ea2cc;
 	color: #efefef;
 }
 
@@ -197,7 +425,7 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 }
 
 .grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-scheduled {
-	color: #0074a2;
+	color: #2ea2cc;
 }
 
 .grid-frame-content .attachments.movies .attachment.movie .attachment-preview.movie-preview .movie-status .wpmolicon.icon-unavailable {

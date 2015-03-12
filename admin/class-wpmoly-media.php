@@ -306,6 +306,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @param    int       $post_id Post ID to find related attachments
 		 * @param    string    $format Output format, raw or filtered
+		 * @param    string    $size wanted attachment size 
 		 * 
 		 * @return   array    Images list
 		 */
@@ -322,6 +323,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * 
 		 * @param    int       $post_id Post ID to find related attachments
 		 * @param    string    $format Output format, raw or filtered
+		 * @param    string    $size wanted attachment size 
 		 * 
 		 * @return   array    Posters list
 		 */
@@ -341,6 +343,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 		 * @param    string    $type Attachment type, 'image' or 'poster'
 		 * @param    int       $post_id Post ID to find related attachments
 		 * @param    string    $format Output format, raw or filtered
+		 * @param    string    $size wanted attachment size 
 		 * 
 		 * @return   array    Attachment list
 		 */
@@ -358,8 +361,10 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 			if ( 'poster' != $type )
 				$type = 'image';
 
-			if ( ! in_array( $size, array( 'thumbnail', 'medium', 'large', 'full' ) ) )
+			$default_sizes = array( 'thumbnail', 'medium', 'large', 'full' );
+			if ( 'all' != $size && ! in_array( $size, $default_sizes ) ) {
 				$size = 'medium';
+			}
 
 			$args = array(
 				'post_type'      => 'attachment',
@@ -380,16 +385,28 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 				if ( 'raw' == $format ) {
 					$images[] = $attachment;
 				} else {
-					$images[] = array(
-						'id'     => $attachment->ID,
-						/*'meta'   => wp_get_attachment_metadata( $attachment->ID ),
-						'type'   => ( isset( $meta['sizes']['medium']['mime-type'] ) ? str_replace( 'image/', ' subtype-', $meta['sizes']['medium']['mime-type'] ) : '' ),
-						'height' => ( isset( $meta['sizes']['medium']['height'] ) ? $meta['sizes']['medium']['height'] : 0 ),
-						'width'  => ( isset( $meta['sizes']['medium']['width'] ) ? $meta['sizes']['medium']['width'] : 0 ),
-						'format' => ( $width && $height ? ( $height > $width ? ' portrait' : ' landscape' ) : '' ),*/
-						'image'  => wp_get_attachment_image_src( $attachment->ID, $size ),
-						'link'   => get_edit_post_link( $attachment->ID )
-					);
+					if ( 'all' == $size ) {
+						$image = array(
+							'id'     => $attachment->ID,
+							'image'  => array(),
+							'link'   => get_edit_post_link( $attachment->ID )
+						);
+
+						foreach ( $default_sizes as $_size ) {
+							$_image = wp_get_attachment_image_src( $attachment->ID, $_size );
+							if ( $_image ) {
+								$image['image'][ $_size ] = $_image[0];
+							}
+						}
+
+						$images[] = $image;
+					} else {
+						$images[] = array(
+							'id'     => $attachment->ID,
+							'image'  => wp_get_attachment_image_src( $attachment->ID, $_size ),
+							'link'   => get_edit_post_link( $attachment->ID )
+						);
+					}
 				}
 			}
 
