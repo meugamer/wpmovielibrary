@@ -136,7 +136,8 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 }
 
 .media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit {
-	
+	position: absolute;
+	z-index: 9;
 }
 
 .media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit:hover {
@@ -145,6 +146,7 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 
 .media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit::before {
 	content: "\e605";
+	font-family: "wpmovielibrary";
 }
 
 .media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit:hover::before {

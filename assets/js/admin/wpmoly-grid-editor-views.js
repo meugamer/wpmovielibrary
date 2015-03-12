@@ -601,9 +601,38 @@ window.wpmoly = window.wpmoly || {};
 					rerenderOnModelChange: true
 				} );
 
+				this.on( 'ready', _.debounce( this.fixModal, 25 ), this );
+
+				// Event handlers
+				_.bindAll( this, 'fixModal' );
+
+				this.$window = $( window );
+				var self = this;
+				this.$window.off( 'resize.movie-preview-modal' ).on( 'resize.movie-preview-modal', _.debounce( function() {
+					self.fixModal( force = true );
+				}, 25 ) );
+
 				editor.View.Movie.prototype.initialize.apply( this, arguments );
 
 				return this;
+			},
+
+			/**
+			 * Modal shouldn't not have full height on smaller screen
+			 * like 1280*1024.
+			 * 
+			 * @since    2.2
+			 * 
+			 * @return   void
+			 */
+			fixModal: function( force ) {
+
+				var modal = this.controller.$el.parents( '.media-modal' ),
+				   height = this.$( '.movie-preview-poster img' ).height();
+
+				if ( true === force || modal.height() > height ) {
+					modal.height( height );
+				}
 			},
 
 			/**
