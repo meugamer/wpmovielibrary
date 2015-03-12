@@ -7,46 +7,72 @@ window.wpmoly = window.wpmoly || {};
 
 	editor.controller = {
 
-		/**
-		 * wp.media.controller.EditAttachmentMetadata
-		 *
-		 * A state for editing an attachment's metadata.
-		 *
-		 * @constructor
-		 * @augments wp.media.controller.State
-		 * @augments Backbone.Model
-		 */
-		EditMovieMetadata: wp.media.controller.State.extend({
-			defaults: {
-				id:      'edit-movie',
-				title:   'Edit Movie Metadata',
-				content: 'edit-metadata',
-				menu:    false,
-				toolbar: false,
-				router:  false
-			}
-		}),
+		State: wp.media.controller.State.extend({
 
-		/**
-		 * wp.media.controller.EditAttachmentMetadata
-		 *
-		 * A state for editing an attachment's metadata.
-		 *
-		 * @constructor
-		 * @augments wp.media.controller.State
-		 * @augments Backbone.Model
-		 */
-		PreviewMovie: wp.media.controller.State.extend({
-			defaults: {
-				id:      'preview-movie',
-				title:   'Preview Movie',
-				content: 'preview-movie',
-				menu:    false,
-				toolbar: false,
-				router:  false
+			initialize: function() {
+
+				this.on( 'activate', _.debounce( this.activateState, 50 ), this );
+				this.on( 'deactivate', _.debounce( this.deactivateState, 50 ), this );
+			},
+
+			activateState: function() {
+
+				this.frame.$el.parents( '.media-modal' ).addClass( 'movie-modal ' + this.id + '-modal' );
+
+				return this;
+			},
+
+			deactivateState: function() {
+
+				this.frame.$el.parents( '.media-modal' ).removeClass( this.id + '-modal' );
+
+				return this;
 			}
 		})
+
 	};
+
+	/**
+	 * wp.media.controller.EditAttachmentMetadata
+	 *
+	 * A state for editing an attachment's metadata.
+	 *
+	 * @constructor
+	 * @augments wp.media.controller.State
+	 * @augments Backbone.Model
+	 */
+	editor.controller.EditMovie = editor.controller.State.extend({
+
+		defaults: {
+			id:      'edit-movie',
+			title:   'Edit Movie Metadata',
+			content: 'edit-metadata',
+			menu:    false,
+			toolbar: false,
+			router:  false
+		}
+	});
+
+	/**
+	 * wp.media.controller.EditAttachmentMetadata
+	 *
+	 * A state for editing an attachment's metadata.
+	 *
+	 * @constructor
+	 * @augments wp.media.controller.State
+	 * @augments Backbone.Model
+	 */
+	editor.controller.PreviewMovie = editor.controller.State.extend({
+
+		defaults: {
+			id:      'preview-movie',
+			title:   'Preview Movie',
+			content: 'preview-movie',
+			menu:    false,
+			toolbar: false,
+			router:  false
+		}
+	});
 
 	/**
 	 * editor.View.Movies
@@ -89,7 +115,7 @@ window.wpmoly = window.wpmoly || {};
 				return;
 
 			editor.frame = new editor.View.EditMovies( {
-				frame:  'select',
+				frame:  '',
 				library: editor.models.movies,
 				model:   model
 			} ).open();
@@ -590,6 +616,8 @@ window.wpmoly = window.wpmoly || {};
 				'click .right': 'nextMediaItem',
 			},
 
+			mode: 'edit-movie',
+
 			/**
 			 * Initialize the View
 			 * 
@@ -685,7 +713,7 @@ window.wpmoly = window.wpmoly || {};
 			createStates: function() {
 
 				this.states.add( [
-					new editor.controller.EditMovieMetadata( { model: this.model } ),
+					new editor.controller.EditMovie( { model: this.model } ),
 					new editor.controller.PreviewMovie( { model: this.model } )
 				] );
 			},

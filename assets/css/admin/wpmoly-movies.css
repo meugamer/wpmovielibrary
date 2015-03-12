@@ -10,6 +10,23 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 }
 
 /*
+ * Movie Modal
+ */
+
+.media-modal.movie-modal.edit-movie-modal,
+.media-modal.movie-modal.preview-movie-modal {
+	bottom: 20px;
+	left: 180px;
+	right: 20px;
+	top: 50px;
+}
+
+.media-modal.movie-modal.edit-movie-modal .media-frame-title h1 {
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
+}
+
+/*
  * WPMOLY Movie Grid
  */
 
