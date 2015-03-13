@@ -132,6 +132,40 @@
 	});
 
 	/**
+	 * Movie Preview Formatted Data
+	 * 
+	 * @since    2.2
+	 */
+	editor.Model.Formatted = editor.Model.Data.extend({
+
+		type: 'formatted',
+
+		defaults: {
+			status: '',
+			media: '',
+			rating: '',
+			language: '',
+			subtitles: '',
+			format: '',
+
+			title: '',
+			tagline: '',
+			overview: '',
+			release_date: '',
+			runtime: '',
+			genres: '',
+			director: '',
+			producer: '',
+			cast: '',
+			certification: '',
+			imdb_id: '',
+
+			poster: '',
+			backdrop: ''
+		}
+	});
+
+	/**
 	 * WPMOLY Backbone Movie Model
 	 * 
 	 * Model for the metabox movie metadata fields. Holy Grail! That model
@@ -148,6 +182,7 @@
 			post: {},
 			meta: {},
 			details: {},
+			formatted: {},
 			nonces: {}
 		},
 	});

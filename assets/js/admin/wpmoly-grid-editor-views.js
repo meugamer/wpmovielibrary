@@ -601,16 +601,14 @@ window.wpmoly = window.wpmoly || {};
 					rerenderOnModelChange: true
 				} );
 
-				this.on( 'ready', _.debounce( this.fixModal, 25 ), this );
+				this.on( 'ready', _.debounce( this.fixModal, 50 ), this );
 
 				// Event handlers
 				_.bindAll( this, 'fixModal' );
 
 				this.$window = $( window );
 				var self = this;
-				this.$window.off( 'resize.movie-preview-modal' ).on( 'resize.movie-preview-modal', _.debounce( function() {
-					self.fixModal( force = true );
-				}, 25 ) );
+				this.$window.off( 'resize.movie-preview-modal' ).on( 'resize.movie-preview-modal', _.debounce( this.fixModal, 50 ) );
 
 				editor.View.Movie.prototype.initialize.apply( this, arguments );
 
@@ -625,14 +623,40 @@ window.wpmoly = window.wpmoly || {};
 			 * 
 			 * @return   void
 			 */
-			fixModal: function( force ) {
+			fixModal: function() {
 
 				var modal = this.controller.$el.parents( '.media-modal' ),
-				   height = this.$( '.movie-preview-poster img' ).height();
+				    width = this.$( '.movie-preview-poster' ).width(),
+				   height = Math.floor( width * 1.5 ),
+				      max = document.body.clientHeight - 40;
 
-				if ( true === force || modal.height() > height ) {
-					modal.height( height );
-				}
+				modal.css({
+					height: height,
+					maxHeight: max
+				});
+			},
+
+			formatDetails: function() {
+
+				var details = this.model.get( 'details' ).toJSON();
+
+				details.status = wpmoly.l10n.details[ details.status ] || '−';
+				details.rating = wpmoly.l10n.details[ details.rating ] || '−';
+
+				var getLanguage = function( code ) {
+					return _.isUndefined( wpmoly.l10n.languages[ code.trim() ] ) ? code.trim() : wpmoly.l10n.languages[ code.trim() ].text;
+				};
+
+				var getDetail = function( detail ) {
+					return _.isUndefined( wpmoly.l10n.details[ detail.trim() ] ) ? detail.trim() : wpmoly.l10n.details[ detail.trim() ];
+				};
+
+				details.media     = _.map( details.media, getDetail ).join( ', ' )       || '−';
+				details.format    = _.map( details.format, getDetail ).join( ', ' )      || '−';
+				details.language  = _.map( details.language, getLanguage ).join( ', ' )  || '−';
+				details.subtitles = _.map( details.subtitles, getLanguage ).join( ', ' ) || '−';
+
+				return details;
 			},
 
 			/**
@@ -644,11 +668,9 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			render: function() {
 
-				var options = {
-					post: this.model.get( 'post' ).toJSON(),
-					meta: this.model.get( 'meta' ).toJSON(),
-					details: this.model.get( 'details' ).toJSON()
-				};
+				var options = _.extend( this.model.get( 'formatted' ).toJSON(), this.formatDetails(), {
+					year: this.model.get( 'meta' ).get( 'year' )
+				});
 
 				this.$el.html( this.template( options ) );
 
@@ -905,16 +927,29 @@ window.wpmoly = window.wpmoly || {};
 			 * 
 			 * @since    2.2
 			 * 
+			 * @param    boolean    force rerendering
+			 * 
 			 * @return   void
 			 */
-			rerender: function() {
+			rerender: function( force ) {
+
+				if ( true === force ) {
+
+					this.content.render();
+					this.toggleNav();
+
+					return;
+				}
 
 				// Only rerender the `content` region.
 				if ( 'preview-movie' == this.content.mode() ) {
+					console.log( 1 );
 					this.content.mode( 'preview-movie' );
 				} else if ( 'edit-metadata' !== this.content.mode() ) {
+					console.log( 2 );
 					this.content.mode( 'edit-metadata' );
 				} else {
+					console.log( 3 );
 					this.content.render();
 				}
 
@@ -947,7 +982,7 @@ window.wpmoly = window.wpmoly || {};
 					return;
 				}
 				this.model = this.library.at( this.getCurrentIndex() - 1 );
-				this.rerender();
+				this.rerender( force = true );
 				this.$( '.left' ).focus();
 			},
 
@@ -966,7 +1001,7 @@ window.wpmoly = window.wpmoly || {};
 				}
 
 				this.model = this.library.at( this.getCurrentIndex() + 1 );
-				this.rerender();
+				this.rerender( force = true );
 				this.$( '.right' ).focus();
 			},
 

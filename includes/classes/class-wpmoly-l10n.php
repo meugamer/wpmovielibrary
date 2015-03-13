@@ -398,6 +398,33 @@ if ( ! class_exists( 'WPMOLY_L10n' ) ) :
 				'dashboard' => array(
 					'' => ''
 				),
+				'details' => array(
+					'available'   => __( 'Available', 'wpmovielibrary' ),
+					'loaned'      => __( 'Loaned', 'wpmovielibrary' ),
+					'scheduled'   => __( 'Scheduled', 'wpmovielibrary' ),
+					'unavailable' => __( 'Unvailable', 'wpmovielibrary' ),
+					'dvd'         => __( 'DVD', 'wpmovielibrary' ),
+					'bluray'      => __( 'Blu-ray', 'wpmovielibrary' ),
+					'vod'         => __( 'VoD', 'wpmovielibrary' ),
+					'divx'        => __( 'DivX', 'wpmovielibrary' ),
+					'vhs'         => __( 'VHS', 'wpmovielibrary' ),
+					'cinema'      => __( 'Cinema', 'wpmovielibrary' ),
+					'other'       => __( 'Other', 'wpmovielibrary' ),
+					'0.0'         => __( 'Not rated', 'wpmovielibrary' ),
+					'0.5'         => __( 'Junk', 'wpmovielibrary' ),
+					'1.0'         => __( 'Very bad', 'wpmovielibrary' ),
+					'1.5'         => __( 'Bad', 'wpmovielibrary' ),
+					'2.0'         => __( 'Not that bad', 'wpmovielibrary' ),
+					'2.5'         => __( 'Average', 'wpmovielibrary' ),
+					'3.0'         => __( 'Not bad', 'wpmovielibrary' ),
+					'3.5'         => __( 'Good', 'wpmovielibrary' ),
+					'4.0'         => __( 'Very good', 'wpmovielibrary' ),
+					'4.5'         => __( 'Excellent', 'wpmovielibrary' ),
+					'5.0'         => __( 'Masterpiece', 'wpmovielibrary' ),
+					'3d'          => __( '3D', 'wpmovielibrary' ),
+					'sd'          => __( 'SD', 'wpmovielibrary' ),
+					'hd'          => __( 'HD', 'wpmovielibrary' )
+				),
 				'media' => array(
 					'backdrops' => array(
 						'added'		=> __( 'Images added!', 'wpmovielibrary' ),

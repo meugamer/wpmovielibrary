@@ -403,7 +403,7 @@ if ( ! class_exists( 'WPMOLY_Media' ) ) :
 					} else {
 						$images[] = array(
 							'id'     => $attachment->ID,
-							'image'  => wp_get_attachment_image_src( $attachment->ID, $_size ),
+							'image'  => wp_get_attachment_image_src( $attachment->ID, $size ),
 							'link'   => get_edit_post_link( $attachment->ID )
 						);
 					}

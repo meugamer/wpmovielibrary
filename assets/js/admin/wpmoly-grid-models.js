@@ -401,7 +401,7 @@
 			
 			resp = _.map( resp, function( attrs ) {
 
-				var attributes, id, model, post, meta, details, _post, _meta, _details;
+				var attributes, id, model, post, meta, details, formatted, _post, _meta, _details, _formatted;
 
 				if ( false === attrs instanceof editor.Model.Movie ) {
 					attributes = attrs;
@@ -409,15 +409,17 @@
 					attributes = attrs.attributes;
 				}
 
-				     id = attributes.post.post_id;
-				  model = _.extend( new editor.Model.Movie,   { id: id } ),
-				   post = _.extend( new editor.Model.Post,    { id: id } ),
-				   meta = _.extend( new editor.Model.Meta,    { id: id } ),
-				details = _.extend( new editor.Model.Details, { id: id } );
+				       id = attributes.post.post_id;
+				    model = _.extend( new editor.Model.Movie,     { id: id } ),
+				     post = _.extend( new editor.Model.Post,      { id: id } ),
+				     meta = _.extend( new editor.Model.Meta,      { id: id } ),
+				  details = _.extend( new editor.Model.Details,   { id: id } ),
+				formatted = _.extend( new editor.Model.Formatted, { id: id } );
 
-				   _post = _.pick( attributes.post    || {}, _.keys( post.defaults ) );
-				   _meta = _.pick( attributes.meta    || {}, _.keys( meta.defaults ) );
-				_details = _.pick( attributes.details || {}, _.keys( details.defaults ) );
+				     _post = _.pick( attributes.post      || {}, _.keys( post.defaults ) );
+				     _meta = _.pick( attributes.meta      || {}, _.keys( meta.defaults ) );
+				  _details = _.pick( attributes.details   || {}, _.keys( details.defaults ) );
+				_formatted = _.pick( attributes.formatted || {}, _.keys( formatted.defaults ) );
 
 				_.extend( _post, {
 					post_date: new Date( _post.post_date )
@@ -428,10 +430,11 @@
 				} );
 
 				model.set( {
-					post:    post.set( _post ),
-					meta:    meta.set( _meta ),
-					details: details.set( _details ),
-					nonces:  attributes.nonces || {}
+					post:      post.set( _post ),
+					meta:      meta.set( _meta ),
+					details:   details.set( _details ),
+					formatted: formatted.set( _formatted ),
+					nonces:    attributes.nonces || {}
 				} );
 
 				return grid.Model.Movies.all.push( model );

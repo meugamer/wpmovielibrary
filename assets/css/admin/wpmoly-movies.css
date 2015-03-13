@@ -136,12 +136,22 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 }
 
 .media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit {
+	background: transparent;
+	border: 0;
+	color: #e6e6e6;
+	cursor: pointer;
+	height: 50px;
+	margin: 0;
+	padding: 0;
 	position: absolute;
+	right: 10px;
+	top: 140px;
+	width: 50px;
 	z-index: 9;
 }
 
 .media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit:hover {
-	
+	color: #fff;
 }
 
 .media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit::before {
@@ -155,6 +165,34 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 
 .media-modal.movie-modal.preview-movie-modal .edit-movie-header .edit::before {
 	
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .left,
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .right {
+	background: rgba(22, 35, 41, 0.75);
+	border: 0;
+	color: #bbb;
+	right: 64%;
+	z-index: 9;
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .left:hover,
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .right:hover {
+	background: #2ea2cc;
+	color: #fff;
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .left.disabled,
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .right.disabled {
+	display: none;
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .left {
+	top: 103px;
+}
+
+.media-modal.movie-modal.preview-movie-modal .edit-movie-header .right {
+	top: 153px;
 }
 
 .media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview {
@@ -255,6 +293,28 @@ body.wp-admin.wp-core-ui.wpmoly-grid-editor.edit-php.post-type-movie .wrap #movi
 .media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-header.with-background .movie-genres {
 	color: #ddd;
 }
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-details {
+	border-bottom: 1px solid #eee;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-details .movie-detail {
+	display: inline-block;
+	font-size: 14px;
+	line-height: 1.5rem;
+	vertical-align: top;
+	width: 49%;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-details .movie-detail-label {
+	color: #162329;
+	display: inline-block;
+	font-weight: 600;
+	min-width: 100px;
+}
+
+.media-modal.movie-modal.preview-movie-modal .movie-frame-content .movie-preview-content .movie-preview-details .movie-detail-value {}
+
 
 /*
  * WPMOLY Movie Grid
