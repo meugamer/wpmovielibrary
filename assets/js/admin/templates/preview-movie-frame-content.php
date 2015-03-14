@@ -35,5 +35,17 @@
 					</div>
 				</div>
 				<div class="movie-preview-meta">
+					<div class="movie-meta movie-director">
+						<span class="movie-meta-label"><?php _e( 'Directed by', 'wpmovielibrary' ); ?></span>
+						<span class="movie-meta-value">{{ data.director }}</span>
+					</div>
+					<div class="movie-meta movie-cast">
+						<span class="movie-meta-label"><?php _e( 'Starring', 'wpmovielibrary' ); ?></span>
+						<span class="movie-meta-value">{{ data.cast }}</span>
+					</div>
+					<div class="movie-meta movie-overview">
+						<h4>{{ data.tagline }}</h4>
+						<p>{{ data.overview }}</p>
+					</div>
 				</div>
 			</div>

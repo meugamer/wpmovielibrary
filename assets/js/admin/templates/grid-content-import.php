@@ -1,6 +1,6 @@
 
 			<div id="importer-search-form">
-				<input id="importer-search-query" type="text" value="Interstellar" placeholder="<?php _e( 'Search a movie', 'wpmovielibrary' ); ?>" />
+				<input id="importer-search-query" type="text" value="Pirates of the Caribbean" placeholder="<?php _e( 'Search a movie', 'wpmovielibrary' ); ?>" />
 				<a id="importer-search" href="#"><span class="wpmolicon icon-search"></span></a>
 				<p id="importer-add" href="#"><?php _e( 'Or <a href="#">create a list</a> of movies to import', 'wpmovielibrary' ); ?></p>
 			</div>
@@ -12,12 +12,12 @@
 							<a class="movie-action center import-movie" href="#" title="<?php _e( 'Import Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-import"></span></a>
 							<a class="movie-action top-right enqueue-movie" href="#" title="<?php _e( 'Enqueue Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a>
 							<div class="poster">
-								<img src="http://wp41/wp-content/uploads/2014/12/5xGVqIUuT62Mn7KG3tB8TUw2dJV-200x300.jpg" alt="Interstellar" />
+								<img src="https://image.tmdb.org/t/p/w185/jUkGuSC9Kt29rW3x6UiB9zyZr1M.jpg" alt="" />
 							</div>
 						</div>
 						<div class="attachment-meta movie-meta">
-							<div class="movie-year">2014</div>
-							<div class="movie-title">Interstellar</div>
+							<div class="movie-year">2011</div>
+							<div class="movie-title">Pirates of the Caribbean: On Stranger Tides</div>
 						</div>
 					</li>
 					<li class="attachment movie search-result">
@@ -25,12 +25,12 @@
 							<a class="movie-action center import-movie" href="#" title="<?php _e( 'Import Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-import"></span></a>
 							<a class="movie-action top-right enqueue-movie" href="#" title="<?php _e( 'Enqueue Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a>
 							<div class="poster">
-								<img src="http://wp41/wp-content/uploads/2014/12/lbGGuk9K1kNQqDabaMyFz1L9iTg-200x300.jpg" alt="Interstellar" />
+								<img src="https://image.tmdb.org/t/p/w185/tkt9xR1kNX5R9rCebASKck44si2.jpg" alt="" />
 							</div>
 						</div>
 						<div class="attachment-meta movie-meta">
-							<div class="movie-year">2014</div>
-							<div class="movie-title">Interstellar</div>
+							<div class="movie-year">2003</div>
+							<div class="movie-title">Pirates of the Caribbean: The Curse of the Black Pearl</div>
 						</div>
 					</li>
 					<li class="attachment movie search-result">
@@ -38,12 +38,12 @@
 							<a class="movie-action center import-movie" href="#" title="<?php _e( 'Import Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-import"></span></a>
 							<a class="movie-action top-right enqueue-movie" href="#" title="<?php _e( 'Enqueue Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a>
 							<div class="poster">
-								<img src="http://wp41/wp-content/uploads/2014/12/gthKURgD9wBq0NDniY8TI5wtKE1-200x300.jpg" alt="Interstellar" />
+								<img src="https://image.tmdb.org/t/p/w185/iwvyZBRD7qfDQ8ylRmf5NbLC5Oi.jpg" alt="" />
 							</div>
 						</div>
 						<div class="attachment-meta movie-meta">
-							<div class="movie-year">2014</div>
-							<div class="movie-title">Interstellar</div>
+							<div class="movie-year">2006</div>
+							<div class="movie-title">Pirates of the Caribbean: Dead Man's Chest</div>
 						</div>
 					</li>
 					<li class="attachment movie search-result">
@@ -51,12 +51,12 @@
 							<a class="movie-action center import-movie" href="#" title="<?php _e( 'Import Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-import"></span></a>
 							<a class="movie-action top-right enqueue-movie" href="#" title="<?php _e( 'Enqueue Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-plus"></span></a>
 							<div class="poster">
-								<img src="http://wp41/wp-content/uploads/2014/12/sI0JVp3918D9RMm6XFRBAd7qkJy-200x300.jpg" alt="Interstellar" />
+								<img src="https://image.tmdb.org/t/p/w185/llx7OTBy7BvflJzoFSStmBcdegy.jpg" alt="" />
 							</div>
 						</div>
 						<div class="attachment-meta movie-meta">
-							<div class="movie-year">2014</div>
-							<div class="movie-title">Interstellar</div>
+							<div class="movie-year">2007</div>
+							<div class="movie-title">Pirates of the Caribbean: At World's End</div>
 						</div>
 					</li>
 				</ul>
