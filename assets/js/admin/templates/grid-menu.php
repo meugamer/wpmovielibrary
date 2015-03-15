@@ -2,14 +2,14 @@
 			<div class="movie-menu wp-filter">
 				<div class="media-toolbar-secondary">
 					<div class="view-switch movie-grid-view-switch">
-						<a data-mode="grid" href="<?php echo admin_url( 'edit.php?post_type=movie' ); ?>" class="movie-grid-grid <# if ( 'grid' == data ) { #>current<# } #>">
-							<span class="dashicons dashicons-grid-view"></span>
-						</a><a data-mode="exerpt" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=exerpt' ); ?>" class="movie-grid-exerpt <# if ( 'exerpt' == data ) { #>current<# } #>">
-							<span class="dashicons dashicons-exerpt-view"></span>
-						</a><a data-mode="list" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=list' ); ?>" class="movie-grid-list <# if ( 'list' == data ) { #>current<# } #>">
-							<span class="dashicons dashicons-list-view"></span>
-						</a><a data-mode="import" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=import' ); ?>" class="movie-grid-import <# if ( 'import' == data ) { #>current<# } #>">
-							<span class="wpmolicon icon-import"></span>
+						<a data-mode="grid" title="<?php _e( 'Grid View' ); ?>" href="<?php echo admin_url( 'edit.php?post_type=movie' ); ?>" class="movie-grid-grid <# if ( 'grid' == data ) { #>current<# } #>">
+							<span class="dashicons dashicons-grid-view"></span><span class="screen-reader-text"><?php _e( 'Grid View' ); ?></span>
+						</a><a data-mode="exerpt" title="<?php _e( 'Extended Grid View', 'wpmovielibrary' ); ?>" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=exerpt' ); ?>" class="movie-grid-exerpt <# if ( 'exerpt' == data ) { #>current<# } #>">
+							<span class="dashicons dashicons-exerpt-view"></span><span class="screen-reader-text"><?php _e( 'Extended Grid View', 'wpmovielibrary' ); ?></span>
+						</a><a data-mode="list" title="<?php _e( 'List View' ); ?>" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=list' ); ?>" class="movie-grid-list <# if ( 'list' == data ) { #>current<# } #>">
+							<span class="dashicons dashicons-list-view"></span><span class="screen-reader-text"><?php _e( 'List View' ); ?></span>
+						</a><a data-mode="import" title="<?php _e( 'Importer', 'wpmovielibrary' ); ?>" href="<?php echo admin_url( 'edit.php?post_type=movie&mode=import' ); ?>" class="movie-grid-import <# if ( 'import' == data ) { #>current<# } #>">
+							<span class="wpmolicon icon-import"></span><span class="screen-reader-text"><?php _e( 'Importer', 'wpmovielibrary' ); ?></span>
 						</a>
 					</div>
 

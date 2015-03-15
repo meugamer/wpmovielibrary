@@ -24,22 +24,55 @@
 	width: 50%;
 }
 
-#importer-search {
+#importer-search,
+#importer-settings {
+	box-shadow: 0 0 0;
 	color: #bbb;
+	display: inline-block;
+	height: 3rem;
+	line-height: 3rem;
+	position: relative;
 	text-decoration: none;
+	top: -4px;
+	width: 3rem;
 }
 
-#importer-search span {
+#importer-search {
+	margin-left: -90px;
+}
+
+#importer-settings {
+	margin-left: -12px;
+}
+
+
+#importer-search span,
+#importer-settings span {
 	font-size: 2.25rem;
 	height: 3rem;
 	line-height: 3rem;
-	margin-left: -3.5rem;
 	width: 3rem;
+}
+
+#importer-settings span {
+	font-size: 1.75rem;
 }
 
 #importer-add {
 	font-size: 11px;
 	opacity: 0.6;
+}
+
+/*
+ * Search Settings
+ */
+
+#importer-search-settings {
+	border-top: 1px solid #ddd;
+	display: inline-block;
+	padding-top: 12px;
+	position: relative;
+	text-align: center;
 }
 
 /*
@@ -52,26 +85,6 @@
 	padding-top: 12px;
 	position: relative;
 	text-align: center;
-}
-
-#importer-search-result:before,
-#importer-search-result:after {
-	border: 12px solid transparent;
-	content: '';
-	height: 0;
-	left: 33%;
-	position: absolute;
-	width: 0;
-}
-
-#importer-search-result:before {
-	border-bottom-color: #bbb;
-	top: -24px;
-}
-
-#importer-search-result:after {
-	border-bottom-color: #f1f1f1;
-	top: -23px;
 }
 
 #importer-search-results .attachments.movies .attachment.movie.search-result {

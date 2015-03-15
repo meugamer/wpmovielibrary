@@ -36,6 +36,7 @@ jQuery( document ).ready( function() {
 	if ( 'edit-movie' == pagenow && 'edit-php' == adminpage ) {
 		wpmoly.grid();
 		wpmoly.editor();
+		wpmoly.importer();
 	}
 
 } );

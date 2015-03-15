@@ -2,7 +2,11 @@
 			<div id="importer-search-form">
 				<input id="importer-search-query" type="text" value="Pirates of the Caribbean" placeholder="<?php _e( 'Search a movie', 'wpmovielibrary' ); ?>" />
 				<a id="importer-search" href="#"><span class="wpmolicon icon-search"></span></a>
+				<a id="importer-settings" href="#"><span class="wpmolicon icon-settings"></span></a>
 				<p id="importer-add" href="#"><?php _e( 'Or <a href="#">create a list</a> of movies to import', 'wpmovielibrary' ); ?></p>
+			</div>
+
+			<div id="importer-search-settings">
 			</div>
 
 			<div id="importer-search-results">

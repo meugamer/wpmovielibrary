@@ -506,6 +506,9 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 				$scripts['grid-models']         = array( '/assets/js/admin/wpmoly-grid-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
 				$scripts['grid-views']          = array( '/assets/js/admin/wpmoly-grid-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
 				$scripts['grid-editor-views']   = array( '/assets/js/admin/wpmoly-grid-editor-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
+				$scripts['importer-js']             = array( '/assets/js/admin/wpmoly-importer.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
+				$scripts['importer-models']     = array( '/assets/js/admin/wpmoly-importer-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
+				$scripts['importer-views']      = array( '/assets/js/admin/wpmoly-importer-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
 			}
 
 			if ( $hook_suffix == $update_movies ) {
