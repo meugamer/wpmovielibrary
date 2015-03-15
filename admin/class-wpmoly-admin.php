@@ -584,8 +584,8 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		private function admin_templates() {
 
-			global $pagenow;
-			$is_movie = ( 'movie' == get_post_type() );
+			global $pagenow, $current_screen;
+			$is_movie = ( 'movie' == get_post_type() || 'movie' == $current_screen->post_type );
 
 			extract( $this->screen_hooks );
 
