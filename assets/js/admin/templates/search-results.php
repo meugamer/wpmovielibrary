@@ -1,6 +1,6 @@
 
 			<# if ( true == data.paginated ) { #>
-			<div id="wpmoly-meta-search-results-pagination">
+			<div id="wpmoly-meta-search-results-pagination" class="pagination">
 				<# if ( data.page > 1 ) { #>
 				<div class="wpmoly-meta-search-results-nav"><a id="wpmoly-meta-search-results-prev" href="#"><span class="wpmolicon icon-arrow-left"></span></a></div>
 				<# } #>
@@ -10,13 +10,13 @@
 				<# } #>
 			</div>
 			<# } #>
-			<div id="wpmoly-meta-search-results-container">
+			<div id="wpmoly-meta-search-results-container" class="container">
 			<# _.each( data.results, function( result ) { #>
-				<div class="wpmoly-select-movie">
-					<a id="wpmoly-select-movie-{{ result.id }}" href="#{{ result.id }}">
+				<div class="wpmoly-select-movie" data-id="{{ result.id }}">
+					<div class="poster">
 						<img src="{{ result.poster }}" alt="{{ result.title }}" />
-						<em>{{ result.title }}</em> ({{ result.year }})
-					</a>
+					</div>
+					<span class="movie-title">{{ result.title }}</span> ({{ result.year }})
 				</div>
 			<# } ); #>
 

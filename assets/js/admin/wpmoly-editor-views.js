@@ -276,8 +276,8 @@ window.wpmoly = window.wpmoly || {};
 			this.settings.on( 'change:s',    this.updateQuery, this );
 			this.settings.on( 'change:lang', this.toggleLangSelect, this );
 
-			this.target.on( 'sync:start', this.lock, this );
-			this.target.on( 'sync:done',  this.reset, this );
+			this.on( 'search:start', this.lock, this );
+			this.on( 'search:done',  this.reset, this );
 		},
 
 		/**
@@ -461,6 +461,15 @@ window.wpmoly = window.wpmoly || {};
 			this.model.set( data );
 		},
 
+		/**
+		 * Trigger the search when user hit the Enter key
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    JS Event
+		 * 
+		 * @return   void
+		 */
 		submit: function( event ) {
 
 			if ( 13 !== event.keyCode )
@@ -489,6 +498,7 @@ window.wpmoly = window.wpmoly || {};
 
 			var query = this.$( '#wpmoly-search-query' ).val(),
 			     lang = this.$( '#wpmoly-search-lang' ).val();
+
 			if ( query != this.settings.get( 's' ) )
 				this.settings.set( { s: query, type: 'title', lang: lang } );
 
@@ -608,6 +618,7 @@ window.wpmoly = window.wpmoly || {};
 			_.bindAll( this, 'render' );
 
 			this.model.on( 'change', this.changed, this );
+			this.model.on( 'change:cast change:overview', _.debounce( this.resizeTextarea, 25 ), this );
 		},
 
 		/**
@@ -656,6 +667,23 @@ window.wpmoly = window.wpmoly || {};
 			   value = event.currentTarget.value;
 
 			this.model.set( meta, value );
+		},
+
+		/**
+		 * Adjust textareas to fit their content correctly
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		resizeTextarea: function() {
+
+			var $textarea = this.$( 'textarea' );
+			_.each( $textarea, function( textarea ) {
+				if ( textarea.scrollHeight > textarea.offsetHeight ) {
+					this.$( textarea ).height( textarea.scrollHeight );
+				}
+			} );
 		}
 	});
 
@@ -671,10 +699,10 @@ window.wpmoly = window.wpmoly || {};
 		el: '#wpmoly-meta-search-results',
 
 		events : {
-			'click .wpmoly-select-movie a' : 'get',
-			'click #wpmoly-empty-select-results' : '_reset',
-			'click #wpmoly-meta-search-results-prev' : 'prev',
-			'click #wpmoly-meta-search-results-next' : 'next',
+			'click .wpmoly-select-movie':             'get',
+			'click #wpmoly-empty-select-results':     '_reset',
+			'click #wpmoly-meta-search-results-prev': 'prev',
+			'click #wpmoly-meta-search-results-next': 'next',
 		},
 
 		/**
@@ -697,7 +725,7 @@ window.wpmoly = window.wpmoly || {};
 			this.collection.on( 'add', this.render, this );
 			this.collection.on( 'reset', this.reset, this );
 
-			this.listenTo( this.movie, 'sync:done', this.close );
+			this.listenTo( this.controller, 'search:done', this.close );
 		},
 
 		/**
@@ -737,24 +765,25 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		resize: function() {
 
-			var container = document.querySelector( '#wpmoly-meta-search-results-container' );
-			if ( _.isNull( container ) )
-				return false;
+			var $container = this.$( '.container' ),
+			        $items = this.$( '.wpmoly-select-movie' )
+			      $posters = this.$( '.wpmoly-select-movie .poster' ),
+			         width = $container.innerWidth();
 
-			var fwidth = container.clientWidth,
-				width = 120;
+			this.columns = Math.min( Math.round( width / 180 ), 12 ) || 1;
 
-			if ( this.$el.hasClass( 'paginated' ) )
-				fwidth -= 80;
-			else
-				fwidth -= 80;
+			$container.attr( 'data-columns', this.columns );
 
-			if ( fwidth >= 800 )
-				width = Math.round( fwidth / 5 );
-			else if ( fwidth >= 500 )
-				width = Math.round( fwidth / 4 );
+			var width = Math.floor( width / this.columns ),
+			   height = width * 1.5;
 
-			this.$( '.wpmoly-select-movie' ).width( width );
+			$items.css({
+				width:  width
+			});
+			$posters.css({
+				height: height,
+				width:  width
+			});
 		},
 
 		/**
@@ -770,12 +799,12 @@ window.wpmoly = window.wpmoly || {};
 
 			event.preventDefault();
 
-			var id = event.currentTarget.hash.replace( '#', '' );
+			var id = parseInt( this.$( event.currentTarget ).attr( 'data-id' ) );
 
 			this.settings.set( { type: 'id' } );
 			this.settings.set( { s: id }, { silent: true } );
 
-			this.movie.sync( 'search', this.model, {} );
+			this.controller.sync( 'search', this.settings, {} );
 		},
 
 		/**

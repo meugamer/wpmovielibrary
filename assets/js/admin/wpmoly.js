@@ -26,10 +26,6 @@ _.extend( wpmoly, {
 	}
 } );
 
-_.isDefined = function( elem ) {
-	return undefined !== elem;
-};
-
 jQuery( document ).ready( function() {
 
 	if ( 'movie' == pagenow && ( 'post-php' == adminpage || 'post-new-php' == adminpage ) ) {

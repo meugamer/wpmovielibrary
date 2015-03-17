@@ -897,6 +897,89 @@
 	text-align: center;
 }
 
+/* Select Movies */
+
+#wpmoly-meta-search-results-container .wpmoly-select-movie {
+	color: #2F6277;
+	cursor: pointer;
+	display: inline-table;
+	height: 18em;
+	margin-bottom: 0.75em;
+	padding: 0.25em;
+	text-align: center;
+	vertical-align: top;
+	width: 12em;
+}
+
+#wpmoly-meta-search-results-container .wpmoly-select-movie a {
+	box-shadow: 0 0 0;
+	text-decoration: none;
+}
+
+#wpmoly-meta-search-results-container .wpmoly-select-movie img {
+	box-shadow: 0 1px 3px #888;
+	height: 100%;
+	max-height: 20em;
+	width: 100%;
+}
+
+#wpmoly-meta-search-results-container .wpmoly-select-movie:hover img {
+	opacity: 0.8;
+}
+
+#wpmoly-meta-search-results-container .wpmoly-select-movie .movie-title {
+	display: block;
+	font-weight: 600;
+}
+
+#wpmoly-meta-search-results-container[data-columns="1"] .wpmoly-select-movie {
+	width: 100%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="2"] .wpmoly-select-movie {
+	width: 50%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="3"] .wpmoly-select-movie {
+	width: 33.33%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="4"] .wpmoly-select-movie {
+	width: 25%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="5"] .wpmoly-select-movie {
+	width: 20%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="6"] .wpmoly-select-movie {
+	width: 16.66%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="7"] .wpmoly-select-movie {
+	width: 14.28%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="8"] .wpmoly-select-movie {
+	width: 12.5%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="9"] .wpmoly-select-movie {
+	width: 11.11%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="10"] .wpmoly-select-movie {
+	width: 10%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="11"] .wpmoly-select-movie {
+	width: 9.09%;
+}
+
+#wpmoly-meta-search-results-container[data-columns="12"] .wpmoly-select-movie {
+	width: 8.33%;
+}
+
 #wpmoly-meta-search-results #wpmoly-empty-select-results {
 	bottom: 0;
 	box-shadow: 0 0 0;

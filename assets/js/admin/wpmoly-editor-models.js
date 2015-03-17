@@ -165,7 +165,6 @@ window.wpmoly = window.wpmoly || {};
 				// Let know we've started queryring
 				options.beforeSend = function() {
 
-					this.trigger( 'sync:start',   this );
 					this.trigger( 'search:start', this );
 
 					this.status.loading();
@@ -178,8 +177,10 @@ window.wpmoly = window.wpmoly || {};
 
 				// Let know we're done queryring
 				options.complete = function() {
-					this.trigger( 'sync:end', this );
+
+					this.trigger( 'search:end', this );
 					this.status.loaded();
+					this.status.reset();
 				};
 
 				// Handle errors
@@ -210,7 +211,7 @@ window.wpmoly = window.wpmoly || {};
 							this.movie.setTaxonomies( response.taxonomies );
 
 						// Triggers
-						this.trigger( 'sync:done', this, response );
+						this.trigger( 'search:done', this, response );
 
 						return true;
 					}
@@ -231,84 +232,6 @@ window.wpmoly = window.wpmoly || {};
 
 					this.status.say( l10n_movies.multiple_results.replace( '%d', results.length ) );
 				};
-
-
-
-
-
-
-
-
-				/*editor.models.status.trigger( 'loading:start' );
-				if ( 'id' == editor.models.search.get( 'type' ) )
-					editor.models.status.trigger( 'status:say', l10n_movies.loading );
-				else
-					editor.models.status.trigger( 'status:say', l10n_movies.searching );
-
-				options = options || {};
-				options.context = this;
-				options.data = _.extend( options.data || {}, {
-					action: 'wpmoly_search_movie',
-					nonce: wpmoly.get_nonce( 'search-movies' ),
-					query: editor.models.search.toJSON()
-				});
-
-				// Let know we're done queryring
-				options.complete = function() {
-					this.trigger( 'sync:end', this );
-					editor.models.status.trigger( 'loading:end' );
-				};
-
-				// Handle errors
-				options.error = function( response ) {
-
-					var error = response;
-					if ( _.isArray( error ) )
-						error = _.first( error );
-
-					editor.models.status.set({
-						error: true,
-						code: error.code,
-						message: error.message
-					});
-				};
-
-				// Let's go!
-				options.success = function( response ) {
-
-					// Response has meta, that's a single movie
-					if ( undefined !== response.meta ) {
-
-						// Set metadata
-						this.setMeta( response.meta );
-
-						// Set Taxonomies
-						if ( undefined !== response.taxonomies )
-							this.setTaxonomies( response.taxonomies );
-
-						// Triggers
-						this.trigger( 'sync:done', this, response );
-						//editor.models.status.trigger( 'status:say', l10n_misc.done );
-
-						return true;
-					}
-
-					editor.models.results.pages = response.total_pages;
-					editor.models.results.results = response.total_results;
-					var results = [];
-
-					// If not, means multiple movies, show a choice
-					_.each( response.results, function( result ) {
-
-						var result = new editor.Model.Result( result );
-						results.push( result );
-					}, this );
-
-					editor.models.results.reset( [], { silent: true } );
-					editor.models.results.add( results );
-
-					editor.models.status.trigger( 'status:say', l10n_movies.multiple_results.replace( '%d', results.length ) );
-				};*/
 
 				return wp.ajax.send( options );
 			}
@@ -400,7 +323,7 @@ window.wpmoly = window.wpmoly || {};
 			var meta = _.extend( this.defaults, meta );
 			this.set( meta );
 
-			this.movie.save();
+			this.save();
 		},
 
 		/**

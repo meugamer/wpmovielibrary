@@ -99,37 +99,6 @@ body.post-php.post-type-movie #postimagediv {
 	display: inline-block;
 }
 
-/* Select Movies */
-
-.wpmoly-select-movie {
-	display: inline-table;
-	height: 18em;
-	padding: 0.25em;
-	text-align: center;
-	vertical-align: top;
-	width: 12em;
-}
-
-.wpmoly-select-movie a {
-	box-shadow: 0 0 0;
-	text-decoration: none;
-}
-
-.wpmoly-select-movie img {
-	box-shadow: 0 1px 3px #888;
-	height: 100%;
-	max-height: 20em;
-	width: 100%;
-}
-
-.wpmoly-select-movie:hover img {
-	opacity: 0.8;
-}
-
-.wpmoly-select-movie em {
-	display: block;
-}
-
 /* Status */
 
 #wpmoly_status {
