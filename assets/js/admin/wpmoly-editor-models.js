@@ -1,7 +1,5 @@
 
-window.wpmoly = window.wpmoly || {};
-
-(function( $, _, Backbone, wp, wpmoly ) {
+( function( $, _, Backbone, wp, wpmoly ) {
 
 	var  editor = wpmoly.editor
 	l10n_movies = wpmoly.l10n.movies,

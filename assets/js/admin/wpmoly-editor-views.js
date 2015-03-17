@@ -1,6 +1,4 @@
 
-window.wpmoly = window.wpmoly || {};
-
 ( function( $, _, Backbone, wp, wpmoly ) {
 
 	var editor = wpmoly.editor,
