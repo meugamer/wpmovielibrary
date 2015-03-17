@@ -3,7 +3,7 @@
 
 	var editor = wpmoly.editor = function() {
 
-		// Trick of treats
+		// Treats or tricks
 		redux.field_objects.select.init();
 
 		// Extract metadata from view
@@ -14,36 +14,83 @@
 			data[ name ] = field.value;
 		});
 
-		// Init models
-		editor.models.status = new wpmoly.editor.Model.Status();
-		editor.models.movie = new wpmoly.editor.Model.Movie( data );
-		editor.models.preview = new wpmoly.editor.Model.Preview();
-		editor.models.search = new wpmoly.editor.Model.Search({
-			post_id:  parseInt( document.querySelector( '#post_ID' ).value ),
-			lang:     document.querySelector( '#wpmoly-search-lang' ).value,
-			adult:    Boolean( parseInt( document.querySelector( '#wpmoly-search-adult' ).value ) ),
-			paginate: Boolean( parseInt( document.querySelector( '#wpmoly-search-paginate' ).value ) )
-		});
-		editor.models.results = new wpmoly.editor.Model.Results();
+		var lang = wpmoly.getValue( '#wpmoly-search-lang', '' ),
+		 post_id = parseInt( wpmoly.getValue( '#post_ID', 0 ) ),
+		   adult = Boolean( parseInt( wpmoly.getValue( '#wpmoly-search-adult', false ) ) ),
+		paginate = Boolean( parseInt( wpmoly.getValue( '#wpmoly-search-paginate', true ) ) );
 
+		// Init models
+		// Create movie model
+		editor.models.movie = new editor.Model.Movie;
 		editor.models.movie.settings = {
-			actorlimit: parseInt( document.querySelector( '#wpmoly-actor-limit' ).value ),
-			setfeatured: parseInt( document.querySelector( '#wpmoly-poster-featured' ).value ),
-			importimages: parseInt( document.querySelector( '#wpmoly-auto-import-images' ).value ),
+			actorlimit:   parseInt( wpmoly.getValue( '#wpmoly-actor-limit',        0 ) ),
+			setfeatured:  parseInt( wpmoly.getValue( '#wpmoly-poster-featured',    1 ) ),
+			importimages: parseInt( wpmoly.getValue( '#wpmoly-auto-import-images', 0 ) ),
 			autocomplete: {
-				collection: parseInt( document.querySelector( '#wpmoly-autocomplete-collection' ).value ),
-				genre: parseInt( document.querySelector( '#wpmoly-autocomplete-genre' ).value ),
-				actor: parseInt( document.querySelector( '#wpmoly-autocomplete-actor' ).value )
+				collection: parseInt( wpmoly.getValue( '#wpmoly-autocomplete-collection', 1 ) ),
+				genre:      parseInt( wpmoly.getValue( '#wpmoly-autocomplete-genre',      1 ) ),
+				actor:      parseInt( wpmoly.getValue( '#wpmoly-autocomplete-actor',      1 ) )
 			}
 		};
 
+		// Not a single metadata found, consider it's empty
+		if ( '0' != _.flatten( data ).join( '' ) ) {
+			editor.models.movie.set( data, { silent: true } );
+		}
+
+		// Preview Metabox Tab
+		editor.models.preview = new editor.Model.Preview({
+			controller: editor.models.movie
+		});
+
+		// Search engine
+		editor.models.search = search = new editor.Model.Search({
+			settings: new editor.Model.Settings({
+				post_id:  post_id,
+				lang:     lang,
+				adult:    adult,
+				paginate: paginate
+			}),
+			status:   new editor.Model.Status,
+			results:  new editor.Model.Results,
+			movie:    editor.models.movie
+		});
+
 		// Init views
-		editor.views.movie = new wpmoly.editor.View.Movie( { model: editor.models.movie } );
-		editor.views.preview = new wpmoly.editor.View.Preview( { model: editor.models.movie } );
-		editor.views.search = new wpmoly.editor.View.Search( {model: editor.models.search, target: editor.models.movie } );
-		editor.views.settings = new wpmoly.editor.View.Settings( { model: editor.models.search } );
-		editor.views.results = new wpmoly.editor.View.Results( { collection: editor.models.results } );
-		editor.views.status = new wpmoly.editor.View.Status( { model: editor.models.status } );
+		_.extend( editor.views, {
+
+			movie: new editor.View.Movie({
+				model: editor.models.movie
+			}),
+
+			preview: new editor.View.Preview({
+				model: editor.models.movie
+			}),
+
+			search: new editor.View.Search({
+				model:  editor.models.search,
+				target: editor.models.movie
+			}),
+
+			settings: new editor.View.Settings({
+				model:      editor.models.search.get( 'settings' ),
+				controller: editor.models.search
+			}),
+
+			results: new editor.View.Results({
+				collection: editor.models.search.get( 'results' ),
+				controller: editor.models.search
+			}),
+
+			status: new editor.View.Status({
+				model:      editor.models.search.get( 'status' ),
+				controller: editor.models.search
+			})
+		} );
+
+		editor.models.search.view = editor.views.search;
+		editor.models.search.get( 'settings' ).view = editor.views.settings;
+		
 
 		document.querySelector( '#title' ).addEventListener( 'input', function( event ) {
 			editor.models.search.set( { s: event.target.value } );

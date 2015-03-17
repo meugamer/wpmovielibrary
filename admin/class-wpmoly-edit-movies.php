@@ -1112,7 +1112,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 			$metadata  = wpmoly_get_movie_meta( $post_id );
 			$metadata  = wpmoly_filter_empty_array( $metadata );
 
-			if ( '1' == $metadata['_empty'] ) {
+			if ( ! $post_id && '1' == $metadata['_empty'] ) {
 				foreach ( $metadata as $key => $value) {
 					$metadata[ $key ] = "{{ meta.{$key} }}";
 				}

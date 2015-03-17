@@ -18,6 +18,11 @@ _.extend( wpmoly, {
 			.compact()
 			.object()
 			.value();
+	},
+
+	getValue: function( selector, _default ) {
+
+		return ( document.querySelector( selector ) || {} ).value || _default;
 	}
 } );
 
@@ -27,7 +32,7 @@ _.isDefined = function( elem ) {
 
 jQuery( document ).ready( function() {
 
-	if ( 'movie' == pagenow && 'post-php' == adminpage ) {
+	if ( 'movie' == pagenow && ( 'post-php' == adminpage || 'post-new-php' == adminpage ) ) {
 		wpmoly.metabox();
 		wpmoly.editor();
 		wpmoly.media();
