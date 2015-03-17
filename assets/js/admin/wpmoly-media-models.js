@@ -1,7 +1,8 @@
 
 ( function( $, _, Backbone, wp, wpmoly ) {
 
-	var media = wpmoly.media;
+	var media = wpmoly.media,
+	   editor = wpmoly.editor;
 
 	/**
 	 * WPMOLY Backbone basic Attachment Model
@@ -115,6 +116,8 @@
 		initialize: function() {
 
 			this.on( 'dequeue', this.dequeue, this );
+
+			this.controller = editor.models.search;
 		},
 
 		/**
@@ -197,8 +200,8 @@
 				this.trigger( 'dequeue:start' );
 				this._uploading = true;
 
-				wpmoly.editor.models.status.trigger( 'loading:start' );
-				wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ this._type ].uploading );
+				this.controller.status.loading();
+				this.controller.status.say( wpmoly.l10n.media[ this._type ].uploading );
 			}
 
 			// If we reached the end of the queue, don't go further
@@ -208,8 +211,8 @@
 				this.trigger( 'dequeue:done' );
 				this._uploading = false;
 
-				wpmoly.editor.models.status.trigger( 'loading:end' );
-				wpmoly.editor.models.status.trigger( 'status:say', wpmoly.l10n.media[ this._type ].uploaded );
+				this.controller.status.loaded();
+				this.controller.status.say( wpmoly.l10n.media[ this._type ].uploaded );
 
 				return this;
 			}

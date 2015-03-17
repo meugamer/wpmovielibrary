@@ -1,7 +1,8 @@
 
 ( function( $, _, Backbone, wp, wpmoly ) {
 
-	var media = wpmoly.media;
+	var media = wpmoly.media,
+	   editor = wpmoly.editor;
 
 	/**
 	 * WPMOLY Backbone basic Attachment View
@@ -93,7 +94,7 @@
 			if ( undefined != event )
 				event.preventDefault();
 
-			this.$el.find( '.wpmoly-imported-attachment-menu' ).toggleClass( 'active' );
+			this.$( '.wpmoly-imported-attachment-menu' ).toggleClass( 'active' );
 		},
 
 		/**
@@ -173,6 +174,8 @@
 		 */
 		initialize: function() {
 
+			this.controller = this.collection.controller;
+
 			_.bindAll( this, 'render' );
 
 			this.render();
@@ -193,7 +196,7 @@
 		 */
 		render: function() {
 
-			this.$el.find( '.wpmoly-imported-' + this._type ).remove();
+			this.$( '.wpmoly-imported-' + this._type ).remove();
 
 			this.collection.forEach( this.renderAttachment, this );
 			return this;
@@ -252,7 +255,7 @@
 				this.createLanguageFilter();
 
 			this._frame = this.media( {
-				state: this._library.id,
+				state:  this._library.id,
 				states: this._library.state
 			} );
 
@@ -306,7 +309,7 @@
 							wp.media.view.AttachmentFilters.prototype.initialize.apply( this, arguments );
 
 							// Make ALL languages disabled so that we can enable the available ones later
-							this.$el.find( 'option' ).not( ':first' ).prop( 'disabled', true );
+							this.$( 'option' ).not( ':first' ).prop( 'disabled', true );
 						},
 						
 						createFilters: function() {
@@ -318,7 +321,7 @@
 							var  filter = this.filters[ this.el.value ],
 								models = this.controller.state().get( 'library' ).models,
 							    browser = this.controller.state().frame.views.get('.media-frame-content')[0],
-							attachments = browser.$el.find( 'li.attachment' );
+							attachments = browser.$( 'li.attachment' );
 
 							if ( undefined === models || ! models.length || '' == filter.code ) {
 								attachments.removeClass( 'wpmoly-filtered-attachment' );
@@ -350,9 +353,9 @@
 		filterLanguageFilters: function( model, collection ) {
 
 			var browser = this._frame.state().frame.views.get('.media-frame-content')[0],
-			    language = browser.toolbar.secondary.get('language');
+			   language = browser.toolbar.secondary.get('language');
 
-			language.$el.find( 'option[value="' + model.get( 'metadata' ).iso_639_1 + '"]' ).prop( 'disabled', false );
+			language.$( 'option[value="' + model.get( 'metadata' ).iso_639_1 + '"]' ).prop( 'disabled', false );
 		},
 
 		/**
@@ -368,9 +371,9 @@
 		selectionResize: function( model ) {
 
 			var thumbnail = _.clone( model.get( 'sizes' ).thumbnail ),
-				medium = _.clone( model.get( 'sizes' ).medium );
+			       medium = _.clone( model.get( 'sizes' ).medium );
 			model.attributes.sizes.thumbnail = medium;
-			model.attributes.sizes.medium = thumbnail;
+			model.attributes.sizes.medium    = thumbnail;
 		},
 
 
@@ -396,7 +399,7 @@
 		select: function() {
 
 			var selection = this._frame.state( this._library.id ).get( 'selection' ),
-			    models = selection.models;
+			       models = selection.models;
 
 			this.collection.add( models ).trigger( 'dequeue' );
 		},
@@ -413,7 +416,7 @@
 		upload: function( attachment ) {
 
 			var attachments = attachment.collection.models,
-				    models = this._frame.state( this._library.id ).get( 'library' ).models;
+			         models = this._frame.state( this._library.id ).get( 'library' ).models;
 			    attachments = _.filter( attachments, function( obj ) { return ! _.findWhere( models, obj ); });
 
 			_.each( attachments, function( _attachment ) {
@@ -482,9 +485,9 @@
 		_library: {
 			id: 'backdrops',
 			state: new wp.media.controller.Library({
-				id:                 'backdrops',
-				title:              function() {
-					var title = wpmoly.editor.models.movie.get( 'title' )
+				id:    'backdrops',
+				title: function() {
+					var title = editor.models.movie.get( 'title' )
 					if ( '' != title && undefined != title )
 						return wpmoly.l10n.media.backdrops.title.replace( '%s', title );
 					return wpmoly.l10n.media.backdrops.default_title;
@@ -512,7 +515,7 @@
 			media.View.Attachments.prototype.initialize.apply( this, arguments );
 
 			// Bind to the editor sync:done event to set featured image
-			this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.reload );
+			this.listenTo( this.controller, 'search:done', this.reload );
 
 			return ;
 		},
@@ -542,7 +545,7 @@
 				labeltitle: ( data.images.length > 1 ? wpmoly.l10n.media.backdrops.available.replace( '%d', data.images.length ) : wpmoly.l10n.media.backdrop.available )
 			});
 
-			var imports = wpmoly.editor.models.movie.settings.importimages;
+			var imports = this.controller.settings.importimages;
 			if ( -1 == imports || 0 < imports )
 				this.importBackdrops();
 		},
@@ -560,7 +563,7 @@
 			if ( _.isEmpty( backdrops ) )
 				return this;
 
-			var     q = wpmoly.editor.models.movie.settings.importimages;
+			var     q = this.controller.movie.settings.importimages;
 			backdrops = backdrops.slice( Math.max( 0, backdrops.length - q ), Math.max( q, backdrops.length ) );
 
 			// Upload
@@ -600,9 +603,9 @@
 		_library: {
 			id: 'posters',
 			state: new wp.media.controller.Library({
-				id:                 'posters',
-				title:              function() {
-					var title = wpmoly.editor.models.movie.get( 'title' )
+				id:    'posters',
+				title: function() {
+					var title = editor.models.movie.get( 'title' )
 					if ( '' != title && undefined != title )
 						return wpmoly.l10n.media.posters.title.replace( '%s', title );
 					return wpmoly.l10n.media.posters.default_title;
@@ -630,10 +633,10 @@
 			media.View.Attachments.prototype.initialize.apply( this, arguments );
 
 			// Bind to the editor sync:done event to set featured image
-			if ( 1 == wpmoly.editor.models.movie.settings.setfeatured )
-				this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.setFeatured );
+			if ( 1 == this.controller.movie.settings.setfeatured )
+				this.listenTo( this.controller, 'search:done', this.setFeatured );
 
-			this.listenTo( wpmoly.editor.models.movie, 'sync:done', this.reload );
+			this.listenTo( this.controller, 'search:done', this.reload );
 
 			return ;
 		},

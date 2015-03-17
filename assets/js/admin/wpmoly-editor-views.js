@@ -429,8 +429,9 @@
 			if ( $( 'body' ).hasClass( 'waitee' ) )
 				return;
 
+			var self = this;
 			$( "body" ).addClass( 'waitee' ).one( 'click', function() {
-				this.settings.view.close();
+				self.settings.view.close();
 				$settings.removeClass( 'active' );
 				$( "body.waitee" ).removeClass( 'waitee' );
 			});
@@ -617,6 +618,8 @@
 
 			this.model.on( 'change', this.changed, this );
 			this.model.on( 'change:cast change:overview', _.debounce( this.resizeTextarea, 25 ), this );
+
+			this.resizeTextarea();
 		},
 
 		/**

@@ -90,7 +90,6 @@
 
 		editor.models.search.view = editor.views.search;
 		editor.models.search.get( 'settings' ).view = editor.views.settings;
-		
 
 		document.querySelector( '#title' ).addEventListener( 'input', function( event ) {
 			editor.models.search.set( { s: event.target.value } );
