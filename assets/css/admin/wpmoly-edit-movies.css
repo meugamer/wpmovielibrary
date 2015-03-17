@@ -809,7 +809,7 @@
  */
 
 #wpmoly-meta-search-results {
-	background: none repeat scroll 0% 0% rgb(255, 255, 255);
+	background: #fff;
 	border: 1px solid #e5e5e5;
 	border-top: 0;
 	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.04), 0px 2px 2px #eee inset;
@@ -826,9 +826,7 @@
 }
 
 #wpmoly-meta-search-results #wpmoly-meta-search-results-pagination {
-	/*background: #efefef;*/
 	border-bottom: 1px solid #e5e5e5;
-	/*box-shadow: 0px -2px 4px #e5e5e5 inset;*/
 	max-height: 48px;
 }
 
@@ -900,7 +898,7 @@
 /* Select Movies */
 
 #wpmoly-meta-search-results-container .wpmoly-select-movie {
-	color: #2F6277;
+	color: #2f6277;
 	cursor: pointer;
 	display: inline-table;
 	height: 18em;

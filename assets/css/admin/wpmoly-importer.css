@@ -63,6 +63,175 @@
 	opacity: 0.6;
 }
 
+#importer-search-container,
+#importer-search-results {
+	display: none !important;
+}
+
+#importer-search-list-container {
+	background: #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	border: 1px solid #e5e5e5;
+	margin: 0 auto;
+	width: 75%;
+}
+
+#importer-search-list {
+	background: #fff;
+	border: 0;
+	box-shadow: 0 0 0;
+	line-height: 1.75em;
+	min-height: 14em;
+	padding: 0.5em 1em;
+	width: 100%;
+}
+
+#importer-search-list-menu {
+	background: rgba(47, 98, 119, 0.5);
+	height: 42px;
+	position: relative;
+	text-align: left;
+}
+
+#importer-search-list-menu > a {
+	box-shadow: 0 0 0;
+	display: inline-block;
+	height: 42px;
+	line-height: 42px;
+	text-decoration: none;
+	vertical-align: top;
+	width: 42px;
+}
+
+#importer-search-list-menu > a span {
+	height: 42px;
+	line-height: 42px;
+	width: 42px;
+}
+
+#importer-search-list-menu #importer-search-list-add {
+	background: #a2ce51;
+	color: #eee;
+}
+
+#importer-search-list-menu #importer-search-list-add:hover {
+	background: #acde50 ;
+	color: #fff;
+}
+
+#importer-search-list-menu #importer-search-list-quit {
+	background: transparent;
+	color: #888;
+}
+
+#importer-search-list-menu #importer-search-list-quit:hover,
+#importer-search-list-menu.confirm-quit #importer-search-list-quit {
+	background: #ff7966;
+	color: #fff;
+}
+
+#importer-search-list-menu #confirm-quit-container {
+	display: none;
+}
+
+#importer-search-list-menu.confirm-quit {
+	background: #e4351d;
+}
+
+#importer-search-list-menu.confirm-quit #importer-search-list-quit {
+	position: relative;
+}
+
+#importer-search-list-menu.confirm-quit #importer-search-list-quit:after {
+	border: 10px solid transparent;
+	border-left-color: #ff7966;
+	content: '';
+	height: 0;
+	position: absolute;
+	right: -18px;
+	top: 11px;
+	width: 0;
+}
+
+#importer-search-list-menu.confirm-quit #confirm-quit-container {
+	color: #fff;
+	display: inline-block;
+	font-weight: 600;
+	margin-left: 24px;
+}
+
+#importer-search-list-menu.confirm-quit #confirm-quit-container a {
+	box-shadow: 0 0 0;
+	color: #eee;
+	font-weight: 400;
+	margin: 0 0.5em;
+	text-decoration: none;
+}
+
+#importer-search-list-menu.importing #importer-loading-bar {
+	display: inline-block;
+	height: 42px;
+	left: 0;
+	position: absolute;
+	top: 0px;
+	width: 100%;
+}
+
+#importer-search-list-menu.importing #importer-loading-bar #importer-loading {
+	background: #2ea2cc;
+	height: 100%;
+	width: 42%;
+}
+
+#importer-search-list-menu.importing #importer-loading-bar #importer-loading-label {
+	color: #fff;
+	font-weight: 600;
+	height: 42px;
+	line-height: 42px;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	width: 100%;
+}
+
+#importer-search-list-draftees {
+	background: #fff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	border: 1px solid #e5e5e5;
+	list-style: none;
+	margin: 20px auto 0;
+	padding: 16px 0;
+	width: 75%;
+}
+
+#importer-search-list-draftees li {
+	background: #2ea2cc;
+	border-radius: 3px;
+	display: inline-block;
+	height: 18px;
+	line-height: 16px;
+	margin: 0 4px;
+	padding: 4px 10px 3px 4px;
+}
+
+#importer-search-list-draftees li .remove-draftee {
+	color: #ddd;
+	text-decoration: none;
+}
+
+#importer-search-list-draftees li .remove-draftee span {
+	line-height: 18px;
+}
+
+#importer-search-list-draftees li .remove-draftee:hover span {
+	color: #e4351d;
+}
+
+#importer-search-list-draftees li .draftee-label {
+	color: #fff;
+}
+
+
 /*
  * Search Settings
  */

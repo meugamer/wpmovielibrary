@@ -469,7 +469,7 @@ window.wpmoly = window.wpmoly || {};
 					if ( _.isFunction( detail.get ) ) {
 
 						detail = detail.get( id );
-						if ( _.isDefined( detail ) && '' != detail ) {
+						if ( ! _.isUndefined( detail ) && '' != detail ) {
 							this.$( select ).val( detail );
 						}
 

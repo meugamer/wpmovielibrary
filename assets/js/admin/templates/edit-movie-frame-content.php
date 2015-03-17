@@ -13,14 +13,14 @@
 						<div class="filename"><strong><?php _e( 'Title' ); ?>&nbsp;:</strong> {{ post.post_title }}</div>
 						<div class="filename"><strong><?php _e( 'Published on:'); ?></strong> {{ post.post_date }}</div>
 						<div class="uploaded"><strong><?php _e( 'Author' ); ?>&nbsp;:</strong> <a href="{{ post.post_author_url }}">{{ post.post_author_name }}</a></div>
-						<div class="filename"><strong><?php _e( 'Status' ); ?>&nbsp;:</strong> <# if ( _.isDefined( wpmoly.l10n.misc[ post.post_status ] ) ) { #>{{ wpmoly.l10n.misc[ post.post_status ] }} <# } else { #>−<# } #></div>
+						<div class="filename"><strong><?php _e( 'Status' ); ?>&nbsp;:</strong> <# if ( ! _.isUndefined( wpmoly.l10n.misc[ post.post_status ] ) ) { #>{{ wpmoly.l10n.misc[ post.post_status ] }} <# } else { #>−<# } #></div>
 					</div>
 					<div class="images">
 						<div class="poster">
 							<img src="{{ post.post_thumbnail }}" alt="" />
 							<a href="{{ post.edit_poster }}" title="<?php _e( 'Change featured poster', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
 						</div>
-						<# if ( _.isDefined( post.posters ) && post.posters.length ) { #>
+						<# if ( ! _.isUndefined( post.posters ) && post.posters.length ) { #>
 						<div class="posters">
 							<# _.each( post.posters, function( poster, i ) { #>
 							<div class="additional-poster">
@@ -33,7 +33,7 @@
 						</div>
 						<# } #>
 						<div class="sep"></div>
-						<# if ( _.isDefined( post.images ) && post.images.length ) { #>
+						<# if ( ! _.isUndefined( post.images ) && post.images.length ) { #>
 						<div class="backdrops">
 							<# _.each( post.images, function( image ) { #>
 							<div class="image">
