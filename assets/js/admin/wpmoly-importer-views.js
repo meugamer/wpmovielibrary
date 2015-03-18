@@ -281,6 +281,7 @@
 			if ( ! _.isUndefined( view ) ) {
 				view.remove();
 				this.removeFromList( model.get( 'title' ) );
+				this.controller.collection.save();
 			}
 		},
 

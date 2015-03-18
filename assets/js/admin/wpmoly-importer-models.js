@@ -20,7 +20,7 @@
 
 		initialize: function() {
 
-			this.on( 'remove', this.save, this );
+			//this.on( 'remove', this.save, this );
 		},
 
 		save: function() {
