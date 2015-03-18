@@ -35,9 +35,10 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'admin_init', array( $this, 'init' ) );
-
 			add_filter( 'set-screen-option', __CLASS__ . '::import_movie_list_set_option', 10, 3 );
+
+			add_action( 'wp_ajax_wpmoly_save_draftees', array( $this, 'save_draftees_callback' ) );
+			add_action( 'wp_ajax_wpmoly_empty_draftees', array( $this, 'empty_draftees_callback' ) );
 
 			add_action( 'wp_ajax_wpmoly_delete_movies', __CLASS__ . '::delete_movies_callback' );
 			add_action( 'wp_ajax_wpmoly_import_movies', __CLASS__ . '::import_movies_callback' );
@@ -49,6 +50,26 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 *                          Callbacks
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public function save_draftees_callback() {
+
+			$draftees = ( isset( $_POST['data'] ) && '' != $_POST['data'] ? $_POST['data'] : null );
+			if ( is_null( $draftees ) )
+				wp_send_json_error();
+
+			$response = $this->save_draftees( $draftees );
+
+			wp_send_json_success( $response );
+		}
+
+		public function empty_draftees_callback() {
+
+			$empty = $this->empty_draftees();
+			if ( ! $empty )
+				wp_send_json_error();
+
+			wp_send_json_success();
+		}
 
 		/**
 		 * Delete movie
@@ -103,30 +124,42 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		 *
-		 *                     List Table display
+		 *                            Methods
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Display a custom WP_List_Table of imported movies
-		 *
-		 * @since    1.0
+		 * Save movie draftees.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    array    $draftees Array of movie draftees to save
+		 * 
+		 * @return   boolean    True if update was successfull, false else
 		 */
-		public static function display_import_movie_list() {
+		public function save_draftees( $draftees ) {
 
-			$list = new WPMOLY_Import_Table();
-			$list->prepare_items();
-	?>
-				<form method="post">
-					<input type="hidden" name="page" value="import" />
+			foreach ( $draftees as $i => $draftee ) {
+				if ( isset( $draftee['title'] ) ) {
+					$draftees[ $i ]['title'] = esc_attr( $draftee['title'] );
+				}
+			}
 
-<?php
-			$list->search_box('search', 'search_id'); 
-			$list->display();
+			$update = update_option( '_wpmoly_import_draftess', $draftees );
 
-?>
-				</form>
-<?php
+			return $update;
+		}
+
+		/**
+		 * Empty movie draftees.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   boolean    True if update was successfull, false else
+		 */
+		public function empty_draftees() {
+
+			return update_option( '_wpmoly_import_draftess', array() );
 		}
 
 		/**
@@ -300,6 +333,18 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		}
 
 		/**
+		 * Get previously stored movie draftees.
+		 *
+		 * @since    2.2
+		 * 
+		 * @return   array    Stored draftees if any, empty array else
+		 */
+		public static function get_draftees() {
+
+			return get_option( '_wpmoly_import_draftess', array() );
+		}
+
+		/**
 		 * Get previously imported movies.
 		 * 
 		 * Fetch all posts with 'import-draft' status and 'movie' post type
@@ -336,99 +381,6 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 			}
 
 			return $columns;
-		}
-
-		/**
-		 * Add a Screen Option panel on Movie Import Page.
-		 *
-		 * @since    1.0
-		 */
-		public static function import_movie_list_add_options() {
-
-			$option = 'per_page';
-			$args = array(
-				'label'   => __( 'Import Drafts', 'wpmovielibrary' ),
-				'default' => 30,
-				'option'  => 'drafts_per_page'
-			);
-
-			add_screen_option( $option, $args );
-		}
-
-		/**
-		 * Save newly set Movie Drafts number in Movie Import Page.
-		 *
-		 * @since    1.0
-		 */
-		public static function import_movie_list_set_option( $status, $option, $value ) {
-			return $value;
-		}
-
-		/**
-		 * Render movie import page
-		 *
-		 * @since    1.0
-		 */
-		public static function import_page() {
-
-			$errors = new WP_Error();
-			$imported = array();
-
-			$_section = '';
-
-			$movies = (array) wp_count_posts( 'movie' );
-			$_imported = $movies['import-draft'];
-			$_queued = $movies['import-queued'];
-
-			if ( isset( $_POST['wpmoly_save_imported'] ) && '' != $_POST['wpmoly_save_imported'] && isset( $_POST['wpmoly_imported_ids'] ) && '' != $_POST['wpmoly_imported_ids'] && isset( $_POST['movies'] ) && count( $_POST['movies'] ) ) {
-
-				wpmoly_check_admin_referer( 'save-imported-movies' );
-
-				$post_ids = explode( ',', $_POST['wpmoly_imported_ids'] );
-
-				foreach ( $_POST['movies'] as $movie ) {
-					if ( 0 != $movie['tmdb_id'] && in_array( $movie['post_id'], $post_ids ) ) {
-						$update = WPMOLY_Edit_Movies::save_movie( $movie['post_id'], $post = null, $queue = false, $movie );
-						if ( is_wp_error( $update ) )
-							$errors->add( $update->get_error_code(), $update->get_error_message() );
-						else
-							$imported[] = $update;
-					}
-				}
-
-				if ( ! empty( $errors->errors ) ) {
-					$_errors = array();
-					foreach ( $errors->errors as $error ) {
-						if ( is_array( $error ) ) {
-							foreach ( $error as $e ) {
-								$_errors[] = '<li>' . $e . '</li>';
-							}
-						}
-						else {
-							$_errors[] = '<li>' . $error . '</li>';
-						}
-					}
-					WPMOLY_Utils::admin_notice( sprintf( __( 'The following errors occured: <ul>%s</ul>', 'wpmovielibrary' ), implode( '', $_errors ) ), 'error' );
-				}
-
-				if ( ! empty( $imported ) )
-					WPMOLY_Utils::admin_notice( sprintf( _n( 'One movie imported successfully!', '%d movies imported successfully!', count( $imported ), 'wpmovielibrary' ), count( $imported ) ), 'updated' );
-			}
-			else if ( isset( $_POST['wpmoly_importer'] ) && '' != $_POST['wpmoly_importer'] ) {
-
-
-			}
-
-			if ( isset( $_GET['wpmoly_section'] ) && in_array( $_GET['wpmoly_section'], array( 'wpmoly_import', 'wpmoly_import_queue', 'wpmoly_imported' ) ) )
-				$_section =  $_GET['wpmoly_section'];
-
-			$attributes = array(
-				'_section' => $_section,
-				'_queued' => $_queued,
-				'_imported' => $_imported
-			);
-
-			echo self::render_admin_template( '/import/import.php', $attributes );
 		}
 
 		/**

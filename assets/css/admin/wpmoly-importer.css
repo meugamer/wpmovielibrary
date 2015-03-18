@@ -63,9 +63,13 @@
 	opacity: 0.6;
 }
 
+#importer-add a {
+	box-shadow: 0 0 0;
+}
+
 #importer-search-container,
 #importer-search-results {
-	display: none !important;
+	text-align: center;
 }
 
 #importer-search-list-container {
@@ -121,7 +125,7 @@
 
 #importer-search-list-menu #importer-search-list-quit {
 	background: transparent;
-	color: #888;
+	color: #666;
 }
 
 #importer-search-list-menu #importer-search-list-quit:hover,
@@ -130,7 +134,8 @@
 	color: #fff;
 }
 
-#importer-search-list-menu #confirm-quit-container {
+#importer-search-list-menu #confirm-quit-container,
+#importer-search-list-menu #importer-loading-bar {
 	display: none;
 }
 

@@ -3,6 +3,7 @@
 
 	var grid = wpmoly.grid,
 	  editor = wpmoly.editor,
+	importer = wpmoly.importer,
 	   media = wp.media,
 	hasTouch = ( 'ontouchend' in document );
 
@@ -426,13 +427,6 @@
 		template: media.template( 'wpmoly-grid-content-exerpt' ),
 	});
 
-	grid.View.ContentImport = media.View.extend({
-
-		id: 'grid-content-import',
-
-		template: media.template( 'wpmoly-grid-content-import' ),
-	});
-
 	/**
 	 * WPMOLY Admin Movie Grid View
 	 * 
@@ -700,7 +694,7 @@
 		 */
 		createContentImport: function( region ) {
 
-			region.view = new grid.View.ContentImport( { frame: this } );
+			region.view = importer.frame = new importer.View.ImporterFrame;
 		},
 
 		/**

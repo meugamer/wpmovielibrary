@@ -2,23 +2,52 @@
 ( function( $, _, Backbone, wp, wpmoly ) {
 
 	var grid = wpmoly.grid,
+	   media = wp.media,
 	  editor = wpmoly.editor,
 	importer = wpmoly.importer;
 
 	/**
-	 * Controller for draftees list.
 	 * 
-	 * Handle the connection between the draftees form and list and the 
-	 * draftees collection.
 	 * 
 	 * @since    2.2
 	 */
-	importer.controller.Draftees = Backbone.Model.extend({
+	importer.View.Search = Backbone.View.extend({
+
+		events: {
+			'input #importer-search-query': 'update'
+		},
+
+		template: media.template( 'wpmoly-grid-content-import-single' ),
 
 		initialize: function() {
 
-			this.collection = new importer.Model.Draftees;
-		}
+			console.log( '!' );
+		},
+
+		update: function( event ) {
+
+			console.log( event );
+		},
+	});
+
+	/**
+	 * 
+	 * 
+	 * @since    2.2
+	 */
+	importer.View.Settings = Backbone.View.extend({
+
+		
+	});
+
+	/**
+	 * 
+	 * 
+	 * @since    2.2
+	 */
+	importer.View.Results = Backbone.View.extend({
+
+		
 	});
 
 	/**
@@ -67,7 +96,51 @@
 	});
 
 	/**
-	 * Draftees View.
+	 * Handle the Single Search View.
+	 * 
+	 * 
+	 * 
+	 * @since    2.2
+	 */
+	importer.View.ContentSingle = media.View.extend({
+
+		template: media.template( 'wpmoly-grid-content-import-single' ),
+
+		events: {
+			'click #importer-search-list-open': 'open'
+		},
+
+		/**
+		 * Initialize the View.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		initialize: function( options ) {
+
+			this.frame = options.frame;
+		},
+
+		/**
+		 * Close the current view and open the list importer view.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @return   void
+		 */
+		open: function( event ) {
+
+			event.preventDefault();
+
+			this.frame.content.mode( 'multiple' );
+		},
+	});
+
+	/**
+	 * Handle the Multiple Import View.
 	 * 
 	 * Handle the form to submit a list of titles using the draftees controller
 	 * to manipulate a collection of draftees. User type in its list, which
@@ -76,12 +149,13 @@
 	 * 
 	 * @since    2.2
 	 */
-	importer.View.Draftees = Backbone.View.extend({
+	importer.View.ContentMultiple = media.View.extend({
 
-		el: '#importer-search-list-form',
+		template: media.template( 'wpmoly-grid-content-import-multiple' ),
 
 		events: {
-			'keypress #importer-search-list': 'update'
+			'click #importer-search-list-quit': 'switchState',
+			'keypress #importer-search-list':   'update'
 		},
 
 		_views: [],
@@ -93,7 +167,9 @@
 		 * 
 		 * @return   void
 		 */
-		initialize: function() {
+		initialize: function( options ) {
+
+			this.frame = options.frame;
 
 			this.controller = new importer.controller.Draftees;
 
@@ -130,18 +206,23 @@
 
 				if ( ( ',' === lastChar || ', ' === lastChars ) && ! _.isUndefined( this.lastDraftee ) ) {
 					this.lastDraftee.destroy();
+					this.controller.collection.save();
 				}
 
 			// Hit enter or comma
 			} else if ( 13 === key || 44 === key ) {
 
+				var models = [];
 				_.each( _draftees, function( draftee ) {
 					var draftee = draftee.trim();
 					if ( _.isUndefined( this.controller.collection.findWhere( { title: draftee } ) ) && '' != draftee ) {
 						this.lastDraftee = new importer.Model.Draftee( { title: draftee } );
-						this.controller.collection.add( this.lastDraftee );
+						models.push( this.lastDraftee );
 					}
 				}, this );
+
+				this.controller.collection.add( models );
+				this.controller.collection.save();
 
 				if ( 13 === key ) {
 					if ( ',' !== lastChar && ', ' !== lastChars ) {
@@ -161,17 +242,27 @@
 		 * @param    object    importer.Model.Draftee instance
 		 * @param    object    options
 		 * 
-		 * @return   Return the newly created view
+		 * @return   void
 		 */
-		createSubView: function( model, options ) {
+		createSubView: function( model, models, options ) {
 
-			var view = new importer.View.Draftee({
-				model: model
-			});
+			if ( models.models.length ) {
 
-			this.$( '#importer-search-list-draftees' ).append( view.render().$el );
+				var $draftees = this.$( '#importer-search-list-draftees' );
+				_.each( models.models, function( model ) {
 
-			return this._views[ model.cid ] = view;
+					if ( _.isUndefined( this._views[ model.cid ] ) ) {
+
+						var view = new importer.View.Draftee({
+							model: model
+						});
+
+						$draftees.append( view.render().$el );
+
+						this._views[ model.cid ] = view;
+					}
+				}, this );
+			}
 		},
 
 		/**
@@ -209,37 +300,254 @@
 
 			var re = new RegExp( '(' + title + ', |' + title + ',|' + title + ')', 'g' );
 			$list.val( list.replace( re, '' ) );
+		},
+
+		/**
+		 * Close the list importer and go back to the single search.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @return   void
+		 */
+		close: function( event ) {
+
+			event.preventDefault();
+
+			this.frame.content.mode( 'single' );
+		},
+	});
+
+	/**
+	 * WPMOLY Admin Movie Grid View
+	 * 
+	 * This View renders the Admin Movie Grid.
+	 * 
+	 * @since    2.2
+	 */
+	importer.View.Frame = media.View.extend({
+
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
+		initialize: function() {
+
+			this._createRegions();
+			this._createStates();
+		},
+
+		/**
+		 * Create the frame's regions.
+		 * 
+		 * @since    2.2
+		 */
+		_createRegions: function() {
+
+			// Clone the regions array.
+			this.regions = this.regions ? this.regions.slice() : [];
+
+			// Initialize regions.
+			_.each( this.regions, function( region ) {
+				this[ region ] = new media.controller.Region({
+					view:     this,
+					id:       region,
+					selector: '.importer-frame-' + region
+				});
+			}, this );
+		},
+	
+		/**
+		 * Create the frame's states.
+		 * 
+		 * @since    2.2
+		 */
+		_createStates: function() {
+
+			// Create the default `states` collection.
+			this.states = new Backbone.Collection( null, {
+				model: media.controller.State
+			});
+
+			// Ensure states have a reference to the frame.
+			this.states.on( 'add', function( model ) {
+				model.frame = this;
+				model.trigger( 'ready' );
+			}, this );
+
+			if ( this.options.states ) {
+				this.states.add( this.options.states );
+			}
+		},
+
+		/**
+		 * Render the View.
+		 * 
+		 * @since    2.2
+		 */
+		render: function() {
+
+			// Activate the default state if no active state exists.
+			if ( ! this.state() && this.options.state ) {
+				this.setState( this.options.state );
+			}
+
+			return media.View.prototype.render.apply( this, arguments );
 		}
+
 	});
 
+	// Make the `Frame` a `StateMachine`.
+	_.extend( importer.View.Frame.prototype, media.controller.StateMachine.prototype );
+
 	/**
-	 * 
+	 * Importer Frame View.
 	 * 
 	 * @since    2.2
 	 */
-	importer.View.Search = Backbone.View.extend({
+	importer.View.ImporterFrame = importer.View.Frame.extend({
 
-		
-	});
+		id: 'wpmoly-importer-frame',
 
-	/**
-	 * 
-	 * 
-	 * @since    2.2
-	 */
-	importer.View.Settings = Backbone.View.extend({
+		tagName: 'div',
 
-		
-	});
+		className: 'wpmoly-importer-frame',
 
-	/**
-	 * 
-	 * 
-	 * @since    2.2
-	 */
-	importer.View.Results = Backbone.View.extend({
+		template: media.template( 'wpmoly-grid-content-import' ),
 
-		
+		regions: [ 'content' ],
+
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.2
+		 *
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
+		initialize: function( options ) {
+
+			importer.View.Frame.prototype.initialize.apply( this, arguments );
+
+			this.options = options || {};
+			_.defaults( this.options, {
+				mode:  'single',
+				state: 'single'
+			} );
+
+			this.createStates();
+			this.bindHandlers();
+
+			this.render();
+		},
+
+		/**
+		 * Bind events
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		bindHandlers: function() {
+
+			this.on( 'content:create:single', this.createContentSingle, this );
+			this.on( 'content:create:multiple', this.createContentMultiple, this );
+		},
+
+		/**
+		 * Create the default states on the frame.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		createStates: function() {
+
+			var options = this.options;
+
+			if ( this.options.states ) {
+				return;
+			}
+
+			// Add the default states.
+			this.states.add([
+				// Main states.
+				new importer.controller.State({
+					id: 'single'
+				}),
+				new importer.controller.State({
+					id: 'multiple'
+				})
+			]);
+
+			return this;
+		},
+
+		/**
+		 * Render the View.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		render: function() {
+
+			importer.View.Frame.prototype.render.apply( this, arguments );
+
+			this.$el.html( this.template() );
+
+			_.each( this.regions, function( region ) {
+				this[ region ].mode( this.options.mode );
+			}, this );
+
+			return this;
+		},
+
+		/**
+		 * Create the Frame content for single search view.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Region
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		createContentSingle: function( region ) {
+
+			var state = this.state();
+
+			region.view = new importer.View.ContentSingle({
+				frame: this,
+				model: state
+			});
+		},
+
+		/**
+		 * Create the Frame content for multiple import view.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    Region
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		createContentMultiple: function( region ) {
+
+			var state = this.state();
+
+			region.view = new importer.View.ContentMultiple({
+				model: state,
+				frame: this
+			});
+		},
+
 	});
 
 })( jQuery, _, Backbone, wp, wpmoly );
