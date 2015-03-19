@@ -4,7 +4,7 @@
 					<input id="importer-search-query" type="text" value="Pirates of the Caribbean" placeholder="<?php _e( 'Search a movie', 'wpmovielibrary' ); ?>" />
 					<a id="importer-search" href="#"><span class="wpmolicon icon-search"></span></a>
 					<a id="importer-settings" href="#"><span class="wpmolicon icon-settings"></span></a>
-					<p id="importer-add"><?php printf( __( 'Or %s of movies to import', 'wpmovielibrary' ), sprintf( '<a id="importer-search-list-open" data-mode="multiple" href="#">create a list</a>', __( 'create a list', 'wpmovielibrary' ) ) ); ?></p>
+					<p id="importer-add"><?php printf( __( 'Or %s of movies to import', 'wpmovielibrary' ), sprintf( '<a id="importer-search-list-open" href="#">%s</a>', __( 'create a list', 'wpmovielibrary' ) ) ); ?></p>
 				</div>
 			</div>
 

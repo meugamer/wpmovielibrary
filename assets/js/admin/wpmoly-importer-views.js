@@ -154,8 +154,11 @@
 		template: media.template( 'wpmoly-grid-content-import-multiple' ),
 
 		events: {
-			'click #importer-search-list-quit': 'switchState',
-			'keypress #importer-search-list':   'update'
+			'click #importer-search-list-quit':   'close',
+			'click #importer-search-list-reload': 'reload',
+			'click #importer-search-list-save':   'save',
+			'click a':                            'preventDefault',
+			'keypress #importer-search-list':     'update'
 		},
 
 		_views: [],
@@ -172,9 +175,80 @@
 			this.frame = options.frame;
 
 			this.controller = new importer.controller.Draftees;
+			this.collection = this.controller.collection;
 
-			this.controller.collection.on( 'add', this.createSubView , this );
-			this.controller.collection.on( 'remove', this.removeSubView , this );
+			this.collection.on( 'add', this.createSubView , this );
+			this.collection.on( 'remove', this.removeSubView , this );
+
+		},
+
+		/**
+		 * Prepare the View.
+		 * 
+		 * Fetch the collection models and fill in the list.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		prepare: function() {
+
+			if ( this.collection.length ) {
+				this.collection.map( this.createSubView, this );
+			} else {
+				// Clear existing views
+				this.views.unset();
+
+				// Access this from deferred
+				var self = this;
+
+				this.$( '.menu' ).addClass( 'loading' );
+				this.dfd = this.collection.fetch().done( function() {
+					self.$( '.menu' ).removeClass( 'loading' );
+					self.reloadList();
+				} );
+			}
+		},
+
+		/**
+		 * Reload the collection.
+		 * 
+		 * Reset the list to the last saved list.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		reload: function() {
+
+			this.views.unset();
+			this.$( '.menu' ).addClass( 'loading' );
+
+			var self = this;
+			this.dfd = this.collection.fetch().done( function() {
+				self.$( '.menu' ).removeClass( 'loading' );
+				self.reloadList();
+			} );
+		},
+
+		/**
+		 * Save the collection.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		save: function() {
+
+			if ( this.collection.length ) {
+
+				this.$( '.menu' ).addClass( 'loading' );
+
+				var self = this;
+				this.dfd = this.collection.save().done( function() {
+					self.$( '.menu' ).removeClass( 'loading' );
+				} );
+			}
 		},
 
 		/**
@@ -206,7 +280,7 @@
 
 				if ( ( ',' === lastChar || ', ' === lastChars ) && ! _.isUndefined( this.lastDraftee ) ) {
 					this.lastDraftee.destroy();
-					this.controller.collection.save();
+					this.collection.save();
 				}
 
 			// Hit enter or comma
@@ -215,14 +289,14 @@
 				var models = [];
 				_.each( _draftees, function( draftee ) {
 					var draftee = draftee.trim();
-					if ( _.isUndefined( this.controller.collection.findWhere( { title: draftee } ) ) && '' != draftee ) {
+					if ( _.isUndefined( this.collection.findWhere( { title: draftee } ) ) && '' != draftee ) {
 						this.lastDraftee = new importer.Model.Draftee( { title: draftee } );
 						models.push( this.lastDraftee );
 					}
 				}, this );
 
-				this.controller.collection.add( models );
-				this.controller.collection.save();
+				this.collection.add( models );
+				this.collection.save();
 
 				if ( 13 === key ) {
 					if ( ',' !== lastChar && ', ' !== lastChars ) {
@@ -281,7 +355,7 @@
 			if ( ! _.isUndefined( view ) ) {
 				view.remove();
 				this.removeFromList( model.get( 'title' ) );
-				this.controller.collection.save();
+				this.collection.save();
 			}
 		},
 
@@ -304,6 +378,26 @@
 		},
 
 		/**
+		 * Reset the textarea content using the collection.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		reloadList: function() {
+
+			var list = [];
+			if ( this.collection.length ) {
+				this.collection.map( function( model ) {
+					list.push( model.get( 'title' ) );
+				}, this );
+
+				list = list.join( ', ' ) + ', ';
+				this.$( '#importer-search-list' ).val( list );
+			}
+		},
+
+		/**
 		 * Close the list importer and go back to the single search.
 		 * 
 		 * @since    2.2
@@ -314,10 +408,22 @@
 		 */
 		close: function( event ) {
 
-			event.preventDefault();
-
 			this.frame.content.mode( 'single' );
 		},
+
+		/**
+		 * Prevent Clicks from default effect.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @return   void
+		 */
+		preventDefault: function( event ) {
+
+			event.preventDefault();
+		}
 	});
 
 	/**

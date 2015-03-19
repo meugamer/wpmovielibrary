@@ -37,6 +37,7 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 
 			add_filter( 'set-screen-option', __CLASS__ . '::import_movie_list_set_option', 10, 3 );
 
+			add_action( 'wp_ajax_wpmoly_fetch_draftees', array( $this, 'fetch_draftees_callback' ) );
 			add_action( 'wp_ajax_wpmoly_save_draftees', array( $this, 'save_draftees_callback' ) );
 			add_action( 'wp_ajax_wpmoly_empty_draftees', array( $this, 'empty_draftees_callback' ) );
 
@@ -50,6 +51,17 @@ if ( ! class_exists( 'WPMOLY_Import' ) ) :
 		 *                          Callbacks
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public function fetch_draftees_callback() {
+
+			$response = $this->get_draftees();
+			foreach ( $response as $i => $r ) {
+				$response[ $i ]['title'] = esc_attr( $r['title'] );
+			}
+
+			sleep(2);
+			wp_send_json_success( $response );
+		}
 
 		public function save_draftees_callback() {
 

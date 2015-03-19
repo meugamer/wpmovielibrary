@@ -18,29 +18,77 @@
 
 		model: importer.Model.Draftee,
 
+		/**
+		 * Initialize the Collection
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
 		initialize: function() {
 
-			//this.on( 'remove', this.save, this );
+			//this.fetch();
 		},
 
+		/**
+		 * Overrides Backbone.Collection.sync
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    string    method
+		 * @param    object    this
+		 * @param    object    options
+		 * 
+		 * @return   Promise
+		 */
+		sync: function( method, collection, options ) {
+
+			if ( 'read' == method ) {
+
+				options = options || {};
+				options.context = this;
+				options.data    = options.data || {};
+				options.data    = _.extend( options.data, {
+					action: 'wpmoly_fetch_draftees',
+					nonce:  ''
+				});
+				console.log( options );
+
+				return wp.ajax.send( options );
+
+			} else if ( 'save' == method ) {
+
+				options = {};
+				options.context = this;
+				options.data    = options.data || {};
+
+				options.data = _.extend( options.data, {
+					action: 'wpmoly_save_draftees',
+					nonce:  '',
+					data:   this.toJSON()
+				});
+
+				if ( _.isEmpty( options.data.data ) ) {
+					options.data.action = 'wpmoly_empty_draftees';
+				}
+
+				return wp.ajax.send( options );
+
+			} else {
+				return Backbone.sync.apply( this, arguments );
+			}
+		},
+
+		/**
+		 * Save current collection
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Return itself to allow chaining
+		 */
 		save: function() {
 
-			options = {};
-			options.context = this;
-			options.data    = options.data || {};
-
-			
-			options.data = _.extend( options.data, {
-				action: 'wpmoly_save_draftees',
-				nonce:  '',
-				data:   this.toJSON()
-			});
-
-			if ( _.isEmpty( options.data.data ) ) {
-				options.data.action = 'wpmoly_empty_draftees';
-			}
-
-			return wp.ajax.send( options );
+			return this.sync( 'save', this, {} );
 		}
 	});
 
