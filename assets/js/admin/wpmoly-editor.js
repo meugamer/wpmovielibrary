@@ -101,6 +101,6 @@
 		});
 	};
 
-	_.extend( editor, { models: {}, views: {}, Model: {}, View: {} } );
+	//_.extend( editor, { models: {}, views: {}, Model: {}, View: {} } );
 
 }( jQuery, _, Backbone, wp, wpmoly ) );

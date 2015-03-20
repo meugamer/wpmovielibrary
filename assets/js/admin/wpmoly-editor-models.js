@@ -110,137 +110,6 @@
 	});
 
 	/**
-	 * WPMOLY Backbone Search Model
-	 * 
-	 * Model for the metabox movie search form. This bascillay handle
-	 * search data for movies: lang, type, query and a bunch of handy
-	 * options.
-	 * 
-	 * @since    2.2
-	 */
-	editor.Model.Search = Backbone.Model.extend({
-
-		defaults: {
-			settings: {},
-			results:  {},
-			status:   {},
-			movie:    {}
-		},
-
-		initialize: function( options ) {
-
-			this.settings = options.settings;
-			this.results  = options.results;
-			this.status   = options.status;
-			this.movie    = options.movie;
-		},
-
-		/**
-		 * Overload Backbone sync method to fetch our own data and save
-		 * them to the server.
-		 * 
-		 * @since    2.2
-		 * 
-		 * @param    string    method Are we searching or is it a regular sync?
-		 * @param    object    model Current model
-		 * @param    object    options Query options
-		 * 
-		 * @return   mixed
-		 */
-		sync: function( method, model, options ) {
-
-			// Not search means regular Backbone sync, not our concern
-			if ( 'search' == method ) {
-
-				options = options || {};
-				options.context = this;
-				options.data = _.extend( options.data || {}, {
-					action: 'wpmoly_search_movie',
-					nonce:  wpmoly.get_nonce( 'search-movies' ),
-					query:  this.settings.toJSON()
-				});
-
-				// Let know we've started queryring
-				options.beforeSend = function() {
-
-					this.trigger( 'search:start', this );
-
-					this.status.loading();
-					if ( 'id' == this.settings.get( 'type' ) ) {
-						this.status.say( l10n_movies.loading );
-					} else {
-						this.status.say( l10n_movies.searching );
-					}
-				};
-
-				// Let know we're done queryring
-				options.complete = function() {
-
-					this.trigger( 'search:end', this );
-					this.status.loaded();
-					this.status.reset();
-				};
-
-				// Handle errors
-				options.error = function( response ) {
-
-					var error = response;
-					if ( _.isArray( error ) )
-						error = _.first( error );
-
-					this.status.set({
-						error:   true,
-						code:    error.code,
-						message: error.message
-					});
-				};
-
-				// Let's go!
-				options.success = function( response ) {
-
-					// Response has meta, that's a single movie
-					if ( undefined !== response.meta ) {
-
-						// Set movie Metadata
-						this.movie.setMeta( response.meta );
-
-						// Set movie Taxonomies
-						if ( undefined !== response.taxonomies )
-							this.movie.setTaxonomies( response.taxonomies );
-
-						// Triggers
-						this.trigger( 'search:done', this, response );
-
-						return true;
-					}
-
-					// Looks like we have multiple results
-					this.results.pages   = response.total_pages;
-					this.results.results = response.total_results;
-					var results = [];
-
-					// If not, means multiple movies, show a choice
-					_.each( response.results, function( result ) {
-						results.push( new editor.Model.Result( result ) );
-					}, this );
-					
-
-					this.results.reset( [], { silent: true } );
-					this.results.add( results );
-
-					this.status.say( l10n_movies.multiple_results.replace( '%d', results.length ) );
-				};
-
-				return wp.ajax.send( options );
-			}
-			// Fallback to Backbone sync
-			else {
-				return Backbone.Model.prototype.sync.apply( this, options );
-			}
-		}
-	});
-
-	/**
 	 * WPMOLY Backbone Movie Model
 	 * 
 	 * Model for the metabox movie metadata fields. Holy Grail! That model
@@ -453,6 +322,134 @@
 			//editor.models.status.reset();
 
 			return Backbone.Collection.prototype.reset.apply( this, arguments );
+		}
+	});
+
+	/**
+	 * WPMOLY Backbone Search Model
+	 * 
+	 * Model for the metabox movie search form. This bascillay handle
+	 * search data for movies: lang, type, query and a bunch of handy
+	 * options.
+	 * 
+	 * @since    2.2
+	 */
+	editor.Model.Search = Backbone.Model.extend({
+
+		defaults: {
+			settings: new editor.Model.Settings,
+			results:  new editor.Model.Results,
+			status:   new editor.Model.Status,
+			movie:    new editor.Model.Movie
+		},
+
+		/**
+		 * Overload Backbone sync method to fetch our own data and save
+		 * them to the server.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    string    method Are we searching or is it a regular sync?
+		 * @param    object    model Current model
+		 * @param    object    options Query options
+		 * 
+		 * @return   mixed
+		 */
+		sync: function( method, model, options ) {
+
+			// Not search means regular Backbone sync, not our concern
+			if ( 'search' == method ) {
+
+				var settings = this.get( 'settings' ),
+				     results = this.get( 'results' ),
+				      status = this.get( 'status' ),
+				       movie = this.get( 'movie' );
+
+				options = options || {};
+				options.context = this;
+				options.data = _.extend( options.data || {}, {
+					action: 'wpmoly_search_movie',
+					nonce:  wpmoly.get_nonce( 'search-movies' ),
+					query:  settings.toJSON()
+				});
+
+				// Let know we've started queryring
+				options.beforeSend = function() {
+
+					this.trigger( 'search:start', this );
+
+					status.loading();
+					if ( 'id' == settings.get( 'type' ) ) {
+						status.say( l10n_movies.loading );
+					} else {
+						status.say( l10n_movies.searching );
+					}
+				};
+
+				// Let know we're done queryring
+				options.complete = function() {
+
+					this.trigger( 'search:end', this );
+					status.loaded();
+					status.reset();
+				};
+
+				// Handle errors
+				options.error = function( response ) {
+
+					var error = response;
+					if ( _.isArray( error ) )
+						error = _.first( error );
+
+					status.set({
+						error:   true,
+						code:    error.code,
+						message: error.message
+					});
+				};
+
+				// Let's go!
+				options.success = function( response ) {
+
+					// Response has meta, that's a single movie
+					if ( undefined !== response.meta ) {
+
+						// Set movie Metadata
+						movie.setMeta( response.meta );
+
+						// Set movie Taxonomies
+						if ( undefined !== response.taxonomies )
+							movie.setTaxonomies( response.taxonomies );
+
+						// Triggers
+						this.trigger( 'search:done', this, response );
+
+						return true;
+					}
+
+					// Looks like we have multiple results
+					results.pages   = response.total_pages;
+					results.results = response.total_results;
+					var results = [];
+
+					// If not, means multiple movies, show a choice
+					_.each( response.results, function( result ) {
+						results.push( new editor.Model.Result( result ) );
+					}, this );
+					
+
+					results.reset( [], { silent: true } );
+					results.add( results );
+
+					status.say( l10n_movies.multiple_results.replace( '%d', results.length ) );
+				};
+
+				return wp.ajax.send( options );
+			}
+			// Fallback to Backbone sync
+			else {
+				return Backbone.Model.prototype.sync.apply( this, options );
+			}
 		}
 	});
 

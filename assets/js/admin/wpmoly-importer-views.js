@@ -11,30 +11,6 @@
 	 * 
 	 * @since    2.2
 	 */
-	importer.View.Search = Backbone.View.extend({
-
-		events: {
-			'input #importer-search-query': 'update'
-		},
-
-		template: media.template( 'wpmoly-grid-content-import-single' ),
-
-		initialize: function() {
-
-			console.log( '!' );
-		},
-
-		update: function( event ) {
-
-			console.log( event );
-		},
-	});
-
-	/**
-	 * 
-	 * 
-	 * @since    2.2
-	 */
 	importer.View.Settings = Backbone.View.extend({
 
 		
@@ -107,8 +83,14 @@
 		template: media.template( 'wpmoly-grid-content-import-single' ),
 
 		events: {
-			'click #importer-search-list-open': 'open'
+			'click #importer-search-list-open': 'open',
+			'click #importer-search':           'search',
+			'click a':                          'preventDefault',
+
+			'input #importer-search-query':     'update',
 		},
+
+		locked: false,
 
 		/**
 		 * Initialize the View.
@@ -119,7 +101,76 @@
 		 */
 		initialize: function( options ) {
 
-			this.frame = options.frame;
+			this.frame      = options.frame;
+			this.controller = options.controller;
+
+			// importer is actually an instance of editor.Model.Search
+			this.importer   = this.controller.importer;
+			this.settings   = this.importer.get( 'settings' );
+			this.results    = this.importer.get( 'results' );
+
+			this.importer.on( 'search:start', this.lock,  this );
+			this.importer.on( 'search:done',  this.reset, this );
+		},
+
+		/**
+		 * Lock the View to avoid sending useless multiple queries
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		lock: function() {
+
+			this.locked = true;
+		},
+
+		/**
+		 * Unlock the View
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		unlock: function() {
+
+			this.locked = false;
+		},
+
+		/**
+		 * Update the Model's search query value when changed.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    JS Event
+		 * 
+		 * @return   void
+		 */
+		update: function() {
+
+			var query = this.$( '#importer-search-query' ).val();
+
+			this.settings.set( { s: query } );
+		},
+
+		/**
+		 * Trigger the search
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		search: function() {
+
+			if ( false !== this.locked )
+				return;
+
+			var query = this.$( '#importer-search-query' ).val();
+
+			if ( query != this.settings.get( 's' ) )
+				this.settings.set( { s: query, type: 'title' } );
+
+			this.importer.sync( 'search', this.settings, {} );
 		},
 
 		/**
@@ -133,10 +184,35 @@
 		 */
 		open: function( event ) {
 
-			event.preventDefault();
-
 			this.frame.content.mode( 'multiple' );
 		},
+
+		/**
+		 * Reset search results
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		reset: function() {
+
+			this.results.reset();
+			this.unlock();
+		},
+
+		/**
+		 * Prevent Clicks from default effect.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @return   void
+		 */
+		preventDefault: function( event ) {
+
+			event.preventDefault();
+		}
 	});
 
 	/**
@@ -158,6 +234,7 @@
 			'click #importer-search-list-reload': 'reload',
 			'click #importer-search-list-save':   'save',
 			'click a':                            'preventDefault',
+
 			'keypress #importer-search-list':     'update'
 		},
 
@@ -587,10 +664,12 @@
 			this.states.add([
 				// Main states.
 				new importer.controller.State({
-					id: 'single'
+					id:      'single',
+					importer: new editor.Model.Search
 				}),
 				new importer.controller.State({
-					id: 'multiple'
+					id:       'multiple',
+					importer: new editor.Model.Search
 				})
 			]);
 
@@ -631,8 +710,8 @@
 			var state = this.state();
 
 			region.view = new importer.View.ContentSingle({
-				frame: this,
-				model: state
+				frame:      this,
+				controller: state
 			});
 		},
 
@@ -650,8 +729,8 @@
 			var state = this.state();
 
 			region.view = new importer.View.ContentMultiple({
-				model: state,
-				frame: this
+				frame:      this,
+				controller: state
 			});
 		},
 

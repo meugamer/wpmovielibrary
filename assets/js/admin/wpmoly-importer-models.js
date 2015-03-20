@@ -4,8 +4,6 @@
 	var importer = wpmoly.importer,
 	      editor = wpmoly.editor;
 
-	_.extend( importer, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
-
 	importer.Model.Draftee = Backbone.Model.extend({
 
 		defaults: {
@@ -52,7 +50,7 @@
 					action: 'wpmoly_fetch_draftees',
 					nonce:  ''
 				});
-				console.log( options );
+				//console.log( options );
 
 				return wp.ajax.send( options );
 
@@ -92,7 +90,7 @@
 		}
 	});
 
-	importer.Model.Drafts = Backbone.Collection.extend({
+	/*importer.Model.Drafts = Backbone.Collection.extend({
 
 		model: editor.Model.Movie,
 
@@ -124,7 +122,7 @@
 
 			Backbone.Collection.prototype.add.apply( this, arguments );
 		},
-	});
+	});*/
 
 	/**
 	 * Controller for draftees list.
@@ -134,17 +132,20 @@
 	 * 
 	 * @since    2.2
 	 */
-	importer.controller.Draftees = Backbone.Model.extend({
+	/*importer.controller.Draftees = Backbone.Model.extend({
 
 		initialize: function() {
 
 			this.collection = new importer.Model.Draftees;
 		}
-	});
+	});*/
 
 	importer.controller.State = Backbone.Model.extend({
 
-		
+		initialize: function( options ) {
+
+			_.extend( this, options );
+		}
 	});
 
 }( jQuery, _, Backbone, wp, wpmoly ) );

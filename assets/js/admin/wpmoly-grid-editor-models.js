@@ -3,8 +3,6 @@
 
 	var editor = wpmoly.editor;
 
-	_.extend( editor, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
-
 	/**
 	 * Basic data model to manipulate metadata and details.
 	 * 

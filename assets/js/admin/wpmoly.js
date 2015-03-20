@@ -5,12 +5,17 @@ if ( undefined == window.redux.field_objects.select ) window.redux.field_objects
 
 $ = $ || jQuery;
 
-wpmoly = {};
 wpmoly_l10n = window.wpmoly_l10n || {};
 
-_.extend( wpmoly, {
+wpmoly = {
 
 	l10n: wpmoly_l10n,
+
+	editor: {},
+
+	grid: {},
+
+	importer: {},
 
 	parseSearchQuery: function() {
 		return _.chain( location.search.slice( 1 ).split( '&' ) )
@@ -24,7 +29,11 @@ _.extend( wpmoly, {
 
 		return ( document.querySelector( selector ) || {} ).value || _default;
 	}
-} );
+};
+
+_.extend( wpmoly.editor  , { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
+_.extend( wpmoly.grid    , { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
+_.extend( wpmoly.importer, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
 
 jQuery( document ).ready( function() {
 
@@ -37,7 +46,6 @@ jQuery( document ).ready( function() {
 	if ( 'edit-movie' == pagenow && 'edit-php' == adminpage ) {
 		wpmoly.grid();
 		wpmoly.editor();
-		wpmoly.importer();
 	}
 
 } );
