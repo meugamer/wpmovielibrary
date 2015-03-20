@@ -1,6 +1,7 @@
 
 			<div id="importer-search-form">
 				<div id="importer-search-container">
+					<?php wpmoly_nonce_field( 'search-movies' ) ?>
 					<input id="importer-search-query" type="text" value="Pirates of the Caribbean" placeholder="<?php _e( 'Search a movie', 'wpmovielibrary' ); ?>" />
 					<a id="importer-search" href="#"><span class="wpmolicon icon-search"></span></a>
 					<a id="importer-settings" href="#"><span class="wpmolicon icon-settings"></span></a>

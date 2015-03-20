@@ -1,8 +1,10 @@
 
 ( function( $, _, Backbone, wp, wpmoly ) {
 
-	var importer = wpmoly.importer,
+	var importer = wpmoly.importer = {},
 	      editor = wpmoly.editor;
+
+	_.extend( importer, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
 
 	importer.Model.Draftee = Backbone.Model.extend({
 

@@ -2,7 +2,8 @@
 ( function( $, _, Backbone, wp, wpmoly ) {
 
 	var search = wpmoly.parseSearchQuery(),
-	      mode = search.mode || 'grid';
+	      mode = search.mode || 'grid'
+	  importer = wpmoly.importer || {};
 
 	var grid = wpmoly.grid = function() {
 
@@ -30,8 +31,7 @@
 		editor.views.movies = new editor.View.Movies;
 	};
 
-	_.extend( editor, { models: {}, views: {}, Model: {}, View: {} } );
-
-	_.extend( grid, { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
+	_.extend( editor  , { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
+	_.extend( grid    , { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
 
 }( jQuery, _, Backbone, wp, wpmoly ) );

@@ -264,26 +264,6 @@ wpmoly = wpmoly || {};
 	};
 
 	/**
-	 * Find current action's nonce value.
-	 * 
-	 * @since    1.0
-	 * 
-	 * @param    string    Action name
-	 * 
-	 * @return   boolean|string    Nonce value if available, false else.
-	 */
-	wpmoly.get_nonce = function( action ) {
-
-		var nonce_name = '#_wpmolynonce_' + action.replace( /\-/g, '_' ),
-		         nonce = null;
-
-		if ( undefined != $( nonce_name ) )
-			nonce = $( nonce_name ).val();
-
-		return nonce;
-	};
-
-	/**
 	 * Update current action's nonce value.
 	 * 
 	 * @since    1.0

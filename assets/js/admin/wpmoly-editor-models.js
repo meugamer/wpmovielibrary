@@ -344,6 +344,21 @@
 		},
 
 		/**
+		 * Initialize Model.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		initialize: function( options ) {
+
+			this.settings = this.get( 'settings' );
+			this.results  = this.get( 'results' );
+			this.status   = this.get( 'status' );
+			this.movie    = this.get( 'movie' );
+		},
+
+		/**
 		 * Overload Backbone sync method to fetch our own data and save
 		 * them to the server.
 		 * 
@@ -360,17 +375,12 @@
 			// Not search means regular Backbone sync, not our concern
 			if ( 'search' == method ) {
 
-				var settings = this.get( 'settings' ),
-				     results = this.get( 'results' ),
-				      status = this.get( 'status' ),
-				       movie = this.get( 'movie' );
-
 				options = options || {};
 				options.context = this;
 				options.data = _.extend( options.data || {}, {
 					action: 'wpmoly_search_movie',
 					nonce:  wpmoly.get_nonce( 'search-movies' ),
-					query:  settings.toJSON()
+					query:  this.settings.toJSON()
 				});
 
 				// Let know we've started queryring
@@ -378,11 +388,11 @@
 
 					this.trigger( 'search:start', this );
 
-					status.loading();
-					if ( 'id' == settings.get( 'type' ) ) {
-						status.say( l10n_movies.loading );
+					this.status.loading();
+					if ( 'id' == this.settings.get( 'type' ) ) {
+						this.status.say( l10n_movies.loading );
 					} else {
-						status.say( l10n_movies.searching );
+						this.status.say( l10n_movies.searching );
 					}
 				};
 
@@ -390,8 +400,8 @@
 				options.complete = function() {
 
 					this.trigger( 'search:end', this );
-					status.loaded();
-					status.reset();
+					this.status.loaded();
+					this.status.reset();
 				};
 
 				// Handle errors
@@ -401,7 +411,7 @@
 					if ( _.isArray( error ) )
 						error = _.first( error );
 
-					status.set({
+					this.status.set({
 						error:   true,
 						code:    error.code,
 						message: error.message
@@ -415,11 +425,11 @@
 					if ( undefined !== response.meta ) {
 
 						// Set movie Metadata
-						movie.setMeta( response.meta );
+						this.movie.setMeta( response.meta );
 
 						// Set movie Taxonomies
 						if ( undefined !== response.taxonomies )
-							movie.setTaxonomies( response.taxonomies );
+							this.movie.setTaxonomies( response.taxonomies );
 
 						// Triggers
 						this.trigger( 'search:done', this, response );
@@ -428,20 +438,20 @@
 					}
 
 					// Looks like we have multiple results
-					results.pages   = response.total_pages;
-					results.results = response.total_results;
+					this.results.pages   = response.total_pages;
+					this.results.results = response.total_results;
 					var results = [];
 
 					// If not, means multiple movies, show a choice
-					_.each( response.results, function( result ) {
-						results.push( new editor.Model.Result( result ) );
-					}, this );
-					
+					response.results.map( function( result ) {
+						return new editor.Model.Result( result );
+					} );
 
-					results.reset( [], { silent: true } );
-					results.add( results );
+					this.results.reset( [], { silent: true } );
+					this.results.add( response.results );
+					console.log( this.results );
 
-					status.say( l10n_movies.multiple_results.replace( '%d', results.length ) );
+					this.status.say( l10n_movies.multiple_results.replace( '%d', results.length ) );
 				};
 
 				return wp.ajax.send( options );
