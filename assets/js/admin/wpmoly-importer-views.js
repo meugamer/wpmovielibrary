@@ -510,7 +510,7 @@
 	 * 
 	 * @since    2.2
 	 */
-	importer.View.Frame = media.View.extend({
+	/*importer.View.Frame = wpmoly.view.Frame.extend({
 
 		/**
 		 * Initialize the View
@@ -521,81 +521,21 @@
 		 * 
 		 * @return   void
 		 */
-		initialize: function() {
+		/*initialize: function() {
 
-			this._createRegions();
-			this._createStates();
+			wpmoly.view.Frame.prototype.initialize.apply( this, arguments );
+
+			this.options.slug
 		},
 
-		/**
-		 * Create the frame's regions.
-		 * 
-		 * @since    2.2
-		 */
-		_createRegions: function() {
-
-			// Clone the regions array.
-			this.regions = this.regions ? this.regions.slice() : [];
-
-			// Initialize regions.
-			_.each( this.regions, function( region ) {
-				this[ region ] = new media.controller.Region({
-					view:     this,
-					id:       region,
-					selector: '.importer-frame-' + region
-				});
-			}, this );
-		},
-	
-		/**
-		 * Create the frame's states.
-		 * 
-		 * @since    2.2
-		 */
-		_createStates: function() {
-
-			// Create the default `states` collection.
-			this.states = new Backbone.Collection( null, {
-				model: media.controller.State
-			});
-
-			// Ensure states have a reference to the frame.
-			this.states.on( 'add', function( model ) {
-				model.frame = this;
-				model.trigger( 'ready' );
-			}, this );
-
-			if ( this.options.states ) {
-				this.states.add( this.options.states );
-			}
-		},
-
-		/**
-		 * Render the View.
-		 * 
-		 * @since    2.2
-		 */
-		render: function() {
-
-			// Activate the default state if no active state exists.
-			if ( ! this.state() && this.options.state ) {
-				this.setState( this.options.state );
-			}
-
-			return media.View.prototype.render.apply( this, arguments );
-		}
-
-	});
-
-	// Make the `Frame` a `StateMachine`.
-	_.extend( importer.View.Frame.prototype, media.controller.StateMachine.prototype );
+	});*/
 
 	/**
 	 * Importer Frame View.
 	 * 
 	 * @since    2.2
 	 */
-	importer.View.ImporterFrame = importer.View.Frame.extend({
+	importer.View.ImporterFrame = wpmoly.view.Frame.extend({
 
 		id: 'wpmoly-importer-frame',
 
@@ -618,12 +558,14 @@
 		 */
 		initialize: function( options ) {
 
-			importer.View.Frame.prototype.initialize.apply( this, arguments );
+			//importer.View.Frame.prototype.initialize.apply( this, arguments );
+			wpmoly.view.Frame.prototype.initialize.apply( this, arguments );
 
 			this.options = options || {};
 			_.defaults( this.options, {
 				mode:  'single',
-				state: 'single'
+				state: 'single',
+				slug:  'importer'
 			} );
 
 			this.createStates();
@@ -663,11 +605,11 @@
 			// Add the default states.
 			this.states.add([
 				// Main states.
-				new importer.controller.State({
+				new wpmoly.controller.State({
 					id:      'single',
 					importer: new editor.Model.Search
 				}),
-				new importer.controller.State({
+				new wpmoly.controller.State({
 					id:       'multiple',
 					importer: new editor.Model.Search
 				})
@@ -685,7 +627,7 @@
 		 */
 		render: function() {
 
-			importer.View.Frame.prototype.render.apply( this, arguments );
+			wpmoly.view.Frame.prototype.render.apply( this, arguments );
 
 			this.$el.html( this.template() );
 

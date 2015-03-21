@@ -102,14 +102,14 @@ window.wpmoly = window.wpmoly || {};
 	});
 
 	/**
-	 * editor.View.Movies
+	 * editor.view.Movies
 	 *
 	 * @class
 	 * @augments wp.media.View
 	 * @augments wp.Backbone.View
 	 * @augments Backbone.View
 	 */
-	editor.View.Movies = wp.media.View.extend({
+	editor.view.Movies = wp.media.View.extend({
 
 		el: '#the-list',
 
@@ -149,7 +149,7 @@ window.wpmoly = window.wpmoly || {};
 				state = 'edit-movie';
 			}
 
-			editor.frame = new editor.View.MovieModal( {
+			editor.frame = new editor.view.MovieModal( {
 				state:   state,
 				library: editor.models.movies,
 				model:   model
@@ -159,7 +159,7 @@ window.wpmoly = window.wpmoly || {};
 	});
 
 	/**
-	 * editor.View.Movie
+	 * editor.view.Movie
 	 * 
 	 * Altered version of wp.media.view.Attachment
 	 *
@@ -168,7 +168,7 @@ window.wpmoly = window.wpmoly || {};
 	 * @augments wp.Backbone.View
 	 * @augments Backbone.View
 	 */
-	editor.View.Movie = wp.media.View.extend({
+	editor.view.Movie = wp.media.View.extend({
 
 		tagName:   'li',
 
@@ -387,7 +387,7 @@ window.wpmoly = window.wpmoly || {};
 		},*/
 	});
 
-	_.extend( editor.View, {
+	_.extend( editor.view, {
 
 		/**
 		 * A similar view to media.view.Attachment.Details
@@ -400,7 +400,7 @@ window.wpmoly = window.wpmoly || {};
 		 * @augments wp.Backbone.View
 		 * @augments Backbone.View
 		 */
-		TwoColumn: editor.View.Movie.extend({
+		TwoColumn: editor.view.Movie.extend({
 
 			tagName:   'div',
 
@@ -431,7 +431,7 @@ window.wpmoly = window.wpmoly || {};
 					rerenderOnModelChange: true
 				} );
 
-				editor.View.Movie.prototype.initialize.apply( this, arguments );
+				editor.view.Movie.prototype.initialize.apply( this, arguments );
 
 				return this;
 			},
@@ -445,7 +445,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			render: function() {
 
-				editor.View.Movie.prototype.render.apply( this, arguments );
+				editor.view.Movie.prototype.render.apply( this, arguments );
 
 				this.setSelects();
 				this.resizeImages();
@@ -576,7 +576,7 @@ window.wpmoly = window.wpmoly || {};
 			
 		}),
 
-		PreviewMovie: editor.View.Movie.extend({
+		PreviewMovie: editor.view.Movie.extend({
 
 			tagName:   'div',
 
@@ -610,7 +610,7 @@ window.wpmoly = window.wpmoly || {};
 				var self = this;
 				this.$window.off( 'resize.movie-preview-modal' ).on( 'resize.movie-preview-modal', _.debounce( this.fixModal, 50 ) );
 
-				editor.View.Movie.prototype.initialize.apply( this, arguments );
+				editor.view.Movie.prototype.initialize.apply( this, arguments );
 
 				return this;
 			},
@@ -681,7 +681,7 @@ window.wpmoly = window.wpmoly || {};
 
 	} );
 
-	_.extend( editor.View, {
+	_.extend( editor.view, {
 
 		/**
 		 * A frame for editing the details of a specific media item.
@@ -819,7 +819,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			editMetadataMode: function( contentRegion ) {
 
-				contentRegion.view = new editor.View.TwoColumn({
+				contentRegion.view = new editor.view.TwoColumn({
 					controller: this,
 					model:      this.model
 				});
@@ -841,7 +841,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			PreviewMovieMode: function( contentRegion ) {
 
-				contentRegion.view = new editor.View.PreviewMovie({
+				contentRegion.view = new editor.view.PreviewMovie({
 					controller: this,
 					model:      this.model
 				});

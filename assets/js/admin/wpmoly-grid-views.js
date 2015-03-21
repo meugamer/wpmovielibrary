@@ -14,7 +14,7 @@
 	 * 
 	 * @since    2.2
 	 */
-	grid.View.Menu = media.View.extend({
+	grid.view.Menu = media.View.extend({
 
 		id: 'grid-menu',
 
@@ -85,7 +85,7 @@
 	 * 
 	 * @since    2.2
 	 */
-	grid.View.Movie = media.View.extend({
+	grid.view.Movie = media.View.extend({
 
 		tagName:   'li',
 
@@ -170,7 +170,7 @@
 	 * 
 	 * @since    2.2
 	 */
-	grid.View.ContentGrid = media.View.extend({
+	grid.view.ContentGrid = media.View.extend({
 
 		id: 'grid-content-grid',
 
@@ -200,7 +200,7 @@
 				refreshThreshold:   3,
 				scrollElement:      document,
 				resizeEvent:        'resize.grid-content-columns',
-				subview:            grid.View.Movie
+				subview:            grid.view.Movie
 			} );
 
 			this.model = this.options.model;
@@ -308,7 +308,7 @@
 		 * 
 		 * @since    2.2
 		 * 
-		 * @param    object    grid.Model.Movie
+		 * @param    object    grid.model.Movie
 		 * 
 		 * @return   object    Backbone.View
 		 */
@@ -336,7 +336,7 @@
 		 * 
 		 * @since    2.2
 		 * 
-		 * @param    object    grid.Model.Movie
+		 * @param    object    grid.model.Movie
 		 * 
 		 * @return   object    Backbone.View
 		 */
@@ -410,7 +410,7 @@
 
 	});
 
-	grid.View.ContentList   = media.View.extend({
+	grid.view.ContentList   = media.View.extend({
 
 		el: '#grid-content-list',
 
@@ -420,7 +420,7 @@
 		}
 	});
 
-	grid.View.ContentExerpt = media.View.extend({
+	grid.view.ContentExerpt = media.View.extend({
 
 		id: 'grid-content-exerpt',
 
@@ -434,7 +434,7 @@
 	 * 
 	 * @since    2.2
 	 */
-	grid.View.Frame = media.View.extend({
+	grid.view.Frame = media.View.extend({
 
 		_mode: 'grid',
 
@@ -514,7 +514,7 @@
 	});
 
 	// Make the `Frame` a `StateMachine`.
-	_.extend( grid.View.Frame.prototype, media.controller.StateMachine.prototype );
+	_.extend( grid.view.Frame.prototype, media.controller.StateMachine.prototype );
 
 	/**
 	 * WPMOLY Admin Movie Grid View
@@ -523,7 +523,7 @@
 	 * 
 	 * @since    2.2
 	 */
-	grid.View.GridFrame = grid.View.Frame.extend({
+	grid.view.GridFrame = grid.view.Frame.extend({
 
 		id: 'movie-grid-frame',
 
@@ -546,7 +546,7 @@
 		 */
 		initialize: function( options ) {
 
-			grid.View.Frame.prototype.initialize.apply( this, arguments );
+			grid.view.Frame.prototype.initialize.apply( this, arguments );
 
 			_.defaults( this.options, {
 				mode:  'grid',
@@ -602,7 +602,7 @@
 			// Add the default states.
 			this.states.add([
 				// Main states.
-				new grid.controller.Library({
+				new wpmoly.controller.State({
 					id:      'library',
 					library: grid.query( options.library )
 				})
@@ -624,7 +624,7 @@
 		 */
 		createMenu: function( region ) {
 
-			region.view = new grid.View.Menu( { frame: this } );
+			region.view = new grid.view.Menu( { frame: this } );
 		},
 
 		/**
@@ -640,7 +640,7 @@
 
 			var state = this.state();
 
-			region.view = new grid.View.ContentGrid({
+			region.view = new grid.view.ContentGrid({
 				frame:      this,
 				model:      state,
 				collection: state.get( 'library' ),
@@ -661,7 +661,7 @@
 		 */
 		createContentList: function( region ) {
 
-			region.view = new grid.View.ContentList( { frame: this } );
+			region.view = new grid.view.ContentList( { frame: this } );
 		},
 
 		/**
@@ -678,7 +678,7 @@
 		 */
 		createContentExerpt: function( region ) {
 
-			region.view = new grid.View.ContentExerpt( { frame: this } );
+			region.view = new grid.view.ContentExerpt( { frame: this } );
 		},
 
 		/**
@@ -721,7 +721,7 @@
 		 */
 		render: function() {
 
-			grid.View.Frame.prototype.render.apply( this, arguments );
+			grid.view.Frame.prototype.render.apply( this, arguments );
 
 			var options = this.options;
 

@@ -104,7 +104,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			add_action( 'parent_file', array( $this, 'admin_menu_highlight' ) );
 
 			// Load admin style sheets, JavaScript scripts and templates.
-			add_action( 'admin_enqueue_scripts', array( $this, 'pre_enqueue_admin_scripts' ), 8 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'pre_enqueue_admin_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
@@ -242,7 +242,21 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 		 */
 		public function pre_enqueue_admin_scripts() {
 
-			wp_enqueue_script( WPMOLY_SLUG . '-admin' , WPMOLY_URL . '/assets/js/admin/wpmoly.js', array( 'jquery', 'underscore', 'backbone' ), WPMOLY_VERSION, true );
+			$admin_slug = WPMOLY_SLUG . '-admin';
+			$admin_path = WPMOLY_URL . '/assets/js/admin/';
+
+			wp_register_script( $admin_slug, $admin_path . 'wpmoly.js', array( 'jquery', 'underscore', 'backbone' ), WPMOLY_VERSION, true );
+
+			wp_register_script( $admin_slug . '-controllers', $admin_path . 'controllers.js', array( $admin_slug ),                 WPMOLY_VERSION, true );
+			wp_register_script( $admin_slug . '-views',       $admin_path . 'views.js',       array( $admin_slug ),                 WPMOLY_VERSION, true );
+			wp_register_script( $admin_slug . '-utils',       $admin_path . 'utils.js',       array( $admin_slug, 'jquery-color' ), WPMOLY_VERSION, true );
+
+			wp_enqueue_media();
+			wp_enqueue_script( $admin_slug );
+			wp_enqueue_script( $admin_slug . '-controllers' );
+			wp_enqueue_script( $admin_slug . '-views' );
+			wp_enqueue_script( $admin_slug . '-utils' );
+
 		}
 
 		/**
@@ -457,63 +471,66 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 
 			extract( $this->screen_hooks );
 
-			$wpmoly_slug = WPMOLY_SLUG . '-admin';
+			$admin_slug = WPMOLY_SLUG . '-admin';
+			$admin_path = '/assets/js/admin/';
 
 			$scripts = array();
-			$scripts['utils'] = array( '/assets/js/admin/wpmoly-utils.js', array( 'jquery', 'jquery-color' ), true );
 
 			if ( $hook_suffix == $settings )
-				$scripts['settings'] = array( '/assets/js/admin/wpmoly-settings.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
+				$scripts['settings'] = array( '/assets/js/admin/wpmoly-settings.js', array( $admin_slug, 'jquery-ui-sortable' ), true );
 
 			if ( $hook_suffix == $importer ) {
-				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
-				$scripts['importer']          = array( '/assets/js/admin/wpmoly-importer-meta.js', array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['importer-movies']   = array( '/assets/js/admin/wpmoly-importer-movies.js', array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['importer-view']     = array( '/assets/js/admin/wpmoly-importer-view.js', array( $wpmoly_slug, 'jquery' ), true );
-				$scripts['queue']             = array( '/assets/js/admin/wpmoly-queue.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['jquery-ajax-queue']   = array( '/assets/js/vendor/jquery-ajaxQueue.js',      array( 'jquery' ), true );
+				$scripts['importer']            = array( '/assets/js/admin/wpmoly-importer-meta.js',   array( $admin_slug ), true );
+				$scripts['importer-movies']     = array( '/assets/js/admin/wpmoly-importer-movies.js', array( $admin_slug ), true );
+				$scripts['importer-view']       = array( '/assets/js/admin/wpmoly-importer-view.js',   array( $admin_slug ), true );
+				$scripts['queue']               = array( '/assets/js/admin/wpmoly-queue.js',           array( $admin_slug ), true );
 			}
 
 			if ( $hook_suffix == $dashboard ) {
-				$scripts['dashboard'] = array( '/assets/js/admin/wpmoly-dashboard.js', array( $wpmoly_slug, 'jquery', 'jquery-ui-sortable' ), true );
-				$scripts['editor-details'] = array( '/assets/js/admin/wpmoly-editor-details.js', array( $wpmoly_slug, 'jquery' ), true );
+				$scripts['dashboard']           = array( '/assets/js/admin/wpmoly-dashboard.js',      array( $admin_slug, 'jquery-ui-sortable' ), true );
+				$scripts['editor-details']      = array( '/assets/js/admin/wpmoly-editor-details.js', array( $admin_slug ), true );
 			}
 
 			if ( $hook_suffix == $widgets ) {
 				$scripts['select2-sortable-js'] = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2.sortable.min.js', array( 'jquery' ), false );
-				$scripts['select2-js']          = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.min.js', array( 'jquery', ), false );
-				$scripts['field-select-js']     = array( '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.min.js', array( 'jquery' ), false );
-				$scripts['widget']              = array( '/assets/js/admin/wpmoly-widget.js', array( $wpmoly_slug, 'jquery' ), false );
+				$scripts['select2-js']          = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.min.js',  array( 'jquery', ), false );
+				$scripts['field-select-js']     = array( '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.min.js',    array( 'jquery' ), false );
+				$scripts['widget']              = array( '/assets/js/admin/wpmoly-widget.js', array( $admin_slug ), false );
 			}
 
 			if ( $hook_suffix == $edit || $hook_suffix == $new ) {
-				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
-				$scripts['metabox-models']    = array( '/assets/js/admin/wpmoly-metabox-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone' ), true );
-				$scripts['metabox-views']     = array( '/assets/js/admin/wpmoly-metabox-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone' ), true );
-				$scripts['editor-js']         = array( '/assets/js/admin/wpmoly-editor.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['editor-models']     = array( '/assets/js/admin/wpmoly-editor-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['editor-views']      = array( '/assets/js/admin/wpmoly-editor-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['media-js']          = array( '/assets/js/admin/wpmoly-media.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['media-models']      = array( '/assets/js/admin/wpmoly-media-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['media-views']       = array( '/assets/js/admin/wpmoly-media-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
+				$scripts['jquery-ajax-queue']   = array( '/assets/js/vendor/jquery-ajaxQueue.js',     array( 'jquery' ), true );
+				$scripts['metabox-models']      = array( '/assets/js/admin/wpmoly-metabox-models.js', array( $admin_slug ), true );
+				$scripts['metabox-views']       = array( '/assets/js/admin/wpmoly-metabox-views.js',  array( $admin_slug ), true );
+				$scripts['editor-js']           = array( '/assets/js/admin/wpmoly-editor.js',         array( $admin_slug ), true );
+				$scripts['editor-models']       = array( '/assets/js/admin/wpmoly-editor-models.js',  array( $admin_slug ), true );
+				$scripts['editor-views']        = array( '/assets/js/admin/wpmoly-editor-views.js',   array( $admin_slug ), true );
+				$scripts['media-js']            = array( '/assets/js/admin/wpmoly-media.js',          array( $admin_slug ), true );
+				$scripts['media-models']        = array( '/assets/js/admin/wpmoly-media-models.js',   array( $admin_slug ), true );
+				$scripts['media-views']         = array( '/assets/js/admin/wpmoly-media-views.js',    array( $admin_slug ), true );
 			}
 
 			if ( $hook_suffix == $movies ) {
-				$scripts['select2-sortable-js'] = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2.sortable.min.js', array( $wpmoly_slug, 'jquery' ), false );
-				$scripts['select2-js']          = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.min.js', array( $wpmoly_slug, 'jquery', ), false );
-				$scripts['field-select-js']     = array( '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.min.js', array( $wpmoly_slug, 'jquery' ), false );
-				$scripts['grid-js']             = array( '/assets/js/admin/wpmoly-grid.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['editor-models']       = array( '/assets/js/admin/wpmoly-editor-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['importer-models']     = array( '/assets/js/admin/wpmoly-importer-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['importer-views']      = array( '/assets/js/admin/wpmoly-importer-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['grid-editor-models']  = array( '/assets/js/admin/wpmoly-grid-editor-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['grid-models']         = array( '/assets/js/admin/wpmoly-grid-models.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['grid-views']          = array( '/assets/js/admin/wpmoly-grid-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
-				$scripts['grid-editor-views']   = array( '/assets/js/admin/wpmoly-grid-editor-views.js', array( $wpmoly_slug, 'jquery', 'underscore', 'backbone', 'media' ), true );
+
+				$scripts['select2-sortable-js'] = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2.sortable.min.js', array( $admin_slug ), false );
+				$scripts['select2-js']          = array( '/includes/framework/redux/ReduxCore/assets/js/vendor/select2/select2.min.js',  array( $admin_slug, ), false );
+				$scripts['field-select-js']     = array( '/includes/framework/redux/ReduxCore/inc/fields/select/field_select.min.js',    array( $admin_slug ), false );
+
+				$scripts['grid-js']             = array( $admin_path . 'wpmoly-grid.js',        array( $admin_slug ), true );
+
+				$scripts['editor-models']       = array( $admin_path . 'editor/models.js',      array( $admin_slug ), true );
+				$scripts['grid-models']         = array( $admin_path . 'grid/models.js',        array( $admin_slug ), true );
+
+				$scripts['importer-models']     = array( '/assets/js/admin/wpmoly-importer-models.js',    array( $admin_slug ), true );
+				$scripts['importer-views']      = array( '/assets/js/admin/wpmoly-importer-views.js',     array( $admin_slug ), true );
+				$scripts['grid-views']          = array( '/assets/js/admin/wpmoly-grid-views.js',         array( $admin_slug ), true );
+				$scripts['grid-editor-views']   = array( '/assets/js/admin/wpmoly-grid-editor-views.js',  array( $admin_slug ), true );
 			}
 
 			if ( $hook_suffix == $update_movies ) {
-				$scripts['jquery-ajax-queue'] = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( 'jquery' ), true );
-				$scripts['updates'] = array( '/assets/js/admin/wpmoly-updates.js', array( $wpmoly_slug, 'jquery' ), false );
+				$scripts['jquery-ajax-queue']   = array( '/assets/js/vendor/jquery-ajaxQueue.js', array( $admin_slug ), true );
+				$scripts['updates']             = array( '/assets/js/admin/wpmoly-updates.js',    array( $admin_slug ), false );
 			}
 
 			return $scripts;

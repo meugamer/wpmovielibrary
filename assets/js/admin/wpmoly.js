@@ -3,59 +3,81 @@ if ( undefined == window.redux ) window.redux = {};
 if ( undefined == window.redux.field_objects ) window.redux.field_objects = {};
 if ( undefined == window.redux.field_objects.select ) window.redux.field_objects.select = {};
 
-$ = $ || jQuery;
+( function( $, _, Backbone ) {
 
-wpmoly_l10n = window.wpmoly_l10n || {};
+	wpmoly_l10n = window.wpmoly_l10n || {};
+	wpmoly = {};
 
-wpmoly = {
+	_.extend( wpmoly, {
 
-	l10n: wpmoly_l10n,
+		// Localization
+		l10n: wpmoly_l10n,
 
-	parseSearchQuery: function() {
-		return _.chain( location.search.slice( 1 ).split( '&' ) )
-			.map( function( item ) { if ( item ) return item.split( '=' ); } )
-			.compact()
-			.object()
-			.value();
-	},
+		// Store our controllers
+		controller: {},
 
-	getValue: function( selector, _default ) {
+		// Store our models
+		model: {},
 
-		return ( document.querySelector( selector ) || {} ).value || _default;
-	},
+		// Store our views
+		view: {},
 
-	/**
-	 * Find current action's nonce value.
-	 * 
-	 * @since    1.0
-	 * 
-	 * @param    string    Action name
-	 * 
-	 * @return   boolean|string    Nonce value if available, false else.
-	 */
-	get_nonce: function( action ) {
+		// Movie Editor base object
+		editor: {},
 
-		var nonce_name = '#_wpmolynonce_' + action.replace( /\-/g, '_' ),
-		         nonce = null;
+		// Movie Grid base object
+		grid: {},
 
-		if ( undefined != $( nonce_name ) )
-			nonce = $( nonce_name ).val();
+		// Movie Importer base object
+		importer: {},
+	}, {
 
-		return nonce;
-	}
-};
+		/**
+		 * Run the application: unleash the Backbone magic!
+		 * 
+		 * This function prepare runners to be run depending on the page
+		 * we're on.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   Return itself to allow chaining
+		 */
+		run: function() {
 
+			// Store our position
+			this.isEditMovie  = ( 'edit-movie' == pagenow && 'post-php'     == adminpage );
+			this.isEditMovies = ( 'edit-movie' == pagenow && 'edit-php'     == adminpage );
+			this.isNewMovie   = ( 'movie'      == pagenow && 'post-new-php' == adminpage );
+
+			var runners = [];
+
+			// Are we editing/posting a movie?
+			if ( this.isEditMovie || this.isNewMovie ) {
+
+				$( '#toplevel_page_wpmovielibrary, #toplevel_page_wpmovielibrary > a' ).addClass( 'wp-has-current-submenu wp-open-submenu' );
+
+				runners.push( 'metabox', 'editor', 'media' );
+			}
+			// Are we editing movies (all movies page)?
+			else if ( this.isEditMovies ) {
+
+				runners.push( 'grid', 'editor' );
+			}
+
+			// Map the runners
+			_.map( runners, function( runner ) {
+				return _.isFunction( wpmoly[ runner ].run ) ? wpmoly[ runner ].run() : false;
+			}, this );
+
+			return this;
+		}
+	} );
+
+}( jQuery, _, Backbone ) );
+
+// Wait for the DOM to be ready
 jQuery( document ).ready( function() {
 
-	if ( 'movie' == pagenow && ( 'post-php' == adminpage || 'post-new-php' == adminpage ) ) {
-		wpmoly.metabox();
-		wpmoly.editor();
-		wpmoly.media();
-	}
-
-	if ( 'edit-movie' == pagenow && 'edit-php' == adminpage ) {
-		wpmoly.grid();
-		wpmoly.editor();
-	}
-
+	// Let the fun begin!
+	wpmoly.run();
 } );

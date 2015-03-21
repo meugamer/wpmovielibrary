@@ -1,37 +1,87 @@
 
 ( function( $, _, Backbone, wp, wpmoly ) {
 
-	var search = wpmoly.parseSearchQuery(),
-	      mode = search.mode || 'grid'
-	  importer = wpmoly.importer || {};
+	/**
+	 * wpmoly.grid
+	 * 
+	 * The base object for the Movie Grid.
+	 * 
+	 * @since    2.2
+	 */
+	_.extend( wpmoly.grid, {
+		controller: {},
+		frame:      {},
+		models:     {},
+		views:      {},
+		model:      {},
+		view:       {}
+	},
+	{
+		/**
+		 * Initialize the Grid.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		run: function() {
 
-	var grid = wpmoly.grid = function() {
+			$( '.wrap > *' ).not( 'h2' ).hide();
 
-		$( '.wrap > *' ).not( 'h2' ).hide();
+			var mode = wpmoly.parseSearchQuery().mode;
 
-		grid.frame = new grid.View.GridFrame( { mode: mode } );
-	};
-
-	var editor = wpmoly.editor = function() {
-
-		if ( 'list' == mode ) {
-
-			var movies = [];
-			_.each( document.querySelectorAll( '#the-list tr' ), function( movie ) {
-				var id = movie.id.replace( 'post-', '' );
-				movies.push( _.extend( new editor.Model.Movie, { id: id } ) );
-			} );
-
-			editor.models.movies = new editor.Model.Movies;
-			editor.models.movies.add( movies );
-		} else {
-			editor.models.movies = grid.frame.state().get( 'library' );
+			this.frame = new this.view.GridFrame({ mode: mode });
 		}
+	} );
 
-		editor.views.movies = new editor.View.Movies;
-	};
+	/**
+	 * wpmoly.editor
+	 * 
+	 * The base object for the Movie Editor. Used in single edit and grid
+	 * view to manipulate movie objects and movies collections.
+	 * 
+	 * @since    2.2
+	 */
+	_.extend( wpmoly.editor, {
+		controller: {},
+		frame:      {},
+		models:     {},
+		views:      {},
+		model:      {},
+		view:       {}
+	},
+	{
+		/**
+		 * Initialize the Grid.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   void
+		 */
+		run: function() {
 
-	_.extend( editor  , { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
-	_.extend( grid    , { controller: {}, models: {}, views: {}, Model: {}, View: {} } );
+			var mode = wpmoly.parseSearchQuery().mode;
+
+			// If we're in list view, use the existing HTML Table to
+			// fill the movies collection
+			if ( 'list' == mode ) {
+
+				var movies = [];
+				_.each( document.querySelectorAll( '#the-list tr' ), function( movie ) {
+					var id = movie.id.replace( 'post-', '' );
+					movies.push( _.extend( new this.model.Movie, { id: id } ) );
+				} );
+
+				this.models.movies = new this.model.Movies;
+				this.models.movies.add( movies );
+			}
+			// Not in list view, use the library
+			else {
+				this.models.movies = wpmoly.grid.frame.state().get( 'library' );
+			}
+
+			this.views.movies = new this.view.Movies;
+		}
+	} );
 
 }( jQuery, _, Backbone, wp, wpmoly ) );
