@@ -1,4 +1,6 @@
 
+wpmoly.View = wp.Backbone.View;
+
 wpmoly.view.Frame = wp.media.view.Frame.extend({
 
 	initialize: function() {

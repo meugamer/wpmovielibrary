@@ -2,6 +2,20 @@
 ( function( $, _, Backbone, wp, wpmoly ) {
 
 	/**
+	 * wpmoly.importer
+	 * 
+	 * The base object for the Movie Importer Frame.
+	 * 
+	 * @since    2.2
+	 */
+	_.extend( wpmoly.importer, {
+		controller: {},
+		frame:      {},
+		model:      {},
+		view:       {}
+	} );
+
+	/**
 	 * wpmoly.grid
 	 * 
 	 * The base object for the Movie Grid.
@@ -11,8 +25,6 @@
 	_.extend( wpmoly.grid, {
 		controller: {},
 		frame:      {},
-		models:     {},
-		views:      {},
 		model:      {},
 		view:       {}
 	},

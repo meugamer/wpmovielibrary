@@ -25,11 +25,11 @@ if ( undefined == window.redux.field_objects.select ) window.redux.field_objects
 		// Movie Editor base object
 		editor: {},
 
-		// Movie Grid base object
-		grid: {},
-
 		// Movie Importer base object
 		importer: {},
+
+		// Movie Grid base object
+		grid: {},
 	}, {
 
 		/**
