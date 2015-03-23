@@ -1,21 +1,48 @@
 
-(function($) {
+wpmoly = {};
 
-	window.wpmoly = window.wpmoly || {};
 
-		wpmoly.init = function() {
 
-			$( 'select.wpmoly.list' ).change(function() {
-				if ( this.options[ this.selectedIndex ].value.length > 0 )
-					location.href = this.options[ this.selectedIndex ].value;
-			});
+( function( $, _, Backbone, wp ) {
 
-			if ( undefined != $( '#wpmoly-movie-grid.grid > .movie' ) )
-				wpmoly.grid_resize();
+	_.extend( wpmoly, {
+		grid: {},
+
+		headbox: {},
+
+		widgets: {}
+	},
+	{
+		run: function() {
 
 			$( '.hide-if-js' ).hide();
 			$( '.hide-if-no-js' ).removeClass( 'hide-if-no-js' );
-		};
+
+			this.widgets.run();
+		}
+	} );
+
+	_.extend( wpmoly.grid, { model: {}, view: {} } );
+
+	_.extend( wpmoly.widgets,{
+
+		run: function() {
+
+			$( 'select.wpmoly.list' ).change( function() {
+				if ( this.options[ this.selectedIndex ].value.length > 0 ) {
+					location.href = this.options[ this.selectedIndex ].value;
+				}
+			} );
+		}
+	} );
+
+}( jQuery, _, Backbone, wp ) );
+
+jQuery( document ).ready( function() {
+	wpmoly.run();
+} );
+
+/*( function( $ ) {
 
 		wpmoly.headbox = wpmoly_headbox = {};
 
@@ -75,4 +102,4 @@
 
 		wpmoly.init();
 	
-})(jQuery);
+}( jQuery ) );*/

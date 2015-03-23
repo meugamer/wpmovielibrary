@@ -187,7 +187,19 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 		 */
 		public function enqueue_scripts() {
 
-			wp_enqueue_script( WPMOLY_SLUG, WPMOLY_URL . '/assets/js/public/wpmoly.js', array( 'jquery' ), WPMOLY_VERSION, true );
+			$main = WPMOLY_SLUG . '-js';
+			$path = WPMOLY_URL . '/assets/js/public/';
+			$deps = 
+
+			wp_register_script( $main, $path . 'wpmoly.js', array( 'jquery', 'wp-backbone', 'underscore' ), WPMOLY_VERSION, true );
+
+			wp_register_script( WPMOLY_SLUG . '-grid-models', $path . 'grid/models.js', array( $main ), WPMOLY_VERSION, true );
+			wp_register_script( WPMOLY_SLUG . '-grid-views',  $path . 'grid/views.js',  array( $main ), WPMOLY_VERSION, true );
+
+			wp_enqueue_script( WPMOLY_SLUG );
+			wp_enqueue_script( WPMOLY_SLUG . '-grid-models' );
+			wp_enqueue_script( WPMOLY_SLUG . '-grid-views' );
+
 			wp_localize_script(
 				WPMOLY_SLUG, 'wpmoly',
 				array(
