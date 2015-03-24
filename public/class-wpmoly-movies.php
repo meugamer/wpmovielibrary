@@ -21,6 +21,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * @since    1.0
 		 */
 		public function __construct() {
+
 			$this->register_hook_callbacks();
 		}
 
@@ -69,6 +70,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			// Pass meta through URLs
 			add_filter( 'query_vars', __CLASS__ . '::movies_query_vars', 10, 1 );
+
+			// JS Templates
+			add_action( 'wp_footer', array( $this, 'footer_scripts' ) );
 		}
 
 		/**
@@ -141,6 +145,48 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'label_count'               => _n_noop( 'Queued Movie <span class="count">(%s)</span>', 'Queued Movies <span class="count">(%s)</span>' ),
 			) );
 
+		}
+
+		/**
+		 * Echo required JavaScript Templates files in the dashboard
+		 * footer.
+		 * 
+		 * @since    2.1.5
+		 */
+		public function footer_scripts() {
+
+			$templates = $this->admin_templates();
+			$scripts   = array();
+
+			foreach ( $templates as $template ) {
+				$scripts[] = self::render_js_template( $template, array( 'admin' => false ) );
+			}
+
+			if ( empty( $scripts ) )
+				return false;
+
+			$scripts = implode( "\n", $scripts );
+
+			echo $scripts;
+		}
+
+		/**
+		 * Define all admin templates but use only those needed by the
+		 * current page.
+		 * 
+		 * @since    2.2
+		 * 
+		 * @return   array     Current page's styles
+		 */
+		private function admin_templates() {
+
+			if ( is_admin() ) {
+				return false;
+			}
+
+			$templates = array( 'movie', 'grid-frame', 'grid-menu', 'grid-content-grid' );
+
+			return $templates;
 		}
 
 		/**

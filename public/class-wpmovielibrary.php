@@ -189,14 +189,20 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 
 			$main = WPMOLY_SLUG . '-js';
 			$path = WPMOLY_URL . '/assets/js/public/';
-			$deps = 
 
-			wp_register_script( $main, $path . 'wpmoly.js', array( 'jquery', 'wp-backbone', 'underscore' ), WPMOLY_VERSION, true );
+			wp_register_script( $main, $path . 'wpmoly.js', array( 'jquery', 'wp-backbone', 'underscore', 'media-views' ), WPMOLY_VERSION, true );
+
+			wp_register_script( WPMOLY_SLUG . '-controllers', $path . 'controllers.js', array( $main ), WPMOLY_VERSION, true );
+			wp_register_script( WPMOLY_SLUG . '-views', $path . 'views.js', array( $main ), WPMOLY_VERSION, true );
 
 			wp_register_script( WPMOLY_SLUG . '-grid-models', $path . 'grid/models.js', array( $main ), WPMOLY_VERSION, true );
 			wp_register_script( WPMOLY_SLUG . '-grid-views',  $path . 'grid/views.js',  array( $main ), WPMOLY_VERSION, true );
 
 			wp_enqueue_script( WPMOLY_SLUG );
+
+			wp_enqueue_script( WPMOLY_SLUG . '-controllers' );
+			wp_enqueue_script( WPMOLY_SLUG . '-views' );
+
 			wp_enqueue_script( WPMOLY_SLUG . '-grid-models' );
 			wp_enqueue_script( WPMOLY_SLUG . '-grid-views' );
 

@@ -1,11 +1,16 @@
 
 wpmoly = {};
 
-
-
 ( function( $, _, Backbone, wp ) {
 
 	_.extend( wpmoly, {
+
+		controller: {},
+
+		model: {},
+
+		view: {},
+
 		grid: {},
 
 		headbox: {},
