@@ -73,6 +73,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			// JS Templates
 			add_action( 'wp_footer', array( $this, 'footer_scripts' ) );
+
+			// AJAX Callbacks
+			add_action( 'wp_ajax_wpmoly_query_movies', array( $this, 'query_movies_callback' ) );
+			add_action( 'wp_ajax_nopriv_wpmoly_query_movies', array( $this, 'query_movies_callback' ) );
 		}
 
 		/**
@@ -189,6 +193,71 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			return $templates;
 		}
 
+		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+		 *
+		 *                               Callbacks
+		 * 
+		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public function query_movies_callback() {
+
+			$query = isset( $_POST['query'] ) ? (array) $_POST['query'] : array();
+			$keys = array(
+				's', 'order', 'orderby', 'posts_per_page', 'paged', 'post__in', 'post__not_in', 'year', 'monthnum'
+			);
+
+			$defaults = array(
+				'post_type'   => 'movie',
+				'post_status' => 'publish',
+			);
+			$query = wp_parse_args( $query, $defaults );
+
+			if ( current_user_can( get_post_type_object( 'movie' )->cap->read_private_posts ) )
+				$query['post_status'] .= ',private';
+
+			$query = new WP_Query( $query );
+
+			$posts = array_map( 'get_post', $query->posts );
+			$posts = array_filter( $posts );
+			$ids   = array_map( create_function( '$post', 'return $post->ID;' ), $posts );
+
+			$meta     = WPMOLY_Movies::get_movies_meta( $ids );
+			$details  = WPMOLY_Movies::get_movies_meta( $ids, 'details' );
+			$response = array();
+
+			foreach ( $posts as $i => $post ) {
+
+				$data = array(
+					'post'      => $post,
+					'meta'      => array(),
+					'details'   => array()
+				);
+
+				$thumbnail_id = get_post_thumbnail_id( $post->ID );
+				if ( '' == $thumbnail_id ) {
+					$thumbnail = str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL );
+				} else {
+					$thumbnail = wp_get_attachment_image_src( $thumbnail_id, 'medium' );
+					$thumbnail = $thumbnail[0];
+				}
+
+				if ( isset( $meta[ $post->ID ] ) ) {
+					foreach ( $meta[ $post->ID ] as $k => $v ) {
+						$data['meta'][ $k ] = htmlspecialchars_decode( $v, ENT_QUOTES );
+					}
+				}
+
+				if ( isset( $details[ $post->ID ] ) ) {
+					$data['details'] = $details[ $post->ID ];
+				}
+
+				$posts[ $i ] = $data;
+
+			}
+
+			wp_send_json_success( $posts );
+		}
+
 		/**
 		 * Return various Movie's Post Meta. Possible meta: status, media, rating
 		 * and data.
@@ -240,6 +309,71 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$value = number_format( floatval( $value ), 1 );
 
 			return $value;
+		}
+ 
+		/**
+		 * Return a list of Movies' Post Meta. Currently only basic meta
+		 * are supported.
+		 * 
+		 * TODO: add support additional meta support (details at least)
+		 * TODO: secure and cache queries
+		 *
+		 * @since    2.1.5
+		 * 
+		 * @param    array     Movie Post IDs
+		 * @param    string    Meta type to return (unused yet)
+		 *
+		 * @return   array|boolead    Metadata if available, false else
+		 */
+		public static function get_movies_meta( $post_ids, $meta = null ) {
+
+			if ( ! is_array( $post_ids ) )
+				$post_ids = array( $post_ids );
+
+			if ( empty( $post_ids ) )
+				return false;
+
+			global $wpdb;
+
+			if ( 'details' == $meta ) {
+				$supported = WPMOLY_Settings::get_supported_movie_details();
+			} else {
+				$supported = WPMOLY_Settings::get_supported_movie_meta();
+			}
+
+			$supported = array_map( 'esc_attr', array_keys( $supported ) );
+			$supported = '"_wpmoly_movie_' . implode( '","_wpmoly_movie_', $supported ) . '"';
+
+			$post_ids  = array_map( 'intval', $post_ids );
+			$post_ids  = '"' . implode( '","', $post_ids ) . '"';
+
+			$meta = $wpdb->get_results(
+				"SELECT post_id, REPLACE( meta_key, '_wpmoly_movie_', '' ) AS meta_key, meta_value
+				   FROM {$wpdb->postmeta}
+				  WHERE post_id
+				     IN ( {$post_ids} )
+				    AND meta_key
+				     IN ( {$supported} )
+				  ORDER BY post_id"
+			);
+
+			$movies = array();
+			foreach ( $meta as $m ) {
+
+				if ( is_serialized( $m->meta_value ) ) {
+					$m->meta_value = unserialize( $m->meta_value );
+				}
+
+				if ( is_array( $m->meta_value ) ) {
+					$m->meta_value = array_map( 'esc_attr', $m->meta_value );
+				} else {
+					$m->meta_value = esc_attr( $m->meta_value );
+				}
+
+				$movies[ $m->post_id ][ $m->meta_key ] = $m->meta_value;
+			}
+
+			return $movies;
 		}
  
 		/**

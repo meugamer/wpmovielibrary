@@ -513,11 +513,11 @@ _.extend( grid.view.Frame.prototype, media.controller.StateMachine.prototype );
  */
 grid.view.GridFrame = grid.view.Frame.extend({
 
-	id: 'movie-grid-frame',
+	/*id: 'movie-grid-frame',
 
 	tagName: 'div',
 
-	className: 'movie-grid',
+	className: 'movie-grid',*/
 
 	template: media.template( 'wpmoly-grid-frame' ),
 
@@ -536,6 +536,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		grid.view.Frame.prototype.initialize.apply( this, arguments );
 
+		console.log( this.$el );
 		_.defaults( this.options, {
 			mode:  'grid',
 			state: 'library'
@@ -715,7 +716,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		var options = this.options;
 
 		this.$el.html( this.template() );
-		this.el.className = 'mode-' + options.mode;
+		this.$el.addClass( 'mode-' + options.mode );
 
 		_.each( this.regions, function( region ) {
 			this[ region ].mode( options.mode );

@@ -3,7 +3,97 @@ var grid = wpmoly.grid,
    media = wp.media,
        $ = Backbone.$;
 
-grid.model.Movie = Backbone.Model.extend({});
+/**
+ * Basic data model to store post data.
+ * 
+ * @since    2.2
+ */
+grid.model.Post = Backbone.Model.extend({
+
+	defaults: {
+		post_id: '',
+		post_title: '',
+		post_date: '',
+		post_author: '',
+		post_author_url: '',
+		post_author_name: '',
+		post_status: '',
+		post_thumbnail: '',
+	},
+});
+
+/**
+ * Movie Meta Model
+ * 
+ * @since    2.2
+ */
+grid.model.Meta = Backbone.Model.extend({
+
+	defaults: {
+		tmdb_id: '',
+		title: '',
+		original_title: '',
+		tagline: '',
+		overview: '',
+		release_date: '',
+		local_release_date: '',
+		runtime: '',
+		production_companies: '',
+		production_countries: '',
+		spoken_languages: '',
+		genres: '',
+		director: '',
+		producer: '',
+		cast: '',
+		photography: '',
+		composer: '',
+		author: '',
+		writer: '',
+		certification: '',
+		budget: '',
+		revenue: '',
+		imdb_id: '',
+		adult: '',
+		homepage: ''
+	}
+});
+
+/**
+ * Movie Details Model
+ * 
+ * @since    2.2
+ */
+grid.model.Details = Backbone.Model.extend({
+
+	defaults: {
+		status: '',
+		media: '',
+		rating: '',
+		language: '',
+		subtitles: '',
+		format: ''
+	}
+});
+
+/**
+ * WPMOLY Backbone Movie Model
+ * 
+ * Model for the metabox movie metadata fields. Holy Grail! That model
+ * is linked to a view containing all the inputs and handles the sync
+ * with the server to search for movies.
+ * 
+ * @since    2.2
+ */
+grid.model.Movie = Backbone.Model.extend({
+
+	id: '',
+
+	defaults: {
+		post: {},
+		meta: {},
+		details: {}
+	}
+});
 
 /**
  * wpmoly.grid.model.Movies
@@ -37,57 +127,12 @@ grid.model.Movies = Backbone.Collection.extend({
 
 		// Bind default `change` events to the `props` model.
 		this.props.on( 'change',         this._changeFilteredProps, this );
-
-		this.props.on( 'change:order',   this._changeOrder,   this );
-		this.props.on( 'change:orderby', this._changeOrderby, this );
 		this.props.on( 'change:query',   this._changeQuery,   this );
 
 		this.props.set( _.defaults( options.props || {} ) );
 
 		if ( options.observe ) {
 			this.observe( options.observe );
-		}
-	},
-
-	/**
-	 * Sort the collection when the order attribute changes.
-	 * 
-	 * @since    2.2
-	 *
-	 * @access   private
-	 * 
-	 * @return   void
-	 */
-	_changeOrder: function() {
-
-		if ( this.comparator ) {
-			this.sort();
-		}
-	},
-
-	/**
-	 * Set the default comparator only when the `orderby` property is set.
-	 * 
-	 * @since    2.2
-	 *
-	 * @access   private
-	 *
-	 * @param    object    Backbone.Model
-	 * @param    string    orderby
-	 * 
-	 * @return   void
-	 */
-	_changeOrderby: function( model, orderby ) {
-
-		// If a different comparator is defined, bail.
-		if ( this.comparator && this.comparator !== grid.model.Movies.comparator ) {
-			return;
-		}
-
-		if ( orderby && 'post__in' !== orderby ) {
-			this.comparator = grid.model.Movies.comparator;
-		} else {
-			delete this.comparator;
 		}
 	},
 
@@ -448,17 +493,17 @@ grid.model.Movies = Backbone.Collection.extend({
 				attributes = attrs.attributes;
 			}
 
-			/*       id = attributes.post.post_id;
+			       id = attributes.post.post_id;
 			    model = _.extend( new grid.model.Movie,     { id: id } ),
 			     post = _.extend( new grid.model.Post,      { id: id } ),
 			     meta = _.extend( new grid.model.Meta,      { id: id } ),
 			  details = _.extend( new grid.model.Details,   { id: id } ),
-			formatted = _.extend( new grid.model.Formatted, { id: id } );
+			//formatted = _.extend( new grid.model.Formatted, { id: id } );
 
 			     _post = _.pick( attributes.post      || {}, _.keys( post.defaults ) );
 			     _meta = _.pick( attributes.meta      || {}, _.keys( meta.defaults ) );
 			  _details = _.pick( attributes.details   || {}, _.keys( details.defaults ) );
-			_formatted = _.pick( attributes.formatted || {}, _.keys( formatted.defaults ) );
+			//_formatted = _.pick( attributes.formatted || {}, _.keys( formatted.defaults ) );
 
 			_.extend( _post, {
 				post_date: new Date( _post.post_date )
@@ -472,9 +517,9 @@ grid.model.Movies = Backbone.Collection.extend({
 				post:      post.set( _post ),
 				meta:      meta.set( _meta ),
 				details:   details.set( _details ),
-				formatted: formatted.set( _formatted ),
-				nonces:    attributes.nonces || {}
-			} );*/
+				//formatted: formatted.set( _formatted ),
+				//nonces:    attributes.nonces || {}
+			} );
 
 			return grid.model.Movies.all.push( model );
 		});
@@ -831,15 +876,13 @@ grid.model.Query = grid.model.Movies.extend({
 	 * @readonly
 	 */
 	orderby: {
-		allowed:  [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo', 'id', 'post__in', 'menuOrder' ],
+		allowed:  [ 'date', 'title', 'modified', 'id', 'post__in' ],
 		/**
 		 * A map of JavaScript orderby values to their WP_Query equivalents.
 		 * @type {Object}
 		 */
 		valuemap: {
-			'id':         'ID',
-			'uploadedTo': 'parent',
-			'menuOrder':  'menu_order ID'
+			'id':         'ID'
 		}
 	},
 
@@ -850,11 +893,7 @@ grid.model.Query = grid.model.Movies.extend({
 	 */
 	propmap: {
 		'search':     's',
-		'type':       'post_mime_type',
 		'perPage':    'posts_per_page',
-		'menuOrder':  'menu_order',
-		'uploadedTo': 'post_parent',
-		'status':     'post_status',
 		'include':    'post__in',
 		'exclude':    'post__not_in'
 	},
@@ -888,11 +927,7 @@ grid.model.Query = grid.model.Movies.extend({
 		 * @param    object    props.include
 		 * @param    object    props.exclude
 		 * @param    object    props.s
-		 * @param    object    props.post_mime_type
 		 * @param    object    props.posts_per_page
-		 * @param    object    props.menu_order
-		 * @param    object    props.post_parent
-		 * @param    object    props.post_status
 		 * @param    object    options
 		 * 
 		 * @return   grid.model.Query

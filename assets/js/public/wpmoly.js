@@ -23,11 +23,30 @@ wpmoly = {};
 			$( '.hide-if-js' ).hide();
 			$( '.hide-if-no-js' ).removeClass( 'hide-if-no-js' );
 
+			this.grid.run();
 			this.widgets.run();
 		}
 	} );
 
-	_.extend( wpmoly.grid, { model: {}, view: {} } );
+	_.extend( wpmoly.grid, {
+
+		model: {},
+
+		view: {},
+
+		frames: []
+	},
+	{
+		run: function() {
+
+			var grids = document.querySelectorAll( 'div.wpmoly.movies.grid' );
+			_.map( grids, function( grid ) {
+				grid.id = _.uniqueId( grid.id + '-' );
+				var frame = new this.view.GridFrame({ el: grid.id });
+				return this.frames.push( frame );
+			}, this );
+		}
+	} );
 
 	_.extend( wpmoly.widgets,{
 
