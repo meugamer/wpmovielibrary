@@ -789,7 +789,7 @@ grid.model.Query = grid.model.Movies.extend({
 			options.context = this;
 			options.data = _.extend( options.data || {}, {
 				action:  'wpmoly_query_movies',
-				post_id: media.model.settings.post.id
+				post_id: 0
 			});
 
 			// Clone the args so manipulation is non-destructive.

@@ -12,11 +12,11 @@ hasTouch = ( 'ontouchend' in document );
  * 
  * @since    2.2
  */
-grid.view.Menu = wp.Backbone.View.extend({
+grid.view.Menu = media.View.extend({
 
 	id: 'grid-menu',
 
-	template: wp.template( 'wpmoly-grid-menu' ),
+	template: media.template( 'wpmoly-grid-menu' ),
 
 	/*events: {
 		'click a':              'preventDefault',
@@ -83,13 +83,13 @@ grid.view.Menu = wp.Backbone.View.extend({
  * 
  * @since    2.2
  */
-grid.view.Movie = wp.Backbone.View.extend({
+grid.view.Movie = media.View.extend({
 
 	tagName:   'li',
 
 	className: 'attachment movie',
 
-	template:  wp.template( 'wpmoly-movie' ),
+	template:  media.template( 'wpmoly-movie' ),
 
 	events: {
 		'click a':               'preventDefault',
@@ -168,7 +168,7 @@ grid.view.Movie = wp.Backbone.View.extend({
  * 
  * @since    2.2
  */
-grid.view.ContentGrid = wp.Backbone.View.extend({
+grid.view.ContentGrid = media.View.extend({
 
 	id: 'grid-content-grid',
 
@@ -408,11 +408,11 @@ grid.view.ContentGrid = wp.Backbone.View.extend({
 
 });
 
-/*grid.view.ContentExerpt = wp.Backbone.View.extend({
+/*grid.view.ContentExerpt = media.View.extend({
 
 	id: 'grid-content-exerpt',
 
-	template: wp.template( 'wpmoly-grid-content-exerpt' ),
+	template: media.template( 'wpmoly-grid-content-exerpt' ),
 });*/
 
 /**
@@ -422,7 +422,7 @@ grid.view.ContentGrid = wp.Backbone.View.extend({
  * 
  * @since    2.2
  */
-grid.view.Frame = wp.Backbone.View.extend({
+grid.view.Frame = media.View.extend({
 
 	_mode: 'grid',
 
@@ -496,7 +496,7 @@ grid.view.Frame = wp.Backbone.View.extend({
 			this.setState( this.options.state );
 		}
 
-		return wp.Backbone.View.prototype.render.apply( this, arguments );
+		return media.View.prototype.render.apply( this, arguments );
 	}
 
 });
@@ -519,7 +519,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 	className: 'movie-grid',
 
-	template: wp.template( 'wpmoly-grid-frame' ),
+	template: media.template( 'wpmoly-grid-frame' ),
 
 	regions: [ 'menu', 'content' ],
 
