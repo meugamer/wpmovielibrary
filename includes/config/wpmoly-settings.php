@@ -811,6 +811,7 @@ $wpmoly_config = array(
 				'default'  => 99
 			),
 
+			// Movie Meta to show in the grid
 			'movies-meta' => array(
 				'id'       => 'wpmoly-movie-archives-movies-meta',
 				'type'     => 'sorter',
@@ -828,25 +829,14 @@ $wpmoly_config = array(
                         ),
 
 			// Movie archives page frontend edit inputs
-			'frontend-edit' => array(
-				'id'       => 'wpmoly-movie-archives-frontend-edit',
+			'backbone-grid' => array(
+				'id'       => 'wpmoly-movie-backbone-grid',
 				'type'     => 'switch',
-				'title'    => __( 'Editable movies-per-page value', 'wpmovielibrary' ),
-				'desc'     => __( 'If enabled, allows movies-per-page value to be modified on frontend. The sorting menu will show an input where visitors can change the movies-per-page value to display more or less movies. It is recommended to set a limit above if this feature is to be activated.', 'wpmovielibrary' ),
+				'title'    => __( 'Interactive Grid', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, the Grid will be powered by JavaScript instead of plain HTML, providing extended sorting/display features.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
-			),
-
-			// Movie archives page frontend advanced edit settings
-			'frontend-advanced-edit' => array(
-				'id'       => 'wpmoly-movie-archives-frontend-advanced-edit',
-				'type'     => 'switch',
-				'title'    => __( 'Advanced Editable grid settings', 'wpmovielibrary' ),
-				'desc'     => __( 'If enabled, allows the grid sorting to be modified on frontend. The sorting menu will show a list of possible sortings (rating, release date, title, …) that visitors can select to sort the grid. <strong>This feature is experimental!</strong> Be sure to test it thoroughly before enabling it publicly.', 'wpmovielibrary' ),
-				'on'       => __( 'Enabled', 'wpmovielibrary' ),
-				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 1
 			),
 		)
 	),

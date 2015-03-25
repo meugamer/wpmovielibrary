@@ -479,6 +479,13 @@ if ( ! class_exists( 'WPMOLY_Archives' ) ) :
 
 			$has_menu = wpmoly_o( 'movie-archives-menu', $default = true );
 			$editable = wpmoly_o( 'movie-archives-frontend-edit', $default = true );
+			$backbone = wpmoly_o( 'movie-backbone-grid', $default = true );
+
+			if ( $backbone ) {
+
+				$content = WPMOLY_Grid::get_content( array( 'backbone' => true ) );
+				return $content;
+			}
 
 			global $wp_query;
 			$params = self::parse_query_vars( $wp_query->query );

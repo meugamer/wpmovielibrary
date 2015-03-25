@@ -136,6 +136,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			global $wpdb, $wp_query;
 
 			$defaults = array(
+				'backbone'   => wpmoly_o( 'movie-backbone-grid', $default = true ),
 				'columns'    => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
 				'rows'       => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
 				'paged'      => 1,
@@ -156,6 +157,11 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				'view'       => 'grid'
 			);
 			$args = wp_parse_args( $args, $defaults );
+
+			if ( $args['backbone'] ) {
+
+				return self::render_template( "movies/grid/backbone.php", $attributes = compact( 'args' ), $require = 'always' );
+			}
 
 			// Allow URL params to override Shortcode settings
 			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );

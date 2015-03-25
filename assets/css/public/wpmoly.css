@@ -93,6 +93,16 @@
 	float: none;
 }
 
+.wpmoly.grid.loading {
+	background-color: rgba(255, 255, 255, 0.5);
+	background-image: url(../../img/grid.svg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 24px 24px;
+	margin: 24px 0;
+	min-height: 72px;
+}
+
 #wpmoly-movie-grid-menu,
 #wpmoly-movie-grid-menu-2 {
 	background: #fff;

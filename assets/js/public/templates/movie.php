@@ -1,15 +1,15 @@
 
-		<div class="attachment-preview movie-preview js--select-attachment" style="<# if ( '' != data.size.height ) { #>height:{{ data.size.height }}px;<# } if ( '' != data.size.height ) { #>width:{{ data.size.width }}px<# } #>">
-			<a class="movie-action center preview-movie" data-id="{{ data.post.post_id }}" href="#" title="<?php _e( 'View Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-movie"></span></a>
-			<a class="movie-action top-right edit-movie" data-id="{{ data.post.post_id }}" href="<?php echo admin_url( 'post.php?post={{ data.post.post_id }}&action=edit' ); ?>" title="<?php _e( 'Edit Movie', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-edit"></span></a>
-			<div class="movie-action bottom-right movie-rating"><span title="{{ data.details.rating }}" class="wpmolicon icon-star-{{ data.details.star }}"></span></div>
-			<div class="poster">
-				<img src="{{ data.post.post_thumbnail }}" alt="{{ data.post.post_title }}" />
-			</div>
-		</div>
-		<div class="attachment-meta movie-meta">
-			<div class="movie-year">{{ data.meta.year }}</div>
-			<div class="movie-title">{{ data.meta.title }}</div>
-			<div class="movie-genres">{{ data.meta.genres }}</div>
-			<div class="movie-runtime"><# if ( '' != data.meta.runtime ) { #>{{ data.meta.runtime }}min<# } #></div>
-		</div>
+					<div id="wpmoly-movie-{{ data.post.post_id }}" class="wpmoly grid movie" style="<# if ( '' != data.size.height ) { #>height:{{ data.size.height }}px;<# } if ( '' != data.size.height ) { #>width:{{ data.size.width }}px<# } #>">
+						<a class="wpmoly grid movie link" title="{{ data.meta.title }}" href="">
+							<?php if ( has_post_thumbnail() ) the_post_thumbnail( $size, array( 'class' => 'wpmoly grid movie poster' ) ); ?>
+<?php 	if ( $title ) : ?>
+							<h4 class="wpmoly grid movie title">{{ data.meta.title }}</h4>
+<?php 	endif; if ( $year ) : ?>
+							<span class="wpmoly grid movie year">{{ data.meta.year }}</span>
+<?php 	endif; if ( $rating ) : ?>
+							<span class="wpmoly grid movie rating">{{ data.details.star }}</span>
+<?php 	endif; ?>
+							<span class="wpmoly grid movie genres">{{ data.meta.genres }}</span>
+							<span class="wpmoly grid movie runtime"><# if ( '' != data.meta.runtime ) { #>{{ data.meta.runtime }}min<# } #></span>
+						</a>
+					</div>
