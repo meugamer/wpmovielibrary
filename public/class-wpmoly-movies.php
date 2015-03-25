@@ -241,6 +241,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 					$thumbnail = $thumbnail[0];
 				}
 
+				$data['post']->post_thumbnail = $thumbnail;
+
 				if ( isset( $meta[ $post->ID ] ) ) {
 					foreach ( $meta[ $post->ID ] as $k => $v ) {
 						$data['meta'][ $k ] = htmlspecialchars_decode( $v, ENT_QUOTES );

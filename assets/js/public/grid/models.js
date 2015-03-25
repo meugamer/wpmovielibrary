@@ -11,15 +11,22 @@ var grid = wpmoly.grid,
 grid.model.Post = Backbone.Model.extend({
 
 	defaults: {
-		post_id: '',
-		post_title: '',
-		post_date: '',
+		ID: '',
 		post_author: '',
-		post_author_url: '',
-		post_author_name: '',
+		post_date: '',
+		post_date_gmt: '',
+		post_content: '',
+		post_title: '',
+		post_excerpt: '',
 		post_status: '',
-		post_thumbnail: '',
-	},
+		post_password: '',
+		post_name: '',
+		post_modified: '',
+		post_modified_gmt: '',
+		post_content_filtered: '',
+		comment_count: '',
+		post_thumbnail: ''
+	}
 });
 
 /**

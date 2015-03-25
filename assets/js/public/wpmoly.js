@@ -42,7 +42,7 @@ wpmoly = {};
 			var grids = document.querySelectorAll( 'div.wpmoly.movies.grid' );
 			_.map( grids, function( grid ) {
 				grid.id = _.uniqueId( grid.id + '-' );
-				var frame = new this.view.GridFrame({ el: grid.id });
+				var frame = new this.view.GridFrame({ el: '#' + grid.id });
 				return this.frames.push( frame );
 			}, this );
 		}
