@@ -78,7 +78,8 @@ grid.model.Details = Backbone.Model.extend({
 		rating: '',
 		language: '',
 		subtitles: '',
-		format: ''
+		format: '',
+		stars: ''
 	}
 });
 

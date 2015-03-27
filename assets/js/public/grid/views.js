@@ -289,15 +289,19 @@ grid.view.ContentGrid = media.View.extend({
 			    $items = $li.find( '.movie-preview' );
 		}
 
-		this.thumbnail_width  = this.$( 'li:first' ).width() - 26;
+		this.thumbnail_width = this.$( 'li:first' ).width();
+		if ( this.frame.$el.hasClass( 'mode-frame' ) ) {
+			this.thumbnail_width -= 26;
+		}
+
 		this.thumbnail_height = Math.floor( this.thumbnail_width * 1.5 );
 
 		$li.addClass( 'resized' ).css({
 			width: this.thumbnail_width
 		});
 		$items.css({
-			width: this.thumbnail_width,
-			height: this.thumbnail_height
+			width: this.thumbnail_width - 8,
+			height: this.thumbnail_height - 12
 		});
 	},
 
@@ -342,7 +346,7 @@ grid.view.ContentGrid = media.View.extend({
 
 		if ( this.collection.length ) {
 			//this.views.set( this.collection.map( this.options.subview, this ) );
-			this.collection.map( this.createSubView, this );
+			this.views.set( this.collection.map( this.createSubView, this ) );
 		} else {
 			// Clear existing views
 			this.views.unset();
@@ -545,9 +549,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		this.createStates();
 		this.bindHandlers();
 
-		this.preRender();
 		this.render();
-		this.postRender();
 	},
 
 	/**
@@ -562,13 +564,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		this.on( 'change:mode', this.render, this );
 
 		this.on( 'menu:create:grid', this.createMenu, this );
-		/*this.on( 'menu:create:list', this.createMenu, this );
-		this.on( 'menu:create:exerpt', this.createMenu, this );
-		this.on( 'menu:create:import', this.createMenu, this );*/
 		this.on( 'content:create:grid', this.createContentGrid, this );
-		/*this.on( 'content:create:list', this.createContentList, this );
-		this.on( 'content:create:exerpt', this.createContentExerpt, this );
-		this.on( 'content:create:import', this.createContentImport, this );*/
 
 		return this;
 	},
@@ -639,70 +635,6 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	},
 
 	/**
-	 * Create the Content List View
-	 * 
-	 * This Content View show the basic, WPish Post List Table.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    object    Region
-	 * 
-	 * @return   Returns itself to allow chaining.
-	 */
-	createContentList: function( region ) {
-
-		region.view = new grid.view.ContentList( { frame: this } );
-	},
-
-	/**
-	 * Create the Content Exerpt View
-	 * 
-	 * This Content View shows a larger Grid including some additional
-	 * data from Movies.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    object    Region
-	 * 
-	 * @return   Returns itself to allow chaining.
-	 */
-	createContentExerpt: function( region ) {
-
-		region.view = new grid.view.ContentExerpt( { frame: this } );
-	},
-
-	/**
-	 * Create the Content Importer View
-	 * 
-	 * This Content View include the WPMOLY < 2.2 Importer.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    object    Region
-	 * 
-	 * @return   Returns itself to allow chaining.
-	 */
-	createContentImport: function( region ) {
-
-		region.view = importer.frame = new importer.view.ImporterFrame;
-	},
-
-	/**
-	 * Run actions before rendering.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @return   Returns itself to allow chaining.
-	 */
-	preRender: function() {
-
-		$( '.wrap' ).append( '<div id="grid-content-list"></div>' );
-		$( '.wrap > *' ).not( 'h2' ).appendTo( '#grid-content-list' );
-
-		return this;
-	},
-
-	/**
 	 * Render the View.
 	 * 
 	 * @since    2.2
@@ -717,26 +649,11 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		this.$el.html( this.template() );
 		this.$el.addClass( 'mode-' + options.mode );
+		//this.$el.addClass( 'mode-' + options.mode + ' mode-frame' );
 
 		_.each( this.regions, function( region ) {
 			this[ region ].mode( options.mode );
 		}, this );
-
-		return this;
-	},
-
-	/**
-	 * Run actions after rendering.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @return   Returns itself to allow chaining.
-	 */
-	postRender: function() {
-
-		this.$el.appendTo( $( '.wrap' ) );
-
-		$( '#grid-content-list' ).appendTo( this.$( '.grid-frame-content' ) );
 
 		return this;
 	},

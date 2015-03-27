@@ -251,6 +251,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 				if ( isset( $details[ $post->ID ] ) ) {
 					$data['details'] = $details[ $post->ID ];
+					$data['details']['stars'] = apply_filters( 'wpmoly_movie_rating_stars', $details[ $post->ID ]['rating'] );
 				}
 
 				$posts[ $i ] = $data;
