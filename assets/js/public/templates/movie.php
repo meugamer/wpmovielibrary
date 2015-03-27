@@ -1,6 +1,6 @@
 
-					<div id="wpmoly-movie-{{ data.post.post_id }}" class="wpmoly grid movie" style="<# if ( '' != data.size.height ) { #>height:{{ data.size.height }}px;<# } if ( '' != data.size.height ) { #>width:{{ data.size.width }}px<# } #>">
-						<div class="movie-preview">
+					<div id="wpmoly-movie-{{ data.post.post_id }}" class="wpmoly grid movie">
+						<div class="movie-preview" style="<# if ( '' != data.size.height ) { #>height:{{ data.size.height - 12 }}px;<# } if ( '' != data.size.width ) { #>width:{{ data.size.width - 8 }}px<# } #>">
 							<a class="wpmoly grid movie link" title="{{ data.meta.title }}" href="">
 								<img src="{{ data.post.post_thumbnail }}" alt="" />
 							</a>

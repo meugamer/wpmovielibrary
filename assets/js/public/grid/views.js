@@ -196,10 +196,11 @@ grid.view.ContentGrid = media.View.extend({
 			idealColumnWidth:   $( window ).width() < 640 ? 135 : 180,
 			refreshSensitivity: hasTouch ? 300 : 200,
 			refreshThreshold:   3,
-			scrollElement:      document,
 			resizeEvent:        'resize.grid-content-columns',
 			subview:            grid.view.Movie
 		} );
+
+		this.options.scrollElement = this.el;
 
 		this.model = this.options.model;
 		this.frame = this.options.frame;
@@ -220,7 +221,7 @@ grid.view.ContentGrid = media.View.extend({
 		this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 
 		// Handle scrolling
-		$( this.options.scrollElement ).on( 'scroll', this.scroll );
+		$( document ).on( 'scroll', this.scroll );
 
 		// Detect Window resize to readjust thumbnails
 		if ( this.options.resize ) {
@@ -280,27 +281,26 @@ grid.view.ContentGrid = media.View.extend({
 
 		if ( true === force ) {
 			var $li = this.$( 'li' ),
-			    $items = $li.find( '.movie-preview' );
+			 $items = $li.find( '.movie-preview' );
 
 			$items.css( { width: '', height: '' } );
 			$li.css( { width: '' } );
 		} else {
 			var $li = this.$( 'li' ).not( '.resized' ),
-			    $items = $li.find( '.movie-preview' );
+			 $items = $li.find( '.movie-preview' );
 		}
 
 		this.thumbnail_width = this.$( 'li:first' ).width();
 		if ( this.frame.$el.hasClass( 'mode-frame' ) ) {
 			this.thumbnail_width -= 26;
 		}
-
 		this.thumbnail_height = Math.floor( this.thumbnail_width * 1.5 );
 
 		$li.addClass( 'resized' ).css({
 			width: this.thumbnail_width
 		});
 		$items.css({
-			width: this.thumbnail_width - 8,
+			width:  this.thumbnail_width - 8,
 			height: this.thumbnail_height - 12
 		});
 	},
@@ -354,10 +354,10 @@ grid.view.ContentGrid = media.View.extend({
 			// Access this from deferred
 			var self = this;
 			// Loading...
-			this.$el.addClass( 'loading' );
+			this.frame.$el.addClass( 'loading' );
 			// Deferring
 			this.dfd = this.collection.more().done( function() {
-				self.$el.removeClass( 'loading' );
+				self.frame.$el.removeClass( 'loading' );
 				self.setColumns();
 				self.scroll;
 			} );
@@ -374,8 +374,9 @@ grid.view.ContentGrid = media.View.extend({
 	scroll: function() {
 
 		var  view = this,
-			el = document.body,
-		scrollTop = this.$window.scrollTop();
+		scrollTop = this.$window.scrollTop(),
+		       el = this.options.scrollElement,
+		    $last = this.$( 'li.movie:last' );
 
 		// Already loading? Don't bother.
 		if ( this._loading ) {
@@ -384,7 +385,7 @@ grid.view.ContentGrid = media.View.extend({
 
 		// Scroll elem is hidden or collection has no more movie
 		if ( ! $( el ).is( ':visible' ) || ! this.collection.hasMore() ) {
-			this.$el.removeClass( 'loading' );
+			this.frame.$el.removeClass( 'loading' );
 			return;
 		}
 
@@ -394,18 +395,19 @@ grid.view.ContentGrid = media.View.extend({
 		}
 
 		this._lastPosition = scrollTop;
-		if ( scrollTop >= ( el.scrollHeight - el.clientHeight - 100 ) ) {
+		if ( scrollTop >= $last.offset().top - this.$window.height() ) {
+		//if ( scrollTop >= ( el.scrollHeight - 200 ) ) {
 
 			this._loading = true;
-			this.$el.addClass( 'loading' );
+			this.frame.$el.addClass( 'loading' );
 
 			this.dfd = this.collection.more().done( function() {
-				view.$el.removeClass( 'loading' );
+				view.frame.$el.removeClass( 'loading' );
 				view._loading = false;
 			} );
 
 		} else {
-			this.$el.removeClass( 'loading' );
+			this.frame.$el.removeClass( 'loading' );
 			this._loading = false;
 		}
 	}
@@ -626,12 +628,11 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		var state = this.state();
 
 		region.view = new grid.view.ContentGrid({
-			frame:      this,
-			model:      state,
-			collection: state.get( 'library' ),
-			controller: this,
+			frame:         this,
+			model:         state,
+			collection:    state.get( 'library' ),
+			controller:    this,
 		});
-		console.log( region );
 	},
 
 	/**
