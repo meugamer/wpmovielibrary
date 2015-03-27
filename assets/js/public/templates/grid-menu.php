@@ -13,13 +13,15 @@
 					</li>
 					<li class="wpmoly-grid-menu-item">
 						<ul class="wpmoly-grid-submenu">
-							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="wpmolicon icon-th-large"></span> <span class="label">Grid View</span></a></li>
-							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="wpmolicon icon-th"></span> <span class="label">Smaller Grid View</span></a></li>
-							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="wpmolicon icon-list"></span> <span class="label">List View</span></a></li>
+							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="dashicons dashicons-schedule"></span> <span class="label">View as…</span></a></li>
+							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="dashicons dashicons-grid-view"></span> <span class="label">Grid View</span></a></li>
+							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="dashicons dashicons-exerpt-view"></span> <span class="label">Extended Grid View</span></a></li>
+							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="dashicons dashicons-list-view"></span> <span class="label">List View</span></a></li>
 						</ul>
 					</li>
 					<li class="wpmoly-grid-menu-item wpmoly-grid-menu-item-expand">
-						<a class="grid-menu-action" data-action="expand" href="#" title=""><span class="wpmolicon icon-resize-enlarge"></span> <span class="label">Expand</span></a>
+						<a class="grid-menu-action grid-menu-enlarge" data-action="expand" data-value="enlarge" href="#" title=""><span class="wpmolicon icon-resize-enlarge"></span> <span class="label">Expand</span></a>
+						<a class="grid-menu-action grid-menu-shrink" data-action="expand" data-value="shrink" href="#" title=""><span class="wpmolicon icon-resize-shrink"></span> <span class="label">Shrink</span></a>
 					</li>
 					<li class="wpmoly-grid-menu-item wpmoly-grid-menu-item-search">
 						<a class="grid-menu-action" data-action="search" href="#" title=""><span class="wpmolicon icon-search"></span> <span class="label">Search</span></a>

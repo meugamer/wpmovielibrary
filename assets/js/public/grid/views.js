@@ -18,10 +18,13 @@ grid.view.Menu = media.View.extend({
 
 	template: media.template( 'wpmoly-grid-menu' ),
 
-	/*events: {
-		'click a':              'preventDefault',
-		'click .view-switch a': 'switchView',
-	},*/
+	events: {
+		'click a':                      'preventDefault',
+		'click [data-action="expand"]': 'expand',
+		'click [data-action="order"]':  'order',
+		'click [data-action="filter"]': 'filter',
+		'click [data-action="view"]':   'view',
+	},
 
 	/**
 	 * Initialize the View
@@ -34,7 +37,65 @@ grid.view.Menu = media.View.extend({
 	 */
 	initialize: function( options ) {
 
+		_.defaults( this.options, {
+			refreshSensitivity: hasTouch ? 300 : 200
+		} );
+
 		this.frame = this.options.frame;
+		this.$window = $( window );
+
+		// Throttle the scroll handler and bind this.
+		this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
+
+		this.$window.on( 'scroll', this.scroll );
+	},
+
+	scroll: function( event ) {
+
+		var   $el = this.$el.parent( '.grid-frame-menu' ),
+		   $frame = this.frame.$el,
+		scrollTop = this.$window.scrollTop();
+
+		if ( ! $frame.hasClass( 'menu-fixed' ) && $frame.offset().top <= ( scrollTop + 48 ) ) {
+			$frame.addClass( 'menu-fixed' );
+			$el.css({ width: $frame.width() });
+		} else if ( $frame.hasClass( 'menu-fixed' ) && $frame.offset().top > ( scrollTop + 48 ) ) {
+			$frame.removeClass( 'menu-fixed' );
+			$el.css({ width: '' });
+		}
+	},
+
+	expand: function( event ) {
+
+		var elem = this.$( event.currentTarget ) || {},
+		   value = elem.attr( 'data-value' ),
+		    mode;
+
+		if ( 'enlarge' == value ) {
+			mode = 'frame';
+		} else if ( 'shrink' == value ) {
+			mode = 'grid';
+		}
+
+		this.frame.mode( mode );
+	},
+
+	order: function( event ) {
+
+		var $elem = this.$( event.currentTarget );
+		$elem.parents( '.wpmoly-grid-submenu' ).toggleClass( 'open' );
+	},
+
+	filter: function( event ) {
+
+		var $elem = this.$( event.currentTarget );
+		$elem.parents( '.wpmoly-grid-submenu' ).toggleClass( 'open' );
+	},
+
+	view: function( event ) {
+
+		var $elem = this.$( event.currentTarget );
+		$elem.parents( '.wpmoly-grid-submenu' ).toggleClass( 'open' );
 	},
 
 	/**
@@ -291,9 +352,6 @@ grid.view.ContentGrid = media.View.extend({
 		}
 
 		this.thumbnail_width = this.$( 'li:first' ).width();
-		if ( this.frame.$el.hasClass( 'mode-frame' ) ) {
-			this.thumbnail_width -= 26;
-		}
 		this.thumbnail_height = Math.floor( this.thumbnail_width * 1.5 );
 
 		$li.addClass( 'resized' ).css({
@@ -529,6 +587,10 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 	regions: [ 'menu', 'content' ],
 
+	_previousMode: '',
+
+	_mode: '',
+
 	/**
 	 * Initialize the View
 	 * 
@@ -548,6 +610,8 @@ grid.view.GridFrame = grid.view.Frame.extend({
 			state: 'library'
 		});
 
+		this._mode = this.options.mode;
+
 		this.createStates();
 		this.bindHandlers();
 
@@ -563,10 +627,13 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	 */
 	bindHandlers: function() {
 
+		//this.on( 'all', function( event ) { console.log( event ); }, this );
 		this.on( 'change:mode', this.render, this );
 
+		this.on( 'menu:create:frame', this.createMenu, this );
 		this.on( 'menu:create:grid', this.createMenu, this );
 		this.on( 'content:create:grid', this.createContentGrid, this );
+		this.on( 'content:create:frame', this.createContentGrid, this );
 
 		return this;
 	},
@@ -646,14 +713,23 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		grid.view.Frame.prototype.render.apply( this, arguments );
 
-		var options = this.options;
-
 		this.$el.html( this.template() );
-		this.$el.addClass( 'mode-' + options.mode );
-		//this.$el.addClass( 'mode-' + options.mode + ' mode-frame' );
+
+		var $body = $( 'body' );
+		if ( 'frame' == this._mode ) {
+			$body.addClass( 'wpmoly-frame-open' )
+		} else {
+			$body.removeClass( 'wpmoly-frame-open' );
+		}
+
+		if ( '' != this._previousMode ) {
+			this.$el.removeClass( 'mode-' + this._previousMode );
+		}
+
+		this.$el.addClass( 'mode-' + this._mode );
 
 		_.each( this.regions, function( region ) {
-			this[ region ].mode( options.mode );
+			this[ region ].mode( this._mode );
 		}, this );
 
 		return this;
@@ -668,16 +744,16 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	 */
 	mode: function( mode ) {
 
-		var options = this.options;
-
 		if ( ! mode )
-			return options.mode;
+			return this._mode;
 
-		if ( mode === options.mode )
+		if ( mode === this._mode )
 			return this;
 
-		options.mode = mode;
+		this._previousMode = this._mode;
+		this._mode = mode;
 		this.trigger( 'change:mode', mode );
+		this.trigger( 'activate:' + mode );
 
 		return this;
 	}
