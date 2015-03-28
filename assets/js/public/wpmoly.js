@@ -18,6 +18,15 @@ wpmoly = {};
 		widgets: {}
 	},
 	{
+		compare: function( a, b, ac, bc ) {
+
+			if ( _.isEqual( a, b ) ) {
+				return ac === bc ? 0 : (ac > bc ? -1 : 1);
+			} else {
+				return a > b ? -1 : 1;
+			}
+		},
+
 		run: function() {
 
 			$( '.hide-if-js' ).hide();

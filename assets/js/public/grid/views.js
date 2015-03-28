@@ -47,7 +47,10 @@ grid.view.Menu = media.View.extend({
 			refreshSensitivity: hasTouch ? 300 : 200
 		} );
 
-		this.frame = this.options.frame;
+		this.frame   = this.options.frame;
+		this.model   = this.options.model;
+		this.library = this.options.library;
+
 		this.$window = $( window );
 		this.$body   = $( document.body );
 
@@ -194,8 +197,10 @@ grid.view.Menu = media.View.extend({
 	 */
 	order: function( event ) {
 
-		var $elem = this.$( event.currentTarget );
-		console.log( 'order!' );
+		var $elem = this.$( event.currentTarget ),
+		    value = $elem.attr( 'data-value' );
+
+		this.library.props.set({ orderby: value });
 	},
 
 	/**
@@ -385,6 +390,8 @@ grid.view.ContentGrid = media.View.extend({
 
 	_lastPosition: 0,
 
+	_scroll: true,
+
 	/**
 	 * Initialize the View
 	 * 
@@ -417,7 +424,9 @@ grid.view.ContentGrid = media.View.extend({
 		}, this );
 
 		// Re-render the view when collection is emptied
-		this.collection.on( 'reset', this.render, this );
+		this.collection.on( 'reset', function() {
+			this.render();
+		}, this );
 
 		// Event handlers
 		_.bindAll( this, 'setColumns' );
@@ -575,6 +584,10 @@ grid.view.ContentGrid = media.View.extend({
 	 * @return   void
 	 */
 	scroll: function() {
+
+		if ( true === this._scroll ) {
+			return;
+		}
 
 		var  view = this,
 		scrollTop = this.$window.scrollTop(),
@@ -750,8 +763,12 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		grid.view.Frame.prototype.initialize.apply( this, arguments );
 
 		_.defaults( this.options, {
-			mode:  'grid',
-			state: 'library'
+			mode:   'grid',
+			state:  'library',
+			library: {
+				orderby: 'title',
+				order:   'ASC'
+			}
 		});
 
 		this.$bg   = $( '#wpmoly-grid-bg' );
@@ -830,7 +847,13 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	 */
 	createMenu: function( region ) {
 
-		region.view = new grid.view.Menu( { frame: this } );
+		var state = this.state();
+
+		region.view = new grid.view.Menu({
+			frame:   this,
+			model:   state,
+			library: state.get( 'library' ),
+		});
 	},
 
 	/**
@@ -846,11 +869,11 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		var state = this.state();
 
-		region.view = new grid.view.ContentGrid({
-			frame:         this,
-			model:         state,
-			collection:    state.get( 'library' ),
-			controller:    this,
+		this.gridView = region.view = new grid.view.ContentGrid({
+			frame:      this,
+			model:      state,
+			collection: state.get( 'library' ),
+			controller: this,
 		});
 	},
 

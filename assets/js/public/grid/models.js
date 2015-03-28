@@ -133,14 +133,51 @@ grid.model.Movies = Backbone.Collection.extend({
 		this.props   = new Backbone.Model();
 		this.filters = options.filters || {};
 
+		//this.props.on( 'all', function( event ) { console.log( event ); }, this );
 		// Bind default `change` events to the `props` model.
 		this.props.on( 'change',         this._changeFilteredProps, this );
+
+		this.props.on( 'change:order',   this._changeOrder,   this );
+		this.props.on( 'change:orderby', this._changeOrderby, this );
 		this.props.on( 'change:query',   this._changeQuery,   this );
 
 		this.props.set( _.defaults( options.props || {} ) );
 
 		if ( options.observe ) {
 			this.observe( options.observe );
+		}
+	},
+
+	/**
+	 * Sort the collection when the order attribute changes.
+	 *
+	 * @access private
+	 */
+	_changeOrder: function() {
+
+		if ( this.comparator ) {
+			this.sort();
+		}
+	},
+	/**
+	 * Set the default comparator only when the `orderby` property is set.
+	 *
+	 * @access private
+	 *
+	 * @param {Backbone.Model} model
+	 * @param {string} orderby
+	 */
+	_changeOrderby: function( model, orderby ) {
+
+		// If a different comparator is defined, bail.
+		if ( this.comparator && this.comparator !== grid.model.Movies.comparator ) {
+			return;
+		}
+
+		if ( orderby && 'post__in' !== orderby ) {
+			this.comparator = grid.model.Movies.comparator;
+		} else {
+			delete this.comparator;
 		}
 	},
 
@@ -580,18 +617,12 @@ grid.model.Movies = Backbone.Collection.extend({
 	comparator: function( a, b, options ) {
 
 		var key = this.props.get( 'orderby' ),
-		    order = this.props.get( 'order' ) || 'DESC',
-			ac = a.cid,
-			bc = b.cid;
+		  order = this.props.get( 'order' ) || 'DESC',
+		     ac = a.cid,
+		     bc = b.cid;
 
-		if ( 'date' === key || 'modified' === key ) {
-			var _key = 'post_date';
-		} else {
-			var _key = 'post_date';
-		}
-
-		a = a.get( 'post' )[ _key ];
-		b = b.get( 'post' )[ _key ];
+		a = a.get( 'post' )[ key ];
+		b = b.get( 'post' )[ key ];
 
 		if ( 'date' === key || 'modified' === key ) {
 			a = a || new Date();
@@ -603,8 +634,8 @@ grid.model.Movies = Backbone.Collection.extend({
 			ac = bc = null;
 		}
 
-		return 0;
-		return ( 'DESC' === order ) ? compare( a, b, ac, bc ) : compare( b, a, bc, ac );
+		//return 0;
+		return ( 'DESC' === order ) ? wpmoly.compare( a, b, ac, bc ) : wpmoly.compare( b, a, bc, ac );
 	},
 
 	/**
@@ -632,39 +663,6 @@ grid.model.Movies = Backbone.Collection.extend({
 				var value = movie.get( key );
 				return value && -1 !== value.search( this.props.get( 'search' ) );
 			}, this );
-		},
-
-		/**
-		 * 
-		 * 
-		 * @since    2.2
-		 * 
-		 * @param    object    grid.model.Movie
-		 *
-		 * @return   boolean
-		 */
-		type: function( movie ) {
-
-			var type = this.props.get( 'type' );
-			return ! type || -1 !== type.indexOf( movie.get( 'type' ) );
-		},
-
-		/**
-		 * 
-		 * @since    2.2
-		 * 
-		 * @param    object    grid.model.Movie
-		 *
-		 * @return   boolean
-		 */
-		uploadedTo: function( movie ) {
-
-			var uploadedTo = this.props.get( 'uploadedTo' );
-			if ( _.isUndefined( uploadedTo ) ) {
-				return true;
-			}
-
-			return uploadedTo === movie.get( 'uploadedTo' );
 		},
 
 		/**
@@ -743,8 +741,9 @@ grid.model.Query = grid.model.Movies.extend({
 		this.created  = new Date();
 
 		this.filters.order = function( movie ) {
+
 			var orderby = this.props.get( 'orderby' ),
-				order = this.props.get( 'order' );
+			      order = this.props.get( 'order' );
 
 			if ( ! this.comparator ) {
 				return true;
@@ -890,7 +889,9 @@ grid.model.Query = grid.model.Movies.extend({
 		 * @type {Object}
 		 */
 		valuemap: {
-			'id':         'ID'
+			'id':         'ID',
+			'date':       'post_date',
+			'title':      'post_title'
 		}
 	},
 

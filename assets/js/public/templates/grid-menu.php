@@ -3,19 +3,19 @@
 					<li class="wpmoly-grid-menu-item">
 						<ul class="wpmoly-grid-submenu">
 							<li><a class="grid-menu-action" data-action="openmenu" href="#" title=""><span class="wpmolicon icon-order"></span> <span class="label">Sort by…</span></a></li>
-							<li><a class="grid-menu-action" data-action="order" data-value="" href="#" title=""><span class="dashicons dashicons-calendar"></span> <span class="label">Sort by post date</span></a></li>
-							<li><a class="grid-menu-action" data-action="order" data-value="" href="#" title=""><span class="dashicons dashicons-editor-paragraph"></span> <span class="label">Sort by post title</span></a></li>
-							<li><a class="grid-menu-action" data-action="order" data-value="" href="#" title=""><span class="wpmolicon icon-movie"></span> <span class="label">Sort by title</span></a></li>
-							<li><a class="grid-menu-action" data-action="order" data-value="" href="#" title=""><span class="wpmolicon icon-date"></span> <span class="label">Sort by release date</span></a></li>
-							<li><a class="grid-menu-action" data-action="order" data-value="" href="#" title=""><span class="wpmolicon icon-star-half"></span> <span class="label">Sort by rating</span></a></li>
+							<li><a class="grid-menu-action" data-action="order" data-value="date" href="#" title=""><span class="dashicons dashicons-calendar"></span> <span class="label">Sort by post date</span></a></li>
+							<!--<li><a class="grid-menu-action" data-action="order" data-value="post_title" href="#" title=""><span class="dashicons dashicons-editor-paragraph"></span> <span class="label">Sort by post title</span></a></li>-->
+							<li><a class="grid-menu-action" data-action="order" data-value="title" href="#" title=""><span class="wpmolicon icon-movie"></span> <span class="label">Sort by title</span></a></li>
+							<li><a class="grid-menu-action" data-action="order" data-value="release_date" href="#" title=""><span class="wpmolicon icon-date"></span> <span class="label">Sort by release date</span></a></li>
+							<li><a class="grid-menu-action" data-action="order" data-value="rating" href="#" title=""><span class="wpmolicon icon-star-half"></span> <span class="label">Sort by rating</span></a></li>
 						</ul>
 					</li>
 					<li class="wpmoly-grid-menu-item">
 						<ul class="wpmoly-grid-submenu">
 							<li><a class="grid-menu-action" data-action="openmenu" href="#" title=""><span class="dashicons dashicons-schedule"></span> <span class="label">View as…</span></a></li>
-							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="dashicons dashicons-grid-view"></span> <span class="label">Grid View</span></a></li>
-							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="dashicons dashicons-exerpt-view"></span> <span class="label">Extended Grid View</span></a></li>
-							<li><a class="grid-menu-action" data-action="view" data-value="" href="#" title=""><span class="dashicons dashicons-list-view"></span> <span class="label">List View</span></a></li>
+							<li><a class="grid-menu-action" data-action="view" data-value="grid" href="#" title=""><span class="dashicons dashicons-grid-view"></span> <span class="label">Grid View</span></a></li>
+							<li><a class="grid-menu-action" data-action="view" data-value="exerpt" href="#" title=""><span class="dashicons dashicons-exerpt-view"></span> <span class="label">Extended Grid View</span></a></li>
+							<li><a class="grid-menu-action" data-action="view" data-value="list" href="#" title=""><span class="dashicons dashicons-list-view"></span> <span class="label">List View</span></a></li>
 						</ul>
 					</li>
 					<li class="wpmoly-grid-menu-item wpmoly-grid-menu-item-expand">
