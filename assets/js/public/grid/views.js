@@ -14,16 +14,22 @@ hasTouch = ( 'ontouchend' in document );
  */
 grid.view.Menu = media.View.extend({
 
-	id: 'grid-menu',
+	className: 'wpmoly-grid-menu',
 
 	template: media.template( 'wpmoly-grid-menu' ),
 
 	events: {
-		'click a':                      'preventDefault',
-		'click [data-action="expand"]': 'expand',
-		'click [data-action="order"]':  'order',
-		'click [data-action="filter"]': 'filter',
-		'click [data-action="view"]':   'view',
+		'click a':                          'preventDefault',
+		'click [data-action="openmenu"]':   'toggleSubMenu',
+		'click [data-action="opensearch"]': 'toggleSearch',
+
+		'click [data-action="expand"]':     'expand',
+		'click [data-action="order"]':      'order',
+		'click [data-action="filter"]':     'filter',
+		'click [data-action="view"]':       'view',
+
+		'click .grid-menu-search-container': 'stopPropagation',
+
 	},
 
 	/**
@@ -43,6 +49,7 @@ grid.view.Menu = media.View.extend({
 
 		this.frame = this.options.frame;
 		this.$window = $( window );
+		this.$body   = $( document.body );
 
 		// Throttle the scroll handler and bind this.
 		this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
@@ -50,6 +57,15 @@ grid.view.Menu = media.View.extend({
 		this.$window.on( 'scroll', this.scroll );
 	},
 
+	/**
+	 * Handle infinite scroll into the current View
+	 * 
+	 * @since    2.2
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
 	scroll: function( event ) {
 
 		var   $el = this.$el.parent( '.grid-frame-menu' ),
@@ -65,6 +81,15 @@ grid.view.Menu = media.View.extend({
 		}
 	},
 
+	/**
+	 * Change the frame mode fo 'frame', a modal-like full view
+	 * 
+	 * @since    2.2
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
 	expand: function( event ) {
 
 		var elem = this.$( event.currentTarget ) || {},
@@ -80,22 +105,127 @@ grid.view.Menu = media.View.extend({
 		this.frame.mode( mode );
 	},
 
+	/**
+	 * Open or close the submenu related to the menu link clicked
+	 * 
+	 * @since    2.2
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
+	toggleSubMenu: function( event ) {
+
+		var $elem = this.$( event.currentTarget );
+		 $submenu = $elem.parents( '.wpmoly-grid-submenu' );
+
+		// Close other submenus
+		this.$el.removeClass( 'submenu-open' );
+		this.$( '.wpmoly-grid-submenu.open' ).removeClass( 'open' );
+
+		// Open current submenu
+		this.$el.addClass( 'submenu-open' );
+		$submenu.addClass( 'open' );
+
+		event.stopPropagation();
+
+		if ( this.$body.hasClass( 'waitee' ) ) {
+			return;
+		}
+
+		// Close the submenu when clicking elsewhere
+		var self = this;
+		this.$body.addClass( 'waitee' ).one( 'click', function() {
+			$submenu.removeClass( 'open' );
+			self.$el.removeClass( 'submenu-open' );
+			self.$body.removeClass( 'waitee' );
+		});
+
+	},
+
+	/**
+	 * Open or close the search menu
+	 * 
+	 * @since    2.2
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
+	toggleSearch: function( event ) {
+
+		var $elem = this.$( event.currentTarget ),
+		  $parent = $elem.parents( '.wpmoly-grid-menu-item-search' );
+
+		// If the search menu is already opened, close it
+		if ( $parent.hasClass( 'search-open' ) || this.$el.hasClass( 'submenu-open' ) ) {
+			$parent.removeClass( 'search-open' );
+			this.$el.removeClass( 'submenu-open' );
+			return;
+		}
+
+		// Open search menu
+		this.$el.addClass( 'submenu-open' );
+		$parent.addClass( 'search-open' );
+
+		event.stopPropagation();
+
+		if ( this.$body.hasClass( 'waitee' ) ) {
+			return;
+		}
+
+		// Close the search when clicking elsewhere
+		var self = this;
+		this.$body.addClass( 'waitee' ).one( 'click', function() {
+			$parent.removeClass( 'search-open' );
+			self.$el.removeClass( 'submenu-open' );
+			self.$body.removeClass( 'waitee' );
+		});
+	},
+
+	/**
+	 * Handle ordering change menu
+	 * 
+	 * @since    2.2
+	 * 
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
 	order: function( event ) {
 
 		var $elem = this.$( event.currentTarget );
-		$elem.parents( '.wpmoly-grid-submenu' ).toggleClass( 'open' );
+		console.log( 'order!' );
 	},
 
+	/**
+	 * Handle filtering change menu
+	 * 
+	 * @since    2.2
+	 * 
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
 	filter: function( event ) {
 
 		var $elem = this.$( event.currentTarget );
-		$elem.parents( '.wpmoly-grid-submenu' ).toggleClass( 'open' );
+		console.log( 'filter!' );
 	},
 
+	/**
+	 * Handle viewing change menu
+	 * 
+	 * @since    2.2
+	 * 
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
 	view: function( event ) {
 
 		var $elem = this.$( event.currentTarget );
-		$elem.parents( '.wpmoly-grid-submenu' ).toggleClass( 'open' );
+		console.log( 'view!' );
 	},
 
 	/**
@@ -125,6 +255,8 @@ grid.view.Menu = media.View.extend({
 		this.frame.mode( mode );
 	},
 
+	
+
 	/**
 	 * Prevent click events default effect
 	 *
@@ -135,6 +267,18 @@ grid.view.Menu = media.View.extend({
 	preventDefault: function( event ) {
 
 		event.preventDefault();
+	},
+
+	/**
+	 * Stop Click Event Propagation
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @since    2.2
+	 */
+	stopPropagation: function( event ) {
+
+		event.stopPropagation();
 	}
 
 });
@@ -351,7 +495,8 @@ grid.view.ContentGrid = media.View.extend({
 			 $items = $li.find( '.movie-preview' );
 		}
 
-		this.thumbnail_width = this.$( 'li:first' ).width();
+		
+		this.thumbnail_width = Math.floor( this.$( 'li:first' ).width() - 1 );
 		this.thumbnail_height = Math.floor( this.thumbnail_width * 1.5 );
 
 		$li.addClass( 'resized' ).css({
@@ -442,7 +587,7 @@ grid.view.ContentGrid = media.View.extend({
 		}
 
 		// Scroll elem is hidden or collection has no more movie
-		if ( ! $( el ).is( ':visible' ) || ! this.collection.hasMore() ) {
+		if ( _.isUndefined( $last ) || ! $( el ).is( ':visible' ) || ! this.collection.hasMore() ) {
 			this.frame.$el.removeClass( 'loading' );
 			return;
 		}
@@ -604,18 +749,25 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		grid.view.Frame.prototype.initialize.apply( this, arguments );
 
-		console.log( this.$el );
 		_.defaults( this.options, {
 			mode:  'grid',
 			state: 'library'
 		});
 
+		this.$bg   = $( '#wpmoly-grid-bg' );
+		this.$body = $( document.body );
 		this._mode = this.options.mode;
 
 		this.createStates();
 		this.bindHandlers();
 
 		this.render();
+
+		var self = this;
+		this.$bg.one( 'click', function() {
+			self.$body.removeClass( 'wpmoly-frame-open' );
+			self.mode( 'grid' );
+		} );
 	},
 
 	/**
@@ -715,11 +867,10 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		this.$el.html( this.template() );
 
-		var $body = $( 'body' );
 		if ( 'frame' == this._mode ) {
-			$body.addClass( 'wpmoly-frame-open' )
+			this.$body.addClass( 'wpmoly-frame-open' );
 		} else {
-			$body.removeClass( 'wpmoly-frame-open' );
+			this.$body.removeClass( 'wpmoly-frame-open' );
 		}
 
 		if ( '' != this._previousMode ) {

@@ -88,6 +88,10 @@
 /** Movie Grid
  ***************************************************/
 
+body.wpmoly-frame-open {
+	overflow: hidden;
+}
+
 body.wpmoly-frame-open .wpmoly.grid.bg {
 	background: rgba(0, 0, 0, 0.75);
 	height: 100%;
@@ -117,13 +121,21 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 .wpmoly.grid.mode-frame {
 	background: #fff;
 	box-shadow: 0 0 4px #111;
-	bottom: 20px;
-	left: 20px;
+	bottom: 40px;
+	left: 100px;
 	margin: 0;
 	position: fixed;
-	right: 20px;
-	top: 20px;
+	right: 100px;
+	top: 40px;
 	z-index: 999999;
+}
+
+.wpmoly.grid.mode-frame .grid-frame-menu {
+	height: 48px;
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	z-index: 9;
 }
 
 .wpmoly.grid.mode-frame .grid-frame-menu .wpmoly-grid-menu {
@@ -132,14 +144,22 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.grid.mode-frame .grid-frame-content {
-	height: 90%;
+	bottom: 0;
+	left: 0;
 	overflow-y: scroll;
 	overflow-x: hidden;
+	position: absolute;
+	right: 0;
+	top: 48px;
 }
 
 /*
  * Interactive Grid Menu
  */
+
+.wpmoly.grid .grid-frame-menu a {
+	outline: none;
+}
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu {
 	background: #fff;
@@ -152,11 +172,15 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	width: 100%;
 }
 
-.wpmoly.grid.menu-fixed {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.submenu-open {
+	background: #f6f6f6;
+}
+
+.wpmoly.grid.mode-grid.menu-fixed {
 	padding-top: 42px;
 }
 
-.wpmoly.grid.menu-fixed .grid-frame-menu {
+.wpmoly.grid.mode-grid.menu-fixed .grid-frame-menu {
 	position: fixed;
 	top: 42px;
 	z-index: 9;
@@ -183,21 +207,20 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul {
-	height: 48px;
-	line-height: 48px;
+	height: 46px;
+	line-height: 46px;
 	overflow: hidden;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul > li {
 	display: block;
-	height: 36px;
-	line-height: 36px;
+	height: 48px;
+	line-height: 48px;
 	padding: 6px 0;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul > li > a {
-	background: #fff;
 	color: #666;
 	display: block;
 	height: 36px;
@@ -272,22 +295,66 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container {
+	border: 1px solid #e5e5e5;
 	display: none;
+	left: -1px;
+	padding: 0 1px;
 	position: absolute;
-	right: 0;
-	top: 0;
-	width: 100%;
+	right: -1px;
+	top: 46px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container a {
+	position: absolute;
+	right: 16px;
+	top: 14px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container a .wpmolicon {
+	color: #888;
+	font-size: 28px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container a:hover .wpmolicon {
+	color: #444;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container:before,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container:after {
+	border: 10px solid transparent;
+	content: '';
+	height: 0;
+	position: absolute;
+	width: 0;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container:before {
+	border-bottom-color: #e5e5e5;
+	right: 50px;
+	top: -20px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container:after {
+	border-bottom-color: #fff;
+	right: 50px;
+	top: -18px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container input {
 	background: #fff;
 	border: 0;
+	border-radius: 0;
 	box-shadow: 0 0 0;
-	font-size: 22px;
+	font-family: sans-serif;
+	font-size: 32px;
 	font-weight: 200;
-	height: 48px;
+	height: 64px;
 	padding-left: 22px;
-	width: 90%;
+	width: 100%;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-search.search-open .grid-menu-search-container {
+	display: block;
 }
 
 /*
@@ -297,14 +364,16 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 .wpmoly.grid .grid-frame-content .attachments.movies {
 	list-style: none;
 	margin: 0;
+	padding: 0;
 }
 
 .wpmoly.grid.mode-frame .grid-frame-content .attachments.movies {
-	padding: 0 8px;
+	padding: 10px 8px 90px 8px;
 }
 
 .wpmoly.grid .grid-frame-content .attachment.movie {
 	display: inline-block;
+	margin-bottom: 10px;
 	vertical-align: top;
 }
 
@@ -317,6 +386,11 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	margin: 0;
 	text-decoration: none;
 	width: 100%;
+}
+
+.wpmoly.grid .grid-frame-content .attachment.movie .wpmoly.grid.movie .movie-preview {
+	max-height: 100%;
+	max-width: 100%;
 }
 
 .wpmoly.grid .grid-frame-content .attachment.movie .wpmoly.grid.movie img {
