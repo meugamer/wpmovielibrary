@@ -110,12 +110,14 @@ grid.model.Movie = Backbone.Model.extend({
 	 *    to be set on the model.
 	 */
 	parse: function( resp ) {
+
 		if ( ! resp ) {
 			return resp;
 		}
 
-		resp.date = new Date( resp.date );
-		resp.modified = new Date( resp.modified );
+		resp.post_date = new Date( resp.post_date );
+		resp.post_modified = new Date( resp.post_modified );
+
 		return resp;
 	}
 }, {
@@ -487,6 +489,7 @@ grid.model.Movies = Backbone.Collection.extend({
 	hasMore: function() {
 		return this.mirroring ? this.mirroring.hasMore() : false;
 	},
+
 	/**
 	 * A custom AJAX-response parser.
 	 *
@@ -498,11 +501,16 @@ grid.model.Movies = Backbone.Collection.extend({
 	 */
 	parse: function( resp, xhr ) {
 
+		if ( _.isObject( resp ) && false === resp instanceof grid.model.Movie ) {
+			return _.toArray( resp );
+		}
+
 		if ( ! _.isArray( resp ) ) {
 			resp = [resp];
 		}
 
 		return _.map( resp, function( attrs ) {
+
 			var id, movie, newAttributes;
 
 			if ( attrs instanceof Backbone.Model ) {

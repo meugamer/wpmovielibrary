@@ -228,20 +228,83 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			foreach ( $posts as $i => $post ) {
 
 				$data = array(
-					'post'      => $post,
-					'meta'      => array(),
-					'details'   => array()
+					'id'            => $post->ID,
+					'post_author'   => $post->post_author,
+					'post_date'     => strtotime( $post->post_date_gmt ) * 1000,
+					'post_content'  => apply_filters( 'the_content', $post->post_content ),
+					'post_title'    => apply_filters( 'the_title', $post->post_title ),
+					'post_excerpt'  => apply_filters( 'the_excerpt', $post->post_excerpt ),
+					'post_status'   => $post->post_status,
+					'post_name'     => $post->post_name,
+					'post_modified' => strtotime( $post->post_modified_gmt ) * 1000,
+					'guid'          => $post->guid,
+					'comment_count' => $post->comment_count,
+					'permalink'     => get_permalink( $post->ID ),
+					'edit_link'     => null,
+					'thumbnail'     => array(),
+					'meta'          => array(),
+					'details'       => array()
 				);
 
 				$thumbnail_id = get_post_thumbnail_id( $post->ID );
 				if ( '' == $thumbnail_id ) {
-					$thumbnail = str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL );
+					$thumbnail = array(
+						'thumbnail' => array(
+							'file'   => str_replace( '{size}', '-thumbnail', WPMOLY_DEFAULT_POSTER_URL ),
+							'height' => 150,
+							'width'  => 150
+						),
+						'medium'    => array(
+							'file'   => str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL ),
+							'height' => 450,
+							'width'  => 300
+						),
+						'large'     => array(
+							'file'   => str_replace( '{size}', '-large', WPMOLY_DEFAULT_POSTER_URL ),
+							'height' => 960,
+							'width'  => 640
+						),
+						'original'  => array(
+							'file'   => str_replace( '{size}', '', WPMOLY_DEFAULT_POSTER_URL ),
+							'height' => 1350,
+							'width'  => 900
+						),
+					);
 				} else {
-					$thumbnail = wp_get_attachment_image_src( $thumbnail_id, 'medium' );
-					$thumbnail = $thumbnail[0];
+
+					$attachment_meta = wp_get_attachment_metadata( $thumbnail_id, $unfiltered = true );
+					$attachment_url  = wp_get_attachment_url( $thumbnail_id );
+					$base_url        = trailingslashit( str_replace( wp_basename( $attachment_url ), '', $attachment_url ) );
+
+					$thumbnail = array(
+						'thumbnail' => array(
+							'file'   => $base_url . $attachment_meta['sizes']['thumbnail']['file'],
+							'height' => $attachment_meta['sizes']['thumbnail']['height'],
+							'width'  => $attachment_meta['sizes']['thumbnail']['width']
+						),
+						'medium'    => array(
+							'file'   => $base_url . $attachment_meta['sizes']['medium']['file'],
+							'height' => $attachment_meta['sizes']['medium']['height'],
+							'width'  => $attachment_meta['sizes']['medium']['width']
+						),
+						'large'     => array(
+							'file'   => $base_url . $attachment_meta['sizes']['large']['file'],
+							'height' => $attachment_meta['sizes']['large']['height'],
+							'width'  => $attachment_meta['sizes']['large']['width']
+						),
+						'original'  => array(
+							'file'   => $base_url . $attachment_meta['file'],
+							'height' => $attachment_meta['height'],
+							'width'  => $attachment_meta['width']
+						),
+					);
 				}
 
-				$data['post']->post_thumbnail = $thumbnail;
+				$data['thumbnail'] = $thumbnail;
+
+				if ( current_user_can( 'edit_post', $post->ID ) ) {
+					$data['edit_link'] = get_edit_post_link( $post->ID );
+				}
 
 				if ( isset( $meta[ $post->ID ] ) ) {
 					foreach ( $meta[ $post->ID ] as $k => $v ) {

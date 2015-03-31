@@ -314,8 +314,8 @@ grid.view.Movie = media.View.extend({
 
 	render: function() {
 
-		var rating = parseFloat( this.model.get( 'details' ).get( 'rating' ) ),
-			star = 'empty';
+		var rating = parseFloat( this.model.get( 'details' ).rating ),
+		      star = 'empty';
 
 		if ( '' != rating ) {
 			if ( 3.5 < rating ) {
@@ -326,15 +326,13 @@ grid.view.Movie = media.View.extend({
 		}
 
 		this.$el.html(
-			this.template({
-				post:    this.model.get( 'post' ).toJSON(),
-				meta:    this.model.get( 'meta' ).toJSON(),
-				details: _.extend( this.model.get( 'details' ).toJSON(), { star: star } ),
-				size:    {
+			this.template( _.extend( this.model.toJSON(), {
+				size: {
 					height: this.grid.thumbnail_height || '',
 					width:  this.grid.thumbnail_width  || ''
-				}
-			})
+				},
+				details: _.extend( this.model.get( 'details' ), { star: star } )
+			} ) )
 		);
 
 		return this;
@@ -420,7 +418,7 @@ grid.view.ContentGrid = media.View.extend({
 
 		// Add new views for new movies
 		this.collection.on( 'add', function( movie ) {
-			//this.views.add( this.createSubView( movie ) );
+			this.views.add( this.createSubView( movie ) );
 		}, this );
 
 		// Re-render the view when collection is emptied
@@ -557,8 +555,7 @@ grid.view.ContentGrid = media.View.extend({
 	prepare: function() {
 
 		if ( this.collection.length ) {
-			//this.views.set( this.collection.map( this.options.subview, this ) );
-			//this.views.set( this.collection.map( this.createSubView, this ) );
+			this.views.set( this.collection.map( this.createSubView, this ) );
 		} else {
 			// Clear existing views
 			this.views.unset();
@@ -585,7 +582,7 @@ grid.view.ContentGrid = media.View.extend({
 	 */
 	scroll: function() {
 
-		if ( true === this._scroll ) {
+		if ( true !== this._scroll ) {
 			return;
 		}
 
@@ -600,7 +597,7 @@ grid.view.ContentGrid = media.View.extend({
 		}
 
 		// Scroll elem is hidden or collection has no more movie
-		if ( _.isUndefined( $last ) || ! $( el ).is( ':visible' ) || ! this.collection.hasMore() ) {
+		if ( _.isUndefined( $last.offset() ) || ! $( el ).is( ':visible' ) || ! this.collection.hasMore() ) {
 			this.frame.$el.removeClass( 'loading' );
 			return;
 		}
@@ -612,7 +609,6 @@ grid.view.ContentGrid = media.View.extend({
 
 		this._lastPosition = scrollTop;
 		if ( scrollTop >= $last.offset().top - this.$window.height() ) {
-		//if ( scrollTop >= ( el.scrollHeight - 200 ) ) {
 
 			this._loading = true;
 			this.frame.$el.addClass( 'loading' );
