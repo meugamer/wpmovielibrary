@@ -420,7 +420,7 @@ grid.view.ContentGrid = media.View.extend({
 
 		// Add new views for new movies
 		this.collection.on( 'add', function( movie ) {
-			this.views.add( this.createSubView( movie ) );
+			//this.views.add( this.createSubView( movie ) );
 		}, this );
 
 		// Re-render the view when collection is emptied
@@ -558,7 +558,7 @@ grid.view.ContentGrid = media.View.extend({
 
 		if ( this.collection.length ) {
 			//this.views.set( this.collection.map( this.options.subview, this ) );
-			this.views.set( this.collection.map( this.createSubView, this ) );
+			//this.views.set( this.collection.map( this.createSubView, this ) );
 		} else {
 			// Clear existing views
 			this.views.unset();

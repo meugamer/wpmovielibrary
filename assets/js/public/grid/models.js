@@ -96,35 +96,86 @@ grid.model.Movie = Backbone.Model.extend({
 
 	id: '',
 
-	defaults: {
+	/*defaults: {
 		post: {},
 		meta: {},
 		details: {}
+	}*/
+
+	/**
+	 * Convert date strings into Date objects.
+	 *
+	 * @param {Object} resp The raw response object, typically returned by fetch()
+	 * @returns {Object} The modified response object, which is the attributes hash
+	 *    to be set on the model.
+	 */
+	parse: function( resp ) {
+		if ( ! resp ) {
+			return resp;
+		}
+
+		resp.date = new Date( resp.date );
+		resp.modified = new Date( resp.modified );
+		return resp;
 	}
+}, {
+	/**
+	 * Create a new model on the static 'all' attachments collection and return it.
+	 *
+	 * @static
+	 * @param {Object} attrs
+	 * @returns {wp.media.model.Attachment}
+	 */
+	create: function( attrs ) {
+		return grid.model.Movies.all.push( attrs );
+	},
+	/**
+	 * Create a new model on the static 'all' attachments collection and return it.
+	 *
+	 * If this function has already been called for the id,
+	 * it returns the specified attachment.
+	 *
+	 * @static
+	 * @param {string} id A string used to identify a model.
+	 * @param {Backbone.Model|undefined} attachment
+	 * @returns {wp.media.model.Attachment}
+	 */
+	get: _.memoize( function( id, attachment ) {
+		return grid.model.Movies.all.push( attachment || { id: id } );
+	})
 });
 
 /**
- * wpmoly.grid.model.Movies
+ * grid.model.Movies
  *
  * A collection of movies.
  *
- * This Model is a complete copy of wp.media.model.Attachments, adapted to movies.
+ * This collection has no persistence with the server without supplying
+ * 'options.props.query = true', which will mirror the collection
+ * to an Movies Query collection - @see grid.model.Movies.mirror().
  *
- * @since    2.2
+ * @class
+ * @augments Backbone.Collection
+ *
+ * @param {array}  [models]                Models to initialize with the collection.
+ * @param {object} [options]               Options hash for the collection.
+ * @param {string} [options.props]         Options hash for the initial query properties.
+ * @param {string} [options.props.order]   Initial order (ASC or DESC) for the collection.
+ * @param {string} [options.props.orderby] Initial attribute key to order the collection by.
+ * @param {string} [options.props.query]   Whether the collection is linked to an movies query.
+ * @param {string} [options.observe]
+ * @param {string} [options.filters]
+ *
  */
+
 grid.model.Movies = Backbone.Collection.extend({
-
-	model: grid.model.Movie,
-
 	/**
-	 * Initialize the Model.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    array     Array of models used to populate the collection.
-	 * @param    object    Options
-	 * 
-	 * @return   void
+	 * @type {grid.model.Movie}
+	 */
+	model: grid.model.Movie,
+	/**
+	 * @param {Array} [models=[]] Array of models used to populate the collection.
+	 * @param {Object} [options={}]
 	 */
 	initialize: function( models, options ) {
 
@@ -133,9 +184,8 @@ grid.model.Movies = Backbone.Collection.extend({
 		this.props   = new Backbone.Model();
 		this.filters = options.filters || {};
 
-		//this.props.on( 'all', function( event ) { console.log( event ); }, this );
 		// Bind default `change` events to the `props` model.
-		this.props.on( 'change',         this._changeFilteredProps, this );
+		this.props.on( 'change', this._changeFilteredProps, this );
 
 		this.props.on( 'change:order',   this._changeOrder,   this );
 		this.props.on( 'change:orderby', this._changeOrderby, this );
@@ -147,14 +197,12 @@ grid.model.Movies = Backbone.Collection.extend({
 			this.observe( options.observe );
 		}
 	},
-
 	/**
 	 * Sort the collection when the order attribute changes.
 	 *
 	 * @access private
 	 */
 	_changeOrder: function() {
-
 		if ( this.comparator ) {
 			this.sort();
 		}
@@ -168,7 +216,6 @@ grid.model.Movies = Backbone.Collection.extend({
 	 * @param {string} orderby
 	 */
 	_changeOrderby: function( model, orderby ) {
-
 		// If a different comparator is defined, bail.
 		if ( this.comparator && this.comparator !== grid.model.Movies.comparator ) {
 			return;
@@ -180,22 +227,16 @@ grid.model.Movies = Backbone.Collection.extend({
 			delete this.comparator;
 		}
 	},
-
 	/**
 	 * If the `query` property is set to true, query the server using
 	 * the `props` values, and sync the results to this collection.
-	 * 
-	 * @since    2.2
 	 *
-	 * @access   private
+	 * @access private
 	 *
-	 * @param    object     Backbone.Model
-	 * @param    boolean    query
-	 * 
-	 * @return   void
+	 * @param {Backbone.Model} model
+	 * @param {Boolean} query
 	 */
 	_changeQuery: function( model, query ) {
-
 		if ( query ) {
 			this.props.on( 'change', this._requery, this );
 			this._requery();
@@ -203,30 +244,21 @@ grid.model.Movies = Backbone.Collection.extend({
 			this.props.off( 'change', this._requery, this );
 		}
 	},
-
 	/**
-	 * Update the filters when any props is changed.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @access   private
-	 * 
-	 * @param    object    Backbone.Model
-	 * 
-	 * @return   void
+	 * @access private
+	 *
+	 * @param {Backbone.Model} model
 	 */
 	_changeFilteredProps: function( model ) {
-
 		// If this is a query, updating the collection will be handled by
 		// `this._requery()`.
-		if ( this.props.get( 'query' ) ) {
+		if ( this.props.get('query') ) {
 			return;
 		}
 
 		var changed = _.chain( model.changed ).map( function( t, prop ) {
-
 			var filter = grid.model.Movies.filters[ prop ],
-			      term = model.get( prop );
+				term = model.get( prop );
 
 			if ( ! filter ) {
 				return;
@@ -259,18 +291,13 @@ grid.model.Movies = Backbone.Collection.extend({
 	},
 
 	validateDestroyed: false,
-
 	/**
 	 * Checks whether an movie is valid.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    object    Instance of grid.model.Movie, the movie to validate
-	 * 
-	 * @return   boolean
+	 *
+	 * @param {grid.model.Movie} movie
+	 * @returns {Boolean}
 	 */
 	validator: function( movie ) {
-
 		if ( ! this.validateDestroyed && movie.destroyed ) {
 			return false;
 		}
@@ -278,25 +305,20 @@ grid.model.Movies = Backbone.Collection.extend({
 			return !! filter.call( this, movie );
 		}, this );
 	},
-
 	/**
 	 * Add or remove an movie to the collection depending on its validity.
-	 * 
-	 * @since    2.2
 	 *
-	 * @param    object    Instance of grid.model.Movie, the movie to validate
-	 * @param    object    Options
-	 * 
-	 * @return   Return itself to allow chaining
+	 * @param {grid.model.Movie} movie
+	 * @param {Object} options
+	 * @returns {grid.model.Movies} Returns itself to allow chaining
 	 */
 	validate: function( movie, options ) {
-
 		var valid = this.validator( movie ),
-		 hasMovie = !! this.get( movie.cid );
+			hasAttachment = !! this.get( movie.cid );
 
-		if ( ! valid && hasMovie ) {
+		if ( ! valid && hasAttachment ) {
 			this.remove( movie, options );
-		} else if ( valid && ! hasMovie ) {
+		} else if ( valid && ! hasAttachment ) {
 			this.add( movie, options );
 		}
 
@@ -305,16 +327,15 @@ grid.model.Movies = Backbone.Collection.extend({
 
 	/**
 	 * Add or remove all movies from another collection depending on each one's validity.
-	 * 
-	 * @since    2.2
 	 *
-	 * @param    object    Instance of grid.model.Movies, the movies collection to validate.
-	 * @param    object    Options
+	 * @param {grid.model.Movies} movies
+	 * @param {object} [options={}]
 	 *
-	 * @return   Return itself to allow chaining
+	 * @fires grid.model.Movies#reset
+	 *
+	 * @returns {grid.model.Movies} Returns itself to allow chaining
 	 */
 	validateAll: function( movies, options ) {
-
 		options = options || {};
 
 		_.each( movies.models, function( movie ) {
@@ -326,39 +347,29 @@ grid.model.Movies = Backbone.Collection.extend({
 		}
 		return this;
 	},
-
 	/**
 	 * Start observing another movies collection change events
 	 * and replicate them on this collection.
-	 * 
-	 * @since    2.2
 	 *
-	 * @param    object    Instance of grid.model.Movies, the movies collection to observe.
-	 * 
-	 * @return   object    Returns itself to allow chaining.
+	 * @param {grid.model.Movies} The movies collection to observe.
+	 * @returns {grid.model.Movies} Returns itself to allow chaining.
 	 */
 	observe: function( movies ) {
-
 		this.observers = this.observers || [];
 		this.observers.push( movies );
 
 		movies.on( 'add change remove', this._validateHandler, this );
 		movies.on( 'reset', this._validateAllHandler, this );
-
+		this.validateAll( movies );
 		return this;
 	},
-
 	/**
 	 * Stop replicating collection change events from another movies collection.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    object    The movies collection to stop observing.
-	 * 
-	 * @return   Return itself to allow chaining
+	 *
+	 * @param {grid.model.Movies} The movies collection to stop observing.
+	 * @returns {grid.model.Movies} Returns itself to allow chaining
 	 */
 	unobserve: function( movies ) {
-
 		if ( movies ) {
 			movies.off( null, null, this );
 			this.observers = _.without( this.observers, movies );
@@ -372,21 +383,16 @@ grid.model.Movies = Backbone.Collection.extend({
 
 		return this;
 	},
-
 	/**
-	 * 
-	 * @since    2.2
-	 * 
-	 * @access   private
+	 * @access private
 	 *
-	 * @param    object    Instance of grid.model.Movie
-	 * @param    object    Instance of grid.model.Movies
-	 * @param    object    options
+	 * @param {grid.model.Movies} movie
+	 * @param {grid.model.Movies} movies
+	 * @param {Object} options
 	 *
-	 * @return   Return itself to allow chaining
+	 * @returns {grid.model.Movies} Returns itself to allow chaining
 	 */
 	_validateHandler: function( movie, movies, options ) {
-
 		// If we're not mirroring this `movies` collection,
 		// only retain the `silent` option.
 		options = movies === this.mirroring ? options : {
@@ -395,36 +401,24 @@ grid.model.Movies = Backbone.Collection.extend({
 
 		return this.validate( movie, options );
 	},
-
 	/**
-	 * Handle Movie validation. Called exclusively on collection reset.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @access   private
-	 * 
-	 * @param    object    grid.model.Movies
-	 * @param    object    Options
-	 * 
-	 * @return   Return itself to allow chaining
+	 * @access private
+	 *
+	 * @param {grid.model.Movies} movies
+	 * @param {Object} options
+	 * @returns {grid.model.Movies} Returns itself to allow chaining
 	 */
 	_validateAllHandler: function( movies, options ) {
-
 		return this.validateAll( movies, options );
 	},
-
 	/**
 	 * Start mirroring another movies collection, clearing out any models already
 	 * in the collection.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    object    The movies collection to mirror.
-	 * 
-	 * @return   Return itself to allow chaining
+	 *
+	 * @param {grid.model.Movies} The movies collection to mirror.
+	 * @returns {grid.model.Movies} Returns itself to allow chaining
 	 */
 	mirror: function( movies ) {
-
 		if ( this.mirroring && this.mirroring === movies ) {
 			return this;
 		}
@@ -439,16 +433,10 @@ grid.model.Movies = Backbone.Collection.extend({
 
 		return this;
 	},
-
 	/**
 	 * Stop mirroring another movies collection.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @return   void
 	 */
 	unmirror: function() {
-
 		if ( ! this.mirroring ) {
 			return;
 		}
@@ -456,23 +444,18 @@ grid.model.Movies = Backbone.Collection.extend({
 		this.unobserve( this.mirroring );
 		delete this.mirroring;
 	},
-
 	/**
 	 * Retrive more movies from the server for the collection.
 	 *
-	 * Only works if the collection is mirroring a Query grid.model.Movies collection,
+	 * Only works if the collection is mirroring a Query Attachments collection,
 	 * and forwards to its `more` method. This collection class doesn't have
 	 * server persistence by itself.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    object    options
-	 * 
-	 * @return   Promise
+	 *
+	 * @param {object} options
+	 * @returns {Promise}
 	 */
 	more: function( options ) {
-
-		var deferred = $.Deferred(),
+		var deferred = jQuery.Deferred(),
 		   mirroring = this.mirroring,
 		      movies = this;
 
@@ -484,115 +467,72 @@ grid.model.Movies = Backbone.Collection.extend({
 		// checking if we're still mirroring that collection when
 		// the request resolves.
 		mirroring.more( options ).done( function() {
-			if ( this === movies.mirroring )
+			if ( this === movies.mirroring ) {
 				deferred.resolveWith( this );
+			}
 		});
 
 		return deferred.promise();
 	},
-
 	/**
 	 * Whether there are more movies that haven't been sync'd from the server
 	 * that match the collection's query.
 	 *
-	 * Only works if the collection is mirroring a Query grid.model.Movies collection,
+	 * Only works if the collection is mirroring a Query Attachments collection,
 	 * and forwards to its `hasMore` method. This collection class doesn't have
 	 * server persistence by itself.
-	 * 
-	 * @since    2.2
 	 *
-	 * @return   boolean
+	 * @returns {boolean}
 	 */
 	hasMore: function() {
-
 		return this.mirroring ? this.mirroring.hasMore() : false;
 	},
-
 	/**
 	 * A custom AJAX-response parser.
-	 * 
-	 * @since    2.2
 	 *
-	 * @param    object|array    Raw response
-	 * @param    object          xhr
-	 * 
-	 * @return   array           The array of model attributes to be added to the collection
+	 * See trac ticket #24753
+	 *
+	 * @param {Object|Array} resp The raw response Object/Array.
+	 * @param {Object} xhr
+	 * @returns {Array} The array of model attributes to be added to the collection
 	 */
 	parse: function( resp, xhr ) {
-
-		if ( _.isObject( resp ) && false === resp instanceof grid.model.Movie ) {
-			return _.toArray( resp );
-		}
 
 		if ( ! _.isArray( resp ) ) {
 			resp = [resp];
 		}
-		
-		resp = _.map( resp, function( attrs ) {
 
-			var attributes, id, model, post, meta, details, formatted, _post, _meta, _details, _formatted;
+		return _.map( resp, function( attrs ) {
+			var id, movie, newAttributes;
 
-			if ( false === attrs instanceof grid.model.Movie ) {
-				attributes = attrs;
+			if ( attrs instanceof Backbone.Model ) {
+				id = attrs.get( 'id' );
+				attrs = attrs.attributes;
 			} else {
-				attributes = attrs.attributes;
+				id = attrs.id;
 			}
 
-			       id = attributes.post.post_id;
-			    model = _.extend( new grid.model.Movie,     { id: id } ),
-			     post = _.extend( new grid.model.Post,      { id: id } ),
-			     meta = _.extend( new grid.model.Meta,      { id: id } ),
-			  details = _.extend( new grid.model.Details,   { id: id } ),
-			//formatted = _.extend( new grid.model.Formatted, { id: id } );
+			movie = grid.model.Movie.get( id );
+			newAttributes = movie.parse( attrs, xhr );
 
-			     _post = _.pick( attributes.post      || {}, _.keys( post.defaults ) );
-			     _meta = _.pick( attributes.meta      || {}, _.keys( meta.defaults ) );
-			  _details = _.pick( attributes.details   || {}, _.keys( details.defaults ) );
-			//_formatted = _.pick( attributes.formatted || {}, _.keys( formatted.defaults ) );
+			if ( ! _.isEqual( movie.attributes, newAttributes ) ) {
+				movie.set( newAttributes );
+			}
 
-			_.extend( _post, {
-				post_date: new Date( _post.post_date )
-			} );
-
-			_.extend( _meta, {
-				year: new Date( _meta.release_date ).getFullYear()
-			} );
-
-			model.set( {
-				post:      post.set( _post ),
-				meta:      meta.set( _meta ),
-				details:   details.set( _details ),
-				//formatted: formatted.set( _formatted ),
-				//nonces:    attributes.nonces || {}
-			} );
-
-			return grid.model.Movies.all.push( model );
+			return movie;
 		});
-
-		return resp;
 	},
-
 	/**
-	 * If the collection is a query, create and mirror a grid.model.Movies
-	 * Query collection.
-	 * 
-	 * @since    2.2
+	 * If the collection is a query, create and mirror an Attachments Query collection.
 	 *
-	 * @access   private
-	 * 
-	 * @param    boolean    Refresh or don't.
-	 * 
-	 * @return   void
+	 * @access private
 	 */
 	_requery: function( refresh ) {
-
 		var props;
-		if ( this.props.get( 'query' ) ) {
+		if ( this.props.get('query') ) {
 			props = this.props.toJSON();
 			props.cache = ( true !== refresh );
-			var query = grid.model.Query.get( props );
-			
-			this.mirror( query );
+			this.mirror( grid.model.Query.get( props ) );
 		}
 	}
 }, {
@@ -601,28 +541,24 @@ grid.model.Movies = Backbone.Collection.extend({
 	 *
 	 * Used as the default comparator for instances of grid.model.Movies
 	 * and its subclasses. @see grid.model.Movies._changeOrderby().
-	 * 
-	 * @todo Implement other sorting methods
-	 * 
-	 * @since    2.2
 	 *
-	 * @param    object    Backbone.Model
-	 * @param    object    Backbone.Model
-	 * @param    object    Options
-	 * 
-	 * @return   int       -1 if the first model should come before the second,
-	 *                      0 if they are of the same rank,
-	 *                      1 if the first model should come after.
+	 * @static
+	 *
+	 * @param {Backbone.Model} a
+	 * @param {Backbone.Model} b
+	 * @param {Object} options
+	 * @returns {Number} -1 if the first model should come before the second,
+	 *    0 if they are of the same rank and
+	 *    1 if the first model should come after.
 	 */
 	comparator: function( a, b, options ) {
+		var key   = this.props.get('orderby'),
+			order = this.props.get('order') || 'DESC',
+			ac    = a.cid,
+			bc    = b.cid;
 
-		var key = this.props.get( 'orderby' ),
-		  order = this.props.get( 'order' ) || 'DESC',
-		     ac = a.cid,
-		     bc = b.cid;
-
-		a = a.get( 'post' )[ key ];
-		b = b.get( 'post' )[ key ];
+		a = a.get( key );
+		b = b.get( key );
 
 		if ( 'date' === key || 'modified' === key ) {
 			a = a || new Date();
@@ -634,103 +570,105 @@ grid.model.Movies = Backbone.Collection.extend({
 			ac = bc = null;
 		}
 
-		//return 0;
-		return ( 'DESC' === order ) ? wpmoly.compare( a, b, ac, bc ) : wpmoly.compare( b, a, bc, ac );
+		return ( 'DESC' === order ) ? wp.media.compare( a, b, ac, bc ) : wp.media.compare( b, a, bc, ac );
 	},
-
 	/**
 	 * @namespace
 	 */
 	filters: {
-
 		/**
+		 * @static
 		 * Note that this client-side searching is *not* equivalent
 		 * to our server-side searching.
-		 * 
-		 * @since    2.2
-		 * 
-		 * @param    object    grid.model.Movie
-		 * 
-		 * @return   boolean
+		 *
+		 * @param {grid.model.Movie} movie
+		 *
+		 * @this grid.model.Movies
+		 *
+		 * @returns {Boolean}
 		 */
 		search: function( movie ) {
-
-			if ( ! this.props.get( 'search' ) ) {
+			if ( ! this.props.get('search') ) {
 				return true;
 			}
 
-			return _.any( [ 'title', 'filename', 'description', 'caption', 'name' ], function( key ) {
+			return _.any(['title','filename','description','caption','name'], function( key ) {
 				var value = movie.get( key );
-				return value && -1 !== value.search( this.props.get( 'search' ) );
+				return value && -1 !== value.search( this.props.get('search') );
 			}, this );
 		},
-
 		/**
-		 * 
-		 * @since    2.2
-		 * 
-		 * @param    object    grid.model.Movie
+		 * @static
+		 * @param {grid.model.Movie} movie
 		 *
-		 * @return   boolean
+		 * @this grid.model.Movies
+		 *
+		 * @returns {Boolean}
+		 */
+		type: function( movie ) {
+			var type = this.props.get('type');
+			return ! type || -1 !== type.indexOf( movie.get('type') );
+		},
+		/**
+		 * @static
+		 * @param {grid.model.Movie} movie
+		 *
+		 * @this grid.model.Movies
+		 *
+		 * @returns {Boolean}
+		 */
+		uploadedTo: function( movie ) {
+			var uploadedTo = this.props.get('uploadedTo');
+			if ( _.isUndefined( uploadedTo ) ) {
+				return true;
+			}
+
+			return uploadedTo === movie.get('uploadedTo');
+		},
+		/**
+		 * @static
+		 * @param {grid.model.Movie} movie
+		 *
+		 * @this grid.model.Movies
+		 *
+		 * @returns {Boolean}
 		 */
 		status: function( movie ) {
-
-			var status = this.props.get( 'status' );
+			var status = this.props.get('status');
 			if ( _.isUndefined( status ) ) {
 				return true;
 			}
 
-			return status === movie.get( 'status' );
+			return status === movie.get('status');
 		}
 	}
 });
 
 /**
- * A collection of all movies that have been fetched from the server.
- *
- * @since    2.2
- */
-grid.model.Movies.all = new grid.model.Movies();
-
-/**
- * Shorthand for creating a new Movies Query..
- *
- * @since    2.2
- *
- * @param    object    props
- * 
- * @return   grid.model.Movies
- */
-grid.query = function( props ) {
-	return new grid.model.Movies( null, {
-		props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
-	} );
-};
-
-/**
- * grid.model.Query
+ * wp.media.model.Query
  *
  * A collection of movies that match the supplied query arguments.
  *
  * Note: Do NOT change this.args after the query has been initialized.
  *       Things will break.
  *
- * @since    2.2
+ * @class
+ * @augments grid.model.Movies
+ * @augments Backbone.Collection
+ *
+ * @param {array}  [models]                      Models to initialize with the collection.
+ * @param {object} [options]                     Options hash.
+ * @param {object} [options.args]                Movies query arguments.
+ * @param {object} [options.args.posts_per_page]
  */
 grid.model.Query = grid.model.Movies.extend({
-
 	/**
-	 * Initialize the Model.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    array     Array of initial models to populate the collection.
-	 * @param    object    Options
-	 * 
-	 * @return   void
+	 * @global wp.Uploader
+	 *
+	 * @param {array}  [models=[]]  Array of initial models to populate the collection.
+	 * @param {object} [options={}]
 	 */
 	initialize: function( models, options ) {
-
 		var allowed;
 
 		options = options || {};
@@ -741,9 +679,8 @@ grid.model.Query = grid.model.Movies.extend({
 		this.created  = new Date();
 
 		this.filters.order = function( movie ) {
-
-			var orderby = this.props.get( 'orderby' ),
-			      order = this.props.get( 'order' );
+			var orderby = this.props.get('orderby'),
+				order = this.props.get('order');
 
 			if ( ! this.comparator ) {
 				return true;
@@ -773,28 +710,20 @@ grid.model.Query = grid.model.Movies.extend({
 	},
 	/**
 	 * Whether there are more movies that haven't been sync'd from the server
-	 * that match the collection's query. @see this.more()
-	 * 
-	 * @since    2.2
-	 * 
-	 * @return   boolean
+	 * that match the collection's query.
+	 *
+	 * @returns {boolean}
 	 */
 	hasMore: function() {
-
 		return this._hasMore;
 	},
-
 	/**
 	 * Fetch more movies from the server for the collection.
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    object    options
-	 * 
-	 * @return   Promise
+	 *
+	 * @param   {object}  [options={}]
+	 * @returns {Promise}
 	 */
 	more: function( options ) {
-
 		var query = this;
 
 		// If there is already a request pending, return early with the Deferred object.
@@ -803,45 +732,37 @@ grid.model.Query = grid.model.Movies.extend({
 		}
 
 		if ( ! this.hasMore() ) {
-			return $.Deferred().resolveWith( this ).promise();
+			return jQuery.Deferred().resolveWith( this ).promise();
 		}
 
 		options = options || {};
 		options.remove = false;
 
 		return this._more = this.fetch( options ).done( function( resp ) {
-			if ( ! _.isArray(  ) ) {
-				resp = _.toArray( resp );
-			}
-			// Cleverness: response is empty or has less results than requested: we've reached the end.
 			if ( _.isEmpty( resp ) || -1 === this.args.posts_per_page || resp.length < this.args.posts_per_page ) {
 				query._hasMore = false;
 			}
 		});
 	},
-
 	/**
-	 * Overrides Backbone.Collection.sync and grid.model.Movies.sync
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    string    method
-	 * @param    object    Backbone.Model
-	 * @param    object    Options
-	 * 
-	 * @return   Promise
+	 * Overrides Backbone.Collection.sync
+	 * Overrides grid.model.Movies.sync
+	 *
+	 * @param {String} method
+	 * @param {Backbone.Model} model
+	 * @param {Object} [options={}]
+	 * @returns {Promise}
 	 */
 	sync: function( method, model, options ) {
 		var args, fallback;
 
-		// Overload the read method
+		// Overload the read method so Attachment.fetch() functions correctly.
 		if ( 'read' === method ) {
-
 			options = options || {};
 			options.context = this;
 			options.data = _.extend( options.data || {}, {
 				action:  'wpmoly_query_movies',
-				post_id: 0
+				//post_id: wp.media.model.settings.post.id
 			});
 
 			// Clone the args so manipulation is non-destructive.
@@ -849,21 +770,22 @@ grid.model.Query = grid.model.Movies.extend({
 
 			// Determine which page to query.
 			if ( -1 !== args.posts_per_page ) {
-				args.paged = Math.floor( this.length / args.posts_per_page ) + 1;
+				args.paged = Math.round( this.length / args.posts_per_page ) + 1;
 			}
 
 			options.data.query = args;
-			return wp.ajax.send( options );
+			return wp.media.ajax( options );
 
 		// Otherwise, fall back to Backbone.sync()
 		} else {
-			// Call grid.model.Movies.sync or Backbone.sync
+			/**
+			 * Call grid.model.Movies.sync or Backbone.sync
+			 */
 			fallback = grid.model.Movies.prototype.sync ? grid.model.Movies.prototype : Backbone;
 			return fallback.sync.apply( this, arguments );
 		}
 	}
 }, {
-
 	/**
 	 * @readonly
 	 */
@@ -871,53 +793,67 @@ grid.model.Query = grid.model.Movies.extend({
 		orderby: 'date',
 		order:   'DESC'
 	},
-
 	/**
 	 * @readonly
 	 */
 	defaultArgs: {
-		posts_per_page: 12
+		posts_per_page: 40
 	},
-
 	/**
 	 * @readonly
 	 */
 	orderby: {
-		allowed:  [ 'date', 'title', 'modified', 'id', 'post__in' ],
+		allowed:  [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo', 'id', 'post__in', 'menuOrder' ],
 		/**
 		 * A map of JavaScript orderby values to their WP_Query equivalents.
 		 * @type {Object}
 		 */
 		valuemap: {
 			'id':         'ID',
-			'date':       'post_date',
-			'title':      'post_title'
+			'uploadedTo': 'parent',
+			'menuOrder':  'menu_order ID'
 		}
 	},
-
 	/**
 	 * A map of JavaScript query properties to their WP_Query equivalents.
 	 *
 	 * @readonly
 	 */
 	propmap: {
-		'search':     's',
-		'perPage':    'posts_per_page',
+		'search':    's',
+		'type':      'post_mime_type',
+		'perPage':   'posts_per_page',
+		'menuOrder': 'menu_order',
+		'uploadedTo': 'post_parent',
+		'status':     'post_status',
 		'include':    'post__in',
 		'exclude':    'post__not_in'
 	},
-
 	/**
-	 * Creates and returns a Movies Query collection given the properties.
-	 * 
-	 * Caches query objects and reuses where possible.
-	 * 
-	 * @since    2.2
+	 * Creates and returns an Movies Query collection given the properties.
 	 *
-	 * @return   A new Movies Query collection.
+	 * Caches query objects and reuses where possible.
+	 *
+	 * @static
+	 * @method
+	 *
+	 * @param {object} [props]
+	 * @param {Object} [props.cache=true]   Whether to use the query cache or not.
+	 * @param {Object} [props.order]
+	 * @param {Object} [props.orderby]
+	 * @param {Object} [props.include]
+	 * @param {Object} [props.exclude]
+	 * @param {Object} [props.s]
+	 * @param {Object} [props.post_mime_type]
+	 * @param {Object} [props.posts_per_page]
+	 * @param {Object} [props.menu_order]
+	 * @param {Object} [props.post_parent]
+	 * @param {Object} [props.post_status]
+	 * @param {Object} [options]
+	 *
+	 * @returns {wpmoly.model.Query} A new Movies Query collection.
 	 */
 	get: (function(){
-
 		/**
 		 * @static
 		 * @type Array
@@ -925,29 +861,14 @@ grid.model.Query = grid.model.Movies.extend({
 		var queries = [];
 
 		/**
-		 * Run the Query.
-		 * 
-		 * @since    2.2
-		 * 
-		 * @param    object    props
-		 * @param    object    props.cache
-		 * @param    object    props.order
-		 * @param    object    props.orderby
-		 * @param    object    props.include
-		 * @param    object    props.exclude
-		 * @param    object    props.s
-		 * @param    object    props.posts_per_page
-		 * @param    object    options
-		 * 
-		 * @return   grid.model.Query
+		 * @returns {Query}
 		 */
 		return function( props, options ) {
-
-			var args = {},
-			 orderby = grid.model.Query.orderby,
-			defaults = grid.model.Query.defaultProps,
-			   cache = !! props.cache || _.isUndefined( props.cache ),
-			   query;
+			var args     = {},
+				orderby  = grid.model.Query.orderby,
+				defaults = grid.model.Query.defaultProps,
+				query,
+				cache    = !! props.cache || _.isUndefined( props.cache );
 
 			// Remove the `query` property. This isn't linked to a query,
 			// this *is* the query.
@@ -1013,3 +934,25 @@ grid.model.Query = grid.model.Movies.extend({
 		};
 	}())
 });
+
+/**
+ * A collection of all attachments that have been fetched from the server.
+ *
+ * @static
+ * @member {grid.model.Movies}
+ */
+grid.model.Movies.all = new grid.model.Movies();
+
+/**
+ * wp.media.query
+ *
+ * Shorthand for creating a new Movies Query.
+ *
+ * @param {object} [props]
+ * @returns {grid.model.Movies}
+ */
+grid.query = function( props ) {
+	return new grid.model.Movies( null, {
+		props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
+	});
+};
