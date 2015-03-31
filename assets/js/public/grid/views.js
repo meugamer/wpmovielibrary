@@ -24,12 +24,18 @@ grid.view.Menu = media.View.extend({
 		'click [data-action="opensearch"]': 'toggleSearch',
 
 		'click [data-action="expand"]':     'expand',
+		'click [data-action="orderby"]':    'orderby',
 		'click [data-action="order"]':      'order',
 		'click [data-action="filter"]':     'filter',
 		'click [data-action="view"]':       'view',
 
 		'click .grid-menu-search-container': 'stopPropagation',
 
+	},
+
+	defaults: {
+		orderby: [ 'title', 'date', 'release_date', 'rating' ],
+		order:   [ 'asc', 'desc' ]
 	},
 
 	/**
@@ -187,7 +193,31 @@ grid.view.Menu = media.View.extend({
 	},
 
 	/**
-	 * Handle ordering change menu
+	 * Handle ordering change menu (orderby)
+	 * 
+	 * @since    2.2
+	 * 
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
+	orderby: function( event ) {
+
+		var $elem = this.$( event.currentTarget ),
+		    value = $elem.attr( 'data-value' );
+
+		if ( ! _.contains( this.defaults.orderby, value ) ) {
+			return;
+		}
+
+		this.library.props.set({ orderby: value });
+
+		this.$( 'a[data-action="orderby"].active' ).removeClass( 'active' );
+		$elem.closest( 'a[data-action="orderby"]' ).addClass( 'active' );
+	},
+
+	/**
+	 * Handle ordering change menu (order)
 	 * 
 	 * @since    2.2
 	 * 
@@ -200,7 +230,14 @@ grid.view.Menu = media.View.extend({
 		var $elem = this.$( event.currentTarget ),
 		    value = $elem.attr( 'data-value' );
 
-		this.library.props.set({ orderby: value });
+		if ( ! _.contains( this.defaults.order, value ) ) {
+			return;
+		}
+
+		this.library.props.set({ order: value.toUpperCase() });
+
+		this.$( 'a[data-action="order"].active' ).removeClass( 'active' );
+		$elem.closest( 'a[data-action="order"]' ).addClass( 'active' );
 	},
 
 	/**
@@ -242,7 +279,11 @@ grid.view.Menu = media.View.extend({
 	 */
 	render: function() {
 
-		this.$el.html( this.template( this.frame.mode() ) );
+		this.$el.html( this.template({
+			mode:    this.frame.mode(),
+			orderby: this.library.props.get( 'orderby' ),
+			order:   this.library.props.get( 'order' )
+		}) );
 
 		return this;
 	},

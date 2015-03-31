@@ -811,15 +811,13 @@ grid.model.Query = grid.model.Movies.extend({
 	 * @readonly
 	 */
 	orderby: {
-		allowed:  [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo', 'id', 'post__in', 'menuOrder' ],
+		allowed:  [ 'date', 'title', 'modified', 'meta_title', 'release_date', 'rating', 'id' ],
 		/**
 		 * A map of JavaScript orderby values to their WP_Query equivalents.
 		 * @type {Object}
 		 */
 		valuemap: {
-			'id':         'ID',
-			'uploadedTo': 'parent',
-			'menuOrder':  'menu_order ID'
+			'id': 'ID'
 		}
 	},
 	/**
