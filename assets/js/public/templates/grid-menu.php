@@ -21,6 +21,11 @@
 						<li><a class="grid-menu-action<# if ( 'list' == data.view ) { #>active<# } #>" data-action="view" data-value="list" href="#" title="<?php _e( 'View movies in list view', 'wpmovielibrary' ); ?>"><span class="dashicons dashicons-list-view"></span> <span class="label"><?php _e( 'List View', 'wpmovielibrary' ); ?></span></a></li>
 					</ul>
 				</li>
+				<li class="wpmoly-grid-menu-item wpmoly-grid-menu-item-pagination">
+					<a class="grid-menu-action" data-action="browse" data-value="prev" href="#" title="<?php _e( 'Previous Page', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-arrow-left"></span></a>
+					Page <input data-action="browse" type="text" size="3" value="1"/> of 4
+					<a class="grid-menu-action" data-action="browse" data-value="next" href="#" title="<?php _e( 'Next Page', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-arrow-right"></span></a>
+				</li>
 				<li class="wpmoly-grid-menu-item wpmoly-grid-menu-item-expand">
 					<a class="grid-menu-action grid-menu-enlarge" data-action="expand" data-value="enlarge" href="#" title="<?php _e( 'Set the grid to full view', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-resize-enlarge"></span> <span class="label"><?php _e( 'Expand', 'wpmovielibrary' ); ?></span></a>
 					<a class="grid-menu-action grid-menu-shrink" data-action="expand" data-value="shrink" href="#" title="<?php _e( 'Set the grid back to normal view', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-resize-shrink"></span> <span class="label"><?php _e( 'Shrink', 'wpmovielibrary' ); ?></span></a>

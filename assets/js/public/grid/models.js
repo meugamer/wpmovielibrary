@@ -777,7 +777,7 @@ grid.model.Query = grid.model.Movies.extend({
 			args = _.clone( this.args );
 
 			// Determine which page to query.
-			if ( -1 !== args.posts_per_page ) {
+			if ( _.isUndefined( args.paged ) && -1 !== args.posts_per_page ) {
 				args.paged = Math.round( this.length / args.posts_per_page ) + 1;
 			}
 
@@ -799,7 +799,8 @@ grid.model.Query = grid.model.Movies.extend({
 	 */
 	defaultProps: {
 		orderby: 'date',
-		order:   'DESC'
+		order:   'DESC',
+		//paged:   1
 	},
 	/**
 	 * @readonly
@@ -929,10 +930,12 @@ grid.model.Query = grid.model.Movies.extend({
 
 			// Otherwise, create a new query and add it to the cache.
 			if ( ! query ) {
-				query = new grid.model.Query( [], _.extend( options || {}, {
+				var options = _.extend( options || {}, {
 					props: props,
 					args:  args
-				} ) );
+				} );
+				
+				query = new grid.model.Query( [], options );
 				queries.push( query );
 			}
 

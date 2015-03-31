@@ -324,6 +324,35 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	display: inline-block;
 }
 
+/*
+ * Menu Pagination
+ */
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-pagination {
+	left: 50%;
+	margin-left: -86px;
+	min-width: 172px;
+	position: absolute;
+	text-align: center;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-pagination a {
+	display: inline-block;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-pagination input {
+	display: inline-block;
+	font-size: 14px;
+	height: 24px;
+	padding: 0px;
+	text-align: center;
+	width: 24px;
+}
+
+/*
+ * Menu Search
+ */
+
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-expand,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-search {
 	float: right;

@@ -19,17 +19,19 @@ grid.view.Menu = media.View.extend({
 	template: media.template( 'wpmoly-grid-menu' ),
 
 	events: {
-		'click a':                          'preventDefault',
-		'click [data-action="openmenu"]':   'toggleSubMenu',
-		'click [data-action="opensearch"]': 'toggleSearch',
+		'click a':                            'preventDefault',
+		'click a[data-action="openmenu"]':    'toggleSubMenu',
+		'click a[data-action="opensearch"]':  'toggleSearch',
 
-		'click [data-action="expand"]':     'expand',
-		'click [data-action="orderby"]':    'orderby',
-		'click [data-action="order"]':      'order',
-		'click [data-action="filter"]':     'filter',
-		'click [data-action="view"]':       'view',
+		'click a[data-action="expand"]':      'expand',
+		'click a[data-action="orderby"]':     'orderby',
+		'click a[data-action="order"]':       'order',
+		'click a[data-action="filter"]':      'filter',
+		'click a[data-action="view"]':        'view',
+		'click a[data-action="browse"]':      'browse',
+		'change input[data-action="browse"]': 'browse',
 
-		'click .grid-menu-search-container': 'stopPropagation',
+		'click .grid-menu-search-container':  'stopPropagation',
 
 	},
 
@@ -270,6 +272,28 @@ grid.view.Menu = media.View.extend({
 		console.log( 'view!' );
 	},
 
+	browse: function( event ) {
+
+		var $elem = this.$( event.currentTarget ),
+		    value;
+
+		if ( 'click' == event.type ) {
+			value = $elem.attr( 'data-value' );
+			//console.log( this.library );
+			if ( 'next' == value ) {
+				value = 1;
+			} else if ( 'prev' == value ) {
+				value = -0;
+			} else {
+				return;
+			}
+		} else if ( 'change' == event.type ) {
+			value = $elem.val() || 1 ;
+		}
+
+		//console.log( event );
+	},
+
 	/**
 	 * Render the Menu
 	 * 
@@ -282,7 +306,7 @@ grid.view.Menu = media.View.extend({
 		this.$el.html( this.template({
 			mode:    this.frame.mode(),
 			orderby: this.library.props.get( 'orderby' ),
-			order:   this.library.props.get( 'order' )
+			order:   this.library.props.get( 'order' ),
 		}) );
 
 		return this;
