@@ -489,7 +489,7 @@ grid.model.Movies = Backbone.Collection.extend({
 	hasMore: function() {
 		return this.mirroring ? this.mirroring.hasMore() : false;
 	},
-
+	
 	/**
 	 * A custom AJAX-response parser.
 	 *
@@ -501,6 +501,16 @@ grid.model.Movies = Backbone.Collection.extend({
 	 */
 	parse: function( resp, xhr ) {
 
+		if ( ! _.isUndefined( resp.total_movies ) ) {
+			this.total_movies = resp.total_movies;
+			delete resp.total_movies;
+		}
+
+		if ( ! _.isUndefined( resp.total_pages ) ) {
+			this.total_pages = resp.total_pages;
+			delete resp.total_pages;
+		}
+
 		if ( _.isObject( resp ) && false === resp instanceof grid.model.Movie ) {
 			return _.toArray( resp );
 		}
@@ -509,7 +519,7 @@ grid.model.Movies = Backbone.Collection.extend({
 			resp = [resp];
 		}
 
-		return _.map( resp, function( attrs ) {
+		return _.each( resp, function( attrs ) {
 
 			var id, movie, newAttributes;
 
@@ -799,14 +809,14 @@ grid.model.Query = grid.model.Movies.extend({
 	 */
 	defaultProps: {
 		orderby: 'date',
-		order:   'DESC',
-		//paged:   1
+		order:   'DESC'
 	},
 	/**
 	 * @readonly
 	 */
 	defaultArgs: {
-		posts_per_page: 40
+		posts_per_page: 40,
+		paged:          1
 	},
 	/**
 	 * @readonly

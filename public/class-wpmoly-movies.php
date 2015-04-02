@@ -188,7 +188,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				return false;
 			}
 
-			$templates = array( 'movie', 'grid-frame', 'grid-menu', 'grid-content-grid' );
+			$templates = array( 'movie', 'grid-frame', 'grid-menu', 'grid-menu-pagination', 'grid-content-grid' );
 
 			return $templates;
 		}
@@ -223,7 +223,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$meta     = WPMOLY_Movies::get_movies_meta( $ids );
 			$details  = WPMOLY_Movies::get_movies_meta( $ids, 'details' );
-			$response = array();
 
 			foreach ( $posts as $i => $post ) {
 
@@ -320,6 +319,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				$posts[ $i ] = $data;
 
 			}
+
+			//if ( ! empty( $posts ) && 1 == $query->query['paged'] ) {
+				$posts['total_movies'] = (int) $query->found_posts;
+				$posts['total_pages']  = (int) $query->max_num_pages;
+			//}
 
 			wp_send_json_success( $posts );
 		}

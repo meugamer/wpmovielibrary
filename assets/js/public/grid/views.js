@@ -6,17 +6,130 @@ importer = wpmoly.importer,
 hasTouch = ( 'ontouchend' in document );
 
 /**
- * WPMOLY Admin Movie Grid Menu View
+ * Movie Grid Menu Pagination SubView
  * 
- * This View renders the Admin Movie Grid Menu.
+ * This View renders the Movie Grid Menu Pagination subview.
  * 
  * @since    2.2
  */
-grid.view.Menu = media.View.extend({
+grid.view.Pagination = wp.Backbone.View.extend({
+
+	template: wp.template( 'wpmoly-grid-menu-pagination' ),
+
+	events: {
+		'click a':                            'preventDefault',
+
+		'click a[data-action="browse"]':      'browse',
+		'change input[data-action="browse"]': 'browse'
+
+	},
+
+	/**
+	 * Initialize the View
+	 * 
+	 * @since    2.2
+	 *
+	 * @param    object    Attributes
+	 * 
+	 * @return   void
+	 */
+	initialize: function( options ) {
+
+		this.library = this.options.library;
+
+		this.library.props.on( 'change:paged', this.render, this );
+		this.library.mirroring.on( 'sync', this.render, this );
+	},
+
+	browse: function( event ) {
+
+		var $elem = this.$( event.currentTarget ),
+		    value, paged, posts_per_page, more;
+
+		more  = this.library.mirroring._hasMore;
+		paged = this.library.props.get( 'paged' );
+		posts = this.library.mirroring.args.posts_per_page;
+
+		if ( _.isUndefined( paged ) && ! _.isUndefined( posts ) ) {
+			paged = Math.round( this.library.length / posts );
+		}
+
+		paged = Math.max( 1, paged );
+
+		if ( 'click' == event.type ) {
+			value = $elem.attr( 'data-value' );
+			if ( 'next' == value && true === more ) {
+				value = 1;
+			} else if ( 'prev' == value && 1 < paged ) {
+				value = -1;
+			} else {
+				return;
+			}
+		
+			paged += value;
+		} else if ( 'change' == event.type ) {
+			paged = $elem.val() || 1 ;
+		} else {
+			return;
+		}
+
+		this.library.props.set({ paged: paged });
+
+	},
+
+	/**
+	 * Render the Menu
+	 * 
+	 * @since    2.2
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	render: function() {
+
+		var paged = Math.round( this.library.length / this.library.mirroring.args.posts_per_page ),
+		    total = this.library.mirroring.total_pages,
+		  current, next, prev;
+
+		//if ( 1 < paged ) {
+			prev = paged - 1;
+		//}
+
+		//if (  ) {
+			next = paged + 1;
+		//}
+
+		/*var paged = this.library.mirroring.args.paged,
+		  current = ( 1 < paged ? paged + 1 : paged ),
+		    total = this.library.mirroring.total_pages,
+		     next = Math.min( ( 1 < paged ? current + 1 : 0 ), total ),
+		     prev = Math.max( 0, ( paged < total ? current - 1 : 0 ) );*/
+
+		var options = {
+			paged:   paged || 1,
+			total:   total || 0,
+			prev:    prev || 0,
+			next:    next || 0
+		};
+		console.log( this.library.length, options );
+		this.$el.html( this.template( options ) );
+
+		return this;
+	},
+
+});
+
+/**
+ * Movie Grid Menu View
+ * 
+ * This View renders the Movie Grid Menu.
+ * 
+ * @since    2.2
+ */
+grid.view.Menu = wp.Backbone.View.extend({
 
 	className: 'wpmoly-grid-menu',
 
-	template: media.template( 'wpmoly-grid-menu' ),
+	template: wp.template( 'wpmoly-grid-menu' ),
 
 	events: {
 		'click a':                            'preventDefault',
@@ -28,8 +141,6 @@ grid.view.Menu = media.View.extend({
 		'click a[data-action="order"]':       'order',
 		'click a[data-action="filter"]':      'filter',
 		'click a[data-action="view"]':        'view',
-		'click a[data-action="browse"]':      'browse',
-		'change input[data-action="browse"]': 'browse',
 
 		'click .grid-menu-search-container':  'stopPropagation',
 
@@ -58,6 +169,8 @@ grid.view.Menu = media.View.extend({
 		this.frame   = this.options.frame;
 		this.model   = this.options.model;
 		this.library = this.options.library;
+
+		this.views.add( '.wpmoly-grid-menu-item-pagination', new grid.view.Pagination({ library: this.library }) );
 
 		this.$window = $( window );
 		this.$body   = $( document.body );
@@ -272,28 +385,6 @@ grid.view.Menu = media.View.extend({
 		console.log( 'view!' );
 	},
 
-	browse: function( event ) {
-
-		var $elem = this.$( event.currentTarget ),
-		    value;
-
-		if ( 'click' == event.type ) {
-			value = $elem.attr( 'data-value' );
-			//console.log( this.library );
-			if ( 'next' == value ) {
-				value = 1;
-			} else if ( 'prev' == value ) {
-				value = -0;
-			} else {
-				return;
-			}
-		} else if ( 'change' == event.type ) {
-			value = $elem.val() || 1 ;
-		}
-
-		//console.log( event );
-	},
-
 	/**
 	 * Render the Menu
 	 * 
@@ -303,11 +394,14 @@ grid.view.Menu = media.View.extend({
 	 */
 	render: function() {
 
-		this.$el.html( this.template({
+		var options = {
 			mode:    this.frame.mode(),
 			orderby: this.library.props.get( 'orderby' ),
-			order:   this.library.props.get( 'order' ),
-		}) );
+			order:   this.library.props.get( 'order' )
+		};
+		this.$el.html( this.template( options ) );
+
+		this.views.render();
 
 		return this;
 	},
