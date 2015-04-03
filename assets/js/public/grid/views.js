@@ -10,7 +10,7 @@ hasTouch = ( 'ontouchend' in document );
  * 
  * This View renders the Movie Grid Menu Pagination subview.
  * 
- * @since    2.2
+ * @since    2.1.5
  */
 grid.view.Pagination = wp.Backbone.View.extend({
 
@@ -29,7 +29,7 @@ grid.view.Pagination = wp.Backbone.View.extend({
 	/**
 	 * Initialize the View
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 *
 	 * @param    object    Attributes
 	 * 
@@ -41,20 +41,49 @@ grid.view.Pagination = wp.Backbone.View.extend({
 		this.pages   = this.library.pages;
 
 		this.library.props.on( 'change:paged', this.render, this );
-
 		this.library.pages.on( 'change', this.render, this );
 	},
 
+	/**
+	 * Go to the previous results page.
+	 * 
+	 * @since    2.1.5
+	 * 
+	 * @return   Return itself to allow chaining
+	 */
 	prev: function() {
 
 		this.library._prev();
+
+		return this;
 	},
 
+	/**
+	 * Go to the next results page.
+	 * 
+	 * @since    2.1.5
+	 * 
+	 * @return   Return itself to allow chaining
+	 */
 	next: function() {
 
 		this.library._next();
+
+		return this;
 	},
 
+	/**
+	 * Go to a specific results page.
+	 * 
+	 * Handle multiple JS events: Click, Change and Keypress. Clicks concern 
+	 * the pagination's 'previous' and 'next' links; Change handle modifications
+	 * of the page input whilst Keypress handle an 'Enter' hit on the page
+	 * input.
+	 * 
+	 * @since    2.1.5
+	 * 
+	 * @return   Return itself to allow chaining
+	 */
 	browse: function( event ) {
 
 		var $elem = this.$( event.currentTarget ),
@@ -66,22 +95,22 @@ grid.view.Pagination = wp.Backbone.View.extend({
 			} else if ( 'prev' == value ) {
 				this.library._prev();
 			} else {
-				return;
+				return this;
 			}
-		} else if ( 'change' == event.type ||
-		          ( 'keypress' == event.type && 13 === ( event.charCode || event.keyCode ) ) ) {
+		} else if ( 'change' == event.type || ( 'keypress' == event.type && 13 === ( event.charCode || event.keyCode ) ) ) {
 			value = $elem.val() || 1 ;
 			this.library._page( value );
 		} else {
-			return;
+			return this;
 		}
 
+		return this;
 	},
 
 	/**
 	 * Render the Menu
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -105,7 +134,7 @@ grid.view.Pagination = wp.Backbone.View.extend({
 	 *
 	 * @param    object    JS 'Click' Event
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 */
 	preventDefault: function( event ) {
 
@@ -118,7 +147,7 @@ grid.view.Pagination = wp.Backbone.View.extend({
  * 
  * This View renders the Movie Grid Menu.
  * 
- * @since    2.2
+ * @since    2.1.5
  */
 grid.view.Menu = wp.Backbone.View.extend({
 
@@ -149,7 +178,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Initialize the View
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 *
 	 * @param    object    Attributes
 	 * 
@@ -179,7 +208,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Handle infinite scroll into the current View
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 *
 	 * @param    object    JS 'Click' Event
 	 * 
@@ -203,7 +232,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Change the frame mode fo 'frame', a modal-like full view
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 *
 	 * @param    object    JS 'Click' Event
 	 * 
@@ -227,7 +256,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Open or close the submenu related to the menu link clicked
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 *
 	 * @param    object    JS 'Click' Event
 	 * 
@@ -265,7 +294,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Open or close the search menu
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 *
 	 * @param    object    JS 'Click' Event
 	 * 
@@ -305,7 +334,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Handle ordering change menu (orderby)
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    JS 'Click' Event
 	 * 
@@ -329,7 +358,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Handle ordering change menu (order)
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    JS 'Click' Event
 	 * 
@@ -353,7 +382,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Handle filtering change menu
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    JS 'Click' Event
 	 * 
@@ -368,7 +397,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Handle viewing change menu
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    JS 'Click' Event
 	 * 
@@ -383,7 +412,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	/**
 	 * Render the Menu
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -406,7 +435,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 *
 	 * @param    object    JS 'Click' Event
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 */
 	switchView: function( event ) {
 
@@ -419,7 +448,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 *
 	 * @param    object    JS 'Click' Event
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 */
 	preventDefault: function( event ) {
 
@@ -431,7 +460,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 *
 	 * @param    object    JS 'Click' Event
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 */
 	stopPropagation: function( event ) {
 
@@ -443,7 +472,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 /**
  * Custom attachment-like Movie View.
  * 
- * @since    2.2
+ * @since    2.1.5
  */
 grid.view.Movie = media.View.extend({
 
@@ -453,17 +482,18 @@ grid.view.Movie = media.View.extend({
 
 	template:  media.template( 'wpmoly-movie' ),
 
-	events: {
-		'click a':               'preventDefault',
-		'click a.edit-movie':    'editMovie',
-		'click a.preview-movie': 'previewMovie',
-	},
-
 	initialize: function() {
 
 		this.grid = this.options.grid || {};
 	},
 
+	/**
+	 * Render the Menu
+	 * 
+	 * @since    2.1.5
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
 	render: function() {
 
 		var rating = parseFloat( this.model.get( 'details' ).rating ),
@@ -488,34 +518,6 @@ grid.view.Movie = media.View.extend({
 		);
 
 		return this;
-	},
-
-	editMovie: function( event ) {
-
-		var id = this.$( event.currentTarget ).attr( 'data-id' );
-		    id = parseInt( id );
-
-		editor.views.movies.openMovieModal( event, id, 'edit-movie' );
-	},
-
-	previewMovie: function( event ) {
-
-		var id = this.$( event.currentTarget ).attr( 'data-id' );
-		    id = parseInt( id );
-
-		editor.views.movies.openMovieModal( event, id, 'preview-movie' );
-	},
-
-	/**
-	 * Prevent click events default effect
-	 *
-	 * @param    object    JS 'Click' Event
-	 * 
-	 * @since    2.2
-	 */
-	preventDefault: function( event ) {
-
-		event.preventDefault();
 	}
 
 });
@@ -526,7 +528,7 @@ grid.view.Movie = media.View.extend({
  * This displays a grid view of movies very similar to the WordPress
  * Media Library grid.
  * 
- * @since    2.2
+ * @since    2.1.5
  */
 grid.view.ContentGrid = media.View.extend({
 
@@ -545,7 +547,7 @@ grid.view.ContentGrid = media.View.extend({
 	/**
 	 * Initialize the View
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    Attributes
 	 * 
@@ -605,7 +607,7 @@ grid.view.ContentGrid = media.View.extend({
 	 * Calcul the best number of columns to use and resize thumbnails
 	 * to fit correctly.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @return   void
 	 */
@@ -632,7 +634,7 @@ grid.view.ContentGrid = media.View.extend({
 	 * grid will be resized; it set to false only movies not already
 	 * resized will be considered.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    boolean    force resize
 	 * 
@@ -670,7 +672,7 @@ grid.view.ContentGrid = media.View.extend({
 	/**
 	 * Create a view for a movie.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    grid.model.Movie
 	 * 
@@ -698,7 +700,7 @@ grid.view.ContentGrid = media.View.extend({
 	 * Prepare the view. If the collection is already set, create
 	 * views for each movie. If the collection is empty, fill it.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    grid.model.Movie
 	 * 
@@ -728,7 +730,7 @@ grid.view.ContentGrid = media.View.extend({
 	/**
 	 * Handle the infinite scroll.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @return   void
 	 */
@@ -790,7 +792,7 @@ grid.view.ContentGrid = media.View.extend({
  * 
  * This View renders the Admin Movie Grid.
  * 
- * @since    2.2
+ * @since    2.1.5
  */
 grid.view.Frame = media.View.extend({
 
@@ -799,7 +801,7 @@ grid.view.Frame = media.View.extend({
 	/**
 	 * Initialize the View
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    Attributes
 	 * 
@@ -814,7 +816,7 @@ grid.view.Frame = media.View.extend({
 	/**
 	 * Create the frame's regions.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 */
 	_createRegions: function() {
 
@@ -834,7 +836,7 @@ grid.view.Frame = media.View.extend({
 	/**
 	 * Create the frame's states.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 */
 	_createStates: function() {
 
@@ -857,7 +859,7 @@ grid.view.Frame = media.View.extend({
 	/**
 	 * Render the View.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 */
 	render: function() {
 
@@ -879,15 +881,9 @@ _.extend( grid.view.Frame.prototype, media.controller.StateMachine.prototype );
  * 
  * This View renders the Admin Movie Grid.
  * 
- * @since    2.2
+ * @since    2.1.5
  */
 grid.view.GridFrame = grid.view.Frame.extend({
-
-	/*id: 'movie-grid-frame',
-
-	tagName: 'div',
-
-	className: 'movie-grid',*/
 
 	template: media.template( 'wpmoly-grid-frame' ),
 
@@ -900,7 +896,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	/**
 	 * Initialize the View
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 *
 	 * @param    object    Attributes
 	 * 
@@ -939,7 +935,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	/**
 	 * Bind events
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -959,7 +955,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	/**
 	 * Create the default states on the frame.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -988,7 +984,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	 * 
 	 * This Content View show the WPMOLY 2.2 Movie Grid view
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    Region
 	 * 
@@ -1008,7 +1004,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	/**
 	 * Create the Content Grid View
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @param    object    Region
 	 * 
@@ -1029,7 +1025,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	/**
 	 * Render the View.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -1061,7 +1057,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	/**
 	 * Switch mode.
 	 * 
-	 * @since    2.2
+	 * @since    2.1.5
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
