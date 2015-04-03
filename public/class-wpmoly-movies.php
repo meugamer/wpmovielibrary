@@ -320,10 +320,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			}
 
-			//if ( ! empty( $posts ) && 1 == $query->query['paged'] ) {
-				$posts['total_movies'] = (int) $query->found_posts;
-				$posts['total_pages']  = (int) $query->max_num_pages;
-			//}
+			$posts['pages'] = array(
+				'current' => (int) $query->query['paged'],
+				'total'   => (int) $query->max_num_pages,
+				'posts'   => (int) $query->found_posts
+			);
 
 			wp_send_json_success( $posts );
 		}

@@ -340,6 +340,11 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	display: inline-block;
 }
 
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-pagination a.disabled {
+	opacity: 0;
+	visibility: hidden;
+}
+
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-pagination input {
 	display: inline-block;
 	font-size: 14px;

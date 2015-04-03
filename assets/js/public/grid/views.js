@@ -17,10 +17,12 @@ grid.view.Pagination = wp.Backbone.View.extend({
 	template: wp.template( 'wpmoly-grid-menu-pagination' ),
 
 	events: {
-		'click a':                            'preventDefault',
+		'click a':                              'preventDefault',
 
-		'click a[data-action="browse"]':      'browse',
-		'change input[data-action="browse"]': 'browse'
+		'click a[data-action="prev"]':          'prev',
+		'click a[data-action="next"]':          'next',
+		'change input[data-action="browse"]':   'browse',
+		'keypress input[data-action="browse"]': 'browse'
 
 	},
 
@@ -36,44 +38,43 @@ grid.view.Pagination = wp.Backbone.View.extend({
 	initialize: function( options ) {
 
 		this.library = this.options.library;
+		this.pages   = this.library.pages;
 
 		this.library.props.on( 'change:paged', this.render, this );
-		this.library.mirroring.on( 'sync', this.render, this );
+
+		this.library.pages.on( 'change', this.render, this );
+	},
+
+	prev: function() {
+
+		this.library._prev();
+	},
+
+	next: function() {
+
+		this.library._next();
 	},
 
 	browse: function( event ) {
 
 		var $elem = this.$( event.currentTarget ),
-		    value, paged, posts_per_page, more;
-
-		more  = this.library.mirroring._hasMore;
-		paged = this.library.props.get( 'paged' );
-		posts = this.library.mirroring.args.posts_per_page;
-
-		if ( _.isUndefined( paged ) && ! _.isUndefined( posts ) ) {
-			paged = Math.round( this.library.length / posts );
-		}
-
-		paged = Math.max( 1, paged );
+		    value;
 
 		if ( 'click' == event.type ) {
-			value = $elem.attr( 'data-value' );
-			if ( 'next' == value && true === more ) {
-				value = 1;
-			} else if ( 'prev' == value && 1 < paged ) {
-				value = -1;
+			if ( 'next' == value ) {
+				this.library._next();
+			} else if ( 'prev' == value ) {
+				this.library._prev();
 			} else {
 				return;
 			}
-		
-			paged += value;
-		} else if ( 'change' == event.type ) {
-			paged = $elem.val() || 1 ;
+		} else if ( 'change' == event.type ||
+		          ( 'keypress' == event.type && 13 === ( event.charCode || event.keyCode ) ) ) {
+			value = $elem.val() || 1 ;
+			this.library._page( value );
 		} else {
 			return;
 		}
-
-		this.library.props.set({ paged: paged });
 
 	},
 
@@ -84,38 +85,32 @@ grid.view.Pagination = wp.Backbone.View.extend({
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
-	render: function() {
+	render: function( a ) {
 
-		var paged = Math.round( this.library.length / this.library.mirroring.args.posts_per_page ),
-		    total = this.library.mirroring.total_pages,
-		  current, next, prev;
-
-		//if ( 1 < paged ) {
-			prev = paged - 1;
-		//}
-
-		//if (  ) {
-			next = paged + 1;
-		//}
-
-		/*var paged = this.library.mirroring.args.paged,
-		  current = ( 1 < paged ? paged + 1 : paged ),
-		    total = this.library.mirroring.total_pages,
-		     next = Math.min( ( 1 < paged ? current + 1 : 0 ), total ),
-		     prev = Math.max( 0, ( paged < total ? current - 1 : 0 ) );*/
-
-		var options = {
-			paged:   paged || 1,
-			total:   total || 0,
-			prev:    prev || 0,
-			next:    next || 0
+		var total = this.library.pages.get( 'total' ),
+		  options = {
+			current: this.library.props.get( 'paged' ),
+			total:   total,
+			prev:    this.library.props.get( 'paged' ) - 1,
+			next:    this.library.props.get( 'paged' ) + 1
 		};
-		console.log( this.library.length, options );
+
 		this.$el.html( this.template( options ) );
 
 		return this;
 	},
 
+	/**
+	 * Prevent click events default effect
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @since    2.2
+	 */
+	preventDefault: function( event ) {
+
+		event.preventDefault();
+	}
 });
 
 /**
@@ -418,8 +413,6 @@ grid.view.Menu = wp.Backbone.View.extend({
 		var mode = event.currentTarget.dataset.mode;
 		this.frame.mode( mode );
 	},
-
-	
 
 	/**
 	 * Prevent click events default effect
@@ -922,7 +915,8 @@ grid.view.GridFrame = grid.view.Frame.extend({
 			state:  'library',
 			library: {
 				orderby: 'title',
-				order:   'ASC'
+				order:   'ASC',
+				paged:   1
 			}
 		});
 

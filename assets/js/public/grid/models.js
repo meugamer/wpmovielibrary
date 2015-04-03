@@ -4,86 +4,6 @@ var grid = wpmoly.grid,
        $ = Backbone.$;
 
 /**
- * Basic data model to store post data.
- * 
- * @since    2.2
- */
-grid.model.Post = Backbone.Model.extend({
-
-	defaults: {
-		ID: '',
-		post_author: '',
-		post_date: '',
-		post_date_gmt: '',
-		post_content: '',
-		post_title: '',
-		post_excerpt: '',
-		post_status: '',
-		post_password: '',
-		post_name: '',
-		post_modified: '',
-		post_modified_gmt: '',
-		post_content_filtered: '',
-		comment_count: '',
-		post_thumbnail: ''
-	}
-});
-
-/**
- * Movie Meta Model
- * 
- * @since    2.2
- */
-grid.model.Meta = Backbone.Model.extend({
-
-	defaults: {
-		tmdb_id: '',
-		title: '',
-		original_title: '',
-		tagline: '',
-		overview: '',
-		release_date: '',
-		local_release_date: '',
-		runtime: '',
-		production_companies: '',
-		production_countries: '',
-		spoken_languages: '',
-		genres: '',
-		director: '',
-		producer: '',
-		cast: '',
-		photography: '',
-		composer: '',
-		author: '',
-		writer: '',
-		certification: '',
-		budget: '',
-		revenue: '',
-		imdb_id: '',
-		adult: '',
-		homepage: ''
-	}
-});
-
-/**
- * Movie Details Model
- * 
- * @since    2.2
- */
-grid.model.Details = Backbone.Model.extend({
-
-	defaults: {
-		status: '',
-		media: '',
-		rating: '',
-		language: '',
-		subtitles: '',
-		format: '',
-		stars: ''
-	}
-});
-
-/**
  * WPMOLY Backbone Movie Model
  * 
  * Model for the metabox movie metadata fields. Holy Grail! That model
@@ -95,12 +15,6 @@ grid.model.Details = Backbone.Model.extend({
 grid.model.Movie = Backbone.Model.extend({
 
 	id: '',
-
-	/*defaults: {
-		post: {},
-		meta: {},
-		details: {}
-	}*/
 
 	/**
 	 * Convert date strings into Date objects.
@@ -171,6 +85,7 @@ grid.model.Movie = Backbone.Model.extend({
  */
 
 grid.model.Movies = Backbone.Collection.extend({
+
 	/**
 	 * @type {grid.model.Movie}
 	 */
@@ -184,6 +99,12 @@ grid.model.Movies = Backbone.Collection.extend({
 		options = options || {};
 
 		this.props   = new Backbone.Model();
+		this.pages = new Backbone.Model({
+			current: 0,
+			total:   0,
+			prev:    0,
+			next:    0
+		});
 		this.filters = options.filters || {};
 
 		// Bind default `change` events to the `props` model.
@@ -362,6 +283,7 @@ grid.model.Movies = Backbone.Collection.extend({
 
 		movies.on( 'add change remove', this._validateHandler, this );
 		movies.on( 'reset', this._validateAllHandler, this );
+
 		this.validateAll( movies );
 		return this;
 	},
@@ -446,6 +368,30 @@ grid.model.Movies = Backbone.Collection.extend({
 		this.unobserve( this.mirroring );
 		delete this.mirroring;
 	},
+
+	_next: function() {
+
+		this.props.set({ paged: this.mirroring.pages.get( 'next' ) });
+	},
+
+	_prev: function() {
+
+		this.props.set({ paged: this.mirroring.pages.get( 'prev' ) });
+	},
+
+	_page: function( page ) {
+
+		if ( _.isUndefined( page ) ) {
+			return;
+		}
+
+		if ( ! page || page > this.mirroring.pages.get( 'total' ) ) {
+			return;
+		}
+
+		this.props.set({ paged: page });
+	},
+
 	/**
 	 * Retrive more movies from the server for the collection.
 	 *
@@ -501,14 +447,22 @@ grid.model.Movies = Backbone.Collection.extend({
 	 */
 	parse: function( resp, xhr ) {
 
-		if ( ! _.isUndefined( resp.total_movies ) ) {
-			this.total_movies = resp.total_movies;
-			delete resp.total_movies;
-		}
+		if ( ! _.isUndefined( resp.pages ) ) {
 
-		if ( ! _.isUndefined( resp.total_pages ) ) {
-			this.total_pages = resp.total_pages;
-			delete resp.total_pages;
+			var pages = {
+				current: resp.pages.current,
+				prev:    Math.max( 0, resp.pages.current - 1 ),
+				next:    Math.min( resp.pages.total, resp.pages.current + 1 ),
+				total:   resp.pages.total,
+				posts:   resp.pages.posts
+			};
+
+			this.pages.set( pages );
+			if ( this.mirroring ) {
+				this.mirroring.pages.set( pages );
+			}
+
+			delete resp.pages;
 		}
 
 		if ( _.isObject( resp ) && false === resp instanceof grid.model.Movie ) {
@@ -546,11 +500,13 @@ grid.model.Movies = Backbone.Collection.extend({
 	 * @access private
 	 */
 	_requery: function( refresh ) {
-		var props;
+		var props, query;
 		if ( this.props.get('query') ) {
 			props = this.props.toJSON();
 			props.cache = ( true !== refresh );
-			this.mirror( grid.model.Query.get( props ) );
+			query = grid.model.Query.get( props );
+			this.mirror( query );
+			this.pages = query.pages;
 		}
 	}
 }, {
@@ -792,6 +748,7 @@ grid.model.Query = grid.model.Movies.extend({
 			}
 
 			options.data.query = args;
+
 			return wp.media.ajax( options );
 
 		// Otherwise, fall back to Backbone.sync()
@@ -816,7 +773,7 @@ grid.model.Query = grid.model.Movies.extend({
 	 */
 	defaultArgs: {
 		posts_per_page: 40,
-		paged:          1
+		//paged:          1
 	},
 	/**
 	 * @readonly
