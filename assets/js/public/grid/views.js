@@ -38,7 +38,10 @@ grid.view.Pagination = wp.Backbone.View.extend({
 	initialize: function( options ) {
 
 		this.library = this.options.library;
+		this.frame   = this.options.frame;
+
 		this.pages   = this.library.pages;
+		this.scroll  = this.frame._scroll;
 
 		this.library.props.on( 'change:paged', this.render, this );
 		this.library.pages.on( 'change', this.render, this );
@@ -118,6 +121,7 @@ grid.view.Pagination = wp.Backbone.View.extend({
 
 		var total = this.library.pages.get( 'total' ),
 		  options = {
+			scroll:  this.scroll,
 			current: this.library.props.get( 'paged' ),
 			total:   total,
 			prev:    this.library.props.get( 'paged' ) - 1,
@@ -194,7 +198,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 		this.model   = this.options.model;
 		this.library = this.options.library;
 
-		this.views.add( '.wpmoly-grid-menu-item-pagination', new grid.view.Pagination({ library: this.library }) );
+		this.views.add( '.wpmoly-grid-menu-item-pagination', new grid.view.Pagination({ library: this.library, frame: this.frame }) );
 
 		this.$window = $( window );
 		this.$body   = $( document.body );
@@ -542,8 +546,6 @@ grid.view.ContentGrid = media.View.extend({
 
 	_lastPosition: 0,
 
-	_scroll: true,
-
 	/**
 	 * Initialize the View
 	 * 
@@ -736,7 +738,7 @@ grid.view.ContentGrid = media.View.extend({
 	 */
 	scroll: function() {
 
-		if ( true !== this._scroll ) {
+		if ( true !== this.frame._scroll ) {
 			return;
 		}
 
@@ -893,6 +895,8 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 	_mode: '',
 
+	_scroll: true,
+
 	/**
 	 * Initialize the View
 	 * 
@@ -913,12 +917,14 @@ grid.view.GridFrame = grid.view.Frame.extend({
 				orderby: 'title',
 				order:   'ASC',
 				paged:   1
-			}
+			},
+			scroll: true
 		});
 
 		this.$bg   = $( '#wpmoly-grid-bg' );
 		this.$body = $( document.body );
 		this._mode = this.options.mode;
+		this._scroll = this.options.scroll;
 
 		this.createStates();
 		this.bindHandlers();

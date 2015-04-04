@@ -228,8 +228,8 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	text-decoration: none;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a span.label,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul > li > a > span.label {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a span.grid-menu-label,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul > li > a > span.grid-menu-label {
 	display: none;
 	font-family: sans-serif;
 	font-size: 14px;
@@ -240,6 +240,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	color: #888;
 	height: 36px;
 	line-height: 36px;
+	vertical-align: top;
 	width: 36px;
 }
 
@@ -254,7 +255,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a:hover .dashicons,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a:hover .wpmolicon,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a:hover .label {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a:hover .grid-menu-label {
 	color: inherit;
 }
 
@@ -320,7 +321,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	padding-right: 20px;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open > li > a > span.label {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open > li > a > span.grid-menu-label {
 	display: inline-block;
 }
 
@@ -346,6 +347,10 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-pagination input {
+	background: #fff;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 0;
+	color: #666;
 	display: inline-block;
 	font-size: 14px;
 	height: 24px;

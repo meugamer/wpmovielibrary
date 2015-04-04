@@ -60,7 +60,7 @@ wpmoly = {};
 
 			_.map( grids, function( grid ) {
 				grid.id = _.uniqueId( grid.id + '-' );
-				var frame = new this.view.GridFrame({ el: '#' + grid.id });
+				var frame = new this.view.GridFrame({ el: '#' + grid.id, scroll: false });
 				return this.frames.push( frame );
 			}, this );
 		}
