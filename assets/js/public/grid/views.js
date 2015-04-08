@@ -12,17 +12,25 @@ hasTouch = ( 'ontouchend' in document );
  * 
  * @since    2.1.5
  */
-grid.view.Pagination = wp.Backbone.View.extend({
+grid.view.PaginationMenu = wp.Backbone.View.extend({
 
-	template: wp.template( 'wpmoly-grid-menu-pagination' ),
+	className: 'wpmoly-grid-menu',
+
+	template: wp.template( 'wpmoly-grid-pagination' ),
 
 	events: {
 		'click a':                              'preventDefault',
 
+		'click a[data-action="openmenu"]':      'toggleSettings',
+		'click a[data-action="applysettings"]': 'updateSettings',
+
+		'click a[data-action="scroll"]':        'setScroll',
 		'click a[data-action="prev"]':          'prev',
 		'click a[data-action="next"]':          'next',
 		'change input[data-action="browse"]':   'browse',
-		'keypress input[data-action="browse"]': 'browse'
+		'keypress input[data-action="browse"]': 'browse',
+
+		'click .grid-pagination-settings':      'stopPropagation'
 
 	},
 
@@ -43,8 +51,80 @@ grid.view.Pagination = wp.Backbone.View.extend({
 		this.pages   = this.library.pages;
 		this.scroll  = this.frame._scroll;
 
+		this.$body = $( 'body' );
+
 		this.library.props.on( 'change:paged', this.render, this );
-		this.library.pages.on( 'change', this.render, this );
+		this.library.props.on( 'change:posts_per_page', this.render, this );
+		this.library.pages.once( 'change', this.render, this );
+	},
+
+	/**
+	 * Open or close the submenu related to the menu link clicked
+	 * 
+	 * @since    2.1.5
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
+	toggleSettings: function( event ) {
+
+		// Open settings panel
+		if ( ! this.$el.hasClass( 'settings' ) ) {
+			this.$el.addClass( 'settings' );
+		}
+
+		event.stopPropagation();
+
+		if ( this.$body.hasClass( 'waitee' ) ) {
+			return;
+		}
+
+		// Close the submenu when clicking elsewhere
+		var self = this;
+		this.$body.addClass( 'waitee' ).one( 'click', function() {
+			self.$el.removeClass( 'settings' );
+			self.$body.removeClass( 'waitee' );
+		});
+	},
+
+	updateSettings: function() {
+
+		var scroll = parseInt( this.$( 'input[data-value="scroll"]' ).val() ) || 0,
+		   perpage = parseInt( this.$( 'input[data-action="perpage"]' ).val() ) || 0,
+		     props = {},
+		  defaults = {
+			perpage: this.library.props.get( 'posts_per_page' ),
+			scroll:  this.frame._scroll
+		   };
+
+		if ( scroll && scroll !== defaults.scroll ) {
+			this.frame._scroll = Boolean( scroll );
+		}
+
+		if ( perpage && perpage !== defaults.perpage ) {
+			this.library.props.set({ posts_per_page: perpage });
+		} else if ( scroll && scroll !== defaults.scroll ) {
+			this.frame.content.scroll();
+		}
+
+		this.$el.removeClass( 'settings' );
+	},
+
+	setScroll: function( event ) {
+
+		var $elem = this.$( event.currentTarget ),
+		   $input = this.$( 'input[data-value="scroll"]' ),
+		   scroll = parseInt( $elem.attr( 'data-value' ) );
+
+		if ( 1 === scroll ) {
+			$input.val( 1 );
+		} else {
+			$input.val( 0 );
+		}
+
+		this.$( 'a[data-action="scroll"].selected' ).removeClass( 'selected' );
+		$elem.addClass( 'selected' );
 	},
 
 	/**
@@ -143,6 +223,18 @@ grid.view.Pagination = wp.Backbone.View.extend({
 	preventDefault: function( event ) {
 
 		event.preventDefault();
+	},
+
+	/**
+	 * Stop Click Event Propagation
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @since    2.1.5
+	 */
+	stopPropagation: function( event ) {
+
+		event.stopPropagation();
 	}
 });
 
@@ -197,8 +289,6 @@ grid.view.Menu = wp.Backbone.View.extend({
 		this.frame   = this.options.frame;
 		this.model   = this.options.model;
 		this.library = this.options.library;
-
-		this.views.add( '.wpmoly-grid-menu-item-pagination', new grid.view.Pagination({ library: this.library, frame: this.frame }) );
 
 		this.$window = $( window );
 		this.$body   = $( document.body );
@@ -769,7 +859,8 @@ grid.view.ContentGrid = media.View.extend({
 			this._loading = true;
 			this.frame.$el.addClass( 'loading' );
 
-			this.dfd = this.collection.more().done( function() {
+			var paged = this.collection.props.get( 'paged' ) || 1;
+			this.dfd = this.collection.more({ paged: paged + 1 }).done( function() {
 				view.frame.$el.removeClass( 'loading' );
 				view._loading = false;
 			} );
@@ -889,7 +980,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 	template: media.template( 'wpmoly-grid-frame' ),
 
-	regions: [ 'menu', 'content' ],
+	regions: [ 'menu', 'content', 'pagination' ],
 
 	_previousMode: '',
 
@@ -954,6 +1045,8 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		this.on( 'menu:create:grid', this.createMenu, this );
 		this.on( 'content:create:grid', this.createContentGrid, this );
 		this.on( 'content:create:frame', this.createContentGrid, this );
+		this.on( 'pagination:create:grid', this.createPaginationMenu, this );
+		this.on( 'pagination:create:frame', this.createPaginationMenu, this );
 
 		return this;
 	},
@@ -1000,7 +1093,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		var state = this.state();
 
-		region.view = new grid.view.Menu({
+		this.menu = region.view = new grid.view.Menu({
 			frame:   this,
 			model:   state,
 			library: state.get( 'library' ),
@@ -1020,11 +1113,33 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		var state = this.state();
 
-		this.gridView = region.view = new grid.view.ContentGrid({
+		this.content = region.view = new grid.view.ContentGrid({
 			frame:      this,
 			model:      state,
 			collection: state.get( 'library' ),
 			controller: this,
+		});
+	},
+
+	/**
+	 * Create the Menu View
+	 * 
+	 * This Content View show the WPMOLY 2.2 Movie Grid view
+	 * 
+	 * @since    2.1.5
+	 * 
+	 * @param    object    Region
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	createPaginationMenu: function( region ) {
+
+		var state = this.state();
+
+		this.pagination = region.view = new grid.view.PaginationMenu({
+			frame:   this,
+			model:   state,
+			library: state.get( 'library' ),
 		});
 	},
 

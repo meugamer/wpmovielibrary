@@ -188,7 +188,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				return false;
 			}
 
-			$templates = array( 'movie', 'grid-frame', 'grid-menu', 'grid-menu-pagination', 'grid-content-grid' );
+			$templates = array( 'movie', 'grid-frame', 'grid-menu', 'grid-pagination', 'grid-content-grid' );
 
 			return $templates;
 		}

@@ -836,6 +836,7 @@ grid.model.Query = grid.model.Movies.extend({
 			// Clone the args so manipulation is non-destructive.
 			args = _.clone( this.args );
 
+			console.log( args );
 			// Determine which page to query.
 			if ( _.isUndefined( args.paged ) && -1 !== args.posts_per_page ) {
 				args.paged = Math.round( this.length / args.posts_per_page ) + 1;
