@@ -11,7 +11,8 @@
 					<a class="grid-menu-action" data-action="next" href="#" title="<?php _e( 'Next Page', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-arrow-right"></span></a>
 <# 	} else { #>
 					<a class="grid-menu-action disabled" disabled="disabled" href="#" title="<?php _e( 'Next Page', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-arrow-right"></span></a>
-<# 	} #>
-				
+<# 	}
+ } else { #>
+					
 <# } #>
 				</div>

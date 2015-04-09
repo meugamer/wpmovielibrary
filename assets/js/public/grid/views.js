@@ -48,9 +48,13 @@ grid.view.PaginationMenu = wp.Backbone.View.extend({
 
 		this.$body = $( 'body' );
 
+		//this.pages.on( 'all', function( event ) { console.log( event ); }, this );
+
 		this.library.props.on( 'change:paged', this.render, this );
 		this.library.props.on( 'change:posts_per_page', this.render, this );
 		this.library.pages.once( 'change', this.render, this );
+
+		this.frame.props.on( 'change:scroll', this.render, this );
 	},
 
 	/**
@@ -128,6 +132,8 @@ grid.view.PaginationMenu = wp.Backbone.View.extend({
 		if ( false !== this.frame._scroll ) {
 			this.$el.hide();
 			return this;
+		} else {
+			this.$el.show();
 		}
 
 		var total = this.library.pages.get( 'total' ),
@@ -388,7 +394,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 */
 	updateSettings: function() {
 
-		var scroll = parseInt( this.$( 'input[data-value="scroll"]' ).val() ) || 0,
+		var scroll = Boolean( parseInt( this.$( 'input[data-value="scroll"]' ).val() ) || 0 ),
 		   perpage = parseInt( this.$( 'input[data-action="perpage"]' ).val() ) || 0,
 		     props = {},
 		  defaults = {
@@ -396,14 +402,12 @@ grid.view.Menu = wp.Backbone.View.extend({
 			scroll:  this.frame._scroll
 		   };
 
-		if ( scroll && scroll !== defaults.scroll ) {
-			this.frame._scroll = Boolean( scroll );
+		if ( scroll !== defaults.scroll ) {
+			this.frame.props.set({ scroll: scroll });
 		}
 
 		if ( perpage && perpage !== defaults.perpage ) {
 			this.library.props.set({ posts_per_page: perpage });
-		} else if ( scroll && scroll !== defaults.scroll ) {
-			this.frame.content.scroll();
 		}
 
 		this.$el.removeClass( 'settings' );
@@ -991,6 +995,8 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 	regions: [ 'menu', 'content', 'pagination' ],
 
+	props: new Backbone.Model,
+
 	_previousMode: '',
 
 	_mode: '',
@@ -1023,11 +1029,14 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		this.$bg   = $( '#wpmoly-grid-bg' );
 		this.$body = $( document.body );
-		this._mode = this.options.mode;
-		this._scroll = this.options.scroll;
 
 		this.createStates();
 		this.bindHandlers();
+
+		this.props.set({
+			mode:   this.options.mode,
+			scroll: this.options.scroll
+		});
 
 		this.render();
 
@@ -1048,14 +1057,17 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	bindHandlers: function() {
 
 		//this.on( 'all', function( event ) { console.log( event ); }, this );
-		this.on( 'change:mode', this.render, this );
+		this.on( 'change:mode',             this.render, this );
 
-		this.on( 'menu:create:frame', this.createMenu, this );
-		this.on( 'menu:create:grid', this.createMenu, this );
-		this.on( 'content:create:grid', this.createContentGrid, this );
-		this.on( 'content:create:frame', this.createContentGrid, this );
-		this.on( 'pagination:create:grid', this.createPaginationMenu, this );
+		this.on( 'menu:create:frame',       this.createMenu, this );
+		this.on( 'menu:create:grid',        this.createMenu, this );
+		this.on( 'content:create:grid',     this.createContentGrid, this );
+		this.on( 'content:create:frame',    this.createContentGrid, this );
+		this.on( 'pagination:create:grid',  this.createPaginationMenu, this );
 		this.on( 'pagination:create:frame', this.createPaginationMenu, this );
+
+		this.props.on( 'change:mode',       this._setMode, this );
+		this.props.on( 'change:scroll',     this._setScroll, this );
 
 		return this;
 	},
@@ -1199,10 +1211,29 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		if ( mode === this._mode )
 			return this;
 
+		this.props.set({ mode: mode });
+
+		return this;
+	},
+
+	_setMode: function( model ) {
+
+		var mode = model.changed.mode;
+
+		if ( mode != this._previousMode ) {
+			this.trigger( 'deactivate:' + this._previousMode );
+			this.trigger( 'activate:' + mode );
+		}
+
 		this._previousMode = this._mode;
-		this._mode = mode;
-		this.trigger( 'change:mode', mode );
-		this.trigger( 'activate:' + mode );
+		this._mode         = model.changed.mode;
+
+		return this;
+	},
+
+	_setScroll: function( model ) {
+
+		this._scroll = model.changed.scroll;
 
 		return this;
 	}
