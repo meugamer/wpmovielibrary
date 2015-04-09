@@ -1,5 +1,6 @@
-<# if ( ! data.scroll ) {
-	if ( data.total ) {
+<# if ( ! data.scroll ) { #>
+				<div class="wpmoly-grid-pagination-container">
+<# 	if ( data.total ) {
 		if ( data.prev ) { #>
 					<a class="grid-menu-action" data-action="prev" href="#" title="<?php _e( 'Previous Page', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-arrow-left"></span></a>
 <# 		} else { #>
@@ -12,10 +13,11 @@
 					<a class="grid-menu-action disabled" disabled="disabled" href="#" title="<?php _e( 'Next Page', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-arrow-right"></span></a>
 <# 		} #>
 				
-<#	}
-} else { #>
+<#	} #>
+				</div>
+<# } else if ( 1 != 1 ) { #>
 					<a class="grid-menu-action" href="#" title=""><span class="wpmolicon icon-infinite"></span></a>
-<# } #>
+
 					<a class="grid-menu-action grid-pagination-settings-toggle" data-action="openmenu" href="#" title=""><span class="wpmolicon icon-settings"></span></a>
 					<div class="grid-pagination-settings">
 						<div class="grid-pagination-settings-section">
@@ -29,3 +31,4 @@
 							<a data-action="applysettings" href="#" title=""><span class="wpmolicon icon-yes"></span></a>
 						</div>
 					</div>
+<# } #>

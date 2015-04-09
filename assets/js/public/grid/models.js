@@ -836,10 +836,14 @@ grid.model.Query = grid.model.Movies.extend({
 			// Clone the args so manipulation is non-destructive.
 			args = _.clone( this.args );
 
-			console.log( args );
+			var calc = Math.round( this.length / args.posts_per_page ) + 1;
 			// Determine which page to query.
-			if ( _.isUndefined( args.paged ) && -1 !== args.posts_per_page ) {
-				args.paged = Math.round( this.length / args.posts_per_page ) + 1;
+			if ( ! _.isUndefined( options.paged ) ) {
+				args.paged = options.paged;
+				delete options.paged;
+			} else if ( ( ! _.isUndefined( args.paged ) && args.paged != calc ) ||
+			            ( _.isUndefined( args.paged ) && -1 !== args.posts_per_page ) ) {
+				args.paged = calc;
 			}
 
 			options.data.query = args;

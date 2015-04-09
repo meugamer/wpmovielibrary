@@ -197,7 +197,12 @@ grid.view.PaginationMenu = wp.Backbone.View.extend({
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
-	render: function( a ) {
+	render: function() {
+
+		if ( false !== this.frame._scroll ) {
+			this.$el.hide();
+			return this;
+		}
 
 		var total = this.library.pages.get( 'total' ),
 		  options = {
@@ -859,8 +864,7 @@ grid.view.ContentGrid = media.View.extend({
 			this._loading = true;
 			this.frame.$el.addClass( 'loading' );
 
-			var paged = this.collection.props.get( 'paged' ) || 1;
-			this.dfd = this.collection.more({ paged: paged + 1 }).done( function() {
+			this.dfd = this.collection.more().done( function() {
 				view.frame.$el.removeClass( 'loading' );
 				view._loading = false;
 			} );
