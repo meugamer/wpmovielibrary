@@ -21,7 +21,21 @@
 						<li><a class="grid-menu-action<# if ( 'list' == data.view ) { #>active<# } #>" data-action="view" data-value="list" href="#" title="<?php _e( 'View movies in list view', 'wpmovielibrary' ); ?>"><span class="dashicons dashicons-list-view"></span> <span class="grid-menu-label"><?php _e( 'List View', 'wpmovielibrary' ); ?></span></a></li>
 					</ul>
 				</li>
-				<li class="wpmoly-grid-menu-item wpmoly-grid-menu-item-pagination"></li>
+				<li class="wpmoly-grid-menu-item wpmoly-grid-menu-item-settings">
+					<a class="grid-menu-action" data-action="opensettings" href="#" title="<?php _e( 'Change the grid settings', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-ellipsis-h"></span></a>
+					<div class="grid-menu-settings">
+						<div class="grid-menu-settings-section">
+							<input type="hidden" data-value="scroll" value="<# if ( data.scroll ) { #>1<# } else { #>0<# } #>" />
+							<span class="grid-menu-label"><span class="wpmolicon icon-infinite"></span>&nbsp; <?php _e( 'Infinite scrolling:', 'wpmovielibrary' ); ?></span> <a href="#" data-action="scroll" data-value="1" title="" <# if ( data.scroll ) { #>class="selected"<# } #>>Yes</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;<a href="#" data-action="scroll" data-value="0" title=""<# if ( ! data.scroll ) { #>class="selected"<# } #>>No</a>
+						</div>
+						<div class="grid-menu-settings-section">
+							<span class="grid-menu-label"><span class="wpmolicon icon-grid"></span>&nbsp; <?php _e( 'Movies per page:', 'wpmovielibrary' ); ?></span> <input data-action="perpage" type="text" size="3" value="{{ data.perpage }}"/>
+						</div>
+						<div class="grid-menu-settings-toolbar">
+							<a data-action="applysettings" href="#" title=""><span class="wpmolicon icon-yes"></span></a>
+						</div>
+					</div>
+				</li>
 				<li class="wpmoly-grid-menu-item wpmoly-grid-menu-item-expand">
 					<a class="grid-menu-action grid-menu-enlarge" data-action="expand" data-value="enlarge" href="#" title="<?php _e( 'Set the grid to full view', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-resize-enlarge"></span> <span class="grid-menu-label"><?php _e( 'Expand', 'wpmovielibrary' ); ?></span></a>
 					<a class="grid-menu-action grid-menu-shrink" data-action="expand" data-value="shrink" href="#" title="<?php _e( 'Set the grid back to normal view', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-resize-shrink"></span> <span class="grid-menu-label"><?php _e( 'Shrink', 'wpmovielibrary' ); ?></span></a>

@@ -21,10 +21,6 @@ grid.view.PaginationMenu = wp.Backbone.View.extend({
 	events: {
 		'click a':                              'preventDefault',
 
-		'click a[data-action="openmenu"]':      'toggleSettings',
-		'click a[data-action="applysettings"]': 'updateSettings',
-
-		'click a[data-action="scroll"]':        'setScroll',
 		'click a[data-action="prev"]':          'prev',
 		'click a[data-action="next"]':          'next',
 		'change input[data-action="browse"]':   'browse',
@@ -49,82 +45,12 @@ grid.view.PaginationMenu = wp.Backbone.View.extend({
 		this.frame   = this.options.frame;
 
 		this.pages   = this.library.pages;
-		this.scroll  = this.frame._scroll;
 
 		this.$body = $( 'body' );
 
 		this.library.props.on( 'change:paged', this.render, this );
 		this.library.props.on( 'change:posts_per_page', this.render, this );
 		this.library.pages.once( 'change', this.render, this );
-	},
-
-	/**
-	 * Open or close the submenu related to the menu link clicked
-	 * 
-	 * @since    2.1.5
-	 *
-	 * @param    object    JS 'Click' Event
-	 * 
-	 * @return   void
-	 */
-	toggleSettings: function( event ) {
-
-		// Open settings panel
-		if ( ! this.$el.hasClass( 'settings' ) ) {
-			this.$el.addClass( 'settings' );
-		}
-
-		event.stopPropagation();
-
-		if ( this.$body.hasClass( 'waitee' ) ) {
-			return;
-		}
-
-		// Close the submenu when clicking elsewhere
-		var self = this;
-		this.$body.addClass( 'waitee' ).one( 'click', function() {
-			self.$el.removeClass( 'settings' );
-			self.$body.removeClass( 'waitee' );
-		});
-	},
-
-	updateSettings: function() {
-
-		var scroll = parseInt( this.$( 'input[data-value="scroll"]' ).val() ) || 0,
-		   perpage = parseInt( this.$( 'input[data-action="perpage"]' ).val() ) || 0,
-		     props = {},
-		  defaults = {
-			perpage: this.library.props.get( 'posts_per_page' ),
-			scroll:  this.frame._scroll
-		   };
-
-		if ( scroll && scroll !== defaults.scroll ) {
-			this.frame._scroll = Boolean( scroll );
-		}
-
-		if ( perpage && perpage !== defaults.perpage ) {
-			this.library.props.set({ posts_per_page: perpage });
-		} else if ( scroll && scroll !== defaults.scroll ) {
-			this.frame.content.scroll();
-		}
-
-		this.$el.removeClass( 'settings' );
-	},
-
-	setScroll: function( event ) {
-
-		var $elem = this.$( event.currentTarget ),
-		   $input = this.$( 'input[data-value="scroll"]' ),
-		   scroll = parseInt( $elem.attr( 'data-value' ) );
-
-		if ( 1 === scroll ) {
-			$input.val( 1 );
-		} else {
-			$input.val( 0 );
-		}
-
-		this.$( 'a[data-action="scroll"].selected' ).removeClass( 'selected' );
-		$elem.addClass( 'selected' );
 	},
 
 	/**
@@ -206,7 +132,6 @@ grid.view.PaginationMenu = wp.Backbone.View.extend({
 
 		var total = this.library.pages.get( 'total' ),
 		  options = {
-			scroll:  this.scroll,
 			current: this.library.props.get( 'paged' ),
 			total:   total,
 			prev:    this.library.props.get( 'paged' ) - 1,
@@ -229,18 +154,6 @@ grid.view.PaginationMenu = wp.Backbone.View.extend({
 
 		event.preventDefault();
 	},
-
-	/**
-	 * Stop Click Event Propagation
-	 *
-	 * @param    object    JS 'Click' Event
-	 * 
-	 * @since    2.1.5
-	 */
-	stopPropagation: function( event ) {
-
-		event.stopPropagation();
-	}
 });
 
 /**
@@ -257,18 +170,22 @@ grid.view.Menu = wp.Backbone.View.extend({
 	template: wp.template( 'wpmoly-grid-menu' ),
 
 	events: {
-		'click a':                            'preventDefault',
-		'click a[data-action="openmenu"]':    'toggleSubMenu',
-		'click a[data-action="opensearch"]':  'toggleSearch',
+		'click a':                              'preventDefault',
+		'click a[data-action="openmenu"]':      'toggleSubMenu',
+		'click a[data-action="opensearch"]':    'toggleSearch',
+		'click a[data-action="opensettings"]':  'toggleSettings',
+		'click a[data-action="applysettings"]': 'updateSettings',
 
-		'click a[data-action="expand"]':      'expand',
-		'click a[data-action="orderby"]':     'orderby',
-		'click a[data-action="order"]':       'order',
-		'click a[data-action="filter"]':      'filter',
-		'click a[data-action="view"]':        'view',
+		'click a[data-action="scroll"]':        'setScroll',
 
-		'click .grid-menu-search-container':  'stopPropagation',
+		'click a[data-action="expand"]':        'expand',
+		'click a[data-action="orderby"]':       'orderby',
+		'click a[data-action="order"]':         'order',
+		'click a[data-action="filter"]':        'filter',
+		'click a[data-action="view"]':          'view',
 
+		'click .grid-menu-search-container':    'stopPropagation',
+		'click .grid-menu-settings':            'stopPropagation',
 	},
 
 	defaults: {
@@ -431,6 +348,93 @@ grid.view.Menu = wp.Backbone.View.extend({
 	},
 
 	/**
+	 * Open or close the setting menu
+	 * 
+	 * @since    2.1.5
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
+	toggleSettings: function( event ) {
+
+		// Open settings panel
+		if ( ! this.$el.hasClass( 'settings' ) ) {
+			this.$el.addClass( 'settings' );
+		}
+
+		event.stopPropagation();
+
+		if ( this.$body.hasClass( 'waitee' ) ) {
+			return;
+		}
+
+		// Close the submenu when clicking elsewhere
+		var self = this;
+		this.$body.addClass( 'waitee' ).one( 'click', function() {
+			self.$el.removeClass( 'settings' );
+			self.$body.removeClass( 'waitee' );
+		});
+	},
+
+	/**
+	 * Update grid settings
+	 * 
+	 * @since    2.1.5
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
+	updateSettings: function() {
+
+		var scroll = parseInt( this.$( 'input[data-value="scroll"]' ).val() ) || 0,
+		   perpage = parseInt( this.$( 'input[data-action="perpage"]' ).val() ) || 0,
+		     props = {},
+		  defaults = {
+			perpage: this.library.props.get( 'posts_per_page' ),
+			scroll:  this.frame._scroll
+		   };
+
+		if ( scroll && scroll !== defaults.scroll ) {
+			this.frame._scroll = Boolean( scroll );
+		}
+
+		if ( perpage && perpage !== defaults.perpage ) {
+			this.library.props.set({ posts_per_page: perpage });
+		} else if ( scroll && scroll !== defaults.scroll ) {
+			this.frame.content.scroll();
+		}
+
+		this.$el.removeClass( 'settings' );
+	},
+
+	/**
+	 * Change the scroll settings from the settings menu
+	 * 
+	 * @since    2.1.5
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @return   void
+	 */
+	setScroll: function( event ) {
+
+		var $elem = this.$( event.currentTarget ),
+		   $input = this.$( 'input[data-value="scroll"]' ),
+		   scroll = parseInt( $elem.attr( 'data-value' ) );
+
+		if ( 1 === scroll ) {
+			$input.val( 1 );
+		} else {
+			$input.val( 0 );
+		}
+
+		this.$( 'a[data-action="scroll"].selected' ).removeClass( 'selected' );
+		$elem.addClass( 'selected' );
+	},
+
+	/**
 	 * Handle ordering change menu (orderby)
 	 * 
 	 * @since    2.1.5
@@ -518,6 +522,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	render: function() {
 
 		var options = {
+			scroll:  this.frame._scroll,
 			mode:    this.frame.mode(),
 			orderby: this.library.props.get( 'orderby' ),
 			order:   this.library.props.get( 'order' )
