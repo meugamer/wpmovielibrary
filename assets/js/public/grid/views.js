@@ -44,16 +44,12 @@ grid.view.PaginationMenu = wp.Backbone.View.extend({
 		this.library = this.options.library;
 		this.frame   = this.options.frame;
 
-		this.pages   = this.library.pages;
-
 		this.$body = $( 'body' );
-
-		//this.pages.on( 'all', function( event ) { console.log( event ); }, this );
 
 		this.library.props.on( 'change:paged', this.render, this );
 		this.library.props.on( 'change:posts_per_page', this.render, this );
-		this.library.pages.once( 'change', this.render, this );
 
+		this.frame.pages.on( 'change', this.render, this );
 		this.frame.props.on( 'change:scroll', this.render, this );
 	},
 
@@ -136,7 +132,7 @@ grid.view.PaginationMenu = wp.Backbone.View.extend({
 			this.$el.show();
 		}
 
-		var total = this.library.pages.get( 'total' ),
+		var total = this.frame.pages.get( 'total' ),
 		  options = {
 			current: this.library.props.get( 'paged' ),
 			total:   total,
@@ -997,6 +993,8 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 	props: new Backbone.Model,
 
+	pages: new Backbone.Model,
+
 	_previousMode: '',
 
 	_mode: '',
@@ -1092,7 +1090,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 			// Main states.
 			new wpmoly.controller.State({
 				id:      'library',
-				library: grid.query( options.library )
+				library: grid.query( options.library, this )
 			})
 		]);
 

@@ -98,12 +98,16 @@ grid.model.Movies = Backbone.Collection.extend({
 	 * 
 	 * @param    array     [models=[]] Array of models used to populate the collection.
 	 * @param    object    [options={}]
+	 * @param    object    grid.view.Frame
 	 * 
 	 * @return   void
 	 */
-	initialize: function( models, options ) {
+	initialize: function( models, options, controller ) {
 
 		options = options || {};
+
+		// this.controller is the Frame View.
+		this.controller = controller;
 
 		this.props = new Backbone.Model();
 		this.pages = new Backbone.Model({
@@ -178,6 +182,7 @@ grid.model.Movies = Backbone.Collection.extend({
 	 * @return   void
 	 */
 	_changeQuery: function( model, query ) {
+
 		if ( query ) {
 			this.props.on( 'change', this._requery, this );
 			this._requery();
@@ -270,8 +275,9 @@ grid.model.Movies = Backbone.Collection.extend({
 	 * @return   Returns itself to allow chaining
 	 */
 	validate: function( movie, options ) {
-		var valid = this.validator( movie ),
-			hasAttachment = !! this.get( movie.cid );
+
+		var     valid = this.validator( movie ),
+		hasAttachment = !! this.get( movie.cid );
 
 		if ( ! valid && hasAttachment ) {
 			this.remove( movie, options );
@@ -293,6 +299,7 @@ grid.model.Movies = Backbone.Collection.extend({
 	 * @return   Return itself to allow chaining
 	 */
 	validateAll: function( movies, options ) {
+
 		options = options || {};
 
 		_.each( movies.models, function( movie ) {
@@ -316,11 +323,19 @@ grid.model.Movies = Backbone.Collection.extend({
 	 * @return   Return itself to allow chaining.
 	 */
 	observe: function( movies ) {
+
 		this.observers = this.observers || [];
 		this.observers.push( movies );
 
 		movies.on( 'add change remove', this._validateHandler, this );
 		movies.on( 'reset', this._validateAllHandler, this );
+
+		// Replicate pagination changes on the observer's controller
+		// (ie the View). Dirty coding, but that's only thing that works
+		// so far.
+		movies.pages.on( 'change', function( model ) {
+			movies.observer.controller.pages.set( model.changed );
+		}, this );
 
 		this.validateAll( movies );
 		return this;
@@ -336,6 +351,7 @@ grid.model.Movies = Backbone.Collection.extend({
 	 * @return   Return itself to allow chaining
 	 */
 	unobserve: function( movies ) {
+
 		if ( movies ) {
 			movies.off( null, null, this );
 			this.observers = _.without( this.observers, movies );
@@ -404,6 +420,8 @@ grid.model.Movies = Backbone.Collection.extend({
 
 		this.unmirror();
 		this.mirroring = movies;
+
+		movies.observer = this;
 
 		// Clear the collection silently. A `reset` event will be fired
 		// when `observe()` calls `validateAll()`.
@@ -1018,8 +1036,8 @@ grid.model.Movies.all = new grid.model.Movies();
  * 
  * @return   object    grid.model.Movies
  */
-grid.query = function( props ) {
+grid.query = function( props, controller ) {
 	return new grid.model.Movies( null, {
 		props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
-	});
+	}, controller );
 };
