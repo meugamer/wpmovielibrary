@@ -1036,8 +1036,6 @@ grid.view.GridFrame = grid.view.Frame.extend({
 			scroll: this.options.scroll
 		});
 
-		this.render();
-
 		var self = this;
 		this.$bg.one( 'click', function() {
 			self.$body.removeClass( 'wpmoly-frame-open' );
@@ -1053,9 +1051,6 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	 * @return   Returns itself to allow chaining.
 	 */
 	bindHandlers: function() {
-
-		//this.on( 'all', function( event ) { console.log( event ); }, this );
-		this.on( 'change:mode',             this.render, this );
 
 		this.on( 'menu:create:frame',       this.createMenu, this );
 		this.on( 'menu:create:grid',        this.createMenu, this );
@@ -1112,7 +1107,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		var state = this.state();
 
-		this.menu = region.view = new grid.view.Menu({
+		this.gridmenu = region.view = new grid.view.Menu({
 			frame:   this,
 			model:   state,
 			library: state.get( 'library' ),
@@ -1132,7 +1127,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		var state = this.state();
 
-		this.content = region.view = new grid.view.ContentGrid({
+		this.gridcontent = region.view = new grid.view.ContentGrid({
 			frame:      this,
 			model:      state,
 			collection: state.get( 'library' ),
@@ -1155,7 +1150,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		var state = this.state();
 
-		this.pagination = region.view = new grid.view.PaginationMenu({
+		this.gridpagination = region.view = new grid.view.PaginationMenu({
 			frame:   this,
 			model:   state,
 			library: state.get( 'library' ),
@@ -1225,6 +1220,8 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		this._previousMode = this._mode;
 		this._mode         = model.changed.mode;
+
+		this.render();
 
 		return this;
 	},
