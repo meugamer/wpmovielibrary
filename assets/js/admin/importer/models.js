@@ -130,10 +130,10 @@ importer.model.Queued = Backbone.Collection.extend({
  * 
  * @since    2.2
  */
-/*importer.controller.Draftees = Backbone.Model.extend({
+importer.controller.Draftees = Backbone.Model.extend({
 
 	initialize: function() {
 
 		this.collection = new importer.model.Draftees;
 	}
-});*/
+});

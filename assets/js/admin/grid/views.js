@@ -18,10 +18,10 @@ grid.view.Menu = media.View.extend({
 
 	template: media.template( 'wpmoly-grid-menu' ),
 
-	/*events: {
+	events: {
 		'click a':              'preventDefault',
 		'click .view-switch a': 'switchView',
-	},*/
+	},
 
 	/**
 	 * Initialize the View
@@ -60,7 +60,7 @@ grid.view.Menu = media.View.extend({
 	 */
 	switchView: function( event ) {
 
-		var mode = event.currentTarget.dataset.mode;
+		var mode = this.$( event.currentTarget ).attr( 'data-mode' );
 		this.frame.mode( mode );
 	},
 
@@ -247,7 +247,7 @@ grid.view.ContentGrid = media.View.extend({
 	setColumns: function() {
 
 		var prev = this.columns,
-		    width = this.$el.width();
+		   width = this.$el.width();
 
 		if ( width ) {
 			this.columns = Math.min( Math.round( width / this.options.idealColumnWidth ), 12 ) || 1;
@@ -324,6 +324,8 @@ grid.view.ContentGrid = media.View.extend({
 				width: this.thumbnail_width
 			});
 		}
+
+		this.views.add( view );
 
 		return this._viewsByCid[ movie.cid ] = view;
 	},
@@ -622,7 +624,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 	 */
 	createMenu: function( region ) {
 
-		region.view = new grid.view.Menu( { frame: this } );
+		this.gridmenu = region.view = new grid.view.Menu( { frame: this } );
 	},
 
 	/**
@@ -638,7 +640,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		var state = this.state();
 
-		region.view = new grid.view.ContentGrid({
+		this.gridcontent = region.view = new grid.view.ContentGrid({
 			frame:      this,
 			model:      state,
 			collection: state.get( 'library' ),

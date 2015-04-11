@@ -99,13 +99,11 @@ importer.view.ContentSingle = wpmoly.View.extend({
 	 */
 	initialize: function( options ) {
 
-		console.log( this );
-
 		this.frame      = options.frame;
 		this.controller = options.controller;
+		this.importer   = options.importer;
 
 		// importer is actually an instance of editor.Model.Search
-		this.importer   = this.controller.importer;
 		this.settings   = this.importer.get( 'settings' );
 		this.results    = this.importer.get( 'results' );
 
@@ -251,6 +249,7 @@ importer.view.ContentMultiple = media.View.extend({
 
 		this.frame = options.frame;
 
+		console.log( this.controller );
 		this.controller = new importer.controller.Draftees;
 		this.collection = this.controller.collection;
 
@@ -504,33 +503,6 @@ importer.view.ContentMultiple = media.View.extend({
 });
 
 /**
- * WPMOLY Admin Movie Grid View
- * 
- * This View renders the Admin Movie Grid.
- * 
- * @since    2.2
- */
-/*importer.view.Frame = wpmoly.view.Frame.extend({
-
-	/**
-	 * Initialize the View
-	 * 
-	 * @since    2.2
-	 * 
-	 * @param    object    Attributes
-	 * 
-	 * @return   void
-	 */
-	/*initialize: function() {
-
-		wpmoly.view.Frame.prototype.initialize.apply( this, arguments );
-
-		this.options.slug
-	},
-
-});*/
-
-/**
  * Importer Frame View.
  * 
  * @since    2.2
@@ -560,7 +532,7 @@ importer.view.ImporterFrame = wpmoly.view.Frame.extend({
 
 		wpmoly.view.Frame.prototype.initialize.apply( this, arguments );
 
-		_.defaults( this.options, {
+		_.extend( this.options, {
 			mode:  'single',
 			state: 'single',
 			slug:  'importer'
@@ -585,6 +557,10 @@ importer.view.ImporterFrame = wpmoly.view.Frame.extend({
 
 		this.on( 'content:create:single',   this.createContentSingle,   this );
 		this.on( 'content:create:multiple', this.createContentMultiple, this );
+
+		this.on( 'content:render', function( view ) {
+			this.views.add( view );
+		}, this );
 	},
 
 	/**
@@ -651,9 +627,11 @@ importer.view.ImporterFrame = wpmoly.view.Frame.extend({
 
 		var state = this.state();
 
-		region.view = new importer.view.ContentSingle({
+		this.contentsingle = region.view = new importer.view.ContentSingle({
 			frame:      this,
-			controller: state
+			model:      state,
+			importer:   state.get( 'importer' ),
+			controller: this,
 		});
 	},
 
@@ -670,7 +648,7 @@ importer.view.ImporterFrame = wpmoly.view.Frame.extend({
 
 		var state = this.state();
 
-		region.view = new importer.view.ContentMultiple({
+		this.contentmultiple = region.view = new importer.view.ContentMultiple({
 			frame:      this,
 			controller: state
 		});

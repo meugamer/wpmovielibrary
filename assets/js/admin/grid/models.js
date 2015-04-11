@@ -823,7 +823,7 @@ grid.model.Query = grid.model.Movies.extend({
 	 * @readonly
 	 */
 	defaultArgs: {
-		posts_per_page: 40
+		posts_per_page: 16
 	},
 
 	/**
