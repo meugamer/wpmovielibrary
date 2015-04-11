@@ -3,8 +3,8 @@ Contributors: askelon
 Donate link: http://wpmovielibrary.com/contribute/#donate
 Tags: movie, movies, movie database, movie library, movie collection, cinema, movie genre, actor, actor, movie image, movie poster, movie meta, movie metadata, tmdb
 Requires at least: 3.8
-Tested up to: 4.1
-Stable tag: 2.1.4
+Tested up to: 4.2-beta4
+Stable tag: 2.1.4.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -138,14 +138,24 @@ Most likely they did not; if you've updated from a version 1.x your movies need 
 
 == Changelog ==
 
+= 2.1.4.1 =
+* Tweak - Edit misleading Settings description
+* Tweak - Minor grid ordering tweak #243 	
+* Tweak - Update l10n
+* Fix - Minor JS messing with Customizer
+* Fix - WordPress 4.2 WP_List_Table Class incompatibilities
+
 = 2.1.4 =
 * Feat - New Headbox styles: Allociné and IMDb
 * Feat - Add a 'convert to movie' button to pages and posts
 * Feat - Grid sorting modes: rating, release date, local release date
 * Feat - Grid content modes: now supports collections, genres and actors
 * Feat - Implement new [movie_posters] Shortcode
+* Feat - Custom Post Types selection for taxonomies
+* Tweak - New Archives position option
 * Tweak - Implement [movie_rating] Shortcode
 * Tweak - Add title attribute to meta links
+* Tweak - New 'None' option for subtitles
 * Fix - URL parsing bug when permalinks are disabled
 * Fix - Rating stars erroneous title when using 10-base rating
 * Fix - Permalink bug when permalink translation is set off

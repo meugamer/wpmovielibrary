@@ -10,9 +10,15 @@
 				<textarea id="wpmoly-imported-posters-json" style="display:none"><?php echo $data ?></textarea>
 				<ul id="wpmoly-imported-posters" class="attachments ui-sortable ui-sortable-disabled" tabindex="-1">
 
+<<<<<<< HEAD
 <?php /*foreach ( $posters as $poster ) : ?>
 					<li class="wpmoly-poster wpmoly-imported-poster">
 						<a class="open-editor" href="<?php echo $poster['sizes']['medium']['url'] ?>" data-id="<?php echo $poster['id'] ?>">
+=======
+<?php foreach ( $posters as $poster ) : ?>
+					<li class="tmdb_movie_images tmdb_movie_imported_image">
+						<a href="<?php echo $poster['link'] ?>" data-id="<?php echo $poster['id'] ?>">
+>>>>>>> 6fcd9b33ce8adbd2aaa9074b87826cd62b1e3999
 							<div class="js--select-attachment type-image <?php echo $poster['type'] . $poster['format'] ?>">
 								<div class="thumbnail">
 									<div class="centered"><img src="<?php echo $poster['sizes']['medium']['url'] ?>" draggable="false" alt=""></div>

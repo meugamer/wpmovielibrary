@@ -1084,8 +1084,8 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			$attributes = array(
 				'empty'     => $empty,
-				'thumbnail' => get_the_post_thumbnail( $post->ID, 'medium' ),
-				'rating'    => apply_filters( 'wpmoly_movie_rating_stars', $rating, $post->ID, $base = 5 ),
+				'thumbnail' => get_the_post_thumbnail( $post_id, 'medium' ),
+				'rating'    => apply_filters( 'wpmoly_movie_rating_stars', $rating, $post_id, $base = 5 ),
 				'preview'   => $preview
 			);
 
@@ -1147,7 +1147,7 @@ if ( ! class_exists( 'WPMOLY_Edit_Movies' ) ) :
 
 			foreach ( $details as $slug => $detail ) {
 
-				if ( 'custom' == $detail['panel'] ) {
+				if ( isset( $detail['panel'] ) && 'custom' == $detail['panel'] ) {
 					unset( $details[ $slug ] );
 					continue;
 				}

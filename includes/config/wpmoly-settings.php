@@ -74,17 +74,6 @@ $wpmoly_config = array(
 				'default'  => '75',
 				'required' => array( 'wpmoly-excerpt', "=", 1 ),
 				'indent'   => true
-			),
-
-			// Replace excerpt by overview
-			'vintage-content' => array(
-				'id'       => 'wpmoly-vintage-content',
-				'type'     => 'switch',
-				'title'    => __( 'Use old metadata view', 'wpmovielibrary' ),
-				'desc'     => __( 'If enabled, movies will use the old metadata display from WPMovieLibrary 1.x instead of the WPMovieLibrary 2.0 movie header.', 'wpmovielibrary' ),
-				'on'       => __( 'Enabled', 'wpmovielibrary' ),
-				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
 			)
 		)
 	),
@@ -583,6 +572,19 @@ $wpmoly_config = array(
 				'default'  => 0,
 				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
 				'indent'   => true
+			),
+
+			// Collections Post Types
+			'collection-post-types' => array(
+				'id'       => 'wpmoly-collection-post-types',
+				'type'     => 'select',
+				'title'    => __( 'Collections Post Types support', 'wpmovielibrary' ),
+				'desc'     => __( 'Select which post types should support collections.', 'wpmovielibrary' ),
+				'data'     => 'post_types',
+				'multi'    => true,
+				'required' => array( 'wpmoly-collection-posts', "=", '1' ),
+				'default'  => array( 'post', 'page' ),
+				'indent'   => true
 			)
 		)
 	),
@@ -619,7 +621,7 @@ $wpmoly_config = array(
 				'indent'   => true
 			),
 
-			// Enable Collections for regular WordPress Posts
+			// Enable Genres for regular WordPress Posts
 			'genre-posts' => array(
 				'id'       => 'wpmoly-genre-posts',
 				'type'     => 'switch',
@@ -629,6 +631,19 @@ $wpmoly_config = array(
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
 				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
+				'indent'   => true
+			),
+
+			// Genres Post Types
+			'genre-post-types' => array(
+				'id'       => 'wpmoly-genre-post-types',
+				'type'     => 'select',
+				'title'    => __( 'Genres Post Types support', 'wpmovielibrary' ),
+				'desc'     => __( 'Select which post types should support genres.', 'wpmovielibrary' ),
+				'data'     => 'post_types',
+				'multi'    => true,
+				'required' => array( 'wpmoly-genre-posts', "=", '1' ),
+				'default'  => array( 'post', 'page' ),
 				'indent'   => true
 			)
 		)
@@ -678,7 +693,7 @@ $wpmoly_config = array(
 				'indent'   => true
 			),
 
-			// Enable Collections for regular WordPress Posts
+			// Enable Actors for regular WordPress Posts
 			'actor-posts' => array(
 				'id'       => 'wpmoly-actor-posts',
 				'type'     => 'switch',
@@ -688,6 +703,19 @@ $wpmoly_config = array(
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
 				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
+				'indent'   => true
+			),
+
+			// Actors Post Types
+			'actor-post-types' => array(
+				'id'       => 'wpmoly-actor-post-types',
+				'type'     => 'select',
+				'title'    => __( 'Actors Post Types support', 'wpmovielibrary' ),
+				'desc'     => __( 'Select which post types should support actors.', 'wpmovielibrary' ),
+				'data'     => 'post_types',
+				'multi'    => true,
+				'required' => array( 'wpmoly-actor-posts', "=", '1' ),
+				'default'  => array( 'post', 'page' ),
 				'indent'   => true
 			)
 		),
@@ -731,6 +759,19 @@ $wpmoly_config = array(
 				'data'     => 'pages',
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => ''
+			),
+
+			// Archives Position
+			'movie-archives-position' => array(
+				'id'       => 'wpmoly-movie-archives-position',
+				'type'     => 'select',
+				'title'    => __( 'Archives Position', 'wpmovielibrary' ),
+				'desc'     => __( 'Where to display the Archives on the page.', 'wpmovielibrary' ),
+				'options'  => array(
+					'top'    => __( 'Top', 'wpmovielibrary' ),
+					'bottom' => __( 'Bottom', 'wpmovielibrary' )
+				),
+				'default'  => 'top',
 			),
 
 			// Movie archives page title rewrite
@@ -902,6 +943,19 @@ $wpmoly_config = array(
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => '',
 				'required' => array( 'wpmoly-enable-actor', "=", 1 )
+			),
+
+			// Archives Position
+			'archives-position' => array(
+				'id'       => 'wpmoly-tax-archives-position',
+				'type'     => 'select',
+				'title'    => __( 'Archives Position', 'wpmovielibrary' ),
+				'desc'     => __( 'Where to display the Archives on the page.', 'wpmovielibrary' ),
+				'options'  => array(
+					'top'    => __( 'Top', 'wpmovielibrary' ),
+					'bottom' => __( 'Bottom', 'wpmovielibrary' )
+				),
+				'default'  => 'top',
 			),
 
 			// Movie archives page title rewrite
@@ -1190,18 +1244,15 @@ $wpmoly_config = array(
 		'subsection' => true,
 		'fields'  => array(
 
-			// Headbox theme
-			'headbox-theme' => array(
-				'id'       => 'wpmoly-headbox-theme',
-				'type'     => 'select',
-				'title'    => __( 'Headbox Theme', 'wpmovielibrary' ),
-				'desc'     => __( 'Select a Theme to use for your Headbox.', 'wpmovielibrary' ),
-				'options'  => array(
-					'wpmoly'   => __( 'WPMovieLibrary', 'wpmovielibrary' ),
-					'imdb'     => __( 'IMDb', 'wpmovielibrary' ),
-					'allocine' => __( 'Allociné', 'wpmovielibrary' ),
-				),
-				'default'  => 'wpmoly'
+			// Replace excerpt by overview
+			'headbox-enable' => array(
+				'id'       => 'wpmoly-headbox-enable',
+				'type'     => 'switch',
+				'title'    => __( 'Enable Headbox', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, movies will use the Headbox introduced with version 2. Disable to show old metadata display from WPMovieLibrary 1.x instead.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 1
 			),
 
 			// Headbox Position
@@ -1217,7 +1268,32 @@ $wpmoly_config = array(
 				'default'  => 'top',
 			),
 
-			// Headbox Tabs
+			// Notice
+			array(
+                            'id'     => 'wpmoly-headbox-notice',
+                            'type'   => 'info',
+                            'notice' => true,
+                            'style'  => 'critical',
+                            'icon'   => 'wpmolicon icon-warning',
+                            'title'  => __( 'Experimental', 'wpmovielibrary' ),
+                            'desc'   => __( 'The Headbox Themes are still experimental: although they should work correctly they are not fully customisable and have spots for some unimplemented yet features such as actors images. Just so you know!', 'wpmovielibrary' )
+                        ),
+
+			// Headbox theme
+			'headbox-theme' => array(
+				'id'       => 'wpmoly-headbox-theme',
+				'type'     => 'select',
+				'title'    => __( 'Headbox Theme', 'wpmovielibrary' ),
+				'desc'     => __( 'Select a Theme to use for your Headbox.', 'wpmovielibrary' ),
+				'options'  => array(
+					'wpmoly'   => __( 'WPMovieLibrary', 'wpmovielibrary' ),
+					'imdb'     => __( 'IMDb', 'wpmovielibrary' ),
+					'allocine' => __( 'Allociné', 'wpmovielibrary' ),
+				),
+				'default'  => 'wpmoly'
+			),
+
+			// Default Headbox Tabs
 			'headbox-tabs' => array(
 				'id'       => 'wpmoly-headbox-tabs',
 				'type'     => 'select',
@@ -1424,7 +1500,7 @@ $wpmoly_config = array(
 					'http'  => __( 'HTTP', 'wpmovielibrary' ),
 					'https' => __( 'HTTPS', 'wpmovielibrary' )
 				),
-				'default' => 'https'
+				'default'  => 'https'
 			),
 
 			// API Language
@@ -1434,7 +1510,7 @@ $wpmoly_config = array(
 				'title'    => __( 'API Language', 'wpmovielibrary' ),
 				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
 				'options'  => $wpmoly_supported_languages,
-				'default' => 'en'
+				'default'  => 'en'
 			),
 
 			// API Country
@@ -1444,7 +1520,7 @@ $wpmoly_config = array(
 				'title'    => __( 'API Country', 'wpmovielibrary' ),
 				'desc'     => __( 'Default country to use when fetching release informations from TMDb. Default is United States. This is mostly used to get movie certifications corresponding to your country.', 'wpmovielibrary' ),
 				'options'  => $wpmoly_supported_countries,
-				'default' => 'US'
+				'default'  => 'US'
 			),
 
 			// API Alternative Country
@@ -1454,7 +1530,7 @@ $wpmoly_config = array(
 				'title'    => __( 'API Alternative Country', 'wpmovielibrary' ),
 				'desc'     => __( 'You can select an alternative country to use when fetching release informations from TMDb. If primary country leaves empty results, the alternative country will be used to fill the blank.', 'wpmovielibrary' ),
 				'options'  => $wpmoly_supported_countries,
-				'default' => 'US'
+				'default'  => 'US'
 			),
 
 			// API Adult filtering
@@ -1489,6 +1565,26 @@ $wpmoly_config = array(
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default' => 0
 			),*/
+		)
+	),
+
+	// 'wpmoly-advanced' Advanced Settings
+	array(
+		'icon'    => 'wpmolicon icon-advanced',
+		'title'   => __( 'Advanced Settings', 'wpmovielibrary' ),
+		'heading' => __( 'Advanced Plugin Settings & Tools', 'wpmovielibrary' ),
+		'fields'  => array(
+
+			// API internal mode
+                        'personnal' => array(
+				'id'       => 'wpmoly-debug-mode',
+				'type'     => 'switch',
+				'title'    => __( 'Debug Mode', 'wpmovielibrary' ),
+				'desc'     => __( 'Log specific information for debugging purpose.', 'wpmovielibrary' ),
+				'on'       => __( 'Enabled', 'wpmovielibrary' ),
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+				'default'  => 0
+                        ),
 		)
 	),
 
@@ -1648,7 +1744,7 @@ $wpmoly_config = array(
 	array(
 		'icon'    => 'wpmolicon icon-update',
 		'title'   => __( 'Import / Export', 'wpmovielibrary' ),
-		'heading' => __( 'Import and Export your settings and movies from file, text or URL.', 'wpmovielibrary' ),
+		'heading' => __( 'Import and Export your settings.', 'wpmovielibrary' ),
 		'fields'  => array(
 
 			'import-export' => array(
