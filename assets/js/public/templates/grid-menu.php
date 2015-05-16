@@ -21,7 +21,7 @@
 									<a href="#" data-action="sort" data-value="release_date" title="<?php _e( 'Sort movies by release date', 'wpmovielibrary' ); ?>"><?php _e( 'Release Date', 'wpmovielibrary' ); ?> <input type="radio" value="" /><span class="wpmolicon icon-yes-alt"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="sort" data-value="post_date" title="<?php _e( 'Sort movies by post date', 'wpmovielibrary' ); ?>"><?php _e( 'Post date', 'wpmovielibrary' ); ?> <input type="radio" value="" /><span class="wpmolicon icon-no-alt-2"></span></a>
+									<a href="#" data-action="sort" data-value="post_date" title="<?php _e( 'Sort movies by post date', 'wpmovielibrary' ); ?>"><?php _e( 'Post Date', 'wpmovielibrary' ); ?> <input type="radio" value="" /><span class="wpmolicon icon-no-alt-2"></span></a>
 								</label>
 								<label>
 									<a href="#" data-action="sort" data-value="rating" title="<?php _e( 'Sort movies by rating', 'wpmovielibrary' ); ?>"><?php _e( 'Rating', 'wpmovielibrary' ); ?> <input type="radio" value="" /><span class="wpmolicon icon-no-alt-2"></span></a>
