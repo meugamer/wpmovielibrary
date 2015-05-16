@@ -176,29 +176,12 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu {
-	background: #fff;
-	border: 1px solid #e5e5e5;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	height: 48px;
 	line-height: 48px;
 	margin: 0 0 16px 0;
+	min-height: 48px;
 	padding: 0;
 	position: relative;
 	width: 100%;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.submenu-open {
-	background: #f6f6f6;
-}
-
-.wpmoly.grid.mode-grid.menu-fixed {
-	padding-top: 42px;
-}
-
-.wpmoly.grid.mode-grid.menu-fixed .grid-frame-menu {
-	position: fixed;
-	top: 42px;
-	z-index: 9;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu ul,
@@ -209,9 +192,12 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	height: 48px;
 	line-height: 48px;
-	padding: 0 6px;
+	padding: 0 16px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li {
@@ -221,170 +207,53 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	vertical-align: top;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul {
-	height: 46px;
-	line-height: 46px;
-	overflow: hidden;
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-submenu {
+	background: #fff;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul > li {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-submenu li {
 	display: block;
-	height: 48px;
-	line-height: 48px;
-	padding: 6px 0;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul > li > a {
-	color: #666;
-	display: block;
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a {
 	height: 36px;
 	line-height: 36px;
 	text-decoration: none;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a span.grid-menu-label,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul > li > a > span.grid-menu-label {
-	display: none;
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a.active,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a.active .wpmolicon {
+	color: #2ea2cc;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a span.grid-menu-label {
 	font-family: sans-serif;
 	font-size: 14px;
+	font-weight: 600;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .dashicons,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmolicon {
 	color: #888;
-	height: 36px;
-	line-height: 36px;
-	vertical-align: top;
-	width: 36px;
+	position: relative;
+	top: 16px;
 }
 
-.wpmoly.grid.mode-frame .grid-frame-menu .wpmoly-grid-menu .grid-menu-enlarge,
-.wpmoly.grid:not(.mode-frame) .grid-frame-menu .wpmoly-grid-menu .grid-menu-shrink {
-	display: none;
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item.item-right {
+	float: right;
+	margin-left: 12px;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul > li > a:hover {
-	color: #222;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a:hover .dashicons,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a:hover .wpmolicon,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu a:hover .grid-menu-label {
-	color: inherit;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container {
 	background: #fff;
-	border: 0;
-	box-shadow: 0px 0px 2px #888;
-	height: auto;
-	margin-left: -6px;
-	padding: 0 6px;
-	position: absolute;
-	z-index: 9;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li:first-child {
-	border-bottom: 1px solid #efefef;
+	border: 1px solid #e5e5e5;
+	border-top: 0;
+	display: none;
 	position: relative;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a:nth-child(2),
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a:nth-child(3) {
-	height: 20px;
-	line-height: 20px;
-	padding: 0;
-	position: absolute;
-	top: 14px;
-	width: 20px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a:nth-child(2) {
-	right: 6px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a:nth-child(3) {
-	right: 26px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a.active {
-	background: #2ea2cc;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a.active span.wpmolicon {
-	color: #fff;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a:nth-child(2) span.wpmolicon,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a:nth-child(3) span.wpmolicon {
-	height: 20px;
-	line-height: 20px;
-	width: 20px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a.grid-menu-action.active {
-	background: #e5e5e5;
-	color: #2f6277;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open li a.grid-menu-action.active span.wpmolicon {
-	color: #2ea2cc;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open > li > a {
-	padding-right: 20px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > ul.open > li > a > span.grid-menu-label {
-	display: inline-block;
-}
-
-/*
- * Menu Search
- */
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-settings,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-expand,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-search {
-	float: right;
-	height: 46px;
-	line-height: 46px;
-	padding: 6px 0;
-	width: 36px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-search a {
-	width: 36px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container {
-	border: 1px solid #e5e5e5;
-	display: none;
-	left: -1px;
-	padding: 0 1px;
-	position: absolute;
-	right: -1px;
-	top: 46px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container a {
-	position: absolute;
-	right: 16px;
-	top: 14px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container a .wpmolicon {
-	color: #888;
-	font-size: 28px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container a:hover .wpmolicon {
-	color: #444;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container:before,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container:after {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container:before,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container:after {
 	border: 10px solid transparent;
 	content: '';
 	height: 0;
@@ -392,147 +261,170 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	width: 0;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container:before {
-	border-bottom-color: #e5e5e5;
-	right: 50px;
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container:before {
+	border-bottom-color: #ddd;
 	top: -20px;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container:after {
-	border-bottom-color: #fff;
-	right: 50px;
-	top: -18px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-search-container input {
-	background: #fff;
-	border: 0;
-	border-radius: 0;
-	box-shadow: 0 0 0;
-	font-family: sans-serif;
-	font-size: 32px;
-	font-weight: 200;
-	height: 64px;
-	padding-left: 22px;
-	width: 100%;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-search.search-open .grid-menu-search-container {
-	display: block;
-}
-
-/*
- * Menu Settings
- */
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item-settings {
-	left: 50%;
-	margin-left: -18px;
-	position: absolute;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu input {
-	background: #fff;
-	border: 1px solid #ccc;
-	box-shadow: 0 0 0;
-	color: #666;
-	display: inline-block;
-	font-size: 14px;
-	height: 24px;
-	padding: 0px;
-	text-align: center;
-	width: 24px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings {
-	background: #fff;
-	border: 1px solid #ccc;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-	color: #666;
-	display: none;
-	margin: 0;
-	left: -130px;
-	min-width: 300px;
-	padding: 0;
-	position: absolute;
-	text-align: left;
-	top: 46px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.settings .grid-menu-settings {
-	display: block;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings:before,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings:after {
-	border: 10px solid transparent;
-	content: '';
-	height: 0;
-	left: 50%;
-	margin-left: -11px;
-	position: absolute;
-	width: 0;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings:before {
-	border-bottom-color: #ccc;
-	top: -20px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings:after {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container:after {
 	border-bottom-color: #fff;
 	top: -19px;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-section {
-	border-top: 1px solid #e5e5e5;
-	margin: 0 16px;
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container:before,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container:after {
+	left: 16px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container:before,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container:after {
+	right: 16px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings {
+	padding: 5px 10px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container .wpmoly-grid-settings-content,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container .wpmoly-grid-settings-settings {
+	display: none;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-block {
+	display: inline-block;
+	margin: 10px 0.99% 0px;
+	vertical-align: top;
+	width: 30.9%;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-header {
+	border-bottom: 1px solid #e5e5e5;
+	color: #aaa;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.5;
+	margin: 0 0 10px 0;
+	padding: 4px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section {
+	
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section label {
+	border-top: 1px solid #efefef;
+	display: block;
+	line-height: 32px;
+	padding: 0 8px;
+	position: relative;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section label:first-child {
+	border-top: 0;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section label a > .wpmolicon {
+	color: #ccc;
+	position: relative;
+	top: 8px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section input,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section .wpmolicon.icon-no-alt-2,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section .wpmolicon.icon-yes-alt {
+	position: absolute;
+	right: 6px;
+	width: 20px;
+	height: 20px;
+	top: 50%;
+	margin-top: -10px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section a {
+	color: #666;
+	display: block;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section a:hover,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section a:focus {
+	color: #333;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section .wpmolicon.icon-no-alt-2 {
+	color: #ff7966;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section .wpmolicon.icon-yes-alt {
+	color: #2ea2cc;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section input[type=checkbox],
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section input[type=radio] {
+	display: none;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section input[type=text] {
+	background: #f6f6f6;
+	border: 1px solid #ddd;
+	color: #666;
+	font-size: 12px;
+	padding: 0 4px;
+	text-align: center;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid {
+	background: #e5e5e5;
+	height: 42px;
+	line-height: 42px;
+	margin: 10px -10px -5px;
 	padding: 0;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-section:first-child {
-	border-top: 0;
-	margin-top: 4px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-section .grid-menu-label {
-	margin-right: 6px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-section .wpmolicon {
-	color: #bbb;
-	height: 48px;
-	line-height: 48px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-section a {
-	display: inline-block;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-section a.selected {
-	font-weight: bold;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-section input {
-	width: 36px;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-toolbar {
-	background: #f2f2ff;
-	border-top: 1px solid #ddd;
-	height: 42px;
-	margin-top: 4px;
-	text-align: right;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-toolbar a,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .grid-menu-settings-toolbar a .wpmolicon {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid a {
+	color: #eee;
 	display: inline-block;
 	height: 42px;
 	line-height: 42px;
-	width: 42px;
-	vertical-align: top;
 }
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid a.apply {
+	background: #a2ce51;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid a.cancel {
+	background: #ff7966;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid a:hover,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid a:focus {
+	color: #fff;
+	opacity: 0.75;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid .wpmolicon {
+	color: inherit;
+	height: 42px;
+	line-height: 42px;
+	position: relative;
+	top: 0;
+	width: 42px;
+}
+
+/* Menu opened */
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container {
+	display: block;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container .wpmoly-grid-settings-content {
+	display: block;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container .wpmoly-grid-settings-settings {
+	display: block;
+}
+
 
 /*
  * Menu Pagination
@@ -717,6 +609,10 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	margin: 0;
 	text-decoration: none;
 	width: 100%;
+}
+
+.wpmoly.grid .grid-frame-content .attachment.movie .wpmoly.grid.movie a:first-child {
+	background: #ddd;
 }
 
 .wpmoly.grid .grid-frame-content .attachment.movie .wpmoly.grid.movie .movie-preview {

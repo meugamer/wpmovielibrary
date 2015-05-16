@@ -173,20 +173,19 @@ grid.view.Menu = wp.Backbone.View.extend({
 
 	events: {
 		'click a':                              'preventDefault',
+
 		'click a[data-action="openmenu"]':      'toggleSubMenu',
-		'click a[data-action="opensearch"]':    'toggleSearch',
 		'click a[data-action="opensettings"]':  'toggleSettings',
 		'click a[data-action="applysettings"]': 'updateSettings',
 
 		'click a[data-action="scroll"]':        'setScroll',
 
-		'click a[data-action="expand"]':        'expand',
-		'click a[data-action="orderby"]':       'orderby',
+		/*'click a[data-action="orderby"]':       'orderby',
 		'click a[data-action="order"]':         'order',
 		'click a[data-action="filter"]':        'filter',
-		'click a[data-action="view"]':          'view',
+		'click a[data-action="view"]':          'view',*/
 
-		'click .grid-menu-search-container':    'stopPropagation',
+		'click .wpmoly-grid-settings-container':'stopPropagation',
 		'click .grid-menu-settings':            'stopPropagation',
 	},
 
@@ -220,7 +219,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 		// Throttle the scroll handler and bind this.
 		this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 
-		this.$window.on( 'scroll', this.scroll );
+		//this.$window.on( 'scroll', this.scroll );
 	},
 
 	/**
@@ -248,30 +247,6 @@ grid.view.Menu = wp.Backbone.View.extend({
 	},
 
 	/**
-	 * Change the frame mode fo 'frame', a modal-like full view
-	 * 
-	 * @since    2.1.5
-	 *
-	 * @param    object    JS 'Click' Event
-	 * 
-	 * @return   void
-	 */
-	expand: function( event ) {
-
-		var elem = this.$( event.currentTarget ) || {},
-		   value = elem.attr( 'data-value' ),
-		    mode;
-
-		if ( 'enlarge' == value ) {
-			mode = 'frame';
-		} else if ( 'shrink' == value ) {
-			mode = 'grid';
-		}
-
-		this.frame.mode( mode );
-	},
-
-	/**
 	 * Open or close the submenu related to the menu link clicked
 	 * 
 	 * @since    2.1.5
@@ -282,16 +257,19 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 */
 	toggleSubMenu: function( event ) {
 
-		var $elem = this.$( event.currentTarget );
-		 $submenu = $elem.parents( '.wpmoly-grid-submenu' );
+		var $elem = this.$( event.currentTarget ),
+		 $submenu = this.$( '.wpmoly-grid-settings-container' );
 
-		// Close other submenus
-		this.$el.removeClass( 'submenu-open' );
-		this.$( '.wpmoly-grid-submenu.open' ).removeClass( 'open' );
+		// Close submenu if needed
+		if ( this.$el.hasClass( 'mode-content' ) ) {
+			this.$el.removeClass( 'mode-content mode-settings' );
+			$elem.removeClass( 'active' );
+			return false;
+		}
 
 		// Open current submenu
-		this.$el.addClass( 'submenu-open' );
-		$submenu.addClass( 'open' );
+		this.$el.removeClass( 'mode-content mode-settings' ).addClass( 'mode-content' );
+		$elem.addClass( 'active' );
 
 		event.stopPropagation();
 
@@ -302,51 +280,10 @@ grid.view.Menu = wp.Backbone.View.extend({
 		// Close the submenu when clicking elsewhere
 		var self = this;
 		this.$body.addClass( 'waitee' ).one( 'click', function() {
-			$submenu.removeClass( 'open' );
-			self.$el.removeClass( 'submenu-open' );
+			self.$el.removeClass( 'mode-content' );
 			self.$body.removeClass( 'waitee' );
 		});
 
-	},
-
-	/**
-	 * Open or close the search menu
-	 * 
-	 * @since    2.1.5
-	 *
-	 * @param    object    JS 'Click' Event
-	 * 
-	 * @return   void
-	 */
-	toggleSearch: function( event ) {
-
-		var $elem = this.$( event.currentTarget ),
-		  $parent = $elem.parents( '.wpmoly-grid-menu-item-search' );
-
-		// If the search menu is already opened, close it
-		if ( $parent.hasClass( 'search-open' ) || this.$el.hasClass( 'submenu-open' ) ) {
-			$parent.removeClass( 'search-open' );
-			this.$el.removeClass( 'submenu-open' );
-			return;
-		}
-
-		// Open search menu
-		this.$el.addClass( 'submenu-open' );
-		$parent.addClass( 'search-open' );
-
-		event.stopPropagation();
-
-		if ( this.$body.hasClass( 'waitee' ) ) {
-			return;
-		}
-
-		// Close the search when clicking elsewhere
-		var self = this;
-		this.$body.addClass( 'waitee' ).one( 'click', function() {
-			$parent.removeClass( 'search-open' );
-			self.$el.removeClass( 'submenu-open' );
-			self.$body.removeClass( 'waitee' );
-		});
 	},
 
 	/**
@@ -360,10 +297,19 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 */
 	toggleSettings: function( event ) {
 
-		// Open settings panel
-		if ( ! this.$el.hasClass( 'settings' ) ) {
-			this.$el.addClass( 'settings' );
+		var $elem = this.$( event.currentTarget ),
+		 $submenu = this.$( '.wpmoly-grid-settings-container' );
+
+		// Close submenu if needed
+		if ( this.$el.hasClass( 'mode-settings' ) ) {
+			this.$el.removeClass( 'mode-content mode-settings' );
+			$elem.removeClass( 'active' );
+			return false;
 		}
+
+		// Open current submenu
+		this.$el.removeClass( 'mode-content mode-settings' ).addClass( 'mode-settings' );
+		$elem.addClass( 'active' );
 
 		event.stopPropagation();
 
@@ -374,7 +320,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 		// Close the submenu when clicking elsewhere
 		var self = this;
 		this.$body.addClass( 'waitee' ).one( 'click', function() {
-			self.$el.removeClass( 'settings' );
+			self.$el.removeClass( 'mode-settings' );
 			self.$body.removeClass( 'waitee' );
 		});
 	},
