@@ -197,14 +197,21 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	height: 48px;
 	line-height: 48px;
-	padding: 0 16px;
+	padding: 0 4px;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > a {
 	display: inline-block;
 	height: 48px;
 	line-height: 48px;
 	vertical-align: top;
+	text-align: center;
+	width: 48px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu > ul > li > a:hover .wpmolicon {
+	color: inherit;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-submenu {
@@ -254,7 +261,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container:before,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container:after {
-	border: 10px solid transparent;
+	border: 8px solid transparent;
 	content: '';
 	height: 0;
 	position: absolute;
@@ -263,22 +270,22 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container:before {
 	border-bottom-color: #ddd;
-	top: -20px;
+	top: -16px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-container:after {
 	border-bottom-color: #fff;
-	top: -19px;
+	top: -15px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container:before,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container:after {
-	left: 16px;
+	left: 18px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container:before,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container:after {
-	right: 16px;
+	right: 18px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings {
@@ -340,13 +347,16 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	margin-top: -10px;
 }
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section a {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section a,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section label {
 	color: #666;
 	display: block;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section a:hover,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section a:focus {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section a:focus
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section label:hover,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section label:focus {
 	color: #333;
 }
 
@@ -412,8 +422,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 
 /* Menu opened */
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container,
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container {
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.open .wpmoly-grid-settings-container {
 	display: block;
 }
 

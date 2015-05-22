@@ -13,25 +13,26 @@ grid.view.Menu = wp.Backbone.View.extend({
 	template: wp.template( 'wpmoly-grid-menu' ),
 
 	events: {
-		'click a':                               'preventDefault',
+		'click a':                                'preventDefault',
 
-		'click a[data-action="openmenu"]':       'toggleSubMenu',
-		'click a[data-action="opensettings"]':   'toggleSettings',
-		'click a[data-action="applysettings"]':  'updateSettings',
+		'click a[data-action="openmenu"]':        'toggle_menu',
 
-		'click a[data-action="scroll"]':         'setScroll',
+		'click a[data-action="scroll"]':          'setScroll',
 
-		/*'click a[data-action="orderby"]':      'orderby',
-		'click a[data-action="order"]':          'order',
-		'click a[data-action="filter"]':         'filter',
-		'click a[data-action="view"]':           'view',*/
+		'click a[data-action="orderby"]':         'orderby',
+		'click a[data-action="order"]':           'order',
+		/*'click a[data-action="filter"]':          'filter',
+		'click a[data-action="view"]':            'view',*/
 
-		'click .wpmoly-grid-settings-container': 'stopPropagation',
-		'click .grid-menu-settings':             'stopPropagation',
+		'click a[data-action="apply-settings"]':  'apply',
+		'click a[data-action="cancel-settings"]': 'cancel',
+
+		'click .wpmoly-grid-settings-container':  'stopPropagation',
+		'click .grid-menu-settings':              'stopPropagation',
 	},
 
 	settings: {
-		orderby: [ 'post_title', 'post_date', 'release_date', 'rating' ],
+		orderby: [ 'title', 'date', 'release_date', 'rating' ],
 		order:   [ 'asc', 'desc', 'random' ],
 		include: {
 			incoming: 1,
@@ -43,6 +44,11 @@ grid.view.Menu = wp.Backbone.View.extend({
 			rating:  1,
 			runtime: 1,
 		}
+	},
+
+	icons: {
+		yes: 'icon-yes-alt',
+		no:  'icon-no-alt-2'
 	},
 
 	/**
@@ -66,6 +72,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 
 		this.$window = $( window );
 		this.$body   = $( document.body );
+		this.$waitee = $( 'body.waitee' );
 
 		// Throttle the scroll handler and bind this.
 		this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
@@ -106,64 +113,28 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 * 
 	 * @return   void
 	 */
-	toggleSubMenu: function( event ) {
+	toggle_menu: function( event ) {
 
 		var $elem = this.$( event.currentTarget ),
-		 $submenu = this.$( '.wpmoly-grid-settings-container' );
+		 $submenu = this.$( '.wpmoly-grid-settings-container' ),
+		     mode = $elem.attr( 'data-value' );
 
-		// Close submenu if needed
-		if ( this.$el.hasClass( 'mode-content' ) ) {
-			this.$el.removeClass( 'mode-content mode-settings' );
+		if ( ! this.$el.hasClass( 'open' ) ) {
+			$elem.addClass( 'active' );
+			this.open( mode );
+		} else {
 			$elem.removeClass( 'active' );
-			return false;
+			this.close();
 		}
-
-		// Open current submenu
-		this.$el.removeClass( 'mode-content mode-settings' ).addClass( 'mode-content' );
-		$elem.addClass( 'active' );
 
 		event.stopPropagation();
-
-		if ( this.$body.hasClass( 'waitee' ) ) {
-			return;
-		}
-
-		// Close the submenu when clicking elsewhere
-		var self = this;
-		this.$body.addClass( 'waitee' ).one( 'click', function() {
-			$elem.removeClass( 'active' );
-			self.$el.removeClass( 'mode-content' );
-			self.$body.removeClass( 'waitee' );
-		});
-
 	},
 
-	/**
-	 * Open or close the setting menu
-	 * 
-	 * @since    2.1.5
-	 *
-	 * @param    object    JS 'Click' Event
-	 * 
-	 * @return   void
-	 */
-	toggleSettings: function( event ) {
+	open: function( mode ) {
 
-		var $elem = this.$( event.currentTarget ),
-		 $submenu = this.$( '.wpmoly-grid-settings-container' );
+		var mode = 'mode-' + mode;
 
-		// Close submenu if needed
-		if ( this.$el.hasClass( 'mode-settings' ) ) {
-			this.$el.removeClass( 'mode-content mode-settings' );
-			$elem.removeClass( 'active' );
-			return false;
-		}
-
-		// Open current submenu
-		this.$el.removeClass( 'mode-content mode-settings' ).addClass( 'mode-settings' );
-		$elem.addClass( 'active' );
-
-		event.stopPropagation();
+		this.$el.removeClass( 'mode-content mode-settings' ).addClass( 'open ' + mode );
 
 		if ( this.$body.hasClass( 'waitee' ) ) {
 			return;
@@ -172,10 +143,15 @@ grid.view.Menu = wp.Backbone.View.extend({
 		// Close the submenu when clicking elsewhere
 		var self = this;
 		this.$body.addClass( 'waitee' ).one( 'click', function() {
-			$elem.removeClass( 'active' );
-			self.$el.removeClass( 'mode-settings' );
-			self.$body.removeClass( 'waitee' );
+			self.close();
 		});
+	},
+
+	close: function() {
+
+		this.$el.removeClass( 'mode-content mode-settings open' );
+		this.$waitee.unbind( 'click' );
+		this.$waitee.removeClass( 'waitee' );
 	},
 
 	/**
@@ -247,14 +223,13 @@ grid.view.Menu = wp.Backbone.View.extend({
 		var $elem = this.$( event.currentTarget ),
 		    value = $elem.attr( 'data-value' );
 
-		if ( ! _.contains( this.defaults.orderby, value ) ) {
+		if ( ! _.contains( this.settings.orderby, value ) ) {
 			return;
 		}
 
-		this.library.props.set({ orderby: value });
-
-		this.$( 'a[data-action="orderby"].active' ).removeClass( 'active' );
-		$elem.closest( 'a[data-action="orderby"]' ).addClass( 'active' );
+		console.log( value );
+		this.library.props.set( { orderby: value }, { silent: true } );
+		this.render();
 	},
 
 	/**
@@ -271,14 +246,12 @@ grid.view.Menu = wp.Backbone.View.extend({
 		var $elem = this.$( event.currentTarget ),
 		    value = $elem.attr( 'data-value' );
 
-		if ( ! _.contains( this.defaults.order, value ) ) {
+		if ( ! _.contains( this.settings.order, value ) ) {
 			return;
 		}
 
-		this.library.props.set({ order: value.toUpperCase() });
-
-		this.$( 'a[data-action="order"].active' ).removeClass( 'active' );
-		$elem.closest( 'a[data-action="order"]' ).addClass( 'active' );
+		this.library.props.set( { order: value.toUpperCase() }, { silent: true } );
+		this.render();
 	},
 
 	/**
@@ -322,15 +295,51 @@ grid.view.Menu = wp.Backbone.View.extend({
 
 		var options = {
 			scroll:  this.frame._scroll,
-			mode:    this.frame.mode(),
+			view:    this.frame.mode(),
 			orderby: this.library.props.get( 'orderby' ),
-			order:   this.library.props.get( 'order' )
+			order:   this.library.props.get( 'order' ),
+			include: {
+				incoming: 1,
+				unrated:  1
+			},
+			display: {
+				title:   1,
+				genres:  0,
+				rating:  1,
+				runtime: 1,
+			}
 		};
 		this.$el.html( this.template( options ) );
 
 		this.views.render();
 
 		return this;
+	},
+
+	/**
+	 * Apply the settings.
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @since    2.1.5
+	 */
+	apply: function( event ) {
+
+		this.library._requery();
+		this.close();
+	},
+
+	/**
+	 * Cancel the settings.
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @since    2.1.5
+	 */
+	cancel: function( event ) {
+
+		this.close();
+		this.render();
 	},
 
 	/**
