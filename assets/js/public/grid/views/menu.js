@@ -66,6 +66,8 @@ grid.view.Menu = wp.Backbone.View.extend({
 			refreshSensitivity: hasTouch ? 300 : 200
 		} );
 
+		this._mode   = '';
+
 		this.frame   = this.options.frame;
 		this.model   = this.options.model;
 		this.library = this.options.library;
@@ -123,18 +125,31 @@ grid.view.Menu = wp.Backbone.View.extend({
 			$elem.addClass( 'active' );
 			this.open( mode );
 		} else {
-			$elem.removeClass( 'active' );
-			this.close();
+			if ( 'settings' == mode && this.$el.hasClass( 'mode-content' ) ) {
+				this.$el.removeClass( 'mode-content' ).addClass( 'mode-settings' );
+			} else if ( 'content' == mode && this.$el.hasClass( 'mode-settings' ) ) {
+				this.$el.removeClass( 'mode-settings' ).addClass( 'mode-content' );
+			} else {
+				$elem.removeClass( 'active' );
+				this.close();
+			}
 		}
 
 		event.stopPropagation();
 	},
 
+	/**
+	 * Open the submenu and set its mode
+	 * 
+	 * @since    2.1.5
+	 *
+	 * @param    string    Submenu mode, 'content' of 'settings'
+	 * 
+	 * @return   void
+	 */
 	open: function( mode ) {
 
-		var mode = 'mode-' + mode;
-
-		this.$el.removeClass( 'mode-content mode-settings' ).addClass( 'open ' + mode );
+		this.mode( mode );
 
 		if ( this.$body.hasClass( 'waitee' ) ) {
 			return;
@@ -147,6 +162,19 @@ grid.view.Menu = wp.Backbone.View.extend({
 		});
 	},
 
+	mode: function( mode ) {
+
+		this._mode = mode;
+		this.render();
+	},
+
+	/**
+	 * Close the submenu
+	 * 
+	 * @since    2.1.5
+	 * 
+	 * @return   void
+	 */
 	close: function() {
 
 		this.$el.removeClass( 'mode-content mode-settings open' );
@@ -294,6 +322,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	render: function() {
 
 		var options = {
+			mode:    this._mode,
 			scroll:  this.frame._scroll,
 			view:    this.frame.mode(),
 			orderby: this.library.props.get( 'orderby' ),
@@ -310,6 +339,10 @@ grid.view.Menu = wp.Backbone.View.extend({
 			}
 		};
 		this.$el.html( this.template( options ) );
+
+		if ( ! _.isEmpty( this._mode ) ) {
+			this.$el.addClass( 'open mode-' + options.mode );
+		}
 
 		this.views.render();
 

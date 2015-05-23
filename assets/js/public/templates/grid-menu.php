@@ -2,10 +2,10 @@
 			<# console.log( data ); #>
 			<ul class="wpmoly-grid-menu-container">
 				<li class="wpmoly-grid-menu-item">
-					<a class="grid-menu-action" data-action="openmenu" data-value="content" href="#" title="<?php _e( 'Edit the grid content', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-order"></span></a>
+					<a class="grid-menu-action<# if ( 'content' == data.mode ) { #> active<# } #>" data-action="openmenu" data-value="content" href="#" title="<?php _e( 'Edit the grid content', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-order"></span></a>
 				</li>
 				<li class="wpmoly-grid-menu-item item-right">
-					<a class="grid-menu-action" data-action="openmenu" data-value="settings" href="#" title="<?php _e( 'Change the grid settings', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-settings"></span></a>
+					<a class="grid-menu-action<# if ( 'settings' == data.mode ) { #> active<# } #>" data-action="openmenu" data-value="settings" href="#" title="<?php _e( 'Change the grid settings', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-settings"></span></a>
 				</li>
 			</ul>
 

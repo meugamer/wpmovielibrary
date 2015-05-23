@@ -212,8 +212,20 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			);
 			$query = wp_parse_args( $query, $defaults );
 
-			if ( current_user_can( get_post_type_object( 'movie' )->cap->read_private_posts ) )
+			if ( current_user_can( get_post_type_object( 'movie' )->cap->read_private_posts ) ) {
 				$query['post_status'] .= ',private';
+			}
+
+			if ( 'RANDOM' == $query['order'] ) {
+				$query['order'] = 'rand';
+			}
+
+			if ( 'rating' == $query['orderby'] ) {
+				$query['meta_key'] = '_wpmoly_movie_rating';
+				$query['orderby']  = 'meta_value_num';
+			}
+			
+			//print_r( $query );
 
 			$query = new WP_Query( $query );
 

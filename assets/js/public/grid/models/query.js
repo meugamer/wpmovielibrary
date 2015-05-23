@@ -35,8 +35,8 @@ grid.model.Query = grid.model.Movies.extend({
 		this.created  = new Date();
 
 		this.filters.order = function( movie ) {
-			var orderby = this.props.get('orderby'),
-				order = this.props.get('order');
+			var orderby = this.props.get( 'orderby' ),
+			      order = this.props.get( 'order' );
 
 			if ( ! this.comparator ) {
 				return true;
@@ -46,7 +46,7 @@ grid.model.Query = grid.model.Movies.extend({
 			// item in the set. If we add any items after the last
 			// item, then we can't guarantee the set is complete.
 			if ( this.length ) {
-				return 1 !== this.comparator( movie, this.last(), { ties: true });
+				return 1 !== this.comparator( movie, this.last(), { ties: true } );
 
 			// Handle the case where there are no items yet and
 			// we're sorting for recent items. In that case, we want
@@ -244,7 +244,7 @@ grid.model.Query = grid.model.Movies.extend({
 
 			// Normalize the order.
 			props.order = props.order.toUpperCase();
-			if ( 'DESC' !== props.order && 'ASC' !== props.order ) {
+			if ( 'DESC' !== props.order && 'ASC' !== props.order && 'RANDOM' !== props.order ) {
 				props.order = defaults.order.toUpperCase();
 			}
 
