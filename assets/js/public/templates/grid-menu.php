@@ -47,10 +47,10 @@
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Include', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
-									<a href="#" data-action="include" data-value="incoming" title="<?php _e( 'Include movies not released yet', 'wpmovielibrary' ); ?>"><?php _e( 'Incoming', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( 1 == data.include.incoming ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="filter" data-value="incoming" title="<?php _e( 'Include movies not released yet', 'wpmovielibrary' ); ?>"><?php _e( 'Incoming', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( true === data.include.incoming ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="include" data-value="unrated" title="<?php _e( 'Include movies with no rating', 'wpmovielibrary' ); ?>"><?php _e( 'Not rated', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( 1 == data.include.unrated ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="filter" data-value="unrated" title="<?php _e( 'Include movies with no rating', 'wpmovielibrary' ); ?>"><?php _e( 'Not rated', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( true === data.include.unrated ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 							</div>
 						</div>

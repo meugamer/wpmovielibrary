@@ -223,11 +223,30 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( 'rating' == $query['orderby'] ) {
 				$query['meta_key'] = '_wpmoly_movie_rating';
 				$query['orderby']  = 'meta_value_num';
+			} else if ( 'release_date' == $query['orderby'] ) {
+				$query['meta_key'] = '_wpmoly_movie_release_date';
+				$query['orderby']  = 'meta_value_num';
 			}
-			
-			//print_r( $query );
+
+			if ( isset( $query['filter']['incoming'] ) || isset( $query['filter']['unrated'] ) ) {
+
+				$query['meta_query'] = array();
+
+				if ( isset( $query['filter']['incoming'] ) && ! wpmoly_is_boolean( $query['filter']['incoming'] ) ) {
+					$query['meta_query'][] = array(
+						'key'     => 'UNIX_TIMESTAMP(_wpmoly_movie_release_date)',
+						'value'   => strtotime( '+1 day' ),
+						'compare' => '<=',
+					);
+				}
+			}
+
+			unset( $query['filter'] );
+
+			//print_r( $query ); die();
 
 			$query = new WP_Query( $query );
+			var_dump( $query->request ); die();
 
 			$posts = array_map( 'get_post', $query->posts );
 			$posts = array_filter( $posts );
@@ -359,9 +378,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			if ( ! $post = get_post( $post_id ) || 'movie' != get_post_type( $post_id ) )
 				return false;
-
-			if ( is_admin() && 'data' == $meta && wpmoly_has_deprecated_meta( $post_id ) && wpmoly_o( 'legacy-mode' ) )
-				WPMOLY_Legacy::update_movie( $post_id );
 
 			if ( 'data' == $meta || 'meta' == $meta ) {
 
@@ -854,7 +870,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 * 
 		 * @return   array    Array of Post objects
 		 */
-		public static function get_movies( $args = null ) {
+		public static function get_movies( $args = array() ) {
 
 			$defaults = array(
 				'number'      => 5,

@@ -145,9 +145,6 @@ if ( wpmoly_requirements_met() ) {
 	require_once( WPMOLY_PATH . 'includes/widgets/class-details-widget.php' );
 	require_once( WPMOLY_PATH . 'includes/widgets/class-movies-widget.php' );
 
-	// Legacy
-	require_once( WPMOLY_PATH . 'includes/classes/legacy/class-wpmoly-legacy.php' );
-
 	/*
 	 * Register hooks that are fired when the plugin is activated or deactivated.
 	 * When the plugin is deleted, the uninstall.php file is loaded.

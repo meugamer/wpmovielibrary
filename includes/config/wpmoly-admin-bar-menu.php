@@ -72,8 +72,7 @@ $wpmoly_admin_bar_menu = array(
 			'href'   => admin_url( 'admin.php?page=wpmovielibrary-update-movies' ),
 			'meta'   => array(
 				'class' => 'active',
-			),
-			'condition' => wpmoly_has_deprecated_meta()
+			)
 		),
 
 	),

@@ -21,8 +21,8 @@ grid.view.Menu = wp.Backbone.View.extend({
 
 		'click a[data-action="orderby"]':         'orderby',
 		'click a[data-action="order"]':           'order',
-		/*'click a[data-action="filter"]':          'filter',
-		'click a[data-action="view"]':            'view',*/
+		'click a[data-action="filter"]':          'filter',
+		//'click a[data-action="view"]':            'view',
 
 		'click a[data-action="apply-settings"]':  'apply',
 		'click a[data-action="cancel-settings"]': 'cancel',
@@ -35,14 +35,14 @@ grid.view.Menu = wp.Backbone.View.extend({
 		orderby: [ 'title', 'date', 'release_date', 'rating' ],
 		order:   [ 'asc', 'desc', 'random' ],
 		include: {
-			incoming: 1,
-			unrated:  1
+			incoming: true,
+			unrated:  true
 		},
 		display: {
-			title:   1,
-			genres:  0,
-			rating:  1,
-			runtime: 1,
+			title:   true,
+			genres:  false,
+			rating:  true,
+			runtime: true,
 		}
 	},
 
@@ -293,8 +293,14 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 */
 	filter: function( event ) {
 
-		var $elem = this.$( event.currentTarget );
-		console.log( 'filter!' );
+		var $elem = this.$( event.currentTarget ),
+		    value = $elem.attr( 'data-value' ),
+		   filter = ! this.settings.include[ value ];
+
+		this.settings.include[ value ] = filter;
+
+		this.library.props.set( { filter: this.settings.include }, { silent: true } );
+		this.render();
 	},
 
 	/**
@@ -327,16 +333,8 @@ grid.view.Menu = wp.Backbone.View.extend({
 			view:    this.frame.mode(),
 			orderby: this.library.props.get( 'orderby' ),
 			order:   this.library.props.get( 'order' ),
-			include: {
-				incoming: 1,
-				unrated:  1
-			},
-			display: {
-				title:   1,
-				genres:  0,
-				rating:  1,
-				runtime: 1,
-			}
+			include: this.settings.include,
+			display: this.settings.display
 		};
 		this.$el.html( this.template( options ) );
 
