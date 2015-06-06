@@ -61,7 +61,7 @@ if ( ! class_exists( 'WPMovieLibrary_Admin' ) ) :
 			$this->modules = array(
 				'WPMOLY_Dashboard'   => WPMOLY_Dashboard::get_instance(),
 				'WPMOLY_Settings'    => WPMOLY_Settings::get_instance(),
-				'WPMOLY_TMDb'        => WPMOLY_TMDb::get_instance(),
+				'WPMOLY_Api'         => WPMOLY_Api::get_instance(),
 				'WPMOLY_Utils'       => WPMOLY_Utils::get_instance(),
 				'WPMOLY_Metaboxes'   => WPMOLY_Metaboxes::get_instance(),
 				'WPMOLY_Edit_Movies' => WPMOLY_Edit_Movies::get_instance(),

@@ -44,6 +44,7 @@ define( 'WPMOLY_DEFAULT_POSTER_URL',     plugins_url( basename( __DIR__ ) ) . '/
 define( 'WPMOLY_DEFAULT_POSTER_PATH',    WPMOLY_PATH . '/assets/img/no_poster{size}.jpg' );
 define( 'WPMOLY_MAX_TAXONOMY_LIST',      50 );
 
+define( 'WPMOLY_API',                    'OMDb' );
 
 
 /**
@@ -169,6 +170,13 @@ if ( wpmoly_requirements_met() ) {
 	if ( is_admin() ) {
 
 		require_once( WPMOLY_PATH . 'includes/classes/class-wpmoly-ajax.php' );
+
+		require_once( WPMOLY_PATH . 'includes/classes/api/class-wpmoly-api.php' );
+		require_once( WPMOLY_PATH . 'includes/classes/api/class-wpmoly-tmdb.php' );
+		if ( 'OMDb' === WPMOLY_API ) {
+			require_once( WPMOLY_PATH . 'includes/classes/api/class-wpmoly-omdb.php' );
+		}
+
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-admin.php' );
 		require_once( WPMOLY_PATH . 'admin/class-dashboard.php' );
 		require_once( WPMOLY_PATH . 'admin/class-dashboard-stats-widget.php' );
@@ -177,8 +185,6 @@ if ( wpmoly_requirements_met() ) {
 		require_once( WPMOLY_PATH . 'admin/class-dashboard-quickaction-widget.php' );
 		require_once( WPMOLY_PATH . 'admin/class-dashboard-helper-widget.php' );
 		require_once( WPMOLY_PATH . 'admin/class-dashboard-vendor-widget.php' );
-		require_once( WPMOLY_PATH . 'admin/class-wpmoly-api.php' );
-		require_once( WPMOLY_PATH . 'admin/class-wpmoly-api-wrapper.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-metaboxes.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-edit-movies.php' );
 		require_once( WPMOLY_PATH . 'admin/class-wpmoly-media.php' );

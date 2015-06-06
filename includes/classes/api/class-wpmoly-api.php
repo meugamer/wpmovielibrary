@@ -11,38 +11,17 @@
  * @copyright 2014 CaerCam.org
  */
 
-if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
+if ( ! class_exists( 'WPMOLY_Api' ) ) :
 
-	class WPMOLY_TMDb extends WPMOLY_Module {
+	class WPMOLY_Api extends WPMOLY_Module {
 
-		/**
-		 * TMDb API Config
-		 *
-		 * @since   1.0
-		 * @var     array
-		 */
-		protected $config = null;
-
-		/**
-		 * TMDb API
-		 *
-		 * @since   1.0
-		 * @var     string
-		 */
-		protected $tmdb = '';
-
-		/**
-		 * TMDb Error notify
-		 *
-		 * @since   1.0
-		 * @var     string
-		 */
-		protected $error = '';
+		private $api = 'TMDb';
 
 		public function __construct() {
 
-			if ( ! is_admin() )
-				return false;
+			if ( 'OMDb' === WPMOLY_API ) {
+				$this->api = 'OMDb';
+			}
 
 			$this->register_hook_callbacks();
 		}
@@ -54,10 +33,8 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 */
 		public function register_hook_callbacks() {
 
-			add_action( 'admin_init', array( $this, 'init' ) );
-
-			add_action( 'wp_ajax_wpmoly_search_movie', __CLASS__ . '::search_movie_callback' );
-			add_action( 'wp_ajax_wpmoly_check_api_key', __CLASS__ . '::check_api_key_callback' );
+			add_action( 'wp_ajax_wpmoly_search_movie', array( $this, 'search_movie_callback' ) );
+			add_action( 'wp_ajax_wpmoly_check_api_key', array( $this, 'check_api_key_callback' ) );
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -78,14 +55,14 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 *
 		 * @since    1.0
 		 */
-		public static function check_api_key_callback() {
+		public function check_api_key_callback() {
 
 			wpmoly_check_ajax_referer( 'check-api-key' );
 
 			if ( ! isset( $_GET['key'] ) || '' == $_GET['key'] || 32 !== strlen( $_GET['key'] ) )
 				return new WP_Error( 'invalid', __( 'Invalid API key - the key should be an alphanumerica 32 chars long string.', 'wpmovielibrary' ) );
 
-			$check = self::check_api_key( esc_attr( $_GET['key'] ) );
+			$check = $this->check_api_key( esc_attr( $_GET['key'] ) );
 
 			if ( is_wp_error( $check ) )
 				$response = new WP_Error( 'invalid', __( 'Invalid API key - You must be granted a valid key', 'wpmovielibrary' ) );
@@ -100,7 +77,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 *
 		 * @since    1.0
 		 */
-		public static function search_movie_callback() {
+		public function search_movie_callback() {
 
 			wpmoly_check_ajax_referer( 'search-movies' );
 
@@ -113,9 +90,9 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				return false;
 
 			if ( 'title' == $type )
-				$response = self::get_movie_by_title( $data, $lang, $_id );
+				$response = $this->get_movie_by_title( $data, $lang, $_id );
 			else if ( 'id' == $type )
-				$response = self::get_movie_by_id( $data, $lang, $_id );
+				$response = $this->get_movie_by_id( $data, $lang, $_id );
 
 			wpmoly_ajax_response( $response );
 		}
@@ -136,10 +113,10 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 *
 		 * @return   array     API configuration request result
 		 */
-		private static function check_api_key( $key ) {
+		private function check_api_key( $key ) {
 
-			$tmdb = new TMDb( $config = true, $dummy = false );
-			$check = $tmdb->checkApiKey( $key );
+			$api = new $this->api( $config = true, $dummy = false );
+			$check = $api->checkApiKey( $key );
 
 			return $check;
 		}
@@ -155,11 +132,11 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * 
 		 * @return   string    base url
 		 */
-		public static function get_image_url( $filepath = null, $imagetype = null, $size = null ) {
+		public function get_image_url( $filepath = null, $imagetype = null, $size = null ) {
 
-			$tmdb = new TMDb();
+			$api = new $this->api();
 
-			$url = $tmdb->getImageUrl( $filepath, $imagetype, $size );
+			$url = $api->getImageUrl( $filepath, $imagetype, $size );
 
 			return $url;
 		}
@@ -182,12 +159,12 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * @param    string    $lang Lang to use in the query
 		 * @param    int       $post_id Related Post ID
 		 */
-		private static function get_movie_by_title( $title, $lang, $post_id = null ) {
+		private function get_movie_by_title( $title, $lang, $post_id = null ) {
 
 			$movies = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$title}_{$lang}" ) : false );
 
 			if ( false === $movies ) {
-				$movies = self::_get_movie_by_title( $title, $lang, $post_id );
+				$movies = $this->_get_movie_by_title( $title, $lang, $post_id );
 
 				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movies ) ) {
 					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
@@ -217,13 +194,13 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * @param    string    $lang Lang to use in the query
 		 * @param    int       $post_id Related Post ID
 		 */
-		public static function _get_movie_by_title( $title, $lang, $post_id = null ) {
+		public function _get_movie_by_title( $title, $lang, $post_id = null ) {
 
-			$tmdb = new TMDb;
-			$config = $tmdb->getConfig();
+			$api = new $this->api;
+			$config = $api->getConfig();
 
 			$title  = preg_replace( '/[^\p{L}\p{N}\s]/u', '', trim( $title ) );
-			$data   = $tmdb->searchMovie( $title, 1, FALSE, NULL, $lang );
+			$data   = $api->searchMovie( $title, 1, FALSE, NULL, $lang );
 
 			if ( is_wp_error( $data ) )
 				return $data;
@@ -246,7 +223,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 
 				$_result   = 'movie';
 				$_message  = null;
-				$_movie    = self::get_movie_by_id( $data['results'][0]['id'], $lang, $post_id );
+				$_movie    = $this->get_movie_by_id( $data['results'][0]['id'], $lang, $post_id );
 				if ( is_wp_error( $_movie ) )
 					return $_movie;
 				$_movies[] = $_movie;
@@ -262,7 +239,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 				foreach ( $data['results'] as $movie ) {
 
 					if ( ! is_null( $movie['poster_path'] ) )
-						$movie['poster_path'] = self::get_image_url( $movie['poster_path'], 'poster', 'small' );
+						$movie['poster_path'] = $this->get_image_url( $movie['poster_path'], 'poster', 'small' );
 					else
 						$movie['poster_path'] = str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL );
 
@@ -298,12 +275,12 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * @param    string    $lang Lang to use in the query
 		 * @param    int       $post_id Related Post ID
 		 */
-		public static function get_movie_by_id( $id, $lang, $post_id = null ) {
+		public function get_movie_by_id( $id, $lang, $post_id = null ) {
 
 			$movie = ( wpmoly_o( 'enable-cache' ) ? get_transient( "wpmoly_movie_{$id}_{$lang}" ) : false );
 
 			if ( false === $movie ) {
-				$movie = self::_get_movie_by_id( $id, $lang, $post_id );
+				$movie = $this->_get_movie_by_id( $id, $lang, $post_id );
 
 				if ( true === wpmoly_o( 'enable-cache' ) && ! is_wp_error( $movie ) ) {
 					$expire = (int) ( 86400 * wpmoly_o( 'cache-expire' ) );
@@ -333,13 +310,13 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 */
 		public static function _get_movie_by_id( $id, $lang, $post_id = null ) {
 
-			$tmdb = new TMDb;
+			$api = new $this->api;
 
 			$data = array(
-				'movie'   => $tmdb->getMovie( $id, $lang ),
-				'casts'   => $tmdb->getMovieCast( $id ),
-				'images'  => $tmdb->getMovieImages( $id, '' ),
-				'release' => $tmdb->getMovieRelease( $id )
+				'movie'   => $api->getMovie( $id, $lang ),
+				'casts'   => $api->getMovieCast( $id ),
+				'images'  => $api->getMovieImages( $id, '' ),
+				'release' => $api->getMovieRelease( $id )
 			);
 
 			foreach ( $data as $d )
@@ -380,7 +357,7 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 			if ( is_null( $poster_path ) )
 				$poster = $poster_path;
 			else
-				$poster = self::get_image_url( $poster_path, 'poster', 'small' );
+				$poster = $this->get_image_url( $poster_path, 'poster', 'small' );
 
 			$_images = array( 'images' => $images['backdrops'] );
 			$_full = array_merge( $movie, $casts, $images );
@@ -436,12 +413,12 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 */
 		public static function get_movie_images( $tmdb_id ) {
 
-			$tmdb = new TMDb;
+			$api = new $this->api;
 
 			if ( is_null( $tmdb_id ) )
 				return false;
 
-			$images = $tmdb->getMovieImages( $tmdb_id, '' );
+			$images = $api->getMovieImages( $tmdb_id, '' );
 			$images = $images['backdrops'];
 
 			foreach ( $images as $i => $image ) {
@@ -468,12 +445,12 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 */
 		public static function get_movie_posters( $tmdb_id ) {
 
-			$tmdb = new TMDb;
+			$api = new $this->api;
 
 			if ( is_null( $tmdb_id ) )
 				return false;
 
-			$images = $tmdb->getMovieImages( $tmdb_id, '' );
+			$images = $api->getMovieImages( $tmdb_id, '' );
 			$images = $images['posters'];
 
 			foreach ( $images as $i => $image ) {
@@ -485,6 +462,13 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 
 			return $images;
 		}
+
+		/**
+		 * Initializes variables
+		 *
+		 * @since    1.0
+		 */
+		public function init() {}
 
 		/**
 		 * Prepares sites to use the plugin during single or network-wide activation
@@ -501,13 +485,6 @@ if ( ! class_exists( 'WPMOLY_TMDb' ) ) :
 		 * @since    1.0
 		 */
 		public function deactivate() {}
-
-		/**
-		 * Initializes variables
-		 *
-		 * @since    1.0
-		 */
-		public function init() {}
 
 	}
 
