@@ -119,13 +119,7 @@ if ( ! class_exists( 'WPMOLY_Shortcodes' ) ) :
 
 				extract( $atts );
 
-				$grid_menu = '';
-				if ( $menu )
-					$grid_menu = WPMOLY_Grid::get_menu( $atts, $shortcode = true );
-
 				$content = WPMOLY_Grid::get_content( $atts, $shortcode = true );
-
-				$content = $grid_menu . $content;
 
 				return $content;
 

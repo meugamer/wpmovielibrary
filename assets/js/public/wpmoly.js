@@ -53,15 +53,16 @@ wpmoly = {};
 				return;
 			}
 
-			var bg = document.createElement( 'div' )
-			 bg.id = 'wpmoly-grid-bg';
-			 bg.className = 'wpmoly grid bg';
-			document.body.appendChild( bg );
-
 			_.map( grids, function( grid ) {
+
 				grid.id = _.uniqueId( grid.id + '-' );
-				var frame = new this.view.GridFrame({ el: '#' + grid.id, scroll: true });
-				return this.frames.push( frame );
+
+				return this.frames.push(
+					new this.view.Grid({
+						el: '#' + grid.id,
+						//scroll: true
+					})
+				);
 			}, this );
 		}
 	} );

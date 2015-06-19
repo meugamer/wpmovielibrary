@@ -200,13 +200,13 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			wp_register_script( WPMOLY_SLUG . '-grid-query-model', $path . 'grid/models/query.js', array( $main ), WPMOLY_VERSION, true );
 
 			wp_register_script( WPMOLY_SLUG . '-grid-views',  $path . 'grid/views.js',  array( $main ), WPMOLY_VERSION, true );
-			wp_register_script( WPMOLY_SLUG . '-grid-pagination-view',  $path . 'grid/views/pagination.js',  array( $main ), WPMOLY_VERSION, true );
+			/*wp_register_script( WPMOLY_SLUG . '-grid-pagination-view',  $path . 'grid/views/pagination.js',  array( $main ), WPMOLY_VERSION, true );
 			wp_register_script( WPMOLY_SLUG . '-grid-menu-view',  $path . 'grid/views/menu.js',  array( $main ), WPMOLY_VERSION, true );
 			wp_register_script( WPMOLY_SLUG . '-grid-movie-view',  $path . 'grid/views/movie.js',  array( $main ), WPMOLY_VERSION, true );
 			wp_register_script( WPMOLY_SLUG . '-grid-content-grid-view',  $path . 'grid/views/content-grid.js',  array( $main ), WPMOLY_VERSION, true );
 			wp_register_script( WPMOLY_SLUG . '-grid-content-exerpt-view',  $path . 'grid/views/content-exerpt.js',  array( $main ), WPMOLY_VERSION, true );
 			wp_register_script( WPMOLY_SLUG . '-grid-frame-view',  $path . 'grid/views/frame.js',  array( $main ), WPMOLY_VERSION, true );
-			wp_register_script( WPMOLY_SLUG . '-grid-grid-frame-view',  $path . 'grid/views/grid-frame.js',  array( $main ), WPMOLY_VERSION, true );
+			wp_register_script( WPMOLY_SLUG . '-grid-grid-frame-view',  $path . 'grid/views/grid-frame.js',  array( $main ), WPMOLY_VERSION, true );*/
 
 			wp_enqueue_script( WPMOLY_SLUG );
 

@@ -202,9 +202,6 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		public function query_movies_callback() {
 
 			$query = isset( $_POST['query'] ) ? (array) $_POST['query'] : array();
-			$keys = array(
-				's', 'order', 'orderby', 'posts_per_page', 'paged', 'post__in', 'post__not_in', 'year', 'monthnum'
-			);
 
 			$defaults = array(
 				'post_type'   => 'movie',
@@ -212,11 +209,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			);
 			$query = wp_parse_args( $query, $defaults );
 
-			if ( current_user_can( get_post_type_object( 'movie' )->cap->read_private_posts ) ) {
-				$query['post_status'] .= ',private';
-			}
-
-			if ( 'RANDOM' == $query['order'] ) {
+			/*if ( 'RANDOM' == $query['order'] ) {
 				$query['order'] = 'rand';
 			}
 
@@ -239,14 +232,11 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 						'compare' => '<=',
 					);
 				}
-			}
+			}*/
 
 			unset( $query['filter'] );
 
-			//print_r( $query ); die();
-
 			$query = new WP_Query( $query );
-			var_dump( $query->request ); die();
 
 			$posts = array_map( 'get_post', $query->posts );
 			$posts = array_filter( $posts );

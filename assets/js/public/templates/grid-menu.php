@@ -1,5 +1,4 @@
 
-			<# console.log( data ); #>
 			<ul class="wpmoly-grid-menu-container">
 				<li class="wpmoly-grid-menu-item">
 					<a class="grid-menu-action<# if ( 'content' == data.mode ) { #> active<# } #>" data-action="openmenu" data-value="content" href="#" title="<?php _e( 'Edit the grid content', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-order"></span></a>
@@ -24,9 +23,9 @@
 								<label>
 									<a href="#" data-action="orderby" data-value="date" title="<?php _e( 'Sort movies by post date', 'wpmovielibrary' ); ?>"><?php _e( 'Post Date', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'date' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
-								<label>
+								<!--<label>
 									<a href="#" data-action="orderby" data-value="rating" title="<?php _e( 'Sort movies by rating', 'wpmovielibrary' ); ?>"><?php _e( 'Rating', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'rating' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
-								</label>
+								</label>-->
 							</div>
 						</div>
 						<div class="wpmoly-grid-settings-block">
@@ -38,12 +37,12 @@
 								<label>
 									<a href="#" data-action="order" data-value="desc" title="<?php _e( 'Order movies descendingly', 'wpmovielibrary' ); ?>"><?php _e( 'Descendingly', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'DESC' == data.order ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
-								<label>
+								<!--<label>
 									<a href="#" data-action="order" data-value="random" title="<?php _e( 'Shuffle movies', 'wpmovielibrary' ); ?>"><?php _e( 'Random', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'RANDOM' == data.order ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
-								</label>
+								</label>-->
 							</div>
 						</div>
-						<div class="wpmoly-grid-settings-block">
+						<!--<div class="wpmoly-grid-settings-block">
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Include', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
@@ -53,7 +52,7 @@
 									<a href="#" data-action="filter" data-value="unrated" title="<?php _e( 'Include movies with no rating', 'wpmovielibrary' ); ?>"><?php _e( 'Not rated', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( true === data.include.unrated ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 							</div>
-						</div>
+						</div>-->
 					</div>
 
 					<div class="wpmoly-grid-settings-settings">
@@ -91,9 +90,9 @@
 						<div class="wpmoly-grid-settings-block">
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Advanced', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
-								<label>
+								<!--<label>
 									<a href="#" data-action="scroll" data-value="1" title="<?php _e( 'Automatically load more movies when reaching the end of the page', 'wpmovielibrary' ); ?>"><?php _e( 'Infinite scroll', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( '' == data.scroll ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
-								</label>
+								</label>-->
 								<label><?php _e( 'Movies per page', 'wpmovielibrary' ); ?> <input type="text" value="" size="3" maxlength="3" /></label>
 							</div>
 						</div>

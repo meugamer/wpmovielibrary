@@ -62,7 +62,7 @@ grid.view.ContentGrid = media.View.extend({
 		this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 
 		// Handle scrolling
-		$( document ).on( 'scroll', this.scroll );
+		//$( document ).on( 'scroll', this.scroll );
 
 		// Detect Window resize to readjust thumbnails
 		if ( this.options.resize ) {

@@ -20,7 +20,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 	_mode: '',
 
-	_scroll: true,
+// 	_scroll: true,
 
 	/**
 	 * Initialize the View

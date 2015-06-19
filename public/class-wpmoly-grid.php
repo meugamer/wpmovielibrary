@@ -20,105 +20,6 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		/**
-		 * Generate alphanumerical breadcrumb menu for Grid view
-		 * 
-		 * @since    2.0
-		 * 
-		 * @param    array       Shortcode arguments to use as parameters
-		 * @param    boolean     Are we actually doing a Shortcode?
-		 * 
-		 * @return   string    HTML content
-		 */
-		public static function get_menu( $args, $shortcode = false ) {
-
-			global $wpdb, $wp_query;
-
-			$defaults = array(
-				'order'    => wpmoly_o( 'movie-archives-movies-order', $default = true ),
-				'orderby'  => wpmoly_o( 'movie-archives-movies-orderby', $default = true ),
-				'columns'  => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
-				'rows'     => wpmoly_o( 'movie-archives-grid-rows', $default = true ),
-				'editable' => wpmoly_o( 'movie-archives-frontend-edit', $default = true ),
-				'advanced' => wpmoly_o( 'movie-archives-frontend-advanced-edit', $default = false ),
-				'meta'     => '',
-				'detail'   => '',
-				'value'    => '',
-				'letter'   => '',
-				'view'     => 'grid'
-			);
-			$args = wp_parse_args( $args, $defaults );
-
-			// Allow URL params to override settings
-			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
-			$args = wp_parse_args( $_args, $args );
-
-			extract( $args );
-
-			$baseurl = get_permalink();
-			/*if ( true === $shortcode ) {
-				$baseurl = get_permalink();
-			} else {
-				$baseurl = get_post_type_archive_link( 'movie' );
-			}*/
-
-			$views = array( 'grid', 'archives', 'list' );
-			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
-				$views = array( 'grid' => __( 'grid', 'wpmovielibrary' ), 'archives' => __( 'archives', 'wpmovielibrary' ), 'list' => __( 'list', 'wpmovielibrary' ) );
-
-			$_view = array_search( $view, $views );
-			if ( false !== $_view )
-				$view = $_view;
-
-			$default = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
-			$letters = array();
-			
-			$result = $wpdb->get_results( "SELECT DISTINCT LEFT(post_title, 1) as letter FROM {$wpdb->posts} WHERE post_type='movie' AND post_status='publish' ORDER BY letter" );
-			foreach ( $result as $r )
-				$letters[] = $r->letter;
-
-			$limit = wpmoly_o( 'movie-archives-movies-limit' );
-
-			$attributes = compact( 'letters', 'default', 'letter', 'order', 'orderby', 'columns', 'rows', 'meta', 'detail', 'value', 'editable', 'advanced', 'limit', 'view' );
-
-			$urls = array();
-			$l10n = false;
-
-			$args = compact( 'order', 'orderby', 'columns', 'rows', 'meta', 'detail', 'value', 'l10n', 'baseurl', 'view' );
-			$urls['all'] = WPMOLY_Utils::build_meta_permalink( $args );
-
-			$args['letter'] = $letter;
-			$args['view'] = 'list';
-			$urls['list'] = WPMOLY_Utils::build_meta_permalink( $args );
-			$args['view'] = 'archives';
-			$urls['archives'] = WPMOLY_Utils::build_meta_permalink( $args );
-			$args['view'] = 'grid';
-			$urls['grid'] = WPMOLY_Utils::build_meta_permalink( $args );
-			$args['view'] = $view;
-
-			$args['letter'] = '{letter}';
-			$urls['letter'] = WPMOLY_Utils::build_meta_permalink( $args );
-			$args['letter'] = $letter;
-
-			$args['order'] = 'ASC';
-			$urls['asc'] = WPMOLY_Utils::build_meta_permalink( $args );
-
-			$args['order'] = 'DESC';
-			$urls['desc'] = WPMOLY_Utils::build_meta_permalink( $args );
-
-			$attributes['urls'] = $urls;
-
-			$theme = wp_get_theme();
-			if ( ! is_null( $theme->stylesheet ) )
-				$attributes['theme'] = ' theme-' . $theme->stylesheet;
-			else
-				$attributes['theme'] = '';
-
-			$content = self::render_template( 'movies/grid/menu.php', $attributes, $require = 'always' );
-
-			return $content;
-		}
-
-		/**
 		 * Generate Movie Grid
 		 * 
 		 * If a current letter is passed to the query use it to narrow
@@ -135,6 +36,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			global $wpdb, $wp_query;
 
+			$content  = '';
 			$defaults = array(
 				'backbone'   => wpmoly_o( 'movie-backbone-grid', $default = true ),
 				'columns'    => wpmoly_o( 'movie-archives-grid-columns', $default = true ),
@@ -158,13 +60,10 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			);
 			$args = wp_parse_args( $args, $defaults );
 
-			if ( $args['backbone'] ) {
-
-				return self::render_template( "movies/grid/backbone.php", $attributes = compact( 'args' ), $require = 'always' );
-			}
+			return self::render_template( "movies/grid/backbone.php", $attributes = compact( 'args' ), $require = 'always' );
 
 			// Allow URL params to override Shortcode settings
-			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
+			/*$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
 			$args = wp_parse_args( $_args, $args );
 
 			// debug
@@ -323,14 +222,14 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			if ( 'list' == $view )
 				$movies = self::prepare_list_view( $movies );
 
-			$baseurl = get_permalink();
+			$baseurl = get_permalink();*/
 			/*if ( true === $shortcode ) {
 				$baseurl = get_permalink();
 			} else {
 				$baseurl = get_post_type_archive_link( 'movie' );
 			}*/
 
-			$args = array(
+			/*$args = array(
 				'order'   => $order,
 				'columns' => $columns,
 				'rows'    => $rows,
@@ -376,7 +275,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$attributes = compact( 'movies', 'columns', 'title', 'year', 'rating', 'theme', 'debug' );
 
 			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes, $require = 'always' );
-			$content  = $content . $paginate;
+			$content  = $content . $paginate;*/
 
 			return $content;
 		}
