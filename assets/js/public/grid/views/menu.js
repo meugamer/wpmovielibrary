@@ -26,6 +26,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 
 		'click a[data-action="apply-settings"]':  'apply',
 		'click a[data-action="cancel-settings"]': 'cancel',
+		'click a[data-action="reload-settings"]': 'reload',
 
 		'click .wpmoly-grid-settings-container':  'stopPropagation',
 		'click .grid-menu-settings':              'stopPropagation',
@@ -178,6 +179,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	close: function() {
 
 		this.$el.removeClass( 'mode-content mode-settings open' );
+		this.$( '.grid-menu-action.active' ).removeClass( 'active' );
 		this.$waitee.unbind( 'click' );
 		this.$waitee.removeClass( 'waitee' );
 	},
@@ -255,8 +257,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 			return;
 		}
 
-		console.log( value );
-		this.library.props.set( { orderby: value }, { silent: true } );
+		this.library.props.set( { orderby: value, paged: 1 }, { silent: true } );
 		this.render();
 	},
 
@@ -278,7 +279,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 			return;
 		}
 
-		this.library.props.set( { order: value.toUpperCase() }, { silent: true } );
+		this.library.props.set( { order: value.toUpperCase(), paged: 1 }, { silent: true } );
 		this.render();
 	},
 
@@ -370,7 +371,19 @@ grid.view.Menu = wp.Backbone.View.extend({
 	cancel: function( event ) {
 
 		this.close();
-		this.render();
+	},
+
+	/**
+	 * Reload the grid with default settings.
+	 *
+	 * @param    object    JS 'Click' Event
+	 * 
+	 * @since    2.1.5
+	 */
+	reload: function() {
+
+		this.library.props.set( '' );
+		this.close();
 	},
 
 	/**

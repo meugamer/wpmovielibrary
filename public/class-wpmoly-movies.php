@@ -216,12 +216,12 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			if ( 'rating' == $query['orderby'] ) {
 				$query['meta_key'] = '_wpmoly_movie_rating';
 				$query['orderby']  = 'meta_value_num';
-			} else if ( 'release_date' == $query['orderby'] ) {
+			} else */if ( 'release_date' == $query['orderby'] ) {
 				$query['meta_key'] = '_wpmoly_movie_release_date';
 				$query['orderby']  = 'meta_value_num';
 			}
 
-			if ( isset( $query['filter']['incoming'] ) || isset( $query['filter']['unrated'] ) ) {
+			/*if ( isset( $query['filter']['incoming'] ) || isset( $query['filter']['unrated'] ) ) {
 
 				$query['meta_query'] = array();
 

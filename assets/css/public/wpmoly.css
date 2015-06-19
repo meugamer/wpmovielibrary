@@ -405,6 +405,11 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	background: #ff7966;
 }
 
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid a.reload {
+	background: #6f747b;
+	float: right;
+}
+
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid a:hover,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid a:focus {
 	color: #fff;

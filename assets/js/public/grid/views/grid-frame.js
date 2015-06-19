@@ -20,7 +20,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 	_mode: '',
 
-// 	_scroll: true,
+	_scroll: false,
 
 	/**
 	 * Initialize the View
@@ -43,7 +43,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 				order:   'ASC',
 				paged:   1
 			},
-			scroll: true
+			scroll: false
 		});
 
 		this.$bg   = $( '#wpmoly-grid-bg' );

@@ -5,7 +5,7 @@ importer = wpmoly.importer,
    media = wp.media,
 hasTouch = ( 'ontouchend' in document );
 
-_.extend( grid.view, {
+/*_.extend( grid.view, {
 
 	Menu: media.View.extend({
 
@@ -30,13 +30,6 @@ _.extend( grid.view, {
 			this.grid = this.options.grid || {};
 		},
 
-		/**
-		* Render the Menu
-		* 
-		* @since    2.1.5
-		* 
-		* @return   Returns itself to allow chaining.
-		*/
 		render: function() {
 
 			var rating = parseFloat( this.model.get( 'details' ).rating ),
@@ -145,7 +138,7 @@ _.extend( grid.view, {
 			this.views.add( '.grid-frame-content', this.content );
 		}
 	})
-} );
+} );*/
 
 /* Required files:
  * - ./views/pagination.js

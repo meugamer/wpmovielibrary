@@ -58,7 +58,7 @@ wpmoly = {};
 				grid.id = _.uniqueId( grid.id + '-' );
 
 				return this.frames.push(
-					new this.view.Grid({
+					new this.view.GridFrame({
 						el: '#' + grid.id,
 						//scroll: true
 					})

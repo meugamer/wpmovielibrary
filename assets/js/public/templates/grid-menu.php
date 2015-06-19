@@ -99,7 +99,7 @@
 					</div>
 
 					<div class="wpmoly-grid-settings-valid">
-						<a href="#" data-action="apply-settings" class="apply" title="<?php _e( 'Apply changes to the grid', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-yes"></span> <!--<?php _e( 'Apply', 'wpmovielibrary' ); ?>--></a><a href="#" data-action="cancel-settings" class="cancel" title="<?php _e( 'Reset changes', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-no"></span> <!--<?php _e( 'Cancel', 'wpmovielibrary' ); ?>--></a>
+						<a href="#" data-action="apply-settings" class="apply" title="<?php _e( 'Apply changes to the grid', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-yes"></span> <!--<?php _e( 'Apply', 'wpmovielibrary' ); ?>--></a><a href="#" data-action="cancel-settings" class="cancel" title="<?php _e( 'Reset changes', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-no"></span> <!--<?php _e( 'Cancel', 'wpmovielibrary' ); ?>--></a><a href="#" data-action="reload-settings" class="reload" title="<?php _e( 'Reload the grid', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-update"></span> <!--<?php _e( 'Reload', 'wpmovielibrary' ); ?>--></a>
 					</div>
 				</div>
 			</div>
