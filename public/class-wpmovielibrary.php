@@ -195,6 +195,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			wp_register_script( WPMOLY_SLUG . '-views', $path . 'views.js', array( $main ), WPMOLY_VERSION, true );
 
 			wp_register_script( WPMOLY_SLUG . '-grid-models', $path . 'grid/models.js', array( $main ), WPMOLY_VERSION, true );
+			wp_register_script( WPMOLY_SLUG . '-grid-settings-model', $path . 'grid/models/settings.js', array( $main ), WPMOLY_VERSION, true );
 			wp_register_script( WPMOLY_SLUG . '-grid-movie-model', $path . 'grid/models/movie.js', array( $main ), WPMOLY_VERSION, true );
 			wp_register_script( WPMOLY_SLUG . '-grid-movies-model', $path . 'grid/models/movies.js', array( $main ), WPMOLY_VERSION, true );
 			wp_register_script( WPMOLY_SLUG . '-grid-query-model', $path . 'grid/models/query.js', array( $main ), WPMOLY_VERSION, true );
@@ -214,6 +215,7 @@ if ( ! class_exists( 'WPMovieLibrary' ) ) :
 			wp_enqueue_script( WPMOLY_SLUG . '-views' );
 
 			wp_enqueue_script( WPMOLY_SLUG . '-grid-models' );
+			wp_enqueue_script( WPMOLY_SLUG . '-grid-settings-model' );
 			wp_enqueue_script( WPMOLY_SLUG . '-grid-movie-model' );
 			wp_enqueue_script( WPMOLY_SLUG . '-grid-movies-model' );
 			wp_enqueue_script( WPMOLY_SLUG . '-grid-query-model' );

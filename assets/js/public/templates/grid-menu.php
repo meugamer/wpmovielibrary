@@ -32,10 +32,10 @@
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Ordering', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
-									<a href="#" data-action="order" data-value="asc" title="<?php _e( 'Order movies ascendingly', 'wpmovielibrary' ); ?>"><?php _e( 'Ascendingly', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'ASC' == data.order ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="order" data-value="asc" title="<?php _e( 'Order movies ascendingly', 'wpmovielibrary' ); ?>"><?php _e( 'Ascendingly', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'asc' == data.order.toLowerCase() ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="order" data-value="desc" title="<?php _e( 'Order movies descendingly', 'wpmovielibrary' ); ?>"><?php _e( 'Descendingly', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'DESC' == data.order ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="order" data-value="desc" title="<?php _e( 'Order movies descendingly', 'wpmovielibrary' ); ?>"><?php _e( 'Descendingly', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'desc' == data.order.toLowerCase() ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<!--<label>
 									<a href="#" data-action="order" data-value="random" title="<?php _e( 'Shuffle movies', 'wpmovielibrary' ); ?>"><?php _e( 'Random', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'RANDOM' == data.order ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>

@@ -32,21 +32,6 @@ grid.view.Menu = wp.Backbone.View.extend({
 		'click .grid-menu-settings':              'stopPropagation',
 	},
 
-	settings: {
-		orderby: [ 'title', 'date', 'release_date', 'rating' ],
-		order:   [ 'asc', 'desc', 'random' ],
-		include: {
-			incoming: true,
-			unrated:  true
-		},
-		display: {
-			title:   true,
-			genres:  false,
-			rating:  true,
-			runtime: true,
-		}
-	},
-
 	icons: {
 		yes: 'icon-yes-alt',
 		no:  'icon-no-alt-2'
@@ -69,16 +54,19 @@ grid.view.Menu = wp.Backbone.View.extend({
 
 		this._mode   = '';
 
-		this.frame   = this.options.frame;
-		this.model   = this.options.model;
-		this.library = this.options.library;
+		this.frame    = this.options.frame;
+		this.model    = this.options.model;
+		this.library  = this.options.library;
+
+		this.controller = this.frame.controller;
+		console.log( this.controller );
 
 		this.$window = $( window );
 		this.$body   = $( document.body );
 		this.$waitee = $( 'body.waitee' );
 
 		// Throttle the scroll handler and bind this.
-		this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
+		//this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 
 		//this.$window.on( 'scroll', this.scroll );
 	},
@@ -92,7 +80,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 * 
 	 * @return   void
 	 */
-	scroll: function( event ) {
+	/*scroll: function( event ) {
 
 		var   $el = this.$el.parent( '.grid-frame-menu' ),
 		   $frame = this.frame.$el,
@@ -105,7 +93,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 			$frame.removeClass( 'menu-fixed' );
 			$el.css({ width: '' });
 		}
-	},
+	},*/
 
 	/**
 	 * Open or close the submenu related to the menu link clicked
@@ -193,7 +181,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 * 
 	 * @return   void
 	 */
-	updateSettings: function() {
+	/*updateSettings: function() {
 
 		var scroll = Boolean( parseInt( this.$( 'input[data-value="scroll"]' ).val() ) || 0 ),
 		   perpage = parseInt( this.$( 'input[data-action="perpage"]' ).val() ) || 0,
@@ -212,7 +200,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 		}
 
 		this.$el.removeClass( 'settings' );
-	},
+	},*/
 
 	/**
 	 * Change the scroll settings from the settings menu
@@ -223,7 +211,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 * 
 	 * @return   void
 	 */
-	setScroll: function( event ) {
+	/*setScroll: function( event ) {
 
 		var $elem = this.$( event.currentTarget ),
 		   $input = this.$( 'input[data-value="scroll"]' ),
@@ -237,7 +225,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 
 		this.$( 'a[data-action="scroll"].selected' ).removeClass( 'selected' );
 		$elem.addClass( 'selected' );
-	},
+	},*/
 
 	/**
 	 * Handle ordering change menu (orderby)
@@ -253,11 +241,11 @@ grid.view.Menu = wp.Backbone.View.extend({
 		var $elem = this.$( event.currentTarget ),
 		    value = $elem.attr( 'data-value' );
 
-		if ( ! _.contains( this.settings.orderby, value ) ) {
+		if ( ! _.contains( this.controller.orderby, value ) ) {
 			return;
 		}
 
-		this.library.props.set( { orderby: value, paged: 1 }, { silent: true } );
+		this.controller.set( { orderby: value, paged: 1 } );
 		this.render();
 	},
 
@@ -275,11 +263,11 @@ grid.view.Menu = wp.Backbone.View.extend({
 		var $elem = this.$( event.currentTarget ),
 		    value = $elem.attr( 'data-value' );
 
-		if ( ! _.contains( this.settings.order, value ) ) {
+		if ( ! _.contains( this.controller.order, value ) ) {
 			return;
 		}
 
-		this.library.props.set( { order: value.toUpperCase(), paged: 1 }, { silent: true } );
+		this.controller.set( { order: value.toUpperCase(), paged: 1 } );
 		this.render();
 	},
 
@@ -292,7 +280,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 * 
 	 * @return   void
 	 */
-	filter: function( event ) {
+	/*filter: function( event ) {
 
 		var $elem = this.$( event.currentTarget ),
 		    value = $elem.attr( 'data-value' ),
@@ -302,7 +290,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 
 		this.library.props.set( { filter: this.settings.include }, { silent: true } );
 		this.render();
-	},
+	},*/
 
 	/**
 	 * Handle viewing change menu
@@ -313,11 +301,11 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 * 
 	 * @return   void
 	 */
-	view: function( event ) {
+	/*view: function( event ) {
 
 		var $elem = this.$( event.currentTarget );
 		console.log( 'view!' );
-	},
+	},*/
 
 	/**
 	 * Render the Menu
@@ -332,10 +320,10 @@ grid.view.Menu = wp.Backbone.View.extend({
 			mode:    this._mode,
 			scroll:  this.frame._scroll,
 			view:    this.frame.mode(),
-			orderby: this.library.props.get( 'orderby' ),
-			order:   this.library.props.get( 'order' ),
-			include: this.settings.include,
-			display: this.settings.display
+			orderby: this.controller.get( 'orderby' ),
+			order:   this.controller.get( 'order' ),
+			include: false,//this.settings.include,
+			display: false//this.settings.display
 		};
 		this.$el.html( this.template( options ) );
 
@@ -357,7 +345,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 */
 	apply: function( event ) {
 
-		this.library._requery();
+		this.controller.update();
 		this.close();
 	},
 
@@ -382,7 +370,7 @@ grid.view.Menu = wp.Backbone.View.extend({
 	 */
 	reload: function() {
 
-		this.library.props.set( '' );
+		this.controller.reset();
 		this.close();
 	},
 

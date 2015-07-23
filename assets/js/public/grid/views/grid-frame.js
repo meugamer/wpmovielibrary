@@ -43,18 +43,19 @@ grid.view.GridFrame = grid.view.Frame.extend({
 				order:   'ASC',
 				paged:   1
 			},
-			scroll: false
+			styles: []
 		});
 
 		this.$bg   = $( '#wpmoly-grid-bg' );
 		this.$body = $( document.body );
 
+		this.controller = new grid.model.Settings;
+
 		this.createStates();
 		this.bindHandlers();
 
 		this.props.set({
-			mode:   this.options.mode,
-			scroll: this.options.scroll
+			mode:   this.options.mode
 		});
 
 		var self = this;
@@ -81,7 +82,6 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		this.on( 'pagination:create:frame', this.createPaginationMenu, this );
 
 		this.props.on( 'change:mode',       this._setMode, this );
-		this.props.on( 'change:scroll',     this._setScroll, this );
 
 		return this;
 	},
@@ -101,14 +101,14 @@ grid.view.GridFrame = grid.view.Frame.extend({
 			return;
 		}
 
-		// Add the default states.
-		this.states.add([
-			// Main states.
-			new wpmoly.controller.State({
-				id:      'library',
-				library: grid.query( options.library, this )
-			})
-		]);
+		var state = new wpmoly.controller.State({
+			id:      'library',
+			library: grid.query( options.library, this )
+		});
+
+		this.controller.props = state.get( 'library' ).props;
+
+		this.states.add( [ state ] );
 
 		return this;
 	},
@@ -243,13 +243,6 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		this._mode         = model.changed.mode;
 
 		this.render();
-
-		return this;
-	},
-
-	_setScroll: function( model ) {
-
-		this._scroll = model.changed.scroll;
 
 		return this;
 	}

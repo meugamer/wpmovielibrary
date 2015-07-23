@@ -625,11 +625,16 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	width: 100%;
 }
 
-.wpmoly.grid .grid-frame-content .attachment.movie .wpmoly.grid.movie a:first-child {
+/*.wpmoly.grid .grid-frame-content .attachment.movie .wpmoly.grid.movie a:first-child {
 	background: #ddd;
-}
+}*/
 
 .wpmoly.grid .grid-frame-content .attachment.movie .wpmoly.grid.movie .movie-preview {
+	background-color: #ddd;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 2px;
 	max-height: 100%;
 	max-width: 100%;
 }
