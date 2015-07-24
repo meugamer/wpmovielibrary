@@ -1,5 +1,5 @@
 
-				<div class="wpmoly-grid-pagination-container">
+				<div class="wpmoly-grid-pagination-container" style="display:none">
 <# if ( data.total ) {
 	if ( data.prev ) { #>
 					<a class="grid-menu-action" data-action="prev" href="#" title="<?php _e( 'Previous Page', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-arrow-left"></span></a>

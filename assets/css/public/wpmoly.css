@@ -109,13 +109,13 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	margin: 0 2px;
 }
 
-.wpmoly.grid.loading {
+.wpmoly.grid.loading .attachments.movies {
 	background-color: rgba(255, 255, 255, 0.5);
 	background-image: url(../../img/oval.svg);
-	background-position: bottom center;
+	background-position: center center;
 	background-repeat: no-repeat;
 	margin: 24px 0;
-	padding-bottom: 72px;
+	height: 128px;
 }
 
 .wpmoly.grid.mode-frame {

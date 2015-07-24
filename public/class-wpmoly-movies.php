@@ -209,30 +209,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			);
 			$query = wp_parse_args( $query, $defaults );
 
-			/*if ( 'RANDOM' == $query['order'] ) {
-				$query['order'] = 'rand';
-			}
-
-			if ( 'rating' == $query['orderby'] ) {
-				$query['meta_key'] = '_wpmoly_movie_rating';
-				$query['orderby']  = 'meta_value_num';
-			} else */if ( 'release_date' == $query['orderby'] ) {
+			if ( 'release_date' == $query['orderby'] ) {
 				$query['meta_key'] = '_wpmoly_movie_release_date';
 				$query['orderby']  = 'meta_value_num';
 			}
-
-			/*if ( isset( $query['filter']['incoming'] ) || isset( $query['filter']['unrated'] ) ) {
-
-				$query['meta_query'] = array();
-
-				if ( isset( $query['filter']['incoming'] ) && ! wpmoly_is_boolean( $query['filter']['incoming'] ) ) {
-					$query['meta_query'][] = array(
-						'key'     => 'UNIX_TIMESTAMP(_wpmoly_movie_release_date)',
-						'value'   => strtotime( '+1 day' ),
-						'compare' => '<=',
-					);
-				}
-			}*/
 
 			unset( $query['filter'] );
 

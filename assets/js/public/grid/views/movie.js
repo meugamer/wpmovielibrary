@@ -27,7 +27,8 @@ grid.view.Movie = media.View.extend({
 	render: function() {
 
 		var rating = parseFloat( this.model.get( 'details' ).rating ),
-		      star = 'empty';
+		      star = 'empty',
+		  settings = this.controller.controller;
 
 		if ( '' != rating ) {
 			if ( 3.5 < rating ) {
@@ -43,7 +44,13 @@ grid.view.Movie = media.View.extend({
 					height: this.grid.thumbnail_height || '',
 					width:  this.grid.thumbnail_width  || ''
 				},
-				details: _.extend( this.model.get( 'details' ), { star: star } )
+				details: _.extend( this.model.get( 'details' ), { star: star } ),
+				display: {
+					title:   settings.get( 'show_title' ),
+					genres:  settings.get( 'show_genres' ),
+					rating:  settings.get( 'show_rating' ),
+					runtime: settings.get( 'show_runtime' )
+				}
 			} ) )
 		);
 

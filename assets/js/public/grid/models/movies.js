@@ -39,6 +39,8 @@ grid.model.Movies = Backbone.Collection.extend({
 
 		options = options || {};
 
+		this.id = _.uniqueId( 'q' );
+
 		// this.controller is the Frame View.
 		this.controller = controller;
 

@@ -13,10 +13,16 @@ grid.model.Settings = Backbone.Model.extend({
 	order:   [ 'asc', 'desc', 'random' ],
 
 	defaults: {
+		// Grid Content
 		orderby:          'title',
 		order:            'asc',
+		paged:            1,
+
+		// Grid Filtering
 		include_incoming: true,
 		include_unrated:  true,
+
+		// Grid Display
 		show_title:       true,
 		show_genres:      false,
 		show_rating:      true,

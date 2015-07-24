@@ -166,7 +166,7 @@ grid.model.Query = grid.model.Movies.extend({
 	},
 
 	defaultArgs: {
-		posts_per_page: 40
+		posts_per_page: 4
 	},
 
 	orderby: {

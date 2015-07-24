@@ -37,13 +37,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 
 		_.defaults( this.options, {
 			mode:   'grid',
-			state:  'library',
-			library: {
-				orderby: 'title',
-				order:   'ASC',
-				paged:   1
-			},
-			styles: []
+			state:  'library'
 		});
 
 		this.$bg   = $( '#wpmoly-grid-bg' );
@@ -55,7 +49,7 @@ grid.view.GridFrame = grid.view.Frame.extend({
 		this.bindHandlers();
 
 		this.props.set({
-			mode:   this.options.mode
+			mode: this.options.mode
 		});
 
 		var self = this;
@@ -101,9 +95,17 @@ grid.view.GridFrame = grid.view.Frame.extend({
 			return;
 		}
 
+		var options = {
+			orderby: this.controller.get( 'orderby' ),
+			order:   this.controller.get( 'order' ),
+			paged:   this.controller.get( 'paged' )
+		};
+
+		var library = grid.query( options, this );
+
 		var state = new wpmoly.controller.State({
 			id:      'library',
-			library: grid.query( options.library, this )
+			library: library
 		});
 
 		this.controller.props = state.get( 'library' ).props;

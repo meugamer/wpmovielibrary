@@ -59,7 +59,6 @@ grid.view.Menu = wp.Backbone.View.extend({
 		this.library  = this.options.library;
 
 		this.controller = this.frame.controller;
-		console.log( this.controller );
 
 		this.$window = $( window );
 		this.$body   = $( document.body );
@@ -322,8 +321,16 @@ grid.view.Menu = wp.Backbone.View.extend({
 			view:    this.frame.mode(),
 			orderby: this.controller.get( 'orderby' ),
 			order:   this.controller.get( 'order' ),
-			include: false,//this.settings.include,
-			display: false//this.settings.display
+			include: {
+				incoming: this.controller.get( 'include_incoming' ),
+				unrated:  this.controller.get( 'include_unrated' ),
+			},
+			display: {
+				title:   this.controller.get( 'show_title' ),
+				genres:  this.controller.get( 'show_genres' ),
+				rating:  this.controller.get( 'show_rating' ),
+				runtime: this.controller.get( 'show_runtime' ),
+			}
 		};
 		this.$el.html( this.template( options ) );
 
