@@ -3,6 +3,210 @@ var grid = wpmoly.grid,
    media = wp.media,
        $ = Backbone.$;
 
+_.extend( grid.model, {
+
+	/**
+	* WPMOLY Backbone Movie Model
+	* 
+	* Stores a movie's post data, metadata and details
+	* 
+	* @since    2.1.5
+	*/
+	Movie: Backbone.Model.extend({
+
+		id: '',
+
+		/**
+		* Convert date strings into Date objects.
+		* 
+		* @since    2.1.5
+		* 
+		* @param    object    The raw response object, typically returned by fetch()
+		* 
+		* @return   object    The modified response object, which is the attributes hash to be set on the model.
+		*/
+		parse: function( resp ) {
+
+			if ( ! resp ) {
+				return resp;
+			}
+
+			resp.post_date     = new Date( resp.post_date );
+			resp.post_modified = new Date( resp.post_modified );
+
+			return resp;
+		}
+	}, {
+		/**
+		* Create a new model on the static 'all' movies collection and return it.
+		*
+		* @since    2.1.5
+		* 
+		* @param    object    Movie attributes
+		* 
+		* @return   object    wpmoly.grid.model.Movie
+		*/
+		create: function( attrs ) {
+			return grid.model.Movies.all.push( attrs );
+		},
+
+		/**
+		* Create a new model on the static 'all' movies collection and return it.
+		* 
+		* If this function has already been called for the id,
+		* it returns the specified movie.
+		* 
+		* @since    2.1.5
+		* 
+		* @param    string    A string used to identify a model.
+		* @param    object    A grid.model.Movie movie model.
+		* 
+		* @return   wpmoly.grid.model.Movie
+		*/
+		get: _.memoize( function( id, movie ) {
+			return grid.model.Movies.all.push( movie || { id: id } );
+		})
+	})
+},
+{
+	Movies: Backbone.Collection.extend({
+
+		args: {
+			posts_per_page: 4,
+			paged:          1
+		},
+
+		initialize: function( options, controller ) {
+
+			options = options || {};
+
+			this.controller = controller;
+
+			this.props = new Backbone.Model();
+			this.pages = new Backbone.Model({
+				current: 0,
+				total:   0,
+				prev:    0,
+				next:    0
+			});
+
+			this.props.on( 'change', this.query, this );
+
+			this.props.set( _.defaults( options.props || {} ) );
+		},
+
+		query: function() {
+
+			props = this.props.toJSON();
+
+			this.sync( 'read', {}, props );
+		},
+
+		sync: function( method, model, options ) {
+
+			var args, fallback;
+
+			// Overload the read method so Attachment.fetch() functions correctly.
+			if ( 'read' === method ) {
+
+				options = options || {};
+				options.context = this;
+				options.data = _.extend( options.data || {}, {
+					action:  'wpmoly_query_movies'
+				});
+
+				// Clone the args so manipulation is non-destructive.
+				args = _.clone( this.args );
+
+				// Determine which page to query.
+				var calc = Math.round( this.length / args.posts_per_page ) + 1;
+				if ( ! _.isUndefined( options.paged ) ) {
+					args.paged = options.paged;
+					delete options.paged;
+				} else if ( ( ! _.isUndefined( args.paged ) && args.paged <= calc ) ||
+					    (   _.isUndefined( args.paged ) && -1 !== args.posts_per_page ) ) {
+					args.paged = calc;
+				}
+
+				options.data.query = args;
+
+				return wp.media.ajax( options );
+
+			// Otherwise, fall back to Backbone.sync()
+			} else {
+				return Backbone.sync.apply( this, arguments );
+			}
+		},
+
+		/**
+		 * Custom AJAX-response parser.
+		 * 
+		 * @since    2.1.5
+		 *
+		 * @param    object|array    The raw response Object/Array.
+		 * @param    object          XHR request
+		 * 
+		 * @return   array           The array of model attributes to be added to the collection
+		 */
+		parse: function( resp, xhr ) {
+
+			// Set pagination data
+			if ( ! _.isUndefined( resp.pages ) ) {
+
+				var pages = {
+					current: resp.pages.current,
+					prev:    Math.max( 0, resp.pages.current - 1 ),
+					next:    Math.min( resp.pages.total, resp.pages.current + 1 ),
+					total:   resp.pages.total,
+					posts:   resp.pages.posts
+				};
+
+				this.pages.set( pages );
+				if ( this.mirroring ) {
+					this.mirroring.pages.set( pages );
+				}
+
+				delete resp.pages;
+			}
+
+			if ( _.isObject( resp ) && false === resp instanceof grid.model.Movie ) {
+				return _.toArray( resp );
+			}
+
+			if ( ! _.isArray( resp ) ) {
+				resp = [resp];
+			}
+
+			return _.each( resp, function( attrs ) {
+
+				var id, movie, newAttributes;
+
+				if ( attrs instanceof Backbone.Model ) {
+					id = attrs.get( 'id' );
+					attrs = attrs.attributes;
+				} else {
+					id = attrs.id;
+				}
+
+				movie = grid.model.Movie.get( id );
+				newAttributes = movie.parse( attrs, xhr );
+
+				if ( ! _.isEqual( movie.attributes, newAttributes ) ) {
+					movie.set( newAttributes );
+				}
+
+				return movie;
+			});
+		},
+	})
+} );
+
+grid.model.Query = grid.model.Movies.extend({
+
+});
+
+grid.model.Movies.all = new grid.model.Movies();
+
 /* Required files:
  * - ./models/movie.js
  * - ./models/movies.js

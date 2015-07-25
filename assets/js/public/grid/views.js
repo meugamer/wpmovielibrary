@@ -1,19 +1,71 @@
 
 var grid = wpmoly.grid,
-  editor = wpmoly.editor,
-importer = wpmoly.importer,
    media = wp.media,
+       $ = Backbone.$
 hasTouch = ( 'ontouchend' in document );
 
-/*_.extend( grid.view, {
+_.extend( grid.view, {
 
 	Menu: media.View.extend({
 
+		className: 'wpmoly-grid-menu',
+
 		template: media.template( 'wpmoly-grid-menu' ),
+
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.1.5
+		 *
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
+		initialize: function( options ) {
+
+			_.defaults( this.options, {
+				refreshSensitivity: hasTouch ? 300 : 200
+			} );
+
+			this._mode   = '';
+
+			this.frame      = this.options.frame;
+			this.library    = this.options.library;
+			this.controller = this.frame.controller;
+
+			this.$window = $( window );
+			this.$body   = $( document.body );
+			this.$waitee = $( 'body.waitee' );
+		},
 
 		render: function() {
 
-			this.$el.html( 'Menu' );
+			var options = {
+				mode:    this._mode,
+				scroll:  this.frame._scroll,
+				//view:    this.frame.mode(),
+				orderby: this.controller.get( 'orderby' ),
+				order:   this.controller.get( 'order' ),
+				include: {
+					incoming: this.controller.get( 'include_incoming' ),
+					unrated:  this.controller.get( 'include_unrated' ),
+				},
+				display: {
+					title:   this.controller.get( 'show_title' ),
+					genres:  this.controller.get( 'show_genres' ),
+					rating:  this.controller.get( 'show_rating' ),
+					runtime: this.controller.get( 'show_runtime' ),
+				}
+			};
+			this.$el.html( this.template( options ) );
+
+			if ( ! _.isEmpty( this._mode ) ) {
+				this.$el.addClass( 'open mode-' + options.mode );
+			}
+
+			this.views.render();
+
+			return this;
 		},
 	}),
 
@@ -27,13 +79,18 @@ hasTouch = ( 'ontouchend' in document );
 
 		initialize: function() {
 
+			this.frame      = this.options.frame;
+			this.library    = this.options.library;
+			this.controller = this.frame.controller;
+
 			this.grid = this.options.grid || {};
 		},
 
 		render: function() {
 
 			var rating = parseFloat( this.model.get( 'details' ).rating ),
-			    star = 'empty';
+			      star = 'empty',
+			  settings = this.controller;
 
 			if ( '' != rating ) {
 				if ( 3.5 < rating ) {
@@ -49,7 +106,13 @@ hasTouch = ( 'ontouchend' in document );
 						height: this.grid.thumbnail_height || '',
 						width:  this.grid.thumbnail_width  || ''
 					},
-					details: _.extend( this.model.get( 'details' ), { star: star } )
+					details: _.extend( this.model.get( 'details' ), { star: star } ),
+					display: {
+						title:   settings.get( 'show_title' ),
+						genres:  settings.get( 'show_genres' ),
+						rating:  settings.get( 'show_rating' ),
+						runtime: settings.get( 'show_runtime' )
+					}
 				} ) )
 			);
 
@@ -69,9 +132,21 @@ hasTouch = ( 'ontouchend' in document );
 
 		template: media.template( 'wpmoly-grid-content-grid' ),
 
+		_views: [],
+
 		initialize: function( options ) {
 
-			this.library = options.library;
+			_.defaults( this.options, {
+				resize:             true,
+				idealColumnWidth:   $( window ).width() < 640 ? 135 : 180,
+				refreshSensitivity: hasTouch ? 300 : 200,
+				refreshThreshold:   3,
+				resizeEvent:        'resize.grid-content-columns'
+			} );
+
+			this.frame      = this.options.frame;
+			this.library    = this.options.library;
+			this.controller = this.frame.controller;
 
 			// Add new views for new movies
 			this.library.on( 'add', function( movie ) {
@@ -82,19 +157,101 @@ hasTouch = ( 'ontouchend' in document );
 			this.library.on( 'reset', function() {
 				this.render();
 			}, this );
+
+			// Event handlers
+			_.bindAll( this, 'setColumns' );
+
+			$( window ).off( this.options.resizeEvent ).on( this.options.resizeEvent, _.debounce( this.setColumns, 50 ) );
+
+			// Call this.setColumns() after this view has been rendered in the DOM so
+			// attachments get proper width applied.
+			_.defer( this.setColumns, this );
 		},
 
 		create_subview: function( movie ) {
 
-			return new grid.view.Movie({
-				model: movie
+			var view = new grid.view.Movie({
+				model: movie,
+				grid:  this,
+				frame: this.frame
 			});
+
+			return this._views[ movie.cid ] = view;
 		},
 
-		render: function() {
+		/**
+		 * Calcul the best number of columns to use and resize thumbnails
+		 * to fit correctly.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   void
+		 */
+		setColumns: function() {
 
-			this.$el.html( this.template() );
+			var prev = this.columns,
+			   width = this.$el.width();
+
+			if ( width ) {
+
+				this.columns = Math.min( Math.round( width / this.options.idealColumnWidth ), 12 ) || 1;
+
+				this.thumbnail_width  = Math.round( width / this.columns );
+				this.thumbnail_height = Math.round( this.thumbnail_width * 1.6 );
+
+				if ( ! prev || prev !== this.columns ) {
+					this.$el.closest( '.grid-frame-content' ).attr( 'data-columns', this.columns );
+				}
+			}
+
+			//this.fixThumbnails( force = true );
 		},
+
+		/**
+		 * Fix movie thumbnails height to display properly in the grid.
+		 * 
+		 * If the force parameter is set to true every movie in the 
+		 * grid will be resized; it set to false only movies not already
+		 * resized will be considered.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    boolean    force resize
+		 * 
+		 * @return   void
+		 */
+		/*fixThumbnails: function( force ) {
+
+			if ( ! this.library.length )
+				return;
+
+			if ( true === force ) {
+				var $li = this.$( 'li' ),
+				$items = $li.find( '.movie-preview' );
+
+				$items.css( { width: '', height: '' } );
+				$li.css( { width: '' } );
+			} else {
+				var $li = this.$( 'li' ).not( '.resized' ),
+				$items = $li.find( '.movie-preview' );
+			}
+
+			this.thumbnail_width = Math.floor( this.$( 'li:first' ).width() - 1 );
+			this.thumbnail_height = Math.floor( this.thumbnail_width * 1.5 );
+
+			$li.addClass( 'resized' ).css({
+				width: this.thumbnail_width
+			});
+			$items.css({
+				width:  this.thumbnail_width - 8,
+				height: this.thumbnail_height - 12
+			});
+		},*/
+
+		/*render: function() {
+
+			this.$el.html();
+		},*/
 	})
 },
 {
@@ -119,7 +276,8 @@ hasTouch = ( 'ontouchend' in document );
 			this.render();
 
 			// Set controller
-			this.library = grid.query( options.library, this );
+			this.controller = new grid.controller.Settings;
+			this.library    = new grid.model.Query;
 
 			// Set regions
 			this.set_regions();
@@ -128,24 +286,19 @@ hasTouch = ( 'ontouchend' in document );
 		set_regions: function() {
 
 			this.menu    = new grid.view.Menu({
-				library: this.library
+				frame:      this,
+				library:    this.library,
+				controller: this.controller
 			});
+
 			this.content = new grid.view.Content({
-				library: this.library
+				frame:      this,
+				library:    this.library,
+				controller: this.controller
 			});
 
 			this.views.add( '.grid-frame-menu',    this.menu );
 			this.views.add( '.grid-frame-content', this.content );
 		}
 	})
-} );*/
-
-/* Required files:
- * - ./views/pagination.js
- * - ./views/menu.js
- * - ./views/movie.js
- * - ./views/content-grid.js
- * - ./views/content-exerpt.js
- * - ./views/frame.js
- * - ./views/grid-frame.js
- */
+} );
