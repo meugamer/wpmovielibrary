@@ -277,7 +277,7 @@ _.extend( grid.view, {
 
 			// Set controller
 			this.controller = new grid.controller.Settings;
-			this.library    = new grid.model.Query;
+			this.library    = new grid.controller.Query({ controller: this.controller });
 
 			// Set regions
 			this.set_regions();

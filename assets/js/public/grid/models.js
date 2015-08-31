@@ -78,28 +78,19 @@ _.extend( grid.model, {
 
 		initialize: function( options, controller ) {
 
-			options = options || {};
-
 			this.controller = controller;
 
-			this.props = new Backbone.Model();
 			this.pages = new Backbone.Model({
 				current: 0,
 				total:   0,
 				prev:    0,
 				next:    0
 			});
-
-			this.props.on( 'change', this.query, this );
-
-			this.props.set( _.defaults( options.props || {} ) );
 		},
 
 		query: function() {
 
-			props = this.props.toJSON();
-
-			this.sync( 'read', {}, props );
+			this.sync( 'read', {}, { data: this.props.toJSON() } );
 		},
 
 		sync: function( method, model, options ) {
@@ -200,10 +191,6 @@ _.extend( grid.model, {
 		},
 	})
 } );
-
-grid.model.Query = grid.model.Movies.extend({
-
-});
 
 grid.model.Movies.all = new grid.model.Movies();
 

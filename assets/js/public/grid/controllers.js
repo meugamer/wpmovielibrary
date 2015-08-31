@@ -45,3 +45,36 @@ _.extend( grid.controller, {
 		}
 	})
 } );
+
+_.extend( grid.controller, {
+
+	Query: Backbone.Model.extend({
+
+		query: {},
+
+		queries: [],
+
+		initialize: function( options ) {
+
+			this.settings = options.controller;
+			this.settings.on( 'change:order',   this.update, this );
+			this.settings.on( 'change:orderby', this.update, this );
+			this.settings.on( 'change:paged',   this.update, this );
+
+			this.props = new Backbone.Model;
+			this.props.on( 'change', this.get, this );
+		},
+
+		update: function( model, value, options ) {
+
+			this.props.set( model.changed );
+		},
+
+		get: function( model, value, options ) {
+
+			this.query = new grid.model.Movies;
+			this.query.props = model;
+
+		}
+	})
+} );
