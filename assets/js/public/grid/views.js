@@ -155,7 +155,9 @@ _.extend( grid.view, {
 
 			// Re-render the view when library is emptied
 			this.library.on( 'reset', function() {
-				this.render();
+				_.map( this.views.all(), function( view ) {
+					view.remove();
+				}, this );
 			}, this );
 
 			// Event handlers

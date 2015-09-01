@@ -76,9 +76,10 @@ _.extend( grid.model, {
 			paged:          1
 		},
 
-		initialize: function( options, controller ) {
+		initialize: function( models, options ) {
 
-			this.controller = controller;
+			var options = options || {};
+			this.controller = options.controller || {};
 
 			this.pages = new Backbone.Model({
 				current: 0,
@@ -95,31 +96,25 @@ _.extend( grid.model, {
 
 		sync: function( method, model, options ) {
 
-			var args, fallback;
-
 			// Overload the read method so Attachment.fetch() functions correctly.
 			if ( 'read' === method ) {
 
 				options = options || {};
 				options.context = this;
-				options.data = _.extend( options.data || {}, {
+
+				var args = _.extend( this.args, options.data || {} );
+				options.data = {
 					action:  'wpmoly_query_movies'
-				});
-
-				// Clone the args so manipulation is non-destructive.
-				args = _.clone( this.args );
-
-				// Determine which page to query.
-				var calc = Math.round( this.length / args.posts_per_page ) + 1;
-				if ( ! _.isUndefined( options.paged ) ) {
-					args.paged = options.paged;
-					delete options.paged;
-				} else if ( ( ! _.isUndefined( args.paged ) && args.paged <= calc ) ||
-					    (   _.isUndefined( args.paged ) && -1 !== args.posts_per_page ) ) {
-					args.paged = calc;
-				}
-
+				};
 				options.data.query = args;
+
+				options.success = function( resp ) {
+					var movies = this.parse( resp );
+					if ( ! this.controller.get( 'scroll' ) ) {
+						this.reset();
+					}
+					this.add( movies );
+				};
 
 				return wp.media.ajax( options );
 
