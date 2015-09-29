@@ -106,6 +106,16 @@ _.extend( grid.controller, {
 
 			this.query.props = model;
 			this.query.query();
+		},
+
+		prev: function() {
+
+			this.query.prev();
+		},
+
+		next: function() {
+
+			this.query.next();
 		}
 	})
 } );

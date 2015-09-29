@@ -71,11 +71,25 @@ _.extend( grid.model, {
 {
 	Movies: Backbone.Collection.extend({
 
+		// Defaut query args
 		args: {
 			posts_per_page: 4,
 			paged:          1
 		},
 
+		// More movies to load?
+		has_more: true,
+
+		/**
+		 * Initialize the Model
+		 * 
+		 * @since    2.1.5
+		 *
+		 * @param    object    Models
+		 * @param    object    Options
+		 * 
+		 * @return   void
+		 */
 		initialize: function( models, options ) {
 
 			var options = options || {};
@@ -87,13 +101,76 @@ _.extend( grid.model, {
 				prev:    0,
 				next:    0
 			});
+			this.pages.on( 'change', function() {
+				this.has_more = _.isEqual( this.pages.current, this.pages.total );
+			}, this );
 		},
 
-		query: function() {
+		/**
+		 * Query movies
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   XHR|boolean
+		 */
+		query: function( options ) {
 
-			this.sync( 'read', {}, { data: this.props.toJSON() } );
+			//var options = _.defaults( options, this.props.toJSON() );
+
+			this.sync( 'read', {}, { data: options } );
 		},
 
+		prev: function() {
+
+			if ( ! this.pages.get( 'prev' ) ) {
+				return false;
+			}
+
+			return this.query( { paged: this.pages.get( 'prev' ) } );
+		},
+
+		next: function() {
+
+			if ( ! this.pages.get( 'next' ) ) {
+				return false;
+			}
+
+			return this.query( { paged: this.pages.get( 'next' ) } );
+		},
+
+		/**
+		 * Fetch more movies from the server for the collection.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param   object    [options={}]
+		 * 
+		 * @return   Promise
+		 */
+		more: function( options ) {
+
+			if ( ! this.has_more ) {
+				return false;
+			}
+
+			var data = this.props.toJSON();
+			    data.paged = this.pages.get( 'next' );
+
+			return this.sync( 'read', {}, { data: data } );
+		},
+
+		/**
+		 * Overrides Backbone.Collection.sync
+		 * Overrides grid.model.Movies.sync
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    string    method
+		 * @param    object    model
+		 * @param    object    [options={}]
+		 * 
+		 * @return   Promise
+		 */
 		sync: function( method, model, options ) {
 
 			// Overload the read method so Attachment.fetch() functions correctly.
