@@ -59,9 +59,15 @@ wpmoly = {};
 
 				grid.id = _.uniqueId( grid.id + '-' );
 
+				var $script = $( grid ).prev( 'script' ),
+				     params = $.parseJSON( $script.text() ) || {};
+
+				var controller = new this.controller.Settings( params );
+
 				return this.frames.push(
 					new this.view.Grid({
-						el: '#' + grid.id,
+						el:         '#' + grid.id,
+						controller: controller
 						//scroll: true
 					})
 				);

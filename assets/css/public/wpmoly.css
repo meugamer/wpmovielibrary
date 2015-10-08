@@ -246,6 +246,11 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	top: 16px;
 }
 
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item.item-left {
+	float: left;
+	margin-right: 12px;
+}
+
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-menu-item.item-right {
 	float: right;
 	margin-left: 12px;
@@ -811,74 +816,75 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	opacity: 0.9;
 }
 
-#wpmoly-movie-grid {
+.wpmoly.movies.grid {
 	margin: 1em 0.5em;
 }
 
-#wpmoly-movie-grid.grid {
+.wpmoly.movies.grid {
 	text-align: center;
 }
 
-#wpmoly-movie-grid.archives > .wpmoly.block.headbox  {
+.wpmoly.movies.grid.archives > .wpmoly.block.headbox  {
 	margin-bottom: 1em;
 	margin-top: 1em;
 }
 
-#wpmoly-movie-grid > .movie {
+.wpmoly.movies.grid .attachments.movies > .movie {
 	display: inline-block;
 	margin: 0.2%;
 	vertical-align: top;
 }
 
-#wpmoly-movie-grid > .movie.with-title,
-#wpmoly-movie-grid > .movie.with-rating,
-#wpmoly-movie-grid > .movie.with-year {
+.wpmoly.movies.grid .attachments.movies > .movie.with-title,
+.wpmoly.movies.grid .attachments.movies > .movie.with-rating,
+.wpmoly.movies.grid .attachments.movies > .movie.with-year {
 	margin-bottom: 1em;
 }
 
-#wpmoly-movie-grid.grid-col-8 > .movie {
+.wpmoly.movies.grid.grid-col-8 .attachments.movies > .movie {
 	width: 11.3%;
 }
 
-#wpmoly-movie-grid.grid-col-7 > .movie {
+.wpmoly.movies.grid.grid-col-7 .attachments.movies > .movie {
 	width: 13.33%;
 }
 
-#wpmoly-movie-grid.grid-col-6 > .movie {
+.wpmoly.movies.grid.grid-col-6 .attachments.movies > .movie {
 	width: 15.7%;
 }
 
-#wpmoly-movie-grid.grid-col-5 > .movie {
+.wpmoly.movies.grid.grid-col-5 .attachments.movies > .movie {
 	width: 19%;
 }
 
-#wpmoly-movie-grid.grid-col-4 > .movie {
+.wpmoly.movies.grid.grid-col-4 .attachments.movies > .movie {
 	width: 24%;
 }
 
-#wpmoly-movie-grid.grid-col-3 > .movie {
+.wpmoly.movies.grid.grid-col-3 .attachments.movies > .movie {
 	width: 32.25%;
 }
 
-#wpmoly-movie-grid.grid-col-2 > .movie {
+.wpmoly.movies.grid.grid-col-2 .attachments.movies > .movie {
 	width: 49%;
 }
 
-#wpmoly-movie-grid .wpmoly.movie.link {
+.wpmoly.movies.grid .wpmoly.movie.link {
 	display: inline;
+	margin: 0;
 	text-align: left;
 	text-decoration: none;
 }
 
-#wpmoly-movie-grid .wpmoly.movie.poster {
+.wpmoly.movies.grid .wpmoly.movie.poster {
 	
 }
 
-#wpmoly-movie-grid .wpmoly.movie.year {
+.wpmoly.movies.grid .wpmoly.movie.year {
 	font-size: small;
 }
 
-#wpmoly-movie-grid .wpmoly.movie.title {
+.wpmoly.movies.grid .wpmoly.movie.title {
 	font-size: 1em;
 	margin: 0.5em 0 0 0;
 	text-align: left;
@@ -887,13 +893,13 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	overflow: hidden;
 }
 
-#wpmoly-movie-grid .wpmoly.movie.details-1 {
+.wpmoly.movies.grid .wpmoly.movie.details-1 {
 	display: block;
 	font-size: 75%;
 	opacity: 0.75;
 }
 
-#wpmoly-movie-grid > .movie .wp-post-image {
+.wpmoly.movies.grid > .movie .wp-post-image {
 	border-radius: 3px;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
 	height: 100%;

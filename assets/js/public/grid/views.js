@@ -275,7 +275,7 @@ _.extend( grid.view, {
 {
 	Content: media.View.extend({
 
-		id: 'grid-content-grid',
+		id: _.uniqueId( 'grid-content-grid-' ),
 
 		tagName:   'ul',
 
@@ -414,22 +414,24 @@ _.extend( grid.view, {
 
 		pages: new Backbone.Model,
 
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
 		initialize: function( options ) {
 
 			var options = options || {};
-			_.defaults( options, {
-				library: {
-					orderby: 'date',
-					order:   'DESC',
-					paged:   1
-				}
-			} );
 
-			// Render the view
-			this.render();
+			this.load = this.$el.attr( 'data-backbone' ) || 'no';
+			//this.render();
 
 			// Set controller
-			this.controller = new grid.controller.Settings;
+			this.controller = options.controller;
 			this.library    = new grid.controller.Query({ controller: this.controller });
 
 			// Set regions

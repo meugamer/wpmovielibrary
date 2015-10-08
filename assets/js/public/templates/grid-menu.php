@@ -1,6 +1,6 @@
 
 			<ul class="wpmoly-grid-menu-container">
-				<li class="wpmoly-grid-menu-item">
+				<li class="wpmoly-grid-menu-item item-left">
 					<a class="grid-menu-action<# if ( 'content' == data.mode ) { #> active<# } #>" data-action="openmenu" data-value="content" href="#" title="<?php _e( 'Edit the grid content', 'wpmovielibrary' ); ?>"><span class="wpmolicon icon-order"></span></a>
 				</li>
 				<li class="wpmoly-grid-menu-item item-right">

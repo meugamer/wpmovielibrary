@@ -11,23 +11,42 @@ _.extend( grid.controller, {
 
 		order:   [ 'asc', 'desc', 'random' ],
 
-		defaults: {
-			// Grid Content
-			orderby:          'title',
-			order:            'asc',
-			paged:            1,
+		initialize: function( options ) {
 
-			// Grid Filtering
-			include_incoming: true,
-			include_unrated:  true,
+			var options = options || {};
+			
+			_.defaults( options, {
+				// Library options
+				orderby:          options.orderby          || 'date',
+				order:            options.order            || 'DESC',
+				paged:            options.paged            || '1',
+				letter:           options.letter           || '',
+				category:         options.category         || '',
+				tag:              options.tag              || '',
+				collection:       options.collection       || '',
+				actor:            options.actor            || '',
+				genre:            options.genre            || '',
+				meta:             options.meta             || '',
+				detail:           options.detail           || '',
+				value:            options.value            || '',
 
-			// Grid Display
-			show_title:       true,
-			show_genres:      false,
-			show_rating:      true,
-			show_runtime:     true,
+				// Grid Filtering
+				include_incoming: options.include_incoming || true,
+				include_unrated:  options.include_unrated  || true,
 
-			scroll:           false,
+				// Grid Display
+				show_title:       options.show_title       || true,
+				show_year:        options.show_year        || true,
+				show_genres:      options.show_genres      || false,
+				show_rating:      options.show_rating      || false,
+				show_runtime:     options.show_runtime     || false,
+				scroll:           options.scroll           || false,
+				view:             options.view             || 'grid',
+				columns:          options.columns          || 4,
+				rows:             options.rows             || 6
+			} );
+
+			this.set( options );
 		},
 
 		update: function() {

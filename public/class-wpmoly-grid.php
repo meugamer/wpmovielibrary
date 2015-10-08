@@ -34,8 +34,6 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 		 */
 		public static function get_content( $args = array(), $shortcode = false ) {
 
-			global $wpdb, $wp_query;
-
 			$content  = '';
 			$defaults = array(
 				'backbone'   => wpmoly_o( 'movie-backbone-grid', $default = true ),
@@ -60,12 +58,6 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			);
 			$args = wp_parse_args( $args, $defaults );
 
-			return self::render_template( "movies/grid/backbone.php", $attributes = compact( 'args' ), $require = 'always' );
-
-			// Allow URL params to override Shortcode settings
-			/*$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
-			$args = wp_parse_args( $_args, $args );
-
 			// debug
 			$main_args = $args;
 
@@ -75,20 +67,58 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
 			$grid_meta = array_keys( $grid_meta['used'] );
 			$title  = ( $title || in_array( 'title', $grid_meta ) );
+			$genre  = ( $genre || in_array( 'genre', $grid_meta ) );
 			$rating = ( $rating || in_array( 'rating', $grid_meta ) );
 			$year   = ( $year || in_array( 'year', $grid_meta ) );
 
 			$views = array( 'grid', 'archives', 'list' );
-			if ( '1' == wpmoly_o( 'rewrite-enable' ) )
+			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
 				$views = array( 'grid' => __( 'grid', 'wpmovielibrary' ), 'archives' => __( 'archives', 'wpmovielibrary' ), 'list' => __( 'list', 'wpmovielibrary' ) );
+			}
 
 			if ( ! isset( $views[ $view ] ) ) {
 				$_view = array_search( $view, $views );
-				if ( false != $_view )
+				if ( false != $_view ) {
 					$view = $_view;
-				else
+				} else {
 					$view = 'grid';
+				}
 			}
+
+			$movies = self::_get_movies( $args );
+
+			if ( 'list' == $view ) {
+				$movies = self::prepare_list_view( $movies );
+			}
+
+			$theme = wp_get_theme();
+			if ( ! is_null( $theme->stylesheet ) ) {
+				$theme = ' theme-' . $theme->stylesheet;
+			} else {
+				$theme = '';
+			}
+
+			// debug
+			$debug = null;
+			if ( current_user_can( 'manage_options' ) && '1' == wpmoly_o( 'debug-mode' ) ) {
+				$debug = compact( 'main_args', 'permalinks_args' );
+			}
+
+			$attributes = compact( 'movies', 'columns', 'title', 'year', 'rating', 'theme', 'debug' );
+
+			$content = self::render_template( "movies/grid/$view-loop.php", $attributes, $require = 'always' );
+			$js      = self::render_template( "movies/grid/backbone.php", $attributes = compact( 'args' ), $require = 'always' );
+
+			$content = $js . $content;
+
+			return $content;
+		}
+
+		public static function _get_movies( $args ) {
+
+			global $wpdb, $wp_query;
+
+			extract( $args, EXTR_SKIP );
 
 			$movies = array();
 			$total  = wp_count_posts( 'movie' );
@@ -219,65 +249,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$total  = $wpdb->get_var( 'SELECT FOUND_ROWS() AS total' );
 			$movies = array_map( 'get_post', $movies );
 
-			if ( 'list' == $view )
-				$movies = self::prepare_list_view( $movies );
-
-			$baseurl = get_permalink();*/
-			/*if ( true === $shortcode ) {
-				$baseurl = get_permalink();
-			} else {
-				$baseurl = get_post_type_archive_link( 'movie' );
-			}*/
-
-			/*$args = array(
-				'order'   => $order,
-				'columns' => $columns,
-				'rows'    => $rows,
-				'letter'  => $letter,
-				'value'   => $value,
-				$type     => $meta,
-				'l10n'    => false,
-				'view'    => $view,
-				'baseurl' => $baseurl
-			);
-			$url = WPMOLY_Utils::build_meta_permalink( $args );
-
-			// debug
-			$permalinks_args = $args;
-
-			global $wp_rewrite;
-			$format = '/page/%#%';
-			if ( '' == $wp_rewrite->permalink_structure )
-				$format = '&paged=%#%';
-
-			$args = array(
-				'type'    => 'list',
-				'total'   => ceil( ( $total ) / $number ),
-				'current' => max( 1, $paged ),
-				'format'  => $url . $format,
-			);
-
-			$paginate = WPMOLY_Utils::paginate_links( $args );
-			$paginate = '<div id="wpmoly-movies-pagination">' . $paginate . '</div>';
-
-			$theme = wp_get_theme();
-			if ( ! is_null( $theme->stylesheet ) )
-				$theme = ' theme-' . $theme->stylesheet;
-			else
-				$theme = '';
-
-			// debug
-			$debug = null;
-			if ( current_user_can( 'manage_options' ) && '1' == wpmoly_o( 'debug-mode' ) ) {
-				$debug = compact( 'main_args', 'permalinks_args' );
-			}
-
-			$attributes = compact( 'movies', 'columns', 'title', 'year', 'rating', 'theme', 'debug' );
-
-			$content  = self::render_template( "movies/grid/$view-loop.php", $attributes, $require = 'always' );
-			$content  = $content . $paginate;*/
-
-			return $content;
+			return $movies;
 		}
 
 		/**
