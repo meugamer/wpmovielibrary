@@ -97,7 +97,7 @@ $wpmoly_shortcodes = array(
 				'values'  => null,
 				'filter'  => 'esc_attr'
 			),
-			'title' => array(
+			/*'title' => array(
 				'default' => false,
 				'values'  => 'boolean',
 				'filter'  => 'esc_attr'
@@ -111,7 +111,7 @@ $wpmoly_shortcodes = array(
 				'default' => false,
 				'values'  => 'boolean',
 				'filter'  => 'esc_attr'
-			)
+			)*/
 		),
 		'content'  => null,
 		'callback' => 'movie_grid',

@@ -57,18 +57,21 @@ wpmoly = {};
 
 			_.map( grids, function( grid ) {
 
+				// Set a unique ID for the current grid
 				grid.id = _.uniqueId( grid.id + '-' );
 
+				// Load grid parameters
 				var $script = $( grid ).prev( 'script' ),
 				     params = $.parseJSON( $script.text() ) || {};
 
+				// Set the grid controller
 				var controller = new this.controller.Settings( params );
 
+				// Build the grid
 				return this.frames.push(
 					new this.view.Grid({
 						el:         '#' + grid.id,
 						controller: controller
-						//scroll: true
 					})
 				);
 			}, this );

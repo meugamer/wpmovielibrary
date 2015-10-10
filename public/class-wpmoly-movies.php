@@ -203,129 +203,8 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 
 			$query = isset( $_POST['query'] ) ? (array) $_POST['query'] : array();
 
-			$defaults = array(
-				'post_type'   => 'movie',
-				'post_status' => 'publish',
-			);
-			$query = wp_parse_args( $query, $defaults );
-
-			if ( 'release_date' == $query['orderby'] ) {
-				$query['meta_key'] = '_wpmoly_movie_release_date';
-				$query['orderby']  = 'meta_value_num';
-			}
-
-			unset( $query['filter'] );
-
-			$query = new WP_Query( $query );
-
-			$posts = array_map( 'get_post', $query->posts );
-			$posts = array_filter( $posts );
-			$ids   = array_map( create_function( '$post', 'return $post->ID;' ), $posts );
-
-			$meta     = WPMOLY_Movies::get_movies_meta( $ids );
-			$details  = WPMOLY_Movies::get_movies_meta( $ids, 'details' );
-
-			foreach ( $posts as $i => $post ) {
-
-				$data = array(
-					'id'            => $post->ID,
-					'post_author'   => $post->post_author,
-					'post_date'     => strtotime( $post->post_date_gmt ) * 1000,
-					'post_content'  => apply_filters( 'the_content', $post->post_content ),
-					'post_title'    => apply_filters( 'the_title', $post->post_title ),
-					'post_excerpt'  => apply_filters( 'the_excerpt', $post->post_excerpt ),
-					'post_status'   => $post->post_status,
-					'post_name'     => $post->post_name,
-					'post_modified' => strtotime( $post->post_modified_gmt ) * 1000,
-					'guid'          => $post->guid,
-					'comment_count' => $post->comment_count,
-					'permalink'     => get_permalink( $post->ID ),
-					'edit_link'     => null,
-					'thumbnail'     => array(),
-					'meta'          => array(),
-					'details'       => array()
-				);
-
-				$thumbnail_id = get_post_thumbnail_id( $post->ID );
-				if ( '' == $thumbnail_id ) {
-					$thumbnail = array(
-						'thumbnail' => array(
-							'file'   => str_replace( '{size}', '-thumbnail', WPMOLY_DEFAULT_POSTER_URL ),
-							'height' => 150,
-							'width'  => 150
-						),
-						'medium'    => array(
-							'file'   => str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL ),
-							'height' => 450,
-							'width'  => 300
-						),
-						'large'     => array(
-							'file'   => str_replace( '{size}', '-large', WPMOLY_DEFAULT_POSTER_URL ),
-							'height' => 960,
-							'width'  => 640
-						),
-						'original'  => array(
-							'file'   => str_replace( '{size}', '', WPMOLY_DEFAULT_POSTER_URL ),
-							'height' => 1350,
-							'width'  => 900
-						),
-					);
-				} else {
-
-					$attachment_meta = wp_get_attachment_metadata( $thumbnail_id, $unfiltered = true );
-					$attachment_url  = wp_get_attachment_url( $thumbnail_id );
-					$base_url        = trailingslashit( str_replace( wp_basename( $attachment_url ), '', $attachment_url ) );
-
-					$thumbnail = array(
-						'thumbnail' => array(
-							'file'   => $base_url . $attachment_meta['sizes']['thumbnail']['file'],
-							'height' => $attachment_meta['sizes']['thumbnail']['height'],
-							'width'  => $attachment_meta['sizes']['thumbnail']['width']
-						),
-						'medium'    => array(
-							'file'   => $base_url . $attachment_meta['sizes']['medium']['file'],
-							'height' => $attachment_meta['sizes']['medium']['height'],
-							'width'  => $attachment_meta['sizes']['medium']['width']
-						),
-						'large'     => array(
-							'file'   => $base_url . $attachment_meta['sizes']['large']['file'],
-							'height' => $attachment_meta['sizes']['large']['height'],
-							'width'  => $attachment_meta['sizes']['large']['width']
-						),
-						'original'  => array(
-							'file'   => $base_url . $attachment_meta['file'],
-							'height' => $attachment_meta['height'],
-							'width'  => $attachment_meta['width']
-						),
-					);
-				}
-
-				$data['thumbnail'] = $thumbnail;
-
-				if ( current_user_can( 'edit_post', $post->ID ) ) {
-					$data['edit_link'] = get_edit_post_link( $post->ID );
-				}
-
-				if ( isset( $meta[ $post->ID ] ) ) {
-					foreach ( $meta[ $post->ID ] as $k => $v ) {
-						$data['meta'][ $k ] = htmlspecialchars_decode( $v, ENT_QUOTES );
-					}
-				}
-
-				if ( isset( $details[ $post->ID ] ) ) {
-					$data['details'] = $details[ $post->ID ];
-					$data['details']['stars'] = apply_filters( 'wpmoly_movie_rating_stars', $details[ $post->ID ]['rating'] );
-				}
-
-				$posts[ $i ] = $data;
-
-			}
-
-			$posts['pages'] = array(
-				'current' => (int) $query->query['paged'],
-				'total'   => (int) $query->max_num_pages,
-				'posts'   => (int) $query->found_posts
-			);
+			$posts = self::query_movies( $query );
+			$posts = self::prepare_movies_for_json( $posts );
 
 			wp_send_json_success( $posts );
 		}
@@ -664,6 +543,211 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 *                              Queries
 		 * 
 		 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		public static function query_movies( $args ) {
+
+			global $wpdb, $wp_query;
+
+			$defaults = array(
+				'number'      => wpmoly_o( 'movie-archives-movies-per-page', $default = 24 ),
+				'order'       => wpmoly_o( 'movie-archives-movies-order', $default = 'DESC' ),
+				'orderby'     => 'post_title',
+				'paged'       => 1,
+				// Taxonomy
+				'category'    => null,
+				'tag'         => null,
+				'collection'  => null,
+				'actor'       => null,
+				'genre'       => null,
+				// Meta
+				'meta'        => null,
+				'detail'      => null,
+				'value'       => null,
+				'letter'      => null
+			);
+			$args = wp_parse_args( $args, $defaults );
+			extract( $args, EXTR_SKIP );
+
+			$params = array(
+				'post_type'      => 'movie',
+				'post_status'    => 'publish',
+				'posts_per_page' => $number,
+				'paged'          => $paged
+			);
+
+			$order = strtoupper( $order );
+			if ( 'DESC' != $order ) {
+				$order = 'ASC';
+			}
+			$params['order']   = $order;
+
+			$order_by = array(
+				'year'       => 'release_date',
+				'date'       => 'release_date',
+				'localdate'  => 'local_release_date',
+				'rating'     => 'rating'
+			);
+
+			if ( in_array( $orderby, $order_by ) ) {
+				$params['meta_key'] = "_wpmoly_movie_{$orderby}";
+				$params['orderby']  = 'meta_value';
+			} else if ( isset( $order_by[ $orderby ] ) ) {
+				$params['meta_key'] = "_wpmoly_movie_{$order_by[$orderby]}";
+				$params['orderby']  = 'meta_value';
+			} else if ( 'post_date' == $orderby ) {
+				$params['orderby'] = 'post_date';
+			} else {
+				$params['orderby'] = 'post_title';
+			}
+
+			$tax_query = array();
+			foreach ( array( 'category', 'tag', 'collection', 'actor', 'genre' ) as $taxonomy ) {
+				if ( isset( $args[ $taxonomy ] ) && ! is_null( $args[ $taxonomy ] ) && ! empty( $args[ $taxonomy ] ) ) {
+					$tax_query[] = array(
+						'relation' => 'OR',
+						array(
+							'taxonomy' => $taxonomy,
+							'field'    => 'slug',
+							'terms'    => $args[ $taxonomy ],
+						),
+						array(
+							'taxonomy' => $taxonomy,
+							'field'    => 'name',
+							'terms'    => $args[ $taxonomy ],
+						)
+					);
+				}
+			}
+
+			if ( ! empty( $tax_query ) ) {
+				//$tax_query = array( $tax_query );
+				if ( 1 < count( $tax_query ) ) {
+					$tax_query['relation'] = 'AND';
+				}
+			}
+
+			$params['tax_query'] = $tax_query;
+
+			$movies = new WP_Query( $params );
+
+			return $movies;
+		}
+
+		public static function prepare_movies_for_json( $posts ) {
+
+			$ids = array_map( create_function( '$post', 'return $post->ID;' ), $posts->posts );
+
+			$meta     = WPMOLY_Movies::get_movies_meta( $ids );
+			$details  = WPMOLY_Movies::get_movies_meta( $ids, 'details' );
+
+			$movies = array();
+
+			foreach ( $posts->posts as $i => $post ) {
+
+				$data = array(
+					'id'            => $post->ID,
+					'post_author'   => $post->post_author,
+					'post_date'     => strtotime( $post->post_date_gmt ) * 1000,
+					'post_content'  => apply_filters( 'the_content', $post->post_content ),
+					'post_title'    => apply_filters( 'the_title', $post->post_title ),
+					'post_excerpt'  => apply_filters( 'the_excerpt', $post->post_excerpt ),
+					'post_status'   => $post->post_status,
+					'post_name'     => $post->post_name,
+					'post_modified' => strtotime( $post->post_modified_gmt ) * 1000,
+					'guid'          => $post->guid,
+					'comment_count' => $post->comment_count,
+					'permalink'     => get_permalink( $post->ID ),
+					'edit_link'     => null,
+					'thumbnail'     => array(),
+					'meta'          => array(),
+					'details'       => array()
+				);
+
+				$thumbnail_id = get_post_thumbnail_id( $post->ID );
+				if ( '' == $thumbnail_id ) {
+					$thumbnail = array(
+						'thumbnail' => array(
+							'file'   => str_replace( '{size}', '-thumbnail', WPMOLY_DEFAULT_POSTER_URL ),
+							'height' => 150,
+							'width'  => 150
+						),
+						'medium'    => array(
+							'file'   => str_replace( '{size}', '-medium', WPMOLY_DEFAULT_POSTER_URL ),
+							'height' => 450,
+							'width'  => 300
+						),
+						'large'     => array(
+							'file'   => str_replace( '{size}', '-large', WPMOLY_DEFAULT_POSTER_URL ),
+							'height' => 960,
+							'width'  => 640
+						),
+						'original'  => array(
+							'file'   => str_replace( '{size}', '', WPMOLY_DEFAULT_POSTER_URL ),
+							'height' => 1350,
+							'width'  => 900
+						),
+					);
+				} else {
+
+					$attachment_meta = wp_get_attachment_metadata( $thumbnail_id, $unfiltered = true );
+					$attachment_url  = wp_get_attachment_url( $thumbnail_id );
+					$base_url        = trailingslashit( str_replace( wp_basename( $attachment_url ), '', $attachment_url ) );
+
+					$thumbnail = array(
+						'thumbnail' => array(
+							'file'   => $base_url . $attachment_meta['sizes']['thumbnail']['file'],
+							'height' => $attachment_meta['sizes']['thumbnail']['height'],
+							'width'  => $attachment_meta['sizes']['thumbnail']['width']
+						),
+						'medium'    => array(
+							'file'   => $base_url . $attachment_meta['sizes']['medium']['file'],
+							'height' => $attachment_meta['sizes']['medium']['height'],
+							'width'  => $attachment_meta['sizes']['medium']['width']
+						),
+						'large'     => array(
+							'file'   => $base_url . $attachment_meta['sizes']['large']['file'],
+							'height' => $attachment_meta['sizes']['large']['height'],
+							'width'  => $attachment_meta['sizes']['large']['width']
+						),
+						'original'  => array(
+							'file'   => $base_url . $attachment_meta['file'],
+							'height' => $attachment_meta['height'],
+							'width'  => $attachment_meta['width']
+						),
+					);
+				}
+
+				$data['thumbnail'] = $thumbnail;
+
+				if ( current_user_can( 'edit_post', $post->ID ) ) {
+					$data['edit_link'] = get_edit_post_link( $post->ID );
+				}
+
+				if ( isset( $meta[ $post->ID ] ) ) {
+					foreach ( $meta[ $post->ID ] as $k => $v ) {
+						$data['meta'][ $k ] = htmlspecialchars_decode( $v, ENT_QUOTES );
+					}
+				}
+
+				if ( isset( $details[ $post->ID ] ) ) {
+					$data['details'] = $details[ $post->ID ];
+					$data['details']['stars'] = apply_filters( 'wpmoly_movie_rating_stars', $details[ $post->ID ]['rating'] );
+				}
+
+				$movies[ $i ] = $data;
+
+			}
+
+			$movies['pages'] = array(
+				'total'   => $posts->max_num_pages,
+				'current' => $posts->query_vars['paged'],
+				'prev'    => max( $posts->query_vars['paged'] - 1, 1 ),
+				'next'    => min( $posts->query_vars['paged'] + 1, $posts->max_num_pages ),
+				'posts'   => $posts->found_posts
+			);
+
+			return $movies;
+		}
 
 		/**
 		 * Add Movie Details slugs to queryable vars

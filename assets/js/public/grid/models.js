@@ -71,11 +71,7 @@ _.extend( grid.model, {
 {
 	Movies: Backbone.Collection.extend({
 
-		// Defaut query args
-		args: {
-			posts_per_page: 4,
-			paged:          1
-		},
+		query_args: [ 'number', 'orderby', 'order', 'paged', 'letter', 'category', 'tag', 'collection', 'actor', 'genre', 'meta', 'detail', 'value' ],
 
 		// More movies to load?
 		has_more: true,
@@ -94,8 +90,7 @@ _.extend( grid.model, {
 
 			var options = options || {};
 			this.controller = options.controller || {};
-
-			this.pages = new Backbone.Model({
+			this.pages      = this.controller.pages || new Backbone.Model({
 				current: 0,
 				total:   0,
 				prev:    0,
@@ -179,11 +174,16 @@ _.extend( grid.model, {
 				options = options || {};
 				options.context = this;
 
-				var args = _.extend( this.args, options.data || {} );
+				//var args = _.extend( this.args, this.controller.toJSON(), options.data || {} );
+				var query = {};
+				_.each( this.query_args, function( arg ) {
+					query[ arg ] = this.controller.get( arg ) || null;
+				}, this );
 				options.data = {
-					action:  'wpmoly_query_movies'
+					action:  'wpmoly_query_movies',
+					//nonce: '',
+					query: _.extend( query, options.data || {} )
 				};
-				options.data.query = args;
 
 				options.success = function( resp ) {
 					var movies = this.parse( resp );

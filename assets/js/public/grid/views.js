@@ -88,7 +88,7 @@ _.extend( grid.view, {
 			'click a[data-action="prev"]':          'prev',
 			'click a[data-action="next"]':          'next',
 			'change input[data-action="browse"]':   'browse',
-			'keypress input[data-action="browse"]': 'browse',
+			//'keypress input[data-action="browse"]': 'browse',
 
 			'click .grid-pagination-settings':      'stopPropagation'
 
@@ -105,8 +105,9 @@ _.extend( grid.view, {
 		*/
 		initialize: function( options ) {
 
-			this.library = this.options.library;
-			this.frame   = this.options.frame;
+			this.library    = this.options.library;
+			this.frame      = this.options.frame;
+			this.controller = this.options.controller;
 
 			this.$body = $( 'body' );
 
@@ -159,22 +160,9 @@ _.extend( grid.view, {
 		browse: function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
-			    value;
+			    value = $elem.val() || 1;
 
-			if ( 'click' == event.type ) {
-				if ( 'next' == value ) {
-					this.library._next();
-				} else if ( 'prev' == value ) {
-					this.library._prev();
-				} else {
-					return this;
-				}
-			} else if ( 'change' == event.type || ( 'keypress' == event.type && 13 === ( event.charCode || event.keyCode ) ) ) {
-				value = $elem.val() || 1 ;
-				this.library._page( value );
-			} else {
-				return this;
-			}
+			this.library.page( value );
 
 			return this;
 		},
@@ -428,7 +416,7 @@ _.extend( grid.view, {
 			var options = options || {};
 
 			this.load = this.$el.attr( 'data-backbone' ) || 'no';
-			//this.render();
+			this.render();
 
 			// Set controller
 			this.controller = options.controller;

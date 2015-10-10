@@ -14,9 +14,17 @@ _.extend( grid.controller, {
 		initialize: function( options ) {
 
 			var options = options || {};
+
+			this.pages = new Backbone.Model({
+				current: options.pages.current || 0,
+				total:   options.pages.total   || 0,
+				prev:    options.pages.prev    || 0,
+				next:    options.pages.next    || 0
+			})
 			
 			_.defaults( options, {
 				// Library options
+				number:           options.number           || 24,
 				orderby:          options.orderby          || 'date',
 				order:            options.order            || 'DESC',
 				paged:            options.paged            || '1',
@@ -45,7 +53,6 @@ _.extend( grid.controller, {
 				columns:          options.columns          || 4,
 				rows:             options.rows             || 6
 			} );
-
 			this.set( options );
 		},
 
@@ -77,9 +84,6 @@ _.extend( grid.controller, {
 
 			this.settings = options.controller;
 			this.settings.on( 'change', this.update, this );
-			/*this.settings.on( 'change:order',   this.update, this );
-			this.settings.on( 'change:orderby', this.update, this );
-			this.settings.on( 'change:paged',   this.update, this );*/
 
 			this.props = new Backbone.Model;
 			this.props.on( 'change', this.get, this );
@@ -135,6 +139,11 @@ _.extend( grid.controller, {
 		next: function() {
 
 			this.query.next();
+		},
+
+		page: function( page ) {
+
+			this.query.query( { paged: page } );
 		}
 	})
 } );
