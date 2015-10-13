@@ -3,6 +3,26 @@ wpmoly = {};
 
 ( function( $, _, Backbone, wp ) {
 
+	_.extend( _, {
+
+		hash: function( string ) {
+
+			var hash = 0;
+
+			if ( ! string.length ) {
+				return hash;
+			}
+
+			for ( i = 0; i < string.length; i++ ) {
+				hash = ( ( hash << 5 ) - hash ) + string.charCodeAt( i );
+				hash = hash & hash;
+			}
+
+			return hash;
+		}
+
+	} );
+
 	_.extend( wpmoly, {
 
 		controller: {},

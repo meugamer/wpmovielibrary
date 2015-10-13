@@ -143,7 +143,7 @@ _.extend( grid.controller, {
 
 		page: function( page ) {
 
-			this.query.query( { paged: page } );
+			this.query.query( { paged: parseInt( page ) } );
 		}
 	})
 } );

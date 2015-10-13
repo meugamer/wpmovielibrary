@@ -110,8 +110,6 @@ _.extend( grid.model, {
 		 */
 		query: function( options ) {
 
-			//var options = _.defaults( options, this.props.toJSON() );
-
 			this.sync( 'read', {}, { data: options } );
 		},
 
@@ -151,7 +149,7 @@ _.extend( grid.model, {
 			var data = this.props.toJSON();
 			    data.paged = this.pages.get( 'next' );
 
-			return this.sync( 'read', {}, { data: data } );
+			return this.query( { data: data } );
 		},
 
 		/**
@@ -174,31 +172,62 @@ _.extend( grid.model, {
 				options = options || {};
 				options.context = this;
 
-				//var args = _.extend( this.args, this.controller.toJSON(), options.data || {} );
 				var query = {};
 				_.each( this.query_args, function( arg ) {
 					query[ arg ] = this.controller.get( arg ) || null;
 				}, this );
+				_.extend( query, options.data || {} );
+
+				// check if there's a cached result for the query
+				var cache_id = this.cache.exists( query );
+				if ( cache_id ) {
+					var data = this.cache.get( cache_id );
+					return this.success( data );
+				}
+
 				options.data = {
 					action:  'wpmoly_query_movies',
-					//nonce: '',
-					query: _.extend( query, options.data || {} )
+					query: query
+					//nonce: ''
 				};
 
-				options.success = function( resp ) {
-					var movies = this.parse( resp );
-					if ( ! this.controller.get( 'scroll' ) ) {
-						this.reset();
-					}
-					this.add( movies );
+				options.success = function( data ) {
+
+					// cache the request result
+					this.cache.set( _.uniqueId( 'q' ), query, data );
+
+					// actually handle the result
+					this.success( data );
 				};
 
-				return wp.media.ajax( options );
+				return wp.ajax.send( options );
 
 			// Otherwise, fall back to Backbone.sync()
 			} else {
 				return Backbone.sync.apply( this, arguments );
 			}
+		},
+
+		/**
+		 * Custom success function for AJAX.
+		 * 
+		 * Handle the AJAX response independently from the AJAX call 
+		 * per-se. Useful to provide caching.
+		 * 
+		 * @since    2.1.5
+		 *
+		 * @param    object|array    The raw response Object/Array.
+		 * 
+		 * @return   void
+		 */
+		success: function( data ) {
+
+			var movies = this.parse( data );
+			if ( ! this.controller.get( 'scroll' ) ) {
+				this.reset();
+			}
+
+			return this.add( movies );
 		},
 
 		/**
@@ -211,17 +240,17 @@ _.extend( grid.model, {
 		 * 
 		 * @return   array           The array of model attributes to be added to the collection
 		 */
-		parse: function( resp, xhr ) {
+		parse: function( data, xhr ) {
 
 			// Set pagination data
-			if ( ! _.isUndefined( resp.pages ) ) {
+			if ( ! _.isUndefined( data.pages ) ) {
 
 				var pages = {
-					current: resp.pages.current,
-					prev:    Math.max( 0, resp.pages.current - 1 ),
-					next:    Math.min( resp.pages.total, resp.pages.current + 1 ),
-					total:   resp.pages.total,
-					posts:   resp.pages.posts
+					current: data.pages.current,
+					prev:    Math.max( 0, data.pages.current - 1 ),
+					next:    Math.min( data.pages.total, data.pages.current + 1 ),
+					total:   data.pages.total,
+					posts:   data.pages.posts
 				};
 
 				this.pages.set( pages );
@@ -229,18 +258,20 @@ _.extend( grid.model, {
 					this.mirroring.pages.set( pages );
 				}
 
-				delete resp.pages;
+				delete data.pages;
 			}
 
-			if ( _.isObject( resp ) && false === resp instanceof grid.model.Movie ) {
-				return _.toArray( resp );
+			if ( _.isObject( data ) && false === data instanceof grid.model.Movie ) {
+				return _.toArray( data );
 			}
 
-			if ( ! _.isArray( resp ) ) {
-				resp = [resp];
+			return data;
+
+			/*if ( ! _.isArray( data ) ) {
+				data = [data];
 			}
 
-			return _.each( resp, function( attrs ) {
+			_.each( data, function( attrs ) {
 
 				var id, movie, newAttributes;
 
@@ -260,7 +291,51 @@ _.extend( grid.model, {
 
 				return movie;
 			});
+
+			return data;*/
 		},
+
+		cache: {
+
+			queries: {
+				/*q1: { a: 'A', b: 'B' },
+				q2: { a: 'Aa', b: 'Bb' },
+				q3: { a: 'AAa', b: 'BBb' }*/
+			},
+
+			cache: {
+				/*q1: { c: 'C', d: 'D' },
+				q2: { c: 'Cc', d: 'Dd' },
+				q3: { c: 'CCc', d: 'DDd' }*/
+			},
+
+			set: function( id, data, value ) {
+
+				if ( ! this.exists( data ) && ! this.queries.hasOwnProperty( id ) ) {
+					this.queries[ id ] = _.clone( data );
+					this.cache[ id ] = _.clone( value );
+				}
+
+				return id;
+			},
+
+			get: function( id ) {
+
+				return this.queries.hasOwnProperty( id ) ? this.cache[ id ] : {};
+			},
+
+			exists: function( data ) {
+
+				var id = false;
+				_.each( this.queries, function( value, key ) {
+					if ( _.isEqual( value, data ) ) {
+						id = key;
+					}
+				}, this );
+
+				return id;
+			}
+		}
 	})
 } );
 
