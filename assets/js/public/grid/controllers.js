@@ -88,11 +88,11 @@ _.extend( grid.controller, {
 			this.props = new Backbone.Model;
 			this.props.on( 'change', this.get, this );
 
-			this.query = new grid.model.Movies( [], { controller: this.settings } );
-			this.listenTo( this.query, 'add',    this.add );
-			this.listenTo( this.query, 'remove', this.remove );
-			this.listenTo( this.query, 'change', this.change );
-			this.listenTo( this.query, 'reset',  this.reset );
+			this.collection = new grid.model.Movies( [], { controller: this.settings } );
+			this.listenTo( this.collection, 'add',    this.add );
+			this.listenTo( this.collection, 'remove', this.remove );
+			this.listenTo( this.collection, 'change', this.change );
+			this.listenTo( this.collection, 'reset',  this.reset );
 		},
 
 		add: function( model, collection, options ) {
@@ -127,23 +127,23 @@ _.extend( grid.controller, {
 
 		get: function( model, value, options ) {
 
-			this.query.props = model;
-			this.query.query();
+			this.collection.props = model;
+			this.collection.query();
 		},
 
 		prev: function() {
 
-			this.query.prev();
+			return this.collection.prev();
 		},
 
 		next: function() {
 
-			this.query.next();
+			return this.collection.next();
 		},
 
 		page: function( page ) {
 
-			this.query.query( { paged: parseInt( page ) } );
+			return this.collection.query( { paged: parseInt( page ) } );
 		}
 	})
 } );

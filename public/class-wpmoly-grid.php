@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 			$args['pages'] = array(
 				'total'   => $movies->max_num_pages,
 				'current' => $movies->query_vars['paged'],
-				'prev'    => max( $movies->query_vars['paged'] - 1, 1 ),
+				'prev'    => max( $movies->query_vars['paged'] - 1, 0 ),
 				'next'    => min( $movies->query_vars['paged'] + 1, $movies->max_num_pages ),
 				'posts'   => $movies->found_posts
 			);

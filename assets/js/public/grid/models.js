@@ -110,25 +110,29 @@ _.extend( grid.model, {
 		 */
 		query: function( options ) {
 
-			this.sync( 'read', {}, { data: options } );
+			return this.sync( 'read', {}, { data: options } );
 		},
 
 		prev: function() {
 
-			if ( ! this.pages.get( 'prev' ) ) {
+			//console.log( this.pages.get( 'prev' ) );
+			/*if ( ! this.pages.get( 'prev' ) ) {
 				return false;
-			}
+			}*/
+			var page = Math.max( 0, this.pages.get( 'current' ) - 1 );
 
-			return this.query( { paged: this.pages.get( 'prev' ) } );
+			return this.query( { paged: page } );
 		},
 
 		next: function() {
 
-			if ( ! this.pages.get( 'next' ) ) {
+			//console.log( this.pages.get( 'next' ) );
+			/*if ( ! this.pages.get( 'next' ) ) {
 				return false;
-			}
+			}*/
+			var page = Math.min( this.pages.get( 'current' ) + 1, this.pages.get( 'total' ) );
 
-			return this.query( { paged: this.pages.get( 'next' ) } );
+			return this.query( { paged: page } );
 		},
 
 		/**
@@ -156,6 +160,9 @@ _.extend( grid.model, {
 		 * Overrides Backbone.Collection.sync
 		 * Overrides grid.model.Movies.sync
 		 * 
+		 * Implement a caching system to avoid running the same query
+		 * twice.
+		 * 
 		 * @since    2.1.5
 		 * 
 		 * @param    string    method
@@ -181,7 +188,7 @@ _.extend( grid.model, {
 				// check if there's a cached result for the query
 				var cache_id = this.cache.exists( query );
 				if ( cache_id ) {
-					var data = this.cache.get( cache_id );
+					var data = _.clone( this.cache.get( cache_id ) );
 					return this.success( data );
 				}
 
@@ -254,9 +261,9 @@ _.extend( grid.model, {
 				};
 
 				this.pages.set( pages );
-				if ( this.mirroring ) {
+				/*if ( this.mirroring ) {
 					this.mirroring.pages.set( pages );
-				}
+				}*/
 
 				delete data.pages;
 			}
@@ -295,40 +302,74 @@ _.extend( grid.model, {
 			return data;*/
 		},
 
+		/**
+		 * Query Caching object.
+		 * 
+		 * Store the queries parameters and results to avoid running a
+		 * query twice.
+		 * 
+		 * @since    2.1.5
+		 */
 		cache: {
 
-			queries: {
-				/*q1: { a: 'A', b: 'B' },
-				q2: { a: 'Aa', b: 'Bb' },
-				q3: { a: 'AAa', b: 'BBb' }*/
-			},
+			// Cached query parameters
+			queries: {},
 
-			cache: {
-				/*q1: { c: 'C', d: 'D' },
-				q2: { c: 'Cc', d: 'Dd' },
-				q3: { c: 'CCc', d: 'DDd' }*/
-			},
+			// Cached query results
+			results: {},
 
-			set: function( id, data, value ) {
+			/**
+			 * Add a query to the cache.
+			 * 
+			 * @since    2.1.5
+			 * 
+			 * @param    int       Cache ID
+			 * @param    object    Query parameters
+			 * @param    object    Query results
+			 * 
+			 * @return   string    Cache ID
+			 */
+			set: function( id, query, results ) {
 
-				if ( ! this.exists( data ) && ! this.queries.hasOwnProperty( id ) ) {
-					this.queries[ id ] = _.clone( data );
-					this.cache[ id ] = _.clone( value );
+				if ( ! this.exists( query ) && ! this.queries.hasOwnProperty( id ) ) {
+					this.queries[ id ] = _.clone( query );
+					this.results[ id ] = _.clone( results );
 				}
 
 				return id;
 			},
 
+			/**
+			 * Retrieve the cached data corresponding to a cache ID,
+			 * empty object if no matching result could be found.
+			 * 
+			 * @since    2.1.5
+			 * 
+			 * @param    int    Cache ID
+			 * 
+			 * @return   object
+			 */
 			get: function( id ) {
 
-				return this.queries.hasOwnProperty( id ) ? this.cache[ id ] : {};
+				return this.queries.hasOwnProperty( id ) ? this.results[ id ] : {};
 			},
 
-			exists: function( data ) {
+			/**
+			 * Check if a query matching the submitted parameters
+			 * has been cached already and return its ID, false
+			 * otherwise.
+			 * 
+			 * @since    2.1.5
+			 * 
+			 * @param    object    Query parameters
+			 * 
+			 * @return   string    Cache ID
+			 */
+			exists: function( query ) {
 
 				var id = false;
 				_.each( this.queries, function( value, key ) {
-					if ( _.isEqual( value, data ) ) {
+					if ( _.isEqual( value, query ) ) {
 						id = key;
 					}
 				}, this );

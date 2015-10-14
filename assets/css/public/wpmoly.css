@@ -115,7 +115,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	background-position: center center;
 	background-repeat: no-repeat;
 	margin: 24px 0;
-	height: 128px;
+	min-height: 128px;
 }
 
 .wpmoly.grid.mode-frame {
@@ -733,6 +733,18 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 
 .grid-frame-content[data-columns="12"] .attachment.movie {
 	width: 8.33%;
+}
+
+.wpmoly.grid.loading .grid-frame-content .attachment.movie .wpmoly.grid.movie .movie-preview {
+	background-image: url(../../img/grid.svg) !important;
+	background-size: 24px 24px !important;
+}
+
+.wpmoly.grid.loading .grid-frame-content .attachment.movie .wpmoly.grid.movie.title {
+	background: #ddd !important;
+	color: transparent !important;
+	margin: 8px 0 4px !important;
+	padding: 0 !important;
 }
 
 /*

@@ -88,10 +88,8 @@ _.extend( grid.view, {
 			'click a[data-action="prev"]':          'prev',
 			'click a[data-action="next"]':          'next',
 			'change input[data-action="browse"]':   'browse',
-			//'keypress input[data-action="browse"]': 'browse',
 
 			'click .grid-pagination-settings':      'stopPropagation'
-
 		},
 
 		/**
@@ -111,10 +109,9 @@ _.extend( grid.view, {
 
 			this.$body = $( 'body' );
 
-			this.library.query.pages.on( 'change', this.render, this );
+			this.library.collection.pages.on( 'change', this.render, this );
 
-			/*this.frame.pages.on( 'change', this.render, this );
-			this.frame.props.on( 'change:scroll', this.render, this );*/
+			//this.frame.props.on( 'change:scroll', this.render, this );
 		},
 
 		/**
@@ -126,7 +123,22 @@ _.extend( grid.view, {
 		*/
 		prev: function() {
 
-			this.library.prev();
+			// Access this from deferred
+			var self = this,
+			callback = this.library.prev();
+
+			if ( ! _.isPromise( callback ) ) {
+				return this;
+			}
+
+			// Loading...
+			this.frame.$el.addClass( 'loading' );
+			// Deferring
+			this.dfd = callback.done( function() {
+				self.frame.$el.removeClass( 'loading' );
+				//self.setColumns();
+				//self.scroll;
+			} );
 
 			return this;
 		},
@@ -140,18 +152,28 @@ _.extend( grid.view, {
 		*/
 		next: function() {
 
-			this.library.next();
+			// Access this from deferred
+			var self = this,
+			callback = this.library.next();
+
+			if ( ! _.isPromise( callback ) ) {
+				return this;
+			}
+
+			// Loading...
+			this.frame.$el.addClass( 'loading' );
+			// Deferring
+			this.dfd = callback.done( function() {
+				self.frame.$el.removeClass( 'loading' );
+				//self.setColumns();
+				//self.scroll;
+			} );
 
 			return this;
 		},
 
 		/**
 		* Go to a specific results page.
-		* 
-		* Handle multiple JS events: Click, Change and Keypress. Clicks concern 
-		* the pagination's 'previous' and 'next' links; Change handle modifications
-		* of the page input whilst Keypress handle an 'Enter' hit on the page
-		* input.
 		* 
 		* @since    2.1.5
 		* 
@@ -160,9 +182,22 @@ _.extend( grid.view, {
 		browse: function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
-			    value = $elem.val() || 1;
+			    value = $elem.val() || 1,
+			     self = this,
+			 callback = this.library.page( value );
 
-			this.library.page( value );
+			if ( ! _.isPromise( callback ) ) {
+				return this;
+			}
+
+			// Loading...
+			this.frame.$el.addClass( 'loading' );
+			// Deferring
+			this.dfd = callback.done( function() {
+				self.frame.$el.removeClass( 'loading' );
+				//self.setColumns();
+				//self.scroll;
+			} );
 
 			return this;
 		},
@@ -184,11 +219,12 @@ _.extend( grid.view, {
 			}*/
 
 			var options = {
-				current: this.library.query.pages.get( 'current' ),
-				total:   this.library.query.pages.get( 'total' ),
-				prev:    this.library.query.pages.get( 'prev' ),
-				next:    this.library.query.pages.get( 'next' )
+				current: this.library.collection.pages.get( 'current' ),
+				total:   this.library.collection.pages.get( 'total' ),
+				prev:    this.library.collection.pages.get( 'prev' ),
+				next:    this.library.collection.pages.get( 'next' )
 			};
+			console.log( options );
 
 			this.$el.html( this.template( options ) );
 

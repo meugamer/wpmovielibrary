@@ -5,20 +5,9 @@ wpmoly = {};
 
 	_.extend( _, {
 
-		hash: function( string ) {
+		isPromise: function( object ) {
 
-			var hash = 0;
-
-			if ( ! string.length ) {
-				return hash;
-			}
-
-			for ( i = 0; i < string.length; i++ ) {
-				hash = ( ( hash << 5 ) - hash ) + string.charCodeAt( i );
-				hash = hash & hash;
-			}
-
-			return hash;
+			return 'function' === typeof object.then;
 		}
 
 	} );
