@@ -12,6 +12,31 @@ _.extend( grid.view, {
 
 		template: media.template( 'wpmoly-grid-menu' ),
 
+		events: {
+			'click a':                                'preventDefault',
+
+			'click a[data-action="openmenu"]':        'toggle_menu',
+
+			//'click a[data-action="scroll"]':          'setScroll',
+
+			'click a[data-action="orderby"]':         'orderby',
+			'click a[data-action="order"]':           'order',
+			'click a[data-action="filter"]':          'filter',
+			//'click a[data-action="view"]':            'view',
+
+			'click a[data-action="apply-settings"]':  'apply',
+			'click a[data-action="cancel-settings"]': 'cancel',
+			'click a[data-action="reload-settings"]': 'reload',
+
+			'click .wpmoly-grid-settings-container':  'stopPropagation',
+			'click .grid-menu-settings':              'stopPropagation',
+		},
+
+		icons: {
+			yes: 'icon-yes-alt',
+			no:  'icon-no-alt-2'
+		},
+
 		/**
 		 * Initialize the View
 		 * 
@@ -38,6 +63,178 @@ _.extend( grid.view, {
 			this.$waitee = $( 'body.waitee' );
 		},
 
+		/**
+		 * Open or close the submenu related to the menu link clicked
+		 * 
+		 * @since    2.1.5
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @return   void
+		 */
+		toggle_menu: function( event ) {
+
+			var $elem = this.$( event.currentTarget ),
+			$submenu = this.$( '.wpmoly-grid-settings-container' ),
+			    mode = $elem.attr( 'data-value' );
+
+			if ( ! this.$el.hasClass( 'open' ) ) {
+				$elem.addClass( 'active' );
+				this.open( mode );
+			} else {
+				if ( 'settings' == mode && this.$el.hasClass( 'mode-content' ) ) {
+					this.$el.removeClass( 'mode-content' ).addClass( 'mode-settings' );
+				} else if ( 'content' == mode && this.$el.hasClass( 'mode-settings' ) ) {
+					this.$el.removeClass( 'mode-settings' ).addClass( 'mode-content' );
+				} else {
+					$elem.removeClass( 'active' );
+					this.close();
+				}
+			}
+
+			event.stopPropagation();
+		},
+
+		/**
+		 * Open the submenu and set its mode
+		 * 
+		 * @since    2.1.5
+		 *
+		 * @param    string    Submenu mode, 'content' of 'settings'
+		 * 
+		 * @return   void
+		 */
+		open: function( mode ) {
+
+			this.mode( mode );
+
+			if ( this.$body.hasClass( 'waitee' ) ) {
+				return;
+			}
+
+			// Close the submenu when clicking elsewhere
+			var self = this;
+			this.$body.addClass( 'waitee' ).one( 'click', function() {
+				self.close();
+			});
+		},
+
+		mode: function( mode ) {
+
+			this._mode = mode;
+			this.render();
+		},
+
+		/**
+		 * Close the submenu
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   void
+		 */
+		close: function() {
+
+			this.$el.removeClass( 'mode-content mode-settings open' );
+			this.$( '.grid-menu-action.active' ).removeClass( 'active' );
+			this.$waitee.unbind( 'click' );
+			this.$waitee.removeClass( 'waitee' );
+		},
+
+		/**
+		 * Handle ordering change menu (orderby)
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @return   void
+		 */
+		orderby: function( event ) {
+
+			var $elem = this.$( event.currentTarget ),
+			    value = $elem.attr( 'data-value' );
+
+			if ( ! _.contains( this.controller.orderby, value ) ) {
+				return;
+			}
+
+			this.controller.set( { orderby: value, paged: 1 } );
+			this.render();
+		},
+
+		/**
+		 * Handle ordering change menu (order)
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @return   void
+		 */
+		order: function( event ) {
+
+			var $elem = this.$( event.currentTarget ),
+			    value = $elem.attr( 'data-value' );
+
+			if ( ! _.contains( this.controller.order, value ) ) {
+				return;
+			}
+
+			this.controller.set( { order: value.toUpperCase(), paged: 1 } );
+			this.render();
+		},
+
+		/**
+		 * Apply the settings.
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.1.5
+		 */
+		apply: function( event ) {
+
+			this.controller.update();
+			this.close();
+		},
+
+		/**
+		 * Cancel the settings.
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.1.5
+		 */
+		cancel: function( event ) {
+
+			this.close();
+		},
+
+		/**
+		 * Reload the grid with default settings.
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.1.5
+		 */
+		reload: function() {
+
+			this.controller.reset();
+			this.close();
+		},
+
+		/**
+		 * Prevent click events default effect
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.1.5
+		 */
+		switchView: function( event ) {
+
+			var mode = event.currentTarget.dataset.mode;
+			this.frame.mode( mode );
+		},
+
 		render: function() {
 
 			var options = {
@@ -55,6 +252,9 @@ _.extend( grid.view, {
 					genres:  this.controller.get( 'show_genres' ),
 					rating:  this.controller.get( 'show_rating' ),
 					runtime: this.controller.get( 'show_runtime' ),
+					number:  this.controller.get( 'number' ),
+					columns: this.controller.get( 'columns' ),
+					rows:    this.controller.get( 'rows' )
 				}
 			};
 			this.$el.html( this.template( options ) );
@@ -93,14 +293,14 @@ _.extend( grid.view, {
 		},
 
 		/**
-		* Initialize the View
-		* 
-		* @since    2.1.5
-		*
-		* @param    object    Attributes
-		* 
-		* @return   void
-		*/
+		 * Initialize the View
+		 * 
+		 * @since    2.1.5
+		 *
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
 		initialize: function( options ) {
 
 			this.library    = this.options.library;
@@ -115,12 +315,12 @@ _.extend( grid.view, {
 		},
 
 		/**
-		* Go to the previous results page.
-		* 
-		* @since    2.1.5
-		* 
-		* @return   Return itself to allow chaining
-		*/
+		 * Go to the previous results page.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Return itself to allow chaining
+		 */
 		prev: function() {
 
 			// Access this from deferred
@@ -144,12 +344,12 @@ _.extend( grid.view, {
 		},
 
 		/**
-		* Go to the next results page.
-		* 
-		* @since    2.1.5
-		* 
-		* @return   Return itself to allow chaining
-		*/
+		 * Go to the next results page.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Return itself to allow chaining
+		 */
 		next: function() {
 
 			// Access this from deferred
@@ -173,12 +373,12 @@ _.extend( grid.view, {
 		},
 
 		/**
-		* Go to a specific results page.
-		* 
-		* @since    2.1.5
-		* 
-		* @return   Return itself to allow chaining
-		*/
+		 * Go to a specific results page.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Return itself to allow chaining
+		 */
 		browse: function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
@@ -203,12 +403,12 @@ _.extend( grid.view, {
 		},
 
 		/**
-		* Render the Menu
-		* 
-		* @since    2.1.5
-		* 
-		* @return   Returns itself to allow chaining.
-		*/
+		 * Render the Menu
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		render: function() {
 
 			/*if ( false !== this.frame._scroll ) {
@@ -232,12 +432,12 @@ _.extend( grid.view, {
 		},
 
 		/**
-		* Prevent click events default effect
-		*
-		* @param    object    JS 'Click' Event
-		* 
-		* @since    2.1.5
-		*/
+		 * Prevent click events default effect
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.1.5
+		 */
 		preventDefault: function( event ) {
 
 			event.preventDefault();
@@ -305,7 +505,7 @@ _.extend( grid.view, {
 
 		className: 'attachments movies',
 
-		template: media.template( 'wpmoly-grid-content-grid' ),
+		//template: media.template( 'wpmoly-grid-content-grid' ),
 
 		_views: [],
 
@@ -336,13 +536,13 @@ _.extend( grid.view, {
 			}, this );
 
 			// Event handlers
-			_.bindAll( this, 'setColumns' );
+			_.bindAll( this, 'set_columns' );
 
-			$( window ).off( this.options.resizeEvent ).on( this.options.resizeEvent, _.debounce( this.setColumns, 50 ) );
+			$( window ).off( this.options.resizeEvent ).on( this.options.resizeEvent, _.debounce( this.set_columns, 50 ) );
 
-			// Call this.setColumns() after this view has been rendered in the DOM so
+			// Call this.set_columns() after this view has been rendered in the DOM so
 			// attachments get proper width applied.
-			_.defer( this.setColumns, this );
+			_.defer( this.set_columns, this );
 		},
 
 		create_subview: function( movie ) {
@@ -364,7 +564,7 @@ _.extend( grid.view, {
 		 * 
 		 * @return   void
 		 */
-		setColumns: function() {
+		set_columns: function() {
 
 			var prev = this.columns,
 			   width = this.$el.width();
@@ -381,7 +581,7 @@ _.extend( grid.view, {
 				}
 			}
 
-			//this.fixThumbnails( force = true );
+			this.fix_thumbnails( force = true );
 		},
 
 		/**
@@ -397,10 +597,12 @@ _.extend( grid.view, {
 		 * 
 		 * @return   void
 		 */
-		/*fixThumbnails: function( force ) {
+		fix_thumbnails: function( force ) {
 
-			if ( ! this.library.length )
+			
+			if ( ! this.library.collection.length ) {
 				return;
+			}
 
 			if ( true === force ) {
 				var $li = this.$( 'li' ),
@@ -423,7 +625,7 @@ _.extend( grid.view, {
 				width:  this.thumbnail_width - 8,
 				height: this.thumbnail_height - 12
 			});
-		},*/
+		},
 
 		/*render: function() {
 

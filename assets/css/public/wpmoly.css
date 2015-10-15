@@ -385,6 +385,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	font-size: 12px;
 	padding: 0 4px;
 	text-align: center;
+	width: 36px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-valid {
@@ -432,16 +433,11 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 
 /* Menu opened */
 
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.open .wpmoly-grid-settings-container {
-	display: block;
-}
-
-.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container .wpmoly-grid-settings-content {
-	display: block;
-}
-
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.open .wpmoly-grid-settings-container,
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container .wpmoly-grid-settings-content ,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container .wpmoly-grid-settings-settings {
 	display: block;
+	text-align: left;
 }
 
 
@@ -620,7 +616,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.grid .grid-frame-content .attachment.movie > .wpmoly.grid.movie {
-	padding: 4px;
+	padding: 0;
 }
 
 .wpmoly.grid .grid-frame-content .attachment.movie .wpmoly.grid.movie a {
@@ -870,7 +866,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.movies.grid.grid-col-4 .attachments.movies > .movie {
-	width: 24%;
+	width: 24.5%;
 }
 
 .wpmoly.movies.grid.grid-col-3 .attachments.movies > .movie {

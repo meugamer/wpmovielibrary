@@ -15,17 +15,17 @@
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Sorting', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
-									<a href="#" data-action="orderby" data-value="title" title="<?php _e( 'Sort movies by title', 'wpmovielibrary' ); ?>"><?php _e( 'Title', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'title' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="orderby" data-value="title" title="<?php _e( 'Sort movies by title', 'wpmovielibrary' ); ?>"><?php _e( 'Title', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'post_title' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
 									<a href="#" data-action="orderby" data-value="release_date" title="<?php _e( 'Sort movies by release date', 'wpmovielibrary' ); ?>"><?php _e( 'Release Date', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'release_date' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="orderby" data-value="date" title="<?php _e( 'Sort movies by post date', 'wpmovielibrary' ); ?>"><?php _e( 'Post Date', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'date' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="orderby" data-value="date" title="<?php _e( 'Sort movies by post date', 'wpmovielibrary' ); ?>"><?php _e( 'Post Date', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'post_date' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
-								<!--<label>
+								<label>
 									<a href="#" data-action="orderby" data-value="rating" title="<?php _e( 'Sort movies by rating', 'wpmovielibrary' ); ?>"><?php _e( 'Rating', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'rating' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
-								</label>-->
+								</label>
 							</div>
 						</div>
 						<div class="wpmoly-grid-settings-block">
@@ -93,7 +93,9 @@
 								<!--<label>
 									<a href="#" data-action="scroll" data-value="1" title="<?php _e( 'Automatically load more movies when reaching the end of the page', 'wpmovielibrary' ); ?>"><?php _e( 'Infinite scroll', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( '' == data.scroll ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>-->
-								<label><?php _e( 'Movies per page', 'wpmovielibrary' ); ?> <input type="text" value="" size="3" maxlength="3" /></label>
+								<label><?php _e( 'Movies per page', 'wpmovielibrary' ); ?> <input type="text" value="{{ data.display.number }}" size="3" maxlength="3" /></label>
+								<label><?php _e( 'Columns', 'wpmovielibrary' ); ?> <input type="text" value="{{ data.display.columns }}" size="3" maxlength="3" /></label>
+								<label><?php _e( 'Rows', 'wpmovielibrary' ); ?> <input type="text" value="{{ data.display.rows }}" size="3" maxlength="3" /></label>
 							</div>
 						</div>
 					</div>
