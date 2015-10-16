@@ -327,7 +327,8 @@ grid.view.Menu = wp.Backbone.View.extend({
 			},
 			display: {
 				title:   this.controller.get( 'show_title' ),
-				genres:  this.controller.get( 'show_genres' ),
+				genre:   this.controller.get( 'show_genre' ),
+				year:    this.controller.get( 'show_year' ),
 				rating:  this.controller.get( 'show_rating' ),
 				runtime: this.controller.get( 'show_runtime' ),
 			}

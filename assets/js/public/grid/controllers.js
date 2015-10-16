@@ -11,6 +11,8 @@ _.extend( grid.controller, {
 
 		order:   [ 'asc', 'desc', 'random' ],
 
+		display: [ 'title', 'year', 'genre', 'rating', 'runtime' ],
+
 		pages: new Backbone.Model,
 
 		defaults: {
@@ -36,7 +38,7 @@ _.extend( grid.controller, {
 			// Grid Display
 			show_title:       true,
 			show_year:        true,
-			show_genres:      false,
+			show_genre:       false,
 			show_rating:      false,
 			show_runtime:     false,
 			scroll:           false,

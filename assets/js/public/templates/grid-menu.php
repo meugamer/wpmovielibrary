@@ -85,16 +85,19 @@ foreach ( $letters as $letter ) :
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Display', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
-									<a href="#" data-action="display" data-value="title" title="<?php _e( 'Show movie titles', 'wpmovielibrary' ); ?>"><?php _e( 'Title', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( 1 == data.display.title ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="display" data-check="<# if ( data.display.title ) { #>1<# } else { #>0<# } #>" data-value="title" title="<?php _e( 'Show movie titles', 'wpmovielibrary' ); ?>"><?php _e( 'Title', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.title ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="display" data-value="genres" title="<?php _e( 'Show movie genres', 'wpmovielibrary' ); ?>"><?php _e( 'Genres', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( 1 == data.display.genres ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="display" data-check="<# if ( data.display.year ) { #>1<# } else { #>0<# } #>" data-value="year" title="<?php _e( 'Show movie year', 'wpmovielibrary' ); ?>"><?php _e( 'Year', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.year ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="display" data-value="rating" title="<?php _e( 'Show movie ratings', 'wpmovielibrary' ); ?>"><?php _e( 'Rating', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( 1 == data.display.rating ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="display" data-check="<# if ( data.display.genre ) { #>1<# } else { #>0<# } #>" data-value="genre" title="<?php _e( 'Show movie genres', 'wpmovielibrary' ); ?>"><?php _e( 'Genres', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.genre ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="display" data-value="runtime" title="<?php _e( 'Show movie runtimes', 'wpmovielibrary' ); ?>"><?php _e( 'Runtime', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( 1 == data.display.runtime ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="display" data-check="<# if ( data.display.rating ) { #>1<# } else { #>0<# } #>" data-value="rating" title="<?php _e( 'Show movie ratings', 'wpmovielibrary' ); ?>"><?php _e( 'Rating', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.rating ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+								</label>
+								<label>
+									<a href="#" data-action="display" data-check="<# if ( data.display.runtime ) { #>1<# } else { #>0<# } #>" data-value="runtime" title="<?php _e( 'Show movie runtimes', 'wpmovielibrary' ); ?>"><?php _e( 'Runtime', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.runtime ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 							</div>
 						</div>

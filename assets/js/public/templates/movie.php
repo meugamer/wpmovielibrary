@@ -4,13 +4,14 @@
 							<a href="{{ data.permalink }}" class="wpmoly grid movie link" title="{{ data.meta.title }}" href="#">
 							</a>
 						</div>
+<# if ( data.display.year ) { #>
+						<span class="wpmoly grid movie year">{{ data.meta.year }}</span>
+<# } if ( data.display.title ) { #>
 						<a href="{{ data.permalink }}" class="wpmoly grid movie link" title="{{ data.meta.title }}" href="">
 							<h4 class="wpmoly grid movie title">{{ data.meta.title }}</h4>
 						</a>
-<# if ( data.display.genres ) { #>
+<# } if ( data.display.genre ) { #>
 						<span class="wpmoly grid movie genres">{{ data.meta.genres }}</span>
-<# } if ( data.display.year ) { #>
-						<span class="wpmoly grid movie year">{{ data.meta.year }}</span>
 <# } if ( data.display.runtime ) { #>
 						<span class="wpmoly grid movie runtime"><# if ( '' != data.meta.runtime ) { #>{{ data.meta.runtime }}min<# } #></span>
 <# } if ( data.display.rating ) { #>

@@ -66,10 +66,11 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
 			$grid_meta = array_keys( $grid_meta['used'] );
-			$title  = in_array( 'title', $grid_meta );
-			$genre  = in_array( 'genre', $grid_meta );
-			$rating = in_array( 'rating', $grid_meta );
-			$year   = in_array( 'year', $grid_meta );
+			$title   = in_array( 'title', $grid_meta );
+			$genre   = in_array( 'genre', $grid_meta );
+			$rating  = in_array( 'rating', $grid_meta );
+			$year    = in_array( 'year', $grid_meta );
+			$runtime = in_array( 'runtime', $grid_meta );
 
 			$views = array( 'grid', 'archives', 'list' );
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
@@ -101,6 +102,12 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				'posts'   => $movies->found_posts
 			);
 
+			$args['show_title']   = $title;
+			$args['show_genre']   = $genre;
+			$args['show_rating']  = $rating;
+			$args['show_year']    = $year;
+			$args['show_runtime'] = $runtime;
+
 			$movies = $movies->posts;
 
 			if ( 'list' == $view ) {
@@ -120,7 +127,7 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				$debug = compact( 'main_args', 'permalinks_args' );
 			}
 
-			$attributes = compact( 'movies', 'columns', 'title', 'year', 'rating', 'theme', 'debug' );
+			$attributes = compact( 'movies', 'columns', 'title', 'genre', 'year', 'rating', 'runtime', 'theme', 'debug' );
 
 			$content = self::render_template( "movies/grid/$view-loop.php", $attributes, $require = 'always' );
 			$js      = self::render_template( "movies/grid/backbone.php", $attributes = compact( 'args' ), $require = 'always' );

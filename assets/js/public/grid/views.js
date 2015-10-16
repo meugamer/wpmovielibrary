@@ -23,6 +23,7 @@ _.extend( grid.view, {
 			'click a[data-action="order"]':           'order',
 			'click a[data-action="letter"]':          'letter',
 			'click a[data-action="filter"]':          'filter',
+			'click a[data-action="display"]':         'display',
 			//'click a[data-action="view"]':            'view',
 
 			'click a[data-action="apply-settings"]':  'apply',
@@ -222,6 +223,30 @@ _.extend( grid.view, {
 		},
 
 		/**
+		 * Handle display alterations
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @return   void
+		 */
+		display: function( event ) {
+
+			var $elem = this.$( event.currentTarget ),
+			    value = $elem.attr( 'data-value' ),
+			    check = $elem.attr( 'data-check' );
+			    check = '1' === check;
+
+			if ( ! _.contains( this.controller.display, value ) ) {
+				return;
+			}
+
+			this.controller.set( 'show_' + value, ! check, { silent: true } );
+			this.render();
+		},
+
+		/**
 		 * Apply the settings.
 		 *
 		 * @param    object    JS 'Click' Event
@@ -306,7 +331,8 @@ _.extend( grid.view, {
 				},
 				display: {
 					title:   this.controller.get( 'show_title' ),
-					genres:  this.controller.get( 'show_genres' ),
+					genre:   this.controller.get( 'show_genre' ),
+					year:    this.controller.get( 'show_year' ),
 					rating:  this.controller.get( 'show_rating' ),
 					runtime: this.controller.get( 'show_runtime' ),
 					number:  this.controller.get( 'number' ),
@@ -559,9 +585,10 @@ _.extend( grid.view, {
 		 */
 		render: function() {
 
-			var rating = parseFloat( this.model.get( 'details' ).rating ),
-			      star = 'empty',
-			  settings = this.controller;
+			var data = this.model.toJSON(),
+			  rating = parseFloat( this.model.get( 'details' ).rating ),
+			    star = 'empty',
+			settings = this.controller;
 
 			if ( '' != rating ) {
 				if ( 3.5 < rating ) {
@@ -571,8 +598,10 @@ _.extend( grid.view, {
 				}
 			}
 
+			data.meta.year = new Date( data.meta.release_date ).getFullYear();
+
 			this.$el.html(
-				this.template( _.extend( this.model.toJSON(), {
+				this.template( _.extend( data, {
 					size: {
 						height: this.grid.thumbnail_height || '',
 						width:  this.grid.thumbnail_width  || ''
@@ -580,7 +609,8 @@ _.extend( grid.view, {
 					details: _.extend( this.model.get( 'details' ), { star: star } ),
 					display: {
 						title:   settings.get( 'show_title' ),
-						genres:  settings.get( 'show_genres' ),
+						year:    settings.get( 'show_year' ),
+						genre:   settings.get( 'show_genre' ),
 						rating:  settings.get( 'show_rating' ),
 						runtime: settings.get( 'show_runtime' )
 					}

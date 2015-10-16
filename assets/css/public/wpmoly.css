@@ -690,6 +690,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	font-size: 14px;
 	margin: 0;
 	padding: 0;
+	text-align: left;
 }
 
 .wpmoly.grid .grid-frame-content .attachment.movie .wpmoly.grid.movie.title {
