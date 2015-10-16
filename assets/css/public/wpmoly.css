@@ -285,12 +285,12 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container:before,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-content .wpmoly-grid-settings-container:after {
-	left: 18px;
+	left: 20px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container:before,
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu.mode-settings .wpmoly-grid-settings-container:after {
-	right: 18px;
+	right: 20px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings {
@@ -305,8 +305,27 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-block {
 	display: inline-block;
 	margin: 10px 0.99% 0px;
+	min-width: 140px;
 	vertical-align: top;
 	width: 30.9%;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-block.letters {
+	background: #efefef;
+	margin: -5px -10px 10px;
+	padding: 0 10px;
+	position: relative;
+	width: 100%;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-block.letters::before {
+	border: 12px solid transparent;
+	border-bottom-color: #efefef;
+	content: ' ';
+	left: 16px;
+	position: absolute;
+	top: -20px;
+	z-index: 10;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-header {
@@ -321,6 +340,19 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section {
 	
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-block.letters .wpmoly-grid-settings-section {
+	line-height: 32px;
+	padding: 6px 10px;
+	text-align: center;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-block.letters .wpmoly-grid-settings-section .letter {
+	display: inline-block;
+	height: 24px;
+	line-height: 24px;
+	padding: 0 4px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section label {
@@ -446,6 +478,10 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
  */
 
 .wpmoly.grid .grid-frame-pagination .wpmoly-grid-menu {
+	margin-top: 15px;
+}
+
+.wpmoly.grid .grid-frame-pagination .wpmoly-grid-menu {
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -455,7 +491,6 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	padding: 0;
 	position: relative;
 	text-align: center;
-	width: 100%;
 }
 
 .wpmoly.grid .grid-frame-pagination .wpmoly-grid-menu > div,
@@ -636,6 +671,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 	background-repeat: no-repeat;
 	background-size: cover;
 	border-radius: 2px;
+	box-shadow: 0 1px 2px #ddd;
 	max-height: 100%;
 	max-width: 100%;
 }
@@ -692,23 +728,23 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .grid-frame-content[data-columns="3"] .attachment.movie {
-	width: 33.33%;
+	width: 32.75%;
 }
 
 .grid-frame-content[data-columns="4"] .attachment.movie {
-	width: 25%;
+	width: 24.5%;
 }
 
 .grid-frame-content[data-columns="5"] .attachment.movie {
-	width: 20%;
+	width: 19.5%;
 }
 
 .grid-frame-content[data-columns="6"] .attachment.movie {
-	width: 16.66%;
+	width: 16%;
 }
 
 .grid-frame-content[data-columns="7"] .attachment.movie {
-	width: 14.28%;
+	width: 14%;
 }
 
 .grid-frame-content[data-columns="8"] .attachment.movie {
@@ -825,7 +861,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.movies.grid {
-	margin: 1em 0.5em;
+	margin: 15px 0;
 }
 
 .wpmoly.movies.grid {
@@ -833,8 +869,8 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.movies.grid.archives > .wpmoly.block.headbox  {
-	margin-bottom: 1em;
-	margin-top: 1em;
+	margin-bottom: 15px;
+	margin-top: 15px;
 }
 
 .wpmoly.movies.grid .attachments.movies > .movie {
@@ -846,7 +882,7 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 .wpmoly.movies.grid .attachments.movies > .movie.with-title,
 .wpmoly.movies.grid .attachments.movies > .movie.with-rating,
 .wpmoly.movies.grid .attachments.movies > .movie.with-year {
-	margin-bottom: 1em;
+	margin-bottom: 15px;
 }
 
 .wpmoly.movies.grid.grid-col-8 .attachments.movies > .movie {

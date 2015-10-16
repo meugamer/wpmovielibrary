@@ -11,6 +11,17 @@
 			<div class="wpmoly-grid-settings-container">
 				<div class="wpmoly-grid-settings">
 					<div class="wpmoly-grid-settings-content">
+						<div class="wpmoly-grid-settings-block letters">
+							<div class="wpmoly-grid-settings-section">
+<?php
+$letters = array( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' );
+foreach ( $letters as $letter ) :
+?>
+								<a class="letter<# if ( '<?php echo $letter ?>' == data.letter ) { #> active<# } #>" data-action="letter" data-value="<?php echo $letter ?>" href="#"><?php echo $letter ?></a>
+<?php endforeach; ?>
+
+							</div>
+						</div>
 						<div class="wpmoly-grid-settings-block">
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Sorting', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
@@ -42,7 +53,7 @@
 								</label>-->
 							</div>
 						</div>
-						<!--<div class="wpmoly-grid-settings-block">
+						<div class="wpmoly-grid-settings-block">
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Include', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
@@ -52,7 +63,7 @@
 									<a href="#" data-action="filter" data-value="unrated" title="<?php _e( 'Include movies with no rating', 'wpmovielibrary' ); ?>"><?php _e( 'Not rated', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( true === data.include.unrated ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 							</div>
-						</div>-->
+						</div>
 					</div>
 
 					<div class="wpmoly-grid-settings-settings">

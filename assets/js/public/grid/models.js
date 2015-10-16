@@ -113,17 +113,27 @@ _.extend( grid.model, {
 			return this.sync( 'read', {}, { data: options } );
 		},
 
+		/**
+		 * Query previous page
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   XHR|boolean
+		 */
 		prev: function() {
 
-			//console.log( this.pages.get( 'prev' ) );
-			/*if ( ! this.pages.get( 'prev' ) ) {
-				return false;
-			}*/
 			var page = Math.max( 0, this.pages.get( 'current' ) - 1 );
 
 			return this.query( { paged: page } );
 		},
 
+		/**
+		 * Query next page
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   XHR|boolean
+		 */
 		next: function() {
 
 			//console.log( this.pages.get( 'next' ) );
@@ -144,7 +154,7 @@ _.extend( grid.model, {
 		 * 
 		 * @return   Promise
 		 */
-		more: function( options ) {
+		/*more: function( options ) {
 
 			if ( ! this.has_more ) {
 				return false;
@@ -154,7 +164,7 @@ _.extend( grid.model, {
 			    data.paged = this.pages.get( 'next' );
 
 			return this.query( { data: data } );
-		},
+		},*/
 
 		/**
 		 * Overrides Backbone.Collection.sync
@@ -184,6 +194,7 @@ _.extend( grid.model, {
 					query[ arg ] = this.controller.get( arg ) || null;
 				}, this );
 				_.extend( query, options.data || {} );
+				console.log( query );
 
 				// check if there's a cached result for the query
 				var cache_id = this.cache.exists( query );
@@ -273,33 +284,6 @@ _.extend( grid.model, {
 			}
 
 			return data;
-
-			/*if ( ! _.isArray( data ) ) {
-				data = [data];
-			}
-
-			_.each( data, function( attrs ) {
-
-				var id, movie, newAttributes;
-
-				if ( attrs instanceof Backbone.Model ) {
-					id = attrs.get( 'id' );
-					attrs = attrs.attributes;
-				} else {
-					id = attrs.id;
-				}
-
-				movie = grid.model.Movie.get( id );
-				newAttributes = movie.parse( attrs, xhr );
-
-				if ( ! _.isEqual( movie.attributes, newAttributes ) ) {
-					movie.set( newAttributes );
-				}
-
-				return movie;
-			});
-
-			return data;*/
 		},
 
 		/**

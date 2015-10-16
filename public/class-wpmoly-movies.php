@@ -64,6 +64,9 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			// Add movies to categories and Tags archives
 			add_filter( 'pre_get_posts', __CLASS__ . '::filter_archives_query', 11, 1 );
 
+			// Add some filtering to movies queries
+			add_filter( 'posts_where_request', __CLASS__ . '::filter_movies_query', 10, 2 );
+
 			// Movie content
 			add_filter( 'the_content', __CLASS__ . '::movie_content' );
 			add_filter( 'get_the_excerpt', __CLASS__ . '::movie_excerpt' );
@@ -575,6 +578,10 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				'paged'          => $paged
 			);
 
+			if ( ! is_null( $letter ) && '' != $letter ) {
+				$params['letter'] = $letter;
+			}
+
 			$order = strtoupper( $order );
 			if ( 'DESC' != $order ) {
 				$order = 'ASC';
@@ -858,7 +865,7 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 		 */
 		public static function filter_archives_query( $wp_query ) {
 
-			if ( ! empty( $query->query_vars['suppress_filters'] ) )
+			if ( ! empty( $wp_query->query_vars['suppress_filters'] ) )
 				return $wp_query;
 
 			if ( ( ! is_category() || ( is_category() && '0' == wpmoly_o( 'enable-categories' ) ) ) && ( ! is_tag() || ( is_tag() && '0' == wpmoly_o( 'enable-tags' ) ) ) )
@@ -876,6 +883,43 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 			$wp_query->set( 'post_type', $post_types );
 
 			return $wp_query;
+		}
+
+		/**
+		 * Implement some filtering on movie queries
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    $wp_query WP_Query object
+		 * 
+		 * @return   object    $wp_query WP_Query object
+		 */
+		public static function filter_movies_query( $where, $wp_query ) {
+
+			if ( 'movie' != $wp_query->query_vars['post_type'] ) {
+				return $where;
+			}
+
+			if ( isset( $wp_query->query_vars['letter'] ) ) {
+
+				$letter = strtoupper( $wp_query->query_vars['letter'] );
+
+				if ( '#' == $letter ) {
+					$like = "REGEXP '^[[:punct:]]'";
+				} elseif ( in_array( $letter, array( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) ) ) {
+					$like = "LIKE '" . esc_sql( $letter ) . "%'";
+				} elseif ( in_array( $letter, array( 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' ) ) ) {
+					$like = "LIKE '" . esc_sql( $letter ) . "%'";
+				} else {
+					return $where;
+				}
+
+				$where = " AND wp_posts.post_title $like" . $where;
+
+				return $where;
+			}
+
+			return $where;
 		}
 
 		/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

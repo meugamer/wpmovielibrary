@@ -11,65 +11,66 @@ _.extend( grid.controller, {
 
 		order:   [ 'asc', 'desc', 'random' ],
 
+		pages: new Backbone.Model,
+
+		defaults: {
+			// Library options
+			number:           24,
+			orderby:          'date',
+			order:            'DESC',
+			paged:            '1',
+			letter:           '',
+			category:         '',
+			tag:              '',
+			collection:       '',
+			actor:            '',
+			genre:            '',
+			meta:             '',
+			detail:           '',
+			value:            '',
+
+			// Grid Filtering
+			include_incoming: true,
+			include_unrated:  true,
+
+			// Grid Display
+			show_title:       true,
+			show_year:        true,
+			show_genres:      false,
+			show_rating:      false,
+			show_runtime:     false,
+			scroll:           false,
+			view:             'grid',
+			columns:          4,
+			rows:             6
+		},
+
+		/**
+		 * Initialize the Controller
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Options
+		 * 
+		 * @return   void
+		 */
 		initialize: function( options ) {
 
-			var options = options || {};
+			var options = options || {},
+			   settings = {};
 
-			this.pages = new Backbone.Model({
+			this.pages.set({
 				current: options.pages.current || 0,
 				total:   options.pages.total   || 0,
 				prev:    options.pages.prev    || 0,
 				next:    options.pages.next    || 0
-			})
-			
-			_.defaults( options, {
-				// Library options
-				number:           options.number           || 24,
-				orderby:          options.orderby          || 'date',
-				order:            options.order            || 'DESC',
-				paged:            options.paged            || '1',
-				letter:           options.letter           || '',
-				category:         options.category         || '',
-				tag:              options.tag              || '',
-				collection:       options.collection       || '',
-				actor:            options.actor            || '',
-				genre:            options.genre            || '',
-				meta:             options.meta             || '',
-				detail:           options.detail           || '',
-				value:            options.value            || '',
-
-				// Grid Filtering
-				include_incoming: options.include_incoming || true,
-				include_unrated:  options.include_unrated  || true,
-
-				// Grid Display
-				show_title:       options.show_title       || true,
-				show_year:        options.show_year        || true,
-				show_genres:      options.show_genres      || false,
-				show_rating:      options.show_rating      || false,
-				show_runtime:     options.show_runtime     || false,
-				scroll:           options.scroll           || false,
-				view:             options.view             || 'grid',
-				columns:          options.columns          || 4,
-				rows:             options.rows             || 6
-			} );
-			this.set( options );
-		},
-
-		update: function() {
-
-			this.props.set({
-				orderby: this.get( 'orderby' ),
-				order:   this.get( 'order' ),
 			});
-		},
 
-		reset: function() {
+			_.each( this.defaults, function( value, key ) {
+				settings[ key ] = options[ key ] || value;
+			}, this );
 
-			this.props.set({
-				orderby: this.defaults.orderby,
-				order:   this.defaults.order,
-			});
+			this.set( settings );
 		}
 	})
 } );
@@ -78,69 +79,156 @@ _.extend( grid.controller, {
 
 	Query: Backbone.Model.extend({
 
-		queries: [],
-
+		/**
+		 * Initialize the Controller
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Options
+		 * 
+		 * @return   void
+		 */
 		initialize: function( options ) {
 
 			this.settings = options.controller;
 			this.settings.on( 'change', this.update, this );
 
-			this.props = new Backbone.Model;
-			this.props.on( 'change', this.get, this );
-
 			this.collection = new grid.model.Movies( [], { controller: this.settings } );
-			this.listenTo( this.collection, 'add',    this.add );
-			this.listenTo( this.collection, 'remove', this.remove );
-			this.listenTo( this.collection, 'change', this.change );
-			this.listenTo( this.collection, 'reset',  this.reset );
+			this.listenTo( this.collection, 'add',    this._add );
+			this.listenTo( this.collection, 'remove', this._remove );
+			this.listenTo( this.collection, 'change', this._change );
+			this.listenTo( this.collection, 'reset',  this._reset );
 		},
 
-		add: function( model, collection, options ) {
+		/**
+		 * Replicate the collection's 'add' event the controller.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Model
+		 * @param    object    Collection
+		 * @param    object    Options
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		_add: function( model, collection, options ) {
 
-			return this.reroute( 'add', model, collection, options );
+			return this._reroute( 'add', model, collection, options );
 		},
 
-		remove: function( model, collection, options ) {
+		/**
+		 * Replicate the collection's 'remove' event the controller.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Model
+		 * @param    object    Collection
+		 * @param    object    Options
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		_remove: function( model, collection, options ) {
 
-			return this.reroute( 'remove', model, collection, options );
+			return this._reroute( 'remove', model, collection, options );
 		},
 
-		change: function( model, options ) {
+		/**
+		 * Replicate the collection's 'change' event the controller.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Model
+		 * @param    object    Options
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		_change: function( model, options ) {
 
-			return this.reroute( 'change', model, options );
+			return this._reroute( 'change', model, options );
 		},
 
-		reset: function( collection, options ) {
+		/**
+		 * Replicate the collection's 'reset' event the controller.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Collection
+		 * @param    object    Options
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		_reset: function( collection, options ) {
 
-			return this.reroute( 'reset', collection, options );
+			return this._reroute( 'reset', collection, options );
 		},
 
-		reroute: function( event, model, collection, options ) {
+		/**
+		 * Replicate an event the controller.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Event
+		 * @param    object    Model
+		 * @param    object    Collection
+		 * @param    object    Options
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		_reroute: function( event, model, collection, options ) {
 
 			return this.trigger( event, model || {}, collection || {}, options || {} );
 		},
 
+		/**
+		 * Update the collection.
+		 * 
+		 * Should be used when settings were changed from the menu view
+		 * using {silent:true}.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Model
+		 * @param    object    Collection
+		 * @param    object    Options
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		update: function( model, value, options ) {
 
-			this.props.set( model.changed );
+			return this.collection.query();
 		},
 
-		get: function( model, value, options ) {
-
-			this.collection.props = model;
-			this.collection.query();
-		},
-
+		/**
+		 * Go back to the previous page.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		prev: function() {
 
 			return this.collection.prev();
 		},
 
+		/**
+		 * Go to the next page.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		next: function() {
 
 			return this.collection.next();
 		},
 
+		/**
+		 * Jump to a specific page.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		page: function( page ) {
 
 			return this.collection.query( { paged: parseInt( page ) } );

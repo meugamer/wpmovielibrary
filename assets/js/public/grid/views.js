@@ -21,6 +21,7 @@ _.extend( grid.view, {
 
 			'click a[data-action="orderby"]':         'orderby',
 			'click a[data-action="order"]':           'order',
+			'click a[data-action="letter"]':          'letter',
 			'click a[data-action="filter"]':          'filter',
 			//'click a[data-action="view"]':            'view',
 
@@ -75,8 +76,8 @@ _.extend( grid.view, {
 		toggle_menu: function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
-			$submenu = this.$( '.wpmoly-grid-settings-container' ),
-			    mode = $elem.attr( 'data-value' );
+			 $submenu = this.$( '.wpmoly-grid-settings-container' ),
+			     mode = $elem.attr( 'data-value' );
 
 			if ( ! this.$el.hasClass( 'open' ) ) {
 				$elem.addClass( 'active' );
@@ -119,6 +120,15 @@ _.extend( grid.view, {
 			});
 		},
 
+		/**
+		 * Update the view's mode
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    string    Mode
+		 * 
+		 * @return   void
+		 */
 		mode: function( mode ) {
 
 			this._mode = mode;
@@ -158,7 +168,7 @@ _.extend( grid.view, {
 				return;
 			}
 
-			this.controller.set( { orderby: value, paged: 1 } );
+			this.controller.set( { orderby: value, paged: 1 }, { silent: true } );
 			this.render();
 		},
 
@@ -180,7 +190,34 @@ _.extend( grid.view, {
 				return;
 			}
 
-			this.controller.set( { order: value.toUpperCase(), paged: 1 } );
+			this.controller.set( { order: value.toUpperCase(), paged: 1 }, { silent: true } );
+			this.render();
+		},
+
+		/**
+		 * Handle letter filtering
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @return   void
+		 */
+		letter: function( event ) {
+
+			var $elem = this.$( event.currentTarget ),
+			    value = $elem.attr( 'data-value' )
+			    regex = new RegExp('^[a-z0-9#]', 'i');
+
+			if ( 1 < value.length ) {
+				value = value.substr( 0, 1 );
+			}
+
+			if ( ! regex.test( value ) ) {
+				return;
+			}
+
+			this.controller.set( { letter: value.toUpperCase() }, { silent: true } );
 			this.render();
 		},
 
@@ -193,7 +230,20 @@ _.extend( grid.view, {
 		 */
 		apply: function( event ) {
 
-			this.controller.update();
+			var self = this,
+			callback = this.library.update();
+
+			if ( ! _.isPromise( callback ) ) {
+				return this;
+			}
+
+			// Loading...
+			this.frame.$el.addClass( 'loading' );
+			// Deferring
+			this.dfd = callback.done( function() {
+				self.frame.$el.removeClass( 'loading' );
+			} );
+
 			this.close();
 		},
 
@@ -235,12 +285,19 @@ _.extend( grid.view, {
 			this.frame.mode( mode );
 		},
 
+		/**
+		 * Render the Menu
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		render: function() {
 
 			var options = {
 				mode:    this._mode,
 				scroll:  this.frame._scroll,
-				//view:    this.frame.mode(),
+				view:    this.frame.mode(),
 				orderby: this.controller.get( 'orderby' ),
 				order:   this.controller.get( 'order' ),
 				include: {
@@ -267,6 +324,30 @@ _.extend( grid.view, {
 
 			return this;
 		},
+
+		/**
+		 * Prevent click events default effect
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.1.5
+		 */
+		preventDefault: function( event ) {
+
+			event.preventDefault();
+		},
+
+		/**
+		 * Stop Click Event Propagation
+		 *
+		 * @param    object    JS 'Click' Event
+		 * 
+		 * @since    2.1.5
+		 */
+		stopPropagation: function( event ) {
+
+			event.stopPropagation();
+		}
 	}),
 
 	/**
@@ -424,7 +505,6 @@ _.extend( grid.view, {
 				prev:    this.library.collection.pages.get( 'prev' ),
 				next:    this.library.collection.pages.get( 'next' )
 			};
-			console.log( options );
 
 			this.$el.html( this.template( options ) );
 
@@ -452,6 +532,15 @@ _.extend( grid.view, {
 
 		template:  media.template( 'wpmoly-movie' ),
 
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
 		initialize: function() {
 
 			this.frame      = this.options.frame;
@@ -461,6 +550,13 @@ _.extend( grid.view, {
 			this.grid = this.options.grid || {};
 		},
 
+		/**
+		 * Render the View
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		render: function() {
 
 			var rating = parseFloat( this.model.get( 'details' ).rating ),
@@ -505,10 +601,17 @@ _.extend( grid.view, {
 
 		className: 'attachments movies',
 
-		//template: media.template( 'wpmoly-grid-content-grid' ),
-
 		_views: [],
 
+		/**
+		 * Initialize the View
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    object    Attributes
+		 * 
+		 * @return   void
+		 */
 		initialize: function( options ) {
 
 			_.defaults( this.options, {
@@ -545,6 +648,13 @@ _.extend( grid.view, {
 			_.defer( this.set_columns, this );
 		},
 
+		/**
+		 * Build a view for each movie added to the library.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		create_subview: function( movie ) {
 
 			var view = new grid.view.Movie({
@@ -606,16 +716,16 @@ _.extend( grid.view, {
 
 			if ( true === force ) {
 				var $li = this.$( 'li' ),
-				$items = $li.find( '.movie-preview' );
+				 $items = $li.find( '.movie-preview' );
 
 				$items.css( { width: '', height: '' } );
 				$li.css( { width: '' } );
 			} else {
 				var $li = this.$( 'li' ).not( '.resized' ),
-				$items = $li.find( '.movie-preview' );
+				 $items = $li.find( '.movie-preview' );
 			}
 
-			this.thumbnail_width = Math.floor( this.$( 'li:first' ).width() - 1 );
+			this.thumbnail_width  = Math.floor( this.$( 'li:first' ).width() - 1 );
 			this.thumbnail_height = Math.floor( this.thumbnail_width * 1.5 );
 
 			$li.addClass( 'resized' ).css({
@@ -626,15 +736,12 @@ _.extend( grid.view, {
 				height: this.thumbnail_height - 12
 			});
 		},
-
-		/*render: function() {
-
-			this.$el.html();
-		},*/
 	})
 },
 {
 	Grid: media.View.extend({
+
+		_mode: '',
 
 		template: media.template( 'wpmoly-grid-frame' ),
 
@@ -660,10 +767,19 @@ _.extend( grid.view, {
 			this.controller = options.controller;
 			this.library    = new grid.controller.Query({ controller: this.controller });
 
+			this._mode = this.controller.get( 'view' );
+
 			// Set regions
 			this.set_regions();
 		},
 
+		/**
+		 * Build the regions.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @return   void
+		 */
 		set_regions: function() {
 
 			this.menu = new grid.view.Menu({
@@ -687,6 +803,30 @@ _.extend( grid.view, {
 			this.views.add( '.grid-frame-menu',       this.menu );
 			this.views.add( '.grid-frame-pagination', this.pagination );
 			this.views.add( '.grid-frame-content',    this.content );
+		},
+
+		/**
+		 * Switch mode.
+		 * 
+		 * @since    2.1.5
+		 * 
+		 * @param    string    Mode
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		mode: function( mode ) {
+
+			if ( ! mode ) {
+				return this._mode;
+			}
+
+			if ( mode === this._mode ) {
+				return this;
+			}
+
+			this.controller.set({ view: mode });
+
+			return this;
 		}
 	})
 } );
