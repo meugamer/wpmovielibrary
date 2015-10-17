@@ -349,10 +349,20 @@ body.wpmoly-frame-open .wpmoly.grid.bg {
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-block.letters .wpmoly-grid-settings-section .letter {
+	color: #666;
 	display: inline-block;
 	height: 24px;
 	line-height: 24px;
 	padding: 0 4px;
+}
+
+.wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-block.letters .wpmoly-grid-settings-section .letter.active {
+	background: #666;
+	border-radius: 3px;
+	color: #fff;
+	font-weight: bold;
+	padding: 2px 8px 1px;
+	margin: 0 -4px;
 }
 
 .wpmoly.grid .grid-frame-menu .wpmoly-grid-menu .wpmoly-grid-settings-section label {

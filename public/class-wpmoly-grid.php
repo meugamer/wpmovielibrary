@@ -70,14 +70,6 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 
 			extract( $args, EXTR_SKIP );
 
-			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
-			$grid_meta = array_keys( $grid_meta['used'] );
-			$title   = in_array( 'title', $grid_meta );
-			$genre   = in_array( 'genre', $grid_meta );
-			$rating  = in_array( 'rating', $grid_meta );
-			$year    = in_array( 'year', $grid_meta );
-			$runtime = in_array( 'runtime', $grid_meta );
-
 			$views = array( 'grid', 'archives', 'list' );
 			if ( '1' == wpmoly_o( 'rewrite-enable' ) ) {
 				$views = array( 'grid' => __( 'grid', 'wpmovielibrary' ), 'archives' => __( 'archives', 'wpmovielibrary' ), 'list' => __( 'list', 'wpmovielibrary' ) );
@@ -99,22 +91,8 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				$args['number'] = $_number;
 			}
 
-			$movies = self::query_movies( $args );
-			$args['pages'] = array(
-				'total'   => $movies->max_num_pages,
-				'current' => $movies->query_vars['paged'],
-				'prev'    => max( $movies->query_vars['paged'] - 1, 0 ),
-				'next'    => min( $movies->query_vars['paged'] + 1, $movies->max_num_pages ),
-				'posts'   => $movies->found_posts
-			);
-
-			$args['show_title']   = $title;
-			$args['show_genre']   = $genre;
-			$args['show_rating']  = $rating;
-			$args['show_year']    = $year;
-			$args['show_runtime'] = $runtime;
-
-			$movies = $movies->posts;
+			$query  = self::query_movies( $args );
+			$movies = $query->posts;
 
 			if ( 'list' == $view ) {
 				$movies = self::prepare_list_view( $movies );
@@ -133,7 +111,42 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				$debug = compact( 'main_args', 'permalinks_args' );
 			}
 
-			$attributes = compact( 'movies', 'columns', 'title', 'genre', 'year', 'rating', 'runtime', 'theme', 'debug' );
+			// Build JS Grid parameters
+			$grid_meta = (array) wpmoly_o( 'movie-archives-movies-meta', $default = true );
+			$grid_meta = array_keys( $grid_meta['used'] );
+
+			$args = array(
+				'query'   => compact( 'number', 'orderby', 'date', 'order', 'paged', 'letter', 'category', 'tag', 'collection', 'actor', 'genre', 'meta', 'detail', 'value', 'incoming', 'unrated' ),
+				'display' => array(
+					'title'   => in_array( 'title',   $grid_meta ),
+					'genre'   => in_array( 'genre',   $grid_meta ),
+					'rating'  => in_array( 'rating',  $grid_meta ),
+					'year'    => in_array( 'year',    $grid_meta ),
+					'runtime' => in_array( 'runtime', $grid_meta ),
+					'view'    => $view,
+					'columns' => $columns,
+					'rows'    => $rows
+				),
+				'pages'   => array(
+					'total'   => $query->max_num_pages,
+					'current' => $query->query_vars['paged'],
+					'prev'    => max( $query->query_vars['paged'] - 1, 0 ),
+					'next'    => min( $query->query_vars['paged'] + 1, $query->max_num_pages ),
+					'posts'   => $query->found_posts
+				)
+			);
+
+			$attributes = array(
+				'movies'  => $movies,
+				'columns' => $args['display']['columns'],
+				'title'   => $args['display']['title'],
+				'genre'   => $args['display']['genre'],
+				'year'    => $args['display']['year'],
+				'rating'  => $args['display']['rating'],
+				'runtime' => $args['display']['runtime'],
+				'theme'   => $theme,
+				'debug'   => $debug
+			);
 
 			$content = self::render_template( "movies/grid/$view-loop.php", $attributes, $require = 'always' );
 			$js      = self::render_template( "movies/grid/backbone.php", $attributes = compact( 'args' ), $require = 'always' );

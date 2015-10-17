@@ -165,11 +165,11 @@ _.extend( grid.view, {
 			var $elem = this.$( event.currentTarget ),
 			    value = $elem.attr( 'data-value' );
 
-			if ( ! _.contains( this.controller.orderby, value ) ) {
+			if ( ! _.contains( this.controller._orderby, value ) ) {
 				return;
 			}
 
-			this.controller.set( { orderby: value, paged: 1 }, { silent: true } );
+			this.controller.query.set( { orderby: value, paged: 1 }, { silent: true } );
 			this.render();
 		},
 
@@ -187,11 +187,11 @@ _.extend( grid.view, {
 			var $elem = this.$( event.currentTarget ),
 			    value = $elem.attr( 'data-value' );
 
-			if ( ! _.contains( this.controller.order, value ) ) {
+			if ( ! _.contains( this.controller._order, value ) ) {
 				return;
 			}
 
-			this.controller.set( { order: value.toUpperCase(), paged: 1 }, { silent: true } );
+			this.controller.query.set( { order: value.toUpperCase(), paged: 1 }, { silent: true } );
 			this.render();
 		},
 
@@ -210,15 +210,19 @@ _.extend( grid.view, {
 			    value = $elem.attr( 'data-value' )
 			    regex = new RegExp('^[a-z0-9#]', 'i');
 
-			if ( 1 < value.length ) {
-				value = value.substr( 0, 1 );
+			if ( $elem.hasClass( 'active' ) ) {
+				value = '';
+			} else {
+				if ( 1 < value.length ) {
+					value = value.substr( 0, 1 );
+				}
+
+				if ( ! regex.test( value ) ) {
+					return;
+				}
 			}
 
-			if ( ! regex.test( value ) ) {
-				return;
-			}
-
-			this.controller.set( { letter: value.toUpperCase() }, { silent: true } );
+			this.controller.query.set( { letter: value.toUpperCase() }, { silent: true } );
 			this.render();
 		},
 
@@ -238,11 +242,11 @@ _.extend( grid.view, {
 			    check = $elem.attr( 'data-check' );
 			    check = '1' === check;
 
-			if ( ! _.contains( this.controller.display, value ) ) {
+			if ( ! _.contains( this.controller._display, value ) ) {
 				return;
 			}
 
-			this.controller.set( 'show_' + value, ! check, { silent: true } );
+			this.controller.display.set( value, ! check, { silent: true } );
 			this.render();
 		},
 
@@ -323,23 +327,10 @@ _.extend( grid.view, {
 				mode:    this._mode,
 				scroll:  this.frame._scroll,
 				view:    this.frame.mode(),
-				orderby: this.controller.get( 'orderby' ),
-				order:   this.controller.get( 'order' ),
-				include: {
-					incoming: this.controller.get( 'include_incoming' ),
-					unrated:  this.controller.get( 'include_unrated' ),
-				},
-				display: {
-					title:   this.controller.get( 'show_title' ),
-					genre:   this.controller.get( 'show_genre' ),
-					year:    this.controller.get( 'show_year' ),
-					rating:  this.controller.get( 'show_rating' ),
-					runtime: this.controller.get( 'show_runtime' ),
-					number:  this.controller.get( 'number' ),
-					columns: this.controller.get( 'columns' ),
-					rows:    this.controller.get( 'rows' )
-				}
+				query:   this.controller.query,
+				display: this.controller.display
 			};
+
 			this.$el.html( this.template( options ) );
 
 			if ( ! _.isEmpty( this._mode ) ) {
@@ -587,8 +578,7 @@ _.extend( grid.view, {
 
 			var data = this.model.toJSON(),
 			  rating = parseFloat( this.model.get( 'details' ).rating ),
-			    star = 'empty',
-			settings = this.controller;
+			    star = 'empty';
 
 			if ( '' != rating ) {
 				if ( 3.5 < rating ) {
@@ -608,11 +598,11 @@ _.extend( grid.view, {
 					},
 					details: _.extend( this.model.get( 'details' ), { star: star } ),
 					display: {
-						title:   settings.get( 'show_title' ),
-						year:    settings.get( 'show_year' ),
-						genre:   settings.get( 'show_genre' ),
-						rating:  settings.get( 'show_rating' ),
-						runtime: settings.get( 'show_runtime' )
+						title:   this.controller.display.get( 'title' ),
+						year:    this.controller.display.get( 'year' ),
+						genre:   this.controller.display.get( 'genre' ),
+						rating:  this.controller.display.get( 'rating' ),
+						runtime: this.controller.display.get( 'runtime' )
 					}
 				} ) )
 			);
@@ -797,7 +787,7 @@ _.extend( grid.view, {
 			this.controller = options.controller;
 			this.library    = new grid.controller.Query({ controller: this.controller });
 
-			this._mode = this.controller.get( 'view' );
+			this._mode = this.controller.display.get( 'view' );
 
 			// Set regions
 			this.set_regions();
@@ -854,7 +844,7 @@ _.extend( grid.view, {
 				return this;
 			}
 
-			this.controller.set({ view: mode });
+			this.controller.display.set({ view: mode });
 
 			return this;
 		}

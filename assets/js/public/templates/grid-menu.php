@@ -17,7 +17,7 @@
 $letters = array( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' );
 foreach ( $letters as $letter ) :
 ?>
-								<a class="letter<# if ( '<?php echo $letter ?>' == data.letter ) { #> active<# } #>" data-action="letter" data-value="<?php echo $letter ?>" href="#"><?php echo $letter ?></a>
+								<a class="letter<# if ( '<?php echo $letter ?>' == data.query.get( 'letter' ) ) { #> active<# } #>" data-action="letter" data-value="<?php echo $letter ?>" href="#"><?php echo $letter ?></a>
 <?php endforeach; ?>
 
 							</div>
@@ -26,16 +26,16 @@ foreach ( $letters as $letter ) :
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Sorting', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
-									<a href="#" data-action="orderby" data-value="title" title="<?php _e( 'Sort movies by title', 'wpmovielibrary' ); ?>"><?php _e( 'Title', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'post_title' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="orderby" data-value="post_title" title="<?php _e( 'Sort movies by title', 'wpmovielibrary' ); ?>"><?php _e( 'Title', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( _.contains( [ 'post_title', 'title' ], data.query.get( 'orderby' ) ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="orderby" data-value="release_date" title="<?php _e( 'Sort movies by release date', 'wpmovielibrary' ); ?>"><?php _e( 'Release Date', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'release_date' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="orderby" data-value="release_date" title="<?php _e( 'Sort movies by release date', 'wpmovielibrary' ); ?>"><?php _e( 'Release Date', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( _.contains( [ 'release_date', 'date' ], data.query.get( 'orderby' ) ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="orderby" data-value="date" title="<?php _e( 'Sort movies by post date', 'wpmovielibrary' ); ?>"><?php _e( 'Post Date', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'post_date' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="orderby" data-value="post_date" title="<?php _e( 'Sort movies by post date', 'wpmovielibrary' ); ?>"><?php _e( 'Post Date', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'post_date' == data.query.get( 'orderby' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="orderby" data-value="rating" title="<?php _e( 'Sort movies by rating', 'wpmovielibrary' ); ?>"><?php _e( 'Rating', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'rating' == data.orderby ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="orderby" data-value="rating" title="<?php _e( 'Sort movies by rating', 'wpmovielibrary' ); ?>"><?php _e( 'Rating', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'rating' == data.query.get( 'orderby' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 							</div>
 						</div>
@@ -43,13 +43,13 @@ foreach ( $letters as $letter ) :
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Ordering', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
-									<a href="#" data-action="order" data-value="asc" title="<?php _e( 'Order movies ascendingly', 'wpmovielibrary' ); ?>"><?php _e( 'Ascendingly', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'asc' == data.order.toLowerCase() ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="order" data-value="asc" title="<?php _e( 'Order movies ascendingly', 'wpmovielibrary' ); ?>"><?php _e( 'Ascendingly', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'asc' == data.query.get( 'order' ).toLowerCase() ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="order" data-value="desc" title="<?php _e( 'Order movies descendingly', 'wpmovielibrary' ); ?>"><?php _e( 'Descendingly', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'desc' == data.order.toLowerCase() ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="order" data-value="desc" title="<?php _e( 'Order movies descendingly', 'wpmovielibrary' ); ?>"><?php _e( 'Descendingly', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'desc' == data.query.get( 'order' ).toLowerCase() ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<!--<label>
-									<a href="#" data-action="order" data-value="random" title="<?php _e( 'Shuffle movies', 'wpmovielibrary' ); ?>"><?php _e( 'Random', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'RANDOM' == data.order ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="order" data-value="random" title="<?php _e( 'Shuffle movies', 'wpmovielibrary' ); ?>"><?php _e( 'Random', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( 'RANDOM' == data.query.get( 'order' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>-->
 							</div>
 						</div>
@@ -57,10 +57,10 @@ foreach ( $letters as $letter ) :
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Include', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
-									<a href="#" data-action="filter" data-value="incoming" title="<?php _e( 'Include movies not released yet', 'wpmovielibrary' ); ?>"><?php _e( 'Incoming', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( true === data.include.incoming ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="filter" data-value="incoming" title="<?php _e( 'Include movies not released yet', 'wpmovielibrary' ); ?>"><?php _e( 'Incoming', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( true === data.query.get( 'incoming' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="filter" data-value="unrated" title="<?php _e( 'Include movies with no rating', 'wpmovielibrary' ); ?>"><?php _e( 'Not rated', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( true === data.include.unrated ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="filter" data-value="unrated" title="<?php _e( 'Include movies with no rating', 'wpmovielibrary' ); ?>"><?php _e( 'Not rated', 'wpmovielibrary' ); ?> <span class="wpmolicon <# if ( true === data.query.get( 'unrated' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 							</div>
 						</div>
@@ -85,19 +85,19 @@ foreach ( $letters as $letter ) :
 							<div class="wpmoly-grid-settings-header"><?php _e( 'Display', 'wpmovielibrary' ); ?></div>
 							<div class="wpmoly-grid-settings-section">
 								<label>
-									<a href="#" data-action="display" data-check="<# if ( data.display.title ) { #>1<# } else { #>0<# } #>" data-value="title" title="<?php _e( 'Show movie titles', 'wpmovielibrary' ); ?>"><?php _e( 'Title', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.title ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="display" data-check="<# if ( data.display.get( 'title' ) ) { #>1<# } else { #>0<# } #>" data-value="title" title="<?php _e( 'Show movie titles', 'wpmovielibrary' ); ?>"><?php _e( 'Title', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.get( 'title' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="display" data-check="<# if ( data.display.year ) { #>1<# } else { #>0<# } #>" data-value="year" title="<?php _e( 'Show movie year', 'wpmovielibrary' ); ?>"><?php _e( 'Year', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.year ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="display" data-check="<# if ( data.display.get( 'year' ) ) { #>1<# } else { #>0<# } #>" data-value="year" title="<?php _e( 'Show movie year', 'wpmovielibrary' ); ?>"><?php _e( 'Year', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.get( 'year' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="display" data-check="<# if ( data.display.genre ) { #>1<# } else { #>0<# } #>" data-value="genre" title="<?php _e( 'Show movie genres', 'wpmovielibrary' ); ?>"><?php _e( 'Genres', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.genre ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="display" data-check="<# if ( data.display.get( 'genre' ) ) { #>1<# } else { #>0<# } #>" data-value="genre" title="<?php _e( 'Show movie genres', 'wpmovielibrary' ); ?>"><?php _e( 'Genres', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.get( 'genre' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="display" data-check="<# if ( data.display.rating ) { #>1<# } else { #>0<# } #>" data-value="rating" title="<?php _e( 'Show movie ratings', 'wpmovielibrary' ); ?>"><?php _e( 'Rating', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.rating ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="display" data-check="<# if ( data.display.get( 'rating' ) ) { #>1<# } else { #>0<# } #>" data-value="rating" title="<?php _e( 'Show movie ratings', 'wpmovielibrary' ); ?>"><?php _e( 'Rating', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.get( 'rating' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 								<label>
-									<a href="#" data-action="display" data-check="<# if ( data.display.runtime ) { #>1<# } else { #>0<# } #>" data-value="runtime" title="<?php _e( 'Show movie runtimes', 'wpmovielibrary' ); ?>"><?php _e( 'Runtime', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.runtime ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
+									<a href="#" data-action="display" data-check="<# if ( data.display.get( 'runtime' ) ) { #>1<# } else { #>0<# } #>" data-value="runtime" title="<?php _e( 'Show movie runtimes', 'wpmovielibrary' ); ?>"><?php _e( 'Runtime', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( data.display.get( 'runtime' ) ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>
 							</div>
 						</div>
@@ -107,9 +107,9 @@ foreach ( $letters as $letter ) :
 								<!--<label>
 									<a href="#" data-action="scroll" data-value="1" title="<?php _e( 'Automatically load more movies when reaching the end of the page', 'wpmovielibrary' ); ?>"><?php _e( 'Infinite scroll', 'wpmovielibrary' ); ?> <input type="checkbox" value="" /><span class="wpmolicon <# if ( '' == data.scroll ) { #>icon-yes-alt<# } else { #>icon-no-alt-2<# } #>"></span></a>
 								</label>-->
-								<label><?php _e( 'Movies per page', 'wpmovielibrary' ); ?> <input type="text" value="{{ data.display.number }}" size="3" maxlength="3" /></label>
-								<label><?php _e( 'Columns', 'wpmovielibrary' ); ?> <input type="text" value="{{ data.display.columns }}" size="3" maxlength="3" /></label>
-								<label><?php _e( 'Rows', 'wpmovielibrary' ); ?> <input type="text" value="{{ data.display.rows }}" size="3" maxlength="3" /></label>
+								<label><?php _e( 'Movies per page', 'wpmovielibrary' ); ?> <input type="text" value="{{ data.query.get( 'number' ) }}" size="3" maxlength="3" /></label>
+								<label><?php _e( 'Columns', 'wpmovielibrary' ); ?> <input type="text" value="{{ data.display.get( 'columns' ) }}" size="3" maxlength="3" /></label>
+								<label><?php _e( 'Rows', 'wpmovielibrary' ); ?> <input type="text" value="{{ data.display.get( 'rows' ) }}" size="3" maxlength="3" /></label>
 							</div>
 						</div>
 					</div>

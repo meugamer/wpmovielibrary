@@ -71,7 +71,7 @@ _.extend( grid.model, {
 {
 	Movies: Backbone.Collection.extend({
 
-		query_args: [ 'number', 'orderby', 'order', 'paged', 'letter', 'category', 'tag', 'collection', 'actor', 'genre', 'meta', 'detail', 'value' ],
+		query_args: [ 'number', 'orderby', 'order', 'paged', 'letter', 'category', 'tag', 'collection', 'actor', 'genre', 'meta', 'detail', 'value', 'incoming', 'unrated' ],
 
 		// More movies to load?
 		has_more: true,
@@ -191,7 +191,7 @@ _.extend( grid.model, {
 
 				var query = {};
 				_.each( this.query_args, function( arg ) {
-					query[ arg ] = this.controller.get( arg ) || null;
+					query[ arg ] = this.controller.query.get( arg ) || null;
 				}, this );
 				_.extend( query, options.data || {} );
 				console.log( query );

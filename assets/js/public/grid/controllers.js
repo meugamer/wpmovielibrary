@@ -7,44 +7,51 @@ _.extend( grid.controller, {
 
 	Settings: Backbone.Model.extend({
 
-		orderby: [ 'title', 'date', 'release_date', 'rating' ],
+		_orderby: [ 'post_title', 'post_date', 'release_date', 'rating' ],
 
-		order:   [ 'asc', 'desc', 'random' ],
+		_order:   [ 'asc', 'desc', 'random' ],
 
-		display: [ 'title', 'year', 'genre', 'rating', 'runtime' ],
+		_display: [ 'title', 'year', 'genre', 'rating', 'runtime' ],
 
 		pages: new Backbone.Model,
 
-		defaults: {
-			// Library options
-			number:           24,
-			orderby:          'date',
-			order:            'DESC',
-			paged:            '1',
-			letter:           '',
-			category:         '',
-			tag:              '',
-			collection:       '',
-			actor:            '',
-			genre:            '',
-			meta:             '',
-			detail:           '',
-			value:            '',
+		query: new Backbone.Model,
 
-			// Grid Filtering
-			include_incoming: true,
-			include_unrated:  true,
+		display: new Backbone.Model,
+
+		defaults: {
 
 			// Grid Display
-			show_title:       true,
-			show_year:        true,
-			show_genre:       false,
-			show_rating:      false,
-			show_runtime:     false,
-			scroll:           false,
-			view:             'grid',
-			columns:          4,
-			rows:             6
+			display: {
+				title:      true,
+				year:       true,
+				genre:      false,
+				rating:     false,
+				runtime:    false,
+				scroll:     false,
+				view:       'grid',
+				columns:    4,
+				rows:       6
+			},
+
+			// Library options
+			query: {
+				number:     24,
+				orderby:    'post_date',
+				order:      'DESC',
+				paged:      '1',
+				letter:     '',
+				category:   '',
+				tag:        '',
+				collection: '',
+				actor:      '',
+				genre:      '',
+				meta:       '',
+				detail:     '',
+				value:      '',
+				incoming:   true,
+				unrated:    true,
+			}
 		},
 
 		/**
@@ -59,7 +66,8 @@ _.extend( grid.controller, {
 		initialize: function( options ) {
 
 			var options = options || {},
-			   settings = {};
+			    display = {},
+			      query = {};
 
 			this.pages.set({
 				current: options.pages.current || 0,
@@ -68,11 +76,16 @@ _.extend( grid.controller, {
 				next:    options.pages.next    || 0
 			});
 
-			_.each( this.defaults, function( value, key ) {
-				settings[ key ] = options[ key ] || value;
+			_.each( this.defaults.display, function( value, key ) {
+				display[ key ] = options.display[ key ] || value;
 			}, this );
 
-			this.set( settings );
+			_.each( this.defaults.query, function( value, key ) {
+				query[ key ] = options.query[ key ] || value;
+			}, this );
+
+			this.display.set( display );
+			this.query.set( query );
 		}
 	})
 } );
