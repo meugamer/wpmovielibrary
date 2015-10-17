@@ -34,13 +34,18 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 		 */
 		public static function get_content( $args = array(), $shortcode = false ) {
 
+			global $wp_query;
+
 			$content  = '';
 			$defaults = array(
+				
+				'view'       => 'grid',
 				'backbone'   => wpmoly_o( 'movie-backbone-grid', $default = true ),
 				'columns'    => wpmoly_o( 'movie-archives-grid-columns', $default = 4 ),
 				'rows'       => wpmoly_o( 'movie-archives-grid-rows', $default = 6 ),
 				'number'     => wpmoly_o( 'movie-archives-movies-limit', $default = null ),
 				'paged'      => 1,
+				// Taxonomies/Meta
 				'category'   => null,
 				'tag'        => null,
 				'collection' => null,
@@ -49,15 +54,16 @@ if ( ! class_exists( 'WPMOLY_Grid' ) ) :
 				'meta'       => null,
 				'detail'     => null,
 				'value'      => null,
-				/*'title'      => false,
-				'year'       => false,
-				'rating'     => false,*/
+				// Filtering
 				'letter'     => null,
 				'order'      => wpmoly_o( 'movie-archives-movies-order', $default = true ),
-				'orderby'    => 'post_title',
-				'view'       => 'grid'
+				'orderby'    => 'post_title'
 			);
 			$args = wp_parse_args( $args, $defaults );
+
+			// Allow URL params to override settings
+			$_args = WPMOLY_Archives::parse_query_vars( $wp_query->query );
+			$args = wp_parse_args( $_args, $args );
 
 			// debug
 			$main_args = $args;

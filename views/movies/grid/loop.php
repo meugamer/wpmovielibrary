@@ -45,14 +45,14 @@ if ( ! empty( $movies ) ) :
 <?php } ?>
 										</a>
 									</div>
-<?php if ( $title ) { ?>
+<?php if ( $year ) { ?>
+									<span class="wpmoly grid movie year"><?php echo apply_filters( 'wpmoly_format_movie_release_date', wpmoly_get_movie_meta( get_the_ID(), 'release_date' ), 'Y' ) ?></span>
+<?php } if ( $title ) { ?>
 									<a href="<?php the_permalink(); ?>" class="wpmoly grid movie link" title="<?php echo $title; ?>">
 										<h4 class="wpmoly grid movie title"><?php echo apply_filters( 'wpmoly_format_movie_title', wpmoly_get_movie_meta( get_the_ID(), 'title' ) ); ?></h4>
 									</a>
 <?php } if ( $genre ) { ?>
 									<span class="wpmoly grid movie genres"><?php echo apply_filters( 'wpmoly_format_movie_genres', wpmoly_get_movie_meta( get_the_ID(), 'genres' ) ) ?></span>
-<?php } if ( $year ) { ?>
-									<span class="wpmoly grid movie year"><?php echo apply_filters( 'wpmoly_format_movie_release_date', wpmoly_get_movie_meta( get_the_ID(), 'release_date' ), 'Y' ) ?></span>
 <?php } if ( $runtime ) { ?>
 									<span class="wpmoly grid movie runtime"><?php echo apply_filters( 'wpmoly_format_movie_runtime', wpmoly_get_movie_meta( get_the_ID(), 'runtime' ) ) ?></span>
 <?php } if ( $rating ) { ?>

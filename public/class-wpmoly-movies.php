@@ -633,7 +633,23 @@ if ( ! class_exists( 'WPMOLY_Movies' ) ) :
 				}
 			}
 
-			$params['tax_query'] = $tax_query;
+			$meta_query = array();
+			if ( ! is_null( $meta ) && ! is_null( $value ) ) {
+				$meta_query[] = array(
+					'key'     => '_wpmoly_movie_' . $meta,
+					'value'   => $value,
+					'compare' => 'LIKE',
+				);
+			} else if ( ! is_null( $detail ) && ! is_null( $value ) ) {
+				$meta_query[] = array(
+					'key'     => '_wpmoly_movie_' . $detail,
+					'value'   => $value,
+					'compare' => 'LIKE',
+				);
+			}
+
+			$params['tax_query']  = $tax_query;
+			$params['meta_query'] = $meta_query;
 
 			$movies = new WP_Query( $params );
 
