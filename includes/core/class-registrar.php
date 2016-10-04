@@ -54,6 +54,21 @@ class Registrar {
 	private $taxonomies = array();
 
 	/**
+	 * Load permalinks settings.
+	 * 
+	 * @since    3.0
+	 */
+	public function __construct() {
+
+		$permalinks = get_option( 'wpmoly_permalinks' );
+		if ( empty( $permalinks ) ) {
+			$permalinks = array();
+		}
+
+		$this->permalinks = $permalinks;
+	}
+
+	/**
 	 * Singleton.
 	 * 
 	 * @since    3.0
@@ -78,11 +93,6 @@ class Registrar {
 	 */
 	public function register_post_types() {
 
-		$permalinks = get_option( 'wpmoly_permalinks' );
-		if ( ! $permalinks ) {
-			$permalinks = array();
-		}
-
 		$post_types = array(
 			array(
 				'slug' => 'movie',
@@ -103,13 +113,13 @@ class Registrar {
 						'menu_name'          => __( 'Movie Library', 'wpmovielibrary' )
 					),
 					'rewrite' => array(
-						'slug' => ! empty( $permalinks['movie_base'] ) ? $permalinks['movie_base'] : 'movies'
+						'slug' => ! empty( $this->permalinks['movie'] ) ? trim( $this->permalinks['movie'], '/' ) : 'movies'
 					),
 					'public'             => true,
 					'publicly_queryable' => true,
 					'show_ui'            => true,
 					'show_in_menu'       => true,
-					'has_archive'        => true,
+					'has_archive'        => ! empty( $this->permalinks['movies'] ) ? trim( $this->permalinks['movies'], '/' ) : '%movies_rewrite%',
 					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
 					'menu_position'      => 2,
 					'menu_icon'          => 'dashicons-wpmoly'
@@ -278,7 +288,8 @@ class Registrar {
 						'items_list_navigation'      => __( 'Collections list navigation', 'wpmovielibrary' ),
 						'items_list'                 => __( 'Collections list', 'wpmovielibrary' ),
 					)
-				)
+				),
+				'archive' => 'collections'
 			),
 			array(
 				'slug'  => 'genre',
@@ -305,7 +316,8 @@ class Registrar {
 						'items_list_navigation'      => __( 'Genres list navigation', 'wpmovielibrary' ),
 						'items_list'                 => __( 'Genres list', 'wpmovielibrary' ),
 					)
-				)
+				),
+				'archive' => 'genres'
 			),
 			array(
 				'slug'  => 'actor',
@@ -332,7 +344,8 @@ class Registrar {
 						'items_list_navigation'      => __( 'Actors list navigation', 'wpmovielibrary' ),
 						'items_list'                 => __( 'Actors list', 'wpmovielibrary' ),
 					)
-				)
+				),
+				'archive' => 'actors'
 			)
 		);
 
@@ -351,9 +364,10 @@ class Registrar {
 				$taxonomy['args']['posts'][] = 'post';
 			}
 
-			$slug = $taxonomy['slug'];
-			if ( ! empty( $permalinks["{$slug}_base"] ) ) {
-				$slug = $permalinks["{$slug}_base"];
+			$archive = $taxonomy['archive'];
+			if ( ! empty( $this->permalinks[ $archive ] ) ) {
+				$archive = trim( $this->permalinks[ $archive ], '/' );
+				$archive = '%' . $taxonomy['slug'] . '_rewrite%';
 			}
 
 			/**
@@ -372,7 +386,7 @@ class Registrar {
 				'hierarchical'      => false,
 				'query_var'         => true,
 				'sort'              => true,
-				'rewrite'           => array( 'slug' => $slug )
+				'rewrite'           => array( 'slug' => $archive )
 			), $args );
 
 			register_taxonomy( $taxonomy['slug'], $taxonomy['posts'], $args );
