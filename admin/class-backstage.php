@@ -56,6 +56,7 @@ class Backstage {
 		$styles = array(
 			''             => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly.css' ),
 			'metabox'      => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-metabox.css' ),
+			'permalinks'   => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-permalink-settings.css' ),
 			'grid-builder' => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-grid-builder.css' ),
 
 			'font'         => array( 'file' => WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css' ),
@@ -286,6 +287,7 @@ class Backstage {
 
 		if ( 'options-permalink.php' == $hook_suffix ) {
 			$this->enqueue_style( 'metabox' );
+			$this->enqueue_style( 'permalinks' );
 		}
 
 		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'grid' == get_post_type() ) {
