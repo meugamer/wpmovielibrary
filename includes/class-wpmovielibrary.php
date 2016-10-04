@@ -136,6 +136,7 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/core/class-template.php';
 		require_once WPMOLY_PATH . 'includes/core/class-options.php';
 		require_once WPMOLY_PATH . 'includes/core/class-rewrite.php';
+		require_once WPMOLY_PATH . 'includes/core/class-query.php';
 
 		$this->init();
 
@@ -304,6 +305,13 @@ final class Library {
 		$this->loader->add_action( 'init', $registrar, 'register_post_types' );
 		$this->loader->add_action( 'init', $registrar, 'register_taxonomies' );
 		$this->loader->add_action( 'init', $registrar, 'register_post_statuses' );
+
+		$rewrite = Core\Rewrite::get_instance();
+		$this->loader->add_filter( 'init',                 $rewrite, 'add_rewrite_tags' );
+		$this->loader->add_filter( 'post_type_link',       $rewrite, 'replace_post_link_tags', 10, 4 );
+
+		$query = Core\Query::get_instance();
+		$this->loader->add_filter( 'query_vars',     $query, 'add_query_vars' );
 
 		// Public-side Ajax
 		$ajax = Ajax\Ajax::get_instance();
