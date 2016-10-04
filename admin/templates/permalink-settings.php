@@ -42,13 +42,13 @@
 				<div id="wpmoly-<?php echo esc_attr( $id ); ?>" class="panel<?php if ( $active ) { ?> active<?php } ?>">
 <?php
 			foreach ( $setting['fields'] as $slug => $field ) {
+				$is_disabled = isset( $field['disabled'] ) && true === $field['disabled'];
 ?>
 					<h4><?php echo esc_attr( $field['title'] ); ?></h4>
 					<p><?php echo wp_kses( $field['description'], wp_kses_allowed_html( 'post' ) ); ?></p>
-					<table class="form-table wpmoly-permalink-structure">
+					<table class="form-table wpmoly-permalink-structure<?php echo $is_disabled ? ' disabled' : ''; ?>">
 						<tbody>
 <?php
-				$is_disabled = isset( $field['disabled'] ) && true === $field['disabled'];
 
 				if ( 'radio' == $field['type'] ) {
 
@@ -64,7 +64,7 @@
 ?>
 							<tr>
 								<th>
-									<label><input id="<?php echo esc_attr( $slug . '_' . $name ); ?>" name="wpmoly_permalinks[<?php echo esc_attr( $slug ); ?>]" type="radio" value="<?php echo esc_attr( $choice['value'] ); ?>" class="" <?php checked( $choice['value'], $value ); disabled( $is_disabled, true ); ?>/> <?php echo esc_attr( $choice['label'] ); ?></label>
+									<label><input id="<?php echo esc_attr( $slug . '_' . $name ); ?>" name="wpmoly_permalinks[<?php echo esc_attr( $slug ); ?>]" type="radio" data-name="<?php echo esc_attr( $slug ); ?>" value="<?php echo esc_attr( $choice['value'] ); ?>" class="" <?php checked( $choice['value'], $value ); disabled( $is_disabled, true ); ?>/> <?php echo esc_attr( $choice['label'] ); ?></label>
 								</th>
 								<td>
 									<code><?php echo esc_html( $choice['description'] ) ?></code>
@@ -72,6 +72,8 @@
 							</tr>
 <?php
 					}
+
+					if ( true === $field['custom'] ) {
 ?>
 							<tr>
 								<th>
@@ -83,6 +85,7 @@
 								</td>
 							</tr>
 <?php
+					}
 				} elseif ( 'text' == $field['type'] ) {
 ?>
 							<tr>
