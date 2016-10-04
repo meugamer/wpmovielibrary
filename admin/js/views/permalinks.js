@@ -9,6 +9,7 @@ _.extend( wpmoly.view, {
 
 		events: {
 			//'change #wpmoly_permalinks_movie_base' : 'updateMovieBase'
+			'click [data-name]'   : 'updateCustomPermalink',
 			'focus .custom-value' : 'selectCustomPermalink'
 		},
 
@@ -62,6 +63,14 @@ _.extend( wpmoly.view, {
 			}, this );
 
 			return this;
+		},
+
+		updateCustomPermalink: function( event ) {
+
+			var $elem = this.$( event.currentTarget ),
+			  $custom = this.$( '#custom_' + $elem.attr( 'data-name' ) + '_value' );
+
+			$custom.val( $elem.val() );
 		},
 
 		/**
