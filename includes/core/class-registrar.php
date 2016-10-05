@@ -364,10 +364,9 @@ class Registrar {
 				$taxonomy['args']['posts'][] = 'post';
 			}
 
-			$archive = $taxonomy['archive'];
-			if ( ! empty( $this->permalinks[ $archive ] ) ) {
-				$archive = trim( $this->permalinks[ $archive ], '/' );
-				$archive = '%' . $taxonomy['slug'] . '_rewrite%';
+			$slug = $taxonomy['slug'];
+			if ( ! empty( $this->permalinks[ $slug ] ) ) {
+				$slug = trim( $this->permalinks[ $slug ], '/' );
 			}
 
 			/**
@@ -386,7 +385,7 @@ class Registrar {
 				'hierarchical'      => false,
 				'query_var'         => true,
 				'sort'              => true,
-				'rewrite'           => array( 'slug' => $archive )
+				'rewrite'           => array( 'slug' => $slug )
 			), $args );
 
 			register_taxonomy( $taxonomy['slug'], $taxonomy['posts'], $args );
