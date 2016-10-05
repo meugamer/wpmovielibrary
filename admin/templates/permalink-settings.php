@@ -81,7 +81,7 @@
 								</th>
 								<td>
 									<code><?php echo esc_url( untrailingslashit( home_url() ) ) ?></code> <input id="custom_<?php echo esc_attr( $slug ); ?>_value" name="wpmoly_permalinks[custom_<?php echo esc_attr( $slug ); ?>]" type="text" value="<?php echo ! in_array( $value, $choices ) ? esc_attr( $value ) : ''; ?>" class="regular-text code custom-value" <?php disabled( $is_disabled, true ); ?>/>
-									<p><em><?php _e( 'Enter a custom base to use. A base <strong>must</strong> be set or WordPress will use default instead.', 'wpmovielibrary' ); ?></em></p>
+									<p><em><?php _e( 'Enter a custom base to use. A base <strong>must</strong> be set or WordPress will use default instead.<br />Note: <code>%postname%</code> and similar name tags (<code>%movie%</code>, <code>%collection%</code>…) aren’t needed; WordPress will automatically add the movie’s name at the end of the URL.', 'wpmovielibrary' ); ?></em></p>
 								</td>
 							</tr>
 <?php

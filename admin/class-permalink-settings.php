@@ -136,12 +136,12 @@ class PermalinkSettings {
 								'description' => home_url() . '/' . $this->slugs['movie'] . '/2014/10/interstellar/'
 							),
 							'imdb_id' => array(
-								'label'  => __( 'IMDb ID', 'wpmovielibrary' ),
+								'label'  => __( 'Title and IMDb ID', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movie'] . '/%imdb_id%/',
 								'description' => home_url() . '/' . $this->slugs['movie'] . '/tt0816692/interstellar/'
 							),
 							'tmdb_id' => array(
-								'label'  => __( 'TMDb ID', 'wpmovielibrary' ),
+								'label'  => __( 'Title and TMDb ID', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movie'] . '/%tmdb_id%/',
 								'description' => home_url() . '/' . $this->slugs['movie'] . '/157336/interstellar/'
 							),
@@ -152,7 +152,7 @@ class PermalinkSettings {
 							)
 						),
 						'default' => 'archive',
-						'custom'  => false
+						'custom'  => true
 					),
 					'movies' => array(
 						'type' => 'radio',
@@ -181,12 +181,12 @@ class PermalinkSettings {
 						'choices' => array(
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
-								'value'  => '/' . $this->slugs['actor'] . '/%actor%/',
+								'value'  => '/' . $this->slugs['actor'] . '/',
 								'description' => home_url() . '/' . $this->slugs['actor'] . '/matthew-mcconaughey/'
 							),
 							'archive' => array(
 								'label'  => __( 'Archive base', 'wpmovielibrary' ),
-								'value'  => '/' . trim( $this->permalinks['actors'], '/' ) . '/%actor%/',
+								'value'  => '/' . trim( $this->permalinks['actors'], '/' ) . '/',
 								'description' => home_url() . '/' . trim( $this->permalinks['actors'], '/' ) . '/matthew-mcconaughey/'
 							)
 						),
@@ -220,12 +220,12 @@ class PermalinkSettings {
 						'choices' => array(
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
-								'value'  => '/' . $this->slugs['genre'] . '/%genre%/',
+								'value'  => '/' . $this->slugs['genre'] . '/',
 								'description' => home_url() . '/' . $this->slugs['genre'] . '/science-fiction/'
 							),
 							'archive' => array(
 								'label'  => __( 'Archive base', 'wpmovielibrary' ),
-								'value'  => '/' . trim( $this->permalinks['genres'], '/' ) . '/%genre%/',
+								'value'  => '/' . trim( $this->permalinks['genres'], '/' ) . '/',
 								'description' => home_url() . '/' . trim( $this->permalinks['genres'], '/' ) . '/science-fiction/'
 							)
 						),
@@ -259,12 +259,12 @@ class PermalinkSettings {
 						'choices' => array(
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
-								'value'  => '/' . $this->slugs['collection'] . '/%collection%/',
+								'value'  => '/' . $this->slugs['collection'] . '/',
 								'description' => home_url() . '/' . $this->slugs['collection'] . '/christopher-nolan/'
 							),
 							'archive' => array(
 								'label'  => __( 'Archive base', 'wpmovielibrary' ),
-								'value'  => '/' . trim( $this->permalinks['collections'], '/' ) . '/%collection%/',
+								'value'  => '/' . trim( $this->permalinks['collections'], '/' ) . '/',
 								'description' => home_url() . '/' . trim( $this->permalinks['collections'], '/' ) . '/christopher-nolan/'
 							)
 						),
@@ -389,6 +389,10 @@ class PermalinkSettings {
 			if ( ! empty( $new_permalinks[ $name ] ) ) {
 				if ( 'custom' == $new_permalinks[ $name ] && ! empty( $new_permalinks["custom_{$name}"] ) ) {
 					$permalink = $new_permalinks["custom_{$name}"];
+					$permalink = str_replace( array(
+						'%postname%', '%movie%', '%actor%', '%collection%', '%genre%', 
+					), '', $permalink );
+					$permalink = preg_replace( '/([^:])(\/{2,})/', '$1/', $permalink );
 				} else {
 					$permalink = $new_permalinks[ $name ];
 				}
