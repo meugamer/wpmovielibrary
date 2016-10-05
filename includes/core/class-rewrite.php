@@ -92,7 +92,7 @@ class Rewrite {
 		global $wp_rewrite;
 
 		foreach ( $this->tags as $tag => $regex ) {
-			$wp_rewrite->add_rewrite_tag( $tag, $regex, '' );
+			$wp_rewrite->add_rewrite_tag( $tag, $regex, 'wpmoly_movie_' . str_replace( '%', '', $tag ) . '=' );
 		}
 	}
 
@@ -117,6 +117,16 @@ class Rewrite {
 	/**
 	 * Replace custom rewrite tags in post links.
 	 * 
+	 * WordPress automatically appends the post's name at the end of the
+	 * permalink, meaning we have to check for the presence of a %postname%
+	 * or %movie% tag in the permalink that could be present if we're dealing
+	 * with custom permalink structures and remove it. This may result in
+	 * duplicate slashes that we need to clean while we're at it.
+	 * 
+	 * This markers should be stripped automatically when saving permalink
+	 * structures, but we're still better off checking to avoid malformed
+	 * URLs.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @param    string     $permalink
@@ -126,13 +136,69 @@ class Rewrite {
 	 * 
 	 * @return   string
 	 */
-	public function replace_post_link_tags( $permalink, $post, $leavename, $sample ) {
+	public function replace_movie_link_tags( $permalink, $post, $leavename, $sample ) {
 
 		if ( $sample || 'movie' != $post->post_type ) {
 			return $permalink;
 		}
 
+		// Check for duplicate post name and clean duplicate slashes
+		if ( false !== stripos( $permalink, '%postname%' ) && false !== stripos( $permalink, $post->post_name ) ) {
+			$permalink = str_replace( array( '%movie%', '%postname%' ), '', $permalink );
+			$permalink = preg_replace( '/([^:])(\/{2,})/', '$1/', $permalink );
+		}
+
 		return $this->replace_tags( $permalink, $post );
+	}
+
+	/**
+	 * Generate specific rewrite rules for movies and taxonomies.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $rules Existing rewrite rules
+	 * 
+	 * @return   array
+	 */
+	public function rewrite_rules( $rules ) {
+
+		$rules = $this->fix_movie_rewrite_rules( $rules );
+
+		$new_rules = $this->generate_movie_archives_rewrite_rules();
+		$rules = array_merge( $new_rules, $rules );
+
+		return $rules;
+	}
+
+	/**
+	 * Fix movie rewrite rules if needed.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $rules
+	 * 
+	 * @return   array
+	 */
+	private function fix_movie_rewrite_rules( $rules ) {
+
+		global $wp_rewrite;
+
+		$slug   = _x( 'movie', 'slug', 'wpmovielibrary' );
+		$struct = $this->permalinks['movie'];
+
+		if ( false !== strpos( $struct, $slug ) ) {
+			return $rules;
+		}
+
+		$struct = str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, $struct );
+		$struct = trim( $struct, '/' );
+		foreach ( $rules as $regex => $query ) {
+			if ( false !== strpos( $regex, $struct ) ) {
+				//$rules[ $regex ] = $query .= "&post_type=movie";
+			}
+		}
+
+		return $rules;
 	}
 
 	/**
@@ -142,7 +208,7 @@ class Rewrite {
 	 * 
 	 * @return   void
 	 */
-	public function add_movie_rewrite_rules() {
+	private function generate_movie_archives_rewrite_rules() {
 
 		global $wp_rewrite;
 
@@ -183,26 +249,6 @@ class Rewrite {
 			$rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $query . "&cpage=" . $wp_rewrite->preg_index( $i );
 			$rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $query . "&page=" . $wp_rewrite->preg_index( $i );
 		}
-
-		return $rules;
-	}
-
-	/**
-	 * Generate specific rewrite rules for movies and taxonomies.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $rules Existing rewrite rules
-	 * 
-	 * @return   array
-	 */
-	public function rewrite_rules( $rules ) {
-
-		$rewrites = $this->add_movie_rewrite_rules();
-		$rules = array_merge( $rewrites, $rules );
-
-		//print_r( $this->permalinks );
-		//print_r( $rules ); die();
 
 		return $rules;
 	}
