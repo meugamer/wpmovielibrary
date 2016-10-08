@@ -142,6 +142,7 @@ final class Library {
 
 		// Helpers
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
+		require_once WPMOLY_PATH . 'includes/helpers/debug.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-permalink.php';
@@ -308,7 +309,7 @@ final class Library {
 
 		$rewrite = Core\Rewrite::get_instance();
 		$this->loader->add_filter( 'init',                 $rewrite, 'add_rewrite_tags' );
-		$this->loader->add_filter( 'post_type_link',       $rewrite, 'replace_post_link_tags', 10, 4 );
+		$this->loader->add_filter( 'post_type_link',       $rewrite, 'replace_movie_link_tags', 10, 4 );
 
 		$query = Core\Query::get_instance();
 		$this->loader->add_filter( 'query_vars',     $query, 'add_query_vars' );
