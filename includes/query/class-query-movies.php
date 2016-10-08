@@ -24,18 +24,25 @@ use WP_Query;
 class Movies {
 
 	/**
-	 * Class constructor.
+	 * Nodes.
 	 * 
-	 * @since    3.0
-	 * 
-	 * @param    mixed    $params
-	 * 
-	 * @return   Movies
+	 * @var    array
 	 */
-	public function __construct() {
+	private $items;
 
-		
-	}
+	/**
+	 * Query parameters.
+	 * 
+	 * @var    array
+	 */
+	private $args;
+
+	/**
+	 * Internal Query.
+	 * 
+	 * @var    WP_Query
+	 */
+	public $query;
 
 	/**
 	 * Define a default preset for this Query.
@@ -46,7 +53,7 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function default_preset() {
+	public function default_preset() {
 
 		/**
 		 * Filter default preset callback.
@@ -57,7 +64,7 @@ class Movies {
 		 */
 		$callback = apply_filters( 'wpmoly/filter/query/movies/defaults/preset', 'last_added_movies' );
 
-		return self::$callback();
+		return $this->$callback();
 	}
 
 	/**
@@ -69,9 +76,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function alphabetical_movies() {
+	public function alphabetical_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'meta_key'       => '_wpmoly_movie_title',
 			'orderby'        => 'meta_value',
 			'order'          => 'ASC'
@@ -87,9 +94,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function unalphabetical_movies() {
+	public function unalphabetical_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'meta_key'       => '_wpmoly_movie_title',
 			'orderby'        => 'meta_value',
 			'order'          => 'DESC'
@@ -105,9 +112,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function current_year_movies() {
+	public function current_year_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'meta_key'   => '_wpmoly_movie_release_date',
 			'meta_type'  => 'date',
 			'meta_query' => array(
@@ -139,9 +146,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function last_year_movies() {
+	public function last_year_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'meta_key'   => '_wpmoly_movie_release_date',
 			'meta_type'  => 'date',
 			'meta_query' => array(
@@ -173,9 +180,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function last_added_movies() {
+	public function last_added_movies() {
 
-		return self::preset_query();
+		return $this->query();
 	}
 
 	/**
@@ -187,9 +194,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function first_added_movies() {
+	public function first_added_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'order' => 'ASC'
 		) );
 	}
@@ -203,9 +210,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function last_released_movies() {
+	public function last_released_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'meta_key'  => '_wpmoly_movie_release_date',
 			'meta_type' => 'date',
 			'orderby'   => 'meta_value',
@@ -222,9 +229,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function first_released_movies() {
+	public function first_released_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'meta_key'  => '_wpmoly_movie_release_date',
 			'meta_type' => 'date',
 			'orderby'   => 'meta_value',
@@ -241,9 +248,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function incoming_movies() {
+	public function incoming_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'meta_key'     => '_wpmoly_movie_release_date',
 			'meta_type'    => 'date',
 			'meta_value'   => sprintf( '%d-01-01', date( 'Y' ) + 1 ),
@@ -262,9 +269,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function most_rated_movies() {
+	public function most_rated_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'meta_key'     => '_wpmoly_movie_rating',
 			//'meta_value'   => 0.0
 			//'meta_compare' => '>',
@@ -282,9 +289,9 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function least_rated_movies() {
+	public function least_rated_movies() {
 
-		return self::preset_query( array(
+		return $this->query( array(
 			'meta_key'     => '_wpmoly_movie_rating',
 			//'meta_value'   => 0.0
 			//'meta_compare' => '>',
@@ -294,7 +301,9 @@ class Movies {
 	}
 
 	/**
-	 * Handle preset queries.
+	 * Custom Grid.
+	 * 
+	 * Simple alias for $this->query()
 	 * 
 	 * @since    3.0
 	 * 
@@ -302,7 +311,21 @@ class Movies {
 	 * 
 	 * @return   array
 	 */
-	public static function preset_query( $args = array() ) {
+	public function custom( $args = array() ) {
+
+		return $this->query( $args );
+	}
+
+	/**
+	 * Perform the query.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $args Query parameters
+	 * 
+	 * @return   array
+	 */
+	public function query( $args = array() ) {
 
 		/**
 		 * Filter default preset post status.
@@ -354,29 +377,17 @@ class Movies {
 			'orderby'        => $orderby,
 			'order'          => $order
 		) );
-		$args = wp_parse_args( $args, $defaults );
+		$this->args = wp_parse_args( $args, $defaults );
 
-		$query = new WP_Query( $args );
-		if ( ! $query->have_posts() ) {
-			return $movies;
+		$this->query = new WP_Query( $this->args );
+		if ( ! $this->query->have_posts() ) {
+			return $this->items;
 		}
 
-		foreach ( $query->posts as $post ) {
-			$movies[] = get_movie( $post );
+		foreach ( $this->query->posts as $post ) {
+			$this->items[] = get_movie( $post );
 		}
 
-		return $movies;
-	}
-
-	/**
-	 * Perform the query.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   array
-	 */
-	public function query() {
-
-		
+		return $this->items;
 	}
 }
