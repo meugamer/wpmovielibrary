@@ -11,7 +11,7 @@
  */
 ?>
 
-	<div class="wpmoly shortcode movies grid theme-<?php echo $grid->theme; ?> <?php echo $grid->columns; ?>-columns" data-columns="<?php echo $grid->columns; ?>" data-rows="<?php echo $grid->rows; ?>" data-column-width="<?php echo $grid->column_width; ?>" data-row-height="<?php echo $grid->row_height; ?>">
+	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode movies grid theme-<?php echo $grid->theme; ?> <?php echo $grid->columns; ?>-columns" data-columns="<?php echo $grid->columns; ?>" data-rows="<?php echo $grid->rows; ?>" data-column-width="<?php echo $grid->column_width; ?>" data-row-height="<?php echo $grid->row_height; ?>">
 		<div class="grid-menu clearfix">
 			<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
 			<button type="button" data-action="grid-settings" class="button right"><span class="wpmolicon icon-settings"></span></button>
@@ -37,8 +37,8 @@ endif;
 ?>
 		</div>
 		<div class="grid-menu pagination-menu clearfix">
-			<button type="button" data-action="grid-paginate" data-value="prev" class="button left"><span class="wpmolicon icon-arrow-left"></span></button>
+			<a href="<?php echo esc_url( $grid->get_next_page_url() ); ?>" data-action="grid-paginate" data-value="prev" class="button left"><span class="wpmolicon icon-arrow-left"></span></a>
 			<div class="pagination-menu">Page <span class="current-page"><input type="text" size="1" data-action="grid-paginate" value="1" /></span> of <span class="total-pages">123</span></div>
-			<button type="button" data-action="grid-paginate" data-value="next" class="button right"><span class="wpmolicon icon-arrow-right"></span></button>
+			<a href="<?php echo esc_url( $grid->get_previous_page_url() ); ?>" data-action="grid-paginate" data-value="next" class="button right"><span class="wpmolicon icon-arrow-right"></span></a>
 		</div>
 	</div>

@@ -52,6 +52,20 @@ class Grid extends Node {
 	public $json;
 
 	/**
+	 * Custom settings
+	 * 
+	 * @var    array
+	 */
+	private $settings;
+
+	/**
+	 * Node Query.
+	 * 
+	 * @var    Query
+	 */
+	private $query;
+
+	/**
 	 * Supported Grid types.
 	 * 
 	 * @var    array
@@ -265,30 +279,84 @@ class Grid extends Node {
 	 */
 	private function build() {
 
-		if ( 'custom' != $this->preset ) {
-			$query = $this->get_query_callback();
-			if ( is_callable( $query ) ) {
-				$items = call_user_func( $query );
-				foreach ( (array) $items as $item ) {
-					$this->items->add( $item );
-				}
-				return $this->items;
-			}
+		$settings = get_query_var( 'grid' );
+		if ( ! empty( $settings ) ) {
+			$this->prepare( $settings );
 		}
 
-		return $this->build_query();
+		$query = $this->get_query();
+		$method = str_replace( '-', '_', $this->preset );
+		if ( method_exists( $query, $method ) ) {
+
+			$items = $query->$method( $this->settings );
+			foreach ( (array) $items as $item ) {
+				$this->items->add( $item );
+			}
+
+			return $this->items;
+		}
 	}
 
 	/**
-	 * Determine the callback to use based on the Grid type.
+	 * Prepare the Grid.
 	 * 
-	 * This should return a valid array( $class, $method ) callback.
+	 * Parse custom settings. Settings can be passed through the URL 'grid'
+	 * parameter: domain.ltd/movies/?grid=id:123|orderby:post_title|order:ASC
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $settings
+	 * 
+	 * @return   array
+	 */
+	private function prepare( $settings ) {
+
+		$settings = str_replace( array( ':', '|' ), array( '=', '&' ), $settings );
+		$defaults = array(
+			'id'       => '',
+			'order'    => '',
+			'orderby' => ''
+		);
+		$settings = wp_parse_args( $settings, $defaults );
+
+		if ( $this->id != $settings['id'] ) {
+			return false;
+		}
+
+		$this->preset   = 'custom';
+		$this->settings = $settings;
+	}
+
+	/**
+	 * Get the Node Query.
+	 * 
+	 * If the Query is not yet set, do it.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   array
 	 */
-	private function get_query_callback() {
+	private function get_query() {
+
+		if ( is_null( $this->query ) ) {
+			return $this->set_query();
+		}
+
+		return $this->query;
+	}
+
+	/**
+	 * Set the Node Query.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	private function set_query() {
+
+		if ( ! is_null( $this->query ) ) {
+			return $this->query;
+		}
 
 		$classes = array(
 			'movie' => '\wpmoly\Query\Movies',
@@ -296,27 +364,21 @@ class Grid extends Node {
 			'genre' => '\wpmoly\Query\Genres'
 		);
 
-		if ( isset( $classes[ $this->type ] ) ) {
-			$class = $classes[ $this->type ];
-			$method = str_replace( '-', '_', $this->preset );
-			if ( method_exists( $class, $method ) ) {
-				return array( $class, $method );
-			}
+		if ( ! isset( $classes[ $this->type ] ) ) {
+			return false;
 		}
 
-		return array();
+		return $this->query = new $classes[ $this->type ];
 	}
 
-	/**
-	 * Perform a custom query.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   array
-	 */
-	private function build_query() {
+	public function get_previous_page_url() {
 
-		return array();
+		
+	}
+
+	public function get_next_page_url() {
+
+		
 	}
 
 	/**

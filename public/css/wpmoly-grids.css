@@ -20,7 +20,8 @@
 	padding: 0;
 }
 
-.wpmoly.grid .grid-menu .button {
+.wpmoly.grid .grid-menu .button,
+.wpmoly.grid .grid-menu .button .wpmolicon {
 	height: 3em;
 	line-height: 3em;
 	padding: 0;
@@ -38,6 +39,12 @@
 	font-size: 0.85em;
 	margin: 0 auto;
 	padding: 0;
+}
+
+.wpmoly.grid .grid-menu .pagination-menu span {
+	display: inline-block;
+	line-height: 3em;
+	vertical-align: middle;
 }
 
 .wpmoly.grid .grid-menu .pagination-menu input {
@@ -73,8 +80,9 @@
  */
 
 .wpmoly.grid .grid-content.grid {
+	display: block;
+	float: none;
 	margin: 0 -4px;
-	
 }
 
 .wpmoly.grid .grid-content.grid .movie {
