@@ -22,11 +22,37 @@ namespace wpmoly\Core;
 class Query {
 
 	/**
+	 * Custom query vars.
+	 * 
+	 * @var    array
+	 */
+	public $vars;
+
+	/**
 	 * Singleton.
 	 *
-	 * @var    Rewrite
+	 * @var    Query
 	 */
 	private static $instance = null;
+
+	/**
+	 * Class constructor.
+	 * 
+	 * @since    3.0
+	 */
+	private function __construct() {
+
+		$vars = array(
+			'grid'
+		);
+
+		$tags = Rewrite::get_instance()->tags;
+		foreach ( $tags as $tag => $regex ) {
+			$vars[] = 'wpmoly_' . str_replace( '%', '', $tag );
+		}
+
+		$this->vars = $vars;
+	}
 
 	/**
 	 * Singleton.
@@ -55,10 +81,7 @@ class Query {
 	 */
 	public function add_query_vars( $query_vars ) {
 
-		$tags = Rewrite::get_instance()->tags;
-		foreach ( $tags as $tag => $regex ) {
-			$query_vars[] = 'wpmoly_' . str_replace( '%', '', $tag );
-		}
+		$query_vars = array_merge( $query_vars, $this->vars );
 
 		return $query_vars;
 	}
