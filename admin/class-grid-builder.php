@@ -393,6 +393,9 @@ class GridBuilder {
 		}
 
 		require_once WPMOLY_PATH . 'vendor/butterbean/butterbean.php';
+
+		// Let's do this thang!
+		butterbean_loader_100();
 	}
 
 	/**

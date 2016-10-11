@@ -89,7 +89,7 @@ class Backstage {
 			),
 
 			// Base
-			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone' ) ),
+			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone' ) ),
 
 			// Utils
 			'utils'                   => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-utils.js' ),
@@ -143,7 +143,7 @@ class Backstage {
 			'metabox'                 => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-metabox.js' ),
 			'permalinks'              => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-permalinks.js' ),
 			'editor'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-editor.js' ),
-			'grid-builder'            => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-grid-builder.js' ),
+			'grid-builder'            => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-grid-builder.js', 'deps' => array( 'butterbean' ) ),
 			'search'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-search.js' ),
 			'tester'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-tester.js' ),
 		);
