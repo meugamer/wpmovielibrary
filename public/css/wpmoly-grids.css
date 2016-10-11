@@ -3,7 +3,10 @@
  * Movie Grid
  */
 
-.wpmoly.grid {}
+.wpmoly.grid {
+	display: block;
+	float: none;
+}
 
 .wpmoly.grid.actors {}
 
@@ -26,6 +29,17 @@
 	line-height: 3em;
 	padding: 0;
 	width: 3em;
+}
+
+.wpmoly.grid .grid-menu .button.disabled {
+	opacity: 0.4;
+}
+
+.wpmoly.grid .grid-menu .button.disabled,
+.wpmoly.grid .grid-menu .button.disabled:hover,
+.wpmoly.grid .grid-menu .button.disabled:focus,
+.wpmoly.grid .grid-menu .button.disabled:active {
+	color: #555;
 }
 
 /* Pagination Menu */
