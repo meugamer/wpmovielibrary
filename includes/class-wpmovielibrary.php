@@ -256,14 +256,13 @@ final class Library {
 		}
 
 		// Grid Builder
+		// TODO load this on grid only
 		$builder = new Admin\GridBuilder;
 		$builder->add_metaboxes();
 
 		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
 		$this->loader->add_action( 'edit_form_after_editor',      $builder, 'preview' );
 		$this->loader->add_action( 'dbx_post_sidebar',            $builder, 'footer' );
-		/*$this->loader->addactions( 'admin_footer-post.php',       $builder, '' );
-		$this->loader->addactions( 'admin_footer-post-new.php',   $builder, '' );*/
 		$this->loader->add_action( 'load-post.php',               $builder, 'load' );
 		$this->loader->add_action( 'load-post-new.php',           $builder, 'load' );
 		$this->loader->add_action( 'butterbean_register',         $builder, 'register_butterbean', 10, 2 );
