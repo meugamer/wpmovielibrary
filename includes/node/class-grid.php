@@ -297,9 +297,8 @@ class Grid extends Node {
 	 */
 	private function build() {
 
-		$settings = get_query_var( 'grid' );
-		if ( ! empty( $settings ) ) {
-			$this->prepare( $settings );
+		if ( ! is_admin() ) {
+			$this->prepare();
 		}
 
 		$query = $this->get_query();
@@ -324,11 +323,14 @@ class Grid extends Node {
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    array    $settings
-	 * 
 	 * @return   array
 	 */
-	private function prepare( $settings ) {
+	private function prepare() {
+
+		$settings = get_query_var( 'grid' );
+		if ( empty( $settings ) ) {
+			return false;
+		}
 
 		$settings = str_replace( array( ':', '|' ), array( '=', '&' ), $settings );
 		$defaults = array(
