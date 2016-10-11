@@ -6,6 +6,21 @@
 }
 
 /*
+ * Post SubmitBox Metabox
+ */
+
+.misc-pub-archive-page .wpmolicon {
+	color: #82878c;
+	font-size: 20px;
+	margin-right: 6px;
+	vertical-align: middle;
+}
+
+.misc-pub-archive-page #wpmoly-archive-page-type {
+	font-weight: 600;
+}
+
+/*
  * Editor Metabox
  */
 

@@ -181,6 +181,7 @@ final class Library {
 
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
 			require_once WPMOLY_PATH . 'admin/class-permalink-settings.php';
+			require_once WPMOLY_PATH . 'admin/class-archive-pages.php';
 			require_once WPMOLY_PATH . 'admin/class-grid-builder.php';
 			require_once WPMOLY_PATH . 'admin/class-metaboxes.php';
 			require_once WPMOLY_PATH . 'admin/class-metabox.php';
@@ -255,8 +256,18 @@ final class Library {
 			$this->loader->add_filter( $hook, $class, $method, $priority, $arguments );
 		}
 
+		// Archive Pages
+		// TODO Move load() and register_butterbean() to a parent class
+		$archives = new Admin\ArchivePages;
+		$this->loader->add_action( 'load-post.php',               $archives, 'load' );
+		$this->loader->add_action( 'load-post-new.php',           $archives, 'load' );
+		$this->loader->add_action( 'butterbean_register',         $archives, 'register_butterbean', 10, 2 );
+		$this->loader->add_action( 'post_submitbox_misc_actions', $archives, 'archive_pages_select', 10, 1 );
+		$this->loader->add_action( 'save_post_page',              $archives, 'set_archive_page_type', 10, 3 );
+
 		// Grid Builder
 		// TODO load this on grid only
+		// TODO Move load() and register_butterbean() to a parent class
 		$builder = new Admin\GridBuilder;
 		$builder->add_metaboxes();
 
