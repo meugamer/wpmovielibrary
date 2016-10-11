@@ -24,10 +24,10 @@ if ( $movies->has_items() ) :
 		$movie = $movies->the_item();
 ?>
 			<div class="movie">
-				<?php
+<?php
 					$headbox = get_movie_headbox( $movie->id );
 					echo $headbox->output();
-				?>
+?>
 			</div>
 <?php
 	endwhile;
@@ -39,6 +39,4 @@ endif;
 			<div class="pagination-menu">Page <span class="current-page"><input type="text" size="1" data-action="grid-paginate" value="1" /></span> of <span class="total-pages">123</span></div>
 			<button type="button" data-action="grid-paginate" data-value="next" class="button right"><span class="wpmolicon icon-arrow-right"></span></button>
 		</div>
-	</div>
-
 	</div>
