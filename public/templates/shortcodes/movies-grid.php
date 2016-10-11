@@ -37,8 +37,16 @@ endif;
 ?>
 		</div>
 		<div class="grid-menu pagination-menu clearfix">
-			<a href="<?php echo esc_url( $grid->get_next_page_url() ); ?>" data-action="grid-paginate" data-value="prev" class="button left"><span class="wpmolicon icon-arrow-left"></span></a>
-			<div class="pagination-menu">Page <span class="current-page"><input type="text" size="1" data-action="grid-paginate" value="1" /></span> of <span class="total-pages">123</span></div>
-			<a href="<?php echo esc_url( $grid->get_previous_page_url() ); ?>" data-action="grid-paginate" data-value="next" class="button right"><span class="wpmolicon icon-arrow-right"></span></a>
+<?php if ( ! $grid->is_first_page() ) : ?>
+			<a href="<?php echo esc_url( $grid->get_previous_page_url() ); ?>" data-action="grid-paginate" data-value="prev" class="button left"><span class="wpmolicon icon-arrow-left"></span></a>
+<?php else : ?>
+			<a class="button left disabled"><span class="wpmolicon icon-arrow-left"></span></a>
+<?php endif; ?>
+			<div class="pagination-menu">Page <span class="current-page"><input type="text" size="1" data-action="grid-paginate" value="<?php echo esc_attr( $grid->get_current_page() ); ?>" /></span> of <span class="total-pages"><?php echo esc_attr( $grid->get_total_pages() ); ?></span></div>
+<?php if ( ! $grid->is_last_page() ) : ?>
+			<a href="<?php echo esc_url( $grid->get_next_page_url() ); ?>" data-action="grid-paginate" data-value="next" class="button right"><span class="wpmolicon icon-arrow-right"></span></a>
+<?php else : ?>
+			<a class="button right disabled"><span class="wpmolicon icon-arrow-right"></span></a>
+<?php endif; ?>
 		</div>
 	</div>

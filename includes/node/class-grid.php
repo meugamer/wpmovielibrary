@@ -87,6 +87,24 @@ class Grid extends Node {
 	private $supported_themes = array();
 
 	/**
+	 * __get().
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name
+	 * 
+	 * @return   mixed
+	 */
+	public function __get( $name ) {
+
+		if ( in_array( $name, array( 'items', 'json', 'settings', 'query' ) ) ) {
+			return $this->$name;
+		}
+
+		return parent::__get( $name );
+	}
+
+	/**
 	 * Initialize the Grid.
 	 * 
 	 * @since    3.0
@@ -285,6 +303,7 @@ class Grid extends Node {
 		}
 
 		$query = $this->get_query();
+
 		$method = str_replace( '-', '_', $this->preset );
 		if ( method_exists( $query, $method ) ) {
 
@@ -371,14 +390,141 @@ class Grid extends Node {
 		return $this->query = new $classes[ $this->type ];
 	}
 
-	public function get_previous_page_url() {
+	/**
+	 * Retrieve Query's current page number.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	public function get_current_page() {
 
-		
+		return (int) $this->query->get_current_page();
 	}
 
+	/**
+	 * Retrieve Query's previous page number.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	public function get_previous_page() {
+
+		return (int) $this->query->get_current_page();
+	}
+
+	/**
+	 * Retrieve Query's next page number.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	public function get_next_page() {
+
+		return (int) $this->query->get_next_page();
+	}
+
+	/**
+	 * Retrieve Query's total pages number.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	public function get_total_pages() {
+
+		return (int) $this->query->get_total_pages();
+	}
+
+	/**
+	 * Are we on the first available grid page?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function is_first_page() {
+
+		return 1 === $this->get_current_page();
+	}
+
+	/**
+	 * Did we reach the last available grid page?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function is_last_page() {
+
+		return $this->get_current_page() === $this->get_total_pages();
+	}
+
+	/**
+	 * Get previous grid page URL.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function get_previous_page_url() {
+
+		$page = $this->query->get_previous_page();
+
+		$args = $this->settings;
+		$args['paged'] = $page;
+
+		return $this->build_url( $args );
+	}
+
+	/**
+	 * Get next grid page URL.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
 	public function get_next_page_url() {
 
-		
+		$page = $this->query->get_next_page();
+
+		$args = $this->settings;
+		$args['paged'] = $page;
+
+		return $this->build_url( $args );
+	}
+
+	/**
+	 * Build custom grid URLs.
+	 * 
+	 * Generate an URL from the current page's permalink with an additional
+	 * 'grid' URL parameter containing a formatted string of grid settings.
+	 * Grid ID should always be contained in this string in order to apply
+	 * settings on the intended grid.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $args Query parameters
+	 * 
+	 * @return   string
+	 */
+	private function build_url( $args ) {
+
+		// Grid ID is required.
+		if ( ! isset( $args['id'] ) ) {
+			$args = array_merge( array( 'id' => $this->id ), $args );
+		}
+
+		// Build custom query.
+		$args = array( 'grid' => build_query( $args ) );
+		$args = str_replace( array( '&', '=' ), array( '|', ':' ), $args );
+
+		// Build URL
+		$url = add_query_arg( $args, get_permalink() );
+
+		return $url;
 	}
 
 	/**
