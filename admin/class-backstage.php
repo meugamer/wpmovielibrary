@@ -54,15 +54,16 @@ class Backstage {
 	public function __construct() {
 
 		$styles = array(
-			''             => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly.css' ),
-			'metabox'      => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-metabox.css' ),
-			'permalinks'   => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-permalink-settings.css' ),
-			'grid-builder' => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-grid-builder.css' ),
+			''              => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly.css' ),
+			'metabox'       => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-metabox.css' ),
+			'permalinks'    => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-permalink-settings.css' ),
+			'archive-pages' => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-archive-pages.css' ),
+			'grid-builder'  => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-grid-builder.css' ),
 
-			'font'         => array( 'file' => WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css' ),
-			'common'       => array( 'file' => WPMOLY_URL . 'public/css/common.css' ),
-			'grids'        => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-grids.css' ),
-			'select2'      => array( 'file' => WPMOLY_URL . 'admin/css/select2.min.css' )
+			'font'          => array( 'file' => WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css' ),
+			'common'        => array( 'file' => WPMOLY_URL . 'public/css/common.css' ),
+			'grids'         => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-grids.css' ),
+			'select2'       => array( 'file' => WPMOLY_URL . 'admin/css/select2.min.css' )
 		);
 
 		/**
@@ -292,6 +293,10 @@ class Backstage {
 
 		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'grid' == get_post_type() ) {
 			$this->enqueue_style( 'grid-builder' );
+		}
+
+		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'page' == get_post_type() ) {
+			$this->enqueue_style( 'archive-pages' );
 		}
 	}
 

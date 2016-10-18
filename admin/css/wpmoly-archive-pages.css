@@ -1,0 +1,78 @@
+
+/*
+ * Archive Pages Metabox
+ */
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .hndle,
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .handlediv {
+	display: none;
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox.active {
+	display: block;
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox,
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-manager,
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-nav {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-nav {
+	margin-top: 14px;
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-nav li[aria-selected=true] a {
+	background: #fff;
+	box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-nav .wpmolicon {
+	margin-right: 3px;
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	padding: 12px 15px;
+	width: calc( 100% - 211px );
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-text.half-col,
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-select.half-col,
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-checkbox.half-col,
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.half-col label {
+	display: inline-block;
+	vertical-align: top;
+	width: 49.5%;
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels label {
+	position: relative;
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text {
+	border: 4px solid #fff;
+	clip: auto;
+	color: #fff;
+	font-size: 1rem;
+	font-weight: 200;
+	height: calc( 100% - 14px );
+	line-height: 2.25rem;
+	margin: 0;
+	padding: 1px 1px 1px 47px;
+	position: absolute;
+	width: calc( 100% - 56px );
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:hover,
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:focus {
+	border-color: #ccc;
+}
+
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels input:checked + span {
+	border-color: #00a0d2 !important;
+}

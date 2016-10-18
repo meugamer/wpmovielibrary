@@ -55,7 +55,28 @@ class ArchivePages {
 		$this->types = apply_filters( 'wpmoly/filter/archive_pages/types', $types, $this );
 
 		$managers = array(
-			
+			'archive-page-settings' => array(
+				'label'     => esc_html__( 'Archive Page Settings', 'wpmovielibrary' ),
+				'post_type' => 'page',
+				'context'   => 'normal',
+				'priority'  => 'high',
+				'sections'  => array(
+					'grid-settings' => array(
+						'label' => esc_html__( 'Grid', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-grid',
+						'settings' => array(
+							'grid-id' => array(
+								'type'     => 'text',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Grid ID', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Grid to show in the page content.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '4' ),
+								'default'  => ''
+							)
+						)
+					)
+				)
+			)
 		);
 
 		/**
@@ -86,7 +107,9 @@ class ArchivePages {
 		require_once WPMOLY_PATH . 'vendor/butterbean/butterbean.php';
 
 		// Let's do this thang!
-		butterbean_loader_100();
+		if ( function_exists( 'butterbean_loader_100' ) ) {
+			butterbean_loader_100();
+		}
 	}
 
 	/**
@@ -231,8 +254,6 @@ class ArchivePages {
 	/**
 	 * Save current page as an archive page.
 	 * 
-	 * TODO update plugin config with page ID.
-	 * 
 	 * @since    3.0
 	 * 
 	 * @param    int        $post_id
@@ -247,11 +268,20 @@ class ArchivePages {
 			return false;
 		}
 
-		if ( ! isset( $_POST['wpmoly']['archive_page_type'] ) || ! in_array( $_POST['wpmoly']['archive_page_type'], $this->types ) ) {
+		if ( ! isset( $_POST['wpmoly']['archive_page_type'] ) || ! in_array( $_POST['wpmoly']['archive_page_type'], array_keys( $this->types ) ) ) {
 			return false;
 		}
 
-		
+		$archive_type = $_POST['wpmoly']['archive_page_type'];
+
+		$archive_pages = get_option( '_wpmoly_archive_pages' );
+		if ( ! $archive_pages ) {
+			$archive_pages = array_map( '__return_zero', array_keys( $this->types ) );
+		}
+
+		$archive_pages[ $archive_type ] = $post_id;
+
+		set_option( '_wpmoly_archive_pages', $archive_pages );
 	}
 
 }
