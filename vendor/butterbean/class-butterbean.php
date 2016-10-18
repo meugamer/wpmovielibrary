@@ -180,6 +180,7 @@ if ( ! class_exists( 'ButterBean' ) ) {
 			require_once( $this->dir_path . 'inc/controls/class-control-excerpt.php'       );
 			require_once( $this->dir_path . 'inc/controls/class-control-multi-avatars.php' );
 			require_once( $this->dir_path . 'inc/controls/class-control-parent.php'        );
+			require_once( $this->dir_path . 'inc/controls/class-control-posts.php'         );
 
 			// Load setting sub-classes.
 			require_once( $this->dir_path . 'inc/settings/class-setting-multiple.php' );
@@ -610,6 +611,7 @@ if ( ! class_exists( 'ButterBean' ) ) {
 			$this->register_control_type( 'textarea',      'ButterBean_Control_Textarea'      );
 			$this->register_control_type( 'multi-avatars', 'ButterBean_Control_Multi_Avatars' );
 			$this->register_control_type( 'parent',        'ButterBean_Control_Parent'        );
+			$this->register_control_type( 'posts',         'ButterBean_Control_Posts'         );
 		}
 
 		/**
