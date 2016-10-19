@@ -27,6 +27,13 @@ use wpmoly\Core\PublicTemplate;
 class GridBuilder {
 
 	/**
+	 * Grid instance.
+	 * 
+	 * @var    Grid
+	 */
+	private $grid;
+
+	/**
 	 * Grid Post Type metaboxes.
 	 * 
 	 * @var    array
@@ -34,11 +41,11 @@ class GridBuilder {
 	private $metaboxes = array();
 
 	/**
-	 * Grid instance.
+	 * Metaboxes Managers.
 	 * 
-	 * @var    Grid
+	 * @var    array
 	 */
-	private $grid;
+	private $managers = array();
 
 	/**
 	 * Class constructor.
