@@ -79,6 +79,33 @@ class Rewrite {
 	}
 
 	/**
+	 * Create admin notice transient.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function set_notice() {
+
+		return set_transient( '_wpmoly_reset_permalinks_notice', 1 );
+	}
+
+	/**
+	 * Remove admin notice transient.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function delete_notice() {
+
+		$notice = get_transient( '_wpmoly_reset_permalinks_notice' );
+		if ( 1 !== $notice ) {
+			delete_transient( '_wpmoly_reset_permalinks_notice' );
+		}
+	}
+
+	/**
 	 * Register custom rewrite tags.
 	 * 
 	 * Add a set of new movie-related rewrite tags.

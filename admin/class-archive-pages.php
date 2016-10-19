@@ -11,6 +11,8 @@
 
 namespace wpmoly\Admin;
 
+use wpmoly\Core\Rewrite;
+
 /**
  * Provide a tool to manage custom Archive Pages.
  *
@@ -372,19 +374,7 @@ class ArchivePages {
 	 */
 	private function set_notice() {
 
-		return set_transient( '_wpmoly_reset_permalinks_notice', 1 );
-	}
-
-	/**
-	 * Remove admin notice transient.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   array
-	 */
-	private function remove_notice() {
-
-		return delete_transient( '_wpmoly_reset_permalinks_notice' );
+		Rewrite::set_notice();
 	}
 
 }

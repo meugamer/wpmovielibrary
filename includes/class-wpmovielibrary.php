@@ -289,6 +289,7 @@ final class Library {
 		$this->loader->add_action( 'admin_init',                 $permalinks, 'update' );
 
 		$rewrite = Core\Rewrite::get_instance();
+		$this->loader->add_action( 'generate_rewrite_rules',     $rewrite, 'delete_notice' );
 		$this->loader->add_filter( 'rewrite_rules_array',        $rewrite, 'rewrite_rules' );
 
 		// Admin-side Ajax
