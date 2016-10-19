@@ -180,6 +180,7 @@ final class Library {
 		if ( is_admin() ) {
 
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
+			require_once WPMOLY_PATH . 'admin/class-notices.php';
 			require_once WPMOLY_PATH . 'admin/class-permalink-settings.php';
 			require_once WPMOLY_PATH . 'admin/class-archive-pages.php';
 			require_once WPMOLY_PATH . 'admin/class-grid-builder.php';
@@ -244,6 +245,9 @@ final class Library {
 		$this->loader->add_action( 'admin_enqueue_scripts',     $admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_footer-post.php',     $admin, 'enqueue_templates' );
 		$this->loader->add_action( 'admin_footer-post-new.php', $admin, 'enqueue_templates' );
+
+		$notices = new Admin\Notices;
+		$notices->register_notices();
 
 		// Metaboxes
 		$metaboxes = new Metabox\Metaboxes;

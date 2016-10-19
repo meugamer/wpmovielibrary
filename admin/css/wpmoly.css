@@ -6,6 +6,61 @@
 }
 
 /*
+ * Notices
+ */
+
+.notice.notice-wpmoly {
+	overflow: hidden;
+	padding-left: 42px;
+}
+
+.notice.notice-wpmoly:before {
+	color: #fff;
+	content: '\e900';
+	font-family: 'wpmovielibrary' !important;
+	font-size: 20px;
+	left: 2px;
+	position: absolute;
+	top: 8px;
+	z-index: 1;
+}
+
+.notice.notice-wpmoly.notice-info:after {
+	border: 48px solid transparent;
+	border-left-color: #00a2d0;
+	content: '';
+	left: 0;
+	position: absolute;
+	top: -48px;
+}
+
+.notice.notice-wpmoly p {
+	position: relative;
+	z-index: 1;
+}
+
+.notice.notice-wpmoly p:before {
+	background: #fff;
+	content: '';
+	height: 24px;
+	left: -42px;
+	position: absolute;
+	top: 32px;
+	width: 24px;
+}
+
+.notice.notice-wpmoly p:after {
+	background: #fff;
+	content: '';
+	height: 24px;
+	left: -8px;
+	position: absolute;
+	top: -8px;
+	width: 24px;
+	z-index: -1;
+}
+
+/*
  * Post SubmitBox Metabox
  */
 
