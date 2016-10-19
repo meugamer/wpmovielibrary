@@ -120,6 +120,7 @@ class Backstage {
 			'frame-view'              => array( 'file' => WPMOLY_URL . 'public/js/views/frame.js' ),
 			'confirm-view'            => array( 'file' => WPMOLY_URL . 'public/js/views/confirm.js' ),
 			'permalinks-view'         => array( 'file' => WPMOLY_URL . 'admin/js/views/permalinks.js' ),
+			'archive-pages-view'      => array( 'file' => WPMOLY_URL . 'admin/js/views/archive-pages.js' ),
 			'metabox-view'            => array( 'file' => WPMOLY_URL . 'admin/js/views/metabox.js' ),
 			'search-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/search/search.js' ),
 			'search-history-view'     => array( 'file' => WPMOLY_URL . 'admin/js/views/search/history.js' ),
@@ -143,6 +144,7 @@ class Backstage {
 			'api'                     => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-api.js' ),
 			'metabox'                 => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-metabox.js' ),
 			'permalinks'              => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-permalinks.js' ),
+			'archive-pages'           => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-archive-pages.js' ),
 			'editor'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-editor.js' ),
 			'grid-builder'            => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-grid-builder.js', 'deps' => array( 'butterbean' ) ),
 			'search'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-search.js' ),
@@ -436,6 +438,24 @@ class Backstage {
 
 			// Runners
 			$this->enqueue_script( 'grid-builder' );
+		}
+
+		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'page' == get_post_type() ) {
+
+			// Vendor
+			$this->enqueue_script( 'sprintf' );
+			$this->enqueue_script( 'underscore-string' );
+			$this->enqueue_script( 'wp-backbone' );
+
+			// Base
+			$this->enqueue_script();
+			$this->enqueue_script( 'utils' );
+
+			// Views
+			$this->enqueue_script( 'archive-pages-view' );
+
+			// Runners
+			$this->enqueue_script( 'archive-pages' );
 		}
 	}
 

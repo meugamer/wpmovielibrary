@@ -259,9 +259,14 @@ class ArchivePages {
 		}
 
 		$page_type = isset( $this->pages[ $post->ID ] ) ? $this->pages[ $post->ID ] : '';
+
+		$json = array(
+			'types' => $this->types,
+			'pages' => $this->pages
+		);
 ?>
 
-		<div class="misc-pub-section archive-page misc-pub-archive-page">
+		<div id="wpmoly-archives-page-type" class="misc-pub-section archive-page misc-pub-archive-page">
 			<span class="wpmolicon icon-wpmoly"></span><?php _e( 'Type of Archives:', 'wpmovielibrary' ); ?> <span id="wpmoly-archive-page-type"><?php echo $page_type ? $this->types[ $page_type ] : __( 'None' ); ?></span> <a id="wpmoly-edit-archive-page" href="#"><?php _e( 'Edit' ); ?></a>
 			<div id="wpmoly-edit-archive-page-type" class="hide-if-js">
 				<p>
@@ -278,40 +283,7 @@ class ArchivePages {
 				</p>
 			</div>
 		</div>
-		<script type="text/javascript">
-			jQuery(document).ready( function($) {
-				var $elem = $( '#wpmoly-edit-archive-page-type'),
-				 $trigger = $( '#wpmoly-edit-archive-page' ),
-				  $cancel = $( '#wpmoly-cancel-archive-page' ),
-				    $save = $( '#wpmoly-save-archive-page' ),
-				    $text = $( '#wpmoly-archive-page-type' );
-
-				$trigger.click( function( event ) {
-					if ( $elem.is( ':hidden' ) ) {
-						$elem.slideDown( 'fast' );
-						$(this).hide();
-					}
-					event.preventDefault();
-				});
-				$cancel.click( function( event ) {
-					if ( ! $elem.is( ':hidden' ) ) {
-						$elem.slideUp( 'fast' );
-					}
-					event.preventDefault();
-				});
-				$save.click( function( event ) {
-					var $selected = $( '#wpmoly-archive-page-types option:selected' )
-					if ( $selected.text() != $text.text() ) {
-						$text.text( $selected.text() );
-					}
-					if ( ! $elem.is( ':hidden' ) ) {
-						$elem.slideUp( 'fast' );
-						$trigger.show();
-					}
-					event.preventDefault();
-				});
-			});
-		</script>
+		<script type="text/javascript">var _wpmolyArchivePagesData = <?php echo json_encode( $json ); ?>;</script>
 <?php
 	}
 
