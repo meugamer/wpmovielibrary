@@ -37,6 +37,21 @@ class ButterBean_Control_Posts extends ButterBean_Control {
 	public $post_type = 'post';
 
 	/**
+	 * Get the value for the setting.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @param  string  $setting
+	 * @return mixed
+	 */
+	public function get_value( $setting = 'default' ) {
+
+		$value = parent::get_value( $setting );
+
+		return intval( $value );
+	}
+
+	/**
 	 * Adds custom data to the json array. This data is passed to the Underscore template.
 	 *
 	 * @since  1.0.0
@@ -57,7 +72,7 @@ class ButterBean_Control_Posts extends ButterBean_Control {
 			)
 		);
 
-		$this->json['choices'] = array( array( 'value' => 0, 'label' => '' ) );
+		$this->json['choices'] = array( array( 'value' => '', 'label' => '' ) );
 
 		foreach ( $posts as $post )
 			$this->json['choices'][] = array( 'value' => $post->ID, 'label' => $post->post_title );
