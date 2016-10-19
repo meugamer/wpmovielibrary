@@ -41,10 +41,7 @@
 	width: calc( 100% - 211px );
 }
 
-#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-text.half-col,
-#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-select.half-col,
-#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-checkbox.half-col,
-#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.half-col label {
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.half-col {
 	display: inline-block;
 	vertical-align: top;
 	width: 49.5%;
