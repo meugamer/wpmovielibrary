@@ -84,7 +84,7 @@ class ArchivePages {
 		$this->types = apply_filters( 'wpmoly/filter/archive_pages/types', $types, $this );
 
 		// Load archive pages
-		$this->pages = $this->get_archive_pages();
+		$this->pages = get_option( '_wpmoly_archive_pages', array() );
 
 		// Only register archive pages' manager when needed
 		if ( ! empty( $this->pages[ $this->post_id ] ) ) {
@@ -330,27 +330,6 @@ class ArchivePages {
 	}
 
 	/**
-	 * Retrieve current archive pages from options.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   array
-	 */
-	private function get_archive_pages() {
-
-		if ( ! empty( $this->pages ) ) {
-			return $this->pages;
-		}
-
-		$pages = get_option( '_wpmoly_archive_pages' );
-		if ( ! $pages ) {
-			$pages = array();
-		}
-
-		return $this->pages = $pages;
-	}
-
-	/**
 	 * Update archive pages option.
 	 * 
 	 * @since    3.0
@@ -359,9 +338,7 @@ class ArchivePages {
 	 */
 	private function set_archive_pages() {
 
-		$pages = $this->get_archive_pages();
-
-		return update_option( '_wpmoly_archive_pages', $pages );
+		return update_option( '_wpmoly_archive_pages', $this->pages );
 	}
 
 	/**

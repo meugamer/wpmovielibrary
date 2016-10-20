@@ -60,12 +60,8 @@ class Registrar {
 	 */
 	public function __construct() {
 
-		$permalinks = get_option( 'wpmoly_permalinks' );
-		if ( empty( $permalinks ) ) {
-			$permalinks = array();
-		}
-
-		$this->permalinks = $permalinks;
+		$this->permalinks = get_option( 'wpmoly_permalinks', array() );
+		$this->pages = get_option( '_wpmoly_archive_pages', array() );
 	}
 
 	/**
@@ -93,6 +89,17 @@ class Registrar {
 	 */
 	public function register_post_types() {
 
+		$movies = array_search( 'movies', $this->pages );
+		if ( ! $movies ) {
+			if ( ! empty( $this->permalinks['movies'] ) ) {
+				$movie_archives = trim( $this->permalinks['movies'], '/' );
+			} else {
+				$movie_archives = '%movies_rewrite%';
+			}
+		} else {
+			$movie_archives = '';
+		}
+
 		$post_types = array(
 			array(
 				'slug' => 'movie',
@@ -119,7 +126,7 @@ class Registrar {
 					'publicly_queryable' => true,
 					'show_ui'            => true,
 					'show_in_menu'       => true,
-					'has_archive'        => ! empty( $this->permalinks['movies'] ) ? trim( $this->permalinks['movies'], '/' ) : '%movies_rewrite%',
+					'has_archive'        => $movie_archives,
 					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
 					'menu_position'      => 2,
 					'menu_icon'          => 'dashicons-wpmoly'

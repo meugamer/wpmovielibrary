@@ -289,6 +289,11 @@ class PermalinkSettings {
 			)
 		);
 
+		if ( has_movie_archives_page() ) {
+			$settings['movie-permalinks']['fields']['movies']['disabled'] = true;
+			$settings['movie-permalinks']['fields']['movies']['description'] .= '<p><em>' . sprintf( __( 'An archive page has already been set for movies archives. This page will replace the default WordPress archive display and therefore use the page permalink. You can modify this by <a href="%s" target="_blank">editing the page</a> post name.', 'wpmovielibrary' ), esc_url( admin_url( 'post.php?post=' . get_movie_archives_page_id() . '&amp;action=edit' ) ) ) . '</em></p>';
+		}
+
 		if ( ! has_actor_archives_page() ) {
 			$settings['actor-permalinks']['fields']['actors']['disabled'] = true;
 			$settings['actor-permalinks']['fields']['actors']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for actors yet, which makes this setting meaningless. Define an archive page by <a href="%s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
