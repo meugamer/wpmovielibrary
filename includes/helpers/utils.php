@@ -193,6 +193,102 @@ function get_movie_headbox( $post_id = null ) {
 }
 
 /**
+ * Retrieve an archive page ID.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $type Archive type.
+ * @param    int       $default Default ID.
+ * 
+ * @return   int
+ */
+function get_archives_page_id( $type = '', $default = 0 ) {
+
+	$pages = get_option( '_wpmoly_archive_pages', array() );
+
+	$page_id = array_search( $type, $pages );
+	if ( false === $page_id ) {
+		return (int) $default;
+	}
+
+	return (int) $page_id;
+}
+
+/**
+ * Get a post type archive page if any.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $type Archive type.
+ * 
+ * @return   WP_Post|null
+ */
+function get_archives_page( $type = '' ) {
+
+	$post_id = get_archives_page_id( $type );
+
+	return $page = get_post( $post_id );
+}
+
+/**
+ * Check if there is an archive page set.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $type Archive type.
+ * 
+ * @return   int
+ */
+function has_archives_page( $type = '' ) {
+
+	$page = get_archives_page( $type );
+
+	return ! is_null( $page );
+}
+
+/**
+ * Retrieve 'movie' post type archive page ID.
+ * 
+ * @since    3.0
+ * 
+ * @param    int    $default Default ID.
+ * 
+ * @return   int
+ */
+function get_movie_archives_page_id( $default = 0 ) {
+
+	return get_archives_page_id( 'movies', (int) $default );
+}
+
+/**
+ * Get 'movie' post type archive page if any.
+ * 
+ * @since    3.0
+ * 
+ * @return   WP_Post|null
+ */
+function get_movie_archives_page() {
+
+	$post_id = get_movie_archives_page_id();
+
+	return $page = get_post( $post_id );
+}
+
+/**
+ * Check if there is an archive page set for 'movie' post type.
+ * 
+ * @since    3.0
+ * 
+ * @return   int
+ */
+function has_movie_archives_page() {
+
+	$page = get_movie_archives_page();
+
+	return ! is_null( $page );
+}
+
+/**
  * Retrieve 'actor' taxonomy archive page ID.
  * 
  * @since    3.0
@@ -203,7 +299,7 @@ function get_movie_headbox( $post_id = null ) {
  */
 function get_actor_archives_page_id( $default = 0 ) {
 
-	return $post_id = wpmoly_o( 'actor-archives', (int) $default );
+	return get_archives_page_id( 'actors', (int) $default );
 }
 
 /**
@@ -245,7 +341,7 @@ function has_actor_archives_page() {
  */
 function get_collection_archives_page_id( $default = 0 ) {
 
-	return $post_id = wpmoly_o( 'collection-archives', (int) $default );
+	return get_archives_page_id( 'collections', (int) $default );
 }
 
 /**
@@ -287,7 +383,7 @@ function has_collection_archives_page() {
  */
 function get_genre_archives_page_id( $default = 0 ) {
 
-	return $post_id = wpmoly_o( 'genre-archives', (int) $default );
+	return get_archives_page_id( 'genres', (int) $default );
 }
 
 /**
