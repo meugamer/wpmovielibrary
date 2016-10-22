@@ -11,10 +11,6 @@
 
 namespace wpmoly\Admin;
 
-use wpmoly\Node\Grid;
-use wpmoly\Core\Loader;
-use wpmoly\Templates\Front as Template;
-
 /**
  * Provide a tool to create, build, and save grids.
  * 
@@ -67,7 +63,7 @@ class GridBuilder {
 		}
 
 		// Load the Grid
-		$this->grid = new Grid( $this->post_id );
+		$this->grid = get_grid( $this->post_id );
 
 		$metaboxes = array(
 			'type' => array(
@@ -673,18 +669,14 @@ class GridBuilder {
 		}
 
 		// Grid template setup
-		$template = new Template( 'shortcodes/movies-' . $this->grid->mode . '.php' );
-		$template->set_data( array(
-			'grid'   => $this->grid,
-			'movies' => $this->grid->items
-		) );
+		$template = get_grid_template( $this->grid );
 
 ?>
 		<div class="wpmoly">
 			<div class="grid-builder-separator">
 				<button type="button" data-action="toggle-preview" class="button separator-label"><?php _e( 'Preview' ); ?></button>
 			</div>
-			<div id="wpmoly-grid-builder-preview"><?php //$template->render( 'always', $echo = true ); ?></div>
+			<div id="wpmoly-grid-builder-preview"><?php $template->render( 'always', $echo = true ); ?></div>
 		</div>
 <?php
 	}

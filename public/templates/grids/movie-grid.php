@@ -12,10 +12,12 @@
 ?>
 
 	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode movies grid theme-<?php echo $grid->theme; ?> <?php echo $grid->columns; ?>-columns" data-columns="<?php echo $grid->columns; ?>" data-rows="<?php echo $grid->rows; ?>" data-column-width="<?php echo $grid->column_width; ?>" data-row-height="<?php echo $grid->row_height; ?>">
+<?php if ( $grid->show_menu() ) : ?>
 		<div class="grid-menu clearfix">
 			<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
 			<button type="button" data-action="grid-settings" class="button right"><span class="wpmolicon icon-settings"></span></button>
 		</div>
+<?php endif; ?>
 		<div class="grid-content grid clearfix">
 
 <?php
@@ -36,6 +38,7 @@ if ( $items->has_items() ) :
 endif;
 ?>
 		</div>
+<?php if ( $grid->show_pagination() ) : ?>
 		<div class="grid-menu pagination-menu clearfix">
 <?php if ( ! $grid->is_first_page() ) : ?>
 			<a href="<?php echo esc_url( $grid->get_previous_page_url() ); ?>" data-action="grid-paginate" data-value="prev" class="button left"><span class="wpmolicon icon-arrow-left"></span></a>
@@ -49,4 +52,5 @@ endif;
 			<a class="button right disabled"><span class="wpmolicon icon-arrow-right"></span></a>
 <?php endif; ?>
 		</div>
+<?php endif; ?>
 	</div>

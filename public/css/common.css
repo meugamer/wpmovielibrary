@@ -9,12 +9,18 @@
  * General
  */
 
+.wpmoly,
+.wpmoly > * {
+	font-size: 16px;
+}
+
 .wpmoly .button {
 	background: transparent;
 	border: 0;
 	border-radius: 0;
 	box-shadow: 0 0 0;
 	color: #555;
+	font-size: 16px;
 }
 
 .wpmoly .button.left {

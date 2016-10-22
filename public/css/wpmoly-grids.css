@@ -32,6 +32,7 @@
 }
 
 .wpmoly.grid .grid-menu .button.disabled {
+	background: transparent !important;
 	opacity: 0.4;
 }
 
