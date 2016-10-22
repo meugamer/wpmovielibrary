@@ -193,6 +193,22 @@ function get_movie_headbox( $post_id = null ) {
 }
 
 /**
+ * Check if a specific page is an archive page.
+ * 
+ * @since    3.0
+ * 
+ * @param    int    $post_id Page Post ID.
+ * 
+ * @return   boolean
+ */
+function is_archive_page( $post_id ) {
+
+	$pages = get_option( '_wpmoly_archive_pages', array() );
+
+	return ! empty( $pages[ $post_id ] );
+}
+
+/**
  * Retrieve an archive page ID.
  * 
  * @since    3.0
@@ -237,7 +253,7 @@ function get_archives_page( $type = '' ) {
  * 
  * @param    string    $type Archive type.
  * 
- * @return   int
+ * @return   boolean
  */
 function has_archives_page( $type = '' ) {
 
@@ -279,7 +295,7 @@ function get_movie_archives_page() {
  * 
  * @since    3.0
  * 
- * @return   int
+ * @return   boolean
  */
 function has_movie_archives_page() {
 
@@ -321,7 +337,7 @@ function get_actor_archives_page() {
  * 
  * @since    3.0
  * 
- * @return   int
+ * @return   boolean
  */
 function has_actor_archives_page() {
 
@@ -363,7 +379,7 @@ function get_collection_archives_page() {
  * 
  * @since    3.0
  * 
- * @return   int
+ * @return   boolean
  */
 function has_collection_archives_page() {
 
@@ -405,7 +421,7 @@ function get_genre_archives_page() {
  * 
  * @since    3.0
  * 
- * @return   int
+ * @return   boolean
  */
 function has_genre_archives_page() {
 
