@@ -11,7 +11,7 @@
 
 namespace wpmoly\Shortcodes;
 
-use wpmoly\Core\PublicTemplate as Template;
+use wpmoly\Templates\Front as Template;
 
 /**
  * Local Release Date Shortcode class.

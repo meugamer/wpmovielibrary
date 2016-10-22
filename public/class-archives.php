@@ -11,8 +11,6 @@
 
 namespace wpmoly;
 
-use wpmoly\Core\PublicTemplate as Template;
-
 /**
  * 
  *
@@ -90,18 +88,9 @@ class Archives {
 			return null;
 		}
 
-		if ( 'movie' == $grid->type ) {
+		$template = get_grid_template( $grid );
 
-			$template = new Template( "shortcodes/movies-{$grid->mode}.php" );
-			$template->set_data( array(
-				'grid'   => $grid,
-				'movies' => $grid->items
-			) );
-
-			return $template->render( $require = 'always', $echo = false );
-		}
-
-		return null;
+		return $template->render( $require = 'always', $echo = false );
 	}
 
 }

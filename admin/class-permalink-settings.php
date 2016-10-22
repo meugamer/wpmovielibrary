@@ -11,7 +11,7 @@
 
 namespace wpmoly\Admin;
 
-use wpmoly\Core\AdminTemplate as Template;
+use wpmoly\Templates\Admin as Template;
 
 /**
  * Handle the plugin's URL rewriting settings.

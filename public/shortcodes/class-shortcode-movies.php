@@ -12,7 +12,7 @@
 namespace wpmoly\Shortcodes;
 
 use wpmoly\Node\Grid;
-use wpmoly\Core\PublicTemplate as Template;
+use wpmoly\Templates\Front as Template;
 
 /**
  * General Shortcode class.
@@ -77,11 +77,6 @@ class Movies extends Shortcode {
 		if ( ! is_null( $this->tag ) && isset( self::$aliases[ $this->tag ] ) ) {
 			$this->set( 'mode', self::$aliases[ $this->tag ] );
 		}
-
-		$template = 'shortcodes/movies-' . $this->attributes['mode'] . '.php';
-
-		// Set Template
-		$this->template = new Template( $template );
 	}
 
 	/**
@@ -98,10 +93,7 @@ class Movies extends Shortcode {
 		$grid = new Grid( $this->attributes['id'] );
 		$grid->set( 'mode', $this->attributes['mode'] );
 
-		$this->template->set_data( array(
-			'grid'   => $grid,
-			'movies' => $grid->items
-		) );
+		$this->template = get_grid_template( $grid );
 
 		return $this;
 	}

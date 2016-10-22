@@ -15,7 +15,7 @@ use wpmoly\Core\Loader;
 use wpmoly\Node\Movie;
 use wpmoly\Node\Backdrop;
 use wpmoly\Node\Poster;
-use wpmoly\Core\AdminTemplate as Template;
+use wpmoly\Templates\Admin as Template;
 
 /**
  * Create a metabox for movie metadata.

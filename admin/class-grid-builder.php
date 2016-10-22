@@ -13,7 +13,7 @@ namespace wpmoly\Admin;
 
 use wpmoly\Node\Grid;
 use wpmoly\Core\Loader;
-use wpmoly\Core\PublicTemplate;
+use wpmoly\Templates\Front as Template;
 
 /**
  * Provide a tool to create, build, and save grids.
@@ -25,6 +25,13 @@ use wpmoly\Core\PublicTemplate;
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class GridBuilder {
+
+	/**
+	 * Current Post ID.
+	 * 
+	 * @var    int
+	 */
+	private $post_id = 0;
 
 	/**
 	 * Grid instance.
@@ -54,8 +61,13 @@ class GridBuilder {
 	 */
 	public function __construct() {
 
+		// Grap current page ID from URL
+		if ( isset( $_GET['post'] ) ) {
+			$this->post_id = (int) $_GET['post'];
+		}
+
 		// Load the Grid
-		$this->grid = new Grid( get_the_ID() );
+		$this->grid = new Grid( $this->post_id );
 
 		$metaboxes = array(
 			'type' => array(
@@ -661,7 +673,7 @@ class GridBuilder {
 		}
 
 		// Grid template setup
-		$template = new PublicTemplate( 'shortcodes/movies-' . $this->grid->mode . '.php' );
+		$template = new Template( 'shortcodes/movies-' . $this->grid->mode . '.php' );
 		$template->set_data( array(
 			'grid'   => $this->grid,
 			'movies' => $this->grid->items

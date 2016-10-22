@@ -13,7 +13,7 @@ namespace wpmoly\Shortcodes;
 
 use wpmoly\Node\Grid;
 use wpmoly\Node\Headbox;
-use wpmoly\Core\PublicTemplate as Template;
+use wpmoly\Templates\Front as Template;
 
 /**
  * General Shortcode class.

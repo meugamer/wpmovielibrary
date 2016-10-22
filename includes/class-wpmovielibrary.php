@@ -133,16 +133,22 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/core/class-i18n.php';
 		require_once WPMOLY_PATH . 'includes/core/class-l10n.php';
 		require_once WPMOLY_PATH . 'includes/core/class-registrar.php';
-		require_once WPMOLY_PATH . 'includes/core/class-template.php';
 		require_once WPMOLY_PATH . 'includes/core/class-options.php';
 		require_once WPMOLY_PATH . 'includes/core/class-rewrite.php';
 		require_once WPMOLY_PATH . 'includes/core/class-query.php';
 
+		// Templates
+		require_once WPMOLY_PATH . 'includes/templates/class-template.php';
+		require_once WPMOLY_PATH . 'includes/templates/class-admin-template.php';
+		require_once WPMOLY_PATH . 'includes/templates/class-public-template.php';
+		require_once WPMOLY_PATH . 'includes/templates/class-grid.php';
+
 		$this->init();
 
 		// Helpers
-		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
 		require_once WPMOLY_PATH . 'includes/helpers/debug.php';
+		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
+		require_once WPMOLY_PATH . 'includes/helpers/templates.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-permalink.php';

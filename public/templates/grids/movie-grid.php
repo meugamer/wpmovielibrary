@@ -7,7 +7,7 @@
  * @since    3.0
  * 
  * @uses    $grid
- * @uses    $movies
+ * @uses    $items
  */
 ?>
 
@@ -19,9 +19,9 @@
 		<div class="grid-content grid clearfix">
 
 <?php
-if ( $movies->has_items() ) :
-	while ( $movies->has_items() ) :
-		$movie = $movies->the_item();
+if ( $items->has_items() ) :
+	while ( $items->has_items() ) :
+		$movie = $items->the_item();
 ?>
 			<div class="movie" data-width="<?php echo $grid->column_width; ?>" data-height="<?php echo $grid->row_height; ?>">
 				<div class="movie-poster" style="background-image:url(<?php $movie->get_poster()->render( 'medium' ); ?>)">

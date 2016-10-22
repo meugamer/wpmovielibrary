@@ -12,7 +12,7 @@
 namespace wpmoly\Shortcodes;
 
 use wpmoly\Node\Collection;
-use wpmoly\Core\PublicTemplate as Template;
+use wpmoly\Templates\Front as Template;
 
 /**
  * Movie Images Shortcode class.
