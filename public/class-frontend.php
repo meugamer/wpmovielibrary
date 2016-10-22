@@ -231,8 +231,6 @@ class Frontend {
 	public function enqueue_scripts() {
 
 		$this->register_scripts();
-
-		//$this->enqueue_style();
 	}
 
 	/**
@@ -304,6 +302,10 @@ class Frontend {
 	 * @return   void
 	 */
 	public function register_shortcodes() {
+
+		if ( is_admin() ) {
+			return false;
+		}
 
 		$shortcodes = array(
 			'\wpmoly\Shortcodes\Movie',
