@@ -238,68 +238,69 @@ class Rewrite {
 
 		$rules = array();
 
-		$dates = array(
-			array(
-				'rule' => "([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})",
-				'vars' => array( 'year', 'monthnum', 'day' )
-			),
-			array(
-				'rule' => "([0-9]{4})/([0-9]{1,2})",
-				'vars' => array( 'year', 'monthnum' )
-			),
-			array(
-				'rule' => "([0-9]{4})",
-				'vars' => array( 'year' )
-			)
-		);
+		// Default: no archive page set
+		if ( ! has_movie_archives_page() ) {
 
-		// TODO replace this block with a filter?
-		$archive_pages = get_option( '_wpmoly_archive_pages' );
-		if ( ! $archive_pages ) {
-			$archive_pages = array();
-		}
+			// TODO add support for release date
+			$dates = array(
+				array(
+					'rule' => "([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})",
+					'vars' => array( 'year', 'monthnum', 'day' )
+				),
+				array(
+					'rule' => "([0-9]{4})/([0-9]{1,2})",
+					'vars' => array( 'year', 'monthnum' )
+				),
+				array(
+					'rule' => "([0-9]{4})",
+					'vars' => array( 'year' )
+				)
+			);
 
-		$archive_page = array_search( 'movies', $archive_pages );
-		if ( is_null( get_post( $archive_page ) ) ) {
 			$query = 'index.php?post_type=movie';
 			$rule  = trim( $this->permalinks['movies'], '/' );
-		} else {
-			$query = sprintf( 'index.php?page_id=%d', $archive_page );
-			$rule1 = trim( str_replace( home_url(), '', get_permalink( $archive_page ) ), '/' );
-			$rule2 = trim( $this->permalinks['movies'], '/' );
+			$index = 1;
 
-			$rule = "($rule2|$rule1)";
-		}
+			foreach ( $dates as $date ) {
 
-		$index = 2;
-		
-		$rules[ $rule . "/?$" ]                               = $query;
-		$rules[ $rule . "/embed/?$" ]                         = $query . "&embed=true";
-		$rules[ $rule . "/trackback/?$" ]                     = $query . "&tb=1";
-		$rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $query . "&feed=" . $wp_rewrite->preg_index( $index );
-		$rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $query . "&feed=" . $wp_rewrite->preg_index( $index );
-		$rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $query . "&paged=" . $wp_rewrite->preg_index( $index );
-		$rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $query . "&cpage=" . $wp_rewrite->preg_index( $index );
-		$rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $query . "&page=" . $wp_rewrite->preg_index( $index );
+				$_query = $query;
+				foreach ( $date['vars'] as $var ) {
+					$_query = $_query . '&' . $var . '=' . $wp_rewrite->preg_index( $index );
+					$index++;
+				}
 
-		foreach ( $dates as $date ) {
+				$rule .= '/' . $date['rule'];
 
-			$_query = $query;
-			foreach ( $date['vars'] as $var ) {
-				$_query = $_query . '&' . $var . '=' . $wp_rewrite->preg_index( $index );
-				$index++;
+				$rules[ $rule . "/?$" ]                               = $_query;
+				$rules[ $rule . "/embed/?$" ]                         = $_query . "&embed=true";
+				$rules[ $rule . "/trackback/?$" ]                     = $_query . "&tb=1";
+				$rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
+				$rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
+				$rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $_query . "&paged=" . $wp_rewrite->preg_index( $index );
+				$rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $_query . "&cpage=" . $wp_rewrite->preg_index( $index );
+				$rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $_query . "&page=" . $wp_rewrite->preg_index( $index );
 			}
 
-			$rule .= '/' . $date['rule'];
+		// Existing archive page
+		} else {
 
-			$rules[ $rule . "/?$" ]                               = $_query;
-			$rules[ $rule . "/embed/?$" ]                         = $_query . "&embed=true";
-			$rules[ $rule . "/trackback/?$" ]                     = $_query . "&tb=1";
-			$rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
-			$rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
-			$rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $_query . "&paged=" . $wp_rewrite->preg_index( $index );
-			$rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $_query . "&cpage=" . $wp_rewrite->preg_index( $index );
-			$rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $_query . "&page=" . $wp_rewrite->preg_index( $index );
+			$archive_page = get_movie_archives_page_id();
+
+			$index = 2;
+			$query = sprintf( 'index.php?page_id=%d', $archive_page );
+
+			$rule1 = trim( str_replace( home_url(), '', get_permalink( $archive_page ) ), '/' );
+			$rule2 = trim( $this->permalinks['movies'], '/' );
+			$rule  = "($rule2|$rule1)";
+			
+			$rules[ $rule . "/?$" ]                               = $query;
+			$rules[ $rule . "/embed/?$" ]                         = $query . "&embed=true";
+			$rules[ $rule . "/trackback/?$" ]                     = $query . "&tb=1";
+			$rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $query . "&feed=" . $wp_rewrite->preg_index( $index );
+			$rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $query . "&feed=" . $wp_rewrite->preg_index( $index );
+			$rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $query . "&paged=" . $wp_rewrite->preg_index( $index );
+			$rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $query . "&cpage=" . $wp_rewrite->preg_index( $index );
+			$rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $query . "&page=" . $wp_rewrite->preg_index( $index );
 		}
 
 		return $rules;
