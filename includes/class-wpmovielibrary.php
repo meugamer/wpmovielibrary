@@ -169,16 +169,18 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/api/class-api-core.php';
 		require_once WPMOLY_PATH . 'includes/api/class-api-movie.php';
 
-		// Main
-		require_once WPMOLY_PATH . 'public/class-frontend.php';
-
 		// Ajax
 		require_once WPMOLY_PATH . 'includes/ajax/class-ajax.php';
 		require_once WPMOLY_PATH . 'includes/ajax/class-ajax-api.php';
 		require_once WPMOLY_PATH . 'includes/ajax/class-ajax-meta.php';
 
-		if ( is_admin() ) {
+		// Main
+		require_once WPMOLY_PATH . 'public/class-frontend.php';
+		//require_once WPMOLY_PATH . 'public/class-single.php';
+		require_once WPMOLY_PATH . 'public/class-archives.php';
 
+		if ( is_admin() ) {
+			// Admin stuff
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
 			require_once WPMOLY_PATH . 'admin/class-notices.php';
 			require_once WPMOLY_PATH . 'admin/class-permalink-settings.php';
@@ -187,20 +189,20 @@ final class Library {
 			require_once WPMOLY_PATH . 'admin/class-metaboxes.php';
 			require_once WPMOLY_PATH . 'admin/class-metabox.php';
 			require_once WPMOLY_PATH . 'admin/class-editor-metabox.php';
+		} else {
+			// Shortcodes
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movie.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-images.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-detail.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-countries.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-languages.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-runtime.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-release-date.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-local-release-date.php';
 		}
-
-		// Shortcodes
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movie.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-images.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-detail.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-countries.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-languages.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-runtime.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-release-date.php';
-		require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-local-release-date.php';
 
 	}
 
@@ -314,7 +316,10 @@ final class Library {
 		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles', 95 );
 		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts', 95 );
 		$this->loader->add_action( 'init',               $public, 'register_shortcodes' );
-		$this->loader->add_action( 'the_content',        $public, 'the_headbox' );
+		$this->loader->add_filter( 'the_content',        $public, 'the_headbox' );
+
+		$archives = Archives::get_instance();
+		$this->loader->add_filter( 'the_content', $archives, 'archive_page_content' );
 
 		// Register Post Types, Taxonomies…
 		$registrar = Core\Registrar::get_instance();
