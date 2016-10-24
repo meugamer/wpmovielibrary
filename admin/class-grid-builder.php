@@ -11,6 +11,8 @@
 
 namespace wpmoly\Admin;
 
+use wpmoly\Core\Metabox;
+
 /**
  * Provide a tool to create, build, and save grids.
  * 
@@ -20,7 +22,7 @@ namespace wpmoly\Admin;
  * @subpackage WPMovieLibrary/admin
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class GridBuilder {
+class GridBuilder extends Metabox {
 
 	/**
 	 * Current Post ID.
@@ -37,58 +39,23 @@ class GridBuilder {
 	private $grid;
 
 	/**
-	 * Grid Post Type metaboxes.
-	 * 
-	 * @var    array
-	 */
-	private $metaboxes = array();
-
-	/**
-	 * Metaboxes Managers.
-	 * 
-	 * @var    array
-	 */
-	private $managers = array();
-
-	/**
 	 * Class constructor.
 	 * 
 	 * @since    3.0
 	 */
 	public function __construct() {
 
-		// Grap current page ID from URL
-		if ( isset( $_GET['post'] ) ) {
-			$this->post_id = (int) $_GET['post'];
-		}
+		$this->add_metabox( 'type', array(
+			'id'            => 'wpmoly-grid-type',
+			'title'         => __( 'Type', 'wpmovielibrary' ),
+			'callback'      => array( $this, 'type_metabox' ),
+			'screen'        => 'grid',
+			'context'       => 'side',
+			'priority'      => 'high',
+			'callback_args' => null
+		) );
 
-		// Load the Grid
-		$this->grid = get_grid( $this->post_id );
-
-		$metaboxes = array(
-			'type' => array(
-				'id'            => 'wpmoly-grid-type',
-				'title'         => __( 'Type', 'wpmovielibrary' ),
-				'callback'      => array( $this, 'type_metabox' ),
-				'screen'        => 'grid',
-				'context'       => 'side',
-				'priority'      => 'high',
-				'callback_args' => null
-			)
-		);
-
-		/**
-		 * Filter metaboxes for the grid builder.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array     $metaboxes Default metaboxes.
-		 * @param    object    GridBuilder instance.
-		 */
-		$this->metaboxes = apply_filters( 'wpmoly/filter/grid/metaboxes', $metaboxes, $this );
-
-		$managers = array(
-			'movie-grid-settings' => array(
+		$this->add_manager( 'movie-grid-settings', array(
 				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
 				'post_type' => 'grid',
 				'context'   => 'normal',
@@ -315,8 +282,10 @@ class GridBuilder {
 						)
 					)
 				)
-			),
-			'actor-grid-settings' => array(
+			)
+		);
+
+		$this->add_manager( 'actor-grid-settings', array(
 				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
 				'post_type' => 'grid',
 				'context'   => 'normal',
@@ -347,8 +316,10 @@ class GridBuilder {
 						)
 					)
 				)
-			),
-			'genre-grid-settings' => array(
+			)
+		);
+
+		$this->add_manager( 'genre-grid-settings', array(
 				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
 				'post_type' => 'grid',
 				'context'   => 'normal',
@@ -379,146 +350,25 @@ class GridBuilder {
 						)
 					)
 				)
-			),
+			)
 		);
-
-		/**
-		 * Filter grid managers for the grid builder.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array     $managers Default managers.
-		 * @param    object    GridBuilder instance.
-		 */
-		$this->managers = apply_filters( 'wpmoly/filter/grid/managers', $managers, $this );
 	}
 
 	/**
-	 * Load ButterBean if needed.
+	 * Load frameworks if needed.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   void
 	 */
-	public function load() {
+	public function load_meta_frameworks() {
 
 		// Bail if not our post type.
 		if ( 'grid' !== get_current_screen()->post_type ) {
 			return;
 		}
 
-		require_once WPMOLY_PATH . 'vendor/butterbean/butterbean.php';
-
-		// Let's do this thang!
-		if ( function_exists( 'butterbean_loader_100' ) ) {
-			butterbean_loader_100();
-		}
-	}
-
-	/**
-	 * Register ButterBean's managers.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    object    $butterbean ButterBean instance.
-	 * @param    string    $post_type Current Post Type.
-	 * 
-	 * @return   void
-	 */
-	public function register_butterbean( $butterbean, $post_type ) {
-
-		foreach ( $this->managers as $id => $manager ) {
-
-			$manager = (object) $manager;
-			$sections = $manager->sections;
-
-			$butterbean->register_manager(
-				$id,
-				array(
-					'label'     => $manager->label,
-					'post_type' => $manager->post_type,
-					'context'   => $manager->context,
-					'priority'  => $manager->priority
-				)
-			);
-			$manager = $butterbean->get_manager( $id );
-
-			foreach ( $sections as $section_id => $section ) {
-
-				$section = (object) $section;
-				$manager->register_section(
-					$section_id,
-					array(
-						'label' => $section->label,
-						'icon'  => $section->icon
-					)
-				);
-
-				foreach ( $section->settings as $control_id => $control ) {
-
-					$control_id = '_wpmoly_' . str_replace( '-', '_', $control_id );
-
-					$control = (object) $control;
-					$manager->register_control(
-						$control_id,
-						array(
-							'section'     => $section_id,
-							'type'        => isset( $control->type )        ? $control->type        : false,
-							'label'       => isset( $control->label )       ? $control->label       : false,
-							'attr'        => isset( $control->attr )        ? $control->attr        : false,
-							'choices'     => isset( $control->choices )     ? $control->choices     : false,
-							'description' => isset( $control->description ) ? $control->description : false
-						)
-					);
-
-					$manager->register_setting(
-						$control_id,
-						array(
-							'sanitize_callback' => isset( $control->sanitize ) ? $control->sanitize : false,
-							'default'           => isset( $control->default )  ? $control->default  : false,
-							'value'             => isset( $control->value )    ? $control->value    : '',
-						)
-					);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Register metaboxes.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function add_metaboxes() {
-
-		/**
-		 * Fires before starting to register metaboxes.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    GridBuilder instance.
-		 */
-		do_action( 'wpmoly/action/grid/before/add_metaboxes', $this );
-
-		foreach ( $this->metaboxes as $metabox ) {
-			$metabox = (object) $metabox;
-			foreach ( (array) $metabox->screen as $screen ) {
-				add_action( "add_meta_boxes_{$screen}", function() use ( $metabox ) {
-					add_meta_box( $metabox->id . '-metabox', $metabox->title, $metabox->callback, $metabox->screen, $metabox->context, $metabox->priority, $metabox->callback_args );
-				} );
-			}
-		}
-
-		/**
-		 * Fires when all metaboxes have been registered.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    GridBuilder instance.
-		 */
-		do_action( 'wpmoly/action/grid/after/add_metaboxes', $this );
+		parent::load_meta_frameworks();
 	}
 
 	/**
@@ -537,10 +387,12 @@ class GridBuilder {
 		if ( 'grid' !== $post->post_type ) {
 			return false;
 		}
+
+		$grid = get_grid( $post->ID );
 ?>
 		<div id="wpmoly-grid-builder">
 
-			<script type="text/javascript">var _wpmolyGridBuilderData = <?php echo $this->grid->toJSON(); ?>;</script>
+			<script type="text/javascript">var _wpmolyGridBuilderData = <?php echo $grid->toJSON(); ?>;</script>
 			<?php wp_nonce_field( 'save-grid-setting', 'wpmoly_save_grid_setting_nonce', $referer = false ); ?>
 
 			<div id="wpmoly-grid-builder-shortcuts">
@@ -568,9 +420,9 @@ class GridBuilder {
 			return false;
 		}
 
-		if ( ! in_array( $manager->name, array_keys( $this->managers ) ) ) {
+		/*if ( ! in_array( $manager->name, array_keys( $this->get_managers() ) ) ) {
 			return false;
-		}
+		}*/
 ?>
 		<div class="grid-builder-separator">
 			<div class="button separator-label"><?php _e( 'Settings' ); ?></div>
@@ -669,14 +521,14 @@ class GridBuilder {
 		}
 
 		// Grid template setup
-		$template = get_grid_template( $this->grid );
+		//$template = get_grid_template( $this->grid );
 
 ?>
 		<div class="wpmoly">
 			<div class="grid-builder-separator">
 				<button type="button" data-action="toggle-preview" class="button separator-label"><?php _e( 'Preview' ); ?></button>
 			</div>
-			<div id="wpmoly-grid-builder-preview"><?php $template->render( 'always', $echo = true ); ?></div>
+			<div id="wpmoly-grid-builder-preview"><?php //$template->render( 'always', $echo = true ); ?></div>
 		</div>
 <?php
 	}

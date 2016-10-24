@@ -186,6 +186,8 @@ final class Library {
 		require_once WPMOLY_PATH . 'public/class-archives.php';
 
 		if ( is_admin() ) {
+			// Core
+			require_once WPMOLY_PATH . 'includes/core/class-metabox.php';
 			// Admin stuff
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
 			require_once WPMOLY_PATH . 'admin/class-notices.php';
@@ -269,26 +271,24 @@ final class Library {
 		}
 
 		// Archive Pages
-		// TODO Move load() and register_butterbean() to a parent class
 		$archives = new Admin\ArchivePages;
-		$this->loader->add_action( 'load-post.php',               $archives, 'load' );
-		$this->loader->add_action( 'load-post-new.php',           $archives, 'load' );
-		$this->loader->add_action( 'butterbean_register',         $archives, 'register_butterbean', 10, 2 );
+		$this->loader->add_action( 'load-post.php',               $archives, 'load_meta_frameworks' );
+		$this->loader->add_action( 'load-post-new.php',           $archives, 'load_meta_frameworks' );
+		$this->loader->add_action( 'butterbean_register',         $archives, 'register_post_meta_managers', 10, 2 );
 		$this->loader->add_action( 'post_submitbox_misc_actions', $archives, 'archive_pages_select', 10, 1 );
 		$this->loader->add_action( 'save_post_page',              $archives, 'set_archive_page_type', 10, 3 );
 
 		// Grid Builder
 		// TODO load this on grid only
-		// TODO Move load() and register_butterbean() to a parent class
 		$builder = new Admin\GridBuilder;
-		$builder->add_metaboxes();
+		$builder->register_metaboxes();
 
 		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
 		$this->loader->add_action( 'edit_form_after_editor',      $builder, 'preview' );
 		$this->loader->add_action( 'dbx_post_sidebar',            $builder, 'footer' );
-		$this->loader->add_action( 'load-post.php',               $builder, 'load' );
-		$this->loader->add_action( 'load-post-new.php',           $builder, 'load' );
-		$this->loader->add_action( 'butterbean_register',         $builder, 'register_butterbean', 10, 2 );
+		$this->loader->add_action( 'load-post.php',               $builder, 'load_meta_frameworks' );
+		$this->loader->add_action( 'load-post-new.php',           $builder, 'load_meta_frameworks' );
+		$this->loader->add_action( 'butterbean_register',         $builder, 'register_post_meta_managers', 10, 2 );
 		$this->loader->add_action( 'butterbean_before_metabox',   $builder, 'separator', 10, 4 );
 
 		// Permalink Settings

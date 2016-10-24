@@ -47,6 +47,12 @@
 	width: 49.5%;
 }
 
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.widefat input,
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.widefat select {
+	display: block;
+	width: 96%;
+}
+
 #butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels label {
 	position: relative;
 }

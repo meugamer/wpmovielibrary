@@ -12,6 +12,7 @@
 namespace wpmoly\Admin;
 
 use wpmoly\Core\Rewrite;
+use wpmoly\Core\Metabox;
 
 /**
  * Provide a tool to manage custom Archive Pages.
@@ -20,7 +21,7 @@ use wpmoly\Core\Rewrite;
  * @subpackage WPMovieLibrary/admin
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class ArchivePages {
+class ArchivePages extends Metabox {
 
 	/**
 	 * Current page Post ID.
@@ -42,13 +43,6 @@ class ArchivePages {
 	 * @var    array
 	 */
 	private $types = array();
-
-	/**
-	 * Metaboxes Managers.
-	 * 
-	 * @var    array
-	 */
-	private $managers = array();
 
 	/**
 	 * Class constructor.
@@ -88,7 +82,8 @@ class ArchivePages {
 
 		// Only register archive pages' manager when needed
 		if ( ! empty( $this->pages[ $this->post_id ] ) ) {
-			$this->managers['archive-page-settings'] = array(
+
+			$this->add_manager( 'archive-page-settings', array(
 				'label'     => esc_html__( 'Archive Page Settings', 'wpmovielibrary' ),
 				'post_type' => 'page',
 				'context'   => 'normal',
@@ -103,8 +98,8 @@ class ArchivePages {
 								'post_type'=> 'grid',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Grid ID', 'wpmovielibrary' ),
-								'description' => sprintf( esc_html__( 'Select a Grid to show in the page content. %s', 'wpmovielibrary' ), sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( admin_url( 'post-new.php?post_type=grid' ) ), __( 'Create a new one?', 'wpmovielibrary' ) ) ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '4' ),
+								'description' => sprintf( esc_html__( 'Select a Grid to show in the page content. Or maybe %s?', 'wpmovielibrary' ), sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( admin_url( 'post-new.php?post_type=grid' ) ), __( 'add a new one', 'wpmovielibrary' ) ) ),
+								'attr'     => array( 'class' => 'half-col widefat' ),
 								'default'  => ''
 							),
 							'grid-position' => array(
@@ -139,110 +134,25 @@ class ArchivePages {
 						)
 					)
 				)
-			);
+			) );
 		}
-
-		/**
-		 * Filter archive pages managers for the grid builder.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array     $managers Default managers.
-		 * @param    object    ArchivePages instance.
-		 */
-		$this->managers = apply_filters( 'wpmoly/filter/archive_pages/managers', $this->managers, $this );
 	}
 
 	/**
-	 * Load ButterBean if needed.
+	 * Load frameworks if needed.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   void
 	 */
-	public function load() {
+	public function load_meta_frameworks() {
 
 		// Bail if not our post type.
 		if ( 'page' !== get_current_screen()->post_type ) {
 			return;
 		}
 
-		require_once WPMOLY_PATH . 'vendor/butterbean/butterbean.php';
-
-		// Let's do this thang!
-		if ( function_exists( 'butterbean_loader_100' ) ) {
-			butterbean_loader_100();
-		}
-	}
-
-	/**
-	 * Register ButterBean's managers.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    object    $butterbean ButterBean instance.
-	 * @param    string    $post_type Current Post Type.
-	 * 
-	 * @return   void
-	 */
-	public function register_butterbean( $butterbean, $post_type ) {
-
-		foreach ( $this->managers as $id => $manager ) {
-
-			$manager = (object) $manager;
-			$sections = $manager->sections;
-
-			$butterbean->register_manager(
-				$id,
-				array(
-					'label'     => $manager->label,
-					'post_type' => $manager->post_type,
-					'context'   => $manager->context,
-					'priority'  => $manager->priority
-				)
-			);
-			$manager = $butterbean->get_manager( $id );
-
-			foreach ( $sections as $section_id => $section ) {
-
-				$section = (object) $section;
-				$manager->register_section(
-					$section_id,
-					array(
-						'label' => $section->label,
-						'icon'  => $section->icon
-					)
-				);
-
-				foreach ( $section->settings as $control_id => $control ) {
-
-					$control_id = '_wpmoly_' . str_replace( '-', '_', $control_id );
-
-					$control = (object) $control;
-					$manager->register_control(
-						$control_id,
-						array(
-							'section'     => $section_id,
-							'type'        => isset( $control->type )        ? $control->type        : false,
-							'post_type'   => isset( $control->post_type )   ? $control->post_type   : false,
-							'label'       => isset( $control->label )       ? $control->label       : false,
-							'attr'        => isset( $control->attr )        ? $control->attr        : false,
-							'choices'     => isset( $control->choices )     ? $control->choices     : false,
-							'description' => isset( $control->description ) ? $control->description : false
-						)
-					);
-
-					$manager->register_setting(
-						$control_id,
-						array(
-							'sanitize_callback' => isset( $control->sanitize ) ? $control->sanitize : false,
-							'default'           => isset( $control->default )  ? $control->default  : false,
-							'value'             => isset( $control->value )    ? $control->value    : '',
-						)
-					);
-				}
-			}
-		}
+		parent::load_meta_frameworks();
 	}
 
 	/**
