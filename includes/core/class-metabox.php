@@ -78,7 +78,7 @@ class Metabox {
 
 		if ( ! empty( $args['post_type'] ) ) {
 			return $this->add_post_meta_manager( $manager_id, $args );
-		} elseif ( ! empty( $manager['taxonomy'] ) ) {
+		} elseif ( ! empty( $args['taxonomy'] ) ) {
 			return $this->add_term_meta_manager( $manager_id, $args );
 		}
 
@@ -222,12 +222,12 @@ class Metabox {
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    object    $butterbean ButterBean instance.
+	 * @param    object    $haricot Haricot instance.
 	 * @param    string    $post_type Current Post Type.
 	 * 
 	 * @return   void
 	 */
-	public function register_term_meta_managers( $framework, $taxonomy ) {
+	public function register_term_meta_managers( $haricot, $taxonomy ) {
 
 		/**
 		 * Filter Term Meta managers.
@@ -246,7 +246,7 @@ class Metabox {
 				'taxonomy' => $manager['taxonomy']
 			);
 
-			$manager  = $this->register_manager( $butterbean, $manager_id, $manager );
+			$manager  = $this->register_manager( $haricot, $manager_id, $manager );
 			$sections = $this->register_sections( $manager, $sections );
 		}
 	}

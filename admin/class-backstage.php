@@ -57,6 +57,7 @@ class Backstage {
 			''              => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly.css' ),
 			'metabox'       => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-metabox.css' ),
 			'permalinks'    => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-permalink-settings.css' ),
+			'term-editor'   => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-term-editor.css' ),
 			'archive-pages' => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-archive-pages.css' ),
 			'grid-builder'  => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-grid-builder.css' ),
 
@@ -299,6 +300,10 @@ class Backstage {
 
 		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'page' == get_post_type() ) {
 			$this->enqueue_style( 'archive-pages' );
+		}
+
+		if ( 'term.php' == $hook_suffix || 'edit-tags.php' == $hook_suffix ) {
+			$this->enqueue_style( 'term-editor' );
 		}
 	}
 

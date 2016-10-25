@@ -192,6 +192,7 @@ final class Library {
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
 			require_once WPMOLY_PATH . 'admin/class-notices.php';
 			require_once WPMOLY_PATH . 'admin/class-permalink-settings.php';
+			require_once WPMOLY_PATH . 'admin/class-term-editor.php';
 			require_once WPMOLY_PATH . 'admin/class-archive-pages.php';
 			require_once WPMOLY_PATH . 'admin/class-grid-builder.php';
 			require_once WPMOLY_PATH . 'admin/class-metaboxes.php';
@@ -269,6 +270,16 @@ final class Library {
 			list( $hook, $class, $method, $priority, $arguments ) = $filter;
 			$this->loader->add_filter( $hook, $class, $method, $priority, $arguments );
 		}
+
+		// Term Editor
+		$terms = new Admin\TermEditor;
+		$this->loader->add_action( 'load-term.php',               $terms, 'load_meta_frameworks' );
+		$this->loader->add_action( 'load-edit-tags.php',          $terms, 'load_meta_frameworks' );
+		$this->loader->add_action( 'haricot_register',            $terms, 'register_term_meta_managers', 10, 2 );
+		$this->loader->add_filter( 'redirect_term_location',      $terms, 'term_redirect', 10, 2 );
+		$this->loader->add_action( 'actor_pre_edit_form',         $terms, 'term_pre_edit_form', 10, 2 );
+		$this->loader->add_action( 'collection_pre_edit_form',    $terms, 'term_pre_edit_form', 10, 2 );
+		$this->loader->add_action( 'genre_pre_edit_form',         $terms, 'term_pre_edit_form', 10, 2 );
 
 		// Archive Pages
 		$archives = new Admin\ArchivePages;
