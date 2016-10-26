@@ -673,7 +673,7 @@ class Grid extends Node {
 
 		$json['settings'] = array();
 		foreach ( $this->default_settings as $setting ) {
-			$json['settings'][ $setting ] = $this->$setting;
+			$json['settings'][ $setting ] = $this->get( $setting );
 		}
 
 		return $this->json = json_encode( $json );
