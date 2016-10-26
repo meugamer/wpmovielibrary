@@ -58,6 +58,59 @@ class TermEditor extends Metabox {
 				'label'    => esc_html__( 'Actor Meta', 'wpmovielibrary' ),
 				'taxonomy' => 'actor',
 				'sections' => array(
+					'actor-identity' => array(
+						'label' => esc_html__( 'Identity', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-actor-alt',
+						'settings' => array(
+							'actor-person-id' => array(
+								'type'        => 'posts',
+								'post_type'   => 'people',
+								'section'     => 'actor-identity',
+								'label'       => esc_html__( 'Person ID', 'wpmovielibrary' ),
+								'description' => sprintf( esc_html__( 'Select a Person corresponding to this actor. Or maybe %s?', 'wpmovielibrary' ), sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( admin_url( 'post-new.php?post_type=person' ) ), __( 'add a new one', 'wpmovielibrary' ) ) ),
+							),
+							'actor-bio-description' => array(
+								'type'        => 'checkbox',
+								'section'     => 'actor-identity',
+								'label'       => esc_html__( 'Use description as biography', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Use the term description content as the actor’s biography?', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col widefat' ),
+							)
+						)
+					),
+					'actor-appearance' => array(
+						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-appearance',
+						'settings' => array(
+							'actor-picture' => array(
+								'type'        => 'radio-image',
+								'section'     => 'actor-identity',
+								'label'       => esc_html__( 'Actor picture' ),
+								'description' => esc_html__( 'A default picture for this actor.', 'wpmovielibrary' ),
+								'choices' => array(
+									'neutral' => array(
+										'url'   => WPMOLY_URL . 'public/img/actor-neutral-thumbnail.jpg',
+										'label' => esc_html__( 'Neutral', 'wpmovielibrary' )
+									),
+									'female' => array(
+										'url'   => WPMOLY_URL . 'public/img/actor-female-thumbnail.jpg',
+										'label' => esc_html__( 'Female', 'wpmovielibrary' )
+									),
+									'male' => array(
+										'url'   => WPMOLY_URL . 'public/img/actor-male-thumbnail.jpg',
+										'label' => esc_html__( 'Male', 'wpmovielibrary' )
+									),
+								),
+								'default' => 'neutral'
+							)
+						)
+					)
+				)
+			) );
+			/*$this->add_manager( 'actor-meta', array(
+				'label'    => esc_html__( 'Actor Meta', 'wpmovielibrary' ),
+				'taxonomy' => 'actor',
+				'sections' => array(
 					'identity' => array(
 						'label' => esc_html__( 'Identity', 'wpmovielibrary' ),
 						'icon'  => 'wpmolicon icon-actor-alt',
@@ -178,7 +231,7 @@ class TermEditor extends Metabox {
 						)
 					)
 				)
-			) );
+			) );*/
 		}
 	}
 
