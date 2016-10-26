@@ -28,11 +28,18 @@ class Metabox {
 	private $metaboxes = array();
 
 	/**
-	 * Meta Managers.
+	 * Post Meta Managers.
 	 * 
 	 * @var    array
 	 */
-	private $managers = array();
+	private $post_managers = array();
+
+	/**
+	 * Term Meta Managers.
+	 * 
+	 * @var    array
+	 */
+	private $term_managers = array();
 
 	/**
 	 * Add a new metabox.
