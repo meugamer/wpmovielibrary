@@ -301,6 +301,7 @@ final class Library {
 		$this->loader->add_action( 'load-post-new.php',           $builder, 'load_meta_frameworks' );
 		$this->loader->add_action( 'butterbean_register',         $builder, 'register_post_meta_managers', 10, 2 );
 		$this->loader->add_action( 'butterbean_before_metabox',   $builder, 'separator', 10, 4 );
+		$this->loader->add_action( 'save_post_grid',              $builder, 'save', 9, 3 );
 
 		// Permalink Settings
 		$permalinks = Admin\PermalinkSettings::get_instance();

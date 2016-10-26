@@ -73,11 +73,11 @@ class GridBuilder extends Metabox {
 								'attr'    => array( 'class' => 'visible-labels half-col' ),
 								'choices' => array(
 									'alphabetical-movies' => array(
-										'label' => esc_html__( 'Alpabetical Movies', 'wpmovielibrary' ),
+										'label' => esc_html__( 'Alphabetical Movies', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'admin/img/alphabetical-movies.png'
 									),
 									'unalphabetical-movies' => array(
-										'label' => esc_html__( 'Alpabetical Movies', 'wpmovielibrary' ),
+										'label' => esc_html__( 'Unalphabetical Movies', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-movies.png'
 									),
 									'current-year-movies' => array(
@@ -161,7 +161,7 @@ class GridBuilder extends Metabox {
 									'released-date'       => esc_html__( 'Release Date', 'wpmovielibrary' ),
 									'local-released-date' => esc_html__( 'Local Release Date', 'wpmovielibrary' ),
 									'rating'              => esc_html__( 'Rating', 'wpmovielibrary' ),
-									'alpabetical'         => esc_html__( 'Alpabetically', 'wpmovielibrary' ),
+									'alpabetical'         => esc_html__( 'Alphabetically', 'wpmovielibrary' ),
 									'random'              => esc_html__( 'Random', 'wpmovielibrary' ),
 								),
 								'sanitize' => 'esc_attr'
@@ -189,7 +189,7 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'sanitize' => 'intval',
+								//'sanitize' => 'intval',
 								'default'  => 5
 							),
 							'grid-rows' => array(
@@ -198,7 +198,7 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'sanitize' => 'intval',
+								//'sanitize' => 'intval',
 								'default'  => 4
 							),
 							'grid-column-width' => array(
@@ -207,7 +207,7 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'sanitize' => 'intval',
+								//'sanitize' => 'intval',
 								'default'  => 160
 							),
 							'grid-row-height' => array(
@@ -216,7 +216,7 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'sanitize' => 'intval',
+								//'sanitize' => 'intval',
 								'default'  => 240
 							),
 						)
@@ -303,15 +303,125 @@ class GridBuilder extends Metabox {
 								'attr'    => array( 'class' => 'visible-labels half-col' ),
 								'choices' => array(
 									'alphabetical-actors' => array(
-										'label' => esc_html__( 'Alpabetical Actors', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/alphabetical-movies.png'
+										'label' => esc_html__( 'Alphabetical Actors', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/alphabetical-actors.png'
 									),
-									'unalphabetical-movies' => array(
-										'label' => esc_html__( 'Alpabetical Actors', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-movies.png'
+									'unalphabetical-actors' => array(
+										'label' => esc_html__( 'Unalphabetical Actors', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-actors.png'
+									),
+									'alphabetical-persons' => array(
+										'label' => esc_html__( 'Alphabetical Persons', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/alphabetical-persons.png'
+									),
+									'unalphabetical-persons' => array(
+										'label' => esc_html__( 'Unalphabetical Persons', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-persons.png'
 									)
 								),
 								'sanitize' => 'esc_attr'
+							)
+						)
+					),
+					'grid-appearance' => array(
+						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-appearance',
+						'settings' => array(
+							'grid-columns' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 5
+							),
+							'grid-rows' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 4
+							),
+							'grid-column-width' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Actor picture ideal width', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 160
+							),
+							'grid-row-height' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Actor picture ideal height', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 200
+							),
+						)
+					),
+					'grid-controls' => array(
+						'label' => esc_html__( 'User Control', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-tools',
+						'settings' => array(
+							'grid-show-menu' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-controls',
+								'label'    => esc_html__( 'Show Menu', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Enable the grid menu. Visitors will be able to change some settings to alter the grid appearance to their liking. The changes are local not persitent and will never be stored anywhere on your site. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array(),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
+							'grid-mode-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-controls',
+								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid mode. Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
+							),
+							'grid-content-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-controls',
+								'label'    => esc_html__( 'Grid Content', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of actors, rows, columns… Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
+							),
+							'grid-display-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-controls',
+								'label'    => esc_html__( 'Grid Display', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid display. Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
+							),
+							'grid-order-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-controls',
+								'label'    => esc_html__( 'Grid Ordering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
+							'grid-show-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-controls',
+								'label'    => esc_html__( 'Show Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Enable the pagination menu for visitors. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
 							)
 						)
 					)
@@ -337,11 +447,11 @@ class GridBuilder extends Metabox {
 								'attr'    => array( 'class' => 'visible-labels half-col' ),
 								'choices' => array(
 									'alphabetical-genres' => array(
-										'label' => esc_html__( 'Alpabetical Genres', 'wpmovielibrary' ),
+										'label' => esc_html__( 'Alphabetical Genres', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'admin/img/alphabetical-movies.png'
 									),
 									'unalphabetical-genres' => array(
-										'label' => esc_html__( 'Alpabetical Genres', 'wpmovielibrary' ),
+										'label' => esc_html__( 'Unalphabetical Genres', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-movies.png'
 									)
 								),
@@ -453,6 +563,10 @@ class GridBuilder extends Metabox {
 			<div class="button separator-label"><?php _e( 'Type' ); ?></div>
 		</div>
 
+		<input type="hidden" name="_wpmoly_grid_type" value="{{ data.type }}" />
+		<input type="hidden" name="_wpmoly_grid_mode" value="{{ data.mode }}" />
+		<input type="hidden" name="_wpmoly_grid_theme" value="{{ data.theme }}" />
+
 		<div id="grid-types" class="supported-grid-types active">
 			<# _.each( data.types, function( type, type_id ) { #>
 			<button type="button" data-action="grid-type" data-value="{{ type_id }}" title="{{ type.label }}" class="<# if ( type_id == data.type ) { #>active<# } #>"><span class="{{ type.icon }}"></span></button>
@@ -550,6 +664,49 @@ class GridBuilder extends Metabox {
 ?>
 		</div><!-- /#wpmoly-grid-builder -->
 <?php
+	}
+
+	/**
+	 * Save the grid settings.
+	 * 
+	 * Actually does two things. 1) make sure grid type, mode and theme are
+	 * saved; it should already be done through Ajax, but let's make sure it
+	 * really did. 2) clean up POST data. We're using three ButterBean 
+	 * managers with identical control IDs, meaning we have to remove the
+	 * unwanted fields corresponding to different types than current type to
+	 * avoid having values overflowed by the last manager in the list.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    int        $post_id Post ID.
+	 * @param    WP_Post    $post Post object.
+	 * @param    boolean    $update Updating existing post?
+	 * 
+	 * @return   void
+	 */
+	public function save( $post_id, $post, $update ) {
+
+		$grid = get_grid( $post_id );
+
+		if ( ! empty( $_POST['_wpmoly_grid_type'] ) ) {
+			$type = $_POST['_wpmoly_grid_type'];
+			$grid->set( 'type', $type );
+			foreach ( $_POST as $key => $value ) {
+				if ( false !== strpos( $key, 'butterbean_' ) && false === strpos( $key, "{$type}-grid-settings" ) ) {
+					unset( $_POST[ $key ] );
+				}
+			}
+		}
+
+		if ( ! empty( $_POST['_wpmoly_grid_mode'] ) ) {
+			$grid->set( 'mode', $_POST['_wpmoly_grid_mode'] );
+		}
+
+		if ( ! empty( $_POST['_wpmoly_grid_theme'] ) ) {
+			$grid->set( 'theme', $_POST['_wpmoly_grid_theme'] );
+		}
+
+		$grid->save();
 	}
 
 }
