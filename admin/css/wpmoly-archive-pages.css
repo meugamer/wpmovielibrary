@@ -47,7 +47,7 @@
 	width: 49.5%;
 }
 
-#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.widefat input,
+#butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.widefat input[type="text"],
 #butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.widefat select,
 #butterbean-ui-archive-page-settings.butterbean-ui.postbox .butterbean-content .butterbean-control.widefat textarea {
 	display: block;

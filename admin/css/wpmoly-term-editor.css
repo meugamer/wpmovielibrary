@@ -48,7 +48,7 @@
 	width: 49.5%;
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat input,
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat input[type="text"],
 #haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat select,
 #haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat textarea {
 	display: block;
