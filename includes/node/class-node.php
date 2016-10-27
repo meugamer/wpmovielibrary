@@ -33,7 +33,7 @@ class Node {
 	 * 
 	 * @var    WP_Post
 	 */
-	public $post;
+	//public $post;
 
 	/**
 	 * Node meta suffix.

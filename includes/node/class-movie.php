@@ -56,6 +56,13 @@ use wpmoly\Helpers\Formatting;
 class Movie extends Node {
 
 	/**
+	 * Movie Post object
+	 * 
+	 * @var    WP_Post
+	 */
+	public $post;
+
+	/**
 	 * Movie poster.
 	 * 
 	 * @var    Poster

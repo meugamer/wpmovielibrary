@@ -111,6 +111,20 @@ function get_grid( $grid ) {
 }
 
 /**
+ * Return an actor object.
+ * 
+ * @since    3.0
+ * 
+ * @param    mixed    $actor Actor ID, object or array
+ * 
+ * @return   Actor|boolean
+ */
+function get_actor( $actor ) {
+
+	return _get_object( $actor, '\wpmoly\Node\Actor' );
+}
+
+/**
  * Return a movie metadata.
  * 
  * @since    3.0

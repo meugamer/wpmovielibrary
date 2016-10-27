@@ -164,11 +164,15 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/node/class-default-backdrop.php';
 		require_once WPMOLY_PATH . 'includes/node/class-default-poster.php';
 		require_once WPMOLY_PATH . 'includes/node/class-movie.php';
+		require_once WPMOLY_PATH . 'includes/node/class-actor.php';
 		require_once WPMOLY_PATH . 'includes/node/class-grid.php';
 		require_once WPMOLY_PATH . 'includes/node/class-headbox.php';
 
 		// Queries
+		require_once WPMOLY_PATH . 'includes/query/class-query.php';
 		require_once WPMOLY_PATH . 'includes/query/class-query-movies.php';
+		require_once WPMOLY_PATH . 'includes/query/class-query-genres.php';
+		require_once WPMOLY_PATH . 'includes/query/class-query-actors.php';
 
 		// API
 		require_once WPMOLY_PATH . 'includes/api/class-api.php';

@@ -311,6 +311,10 @@ class Grid extends Node {
 				$this->items->add( $item );
 			}
 
+			// Clean up
+			unset( $this->settings['taxonomy'] );
+			unset( $this->settings['post_type'] );
+
 			return $this->items;
 		}
 	}
@@ -344,8 +348,14 @@ class Grid extends Node {
 			return false;
 		}
 
-		$this->preset   = 'custom';
 		$this->settings = $settings;
+
+		$this->preset = 'custom';
+		if ( $this->is_taxonomy() ) {
+			$this->settings['taxonomy'] = $this->get( 'type' );
+		} elseif ( $this->is_post() ) {
+			$this->settings['post_type'] = $this->get( 'type' );
+		}
 	}
 
 	/**
@@ -385,11 +395,11 @@ class Grid extends Node {
 			'genre' => '\wpmoly\Query\Genres'
 		);
 
-		if ( ! isset( $classes[ $this->type ] ) ) {
+		if ( ! isset( $classes[ $this->get( 'type' ) ] ) ) {
 			return false;
 		}
 
-		return $this->query = new $classes[ $this->type ];
+		return $this->query = new $classes[ $this->get( 'type' ) ];
 	}
 
 	/**
@@ -449,7 +459,7 @@ class Grid extends Node {
 		 * @param    int     $min Default minimum number of rows.
 		 * @param    Grid    $grid Grid instance.
 		 */
-		$min = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/rows/min', 1, $this );
+		$min = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/rows/min', 1, $this );
 
 		/**
 		 * Filter the maximum number of rows.
@@ -459,7 +469,7 @@ class Grid extends Node {
 		 * @param    int     $max Default maximum number of rows.
 		 * @param    Grid    $grid Grid instance.
 		 */
-		$max = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/rows/max', 10, $this );
+		$max = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/rows/max', 10, $this );
 
 		/**
 		 * Filter the default number of rows.
@@ -469,7 +479,7 @@ class Grid extends Node {
 		 * @param    int     $default Default number of rows.
 		 * @param    Grid    $grid Grid instance.
 		 */
-		$default = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/rows/default', 4, $this );
+		$default = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/rows/default', 4, $this );
 
 		return ! empty( $rows ) ? max( $min, min( $rows, $max ) ) : $default;
 	}
@@ -495,7 +505,7 @@ class Grid extends Node {
 		 * @param    int     $min Default minimum number of columns.
 		 * @param    Grid    $grid Grid instance.
 		 */
-		$min = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/columns/min', 1, $this );
+		$min = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/columns/min', 1, $this );
 
 		/**
 		 * Filter the maximum number of columns.
@@ -505,7 +515,7 @@ class Grid extends Node {
 		 * @param    int     $max Default maximum number of columns.
 		 * @param    Grid    $grid Grid instance.
 		 */
-		$max = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/columns/max', 12, $this );
+		$max = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/columns/max', 12, $this );
 
 		/**
 		 * Filter the default number of columns.
@@ -515,7 +525,7 @@ class Grid extends Node {
 		 * @param    int     $default Default number of columns.
 		 * @param    Grid    $grid Grid instance.
 		 */
-		$default = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/columns/default', 5, $this );
+		$default = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/columns/default', 5, $this );
 
 		return ! empty( $columns ) ? max( $min, min( $columns, $max ) ) : $default;
 	}
@@ -541,7 +551,7 @@ class Grid extends Node {
 		 * @param    int     $ideal_width Default ideal column width.
 		 * @param    Grid    $grid Grid instance.
 		 */
-		$ideal_width = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/columns/ideal_width', 160, $this );
+		$ideal_width = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/columns/ideal_width', 160, $this );
 
 		return ! empty( $column_width ) ? intval( $column_width ) : $ideal_width;
 	}
@@ -567,7 +577,7 @@ class Grid extends Node {
 		 * @param    int     $ideal_width Default ideal row height.
 		 * @param    Grid    $grid Grid instance.
 		 */
-		$ideal_height = apply_filters( 'wpmoly/filter/grid/' . $this->type . '/rows/ideal_height', 240, $this );
+		$ideal_height = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/rows/ideal_height', 240, $this );
 
 		return ! empty( $row_height ) ? intval( $row_height ) : $ideal_height;
 	}
@@ -605,7 +615,7 @@ class Grid extends Node {
 	 */
 	public function validate_theme( $theme ) {
 
-		return isset( $this->supported_themes[ $this->type ][ $theme ] ) ? $theme : 'default';
+		return isset( $this->supported_themes[ $this->get( 'type' ) ][ $theme ] ) ? $theme : 'default';
 	}
 
 	/**
@@ -621,7 +631,7 @@ class Grid extends Node {
 	 */
 	public function validate_mode( $mode ) {
 
-		return isset( $this->supported_modes[ $this->type ][ $mode ] ) ? $mode : 'grid';
+		return isset( $this->supported_modes[ $this->get( 'type' ) ][ $mode ] ) ? $mode : 'grid';
 	}
 
 	/**
@@ -638,6 +648,30 @@ class Grid extends Node {
 	public function validate_type( $type ) {
 
 		return isset( $this->supported_types[ $type ] ) ? $type : 'movie';
+	}
+
+	/**
+	 * Is this a posts grid?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function is_post() {
+
+		return in_array( $this->get( 'type' ), array( 'movie' ) );
+	}
+
+	/**
+	 * Is this a terms grid?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function is_taxonomy() {
+
+		return in_array( $this->get( 'type' ), array( 'actor', 'genre' ) );
 	}
 
 	/**

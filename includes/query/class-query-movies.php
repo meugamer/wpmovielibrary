@@ -21,35 +21,7 @@ use WP_Query;
  * @subpackage WPMovieLibrary/includes/query
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Movies {
-
-	/**
-	 * Nodes.
-	 * 
-	 * @var    array
-	 */
-	private $items;
-
-	/**
-	 * Query parameters.
-	 * 
-	 * @var    array
-	 */
-	private $args;
-
-	/**
-	 * Current page.
-	 * 
-	 * @var    int
-	 */
-	//protected $current = 0;
-
-	/**
-	 * Internal Query.
-	 * 
-	 * @var    WP_Query
-	 */
-	public $query;
+class Movies extends Query {
 
 	/**
 	 * Define a default preset for this Query.
@@ -95,7 +67,7 @@ class Movies {
 	/**
 	 * 'unalphabetical-movies' Grid preset.
 	 * 
-	 * Default: retrieve the last 20 movies alphabetically.
+	 * Default: retrieve the last 20 movies alphabetically inverted.
 	 * 
 	 * @since    3.0
 	 * 
@@ -111,7 +83,7 @@ class Movies {
 	}
 
 	/**
-	 * '-movies' Grid preset.
+	 * 'current-year-movies' Grid preset.
 	 * 
 	 * Default: retrieve 20 movies.
 	 * 
@@ -145,7 +117,7 @@ class Movies {
 	}
 
 	/**
-	 * '-movies' Grid preset.
+	 * 'last-year-movies' Grid preset.
 	 * 
 	 * Default: retrieve 20 movies.
 	 * 
@@ -209,7 +181,7 @@ class Movies {
 	}
 
 	/**
-	 * '-movies' Grid preset.
+	 * 'last-released-movies' Grid preset.
 	 * 
 	 * Default: retrieve the 20 last released movies.
 	 * 
@@ -228,7 +200,7 @@ class Movies {
 	}
 
 	/**
-	 * '-movies' Grid preset.
+	 * 'first-released-movies' Grid preset.
 	 * 
 	 * Default: retrieve the 20 first released movies.
 	 * 

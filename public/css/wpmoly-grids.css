@@ -108,7 +108,16 @@
 	width: calc( 20% - 8px );
 }
 
-.wpmoly.grid .grid-content.grid .movie .movie-poster {
+.wpmoly.grid .grid-content.grid .actor {
+	float: left;
+	margin: 0 4px 16px 4px;
+	min-height: 200px;
+	min-width: 160px;
+	width: calc( 20% - 8px );
+}
+
+.wpmoly.grid .grid-content.grid .movie .movie-poster,
+.wpmoly.grid .grid-content.grid .actor .actor-picture {
 	background-image: url(../img/poster-small.jpg);
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -120,7 +129,13 @@
 	width: 160px;
 }
 
-.wpmoly.grid .grid-content.grid .movie .movie-title {
+.wpmoly.grid .grid-content.grid .actor .actor-picture {
+	height: 200px;
+	width: 160px;
+}
+
+.wpmoly.grid .grid-content.grid .movie .movie-title,
+.wpmoly.grid .grid-content.grid .actor .actor-name {
 	font-weight: 600;
 	margin-top: 6px;
 	overflow: hidden;
@@ -171,14 +186,16 @@
  * Default Grid Theme
  */
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-poster {
+.wpmoly.grid.theme-default .grid-content.grid .movie .movie-poster,
+.wpmoly.grid.theme-default .grid-content.grid .actor .actor-picture {
 	border-radius: 0.25rem;
 	box-shadow: 0 2px 2px #bbb;
 	margin: 0 0 0.5rem 0;
 	position: relative;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-poster a {
+.wpmoly.grid.theme-default .grid-content.grid .movie .movie-poster a,
+.wpmoly.grid.theme-default .grid-content.grid .actor .actor-picture a {
 	box-shadow: 0 0 0;
 	height: 100%;
 	position: absolute;
@@ -188,18 +205,23 @@
 
 .wpmoly.grid.theme-default .grid-content.grid .movie .movie-title,
 .wpmoly.grid.theme-default .grid-content.grid .movie .movie-genres,
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-runtime {
+.wpmoly.grid.theme-default .grid-content.grid .movie .movie-runtime,
+.wpmoly.grid.theme-default .grid-content.grid .actor .actor-name,
+.wpmoly.grid.theme-default .grid-content.grid .actor .actor-count {
 	padding: 0 0.25em;
 }
 
 .wpmoly.grid.theme-default .grid-content.grid .movie .movie-title,
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-genres {
+.wpmoly.grid.theme-default .grid-content.grid .movie .movie-genres,
+.wpmoly.grid.theme-default .grid-content.grid .actor .actor-name,
+.wpmoly.grid.theme-default .grid-content.grid .actor .actor-count {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-title a {
+.wpmoly.grid.theme-default .grid-content.grid .movie .movie-title a,
+.wpmoly.grid.theme-default .grid-content.grid .actor .actor-name a {
 	color: #2f5066;
 	font-size: 0.9em;
 	font-weight: bold;
@@ -216,7 +238,8 @@
 	text-decoration: none;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-runtime {
+.wpmoly.grid.theme-default .grid-content.grid .movie .movie-runtime,
+.wpmoly.grid.theme-default .grid-content.grid .actor .actor-count {
 	color: #728999;
 	font-size: 0.8em;
 }

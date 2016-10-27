@@ -320,7 +320,16 @@ class GridBuilder extends Metabox {
 									)
 								),
 								'sanitize' => 'esc_attr'
-							)
+							),
+							'grid-actor-person' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-preset',
+								'label'    => esc_html__( 'Use Person', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Use the Person data when available?', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
 						)
 					),
 					'grid-appearance' => array(

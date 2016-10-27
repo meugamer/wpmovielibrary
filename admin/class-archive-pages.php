@@ -58,6 +58,8 @@ class ArchivePages extends Metabox {
 		// Grap current page ID from URL
 		if ( isset( $_GET['post'] ) ) {
 			$this->post_id = (int) $_GET['post'];
+		} elseif ( isset( $_POST['post_ID'] ) ) {
+			$this->post_id = (int) $_POST['post_ID'];
 		}
 
 		$types = array(
