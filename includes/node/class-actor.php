@@ -109,6 +109,23 @@ class Actor extends Node {
 	}
 
 	/**
+	 * Load metadata.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name Property name
+	 * 
+	 * @return   mixed
+	 */
+	protected function get_property( $name ) {
+
+		// Load metadata
+		$value = get_term_meta( $this->id, $this->suffix . $name, $single = true );
+
+		return $value;
+	}
+
+	/**
 	 * Property accessor.
 	 * 
 	 * Override Node::get() to add support for additional data like 'name'.
@@ -173,6 +190,8 @@ class Actor extends Node {
 	 */
 	public function get_picture( $variant = 'neutral', $size = 'thumb' ) {
 
+		$variant = $this->get( 'picture' );
+
 		/**
 		 * Filter default actor picture
 		 * 
@@ -201,18 +220,14 @@ class Actor extends Node {
 			$size = '-' . $size;
 		}
 
-		$picture = $this->get( 'picture' );
-		if ( empty( $picture ) ) {
-
-			/**
-			 * Filter default actor picture
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    string    $picture
-			 */
-			$picture = apply_filters( 'wpmoly/filter/default/actor/picture', WPMOLY_URL . "public/img/actor-{$variant}{$size}.jpg" );
-		}
+		/**
+		 * Filter default actor picture
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $picture
+		 */
+		$picture = apply_filters( 'wpmoly/filter/default/actor/picture', WPMOLY_URL . "public/img/actor-{$variant}{$size}.jpg" );
 
 		return $this->picture = $picture;
 	}

@@ -67,7 +67,7 @@ class Node {
 	 * 
 	 * @return   mixed
 	 */
-	private function get_property( $name ) {
+	protected function get_property( $name ) {
 
 		// Load metadata
 		$value = get_post_meta( $this->id, $this->suffix . $name, $single = true );
