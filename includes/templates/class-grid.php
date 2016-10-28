@@ -62,6 +62,26 @@ class Grid extends Front {
 	}
 
 	/**
+	 * __call().
+	 * 
+	 * Allows access to $this->grid methods through this class.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name
+	 * 
+	 * @return   mixed
+	 */
+	public function __call( $method, $arguments ) {
+
+		if ( method_exists( $this->grid, $method ) ) {
+			return call_user_func_array( array( $this->grid, $method ), $arguments );
+		}
+
+		return null;
+	}
+
+	/**
 	 * __get().
 	 * 
 	 * Allows access to $this->grid properties through this class.
@@ -74,8 +94,13 @@ class Grid extends Front {
 	 */
 	public function __get( $name ) {
 
-		if ( ! isset( $this->$name ) && isset( $this->grid->$name ) ) {
-			return $this->grid->$name;
+		if ( ! isset( $this->$name ) ) {
+			$method = "get_$name";
+			if ( method_exists( $this->grid, $method ) ) {
+				return $this->grid->$method();
+			} elseif ( $this->grid->get( $name ) ) {
+				return $this->grid->get( $name );
+			}
 		}
 
 		return null;
@@ -84,13 +109,15 @@ class Grid extends Front {
 	/**
 	 * Determine the grid template path based on the grid's type and mode.
 	 * 
+	 * TODO make use of that WP_Error.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @return   string
 	 */
 	private function set_path() {
 
-		$path = 'public/templates/grids/' . $this->grid->type . '-' . $this->grid->mode . '.php';
+		$path = 'public/templates/grids/' . $this->grid->get_type() . '-' . $this->grid->get_mode() . '.php';
 		if ( ! file_exists( WPMOLY_PATH . $path ) ) {
 			return new WP_Error( 'missing_template_path', sprintf( __( 'Error: "%s" does not exists.', 'wpmovielibrary' ), esc_attr( WPMOLY_PATH . $path ) ) );
 		}
@@ -205,7 +232,7 @@ class Grid extends Front {
 
 		$page = $this->grid->query->get_previous_page();
 
-		$args = $this->grid->settings;
+		$args = $this->grid->get_settings();
 		$args['paged'] = $page;
 
 		return $this->build_url( $args );
@@ -222,7 +249,7 @@ class Grid extends Front {
 
 		$page = $this->grid->query->get_next_page();
 
-		$args = $this->grid->settings;
+		$args = $this->grid->get_settings();
 		$args['paged'] = $page;
 
 		return $this->build_url( $args );

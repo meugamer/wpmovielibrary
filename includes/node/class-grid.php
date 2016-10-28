@@ -38,32 +38,60 @@ namespace wpmoly\Node;
 class Grid extends Node {
 
 	/**
-	 * Node Collection.
+	 * Grid type.
+	 * 
+	 * @var    string
+	 */
+	private $type;
+	
+	/**
+	 * Grid mode.
+	 * 
+	 * @var    string
+	 */
+	private $mode;
+	
+	/**
+	 * Grid theme.
+	 * 
+	 * @var    string
+	 */
+	private $theme;
+
+	/**
+	 * Grid preset.
+	 * 
+	 * @var    string
+	 */
+	protected $preset;
+
+	/**
+	 * Custom settings.
+	 * 
+	 * @var    array
+	 */
+	protected $settings;
+
+	/**
+	 * Grid JSON.
+	 * 
+	 * @var    object
+	 */
+	protected $json;
+
+	/**
+	 * Grid Collection.
 	 * 
 	 * @var    Collection
 	 */
 	public $items;
 
 	/**
-	 * Node JSON.
-	 * 
-	 * @var    object
-	 */
-	public $json;
-
-	/**
-	 * Custom settings
-	 * 
-	 * @var    array
-	 */
-	private $settings;
-
-	/**
-	 * Node Query.
+	 * Grid Query.
 	 * 
 	 * @var    Query
 	 */
-	private $query;
+	public $query;
 
 	/**
 	 * Supported Grid types.
@@ -87,24 +115,6 @@ class Grid extends Node {
 	private $supported_themes = array();
 
 	/**
-	 * __get().
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $name
-	 * 
-	 * @return   mixed
-	 */
-	public function __get( $name ) {
-
-		if ( in_array( $name, array( 'items', 'json', 'settings', 'query' ) ) ) {
-			return $this->$name;
-		}
-
-		return parent::__get( $name );
-	}
-
-	/**
 	 * Initialize the Grid.
 	 * 
 	 * @since    3.0
@@ -116,8 +126,6 @@ class Grid extends Node {
 		$this->suffix = '_wpmoly_grid_';
 		$this->items = new Collection;
 
-		$default_settings = array( 'type', 'mode', 'theme', 'preset', 'columns', 'rows', 'column_width', 'row_height', 'show_menu', 'mode_control', 'content_control', 'display_control', 'order_control', 'show_pagination' );
-
 		/**
 		 * Filter the default grid settings list.
 		 * 
@@ -125,7 +133,22 @@ class Grid extends Node {
 		 * 
 		 * @param    array    $default_settings
 		 */
-		$this->default_settings = apply_filters( 'wpmoly/filter/default/' . $this->type . '/grid/settings', $default_settings );
+		$this->default_settings = apply_filters( 'wpmoly/filter/default/' . $this->get_type() . '/grid/settings', array(
+			'type',
+			'mode',
+			'theme',
+			'preset',
+			'columns',
+			'rows',
+			'column_width',
+			'row_height',
+			'show_menu',
+			'mode_control',
+			'content_control',
+			'display_control',
+			'order_control',
+			'show_pagination'
+		) );
 
 		$grid_types = array(
 			'movie' => array(
@@ -303,7 +326,7 @@ class Grid extends Node {
 
 		$query = $this->get_query();
 
-		$method = str_replace( '-', '_', $this->preset );
+		$method = str_replace( '-', '_', $this->get_preset() );
 		if ( method_exists( $query, $method ) ) {
 
 			$items = $query->$method( $this->settings );
@@ -311,7 +334,7 @@ class Grid extends Node {
 				$this->items->add( $item );
 			}
 
-			// Clean up
+			// Clean up settings
 			unset( $this->settings['taxonomy'] );
 			unset( $this->settings['post_type'] );
 
@@ -336,6 +359,7 @@ class Grid extends Node {
 			return false;
 		}
 
+		// Extract values
 		$settings = str_replace( array( ':', '|' ), array( '=', '&' ), $settings );
 		$defaults = array(
 			'id'       => '',
@@ -344,18 +368,65 @@ class Grid extends Node {
 		);
 		$settings = wp_parse_args( $settings, $defaults );
 
+		// Not this grid? Bail.
 		if ( $this->id != $settings['id'] ) {
 			return false;
 		}
 
-		$this->settings = $settings;
-
-		$this->preset = 'custom';
+		// Distinction required for query.
 		if ( $this->is_taxonomy() ) {
-			$this->settings['taxonomy'] = $this->get( 'type' );
+			$settings['taxonomy'] = $this->get_type();
 		} elseif ( $this->is_post() ) {
-			$this->settings['post_type'] = $this->get( 'type' );
+			$settings['post_type'] = $this->get_type();
 		}
+
+		$this->settings = $settings;
+		$this->preset = 'custom';
+	}
+
+	/**
+	 * Retrieve current grid preset.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function get_preset() {
+
+		/**
+		 * Filter grid default preset.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $default_preset
+		 */
+		$default_preset = apply_filters( 'wpmoly/filter/default/' . $this->get_type() . '/grid/preset', 'default_preset' );
+
+		if ( is_null( $this->preset ) ) {
+			return $this->get( 'preset', $default_preset );
+		}
+
+		return $this->preset;
+	}
+
+	/**
+	 * Retrieve current grid settings.
+	 * 
+	 * Settings differs from parameters in that they should be temporary
+	 * and therefore never saved. They're used to generate URLs and run
+	 * queries.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function get_settings() {
+
+		if ( is_null( $this->settings ) ) {
+			return $this->settings = array();
+		}
+
+		return $this->settings;
 	}
 
 	/**
@@ -395,259 +466,222 @@ class Grid extends Node {
 			'genre' => '\wpmoly\Query\Genres'
 		);
 
-		if ( ! isset( $classes[ $this->get( 'type' ) ] ) ) {
+		if ( ! isset( $classes[ $this->get_type() ] ) ) {
 			return false;
 		}
 
-		return $this->query = new $classes[ $this->get( 'type' ) ];
+		return $this->query = new $classes[ $this->get_type() ];
 	}
 
 	/**
-	 * Simple accessor for supported types.
+	 * Retrieve current grid type.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   array
+	 * @return   string
 	 */
-	public function get_supported_types() {
+	public function get_type() {
 
-		return $this->supported_types;
+		/**
+		 * Filter grid default type.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $default_type
+		 */
+		$default_type = apply_filters( 'wpmoly/filter/grid/default/type', 'movie' );
+
+		if ( is_null( $this->type ) ) {
+			$this->type = $this->get( 'type', $default_type );
+		}
+
+		return $this->type;
 	}
 
 	/**
-	 * Simple accessor for supported modes.
+	 * Set grid type.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   array
+	 * @param    string    $type
+	 * 
+	 * @return   string
 	 */
-	public function get_supported_modes( $type = '' ) {
+	public function set_type( $type ) {
 
-		return ! empty( $type ) && ! empty( $this->supported_modes[ $type ] ) ? $this->supported_modes[ $type ] : $this->supported_modes;
+		if ( ! isset( $this->supported_types[ $type ] ) ) {
+			$type = 'movie';
+		}
+
+		return $this->type = $type;
 	}
 
 	/**
-	 * Simple accessor for supported themes.
+	 * Retrieve current grid mode.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   array
+	 * @return   string
 	 */
-	public function get_supported_themes( $type = '', $mode = '' ) {
+	public function get_mode() {
 
-		return ! empty( $type ) && ! empty( $mode ) && ! empty( $this->supported_themes[ $type ][ $mode ] ) ? $this->supported_themes[ $type ][ $mode ] : $this->supported_themes;
+		if ( is_null( $this->mode ) ) {
+			$this->mode = $this->get( 'mode', 'grid' );
+		}
+
+		return $this->mode;
 	}
 
 	/**
-	 * Return a valid number of rows.
-	 * 
-	 * Used by Node::__validate().
+	 * Set grid mode.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    int    $rows Number of rows.
+	 * @param    string    $mode
+	 * 
+	 * @return   string
+	 */
+	public function set_mode( $mode ) {
+
+		if ( ! isset( $this->supported_modes[ $this->type ][ $mode ] ) ) {
+			$mode = 'grid';
+		}
+
+		return $this->mode = $mode;
+	}
+
+	/**
+	 * Retrieve current grid theme.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function get_theme() {
+
+		if ( is_null( $this->theme ) ) {
+			$this->theme = $this->get( 'theme', 'default' );
+		}
+
+		return $this->theme;
+	}
+
+	/**
+	 * Set grid theme.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $theme
+	 * 
+	 * @return   string
+	 */
+	public function set_theme( $theme ) {
+
+		if ( ! isset( $this->supported_modes[ $this->type ][ $this->mode ][ $theme ] ) ) {
+			$type = 'default';
+		}
+
+		return $this->theme = $theme;
+	}
+
+	/**
+	 * Retrieve current grid number of rows.
+	 * 
+	 * @since    3.0
 	 * 
 	 * @return   int
 	 */
-	public function validate_rows( $rows ) {
-
-		/**
-		 * Filter the minimum number of rows.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    int     $min Default minimum number of rows.
-		 * @param    Grid    $grid Grid instance.
-		 */
-		$min = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/rows/min', 1, $this );
-
-		/**
-		 * Filter the maximum number of rows.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    int     $max Default maximum number of rows.
-		 * @param    Grid    $grid Grid instance.
-		 */
-		$max = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/rows/max', 10, $this );
+	public function get_rows() {
 
 		/**
 		 * Filter the default number of rows.
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    int     $default Default number of rows.
-		 * @param    Grid    $grid Grid instance.
+		 * @param    int    $default_rows Default number of rows.
 		 */
-		$default = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/rows/default', 4, $this );
+		$default_rows = 4;
 
-		return ! empty( $rows ) ? max( $min, min( $rows, $max ) ) : $default;
+		if ( ! isset( $this->rows ) ) {
+			return $this->rows = $this->get( 'rows', $default_rows );
+		}
+
+		return $this->rows;
 	}
 
 	/**
-	 * Return a valid number of columns.
-	 * 
-	 * Used by Node::__validate().
+	 * Retrieve current grid number of columns.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    int    $rows Number of columns.
-	 * 
 	 * @return   int
 	 */
-	public function validate_columns( $columns ) {
-
-		/**
-		 * Filter the minimum number of columns.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    int     $min Default minimum number of columns.
-		 * @param    Grid    $grid Grid instance.
-		 */
-		$min = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/columns/min', 1, $this );
-
-		/**
-		 * Filter the maximum number of columns.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    int     $max Default maximum number of columns.
-		 * @param    Grid    $grid Grid instance.
-		 */
-		$max = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/columns/max', 12, $this );
+	public function get_columns() {
 
 		/**
 		 * Filter the default number of columns.
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    int     $default Default number of columns.
-		 * @param    Grid    $grid Grid instance.
+		 * @param    int    $default_columns Default number of columns.
 		 */
-		$default = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/columns/default', 5, $this );
+		$default_columns = 5;
 
-		return ! empty( $columns ) ? max( $min, min( $columns, $max ) ) : $default;
-	}
-
-	/**
-	 * Return a valid ideal column width.
-	 * 
-	 * Used by Node::__validate().
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int    $column_width Ideal column width.
-	 * 
-	 * @return   int
-	 */
-	public function validate_column_width( $column_width ) {
-
-		/**
-		 * Filter the default ideal column width.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    int     $ideal_width Default ideal column width.
-		 * @param    Grid    $grid Grid instance.
-		 */
-		$ideal_width = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/columns/ideal_width', 160, $this );
-
-		return ! empty( $column_width ) ? intval( $column_width ) : $ideal_width;
-	}
-
-	/**
-	 * Return a valid ideal row height.
-	 * 
-	 * Used by Node::__validate().
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int    $row_width Ideal row height.
-	 * 
-	 * @return   int
-	 */
-	public function validate_row_height( $row_height ) {
-
-		/**
-		 * Filter the default ideal row height.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    int     $ideal_width Default ideal row height.
-		 * @param    Grid    $grid Grid instance.
-		 */
-		$ideal_height = apply_filters( 'wpmoly/filter/grid/' . $this->get( 'type' ) . '/rows/ideal_height', 240, $this );
-
-		return ! empty( $row_height ) ? intval( $row_height ) : $ideal_height;
-	}
-
-	/**
-	 * Make sure a Grid preset is supported.
-	 * 
-	 * Used by Node::__validate().
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $preset Grid preset to validate.
-	 * 
-	 * @return   string
-	 */
-	public function validate_preset( $preset ) {
-
-		if ( empty( $preset ) ) {
-			$preset = 'default_preset';
+		if ( ! isset( $this->columns ) ) {
+			return $this->columns = $this->get( 'columns', $default_columns );
 		}
 
-		return $preset;
+		return $this->columns;
 	}
 
 	/**
-	 * Make sure a Grid theme is supported.
-	 * 
-	 * Used by Node::__validate().
+	 * Retrieve current grid row height.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    string    $theme Grid theme to validate.
-	 * 
-	 * @return   string
+	 * @return   int
 	 */
-	public function validate_theme( $theme ) {
+	public function get_row_height() {
 
-		return isset( $this->supported_themes[ $this->get( 'type' ) ][ $theme ] ) ? $theme : 'default';
+		/**
+		 * Filter the default row height.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int    $default_row_height Default row height.
+		 */
+		$default_row_height = 200;
+
+		if ( ! isset( $this->row_height ) ) {
+			return $this->row_height = $this->get( 'row_height', $default_row_height );
+		}
+
+		return $this->row_height;
 	}
 
 	/**
-	 * Make sure a Grid mode is supported.
-	 * 
-	 * Used by Node::__validate().
+	 * Retrieve current grid column width.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    string    $mode Grid mode to validate.
-	 * 
-	 * @return   string
+	 * @return   int
 	 */
-	public function validate_mode( $mode ) {
+	public function get_column_width() {
 
-		return isset( $this->supported_modes[ $this->get( 'type' ) ][ $mode ] ) ? $mode : 'grid';
-	}
+		/**
+		 * Filter the default column width.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int    $default_column_width Default column width.
+		 */
+		$default_column_width = 160;
 
-	/**
-	 * Make sure a Grid type is supported.
-	 * 
-	 * Used by Node::__validate().
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $type Grid type to validate.
-	 * 
-	 * @return   string
-	 */
-	public function validate_type( $type ) {
+		if ( ! isset( $this->column_width ) ) {
+			return $this->column_width = $this->get( 'column_width', $default_column_width );
+		}
 
-		return isset( $this->supported_types[ $type ] ) ? $type : 'movie';
+		return $this->column_width;
 	}
 
 	/**
@@ -659,7 +693,7 @@ class Grid extends Node {
 	 */
 	public function is_post() {
 
-		return in_array( $this->get( 'type' ), array( 'movie' ) );
+		return in_array( $this->get_type(), array( 'movie' ) );
 	}
 
 	/**
@@ -671,7 +705,7 @@ class Grid extends Node {
 	 */
 	public function is_taxonomy() {
 
-		return in_array( $this->get( 'type' ), array( 'actor', 'genre' ) );
+		return in_array( $this->get_type(), array( 'actor', 'genre' ) );
 	}
 
 	/**

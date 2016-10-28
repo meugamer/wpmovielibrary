@@ -11,7 +11,7 @@
  */
 ?>
 
-	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode actors grid theme-<?php echo $grid->theme; ?> <?php echo $grid->columns; ?>-columns" data-columns="<?php echo $grid->columns; ?>" data-rows="<?php echo $grid->rows; ?>" data-column-width="<?php echo $grid->column_width; ?>" data-row-height="<?php echo $grid->row_height; ?>">
+	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode actors grid theme-<?php echo $grid->get_theme(); ?> <?php echo $grid->get_columns(); ?>-columns" data-columns="<?php echo $grid->get_columns(); ?>" data-rows="<?php echo $grid->get_rows(); ?>" data-column-width="<?php echo $grid->get_column_width(); ?>" data-row-height="<?php echo $grid->get_row_height(); ?>">
 <?php if ( $grid->show_menu() ) : ?>
 		<div class="grid-menu clearfix">
 			<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
@@ -25,7 +25,7 @@ if ( $items->has_items() ) :
 	while ( $items->has_items() ) :
 		$actor = $items->the_item();
 ?>
-			<div class="actor" data-width="<?php echo $grid->column_width; ?>" data-height="<?php echo $grid->row_height; ?>">
+			<div class="actor" data-width="<?php echo $grid->get_column_width(); ?>" data-height="<?php echo $grid->get_row_height(); ?>">
 				<div class="actor-picture" style="background-image:url(<?php echo $actor->get_picture(); ?>)">
 					<a href="<?php echo get_term_link( $actor->term, 'actor' ); ?>"></a>
 				</div>

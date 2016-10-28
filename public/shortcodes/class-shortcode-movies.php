@@ -91,7 +91,7 @@ class Movies extends Shortcode {
 	public function run() {
 
 		$grid = new Grid( $this->attributes['id'] );
-		$grid->set( 'mode', $this->attributes['mode'] );
+		$grid->set_mode( $this->attributes['mode'] );
 
 		$this->template = get_grid_template( $grid );
 

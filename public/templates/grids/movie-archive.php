@@ -11,7 +11,7 @@
  */
 ?>
 
-	<div class="wpmoly shortcode movies grid archive theme-<?php echo $grid->theme; ?>">
+	<div class="wpmoly shortcode movies grid archive theme-<?php echo $grid->get_theme(); ?>">
 <?php if ( $grid->show_menu() ) : ?>
 		<div class="grid-menu clearfix">
 			<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>

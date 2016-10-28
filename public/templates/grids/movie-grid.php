@@ -11,7 +11,7 @@
  */
 ?>
 
-	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode movies grid theme-<?php echo $grid->theme; ?> <?php echo $grid->columns; ?>-columns" data-columns="<?php echo $grid->columns; ?>" data-rows="<?php echo $grid->rows; ?>" data-column-width="<?php echo $grid->column_width; ?>" data-row-height="<?php echo $grid->row_height; ?>">
+	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode movies grid theme-<?php echo $grid->get_theme(); ?> <?php echo $grid->get_columns(); ?>-columns" data-columns="<?php echo $grid->get_columns(); ?>" data-rows="<?php echo $grid->get_rows(); ?>" data-column-width="<?php echo $grid->get_column_width(); ?>" data-row-height="<?php echo $grid->get_row_height(); ?>">
 <?php if ( $grid->show_menu() ) : ?>
 		<div class="grid-menu clearfix">
 			<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
@@ -25,13 +25,13 @@ if ( $items->has_items() ) :
 	while ( $items->has_items() ) :
 		$movie = $items->the_item();
 ?>
-			<div class="movie" data-width="<?php echo $grid->column_width; ?>" data-height="<?php echo $grid->row_height; ?>">
+			<div class="movie" data-width="<?php echo $grid->get_column_width(); ?>" data-height="<?php echo $grid->get_row_height(); ?>">
 				<div class="movie-poster" style="background-image:url(<?php $movie->get_poster()->render( 'medium' ); ?>)">
 					<a href="<?php echo get_the_permalink( $movie->id ); ?>"></a>
 				</div>
 				<div class="movie-title"><a href="<?php echo get_the_permalink( $movie->id ); ?>"><?php $movie->the( 'title' ); ?></a></div>
-				<div class="movie-genres"><?php echo apply_filters( 'wpmoly/shortcode/format/genres/value', $movie->genres ); ?></div>
-				<div class="movie-runtime"><?php echo apply_filters( 'wpmoly/shortcode/format/runtime/value', $movie->runtime ); ?></div>
+				<div class="movie-genres"><?php echo apply_filters( 'wpmoly/shortcode/format/genres/value', $movie->get( 'genres' ) ); ?></div>
+				<div class="movie-runtime"><?php echo apply_filters( 'wpmoly/shortcode/format/runtime/value', $movie->get( 'runtime' ) ); ?></div>
 			</div>
 <?php
 	endwhile;

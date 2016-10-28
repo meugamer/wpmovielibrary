@@ -699,7 +699,7 @@ class GridBuilder extends Metabox {
 
 		if ( ! empty( $_POST['_wpmoly_grid_type'] ) ) {
 			$type = $_POST['_wpmoly_grid_type'];
-			$grid->set( 'type', $type );
+			$grid->set_type( $type );
 			foreach ( $_POST as $key => $value ) {
 				if ( false !== strpos( $key, 'butterbean_' ) && false === strpos( $key, "{$type}-grid-settings" ) ) {
 					unset( $_POST[ $key ] );
@@ -708,11 +708,11 @@ class GridBuilder extends Metabox {
 		}
 
 		if ( ! empty( $_POST['_wpmoly_grid_mode'] ) ) {
-			$grid->set( 'mode', $_POST['_wpmoly_grid_mode'] );
+			$grid->set_mode( $_POST['_wpmoly_grid_mode'] );
 		}
 
 		if ( ! empty( $_POST['_wpmoly_grid_theme'] ) ) {
-			$grid->set( 'theme', $_POST['_wpmoly_grid_theme'] );
+			$grid->set_theme( $_POST['_wpmoly_grid_theme'] );
 		}
 
 		$grid->save();

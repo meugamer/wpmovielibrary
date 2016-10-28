@@ -209,7 +209,7 @@ class Editor extends Metabox {
 			if ( 'json' === $format ) {
 				$value = "{{ data.$key }}";
 			} else {
-				$value = $this->movie->$key;
+				$value = $this->movie->get( $key );
 			}
 
 			$default_meta[ $key ]['html'] = $this->get_field( $field, $key, $value, 'meta', 'json' );
@@ -242,7 +242,7 @@ class Editor extends Metabox {
 			if ( 'json' === $format ) {
 				$value = "{{ data.$key }}";
 			} else {
-				$value = $this->movie->$key;
+				$value = $this->movie->get( $key );
 			}
 
 			$default_details[ $key ]['html'] = $this->get_field( $field, $key, $value, 'detail', $format );
@@ -365,7 +365,7 @@ class Editor extends Metabox {
 			if ( 'json' === $format ) {
 				$value = "{{ data.$key }}";
 			} else {
-				$value = $this->movie->$key;
+				$value = $this->movie->get( $key );
 			}
 
 			$default_meta[ $key ]['html'] = $this->get_field( $field, $key, $value, 'meta', 'json' );
