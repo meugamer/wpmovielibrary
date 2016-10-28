@@ -185,6 +185,7 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/ajax/class-ajax-meta.php';
 
 		// Main
+		require_once WPMOLY_PATH . 'includes/class-admin-bar.php';
 		require_once WPMOLY_PATH . 'public/class-frontend.php';
 		//require_once WPMOLY_PATH . 'public/class-single.php';
 		require_once WPMOLY_PATH . 'public/class-archives.php';
@@ -331,6 +332,9 @@ final class Library {
 	 * @since    3.0
 	 */
 	private function define_public_hooks() {
+
+		$adminbar = AdminBar::get_instance();
+		$this->loader->add_action( 'admin_bar_menu', $adminbar, 'meh', 95, 1 );
 
 		$public = Frontend::get_instance();
 		$public->set_default_filters();
