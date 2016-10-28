@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the Movies Query class.
+ * Define the Actors Query class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -15,7 +15,7 @@ use WP_Query;
 use WP_Term_Query;
 
 /**
- * Find Movies in various ways.
+ * Find Actors in various ways.
  *
  * @since      3.0
  * @package    WPMovieLibrary
@@ -56,7 +56,7 @@ class Actors extends Query {
 	 * 
 	 * @return   array
 	 */
-	public function alphabetical_actors( $a ) {
+	public function alphabetical_actors() {
 
 		return $this->term_query( array(
 			'orderby' => 'name',

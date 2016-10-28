@@ -12,6 +12,7 @@
 namespace wpmoly\Query;
 
 use WP_Query;
+use WP_Term_Query;
 
 /**
  * Find Genres in various ways.
@@ -58,9 +59,8 @@ class Genres extends Query {
 	public function alphabetical_genres() {
 
 		return $this->query( array(
-			'meta_key'       => '_wpmoly_movie_title',
-			'orderby'        => 'meta_value',
-			'order'          => 'ASC'
+			'orderby' => 'name',
+			'order'   => 'ASC'
 		) );
 	}
 
@@ -76,14 +76,29 @@ class Genres extends Query {
 	public function unalphabetical_genres() {
 
 		return $this->query( array(
-			'meta_key'       => '_wpmoly_movie_title',
-			'orderby'        => 'meta_value',
-			'order'          => 'DESC'
+			'orderby' => 'name',
+			'order'   => 'DESC'
 		) );
 	}
 
 	/**
-	 * Perform the query.
+	 * Custom Grid.
+	 * 
+	 * Simple alias for $this->query()
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $args Query parameters
+	 * 
+	 * @return   array
+	 */
+	public function custom( $args = array() ) {
+
+		return $this->query( $args );
+	}
+
+	/**
+	 * Perform the Term query.
 	 * 
 	 * @since    3.0
 	 * 
@@ -93,41 +108,60 @@ class Genres extends Query {
 	 */
 	public function query( $args = array() ) {
 
+		// Clean up empty rows
+		$args = array_filter( $args );
+
 		/**
-		 * Filter default preset post status.
+		 * Filter default number of terms.
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    array    $post_status
+		 * @param    int    $number
 		 */
-		$post_status = apply_filters( 'wpmoly/filter/query/genres/defaults/post_status', array( 'publish' ) );
-
+		$number = apply_filters( 'wpmoly/filter/query/genres/defaults/number', 20 );
+		
 		/**
-		 * Filter default number of posts per page.
+		 * Filter default offset.
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    int    $posts_per_page
+		 * @param    int    $offset
 		 */
-		$posts_per_page = apply_filters( 'wpmoly/filter/query/genres/defaults/posts_per_page', 20 );
-
+		$offset = apply_filters( 'wpmoly/filter/query/genres/defaults/offset', 0 );
+		
+		/**
+		 * Filter default hide_empty value.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    boolean    $hide_empty
+		 */
+		$hide_empty = apply_filters( 'wpmoly/filter/query/genres/defaults/hide_empty', false );
+		
 		/**
 		 * Filter default query orderby.
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    int    $orderby
+		 * @param    string    $orderby
 		 */
-		$orderby = apply_filters( 'wpmoly/filter/query/genres/defaults/orderby', 'post_date' );
-
+		$orderby = apply_filters( 'wpmoly/filter/query/genres/defaults/orderby', 'name' );
+		
 		/**
 		 * Filter default query order.
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    int    $order
+		 * @param    string    $order
 		 */
-		$order = apply_filters( 'wpmoly/filter/query/genres/defaults/order', 'DESC' );
+		$order = apply_filters( 'wpmoly/filter/query/genres/defaults/order', 'ASC' );
+
+		// paged is for Post Queries, use offset instead
+		if ( ! empty( $args['paged'] ) ) {
+			$args['offset'] = $args['paged'];
+		} else {
+			$args['paged'] = 1;
+		}
 
 		/**
 		 * Filter default query args.
@@ -137,21 +171,25 @@ class Genres extends Query {
 		 * @param    array    $args
 		 */
 		$defaults = apply_filters( 'wpmoly/filter/query/genres/defaults/query_args', array(
-			'post_type'      => 'movie',
-			'post_status'    => $post_status,
-			'posts_per_page' => $posts_per_page,
-			'orderby'        => $orderby,
-			'order'          => $order
+			'taxonomy'   => 'genre',
+			'number'     => $number,
+			'offset'     => $offset,
+			'hide_empty' => $hide_empty,
+			'orderby'    => $orderby,
+			'order'      => $order
 		) );
 		$this->args = wp_parse_args( $args, $defaults );
 
-		$this->query = new WP_Query( $this->args );
-		if ( ! $this->query->have_posts() ) {
+		// Calculate offset
+		$this->args['offset'] = $this->args['number'] * max( 0, $this->args['offset'] - 1 );
+
+		$this->query = new WP_Term_Query( $this->args );
+		if ( empty( $this->query->terms ) ) {
 			return $this->items;
 		}
 
-		foreach ( $this->query->posts as $post ) {
-			$this->items[] = get_movie( $post );
+		foreach ( $this->query->terms as $term ) {
+			$this->items[] = get_genre( $term );
 		}
 
 		return $this->items;
@@ -166,7 +204,12 @@ class Genres extends Query {
 	 */
 	public function get_total_pages() {
 
-		return (int) $this->query->max_num_pages;
+		$total = wp_count_terms( 'genre' );
+		$limit = $this->query->query_vars['number'];
+
+		$pages = ceil( $total / $limit );
+
+		return (int) $pages;
 	}
 
 	/**
@@ -180,12 +223,12 @@ class Genres extends Query {
 	 */
 	public function get_current_page() {
 
-		$paged = $this->query->get( 'paged' );
-		if ( ! $paged ) {
-			$paged = 1;
+		$page = $this->query->query_vars['paged'];
+		if ( ! $page ) {
+			$page = 1;
 		}
 
-		return $paged;
+		return $page;
 	}
 
 	/**

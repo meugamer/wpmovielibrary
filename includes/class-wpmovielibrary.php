@@ -165,6 +165,7 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/node/class-default-poster.php';
 		require_once WPMOLY_PATH . 'includes/node/class-movie.php';
 		require_once WPMOLY_PATH . 'includes/node/class-actor.php';
+		require_once WPMOLY_PATH . 'includes/node/class-genre.php';
 		require_once WPMOLY_PATH . 'includes/node/class-grid.php';
 		require_once WPMOLY_PATH . 'includes/node/class-headbox.php';
 

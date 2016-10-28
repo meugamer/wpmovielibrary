@@ -87,7 +87,7 @@ class Node {
 	 */
 	public function get( $name, $default = null ) {
 
-		if ( isset( $this->$name ) ) {
+		if ( isset( $this->$name ) && ! is_null( $this->$name ) ) {
 			return $this->$name;
 		}
 

@@ -402,8 +402,12 @@ class Grid extends Node {
 		 */
 		$default_preset = apply_filters( 'wpmoly/filter/default/' . $this->get_type() . '/grid/preset', 'default_preset' );
 
-		if ( is_null( $this->preset ) ) {
-			return $this->get( 'preset', $default_preset );
+		if ( empty( $this->preset ) ) {
+			$preset = $this->get( 'preset' );
+			if ( empty( $preset ) ) {
+				$preset = $default_preset;
+			}
+			return $this->preset = $preset;
 		}
 
 		return $this->preset;

@@ -125,6 +125,20 @@ function get_actor( $actor ) {
 }
 
 /**
+ * Return an genre object.
+ * 
+ * @since    3.0
+ * 
+ * @param    mixed    $genre Genre ID, object or array
+ * 
+ * @return   Genre|boolean
+ */
+function get_genre( $genre ) {
+
+	return _get_object( $genre, '\wpmoly\Node\Genre' );
+}
+
+/**
  * Return a movie metadata.
  * 
  * @since    3.0
