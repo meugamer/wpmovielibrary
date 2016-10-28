@@ -334,7 +334,7 @@ final class Library {
 	private function define_public_hooks() {
 
 		$adminbar = AdminBar::get_instance();
-		$this->loader->add_action( 'admin_bar_menu', $adminbar, 'meh', 95, 1 );
+		$this->loader->add_action( 'admin_bar_menu', $adminbar, 'edit_grid_menu', 95, 1 );
 
 		$public = Frontend::get_instance();
 		$public->set_default_filters();
