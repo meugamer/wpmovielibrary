@@ -9,13 +9,13 @@
  * @uses    $movie
  */
 
-$year = apply_filters( 'wpmoly/shortcode/format/release_date/value', $movie->release_date, 'Y' );
-$genres = apply_filters( 'wpmoly/shortcode/format/genres/value', $movie->genres );
+$year = apply_filters( 'wpmoly/shortcode/format/release_date/value', $movie->get( 'release_date' ), 'Y' );
+$genres = apply_filters( 'wpmoly/shortcode/format/genres/value', $movie->get( 'genres' ) );
 $runtime = sprintf( '%s %s', $movie->get( 'runtime' ), _x( 'min', 'movie runtime in minutes', 'wpmovielibrary' ) );
-$certification = apply_filters( 'wpmoly/shortcode/format/certification/value', $movie->certification );
-$director = apply_filters( 'wpmoly/shortcode/format/director/value', $movie->director );
+$certification = apply_filters( 'wpmoly/shortcode/format/certification/value', $movie->get( 'certification' ) );
+$director = apply_filters( 'wpmoly/shortcode/format/director/value', $movie->get( 'director' ) );
 
-$actors = explode( ', ', $movie->cast );
+$actors = explode( ', ', $movie->get( 'cast' ) );
 $actors = array_splice( $actors, 0, 4 );
 $actors = implode( ', ', $actors );
 $actors = apply_filters( 'wpmoly/shortcode/format/cast/value', $actors );
