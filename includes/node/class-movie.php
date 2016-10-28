@@ -157,7 +157,7 @@ class Movie extends Node {
 	public function get( $name, $default = null ) {
 
 		if ( 'year' == $name ) {
-			return Formatting::date( $this->release_date, 'Y' );
+			return Formatting::date( $this->get( 'release_date' ), 'Y' );
 		}
 
 		return parent::get( $name, $default );
@@ -205,7 +205,7 @@ class Movie extends Node {
 	 */
 	public function is_empty() {
 
-		return empty( $this->tmdb_id );
+		return empty( $this->get( 'tmdb_id' ) );
 	}
 
 	/**
