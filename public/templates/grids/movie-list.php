@@ -21,12 +21,12 @@
 		<div class="grid-content list clearfix">
 
 <?php if ( $items->has_items() ) : ?>
-			<ul class="movies-list">
+			<ul class="nodes-list movies-list">
 <?php
 	while ( $items->has_items() ) :
 		$movie = $items->the_item();
 ?>
-				<li class="movie"><a href="<?php echo get_the_permalink( $movie->id ); ?>"><?php $movie->the( 'title' ); ?></a></li>
+				<li class="node post-node movie"><a href="<?php echo get_the_permalink( $movie->id ); ?>"><?php $movie->the( 'title' ); ?></a></li>
 <?php endwhile; ?>
 			</ul>
 <?php endif; ?>

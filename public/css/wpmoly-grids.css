@@ -152,9 +152,7 @@
 	padding: 2em 0;
 }
 
-.wpmoly.grid .grid-content.list .movies-list,
-.wpmoly.grid .grid-content.list .actors-list,
-.wpmoly.grid .grid-content.list .genres-list {
+.wpmoly.grid .grid-content.list .nodes-list {
 	column-count: 2;
 	column-gap: 1em;
 	-moz-column-count: 2;
@@ -164,9 +162,7 @@
 	margin: 0;
 }
 
-.wpmoly.grid .grid-content.list .movies-list .movie,
-.wpmoly.grid .grid-content.list .actors-list .actor,
-.wpmoly.grid .grid-content.list .genres-list .genre {
+.wpmoly.grid .grid-content.list .nodes-list .node {
 	break-inside: avoid-column;
 	page-break-inside: avoid;
 	-webkit-column-break-inside: avoid;
@@ -177,8 +173,7 @@
 	width: auto;
 }
 
-.wpmoly.grid .grid-content.list .actors-list .actor-count,
-.wpmoly.grid .grid-content.list .genres-list .genre-count {
+.wpmoly.grid .grid-content.list .nodes-list .node-count {
 	font-size: .75rem;
 	margin-top: -.75rem;
 }

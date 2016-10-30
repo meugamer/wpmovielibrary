@@ -21,14 +21,14 @@
 		<div class="grid-content list clearfix">
 
 <?php if ( $items->has_items() ) : ?>
-			<ul class="actors-list">
+			<ul class="nodes-list actors-list">
 <?php
 	while ( $items->has_items() ) :
 		$actor = $items->the_item();
 ?>
-				<li class="actor">
-					<div class="actor-name"><a href="<?php echo get_term_link( $actor->term, 'actor' ); ?>"><?php $actor->the( 'name' ); ?></a></div>
-					<div class="actor-count"><?php printf( _n( '%d Movie', '%d Movies', $actor->term->count, 'wpmovielibrary' ), $actor->term->count ); ?></div>
+				<li class="node term-node actor">
+					<div class="node-name actor-name"><a href="<?php echo get_term_link( $actor->term, 'actor' ); ?>"><?php $actor->the( 'name' ); ?></a></div>
+					<div class="node-count actor-count"><?php printf( _n( '%d Movie', '%d Movies', $actor->term->count, 'wpmovielibrary' ), $actor->term->count ); ?></div>
 				</li>
 <?php endwhile; ?>
 			</ul>

@@ -2,7 +2,7 @@
 /**
  * Movies Shortcode view Template
  * 
- * Showing a list of genres.
+ * Showing a list of collections.
  * 
  * @since    3.0
  * 
@@ -11,7 +11,7 @@
  */
 ?>
 
-	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode genres grid list theme-<?php echo $grid->get_theme(); ?>">
+	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode collections grid list theme-<?php echo $grid->get_theme(); ?>">
 <?php if ( $grid->show_menu() ) : ?>
 		<div class="grid-menu clearfix">
 			<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
@@ -21,14 +21,14 @@
 		<div class="grid-content list clearfix">
 
 <?php if ( $items->has_items() ) : ?>
-			<ul class="nodes-list genres-list">
+			<ul class="nodes-list collections-list">
 <?php
 	while ( $items->has_items() ) :
-		$genre = $items->the_item();
+		$collection = $items->the_item();
 ?>
-				<li class="node term-node genre">
-					<div class="node-title genre-title"><a href="<?php echo get_term_link( $genre->term, 'actor' ); ?>"><?php $genre->the( 'name' ); ?></a></div>
-					<div class="node-count genre-count"><?php printf( _n( '%d Movie', '%d Movies', $genre->term->count, 'wpmovielibrary' ), $genre->term->count ); ?></div>
+				<li class="node term-node collection">
+					<div class="node-name collection-name"><a href="<?php echo get_term_link( $collection->term, 'collection' ); ?>"><?php $collection->the( 'name' ); ?></a></div>
+					<div class="node-count collection-count"><?php printf( _n( '%d Movie', '%d Movies', $collection->term->count, 'wpmovielibrary' ), $collection->term->count ); ?></div>
 				</li>
 <?php endwhile; ?>
 			</ul>
