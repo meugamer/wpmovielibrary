@@ -1,8 +1,8 @@
 <?php
 /**
- * Actors Shortcode view Template
+ * Movies Shortcode view Template
  * 
- * Showing a grid of actors.
+ * Showing a list of genres.
  * 
  * @since    3.0
  * 
@@ -11,31 +11,28 @@
  */
 ?>
 
-	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode actors grid theme-<?php echo $grid->get_theme(); ?> <?php echo $grid->get_columns(); ?>-columns" data-columns="<?php echo $grid->get_columns(); ?>" data-rows="<?php echo $grid->get_rows(); ?>" data-column-width="<?php echo $grid->get_column_width(); ?>" data-row-height="<?php echo $grid->get_row_height(); ?>">
+	<div class="wpmoly shortcode genres grid list theme-<?php echo $grid->get_theme(); ?>">
 <?php if ( $grid->show_menu() ) : ?>
 		<div class="grid-menu clearfix">
 			<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
 			<button type="button" data-action="grid-settings" class="button right"><span class="wpmolicon icon-settings"></span></button>
 		</div>
 <?php endif; ?>
-		<div class="grid-content grid clearfix">
+		<div class="grid-content list clearfix">
 
+<?php if ( $items->has_items() ) : ?>
+			<ul class="genres-list">
 <?php
-if ( $items->has_items() ) :
 	while ( $items->has_items() ) :
 		$genre = $items->the_item();
 ?>
-			<div class="actor" data-width="<?php echo $grid->get_column_width(); ?>" data-height="<?php echo $grid->get_row_height(); ?>">
-				<div class="actor-picture" style="background-image:url(<?php echo $genre->get_thumbnail(); ?>)">
-					<a href="<?php echo get_term_link( $genre->term, 'actor' ); ?>"></a>
-				</div>
-				<div class="actor-name"><a href="<?php echo get_term_link( $genre->term, 'actor' ); ?>"><?php $genre->the( 'name' ); ?></a></div>
-				<div class="actor-count"><?php printf( _n( '%d Movie', '%d Movies', $genre->term->count, 'wpmovielibrary' ), $genre->term->count ); ?></div>
-			</div>
-<?php
-	endwhile;
-endif;
-?>
+				<li class="genre">
+					<div class="genre-title"><a href="<?php echo get_term_link( $genre->term, 'actor' ); ?>"><?php $genre->the( 'name' ); ?></a></div>
+					<div class="genre-count"><?php printf( _n( '%d Movie', '%d Movies', $genre->term->count, 'wpmovielibrary' ), $genre->term->count ); ?></div>
+				</li>
+<?php endwhile; ?>
+			</ul>
+<?php endif; ?>
 		</div>
 <?php if ( $grid->show_pagination() ) : ?>
 		<div class="grid-menu pagination-menu clearfix">

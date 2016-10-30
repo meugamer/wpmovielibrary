@@ -193,15 +193,40 @@ class Genre extends Node {
 		$variant = $this->get( 'thumbnail' );
 
 		/**
-		 * Filter default genre thumbnail
+		 * Filter default genre thumbnail variants
 		 * 
 		 * @since    3.0
 		 * 
-		 * @param    string    $thumbnail
+		 * @param    string    $variants
 		 */
-		$variants = apply_filters( 'wpmoly/filter/default/genre/thumbnail/variants', array(  ) );
-		if ( ! in_array( $variant, $variants ) ) {
-			$variant = '';
+		$variants = apply_filters( 'wpmoly/filter/default/genre/thumbnail/variants', array(
+			'28'    => 'action',
+			'12'    => 'adventure',
+			'16'    => 'animation',
+			'35'    => 'comedy',
+			'80'    => 'crime',
+			'99'    => 'documentary',
+			'18'    => 'drama',
+			'10751' => 'family',
+			'14'    => 'fantasy',
+			'10769' => 'foreign',
+			'36'    => 'history',
+			'27'    => 'horror',
+			'10402' => 'music',
+			'9648'  => 'mystery',
+			'10749' => 'romance',
+			'878'   => 'science-fiction',
+			'53'    => 'thriller',
+			'10770' => 'tv-movie',
+			'10752' => 'war',
+			'37'    => 'western'
+		) );
+
+		$variant_id = array_search( $variant, $variants );
+		if ( false !== $variant_id ) {
+			$variant = $variants[ $variant_id ];
+		} elseif ( ! in_array( $variant, $variants ) ) {
+			$variant = 'unknown';
 		}
 
 		/**
@@ -227,7 +252,7 @@ class Genre extends Node {
 		 * 
 		 * @param    string    $thumbnail
 		 */
-		$thumbnail = apply_filters( 'wpmoly/filter/default/genre/thumbnail', WPMOLY_URL . "public/img/genre-{$variant}{$size}.jpg" );
+		$thumbnail = apply_filters( 'wpmoly/filter/default/genre/thumbnail', WPMOLY_URL . "public/img/genre-{$variant}{$size}.png" );
 
 		return $this->thumbnail = $thumbnail;
 	}

@@ -108,7 +108,8 @@
 	width: calc( 20% - 8px );
 }
 
-.wpmoly.grid .grid-content.grid .actor {
+.wpmoly.grid .grid-content.grid .actor,
+.wpmoly.grid .grid-content.grid .genre {
 	float: left;
 	margin: 0 4px 16px 4px;
 	min-height: 200px;
@@ -117,7 +118,8 @@
 }
 
 .wpmoly.grid .grid-content.grid .movie .movie-poster,
-.wpmoly.grid .grid-content.grid .actor .actor-picture {
+.wpmoly.grid .grid-content.grid .actor .actor-picture,
+.wpmoly.grid .grid-content.grid .genre .genre-thumbnail {
 	background-image: url(../img/poster-small.jpg);
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -129,13 +131,15 @@
 	width: 160px;
 }
 
-.wpmoly.grid .grid-content.grid .actor .actor-picture {
+.wpmoly.grid .grid-content.grid .actor .actor-picture,
+.wpmoly.grid .grid-content.grid .genre .genre-thumbnail {
 	height: 200px;
 	width: 160px;
 }
 
 .wpmoly.grid .grid-content.grid .movie .movie-title,
-.wpmoly.grid .grid-content.grid .actor .actor-name {
+.wpmoly.grid .grid-content.grid .actor .actor-name,
+.wpmoly.grid .grid-content.grid .genre .genre-title {
 	font-weight: 600;
 	margin-top: 6px;
 	overflow: hidden;
@@ -151,7 +155,9 @@
 	padding: 2em 0;
 }
 
-.wpmoly.grid .grid-content.list .movies-list {
+.wpmoly.grid .grid-content.list .movies-list,
+.wpmoly.grid .grid-content.list .actors-list,
+.wpmoly.grid .grid-content.list .genres-list {
 	column-count: 2;
 	column-gap: 1em;
 	-moz-column-count: 2;
@@ -161,12 +167,23 @@
 	margin: 0;
 }
 
-.wpmoly.grid .grid-content.list .movies-list .movie {
+.wpmoly.grid .grid-content.list .movies-list .movie,
+.wpmoly.grid .grid-content.list .actors-list .actor,
+.wpmoly.grid .grid-content.list .genres-list .genre {
+	break-inside: avoid-column;
+	page-break-inside: avoid;
+	-webkit-column-break-inside: avoid;
 	float: none;
 	margin: 0;
 	min-height: auto;
 	min-width: auto;
 	width: auto;
+}
+
+.wpmoly.grid .grid-content.list .actors-list .actor-count,
+.wpmoly.grid .grid-content.list .genres-list .genre-count {
+	font-size: .75rem;
+	margin-top: -.75rem;
 }
 
 /*

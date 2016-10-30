@@ -4,37 +4,57 @@
  */
 
 #haricot-ui-actor-meta.haricot-ui.postbox .hndle,
-#haricot-ui-actor-meta.haricot-ui.postbox .handlediv {
+#haricot-ui-genre-meta.haricot-ui.postbox .hndle,
+#haricot-ui-collection-meta.haricot-ui.postbox .hndle,
+#haricot-ui-actor-meta.haricot-ui.postbox .handlediv,
+#haricot-ui-genre-meta.haricot-ui.postbox .handlediv,
+#haricot-ui-collection-meta.haricot-ui.postbox .handlediv {
 	display: none;
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox.active {
+#haricot-ui-actor-meta.haricot-ui.postbox.active,
+#haricot-ui-genre-meta.haricot-ui.postbox.active,
+#haricot-ui-collection-meta.haricot-ui.postbox.active {
 	display: block;
 }
 
 #haricot-ui-actor-meta.haricot-ui.postbox,
+#haricot-ui-genre-meta.haricot-ui.postbox,
+#haricot-ui-collection-meta.haricot-ui.postbox,
 #haricot-ui-actor-meta.haricot-ui.postbox .haricot-manager,
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-nav {
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-manager,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-manager,
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-nav,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-nav,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-nav {
 	background: transparent;
 	border: 0;
 	box-shadow: 0 0 0;
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-nav {
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-nav,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-nav,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-nav {
 	margin-top: 14px;
 	width: 190px;
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-nav li[aria-selected=true] a {
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-nav li[aria-selected=true] a,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-nav li[aria-selected=true] a,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-nav li[aria-selected=true] a {
 	background: #fff;
 	box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.04);
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-nav .wpmolicon {
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-nav .wpmolicon,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-nav .wpmolicon,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-nav .wpmolicon {
 	margin-right: 3px;
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content {
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content {
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -42,42 +62,75 @@
 	width: calc( 100% - 221px );
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.half-col {
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.half-col,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.half-col,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.half-col {
 	display: inline-block;
 	vertical-align: top;
 	width: 49.5%;
 }
 
 #haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat input[type="text"],
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat input[type="text"],
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat input[type="text"],
 #haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat select,
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat textarea {
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat select,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat select,
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat textarea,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat textarea,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.widefat textarea {
 	display: block;
 	width: 96%;
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels label {
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels label,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels label,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels label {
+	display: inline-block;
 	position: relative;
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text {
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text {
 	border: 4px solid #fff;
 	clip: auto;
 	color: #fff;
 	font-size: 1rem;
 	font-weight: 200;
-	height: calc( 100% - 14px );
-	line-height: 2.25rem;
+	height: calc( 100% - 7.75em );
 	margin: 0;
-	padding: 1px 1px 1px 47px;
+	padding: 6em 1em 1em 2em;
 	position: absolute;
-	width: calc( 100% - 56px );
+	width: calc( 100% - 3.5em );
+	z-index: 1;
 }
 
 #haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text:hover,
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text:focus {
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text:hover,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text:hover,
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text:focus,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text:focus,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels .screen-reader-text:focus {
+	background: rgba(0, 0, 0, 0.25);
 	border-color: #ccc;
 }
 
-#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels input:checked + span {
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels input:checked + span,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels input:checked + span,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels input:checked + span {
 	border-color: #00a0d2 !important;
+}
+
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels img,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels img,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels img {
+	position: relative;
+}
+
+#haricot-ui-actor-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels img:after,
+#haricot-ui-genre-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels img:after,
+#haricot-ui-collection-meta.haricot-ui.postbox .haricot-content .haricot-control.haricot-control-radio-image.visible-labels img:after {
+	content: attr(alt);
+	position: absolute;
 }
