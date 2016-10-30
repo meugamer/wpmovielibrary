@@ -125,6 +125,20 @@ function get_actor( $actor ) {
 }
 
 /**
+ * Return a collection object.
+ * 
+ * @since    3.0
+ * 
+ * @param    mixed    $collection Collection ID, object or array
+ * 
+ * @return   Collection|boolean
+ */
+function get_collection( $collection ) {
+
+	return _get_object( $collection, '\wpmoly\Node\Collection' );
+}
+
+/**
  * Return an genre object.
  * 
  * @since    3.0

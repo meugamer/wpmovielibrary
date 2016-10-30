@@ -100,9 +100,9 @@
 	cursor: pointer;
 	float: left;
 	font-size: 2.5em;
-	height: 2.5em;
+	height: 2em;
 	opacity: 0.6;
-	width: 33.3333334%
+	width: 25%
 }
 
 #wpmoly-grid-type-metabox .inside button {
@@ -120,6 +120,14 @@
 #wpmoly-grid-type-metabox #movie-grid-archive-mode-themes button,
 #wpmoly-grid-type-metabox #grid-types button[data-value="movie"] {
 	background: #3190c6;
+}
+
+#wpmoly-grid-type-metabox #collection-grid-modes button,
+#wpmoly-grid-type-metabox #collection-grid-grid-mode-themes button,
+#wpmoly-grid-type-metabox #collection-grid-list-mode-themes button,
+#wpmoly-grid-type-metabox #collection-grid-archive-mode-themes button,
+#wpmoly-grid-type-metabox #grid-types button[data-value="collection"] {
+	background: #9250c0;
 }
 
 #wpmoly-grid-type-metabox #actor-grid-modes button,

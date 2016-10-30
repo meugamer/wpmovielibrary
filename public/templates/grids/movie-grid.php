@@ -25,13 +25,13 @@ if ( $items->has_items() ) :
 	while ( $items->has_items() ) :
 		$movie = $items->the_item();
 ?>
-			<div class="movie" data-width="<?php echo $grid->get_column_width(); ?>" data-height="<?php echo $grid->get_row_height(); ?>">
-				<div class="movie-poster" style="background-image:url(<?php $movie->get_poster()->render( 'medium' ); ?>)">
+			<div class="node post-node movie" data-width="<?php echo $grid->get_column_width(); ?>" data-height="<?php echo $grid->get_row_height(); ?>">
+				<div class="node-picture post-picture movie-poster" style="background-image:url(<?php $movie->get_poster()->render( 'medium' ); ?>)">
 					<a href="<?php echo get_the_permalink( $movie->id ); ?>"></a>
 				</div>
-				<div class="movie-title"><a href="<?php echo get_the_permalink( $movie->id ); ?>"><?php $movie->the( 'title' ); ?></a></div>
-				<div class="movie-genres"><?php echo apply_filters( 'wpmoly/shortcode/format/genres/value', $movie->get( 'genres' ) ); ?></div>
-				<div class="movie-runtime"><?php echo apply_filters( 'wpmoly/shortcode/format/runtime/value', $movie->get( 'runtime' ) ); ?></div>
+				<div class="node-title post-title movie-title"><a href="<?php echo get_the_permalink( $movie->id ); ?>"><?php $movie->the( 'title' ); ?></a></div>
+				<div class="node-genres post-genres movie-genres"><?php echo apply_filters( 'wpmoly/shortcode/format/genres/value', $movie->get( 'genres' ) ); ?></div>
+				<div class="node-runtime post-runtime movie-runtime"><?php echo apply_filters( 'wpmoly/shortcode/format/runtime/value', $movie->get( 'runtime' ) ); ?></div>
 			</div>
 <?php
 	endwhile;

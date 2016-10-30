@@ -90,15 +90,15 @@ class TermEditor extends Metabox {
 								'description' => esc_html__( 'A default picture for this actor.', 'wpmovielibrary' ),
 								'choices' => array(
 									'neutral' => array(
-										'url'   => WPMOLY_URL . 'public/img/actor-neutral-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/actor-neutral-thumbnail.png',
 										'label' => esc_html__( 'Neutral', 'wpmovielibrary' )
 									),
 									'female' => array(
-										'url'   => WPMOLY_URL . 'public/img/actor-female-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/actor-female-thumbnail.png',
 										'label' => esc_html__( 'Female', 'wpmovielibrary' )
 									),
 									'male' => array(
-										'url'   => WPMOLY_URL . 'public/img/actor-male-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/actor-male-thumbnail.png',
 										'label' => esc_html__( 'Male', 'wpmovielibrary' )
 									),
 								),
@@ -135,112 +135,112 @@ class TermEditor extends Metabox {
 							'collection-thumbnail' => array(
 								'type'        => 'radio-image',
 								'section'     => 'collection-appearance',
-								'label'       => esc_html__( 'Genre thumbnail' ),
-								'description' => esc_html__( 'A default thumbnail for this genre.', 'wpmovielibrary' ),
+								'label'       => esc_html__( 'Collection thumbnail' ),
+								'description' => esc_html__( 'A default thumbnail for this collection.', 'wpmovielibrary' ),
 								'attr' => array( 'class' => array( 'visible-labels' ) ),
 								'choices' => array(
 									'collection-A' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-A-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-A-thumbnail.png',
 										'label' => esc_html__( 'Collection A', 'wpmovielibrary' )
 									),
 									'collection-B' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-B-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-B-thumbnail.png',
 										'label' => esc_html__( 'Collection B', 'wpmovielibrary' )
 									),
 									'collection-C' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-C-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-C-thumbnail.png',
 										'label' => esc_html__( 'Collection C', 'wpmovielibrary' )
 									),
 									'collection-D' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-D-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-D-thumbnail.png',
 										'label' => esc_html__( 'Collection D', 'wpmovielibrary' )
 									),
 									'collection-E' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-E-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-E-thumbnail.png',
 										'label' => esc_html__( 'Collection E', 'wpmovielibrary' )
 									),
 									'collection-F' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-F-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-F-thumbnail.png',
 										'label' => esc_html__( 'Collection F', 'wpmovielibrary' )
 									),
 									'collection-G' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-G-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-G-thumbnail.png',
 										'label' => esc_html__( 'Collection G', 'wpmovielibrary' )
 									),
 									'collection-H' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-H-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-H-thumbnail.png',
 										'label' => esc_html__( 'Collection H', 'wpmovielibrary' )
 									),
 									'collection-I' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-I-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-I-thumbnail.png',
 										'label' => esc_html__( 'Collection I', 'wpmovielibrary' )
 									),
 									'collection-J' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-J-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-J-thumbnail.png',
 										'label' => esc_html__( 'Collection J', 'wpmovielibrary' )
 									),
 									'collection-K' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-K-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-K-thumbnail.png',
 										'label' => esc_html__( 'Collection K', 'wpmovielibrary' )
 									),
 									'collection-L' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-L-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-L-thumbnail.png',
 										'label' => esc_html__( 'Collection L', 'wpmovielibrary' )
 									),
 									'collection-M' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-M-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-M-thumbnail.png',
 										'label' => esc_html__( 'Collection M', 'wpmovielibrary' )
 									),
 									'collection-N' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-N-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-N-thumbnail.png',
 										'label' => esc_html__( 'Collection N', 'wpmovielibrary' )
 									),
 									'collection-O' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-O-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-O-thumbnail.png',
 										'label' => esc_html__( 'Collection O', 'wpmovielibrary' )
 									),
 									'collection-P' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-P-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-P-thumbnail.png',
 										'label' => esc_html__( 'Collection P', 'wpmovielibrary' )
 									),
 									'collection-Q' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-Q-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-Q-thumbnail.png',
 										'label' => esc_html__( 'Collection Q', 'wpmovielibrary' )
 									),
 									'collection-R' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-R-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-R-thumbnail.png',
 										'label' => esc_html__( 'Collection R', 'wpmovielibrary' )
 									),
 									'collection-S' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-S-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-S-thumbnail.png',
 										'label' => esc_html__( 'Collection S', 'wpmovielibrary' )
 									),
 									'collection-T' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-T-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-T-thumbnail.png',
 										'label' => esc_html__( 'Collection T', 'wpmovielibrary' )
 									),
 									'collection-U' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-U-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-U-thumbnail.png',
 										'label' => esc_html__( 'Collection U', 'wpmovielibrary' )
 									),
 									'collection-V' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-V-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-V-thumbnail.png',
 										'label' => esc_html__( 'Collection V', 'wpmovielibrary' )
 									),
 									'collection-W' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-W-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-W-thumbnail.png',
 										'label' => esc_html__( 'Collection W', 'wpmovielibrary' )
 									),
 									'collection-X' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-X-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-X-thumbnail.png',
 										'label' => esc_html__( 'Collection X', 'wpmovielibrary' )
 									),
 									'collection-Y' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-Y-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-Y-thumbnail.png',
 										'label' => esc_html__( 'Collection Y', 'wpmovielibrary' )
 									),
 									'collection-Z' => array(
-										'url'   => WPMOLY_URL . 'public/img/collection-Z-thumbnail.jpg',
+										'url'   => WPMOLY_URL . 'public/img/collection-Z-thumbnail.png',
 										'label' => esc_html__( 'Collection Z', 'wpmovielibrary' )
 									),
 									'collection-default' => array(

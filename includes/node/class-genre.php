@@ -190,7 +190,9 @@ class Genre extends Node {
 	 */
 	public function get_thumbnail( $variant = '', $size = 'thumb' ) {
 
-		$variant = $this->get( 'thumbnail' );
+		if ( empty( $variant ) ) {
+			$variant = $this->get( 'thumbnail' );
+		}
 
 		/**
 		 * Filter default genre thumbnail variants

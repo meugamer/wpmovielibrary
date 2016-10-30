@@ -42,21 +42,21 @@ class Grid extends Node {
 	 * 
 	 * @var    string
 	 */
-	private $type;
+	protected $type;
 	
 	/**
 	 * Grid mode.
 	 * 
 	 * @var    string
 	 */
-	private $mode;
+	protected $mode;
 	
 	/**
 	 * Grid theme.
 	 * 
 	 * @var    string
 	 */
-	private $theme;
+	protected $theme;
 
 	/**
 	 * Grid preset.
@@ -80,9 +80,9 @@ class Grid extends Node {
 	protected $json;
 
 	/**
-	 * Grid Collection.
+	 * Grid node list.
 	 * 
-	 * @var    Collection
+	 * @var    NodeList
 	 */
 	public $items;
 
@@ -124,7 +124,7 @@ class Grid extends Node {
 	public function init() {
 
 		$this->suffix = '_wpmoly_grid_';
-		$this->items = new Collection;
+		$this->items = new NodeList;
 
 		/**
 		 * Filter the default grid settings list.
@@ -193,6 +193,42 @@ class Grid extends Node {
 							),
 							'variant-1' => array(
 								'label' => __( 'Variant #1' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					)
+				)
+			),
+			'collection' => array(
+				'label' => __( 'Collection', 'wpmovielibrary' ),
+				'icon'  => 'wpmolicon icon-collection',
+				'modes' => array(
+					'grid' => array(
+						'label' => __( 'Grid', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-th',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					),
+					'list' => array(
+						'label' => __( 'List', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-list',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
+								'icon'  => 'wpmolicon icon-style'
+							)
+						)
+					),
+					'archive' => array(
+						'label' => __( 'Archive', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-th-list',
+						'themes' => array(
+							'default' => array(
+								'label' => __( 'Default' ),
 								'icon'  => 'wpmolicon icon-style'
 							)
 						)
@@ -465,9 +501,10 @@ class Grid extends Node {
 		}
 
 		$classes = array(
-			'movie' => '\wpmoly\Query\Movies',
-			'actor' => '\wpmoly\Query\Actors',
-			'genre' => '\wpmoly\Query\Genres'
+			'movie'      => '\wpmoly\Query\Movies',
+			'actor'      => '\wpmoly\Query\Actors',
+			'collection' => '\wpmoly\Query\Collections',
+			'genre'      => '\wpmoly\Query\Genres'
 		);
 
 		if ( ! isset( $classes[ $this->get_type() ] ) ) {
@@ -709,7 +746,7 @@ class Grid extends Node {
 	 */
 	public function is_taxonomy() {
 
-		return in_array( $this->get_type(), array( 'actor', 'genre' ) );
+		return in_array( $this->get_type(), array( 'actor', 'collection', 'genre' ) );
 	}
 
 	/**

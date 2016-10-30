@@ -7,7 +7,7 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/includes/node
  */
 
 namespace wpmoly\Node;
@@ -17,481 +17,248 @@ namespace wpmoly\Node;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Collection implements \Iterator, \SeekableIterator, \ArrayAccess {
+class Collection extends Node {
 
 	/**
-	 * Collection Loop status
+	 * Collection Term object
 	 * 
-	 * @var    boolean
+	 * @var    WP_Term
 	 */
-	protected $looping;
+	public $term;
 
 	/**
-	 * Collection current position
+	 * Collection thumbnail.
 	 * 
-	 * @var    int
+	 * @var    Picture
 	 */
-	protected $position = -1;
+	protected $thumbnail;
 
 	/**
-	 * Collection current Node
+	 * Class Constructor.
 	 * 
-	 * @var    Node
+	 * @since    3.0
+	 *
+	 * @param    int|Node|WP_Term    $node Node ID, node instance or term object
 	 */
-	public $item;
+	public function __construct( $node = null ) {
+
+		if ( is_numeric( $node ) ) {
+			$this->id   = absint( $node );
+			$this->term = get_term( $this->id );
+		} elseif ( $node instanceof Node ) {
+			$this->id   = absint( $node->id );
+			$this->term = $node->term;
+		} elseif ( isset( $node->term_id ) ) {
+			$this->id   = absint( $node->term_id );
+			$this->term = $node;
+		}
+
+		$this->init();
+	}
 
 	/**
-	 * Collection Nodes
+	 * Initialize the Collection.
 	 * 
-	 * @var    array
+	 * @since    3.0
+	 *
+	 * @return   void
 	 */
-	public $items = array();
+	public function init() {
+
+		$this->suffix = '_wpmoly_collection_';
+
+		/**
+		 * Filter the default collection meta list.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $default_meta
+		 */
+		$this->default_meta = apply_filters( 'wpmoly/filter/default/collection/meta', array( 'name', 'thumbnail', 'person_id' ) );
+	}
 
 	/**
-	 * Collection Previous Node
+	 * Magic.
 	 * 
-	 * @var    Node
-	 */
-	protected $previous;
-
-	/**
-	 * Collection Next Node
-	 * 
-	 * @var    Node
-	 */
-	protected $next;
-
-	/**
-	 * Collection size
-	 * 
-	 * @var    int
-	 */
-	public $length;
-
-	/**
-	 * Initialize Collection.
+	 * Add support for Collection::get_{$property}() and Collection::the_{$property}()
+	 * methods.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   Images    Return itself to allow chaining
+	 * @param    string    $method 
+	 * @param    array     $arguments 
+	 * 
+	 * @return   mixed
 	 */
-	public function __construct() {
+	public function __call( $method, $arguments ) {
 
-		if ( $this->count() ) {
-			$this->current = &$this->items[0];
-		}
-
-		if ( 1 < $this->count() ) {
-			$this->next = &$this->items[1];
+		if ( preg_match( '/get_[a-z_]+/i', $method ) ) {
+			$name = str_replace( 'get_', '', $method );
+			return $this->get_the( $name );
+		} elseif ( preg_match( '//i', $method ) ) {
+			$name = str_replace( 'the_', '', $method );
+			$this->the( $name );
 		}
 	}
 
 	/**
-	 * Add a Node to the collection.
-	 * 
-	 * If no position is specified the Node will added at the end of the list.
+	 * Load metadata.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    \Node    $item Node instance
-	 * @param    int      $position Node position
+	 * @param    string    $name Property name
+	 * 
+	 * @return   mixed
+	 */
+	protected function get_property( $name ) {
+
+		// Load metadata
+		$value = get_term_meta( $this->id, $this->suffix . $name, $single = true );
+
+		return $value;
+	}
+
+	/**
+	 * Property accessor.
+	 * 
+	 * Override Node::get() to add support for additional data like 'name'.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name Property name
+	 * @param    mixed     $default Default value
+	 * 
+	 * @return   mixed
+	 */
+	public function get( $name, $default = null ) {
+
+		if ( 'name' == $name ) {
+			return $this->term->name;
+		}
+
+		return parent::get( $name, $default );
+	}
+
+	/**
+	 * Enhanced property accessor. Unlike Node::get() this method automatically
+	 * escapes the property requested and therefore should be used when the
+	 * property is meant for display.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name Property name
 	 * 
 	 * @return   void
 	 */
-	public function add( $item, $position = null, $append = false ) {
+	public function get_the( $name ) {
 
-		if ( ! is_null( $position ) ) {
-			if ( isset( $this->items[ $position ] ) ) {
-				if ( false === $append ) {
-					$this->items[ $position ] = $item;
-				}
-			} else {
-				$this->items[ $position ] = $item;
+		$hook_name = sanitize_key( $name );
+
+		return apply_filters( 'wpmoly/filter/the/collection/' . $hook_name, $this->get( $name ), $this );
+	}
+
+	/**
+	 * Simple property echoer. Use Node::get_the() to automatically escape
+	 * the requested property.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $name Property name
+	 * 
+	 * @return   void
+	 */
+	public function the( $name ) {
+
+		echo $this->get_the( $name );
+	}
+
+	/**
+	 * Simple accessor for Collection's Picture.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $variant Poster variant.
+	 * 
+	 * @return   Poster|DefaultPoster
+	 */
+	public function get_thumbnail( $variant = '', $size = 'thumb' ) {
+
+		if ( empty( $variant ) ) {
+			$variant = $this->get( 'thumbnail' );
+			if ( empty( $variant ) ) {
+				$variant = strtoupper( substr( $this->get( 'name' ), 0, 1 ) );
 			}
-		} else {
-			$this->items[] = $item;
-			++$this->length;
-		}
-	}
-
-	/**
-	 * Remove a Node to the collection.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string     $key Item key
-	 * 
-	 * @return   void
-	 */
-	public function remove( $key ) {
-
-		if ( isset( $this->items[ $key ] ) ) {
-			unset( $this->items[ $key ] );
-		}
-	}
-
-	/**
-	 * Filter Nodes by given key-value pair.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string     $key Item key
-	 * @param    mixed      $value Item value
-	 * @param    boolean    $strict Use strict comparison
-	 * @param    boolean    $force_array Force result to be an array
-	 * 
-	 * @return   array
-	 */
-	public function where( $key, $value, $strict = false, $force_array = true ) {
-
-		$array = $this->filter( function( $item ) use ( $key, $value, $strict ) {
-			return $strict ? $value === $item->get( $key ) : $value == $item->get( $key );
-		} );
-
-		if ( 1 == count( $array ) && false === $force_array ) {
-			return array_shift( $array );
 		}
 
-		return $array;
-	}
-
-	/**
-	 * Run a callback function on each item of the collection.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $callback
-	 * 
-	 * @return   array
-	 */
-	public function filter( $callback = null ) {
-
-		if ( $callback ) {
-			return array_filter( $this->items, $callback );
+		/**
+		 * Filter default collection thumbnail variants
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $variants
+		 */
+		$variants = apply_filters( 'wpmoly/filter/default/collection/thumbnail/variants', array_merge( range( 'A', 'Z' ), array( 'default' ) ) );
+		if ( ! in_array( $variant, $variants ) ) {
+			$variant = 'default';
 		}
 
-		return array_filter( $this->items );
-	}
-
-	/**
-	 * Retrieve a Node from a specific position in the collection.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int    $position Node position in the list
-	 * 
-	 * @return   Node|null
-	 */
-	public function at( $position ) {
-
-		if ( isset( $this->items[ $position ] ) ) {
-			return $this->items[ $position ];
+		/**
+		 * Filter default collection thumbnail
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $thumbnail
+		 */
+		$sizes = apply_filters( 'wpmoly/filter/default/collection/thumbnail/sizes', array( 'original', 'full', 'medium', 'small', 'thumb', 'thumbnail', 'tiny' ) );
+		if ( ! in_array( $size, $sizes ) ) {
+			$size = 'medium';
 		}
 
-		return null;
-	}
-
-	/**
-	 * Retrieve the first Node of the collection.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   Node|null
-	 */
-	public function first() {
-
-		return $this->at(0);
-	}
-
-	/**
-	 * Return the last item in the collection.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   Node|null
-	 */
-	public function last() {
-
-		return $this->at( $this->count() );
-	}
-
-	/**
-	 * Return a random item in the collection.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   Node
-	 */
-	public function random() {
-
-		if ( 1 == $this->count() ) {
-			return $this->first();
+		if ( 'original' !== $size ) {
+			$size = '-' . $size;
 		}
 
-		$position = rand( 0, $this->count() - 1 );
+		/**
+		 * Filter default collection thumbnail
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $thumbnail
+		 */
+		$thumbnail = apply_filters( 'wpmoly/filter/default/collection/thumbnail', WPMOLY_URL . "public/img/collection-{$variant}{$size}.png" );
 
-		return $this->at( $position );
+		return $this->thumbnail = $thumbnail;
 	}
 
 	/**
-	 * Get current Key.
-	 * 
-	 * @since    0.1
-	 * 
-	 * @return   int
-	 */
-	public function key() {
-
-		return $this->position;
-	}
-
-	/**
-	 * Return current item.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   Node
-	 */
-	public function current() {
-
-		return $this->item;
-	}
-
-	/**
-	 * Decrement position and set current item.
+	 * Save collection.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   void
 	 */
-	public function prev() {
+	public function save() {
 
-		$this->position--;
-
-		return $this->item = $this->items[ $this->position ];
+		$this->save_meta();
 	}
 
 	/**
-	 * Increment position and set current item.
+	 * Save collection metadata.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   void
 	 */
-	public function next() {
+	public function save_meta() {
 
-		$this->position++;
-
-		return $this->item = $this->items[ $this->position ];
-	}
-
-	/**
-	 * Check if current position is valid, ie. if there is an item at that
-	 * position.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   boolean
-	 */
-	public function valid() {
-
-		return isset( $this->items[ $this->position ] );
-	}
-
-	/**
-	 * Reset position and current item.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function rewind() {
-
-		$this->position = -1;
-
-		$this->item = $this->first();
-	}
-
-	/**
-	 * Jump to a specific position.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int    $position Item position (key)
-	 * 
-	 * @return   Node
-	 */
-	public function seek( $position ) {
-
-		$previous_position = $this->position;
-		$this->position = $position;
-
-		if ( ! $this->valid() ) {
-			$this->position = $previous_position;
+		foreach ( $this->default_meta as $key ) {
+			if ( isset( $this->$key ) ) {
+				update_term_meta( $this->id, $this->suffix . $key, $this->$key );
+			}
 		}
-	}
-
-	/**
-	 * Check if given key exists.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int    $key Item key
-	 * 
-	 * @return   boolean
-	 */
-	public function offsetExists( $key ) {
-
-		return isset( $this->items[ $key ] );
-	}
-
-	/**
-	 * Get an item from a specific position.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int    $key Item key
-	 * 
-	 * @return   Node|null
-	 */
-	public function offsetGet( $key ) {
-
-		return $this->items[ $key ];
-	}
-
-	/**
-	 * Set an item at a specific position.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int      $key Item key
-	 * @param    mixed    $value Item
-	 * 
-	 * @return   void
-	 */
-	public function offsetSet( $key, $value ) {
-
-		$this->items[ $key ] = $value;
-	}
-
-	/**
-	 * Unset an item at a specific position.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int      $key Item key
-	 * 
-	 * @return   void
-	 */
-	public function offsetUnset( $key ) {
-
-		unset( $this->items[ $key ] );
-	}
-
-	/**
-	 * Check the existence of a Node in the collection.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    mixed    $key Item position
-	 * @param    mixed    $value Item
-	 * 
-	 * @return   boolean
-	 */
-	public function contains( $key, $value = null ) {
-
-		if ( 2 == func_num_args() ) {
-			return $this->contains( function ( $k, $item ) use ( $key, $value ) {
-				return $value == data_get( $item, $key );
-			});
-		}
-
-		return in_array( $key, $this->items );
-	}
-
-	/**
-	 * Check if the collection contains at least one item.
-	 * 
-	 * @since    0.1
-	 * 
-	 * @return   boolean
-	 */
-	public function is_empty() {
-
-		return ! $this->count();
-	}
-
-	/**
-	 * Return the number of Nodes in the collection.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   int
-	 */
-	public function count() {
-
-		return $this->length = count( $this->items );
-	}
-
-	/**
-	 * Check if current item is the first of the collection.
-	 * 
-	 * @since    0.1
-	 * 
-	 * @return   boolean
-	 */
-	public function is_first() {
-
-		return ! $this->key();
-	}
-
-	/**
-	 * Check if current item is the last of the collection.
-	 * 
-	 * @since    0.1
-	 * 
-	 * @return   boolean
-	 */
-	public function is_last() {
-
-		return $this->key() == $this->count() - 1;
-	}
-
-	/**
-	 * Are we done looping?
-	 * 
-	 * @since    0.1
-	 * 
-	 * @return   boolean
-	 */
-	public function has_items() {
-
-		if ( $this->position + 1 < $this->length ) {
-			return true;
-		} elseif ( $this->length && $this->position + 1 == $this->length ) {
-			$this->rewind();
-		}
-
-		return $this->looping = false;
-	}
-
-	/**
-	 * Loop: jump to the next item and set it has the current item.
-	 * 
-	 * @since    0.1
-	 * 
-	 * @return   boolean
-	 */
-	public function the_item() {
-
-		$this->looping = true;
-
-		$this->next();
-
-		return $this->item;
 	}
 
 }

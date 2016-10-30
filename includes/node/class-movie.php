@@ -70,16 +70,16 @@ class Movie extends Node {
 	protected $poster;
 
 	/**
-	 * Movie posters collection.
+	 * Movie posters list.
 	 * 
-	 * @var    Collection
+	 * @var    NodeList
 	 */
 	protected $posters;
 
 	/**
-	 * Movie backdrops collection.
+	 * Movie backdrops list.
 	 * 
-	 * @var    Collection
+	 * @var    NodeList
 	 */
 	protected $backdrops;
 
@@ -94,8 +94,8 @@ class Movie extends Node {
 
 		$this->suffix = '_wpmoly_movie_';
 
-		$this->backdrops = new Collection;
-		$this->posters   = new Collection;
+		$this->backdrops = new NodeList;
+		$this->posters   = new NodeList;
 		$this->backdrops->loaded = false;
 		$this->posters->loaded   = false;
 
@@ -369,7 +369,7 @@ class Movie extends Node {
 	}
 
 	/**
-	 * Simple accessor for Backdrops collection.
+	 * Simple accessor for Backdrops list.
 	 * 
 	 * @since    3.0
 	 * 
@@ -388,7 +388,7 @@ class Movie extends Node {
 			return $this->backdrops;
 		}
 
-		$backdrops = new Collection;
+		$backdrops = new NodeList;
 		while ( $this->backdrops->key() < $number - 1 ) {
 			$backdrops->add( $this->backdrops->next() );
 		}
@@ -399,7 +399,7 @@ class Movie extends Node {
 	}
 
 	/**
-	 * Simple accessor for Posters collection.
+	 * Simple accessor for Posters list.
 	 * 
 	 * @since    3.0
 	 * 
@@ -418,7 +418,7 @@ class Movie extends Node {
 			return $this->posters;
 		}
 
-		$posters = new Collection;
+		$posters = new NodeList;
 		while ( $this->posters->key() < $number - 1 ) {
 			$posters->add( $this->posters->next() );
 		}

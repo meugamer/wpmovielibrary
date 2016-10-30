@@ -11,7 +11,7 @@
 
 namespace wpmoly\Shortcodes;
 
-use wpmoly\Node\Collection;
+use wpmoly\Node\NodeList;
 use wpmoly\Templates\Front as Template;
 
 /**
@@ -94,27 +94,27 @@ class Images extends Shortcode {
 	 */
 	protected function make() {
 
-		$this->collection = new Collection;
+		$this->nodes = new NodeList;
 
 		switch ( $this->tag ) {
 			case 'movie_image':
 			case 'movie_backdrop':
 				$this->attributes['number'] = 1;
 				$this->attributes['type'] = self::$aliases[ $this->tag ];
-				$this->collection->type = 'backdrops';
+				$this->nodes->type = 'backdrops';
 				break;
 			case 'movie_images':
 			case 'movie_backdrops':
 				$this->attributes['type'] = self::$aliases[ $this->tag ];
-				$this->collection->type = 'backdrops';
+				$this->nodes->type = 'backdrops';
 				break;
 			case 'movie_poster':
 				$this->attributes['number'] = 1;
 				$this->attributes['type'] = self::$aliases[ $this->tag ];
-				$this->collection->type = 'posters';
+				$this->nodes->type = 'posters';
 			case 'movie_posters':
 				$this->attributes['type'] = self::$aliases[ $this->tag ];
-				$this->collection->type = 'posters';
+				$this->nodes->type = 'posters';
 				break;
 			default:
 				return false;
@@ -146,7 +146,7 @@ class Images extends Shortcode {
 		$data = array(
 			'type'   => $this->attributes['type'],
 			'size'   => $this->attributes['size'],
-			'images' => $this->collection
+			'images' => $this->nodes
 		);
 
 		$this->template->set_data( $data );
@@ -201,7 +201,7 @@ class Images extends Shortcode {
 
 		$poster = $this->movie->get_poster( $variant );
 
-		$this->collection->add( $poster );
+		$this->nodes->add( $poster );
 	}
 
 	/**
@@ -217,7 +217,7 @@ class Images extends Shortcode {
 
 		$posters = $this->movie->get_posters( $language = '', $number = $this->attributes['number'] );
 
-		$this->collection = $posters;
+		$this->nodes = $posters;
 	}
 
 	/**
@@ -233,7 +233,7 @@ class Images extends Shortcode {
 
 		$backdrop = $this->movie->get_backdrop();
 
-		$this->collection->add( $backdrop );
+		$this->nodes->add( $backdrop );
 	}
 
 	/**
@@ -249,7 +249,7 @@ class Images extends Shortcode {
 
 		$backdrops = $this->movie->get_backdrops( $language = '', $number = $this->attributes['number'] );
 
-		$this->collection = $backdrops;
+		$this->nodes = $backdrops;
 	}
 
 	/**

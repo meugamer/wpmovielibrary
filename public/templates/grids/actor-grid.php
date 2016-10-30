@@ -25,12 +25,12 @@ if ( $items->has_items() ) :
 	while ( $items->has_items() ) :
 		$actor = $items->the_item();
 ?>
-			<div class="actor" data-width="<?php echo $grid->get_column_width(); ?>" data-height="<?php echo $grid->get_row_height(); ?>">
-				<div class="actor-picture" style="background-image:url(<?php echo $actor->get_picture(); ?>)">
+			<div class="node term-node actor" data-width="<?php echo $grid->get_column_width(); ?>" data-height="<?php echo $grid->get_row_height(); ?>">
+				<div class="node-picture term-picture actor-picture" style="background-image:url(<?php echo $actor->get_picture(); ?>)">
 					<a href="<?php echo get_term_link( $actor->term, 'actor' ); ?>"></a>
 				</div>
-				<div class="actor-name"><a href="<?php echo get_term_link( $actor->term, 'actor' ); ?>"><?php $actor->the( 'name' ); ?></a></div>
-				<div class="actor-count"><?php printf( _n( '%d Movie', '%d Movies', $actor->term->count, 'wpmovielibrary' ), $actor->term->count ); ?> </div>
+				<div class="node-name term-name actor-name"><a href="<?php echo get_term_link( $actor->term, 'actor' ); ?>"><?php $actor->the( 'name' ); ?></a></div>
+				<div class="node-count term-count actor-count"><?php printf( _n( '%d Movie', '%d Movies', $actor->term->count, 'wpmovielibrary' ), $actor->term->count ); ?> </div>
 			</div>
 <?php
 	endwhile;

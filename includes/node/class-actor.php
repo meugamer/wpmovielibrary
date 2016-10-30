@@ -188,9 +188,11 @@ class Actor extends Node {
 	 * 
 	 * @return   Poster|DefaultPoster
 	 */
-	public function get_picture( $variant = 'neutral', $size = 'thumb' ) {
+	public function get_picture( $variant = '', $size = 'thumb' ) {
 
-		$variant = $this->get( 'picture' );
+		if ( empty( $variant ) ) {
+			$variant = $this->get( 'picture' );
+		}
 
 		/**
 		 * Filter default actor picture
@@ -227,7 +229,7 @@ class Actor extends Node {
 		 * 
 		 * @param    string    $picture
 		 */
-		$picture = apply_filters( 'wpmoly/filter/default/actor/picture', WPMOLY_URL . "public/img/actor-{$variant}{$size}.jpg" );
+		$picture = apply_filters( 'wpmoly/filter/default/actor/picture', WPMOLY_URL . "public/img/actor-{$variant}{$size}.png" );
 
 		return $this->picture = $picture;
 	}
