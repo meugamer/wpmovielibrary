@@ -1,8 +1,6 @@
 <?php
 /**
- * Movies Shortcode view Template
- * 
- * Showing an archive list of collections.
+ * Collections Grid 'archive' mode template.
  * 
  * @since    3.0
  * 

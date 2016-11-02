@@ -46,7 +46,7 @@ class Headbox extends Front {
 
 		if ( is_int( $headbox ) ) {
 			$headbox = get_headbox( $headbox );
-			if ( empty( $headbox->post ) ) {
+			if ( empty( $headbox->post ) || empty( $headbox->term ) ) {
 				return null;
 			}
 			$this->headbox = $headbox;

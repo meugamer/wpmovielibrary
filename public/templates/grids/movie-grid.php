@@ -1,8 +1,6 @@
 <?php
 /**
- * Movies Shortcode view Template
- * 
- * Showing a grid of movies.
+ * Movies Grid 'grid' mode template.
  * 
  * @since    3.0
  * 

@@ -1,8 +1,6 @@
 <?php
 /**
- * Movies Shortcode view Template
- * 
- * Showing a list of actors.
+ * Actors Grid 'list' mode template.
  * 
  * @since    3.0
  * 

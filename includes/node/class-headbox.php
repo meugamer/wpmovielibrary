@@ -22,13 +22,6 @@ namespace wpmoly\Node;
 abstract class Headbox extends Node {
 
 	/**
-	 * Headbox related Node object
-	 * 
-	 * @var    Node
-	 */
-	//public $node;
-
-	/**
 	 * Headbox type.
 	 * 
 	 * @var    string

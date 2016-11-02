@@ -1,8 +1,6 @@
 <?php
 /**
- * Actors Shortcode view Template
- * 
- * Showing a grid of actors.
+ * Actors Grid 'grid' mode template.
  * 
  * @since    3.0
  * 

@@ -132,7 +132,7 @@ class PostHeadbox extends Headbox {
 		 * 
 		 * @param    string    $default_type
 		 */
-		$default_type = apply_filters( 'wpmoly/filter/postheadbox/default/type', 'movie' );
+		$default_type = apply_filters( 'wpmoly/filter/postheadbox/default/type', '' );
 
 		if ( is_null( $this->type ) ) {
 			$this->type = $default_type;
@@ -153,7 +153,7 @@ class PostHeadbox extends Headbox {
 	public function set_type( $type ) {
 
 		if ( ! isset( $this->supported_types[ $type ] ) ) {
-			$type = 'movie';
+			$type = '';
 		}
 
 		return $this->type = $type;

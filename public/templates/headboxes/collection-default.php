@@ -1,8 +1,6 @@
 <?php
 /**
- * Movie Headbox view Template
- * 
- * Showing a headbox's default headbox.
+ * Collection Headbox default template.
  * 
  * @since    3.0
  * 

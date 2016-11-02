@@ -37,12 +37,15 @@ class TermHeadbox extends Headbox {
 			if ( $node instanceof Actor ) {
 				$this->id    = absint( $node->id );
 				$this->actor = $node;
+				$this->type  = 'actor';
 			} elseif ( $node instanceof Collection ) {
 				$this->id         = absint( $node->id );
 				$this->collection = $node;
-			} elseif ( $node instanceof Collection ) {
+				$this->type       = 'collection';
+			} elseif ( $node instanceof Genre ) {
 				$this->id    = absint( $node->id );
 				$this->genre = $node;
+				$this->type  = 'genre';
 			} else {
 				$this->id   = absint( $node->id );
 				$this->term = $node->term;
@@ -146,7 +149,7 @@ class TermHeadbox extends Headbox {
 		 * 
 		 * @param    string    $default_type
 		 */
-		$default_type = apply_filters( 'wpmoly/filter/headbox/default/type', 'collection' );
+		$default_type = apply_filters( 'wpmoly/filter/headbox/default/type', '' );
 
 		if ( is_null( $this->type ) ) {
 			$this->type = $default_type;
@@ -167,7 +170,7 @@ class TermHeadbox extends Headbox {
 	public function set_type( $type ) {
 
 		if ( ! isset( $this->supported_types[ $type ] ) ) {
-			$type = 'collection';
+			$type = '';
 		}
 
 		return $this->type = $type;
