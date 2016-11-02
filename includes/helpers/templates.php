@@ -11,6 +11,24 @@
 
 
 /**
+ * Get an Headbox template.
+ * 
+ * @since    3.0
+ * 
+ * @param    Headbox    $headbox Headbox instance.
+ * 
+ * @return   \wpmoly\Templates\Headbox
+ */
+function get_headbox_template( $headbox ) {
+
+	if ( ! $headbox instanceof \wpmoly\Node\Headbox ) {
+		$headbox = get_headbox( $headbox );
+	}
+
+	return new \wpmoly\Templates\Headbox( $headbox );
+}
+
+/**
  * Get a Movie Headbox template.
  * 
  * @since    3.0
@@ -21,9 +39,7 @@
  */
 function get_movie_headbox_template( $movie ) {
 
-	$headbox = get_headbox( $movie );
-
-	return new \wpmoly\Templates\Headbox( $headbox );
+	return get_headbox_template( $movie );
 }
 
 /**
@@ -37,9 +53,7 @@ function get_movie_headbox_template( $movie ) {
  */
 function get_actor_headbox_template( $actor ) {
 
-	$headbox = get_headbox( $actor );
-
-	return new \wpmoly\Templates\Headbox( $headbox );
+	return get_headbox_template( $actor );
 }
 
 /**
@@ -53,9 +67,7 @@ function get_actor_headbox_template( $actor ) {
  */
 function get_collection_headbox_template( $collection ) {
 
-	$headbox = get_headbox( $collection );
-
-	return new \wpmoly\Templates\Headbox( $headbox );
+	return get_headbox_template( $collection );
 }
 
 /**
@@ -69,9 +81,7 @@ function get_collection_headbox_template( $collection ) {
  */
 function get_genre_headbox_template( $genre ) {
 
-	$headbox = get_headbox( $genre );
-
-	return new \wpmoly\Templates\Headbox( $headbox );
+	return get_headbox_template( $genre );
 }
 
 /**
