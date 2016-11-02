@@ -142,6 +142,7 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/templates/class-admin-template.php';
 		require_once WPMOLY_PATH . 'includes/templates/class-public-template.php';
 		require_once WPMOLY_PATH . 'includes/templates/class-grid.php';
+		require_once WPMOLY_PATH . 'includes/templates/class-headbox.php';
 
 		$this->init();
 
@@ -169,6 +170,8 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/node/class-genre.php';
 		require_once WPMOLY_PATH . 'includes/node/class-grid.php';
 		require_once WPMOLY_PATH . 'includes/node/class-headbox.php';
+		require_once WPMOLY_PATH . 'includes/node/class-post-headbox.php';
+		require_once WPMOLY_PATH . 'includes/node/class-term-headbox.php';
 
 		// Queries
 		require_once WPMOLY_PATH . 'includes/query/class-query.php';

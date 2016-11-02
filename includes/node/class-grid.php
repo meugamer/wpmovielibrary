@@ -619,7 +619,7 @@ class Grid extends Node {
 	public function set_theme( $theme ) {
 
 		if ( ! isset( $this->supported_modes[ $this->type ][ $this->mode ][ $theme ] ) ) {
-			$type = 'default';
+			$theme = 'default';
 		}
 
 		return $this->theme = $theme;
@@ -734,7 +734,7 @@ class Grid extends Node {
 	 */
 	public function is_post() {
 
-		return in_array( $this->get_type(), array( 'movie' ) );
+		return post_type_exists( $this->get_type() );
 	}
 
 	/**
@@ -746,7 +746,7 @@ class Grid extends Node {
 	 */
 	public function is_taxonomy() {
 
-		return in_array( $this->get_type(), array( 'actor', 'collection', 'genre' ) );
+		return taxonomy_exists( $this->get_type() );
 	}
 
 	/**

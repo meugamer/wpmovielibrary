@@ -75,14 +75,13 @@ class Movie extends Shortcode {
 	 */
 	protected function make() {
 
-		$this->headbox = new Headbox( $this->attributes['id'] );
-		$this->headbox->set( $this->attributes );
-		$this->headbox->build();
+		$this->movie = get_movie( $this->attributes['id'] );
 
-		$template = 'headboxes/' . $this->headbox->get( 'type' ) . '-' . $this->headbox->get( 'theme' ) . '.php';
+		$this->headbox = get_headbox( $this->movie );
+		$this->headbox->set( $this->attributes );
 
 		// Set Template
-		$this->template = new Template( $template );
+		$this->template = get_movie_headbox_template( $this->movie );
 	}
 
 	/**
@@ -96,8 +95,7 @@ class Movie extends Shortcode {
 	 */
 	public function run() {
 
-		$movie = $this->headbox->node;
-		if ( $movie->is_empty() ) {
+		if ( $this->movie->is_empty() ) {
 			$this->template = new Template( 'notice.php' );
 				$this->template->set_data( array(
 					'type'    => 'info',
@@ -109,7 +107,8 @@ class Movie extends Shortcode {
 		}
 
 		$this->template->set_data( array(
-			'movie' => $movie
+			'headbox' => $this->headbox,
+			'movie'   => $this->movie
 		) );
 
 		return $this;

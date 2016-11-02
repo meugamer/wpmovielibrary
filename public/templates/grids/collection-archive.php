@@ -2,7 +2,7 @@
 /**
  * Movies Shortcode view Template
  * 
- * Showing an archive list of movies.
+ * Showing an archive list of collections.
  * 
  * @since    3.0
  * 
@@ -11,7 +11,7 @@
  */
 ?>
 
-	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode movies grid archive theme-<?php echo $grid->get_theme(); ?>">
+	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode collections grid archive theme-<?php echo $grid->get_theme(); ?>">
 <?php if ( $grid->show_menu() ) : ?>
 		<div class="grid-menu clearfix">
 			<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
@@ -23,11 +23,11 @@
 <?php
 if ( $items->has_items() ) :
 	while ( $items->has_items() ) :
-		$movie = $items->the_item();
+		$collection = $items->the_item();
 ?>
-			<div class="movie">
+			<div class="node term-node collection">
 <?php
-					$headbox = get_movie_headbox( $movie );
+					$headbox = get_collection_headbox_template( $collection );
 					echo $headbox->render();
 ?>
 			</div>

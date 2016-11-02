@@ -185,3 +185,88 @@
 	font-size: 1.125em;
 	font-weight: 300;
 }
+
+/*
+ * Terms Headbox
+ */
+
+.wpmoly.term-headbox {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	margin: 2em auto;
+	position: relative;
+}
+
+.wpmoly.term-headbox .headbox-header,
+.wpmoly.term-headbox .headbox-content {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.wpmoly.term-headbox .headbox-header,
+.wpmoly.term-headbox.theme-extended .headbox-header {
+	margin: 2em 0 0 2em;
+	width: 32%;
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail {
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+	height: 15em;
+	overflow: hidden;
+}
+
+.wpmoly.term-headbox .headbox-header .headbox-thumbnail img {
+	height: auto;
+	max-width: 100%;
+	min-height: 15em;
+	min-width: 100%;
+	width: 100%;
+}
+
+.wpmoly.term-headbox .headbox-content,
+.wpmoly.term-headbox.theme-extended .headbox-content {
+	margin: 0;
+	padding: 2em 1em;
+	width: calc( 67% - 4em );
+}
+
+.wpmoly.term-headbox .headbox-content .headbox-title {
+	font-size: 2em;
+	font-weight: 300;
+	margin: 0;
+	padding: 0;
+}
+
+.wpmoly.term-headbox .headbox-content .headbox-subtitle {
+	font-size: 0.9rem;
+	font-weight: 300;
+	margin: -0.25rem 0 0;
+	padding: 0;
+}
+
+/* Headbox Default theme */
+
+.wpmoly.term-headbox.theme-default {
+	max-height: 12.5em;
+}
+
+.wpmoly.term-headbox.theme-default .headbox-header {
+	margin: -1.25rem 0 0 1rem;
+}
+
+.wpmoly.term-headbox.theme-default .headbox-content {
+	height: calc( 100% - 4em );
+	margin: 2em 1.5em;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: calc( 67% - 3.5em );
+}
+
+/* Hover Effect */
+
+.wpmoly.term-headbox:hover,
+.wpmoly.term-headbox:hover .headbox-header .headbox-thumbnail {
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+}

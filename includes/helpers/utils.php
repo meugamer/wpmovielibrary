@@ -97,6 +97,60 @@ function get_movie( $movie ) {
 }
 
 /**
+ * Return a headbox object.
+ * 
+ * $object has to be an \wpmoly\Node\Headbox instance in order to be handled
+ * correctly. Headboxes support both Terms and Posts, need to make an
+ * early distinction between the two.
+ * 
+ * TODO handle int parameter
+ * 
+ * @since    3.0
+ * 
+ * @param    object    $headbox Headbox object.
+ * 
+ * @return   Headbox|boolean
+ */
+function get_headbox( $headbox ) {
+
+	if ( isset( $headbox->post ) ) {
+		return get_post_headbox( $headbox );
+	} elseif ( isset( $headbox->term ) ) {
+		return get_term_headbox( $headbox );
+	}
+
+	return false;
+}
+
+/**
+ * Return a post headbox object.
+ * 
+ * @since    3.0
+ * 
+ * @param    mixed    $post Post ID, object or array
+ * 
+ * @return   PostHeadbox|boolean
+ */
+function get_post_headbox( $post ) {
+
+	return _get_object( $post, '\wpmoly\Node\PostHeadbox' );
+}
+
+/**
+ * Return a term headbox object.
+ * 
+ * @since    3.0
+ * 
+ * @param    mixed    $term Term ID, object or array
+ * 
+ * @return   TermHeadbox|boolean
+ */
+function get_term_headbox( $term ) {
+
+	return _get_object( $term, '\wpmoly\Node\TermHeadbox' );
+}
+
+/**
  * Return a grid object.
  * 
  * @since    3.0
@@ -207,31 +261,6 @@ function get_country( $country ) {
 function get_language( $language ) {
 
 	return \wpmoly\Helpers\Language::get( $language );
-}
-
-/**
- * Get a Movie Headbox instance.
- * 
- * Actually returns a Shortcode instance like used for the [movie] Shortcode.
- * 
- * @since    3.0
- * 
- * @param    int    $post_id Post ID
- * 
- * @return   \wpmoly\Shortcodes\Movie
- */
-function get_movie_headbox( $post_id = null ) {
-
-	if ( is_null( $post_id ) ) {
-		$post_id = get_the_ID();
-	}
-
-	$headbox = new \wpmoly\Shortcodes\Movie( array(
-		'id' => $post_id
-	) );
-	$headbox->run();
-
-	return $headbox;
 }
 
 /**

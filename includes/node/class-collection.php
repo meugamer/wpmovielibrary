@@ -139,6 +139,10 @@ class Collection extends Node {
 			return $this->term->name;
 		}
 
+		if ( 'description' == $name ) {
+			return $this->term->description;
+		}
+
 		return parent::get( $name, $default );
 	}
 

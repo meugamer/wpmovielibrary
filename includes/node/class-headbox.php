@@ -19,14 +19,35 @@ namespace wpmoly\Node;
  * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Headbox extends Node {
+abstract class Headbox extends Node {
 
 	/**
-	 * Headbox Node.
+	 * Headbox related Node object
 	 * 
 	 * @var    Node
 	 */
-	public $node;
+	//public $node;
+
+	/**
+	 * Headbox type.
+	 * 
+	 * @var    string
+	 */
+	protected $type;
+	
+	/**
+	 * Headbox mode.
+	 * 
+	 * @var    string
+	 */
+	protected $mode;
+	
+	/**
+	 * Headbox theme.
+	 * 
+	 * @var    string
+	 */
+	protected $theme;
 
 	/**
 	 * Supported Headbox types.
@@ -50,82 +71,13 @@ class Headbox extends Node {
 	private $supported_themes = array();
 
 	/**
-	 * __get().
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $name
-	 * 
-	 * @return   mixed
-	 */
-	public function __get( $name ) {
-
-		return isset( $this->$name ) ? $this->$name : null;
-	}
-
-	/**
 	 * Initialize the Headbox.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   void
 	 */
-	public function init() {
-
-		$headbox_types = array(
-			'collection' => array(
-				'label'  => __( 'Collection', 'wpmovielibrary' ),
-				'themes' => array(
-					'default' =>  __( 'Default', 'wpmovielibrary' )
-				)
-			),
-			'actor' => array(
-				'label'  => __( 'Actor', 'wpmovielibrary' ),
-				'themes' => array(
-					'default' => __( 'Default', 'wpmovielibrary' )
-				)
-			),
-			'genre' => array(
-				'label'  => __( 'Genre', 'wpmovielibrary' ),
-				'themes' => array(
-					'default' => __( 'Default', 'wpmovielibrary' )
-				)
-			),
-			'movie' => array(
-				'label'  => __( 'Movie', 'wpmovielibrary' ),
-				'themes' => array(
-					'default'  => __( 'Default', 'wpmovielibrary' ),
-					'extended' => __( 'Extended', 'wpmovielibrary' ),
-					'vintage'  => __( 'Vintage', 'wpmovielibrary' ),
-					'allocine' => __( 'Allocine', 'wpmovielibrary' ),
-					'imdb'     => __( 'IMDb', 'wpmovielibrary' )
-				)
-			)
-		);
-
-		/**
-		 * Filter the supported Headbox types.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $headbox_types
-		 */
-		$this->supported_types = apply_filters( 'wpmoly/filter/headbox/supported/types', $headbox_types );
-
-		foreach ( $this->supported_types as $type_id => $type ) {
-
-			/**
-			 * Filter the supported Headbox themes.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    array    $default_modes
-			 */
-			$this->supported_modes[ $type_id ] = apply_filters( 'wpmoly/filter/headbox/supported/' . $type_id . '/themes', $type['themes'] );
-		}
-
-		$this->build();
-	}
+	abstract public function init();
 
 	/**
 	 * Build the Headbox.
@@ -136,39 +88,89 @@ class Headbox extends Node {
 	 * 
 	 * @return   array
 	 */
-	public function build() {
-
-		if ( is_null( $this->get( 'type' ) ) ) {
-			return false;
-		}
-
-		$function = "get_" . $this->get( 'type' );
-		if ( function_exists( $function ) ) {
-			$this->node = $function( $this->id );
-		}
-	}
+	abstract public function build();
 
 	/**
-	 * Simple accessor for supported types.
+	 * Retrieve current headbox type.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   array
+	 * @return   string
 	 */
-	public function get_supported_types() {
-
-		return $this->supported_types;
-	}
+	abstract public function get_type();
 
 	/**
-	 * Simple accessor for supported themes.
+	 * Set headbox type.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   array
+	 * @param    string    $type
+	 * 
+	 * @return   string
 	 */
-	public function get_supported_themes( $type = '' ) {
+	abstract public function set_type( $type );
 
-		return ! empty( $type ) && ! empty( $this->supported_themes[ $type ] ) ? $this->supported_themes[ $type ] : $this->supported_themes;
+	/**
+	 * Retrieve current headbox mode.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	abstract public function get_mode();
+
+	/**
+	 * Set headbox mode.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $mode
+	 * 
+	 * @return   string
+	 */
+	abstract public function set_mode( $mode );
+
+	/**
+	 * Retrieve current headbox theme.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	abstract public function get_theme();
+
+	/**
+	 * Set headbox theme.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $theme
+	 * 
+	 * @return   string
+	 */
+	abstract public function set_theme( $theme );
+
+	/**
+	 * Is this a posts headbox?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function is_post() {
+
+		return post_type_exists( $this->get_type() );
+	}
+
+	/**
+	 * Is this a terms headbox?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function is_taxonomy() {
+
+		return taxonomy_exists( $this->get_type() );
 	}
 }

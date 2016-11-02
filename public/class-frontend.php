@@ -345,14 +345,16 @@ class Frontend {
 			return $content;
 		}
 
-		$headbox = get_movie_headbox();
+		$movie = get_movie( get_the_ID() );
+		$headbox = get_movie_headbox_template( $movie );
+
 		if ( is_single() ) {
 			$headbox->set( 'theme', 'default' );
 		} elseif ( is_archive() || is_search() ) {
 			$headbox->set( 'theme', 'default' );
 		}
 
-		return $headbox->output() . $content;
+		return $headbox->render() . $content;
 	}
 
 }

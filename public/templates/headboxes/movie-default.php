@@ -10,7 +10,7 @@
  */
 
 ?>
-	<div id="movie-headbox-<?php echo $movie->id; ?>" class="wpmoly movie-headbox theme-default">
+	<div id="<?php echo $headbox->get_type(); ?>-headbox-<?php echo $headbox->id; ?>" class="wpmoly post-headbox <?php echo $headbox->get_type(); ?>-headbox theme-<?php echo $headbox->get_theme(); ?>">
 		<div class="headbox-header">
 			<div class="headbox-backdrop-container">
 				<div class="headbox-backdrop" style="background-image:url(<?php echo $movie->get_backdrop( 'random' )->render( 'medium', 'raw' ); ?>);"></div>
