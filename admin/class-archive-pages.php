@@ -63,6 +63,7 @@ class ArchivePages extends Metabox {
 		}
 
 		$types = array(
+			'none'        => __( 'None' ),
 			'movies'      => __( 'Movies', 'wpmovielibrary' ),
 			'actors'      => __( 'Actors', 'wpmovielibrary' ),
 			'collections' => __( 'Collections', 'wpmovielibrary' ),
@@ -185,9 +186,8 @@ class ArchivePages extends Metabox {
 			<div id="wpmoly-edit-archive-page-type" class="hide-if-js">
 				<p>
 					<select id="wpmoly-archive-page-types" name="wpmoly[archive_page_type]">
-						<option value=""></option>
 <?php foreach ( $this->types as $type => $name ) : ?>
-						<option value="<?php echo esc_attr( $type ); ?>"<?php selected( $page_type, $type ); ?>><?php echo esc_attr( $name ); ?></option>
+						<option value="<?php echo esc_attr( $type ); ?>"<?php selected( $page_type, $type ); ?>><?php echo esc_attr__( $name ); ?></option>
 <?php endforeach; ?>
 					</select>
 				</p>
@@ -228,6 +228,10 @@ class ArchivePages extends Metabox {
 		// Same page, nothing to change
 		if ( $oldpage == $post_id ) {
 			return false;
+		}
+
+		if ( 'none' == $archive ) {
+			$archive = '';
 		}
 
 		// Archive page already set for this type
