@@ -357,4 +357,24 @@ class Frontend {
 		return $headbox->render() . $content;
 	}
 
+	/**
+	 * Register Widgets.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function register_widgets() {
+
+		$widgets = array(
+			'\wpmoly\Widgets\Statistics'
+		);
+
+		foreach ( $widgets as $widget ) {
+			if ( class_exists( $widget ) ) {
+				register_widget( $widget );
+			}
+		}
+	}
+
 }

@@ -196,6 +196,10 @@ final class Library {
 		//require_once WPMOLY_PATH . 'public/class-single.php';
 		require_once WPMOLY_PATH . 'public/class-archives.php';
 
+		// Widgets
+		require_once WPMOLY_PATH . 'includes/widgets/class-widget.php';
+		require_once WPMOLY_PATH . 'includes/widgets/class-statistics-widget.php';
+
 		if ( is_admin() ) {
 			// Core
 			require_once WPMOLY_PATH . 'includes/core/class-metabox.php';
@@ -348,6 +352,7 @@ final class Library {
 		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles', 95 );
 		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts', 95 );
 		$this->loader->add_action( 'init',               $public, 'register_shortcodes' );
+		$this->loader->add_action( 'widgets_init',       $public, 'register_widgets' );
 		$this->loader->add_filter( 'the_content',        $public, 'the_headbox' );
 
 		$archives = Archives::get_instance();

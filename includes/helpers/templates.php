@@ -97,3 +97,22 @@ function get_grid_template( $grid ) {
 
 	return new \wpmoly\Templates\Grid( $grid );
 }
+
+/**
+ * Get a Widget public or admin template.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $template_id Template ID
+ * 
+ * @return   \wpmoly\Templates\Template
+ */
+function get_widget_template( $template_id ) {
+
+	$template = 'widgets/' . (string) $template_id . '.php';
+	if ( is_admin() ) {
+		return new \wpmoly\Templates\Admin( $template );
+	}
+
+	return new \wpmoly\Templates\Front( $template );
+}
