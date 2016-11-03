@@ -140,7 +140,7 @@ abstract class Widget extends WP_Widget {
 		$template = get_widget_template( $this->id_base );
 		$template->set_data( $this->data );
 
-		echo $template->render();
+		echo $template->render( $require = 'always' );
 	}
 
 	/**
@@ -187,7 +187,7 @@ abstract class Widget extends WP_Widget {
 			'widget' => $this
 		) );
 
-		echo $template->render();
+		echo $template->render( $require = 'always' );
 	}
 
 	/**
