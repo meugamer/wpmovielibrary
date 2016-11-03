@@ -23,9 +23,9 @@ if ( $items->has_items() ) :
 	while ( $items->has_items() ) :
 		$movie = $items->the_item();
 ?>
-			<div class="movie">
+			<div class="node post-node movie">
 <?php
-					$headbox = get_movie_headbox( $movie );
+					$headbox = get_movie_headbox_template( $movie );
 					echo $headbox->render();
 ?>
 			</div>
