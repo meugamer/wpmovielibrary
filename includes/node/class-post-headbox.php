@@ -37,6 +37,7 @@ class PostHeadbox extends Headbox {
 			if ( $node instanceof Movie ) {
 				$this->id    = absint( $node->id );
 				$this->movie = $node;
+				$this->type  = 'movie';
 			} else {
 				$this->id   = absint( $node->id );
 				$this->post = $node->post;
