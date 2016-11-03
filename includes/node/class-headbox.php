@@ -29,13 +29,6 @@ abstract class Headbox extends Node {
 	protected $type;
 	
 	/**
-	 * Headbox mode.
-	 * 
-	 * @var    string
-	 */
-	protected $mode;
-	
-	/**
 	 * Headbox theme.
 	 * 
 	 * @var    string
@@ -47,21 +40,14 @@ abstract class Headbox extends Node {
 	 * 
 	 * @var    array
 	 */
-	private $supported_types = array();
-
-	/**
-	 * Supported Headbox modes.
-	 * 
-	 * @var    array
-	 */
-	private $supported_modes = array();
+	protected $supported_types = array();
 
 	/**
 	 * Supported Headbox themes.
 	 * 
 	 * @var    array
 	 */
-	private $supported_themes = array();
+	protected $supported_themes = array();
 
 	/**
 	 * Initialize the Headbox.
@@ -84,6 +70,30 @@ abstract class Headbox extends Node {
 	abstract public function build();
 
 	/**
+	 * Retrieve supported headbox types.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function get_supported_types() {
+
+		return $this->supported_types;
+	}
+
+	/**
+	 * Retrieve supported headbox themes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function get_supported_themes() {
+
+		return $this->supported_themes;
+	}
+
+	/**
 	 * Retrieve current headbox type.
 	 * 
 	 * @since    3.0
@@ -102,26 +112,6 @@ abstract class Headbox extends Node {
 	 * @return   string
 	 */
 	abstract public function set_type( $type );
-
-	/**
-	 * Retrieve current headbox mode.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   string
-	 */
-	abstract public function get_mode();
-
-	/**
-	 * Set headbox mode.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $mode
-	 * 
-	 * @return   string
-	 */
-	abstract public function set_mode( $mode );
 
 	/**
 	 * Retrieve current headbox theme.

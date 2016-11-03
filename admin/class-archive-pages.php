@@ -63,11 +63,11 @@ class ArchivePages extends Metabox {
 		}
 
 		$types = array(
-			'none'        => __( 'None' ),
-			'movies'      => __( 'Movies', 'wpmovielibrary' ),
-			'actors'      => __( 'Actors', 'wpmovielibrary' ),
-			'collections' => __( 'Collections', 'wpmovielibrary' ),
-			'genres'      => __( 'Genres', 'wpmovielibrary' )
+			'none'       => __( 'None' ),
+			'movie'      => __( 'Movies', 'wpmovielibrary' ),
+			'actor'      => __( 'Actors', 'wpmovielibrary' ),
+			'collection' => __( 'Collections', 'wpmovielibrary' ),
+			'genre'      => __( 'Genres', 'wpmovielibrary' )
 		);
 
 		/**

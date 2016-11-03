@@ -53,6 +53,7 @@ class TermHeadbox extends Headbox {
 		} elseif ( isset( $node->term_id ) ) {
 			$this->id   = absint( $node->term_id );
 			$this->term = $node;
+			$this->type = $node->taxonomy;
 		}
 
 		$this->init();
@@ -71,19 +72,22 @@ class TermHeadbox extends Headbox {
 			'collection' => array(
 				'label'  => __( 'Collection', 'wpmovielibrary' ),
 				'themes' => array(
-					'default' =>  __( 'Default', 'wpmovielibrary' )
+					'default'  => __( 'Default', 'wpmovielibrary' ),
+					'extended' => __( 'Extended', 'wpmovielibrary' )
 				)
 			),
 			'actor' => array(
 				'label'  => __( 'Actor', 'wpmovielibrary' ),
 				'themes' => array(
-					'default' => __( 'Default', 'wpmovielibrary' )
+					'default'  => __( 'Default', 'wpmovielibrary' ),
+					'extended' => __( 'Extended', 'wpmovielibrary' )
 				)
 			),
 			'genre' => array(
 				'label'  => __( 'Genre', 'wpmovielibrary' ),
 				'themes' => array(
-					'default' => __( 'Default', 'wpmovielibrary' )
+					'default'  => __( 'Default', 'wpmovielibrary' ),
+					'extended' => __( 'Extended', 'wpmovielibrary' )
 				)
 			)
 		);
@@ -106,7 +110,7 @@ class TermHeadbox extends Headbox {
 			 * 
 			 * @param    array    $default_modes
 			 */
-			$this->supported_modes[ $type_id ] = apply_filters( 'wpmoly/filter/headbox/supported/' . $type_id . '/themes', $type['themes'] );
+			$this->supported_themes[ $type_id ] = apply_filters( 'wpmoly/filter/headbox/supported/' . $type_id . '/themes', $type['themes'] );
 		}
 
 		$this->build();
@@ -123,13 +127,14 @@ class TermHeadbox extends Headbox {
 	 */
 	public function build() {
 
-		if ( is_null( $this->get( 'type' ) ) ) {
+		$type = $this->get( 'type' );
+		if ( is_null( $type ) ) {
 			return false;
 		}
 
-		$function = "get_" . $this->get( 'type' );
+		$function = "get_$type";
 		if ( function_exists( $function ) ) {
-			$this->node = $function( $this->id );
+			$this->$type = $function( $this->id );
 		}
 	}
 
@@ -177,40 +182,6 @@ class TermHeadbox extends Headbox {
 	}
 
 	/**
-	 * Retrieve current headbox mode.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   string
-	 */
-	public function get_mode() {
-
-		if ( is_null( $this->mode ) ) {
-			$this->mode = 'default';
-		}
-
-		return $this->mode;
-	}
-
-	/**
-	 * Set headbox mode.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $mode
-	 * 
-	 * @return   string
-	 */
-	public function set_mode( $mode ) {
-
-		if ( ! isset( $this->supported_modes[ $this->type ][ $mode ] ) ) {
-			$mode = 'default';
-		}
-
-		return $this->mode = $mode;
-	}
-
-	/**
 	 * Retrieve current headbox theme.
 	 * 
 	 * @since    3.0
@@ -237,7 +208,7 @@ class TermHeadbox extends Headbox {
 	 */
 	public function set_theme( $theme ) {
 
-		if ( ! isset( $this->supported_modes[ $this->type ][ $this->mode ][ $theme ] ) ) {
+		if ( ! isset( $this->supported_themes[ $this->type ][ $theme ] ) ) {
 			$theme = 'default';
 		}
 

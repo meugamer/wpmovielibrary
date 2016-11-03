@@ -117,7 +117,7 @@ class Headbox extends Front {
 	 */
 	private function set_path() {
 
-		$path = 'public/templates/headboxes/' . $this->headbox->get_type() . '-' . $this->headbox->get_mode() . '.php';
+		$path = 'public/templates/headboxes/' . $this->headbox->get_type() . '-' . $this->headbox->get_theme() . '.php';
 		if ( ! file_exists( WPMOLY_PATH . $path ) ) {
 			return new WP_Error( 'missing_template_path', sprintf( __( 'Error: "%s" does not exists.', 'wpmovielibrary' ), esc_attr( WPMOLY_PATH . $path ) ) );
 		}
@@ -145,7 +145,7 @@ class Headbox extends Front {
 			$data = array( 'headbox' => $this );
 
 			// include current type Node
-			$types = array_keys( $this->headbox->supported_types );
+			$types = array_keys( $this->headbox->get_supported_types() );
 			foreach ( $types as $type ) {
 				if ( isset( $this->headbox->$type ) ) {
 					$data[ $type ] = $this->headbox->$type;

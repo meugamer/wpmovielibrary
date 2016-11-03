@@ -90,7 +90,7 @@ class PostHeadbox extends Headbox {
 			 * 
 			 * @param    array    $default_modes
 			 */
-			$this->supported_modes[ $type_id ] = apply_filters( 'wpmoly/filter/postheadbox/supported/' . $type_id . '/themes', $type['themes'] );
+			$this->supported_themes[ $type_id ] = apply_filters( 'wpmoly/filter/postheadbox/supported/' . $type_id . '/themes', $type['themes'] );
 		}
 
 		$this->build();
@@ -161,40 +161,6 @@ class PostHeadbox extends Headbox {
 	}
 
 	/**
-	 * Retrieve current postheadbox mode.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   string
-	 */
-	public function get_mode() {
-
-		if ( is_null( $this->mode ) ) {
-			$this->mode = 'default';
-		}
-
-		return $this->mode;
-	}
-
-	/**
-	 * Set postheadbox mode.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $mode
-	 * 
-	 * @return   string
-	 */
-	public function set_mode( $mode ) {
-
-		if ( ! isset( $this->supported_modes[ $this->type ][ $mode ] ) ) {
-			$mode = 'default';
-		}
-
-		return $this->mode = $mode;
-	}
-
-	/**
 	 * Retrieve current postheadbox theme.
 	 * 
 	 * @since    3.0
@@ -221,7 +187,7 @@ class PostHeadbox extends Headbox {
 	 */
 	public function set_theme( $theme ) {
 
-		if ( ! isset( $this->supported_modes[ $this->type ][ $this->mode ][ $theme ] ) ) {
+		if ( ! isset( $this->supported_themes[ $this->type ][ $theme ] ) ) {
 			$theme = 'default';
 		}
 

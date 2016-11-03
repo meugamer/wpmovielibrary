@@ -191,10 +191,10 @@ class Rewrite {
 
 		$rules = $this->fix_movie_rewrite_rules( $rules );
 
-		$new_rules = $this->generate_movie_archives_rewrite_rules();
-		$rules = array_merge( $new_rules, $rules );
+		$rules = $this->add_movie_archives_rewrite_rules( $rules );
+		$rules = $this->add_collection_archives_rewrite_rules( $rules );
 
-		//printr( $rules )->toString(); die();
+		printr( $rules )->toString(); die();
 
 		return $rules;
 	}
@@ -230,13 +230,15 @@ class Rewrite {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $rules Existing rewrite rules.
+	 * 
 	 * @return   void
 	 */
-	private function generate_movie_archives_rewrite_rules() {
+	private function add_movie_archives_rewrite_rules( $rules = array() ) {
 
 		global $wp_rewrite;
 
-		$rules = array();
+		$new_rules = array();
 
 		// Default: no archive page set
 		if ( ! has_movie_archives_page() ) {
@@ -271,14 +273,14 @@ class Rewrite {
 
 				$rule .= '/' . $date['rule'];
 
-				$rules[ $rule . "/?$" ]                               = $_query;
-				$rules[ $rule . "/embed/?$" ]                         = $_query . "&embed=true";
-				$rules[ $rule . "/trackback/?$" ]                     = $_query . "&tb=1";
-				$rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
-				$rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
-				$rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $_query . "&paged=" . $wp_rewrite->preg_index( $index );
-				$rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $_query . "&cpage=" . $wp_rewrite->preg_index( $index );
-				$rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $_query . "&page=" . $wp_rewrite->preg_index( $index );
+				$new_rules[ $rule . "/?$" ]                               = $_query;
+				$new_rules[ $rule . "/embed/?$" ]                         = $_query . "&embed=true";
+				$new_rules[ $rule . "/trackback/?$" ]                     = $_query . "&tb=1";
+				$new_rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
+				$new_rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
+				$new_rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $_query . "&paged=" . $wp_rewrite->preg_index( $index );
+				$new_rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $_query . "&cpage=" . $wp_rewrite->preg_index( $index );
+				$new_rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $_query . "&page=" . $wp_rewrite->preg_index( $index );
 			}
 
 		// Existing archive page
@@ -293,17 +295,54 @@ class Rewrite {
 			$rule2 = trim( $this->permalinks['movies'], '/' );
 			$rule  = "($rule2|$rule1)";
 			
-			$rules[ $rule . "/?$" ]                               = $query;
-			$rules[ $rule . "/embed/?$" ]                         = $query . "&embed=true";
-			$rules[ $rule . "/trackback/?$" ]                     = $query . "&tb=1";
-			$rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $query . "&feed=" . $wp_rewrite->preg_index( $index );
-			$rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $query . "&feed=" . $wp_rewrite->preg_index( $index );
-			$rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $query . "&paged=" . $wp_rewrite->preg_index( $index );
-			$rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $query . "&cpage=" . $wp_rewrite->preg_index( $index );
-			$rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $query . "&page=" . $wp_rewrite->preg_index( $index );
+			$new_rules[ $rule . "/?$" ]                               = $query;
+			$new_rules[ $rule . "/embed/?$" ]                         = $query . "&embed=true";
+			$new_rules[ $rule . "/trackback/?$" ]                     = $query . "&tb=1";
+			$new_rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $query . "&feed=" . $wp_rewrite->preg_index( $index );
+			$new_rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $query . "&feed=" . $wp_rewrite->preg_index( $index );
+			$new_rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $query . "&paged=" . $wp_rewrite->preg_index( $index );
+			$new_rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $query . "&cpage=" . $wp_rewrite->preg_index( $index );
+			$new_rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $query . "&page=" . $wp_rewrite->preg_index( $index );
 		}
 
-		return $rules;
+		return array_merge( $new_rules, $rules );
+	}
+
+	/**
+	 * Add custom rewrite rules for movies.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $rules Existing rewrite rules.
+	 * 
+	 * @return   void
+	 */
+	private function add_collection_archives_rewrite_rules( $rules = array() ) {
+
+		global $wp_rewrite;
+
+		$new_rules = array();
+
+		if ( ! has_collection_archives_page() ) {
+			return $rules;
+		}
+
+		$archive_page = get_collection_archives_page_id();
+
+		$index = 2;
+		$query = sprintf( 'index.php?page_id=%d', $archive_page );
+
+		$rule1 = 'collection';
+		$rule2 = trim( get_collection_archive_link( 'relative' ), '/' );
+		$rule  = "($rule2|$rule1)";
+
+		$new_rules[ $rule . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' ] = $query . '&collection=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
+		$new_rules[ $rule . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' ]      = $query . '&collection=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
+		$new_rules[ $rule . '/([^/]+)/page/([0-9]{1,})/?$' ]              = $query . '&collection=' . $wp_rewrite->preg_index( $index ) . '&paged=' . $wp_rewrite->preg_index( $index + 1 );
+		$new_rules[ $rule . '/([^/]+)/embed/?$' ]                         = $query . '&collection=' . $wp_rewrite->preg_index( $index ) . '&embed=true';
+		$new_rules[ $rule . '/([^/]+)/?$' ]                               = $query . '&collection=' . $wp_rewrite->preg_index( $index );
+
+		return array_merge( $new_rules, $rules );
 	}
 
 	/**

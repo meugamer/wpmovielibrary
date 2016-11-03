@@ -618,7 +618,7 @@ class Grid extends Node {
 	 */
 	public function set_theme( $theme ) {
 
-		if ( ! isset( $this->supported_modes[ $this->type ][ $this->mode ][ $theme ] ) ) {
+		if ( ! isset( $this->supported_themes[ $this->type ][ $this->mode ][ $theme ] ) ) {
 			$theme = 'default';
 		}
 

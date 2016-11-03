@@ -89,7 +89,7 @@ class Registrar {
 	 */
 	public function register_post_types() {
 
-		$movies = array_search( 'movies', $this->pages );
+		$movies = array_search( 'movie', $this->pages );
 		if ( ! $movies ) {
 			if ( ! empty( $this->permalinks['movies'] ) ) {
 				$movie_archives = trim( $this->permalinks['movies'], '/' );

@@ -280,6 +280,25 @@ function is_archive_page( $post_id ) {
 }
 
 /**
+ * Find the archive type corresponding to a page ID.
+ * 
+ * @since    3.0
+ * 
+ * @param    int    $post_id Page Post ID.
+ * 
+ * @return   string|boolean
+ */
+function get_archive_page_type( $post_id ) {
+
+	$pages = get_option( '_wpmoly_archive_pages', array() );
+	if ( ! empty( $pages[ $post_id ] ) ) {
+		return $pages[ $post_id ];
+	}
+
+	return false;
+}
+
+/**
  * Retrieve taxonomies archive page links.
  * 
  * If the submitted taxonomy does not have a set archive page, return false.
@@ -393,7 +412,7 @@ function get_movie_archive_link( $format = 'absolute' ) {
  */
 function get_movie_archives_page_id() {
 
-	return get_archives_page_id( 'movies' );
+	return get_archives_page_id( 'movie' );
 }
 
 /**
@@ -435,7 +454,7 @@ function has_movie_archives_page() {
  */
 function get_actor_archive_link( $format = 'absolute' ) {
 
-	return get_taxonomy_archive_link( 'actors', $format );
+	return get_taxonomy_archive_link( 'actor', $format );
 }
 
 /**
@@ -447,7 +466,7 @@ function get_actor_archive_link( $format = 'absolute' ) {
  */
 function get_actor_archives_page_id() {
 
-	return get_archives_page_id( 'actors' );
+	return get_archives_page_id( 'actor' );
 }
 
 /**
@@ -489,7 +508,7 @@ function has_actor_archives_page() {
  */
 function get_collection_archive_link( $format = 'absolute' ) {
 
-	return get_taxonomy_archive_link( 'collections', $format );
+	return get_taxonomy_archive_link( 'collection', $format );
 }
 
 /**
@@ -501,7 +520,7 @@ function get_collection_archive_link( $format = 'absolute' ) {
  */
 function get_collection_archives_page_id() {
 
-	return get_archives_page_id( 'collections' );
+	return get_archives_page_id( 'collection' );
 }
 
 /**
@@ -543,7 +562,7 @@ function has_collection_archives_page() {
  */
 function get_genre_archive_link( $format = 'absolute' ) {
 
-	return get_taxonomy_archive_link( 'genres', $format );
+	return get_taxonomy_archive_link( 'genre', $format );
 }
 
 /**
@@ -555,7 +574,7 @@ function get_genre_archive_link( $format = 'absolute' ) {
  */
 function get_genre_archives_page_id() {
 
-	return get_archives_page_id( 'genres' );
+	return get_archives_page_id( 'genre' );
 }
 
 /**
