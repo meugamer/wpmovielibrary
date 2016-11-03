@@ -94,10 +94,10 @@ class Registrar {
 			if ( ! empty( $this->permalinks['movies'] ) ) {
 				$movie_archives = trim( $this->permalinks['movies'], '/' );
 			} else {
-				$movie_archives = '%movies_rewrite%';
+				$movie_archives = 'movies';
 			}
 		} else {
-			$movie_archives = '';
+			$movie_archives = str_replace( home_url(), '', get_permalink( $movies ) );
 		}
 
 		$post_types = array(
