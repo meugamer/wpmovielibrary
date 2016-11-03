@@ -192,9 +192,9 @@ class Rewrite {
 		$rules = $this->fix_movie_rewrite_rules( $rules );
 
 		$rules = $this->add_movie_archives_rewrite_rules( $rules );
-		$rules = $this->add_collection_archives_rewrite_rules( $rules );
+		$rules = $this->add_taxonomy_archives_rewrite_rules( $rules );
 
-		printr( $rules )->toString(); die();
+		//printr( $rules )->toString(); die();
 
 		return $rules;
 	}
@@ -317,30 +317,34 @@ class Rewrite {
 	 * 
 	 * @return   void
 	 */
-	private function add_collection_archives_rewrite_rules( $rules = array() ) {
+	private function add_taxonomy_archives_rewrite_rules( $rules = array() ) {
 
 		global $wp_rewrite;
 
 		$new_rules = array();
 
-		if ( ! has_collection_archives_page() ) {
-			return $rules;
+		$taxonomies = array( 'actor', 'collection', 'genre' );
+		foreach ( $taxonomies as $taxonomy ) {
+
+			if ( ! has_archives_page( $taxonomy ) ) {
+				continue;
+			}
+
+			$archive_page = get_archives_page_id( $taxonomy );
+
+			$index = 2;
+			$query = sprintf( 'index.php?page_id=%d', $archive_page );
+
+			$rule1 = $taxonomy;
+			$rule2 = trim( get_taxonomy_archive_link( $taxonomy, 'relative' ), '/' );
+			$rule  = "($rule2|$rule1)";
+
+			$new_rules[ $rule . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' ] = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
+			$new_rules[ $rule . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' ]      = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
+			$new_rules[ $rule . '/([^/]+)/page/([0-9]{1,})/?$' ]              = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index ) . '&paged=' . $wp_rewrite->preg_index( $index + 1 );
+			$new_rules[ $rule . '/([^/]+)/embed/?$' ]                         = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index ) . '&embed=true';
+			$new_rules[ $rule . '/([^/]+)/?$' ]                               = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index );
 		}
-
-		$archive_page = get_collection_archives_page_id();
-
-		$index = 2;
-		$query = sprintf( 'index.php?page_id=%d', $archive_page );
-
-		$rule1 = 'collection';
-		$rule2 = trim( get_collection_archive_link( 'relative' ), '/' );
-		$rule  = "($rule2|$rule1)";
-
-		$new_rules[ $rule . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' ] = $query . '&collection=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
-		$new_rules[ $rule . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' ]      = $query . '&collection=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
-		$new_rules[ $rule . '/([^/]+)/page/([0-9]{1,})/?$' ]              = $query . '&collection=' . $wp_rewrite->preg_index( $index ) . '&paged=' . $wp_rewrite->preg_index( $index + 1 );
-		$new_rules[ $rule . '/([^/]+)/embed/?$' ]                         = $query . '&collection=' . $wp_rewrite->preg_index( $index ) . '&embed=true';
-		$new_rules[ $rule . '/([^/]+)/?$' ]                               = $query . '&collection=' . $wp_rewrite->preg_index( $index );
 
 		return array_merge( $new_rules, $rules );
 	}
