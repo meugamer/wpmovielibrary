@@ -280,22 +280,54 @@ function is_archive_page( $post_id ) {
 }
 
 /**
+ * Retrieve taxonomies archive page links.
+ * 
+ * If the submitted taxonomy does not have a set archive page, return false.
+ * Otherwise, return the page's permalink with or without the site home url
+ * depending on $format.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $type Taxonomy type.
+ * @param    string    $format URL format, 'relative' or 'absolute'.
+ * 
+ * @return   string|boolean
+ */
+function get_taxonomy_archive_link( $type = '', $format = 'absolute' ) {
+
+	if ( ! has_archives_page( $type ) ) {
+		return '';
+	}
+
+	$page_id = get_archives_page_id( $type );
+	if ( false === $page_id ) {
+		return false;
+	}
+
+	$permalink = get_permalink( $page_id );
+	if ( 'relative' == $format ) {
+		$permalink = str_replace( home_url(), '', $permalink );
+	}
+
+	return $permalink;
+}
+
+/**
  * Retrieve an archive page ID.
  * 
  * @since    3.0
  * 
  * @param    string    $type Archive type.
- * @param    int       $default Default ID.
  * 
  * @return   int
  */
-function get_archives_page_id( $type = '', $default = 0 ) {
+function get_archives_page_id( $type = '' ) {
 
 	$pages = get_option( '_wpmoly_archive_pages', array() );
 
 	$page_id = array_search( $type, $pages );
 	if ( false === $page_id ) {
-		return (int) $default;
+		return false;
 	}
 
 	return (int) $page_id;
@@ -334,17 +366,34 @@ function has_archives_page( $type = '' ) {
 }
 
 /**
+ * Retrieve movies archive page link.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $format URL format, 'relative' or 'absolute'.
+ * 
+ * @return   string|boolean
+ */
+function get_movie_archive_link( $format = 'absolute' ) {
+
+	$link = get_post_type_archive_link( 'movie' );
+	if ( 'relative' == $format ) {
+		$link = str_replace( home_url(), '', $link );
+	}
+
+	return $link;
+}
+
+/**
  * Retrieve 'movie' post type archive page ID.
  * 
  * @since    3.0
  * 
- * @param    int    $default Default ID.
- * 
  * @return   int
  */
-function get_movie_archives_page_id( $default = 0 ) {
+function get_movie_archives_page_id() {
 
-	return get_archives_page_id( 'movies', (int) $default );
+	return get_archives_page_id( 'movies' );
 }
 
 /**
@@ -376,17 +425,29 @@ function has_movie_archives_page() {
 }
 
 /**
+ * Retrieve actors archive page link.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $format URL format, 'relative' or 'absolute'.
+ * 
+ * @return   string|boolean
+ */
+function get_actor_archive_link( $format = 'absolute' ) {
+
+	return get_taxonomy_archive_link( 'actors', $format );
+}
+
+/**
  * Retrieve 'actor' taxonomy archive page ID.
  * 
  * @since    3.0
  * 
- * @param    int    $default Default ID.
- * 
  * @return   int
  */
-function get_actor_archives_page_id( $default = 0 ) {
+function get_actor_archives_page_id() {
 
-	return get_archives_page_id( 'actors', (int) $default );
+	return get_archives_page_id( 'actors' );
 }
 
 /**
@@ -418,17 +479,29 @@ function has_actor_archives_page() {
 }
 
 /**
+ * Retrieve collections archive page link.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $format URL format, 'relative' or 'absolute'.
+ * 
+ * @return   string|boolean
+ */
+function get_collection_archive_link( $format = 'absolute' ) {
+
+	return get_taxonomy_archive_link( 'collections', $format );
+}
+
+/**
  * Retrieve 'collection' taxonomy archive page ID.
  * 
  * @since    3.0
  * 
- * @param    int    $default Default ID.
- * 
  * @return   int
  */
-function get_collection_archives_page_id( $default = 0 ) {
+function get_collection_archives_page_id() {
 
-	return get_archives_page_id( 'collections', (int) $default );
+	return get_archives_page_id( 'collections' );
 }
 
 /**
@@ -460,17 +533,29 @@ function has_collection_archives_page() {
 }
 
 /**
+ * Retrieve genres archive page link.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $format URL format, 'relative' or 'absolute'.
+ * 
+ * @return   string|boolean
+ */
+function get_genre_archive_link( $format = 'absolute' ) {
+
+	return get_taxonomy_archive_link( 'genres', $format );
+}
+
+/**
  * Retrieve 'genre' taxonomy archive page ID.
  * 
  * @since    3.0
  * 
- * @param    int    $default Default ID.
- * 
  * @return   int
  */
-function get_genre_archives_page_id( $default = 0 ) {
+function get_genre_archives_page_id() {
 
-	return get_archives_page_id( 'genres', (int) $default );
+	return get_archives_page_id( 'genres' );
 }
 
 /**
