@@ -83,10 +83,17 @@ class TermEditor extends Metabox {
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
 						'settings' => array(
+							'actor-custom-picture' => array(
+								'type'        => 'image',
+								'section'     => 'actor-appearance',
+								'label'       => esc_html__( 'Custom Actor Picture', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Upload a custom picture for this actor.', 'wpmovielibrary' ),
+								'size'        => 'thumbnail'
+							),
 							'actor-picture' => array(
 								'type'        => 'radio-image',
 								'section'     => 'actor-appearance',
-								'label'       => esc_html__( 'Actor picture' ),
+								'label'       => esc_html__( 'Actor picture', 'wpmovielibrary' ),
 								'description' => esc_html__( 'A default picture for this actor.', 'wpmovielibrary' ),
 								'choices' => array(
 									'neutral' => array(
@@ -132,6 +139,13 @@ class TermEditor extends Metabox {
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
 						'settings' => array(
+							'collection-custom-thumbnail' => array(
+								'type'        => 'image',
+								'section'     => 'collection-appearance',
+								'label'       => esc_html__( 'Custom Collection Thumbnail', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Upload a custom thumbnail for this collection.', 'wpmovielibrary' ),
+								'size'        => 'thumbnail'
+							),
 							'collection-thumbnail' => array(
 								'type'        => 'radio-image',
 								'section'     => 'collection-appearance',
@@ -299,6 +313,13 @@ class TermEditor extends Metabox {
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
 						'settings' => array(
+							'genre-custom-thumbnail' => array(
+								'type'        => 'image',
+								'section'     => 'genre-appearance',
+								'label'       => esc_html__( 'Custom Genre Thumbnail', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Upload a custom thumbnail for this genre.', 'wpmovielibrary' ),
+								'size'        => 'thumbnail'
+							),
 							'genre-thumbnail' => array(
 								'type'        => 'radio-image',
 								'section'     => 'genre-appearance',
