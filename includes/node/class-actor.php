@@ -194,6 +194,11 @@ class Actor extends Node {
 	 */
 	public function get_picture( $variant = '', $size = 'thumb' ) {
 
+		$custom_picture = $this->get_custom_picture( $size );
+		if ( ! empty( $custom_picture ) ) {
+			return $this->picture = $custom_picture;
+		}
+
 		if ( empty( $variant ) ) {
 			$variant = $this->get( 'picture' );
 		}
@@ -236,6 +241,30 @@ class Actor extends Node {
 		$picture = apply_filters( 'wpmoly/filter/default/actor/picture', WPMOLY_URL . "public/img/actor-{$variant}{$size}.png" );
 
 		return $this->picture = $picture;
+	}
+
+	/**
+	 * Retrieve the Actor's custom picture, if any.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $size.
+	 * 
+	 * @return   string
+	 */
+	public function get_custom_picture( $size ) {
+
+		$picture = $this->get( 'custom_picture' );
+		if ( empty( $picture ) ) {
+			return $picture;
+		}
+
+		$picture = wp_get_attachment_image_src( $picture, $size );
+		if ( empty( $picture[0] ) ) {
+			return '';
+		}
+
+		return $picture[0];
 	}
 
 	/**

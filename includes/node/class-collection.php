@@ -190,6 +190,11 @@ class Collection extends Node {
 	 */
 	public function get_thumbnail( $variant = '', $size = 'thumb' ) {
 
+		$custom_thumbnail = $this->get_custom_thumbnail( $size );
+		if ( ! empty( $custom_thumbnail ) ) {
+			return $this->thumbnail = $custom_thumbnail;
+		}
+
 		if ( empty( $variant ) ) {
 			$variant = $this->get( 'thumbnail' );
 			if ( empty( $variant ) ) {
@@ -235,6 +240,30 @@ class Collection extends Node {
 		$thumbnail = apply_filters( 'wpmoly/filter/default/collection/thumbnail', WPMOLY_URL . "public/img/collection-{$variant}{$size}.png" );
 
 		return $this->thumbnail = $thumbnail;
+	}
+
+	/**
+	 * Retrieve the Collection's custom thumbnail, if any.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $size.
+	 * 
+	 * @return   string
+	 */
+	public function get_custom_thumbnail( $size ) {
+
+		$thumbnail = $this->get( 'custom_thumbnail' );
+		if ( empty( $thumbnail ) ) {
+			return $thumbnail;
+		}
+
+		$thumbnail = wp_get_attachment_image_src( $thumbnail, $size );
+		if ( empty( $thumbnail[0] ) ) {
+			return '';
+		}
+
+		return $thumbnail[0];
 	}
 
 	/**
