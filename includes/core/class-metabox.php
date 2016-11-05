@@ -329,7 +329,8 @@ class Metabox {
 					'choices'     => isset( $control->choices )     ? $control->choices     : false,
 					'description' => isset( $control->description ) ? $control->description : false,
 					'post_type'   => isset( $control->post_type )   ? $control->post_type   : false,
-					'taxonomy'    => isset( $control->taxonomy )    ? $control->taxonomy    : false
+					'taxonomy'    => isset( $control->taxonomy )    ? $control->taxonomy    : false,
+					'size'        => isset( $control->size )        ? $control->size        : false
 				)
 			);
 
