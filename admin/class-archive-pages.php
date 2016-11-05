@@ -93,7 +93,7 @@ class ArchivePages extends Metabox {
 				'priority'  => 'high',
 				'sections'  => array(
 					'grid-settings' => array(
-						'label' => esc_html__( 'Grid', 'wpmovielibrary' ),
+						'label' => esc_html__( 'Archive Grid', 'wpmovielibrary' ),
 						'icon'  => 'wpmolicon icon-grid',
 						'settings' => array(
 							'grid-id' => array(
@@ -113,26 +113,94 @@ class ArchivePages extends Metabox {
 								//'description' => esc_html__( 'Where should the Grid be displayed. You can include the Grid in a custom place in your content by adding inserting the <code>[archives_grid]</code> in your content.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'choices'  => array(
-									'top'    => __( 'Before Post content', 'wpmovielibrary' ),
-									'bottom' => __( 'After Post content', 'wpmovielibrary' ),
+									'top'    => esc_html__( 'Before Post content', 'wpmovielibrary' ),
+									'bottom' => esc_html__( 'After Post content', 'wpmovielibrary' ),
 									//'custom' => __( 'Custom', 'wpmovielibrary' )
 								),
 								'default'  => 'top'
-							)
-						)
-					),
-					'page-customization' => array(
-						'label' => esc_html__( 'Customization', 'wpmovielibrary' ),
-						'icon'  => 'wpmolicon icon-advanced',
-						'description' => esc_html__( 'Try to customize the page behaviour and appearance.<br /><strong>Note:</strong> this options may be ineffective depending on your theme and other plugins you are running that may interfere.', 'wpmovielibrary' ),
-						'settings' => array(
+							),
 							'adapt-page-title' => array(
 								'type'     => 'checkbox',
-								'post_type'=> 'grid',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Adapt Page Title', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Try to adapt the page’s title to fit the grid content changes: ordering, sorting…', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' )
+							),
+							'adapt-post-title' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Adapt Post Title', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Try to adapt the post title to fit the grid content changes: ordering, sorting…', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' )
+							)
+						)
+					),
+					'single-terms' => array(
+						'label' => esc_html__( 'Single Terms', 'wpmovielibrary' ),
+						'icon'  => 'wpmolicon icon-tags',
+						'settings' => array(
+							'single-terms' => array(
+								'type'     => 'checkbox',
+								'section'  => 'single-terms',
+								'label'    => esc_html__( 'Use for single terms', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Use this page to show single terms archives too. This will replace the standard WordPress archive page with a page containing the term Headbox and a grid of related movies.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' )
+							),
+							'headbox-theme' => array(
+								'type'     => 'select',
+								'section'  => 'single-terms',
+								'label'    => esc_html__( 'Headbox Theme', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Select a theme for the term Headbox. Select "None" to hide the Headbox.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col widefat' ),
+								'choices'  => array(
+									'none'     => esc_html__( 'None', 'wpmovielibrary' ),
+									'default'  => esc_html__( 'Default', 'wpmovielibrary' ),
+									'extended' => esc_html__( 'Extended', 'wpmovielibrary' ),
+								),
+								'default'  => 'extended'
+							),
+							'grid-preset' => array(
+								'type'    => 'radio-image',
+								'section' => 'single-terms',
+								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Select a preset to apply to the grid.', 'wpmovielibrary' ),
+								'attr'    => array( 'class' => 'visible-labels half-col' ),
+								'choices' => array(
+									'alphabetical-movies' => array(
+										'label' => esc_html__( 'Alphabetical Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/alphabetical-movies.png'
+									),
+									'unalphabetical-movies' => array(
+										'label' => esc_html__( 'Unalphabetical Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-movies.png'
+									),
+									'last-added-movies' => array(
+										'label' => esc_html__( 'Latest Added Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/last-added-movies.png'
+									),
+									'first-added-movies' => array(
+										'label' => esc_html__( 'Earliest Added Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/first-added-movies.png'
+									),
+									'last-released-movies' => array(
+										'label' => esc_html__( 'Latest Released Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/last-released-movies.png'
+									),
+									'first-released-movies' => array(
+										'label' => esc_html__( 'Earliest Released Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/first-released-movies.png'
+									),
+									'most-rated-movies' => array(
+										'label' => esc_html__( 'Most Rated Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/most-rated-movies.png'
+									),
+									'least-rated-movies' => array(
+										'label' => esc_html__( 'Least Rated Movies', 'wpmovielibrary' ),
+										'url'   => WPMOLY_URL . 'admin/img/least-rated-movies.png'
+									)
+								),
+								'default'  => 'alphabetical-movies',
+								'sanitize' => 'esc_attr'
 							)
 						)
 					)

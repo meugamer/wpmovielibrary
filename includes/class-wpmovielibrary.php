@@ -356,7 +356,9 @@ final class Library {
 		$this->loader->add_filter( 'the_content',        $public, 'the_headbox' );
 
 		$archives = Archives::get_instance();
-		$this->loader->add_filter( 'the_content', $archives, 'archive_page_content' );
+		$this->loader->add_filter( 'the_content',        $archives, 'archive_page_content', 10, 1 );
+		$this->loader->add_filter( 'single_post_title',  $archives, 'archive_page_title', 10, 2 );
+		$this->loader->add_filter( 'the_title',          $archives, 'archive_page_post_title', 10, 2 );
 
 		// Register Post Types, Taxonomies…
 		$registrar = Core\Registrar::get_instance();

@@ -44,6 +44,94 @@ class Archives {
 	}
 
 	/**
+	 * Adapt Archive Page post titles to match content.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string     $post_title Page original post title.
+	 * @param    WP_Post    $post Archive page Post instance.
+	 * 
+	 * @return   string
+	 */
+	public function archive_page_title( $post_title, $post ) {
+
+		if ( is_admin() || ! is_archive_page( $post->ID ) ) {
+			return $post_title;
+		}
+
+		$new_title = $this->adapt_archive_title( $post_title, $post->ID, 'wp_title' );
+
+		return $new_title;
+	}
+
+	/**
+	 * Adapt Archive Page titles to match content.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string     $post_title Page original post title.
+	 * @param    int        $post_id Archive page Post ID.
+	 * 
+	 * @return   string
+	 */
+	public function archive_page_post_title( $post_title, $post_id ) {
+
+		global $wp_query;
+
+		if ( is_admin() || ! is_archive_page( $post_id ) || ! in_the_loop() ) {
+			return $post_title;
+		}
+
+		$new_title = $this->adapt_archive_title( $post_title, $post_id, 'post_title' );
+
+		return $new_title;
+	}
+
+	/**
+	 * Adapt Archive Page titles to match content.
+	 * 
+	 * Mostly used to feature the term name in the page and post title when
+	 * showing a single term archives.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string     $title Page original post title.
+	 * @param    int        $post_id Archive page Post ID.
+	 * @param    string     $context Context, either 'wp_title' (page title) or 'post_title' (page post title)
+	 * 
+	 * @return   string
+	 */
+	private function adapt_archive_title( $title, $post_id, $context ) {
+
+		$type = get_archive_page_type( $post_id );
+		$name = get_query_var( $type );
+		if ( empty( $name ) ) {
+			return $title;
+		}
+
+		$term = get_term_by( 'slug', $name, $type );
+		if ( ! $term ) {
+			return $title;
+		}
+
+		$title = sprintf( _x( '%s: %s', 'Archive page title, for instance ""', 'wpmovielibrary' ), $title, $term->name );
+
+		/**
+		 * Filter the adapted archive page/post title.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string     $title Page original post title.
+		 * @param    int        $post_id Archive page Post ID.
+		 * @param    WP_Term    $term Archive WP_Term instance.
+		 * @param    string     $context Context, either 'wp_title' (page title) or 'post_title' (page post title)
+		 */
+		$title = apply_filters( "wpmoly/filter/archive_page/{$context}/title", $title, $post_id, $term, $context );
+
+		return $title;
+	}
+
+	/**
 	 * Filter post content to add grid to archive pages.
 	 * 
 	 * Determine if we're dealing with a single item, ie. a term, or a real
@@ -85,14 +173,20 @@ class Archives {
 	 */
 	public function single_page_content( $post_id, $type, $content ) {
 
+		$show = get_post_meta( $post_id, '_wpmoly_single_terms', $single = true );
+		if ( ! _is_bool( $show ) ) {
+			return $content;
+		}
+
 		$name = get_query_var( $type );
 		$term = get_term_by( 'slug', $name, $type );
 		if ( ! $term ) {
 			return $content;
 		}
 
+		$theme = get_post_meta( $post_id, '_wpmoly_headbox_theme', $single = true );
 		$headbox = get_term_headbox( $term );
-		$headbox->set_theme( 'extended' );
+		$headbox->set_theme( $theme );
 
 		$template = get_headbox_template( $headbox );
 
