@@ -401,10 +401,10 @@ class Grid extends Node {
 		}
 
 		// Extract values
-		$settings = str_replace( array( ':', '|' ), array( '=', '&' ), $settings );
+		$settings = str_replace( array( ':', ',' ), array( '=', '&' ), $settings );
 		$defaults = array(
-			'id'       => '',
-			'order'    => '',
+			'id'      => '',
+			'order'   => '',
 			'orderby' => ''
 		);
 		$settings = wp_parse_args( $settings, $defaults );

@@ -271,6 +271,8 @@ class Grid extends Front {
 	 */
 	private function build_url( $args ) {
 
+		global $wp;
+
 		// Grid ID is required.
 		if ( ! isset( $args['id'] ) ) {
 			$args = array_merge( array( 'id' => $this->id ), $args );
@@ -281,10 +283,10 @@ class Grid extends Front {
 
 		// Build custom query.
 		$args = array( 'grid' => build_query( $args ) );
-		$args = str_replace( array( '&', '=' ), array( '|', ':' ), $args );
+		$args = str_replace( array( '&', '=' ), array( ',', ':' ), $args );
 
 		// Build URL
-		$url = add_query_arg( $args, get_permalink() );
+		$url = add_query_arg( $args, home_url( $wp->request ) );
 
 		return $url;
 	}
