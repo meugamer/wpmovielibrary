@@ -59,6 +59,11 @@ class Archives {
 			return $post_title;
 		}
 
+		$adapt = get_post_meta( $post->ID, '_wpmoly_adapt_page_title', $single = true );
+		if ( ! _is_bool( $adapt ) ) {
+			return $post_title;
+		}
+
 		$new_title = $this->adapt_archive_title( $post_title, $post->ID, 'wp_title' );
 
 		return $new_title;
@@ -79,6 +84,11 @@ class Archives {
 		global $wp_query;
 
 		if ( is_admin() || ! is_archive_page( $post_id ) || ! in_the_loop() ) {
+			return $post_title;
+		}
+
+		$adapt = get_post_meta( $post_id, '_wpmoly_adapt_post_title', $single = true );
+		if ( ! _is_bool( $adapt ) ) {
 			return $post_title;
 		}
 
@@ -188,11 +198,17 @@ class Archives {
 		$headbox = get_term_headbox( $term );
 		$headbox->set_theme( $theme );
 
-		$template = get_headbox_template( $headbox );
+		$headbox_template = get_headbox_template( $headbox );
 
-		//TODO add custom grid.
+		$grid = get_grid();
+		$grid->set_preset( 'custom' );
+		$grid->set_settings( array( $type => $name ) );
+		$grid->build();
 
-		$content = $template->render() . $content;
+		$grid_template = get_grid_template( $grid );
+		$grid_template->show_pagination = true;
+
+		$content = $headbox_template->render() . $grid_template->render() . $content;
 
 		return $content;
 	}

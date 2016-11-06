@@ -24,7 +24,7 @@ if ( $items->has_items() ) :
 		$movie = $items->the_item();
 ?>
 			<div class="node post-node movie" data-width="<?php echo $grid->get_column_width(); ?>" data-height="<?php echo $grid->get_row_height(); ?>">
-				<div class="node-picture post-picture movie-poster" style="background-image:url(<?php $movie->get_poster()->render( 'medium' ); ?>)">
+				<div class="node-poster post-poster movie-poster" style="background-image:url(<?php $movie->get_poster()->render( 'medium' ); ?>)">
 					<a href="<?php echo get_the_permalink( $movie->id ); ?>"></a>
 				</div>
 				<div class="node-title post-title movie-title"><a href="<?php echo get_the_permalink( $movie->id ); ?>"><?php $movie->the( 'title' ); ?></a></div>
