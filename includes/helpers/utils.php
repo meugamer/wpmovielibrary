@@ -159,7 +159,7 @@ function get_term_headbox( $term ) {
  * 
  * @return   Grid|boolean
  */
-function get_grid( $grid ) {
+function get_grid( $grid = null ) {
 
 	return _get_object( $grid, '\wpmoly\Node\Grid' );
 }
