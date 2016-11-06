@@ -342,6 +342,11 @@ class Grid extends Node {
 			}
 		}
 
+		// Don't build unexisting grids
+		if ( is_null( $this->id ) ) {
+			return $this;
+		}
+
 		$this->build();
 	}
 
@@ -354,7 +359,7 @@ class Grid extends Node {
 	 * 
 	 * @return   array
 	 */
-	private function build() {
+	public function build() {
 
 		if ( ! is_admin() ) {
 			$this->prepare();
@@ -450,6 +455,20 @@ class Grid extends Node {
 	}
 
 	/**
+	 * Set grid preset.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $preset New preset.
+	 * 
+	 * @return   string
+	 */
+	public function set_preset( $preset ) {
+
+		return $this->preset = $preset;
+	}
+
+	/**
 	 * Retrieve current grid settings.
 	 * 
 	 * Settings differs from parameters in that they should be temporary
@@ -467,6 +486,22 @@ class Grid extends Node {
 		}
 
 		return $this->settings;
+	}
+
+	/**
+	 * Set grid settings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $settings New settings.
+	 * 
+	 * @return   string
+	 */
+	public function set_settings( $settings ) {
+
+		$settings = wp_parse_args( $settings, $this->settings );
+
+		return $this->settings = $settings;
 	}
 
 	/**
