@@ -28,14 +28,14 @@ abstract class Query {
 	 * 
 	 * @var    array
 	 */
-	private $items;
+	protected $items;
 
 	/**
 	 * Query parameters.
 	 * 
 	 * @var    array
 	 */
-	private $args;
+	protected $args;
 
 	/**
 	 * Internal Query.
