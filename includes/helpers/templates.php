@@ -9,6 +9,24 @@
  * @subpackage WPMovieLibrary/includes
  */
 
+/**
+ * Get a specific template.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $template Template name.
+ * 
+ * @return   \wpmoly\Templates\Template
+ */
+function wpmoly_get_template( $template ) {
+
+	if ( is_admin() ) {
+		return new \wpmoly\Templates\Admin( $template );
+	}
+
+	return new \wpmoly\Templates\Front( $template );
+}
+
 
 /**
  * Get an Headbox template.
@@ -109,10 +127,5 @@ function get_grid_template( $grid ) {
  */
 function get_widget_template( $template_id ) {
 
-	$template = 'widgets/' . (string) $template_id . '.php';
-	if ( is_admin() ) {
-		return new \wpmoly\Templates\Admin( $template );
-	}
-
-	return new \wpmoly\Templates\Front( $template );
+	return wpmoly_get_template( 'widgets/' . (string) $template_id . '.php' );
 }
