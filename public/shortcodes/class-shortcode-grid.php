@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the Movies Shortcode class.
+ * Define the Grid Shortcode class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -11,9 +11,6 @@
 
 namespace wpmoly\Shortcodes;
 
-use wpmoly\Node\Grid;
-use wpmoly\Templates\Front as Template;
-
 /**
  * General Shortcode class.
  *
@@ -22,14 +19,14 @@ use wpmoly\Templates\Front as Template;
  * @subpackage WPMovieLibrary/public/shortcodes
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Movies extends Shortcode {
+class Grid extends Shortcode {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
 	 * 
 	 * @var    string
 	 */
-	public static $name = 'movies';
+	public static $name = 'grid';
 
 	/**
 	 * Shortcode attributes sanitizers
@@ -55,12 +52,38 @@ class Movies extends Shortcode {
 	 * @var    array
 	 */
 	protected static $aliases = array(
-		'movie_grid'     => 'grid',
-		'movies_grid'    => 'grid',
-		'movie_list'     => 'list',
-		'movies_list'    => 'list',
-		'movie_archive'  => 'archive',
-		'movies_archive' => 'archive',
+		'movie'               => 'grid',
+		'movies'              => 'grid',
+		'actor'               => 'grid',
+		'actors'              => 'grid',
+		'collection'          => 'grid',
+		'collections'         => 'grid',
+		'genre'               => 'grid',
+		'genres'              => 'grid',
+		'movie_grid'          => 'grid',
+		'movies_grid'         => 'grid',
+		'actor_grid'          => 'grid',
+		'actors_grid'         => 'grid',
+		'collection_grid'     => 'grid',
+		'collections_grid'    => 'grid',
+		'genre_grid'          => 'grid',
+		'genres_grid'         => 'grid',
+		'movie_list'          => 'list',
+		'movies_list'         => 'list',
+		'actor_list'          => 'list',
+		'actors_list'         => 'list',
+		'collection_list'     => 'list',
+		'collections_list'    => 'list',
+		'genre_list'          => 'list',
+		'genres_list'         => 'list',
+		'movie_archive'       => 'archive',
+		'movies_archive'      => 'archive',
+		'actor_archive'       => 'archive',
+		'actors_archive'      => 'archive',
+		'collection_archive'  => 'archive',
+		'collections_archive' => 'archive',
+		'genre_archive'       => 'archive',
+		'genres_archive'      => 'archive',
 	);
 
 	/**
@@ -90,7 +113,7 @@ class Movies extends Shortcode {
 	 */
 	public function run() {
 
-		$grid = new Grid( $this->attributes['id'] );
+		$grid = get_grid( $this->attributes['id'] );
 		$grid->set_mode( $this->attributes['mode'] );
 
 		$this->template = get_grid_template( $grid );

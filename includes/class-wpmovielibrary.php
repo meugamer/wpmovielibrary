@@ -216,8 +216,8 @@ final class Library {
 		} else {
 			// Shortcodes
 			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movie.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-movies.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-grid.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-headbox.php';
 			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-images.php';
 			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
 			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-detail.php';

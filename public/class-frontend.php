@@ -308,8 +308,8 @@ class Frontend {
 		}
 
 		$shortcodes = array(
-			'\wpmoly\Shortcodes\Movie',
-			'\wpmoly\Shortcodes\Movies',
+			'\wpmoly\Shortcodes\Grid',
+			'\wpmoly\Shortcodes\Headbox',
 			'\wpmoly\Shortcodes\Images',
 			'\wpmoly\Shortcodes\Metadata',
 			'\wpmoly\Shortcodes\Detail',

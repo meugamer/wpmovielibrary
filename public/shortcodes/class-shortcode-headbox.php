@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the Movie Shortcode class.
+ * Define the Headbox Shortcode class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -11,8 +11,6 @@
 
 namespace wpmoly\Shortcodes;
 
-use wpmoly\Node\Grid;
-use wpmoly\Node\Headbox;
 use wpmoly\Templates\Front as Template;
 
 /**
@@ -23,7 +21,7 @@ use wpmoly\Templates\Front as Template;
  * @subpackage WPMovieLibrary/public/shortcodes
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Movie extends Shortcode {
+class Headbox extends Shortcode {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
@@ -42,6 +40,11 @@ class Movie extends Shortcode {
 			'default' => '',
 			'values'  => null,
 			'filter'  => 'intval'
+		),
+		'title' => array(
+			'default' => '',
+			'values'  => null,
+			'filter'  => 'esc_attr'
 		),
 		'type' => array(
 			'default' => 'movie',
@@ -75,7 +78,10 @@ class Movie extends Shortcode {
 	 */
 	protected function make() {
 
-		$this->movie = get_movie( $this->attributes['id'] );
+		$this->get_movie();
+		if ( ! $this->movie ) {
+			return false;
+		}
 
 		$this->headbox = get_headbox( $this->movie );
 		$this->headbox->set( $this->attributes );
@@ -96,13 +102,13 @@ class Movie extends Shortcode {
 	public function run() {
 
 		if ( $this->movie->is_empty() ) {
-			$this->template = new Template( 'notice.php' );
-				$this->template->set_data( array(
-					'type'    => 'info',
-					'icon'    => 'wpmolicon icon-info',
-					'message' => sprintf( __( 'It seems this movie does not have any metadata available yet; %s?', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', get_edit_post_link(), __( 'care to add some', 'wpmovielibrary' ) ) ),
-					'note'    => __( 'This notice is private; only you and other administrators can see it.', 'wpmovielibrary' )
-				) );
+			$this->template = wpmoly_get_template( 'notice.php' );
+			$this->template->set_data( array(
+				'type'    => 'info',
+				'icon'    => 'wpmolicon icon-info',
+				'message' => sprintf( __( 'It seems this movie does not have any metadata available yet; %s?', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', get_edit_post_link(), __( 'care to add some', 'wpmovielibrary' ) ) ),
+				'note'    => __( 'This notice is private; only you and other administrators can see it.', 'wpmovielibrary' )
+			) );
 			return $this;
 		}
 
@@ -112,6 +118,30 @@ class Movie extends Shortcode {
 		) );
 
 		return $this;
+	}
+
+	/**
+	 * Retriveve the Headbox Movie.
+	 * 
+	 * Try to find the movie by its title is such an attribute was passed
+	 * to the Shortcode.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   WP_Post|boolean
+	 */
+	private function get_movie() {
+
+		if ( empty( $this->attributes['title'] ) ) {
+			return $this->movie = get_movie( $this->attributes['id'] );
+		}
+
+		$post = get_page_by_title( $this->attributes['title'], OBJECT, 'movie' );
+		if ( is_null( $post ) ) {
+			return false;
+		}
+
+		return $this->movie = get_movie( $post->ID );
 	}
 
 	/**
