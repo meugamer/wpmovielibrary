@@ -28,7 +28,14 @@ class Headbox extends Shortcode {
 	 * 
 	 * @var    string
 	 */
-	public static $name = 'movie';
+	public static $name = 'headbox';
+
+	/**
+	 * Headbox Node.
+	 * 
+	 * @var    Node
+	 */
+	private $node;
 
 	/**
 	 * Shortcode attributes sanitizers
@@ -64,7 +71,14 @@ class Headbox extends Shortcode {
 	 * @var    array
 	 */
 	protected static $aliases = array(
-		'movie_headbox'
+		'movie'              => 'movie',
+		'movie_headbox'      => 'movie',
+		'actor'              => 'actor',
+		'actor_headbox'      => 'actor',
+		'collection'         => 'collection',
+		'collection_headbox' => 'collection',
+		'genre'              => 'genre',
+		'genre_headbox'      => 'genre',
 	);
 
 	/**
@@ -78,16 +92,24 @@ class Headbox extends Shortcode {
 	 */
 	protected function make() {
 
-		$this->get_movie();
-		if ( ! $this->movie ) {
+		if ( ! is_null( $this->tag ) && isset( self::$aliases[ $this->tag ] ) ) {
+			$this->set( 'type', self::$aliases[ $this->tag ] );
+		}
+
+		if ( ! in_array( $this->attributes['type'], array( 'movie', 'actor', 'collection', 'genre' ) ) ) {
 			return false;
 		}
 
-		$this->headbox = get_headbox( $this->movie );
+		$this->get_node();
+		if ( ! $this->node ) {
+			return false;
+		}
+
+		$this->headbox = get_headbox( $this->node );
 		$this->headbox->set( $this->attributes );
 
 		// Set Template
-		$this->template = get_movie_headbox_template( $this->movie );
+		$this->template = get_headbox_template( $this->node );
 	}
 
 	/**
@@ -101,20 +123,21 @@ class Headbox extends Shortcode {
 	 */
 	public function run() {
 
-		if ( $this->movie->is_empty() ) {
+		if ( ! $this->node ) {
 			$this->template = wpmoly_get_template( 'notice.php' );
 			$this->template->set_data( array(
 				'type'    => 'info',
 				'icon'    => 'wpmolicon icon-info',
-				'message' => sprintf( __( 'It seems this movie does not have any metadata available yet; %s?', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', get_edit_post_link(), __( 'care to add some', 'wpmovielibrary' ) ) ),
+				'message' => sprintf( __( 'It seems this Node does not have any metadata available yet; %s?', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', get_edit_post_link(), __( 'care to add some', 'wpmovielibrary' ) ) ),
 				'note'    => __( 'This notice is private; only you and other administrators can see it.', 'wpmovielibrary' )
 			) );
 			return $this;
 		}
 
+		$type = $this->attributes['type'];
 		$this->template->set_data( array(
 			'headbox' => $this->headbox,
-			'movie'   => $this->movie
+			"$type"   => $this->node
 		) );
 
 		return $this;
@@ -123,25 +146,37 @@ class Headbox extends Shortcode {
 	/**
 	 * Retriveve the Headbox Movie.
 	 * 
-	 * Try to find the movie by its title is such an attribute was passed
+	 * Try to find the node by its title/name if such an attribute was passed
 	 * to the Shortcode.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   WP_Post|boolean
+	 * @return   Node|boolean
 	 */
-	private function get_movie() {
+	private function get_node() {
 
-		if ( empty( $this->attributes['title'] ) ) {
-			return $this->movie = get_movie( $this->attributes['id'] );
-		}
-
-		$post = get_page_by_title( $this->attributes['title'], OBJECT, 'movie' );
-		if ( is_null( $post ) ) {
+		$function = 'get_' . $this->attributes['type'];
+		if ( ! function_exists( $function ) ) {
 			return false;
 		}
 
-		return $this->movie = get_movie( $post->ID );
+		if ( empty( $this->attributes['title'] ) ) {
+			return $this->node = $function( $this->attributes['id'] );
+		}
+
+		if ( in_array( $this->attributes['type'], array( 'movie' ) ) ) {
+			$object = get_page_by_title( $this->attributes['title'], OBJECT, $this->attributes['type'] );
+			$object_id = $object->ID;
+		} elseif ( in_array( $this->attributes['type'], array( 'movie', 'actor', 'collection', 'genre' ) ) ) {
+			$object = get_term_by( 'name', $this->attributes['title'], $this->attributes['type'] );
+			$object_id = $object->term_id;
+		}
+
+		if ( is_null( $object_id ) ) {
+			return false;
+		}
+
+		return $this->node = $function( $object_id );
 	}
 
 	/**
