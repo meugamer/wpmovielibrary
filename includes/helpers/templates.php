@@ -49,6 +49,8 @@ function get_headbox_template( $headbox ) {
 /**
  * Get a Movie Headbox template.
  * 
+ * Simple alias for get_headbox_template().
+ * 
  * @since    3.0
  * 
  * @param    int    $movie Movie ID, object or array
@@ -62,6 +64,8 @@ function get_movie_headbox_template( $movie ) {
 
 /**
  * Get a Actor Headbox template.
+ * 
+ * Simple alias for get_headbox_template().
  * 
  * @since    3.0
  * 
@@ -77,6 +81,8 @@ function get_actor_headbox_template( $actor ) {
 /**
  * Get a Collection Headbox template.
  * 
+ * Simple alias for get_headbox_template().
+ * 
  * @since    3.0
  * 
  * @param    mixed    $collection Collection ID, object or array
@@ -90,6 +96,8 @@ function get_collection_headbox_template( $collection ) {
 
 /**
  * Get a Genre Headbox template.
+ * 
+ * Simple alias for get_headbox_template().
  * 
  * @since    3.0
  * 
