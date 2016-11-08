@@ -293,13 +293,13 @@ class ArchivePages extends Metabox {
 		$archive = $_POST['wpmoly']['archive_page_type'];
 		$oldpage = array_search( $archive, $this->pages );
 
-		// Same page, nothing to change
-		if ( $oldpage == $post_id ) {
-			return false;
-		}
-
 		if ( 'none' == $archive ) {
 			$archive = '';
+		}
+
+		// Same page, nothing to change
+		if ( $oldpage == $post_id || ( empty( $archive ) && ! isset( $this->pages[ $post_id ] ) ) ) {
+			return false;
 		}
 
 		// Archive page already set for this type
