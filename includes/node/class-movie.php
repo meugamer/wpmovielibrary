@@ -11,8 +11,6 @@
 
 namespace wpmoly\Node;
 
-use wpmoly\Helpers\Formatting;
-
 /**
  * Define the most important class of the plugin: Movie.
  *
@@ -157,7 +155,7 @@ class Movie extends Node {
 	public function get( $name, $default = null ) {
 
 		if ( 'year' == $name ) {
-			return Formatting::date( $this->get( 'release_date' ), 'Y' );
+			return date_i18n( 'Y', strtotime( $this->get( 'release_date' ) ) );
 		}
 
 		return parent::get( $name, $default );
