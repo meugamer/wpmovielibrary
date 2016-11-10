@@ -150,11 +150,11 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/helpers/debug.php';
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
 		require_once WPMOLY_PATH . 'includes/helpers/templates.php';
+		require_once WPMOLY_PATH . 'includes/helpers/permalinks.php';
+		require_once WPMOLY_PATH . 'includes/helpers/formatting.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-permalink.php';
-		require_once WPMOLY_PATH . 'includes/helpers/class-permalinks.php';
-		require_once WPMOLY_PATH . 'includes/helpers/class-formatting.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-terms.php';
 
 		// Nodes
@@ -193,12 +193,12 @@ final class Library {
 		// Main
 		require_once WPMOLY_PATH . 'includes/class-admin-bar.php';
 		require_once WPMOLY_PATH . 'public/class-frontend.php';
-		//require_once WPMOLY_PATH . 'public/class-single.php';
 		require_once WPMOLY_PATH . 'public/class-archives.php';
 
 		// Widgets
 		require_once WPMOLY_PATH . 'includes/widgets/class-widget.php';
 		require_once WPMOLY_PATH . 'includes/widgets/class-statistics-widget.php';
+		require_once WPMOLY_PATH . 'includes/widgets/class-details-widget.php';
 
 		if ( is_admin() ) {
 			// Core
