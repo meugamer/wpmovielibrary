@@ -159,6 +159,11 @@ class Detail extends Metadata {
 			return apply_filters( "wpmoly/shortcode/format/{$key}/raw/value", $value );
 		}
 
+		$options = array(
+			'show_icon' => _is_bool( $this->attributes['icon'] ),
+			'show_text' => _is_bool( $this->attributes['text'] ),
+		);
+
 		/**
 		 * Filter detail value.
 		 * 
@@ -167,7 +172,7 @@ class Detail extends Metadata {
 		 * @param    string    $value
 		 * @param    string    $format
 		 */
-		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $this->attributes['text'], $this->attributes['icon'] );
+		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $options );
 	}
 
 	/**

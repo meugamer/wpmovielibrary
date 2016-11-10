@@ -66,11 +66,25 @@ abstract class Widget extends WP_Widget {
 	private $instance = array();
 
 	/**
+	 * Widget default attributes.
+	 * 
+	 * @var    array
+	 */
+	protected $defaults = array();
+
+	/**
 	 * Widget data.
 	 * 
 	 * @var    array
 	 */
 	protected $data = array();
+
+	/**
+	 * Widget form data.
+	 * 
+	 * @var    array
+	 */
+	protected $formdata = array();
 
 	/**
 	 * Class constructor.
@@ -137,8 +151,21 @@ abstract class Widget extends WP_Widget {
 		$this->instance = $instance;
 		$this->build();
 
+		$classname = wp_parse_args(
+			array(
+				'widget',
+				'wpmoly-widget',
+				$this->id_base . '-widget'
+			),
+			$this->classname
+		);
+		$this->classname = implode( ' ', $classname );
+
 		$template = get_widget_template( $this->id_base );
-		$template->set_data( $this->data );
+		$template->set_data( array(
+			'widget' => $this,
+			'data'   => $this->data
+		) );
 
 		echo $template->render( $require = 'always' );
 	}
@@ -161,6 +188,7 @@ abstract class Widget extends WP_Widget {
 
 		$this->instance = $old_instance;
 
+		$new_instance = wp_parse_args( $new_instance, $this->defaults );
 		foreach ( $new_instance as $key => $value ) {
 			$this->set_attr( $key, $value );
 		}
@@ -184,7 +212,8 @@ abstract class Widget extends WP_Widget {
 
 		$template = get_widget_template( $this->id_base );
 		$template->set_data( array(
-			'widget' => $this
+			'widget' => $this,
+			'data'   => $this->formdata
 		) );
 
 		echo $template->render( $require = 'always' );
