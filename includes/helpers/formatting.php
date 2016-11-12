@@ -173,6 +173,7 @@ function get_formatted_movie_detail( $detail, $value, $options = array() ) {
 		return '';
 	}
 
+	// Formatting options.
 	$options = wp_parse_args( (array) $options, array(
 		'show_text'  => true,
 		'show_icon'  => true,
@@ -194,25 +195,12 @@ function get_formatted_movie_detail( $detail, $value, $options = array() ) {
 				$icon = false;
 			}
 
-			/**
-			 * Filter single detail value.
-			 * 
-			 * This is used to generate permalinks for details and can be extended to
-			 * post-formatting modifications.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    string    $filtered_value Filtered detail value.
-			 * @param    string    $slug Detail slug value.
-			 * @param    array     $options Formatting options.
-			 */
-			$filtered_value = apply_filters( "wpmoly/filter/detail/{$detail}/single", $filtered_value, $slug, $options );
-
 			if ( _is_bool( $options['is_link'] ) ) {
 
-				$url   = get_movie_meta_url( 'status', $slug );
-				$title = sprintf( __( 'Movies filed as “%s”', 'wpmovielibrary' ), $filtered_value );
-				$link  = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $title ) . '">' . $filtered_value . '</a>';
+				$options = array(
+					'content' => __( $details[ $slug ], 'wpmovielibrary' ),
+					'title'   => sprintf( __( 'Movies filed as “%s”', 'wpmovielibrary' ), __( $details[ $slug ], 'wpmovielibrary' ) )
+				);
 
 				/**
 				 * Filter meta permalink.
@@ -224,20 +212,31 @@ function get_formatted_movie_detail( $detail, $value, $options = array() ) {
 				 * @param    string    $title Permalink title attribute.
 				 * @param    string    $content Permalink content.
 				 */
-				$link = apply_filters( "wpmoly/filter/detail/{$detail}/single/link", $link, $url, $title, $filtered_value );
+				$filtered_value = apply_filters( "wpmoly/filter/detail/{$detail}/url", $slug, $options );
 
-				$value[ $key ] = $icon . $link;
 			} else {
-				$value[ $key ] = $icon . $filtered_value;
+
+				/**
+				 * Filter single detail value.
+				 * 
+				 * This is used to generate permalinks for details and can be extended to
+				 * post-formatting modifications.
+				 * 
+				 * @since    3.0
+				 * 
+				 * @param    string    $filtered_value Filtered detail value.
+				 * @param    string    $slug Detail slug value.
+				 * @param    array     $options Formatting options.
+				 */
+				$filtered_value = apply_filters( "wpmoly/filter/detail/{$detail}", $filtered_value, $slug, $options );
 			}
+
+			$value[ $key ] = $icon . $filtered_value;
 		}
 	}
 
 	/**
 	 * Filter final detail value.
-	 * 
-	 * This is used to generate permalinks for details and can be extended to
-	 * post-formatting modifications.
 	 * 
 	 * @since    3.0
 	 * 
@@ -275,18 +274,35 @@ function get_formatted_movie_actors( $actors, $options = array() ) {
  * 
  * @return   string    Formatted value
  */
-function get_formatted_movie_adult( $adult, $options = array() ) {
+function get_formatted_movie_adult( $is_adult, $options = array() ) {
 
-	if ( empty( $adult ) ) {
-		$status = '';
-	} elseif ( _is_bool( $adult ) ) {
+	if ( empty( $is_adult ) ) {
+		return get_formatted_empty_value( $is_adult );
+	}
+
+	// Formatting options.
+	$options = wp_parse_args( (array) $options, array(
+		'is_link' => true
+	) );
+
+	$is_adult = _is_bool( $is_adult );
+	if ( $is_adult ) {
 		$status = __( 'Yes', 'wpmovielibrary' );
 	} else {
 		$status = __( 'No', 'wpmovielibrary' );
 	}
 
-	if ( empty( $status ) ) {
-		return get_formatted_empty_value( $status );
+	if ( $options['is_link'] ) {
+
+		/**
+		 * Filter final adult restriction.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string     $status Filtered adult restriction.
+		 * @param    boolean    $is_adult Adult restriction?
+		 */
+		return apply_filters( 'wpmoly/filter/meta/adult/url', $status, $is_adult );
 	}
 
 	/**
@@ -297,7 +313,7 @@ function get_formatted_movie_adult( $adult, $options = array() ) {
 	 * @param    string     $status Filtered adult restriction.
 	 * @param    boolean    $is_adult Adult restriction?
 	 */
-	return apply_filters( 'wpmoly/filter/meta/adult', $status, _is_bool( $adult ) );
+	return apply_filters( 'wpmoly/filter/meta/adult', $status, $is_adult );
 }
 
 /**
@@ -321,9 +337,6 @@ function get_formatted_movie_author( $author, $options = array() ) {
 
 		/**
 		 * Filter single author meta value.
-		 * 
-		 * This is used to generate permalinks for authors and can be extended to
-		 * post-formatting modifications.
 		 * 
 		 * @since    3.0
 		 * 
@@ -885,6 +898,13 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 		'include_empty' => true
 	) );
 
+	$text = '';
+	$html = '';
+	$title = '';
+
+	$show_text = _is_bool( $options['show_text'] );
+	$show_icon = _is_bool( $options['show_icon'] );
+
 	$base = (int) wpmoly_o( 'format-rating' );
 	if ( 10 != $base ) {
 		$base = 5;
@@ -901,21 +921,19 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 	$value = number_format( $value, 1 );
 	$details = wpmoly_o( 'default_details' );
 	if ( isset( $details['rating']['options'][ $value ] ) ) {
-		$title = $details['rating']['options'][ $value ];
+		$label = $details['rating']['options'][ $value ];
 	} else {
-		$title = '';
+		$label = '';
 	}
 
 	$id = preg_replace( '/([0-5])(\.|_)(0|5)/i', '$1-$3', $value );
 	$class = "wpmoly-movie-rating wpmoly-movie-rating-$id";
 
-	$label = '';
-	if ( _is_bool( $options['show_text'] ) ) {
-		$label = $title;
+	if ( $show_text ) {
+		$text = $label;
 	}
 
-	$html = '';
-	if ( _is_bool( $options['show_icon'] ) ) {
+	if ( $show_icon ) {
 
 		$stars = array();
 
@@ -961,11 +979,11 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 		} else if ( 10 == $base ) {
 			$_filled = $value * 2;
 			$_empty  = 10 - $_filled;
-			$title   = "{$_filled}/10 − {$title}";
+			$title   = "{$_filled}/10 − {$label}";
 
 			$html = str_repeat( $stars['filled'], $_filled ) . str_repeat( $stars['empty'], $_empty );
 		} else {
-			$title = "{$value}/5 − {$title}";
+			$title = "{$value}/5 − {$label}";
 			$html  = str_repeat( $stars['filled'], $_filled ) . str_repeat( $stars['half'], $_half ) . str_repeat( $stars['empty'], $_empty );
 		}
 
@@ -983,14 +1001,28 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 		 */
 		$html = apply_filters( 'wpmoly/filter/html/rating/stars', $html, $value, $title, $class );
 	} else {
-		$html = $title;
+		$html = $label;
 	}
 
 	if ( _is_bool( $options['is_link'] ) ) {
 
-		$link = '<a href="' . esc_url( get_movie_meta_url( 'rating', $value ) ) . '" title="' . esc_attr( $title ) . '">' . $html . '</a>';
+		/**
+		 * Filter meta permalink.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $value Rating value.
+		 * @param    array     $options Permalink options.
+		 */
+		$html = apply_filters( "wpmoly/filter/detail/rating/url", $value, array(
+			'content' => $html,
+			'title'   => sprintf( __( 'Movies rated “%s”', 'wpmovielibrary' ), $label )
+		) );
+	}
 
-		return apply_filters( 'wpmoly/filter/detail/rating/link', $link );
+	$filtered_rating = $html;
+	if ( $show_text && $show_icon ) {
+		$filtered_rating = $html . $text;
 	}
 
 	/**
@@ -998,13 +1030,14 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    string    $rating Rating Stars HTML markup
-	 * @param    string    $html Rating Stars HTML block
-	 * @param    string    $label Rating label
-	 * @param    float     $value Rating value
-	 * @param    string    $title Rating title
+	 * @param    string    $filtered_rating Filtered rating HTML output.
+	 * @param    string    $html HTML part.
+	 * @param    string    $text Text part.
+	 * @param    string    $value Rating value.
+	 * @param    string    $label Rating label.
+	 * @param    array     $options Formatting options.
 	 */
-	return apply_filters( 'wpmoly/filter/detail/rating', $html . $label, $html, $label, $value, $title );
+	return apply_filters( 'wpmoly/filter/detail/rating', $filtered_rating, $html, $text, $value, $label, $options );
 }
 
 /**
@@ -1156,8 +1189,12 @@ function get_formatted_movie_spoken_languages( $languages, $options = array() ) 
 	$options = wp_parse_args( (array) $options, array(
 		'show_text' => true,
 		'show_icon' => true,
+		'is_link'   => true,
 		'variant'   => '',
 	) );
+
+	$show_text = _is_bool( $options['show_text'] );
+	$show_icon = _is_bool( $options['show_icon'] );
 
 	if ( is_string( $languages ) ) {
 		$languages = explode( ',', $languages );
@@ -1175,7 +1212,7 @@ function get_formatted_movie_spoken_languages( $languages, $options = array() ) 
 		$language = get_language( $language );
 		$languages_data[ $key ] = $language;
 
-		if ( true !== $options['show_text'] ) {
+		if ( ! $show_text ) {
 			$name = '';
 		} elseif ( '1' == wpmoly_o( 'translate-languages' ) ) {
 			$name = $language->localized_name;
@@ -1183,25 +1220,50 @@ function get_formatted_movie_spoken_languages( $languages, $options = array() ) 
 			$name = $language->standard_name;
 		}
 
-		if ( _is_bool( $options['show_icon'] ) ) {
+		if ( $show_icon ) {
 			$icon = '<span class="wpmoly language iso icon" title="' . esc_attr( $language->localized_name ) . ' (' . esc_attr( $language->standard_name ) . ')">' . esc_attr( $language->code ) . '</span>&nbsp;';
 		} else {
-			$icon = false;
+			$icon = '';
 		}
 
-		/**
-		 * Filter single language meta value.
-		 * 
-		 * This is used to generate permalinks for languages and can be extended to
-		 * post-formatting modifications.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    $language Filtered language.
-		 * @param    array     $language_data Language instance.
-		 * @param    string    $icon Language icon string.
-		 */
-		$languages[ $key ] = apply_filters( 'wpmoly/filter/meta/language/single', $name, $language, $icon, $variant );
+		if ( $options['is_link'] ) {
+
+			if ( ! empty( $variant ) ) {
+				$id = 'my-language';
+				$attr_title = __( 'My %s-speaking movies', 'wpmovielibrary' );
+			} else {
+				$id = 'language';
+				$attr_title = __( '%s-speaking movies', 'wpmovielibrary' );
+			}
+
+			/**
+			 * Filter language meta URL.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $language Language value.
+			 */
+			$name = apply_filters( 'wpmoly/filter/meta/language/url', $language->code, array(
+				'variant' => $id,
+				'content' => $name,
+				'title'   => sprintf( $attr_title, $language->localized_name )
+			) );
+
+		} else {
+
+			/**
+			 * Filter single language meta value.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $language Filtered language.
+			 * @param    array     $language_data Language instance.
+			 * @param    string    $icon Language icon string.
+			 */
+			$name = apply_filters( 'wpmoly/filter/meta/language/single', $name, $language, $icon, $variant );
+		}
+
+		$languages[ $key ] = $icon . $name;
 	}
 
 	if ( empty( $languages ) ) {

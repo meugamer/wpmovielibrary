@@ -272,26 +272,26 @@ class Frontend {
 		$loader->add_filter( 'wpmoly/shortcode/format/writer/value',               '', 'get_formatted_movie_writer',             15, 2 );
 
 		// Meta Permalinks
-		/*$loader->add_filter( 'wpmoly/filter/meta/adult',              '', 'get_movie_adult_url',         15, 1 );
-		$loader->add_filter( 'wpmoly/filter/meta/author/single',      '', 'get_movie_author_url',        15, 1 );
-		$loader->add_filter( 'wpmoly/filter/meta/certification',      '', 'get_movie_certification_url', 15, 1 );
-		$loader->add_filter( 'wpmoly/filter/meta/composer/single',    '', 'get_movie_composer_url',      15, 1 );
-		$loader->add_filter( 'wpmoly/filter/meta/local_release_date', '', 'get_movie_release_date_url',  15, 6 );
-		$loader->add_filter( 'wpmoly/filter/meta/photography/single', '', 'get_movie_photographer_url',  15, 1 );
-		$loader->add_filter( 'wpmoly/filter/meta/producer/single',    '', 'get_movie_producer_url',      15, 1 );
-		$loader->add_filter( 'wpmoly/filter/meta/production/single',  '', 'get_movie_production_url',    15, 1 );
-		$loader->add_filter( 'wpmoly/filter/meta/country/single',     '', 'get_movie_country_url',       15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/release_date',       '', 'get_movie_release_date_url',  15, 6 );
-		$loader->add_filter( 'wpmoly/filter/meta/language/single',    '', 'get_movie_language_url',      15, 4 );
-		$loader->add_filter( 'wpmoly/filter/meta/writer/single',      '', 'get_movie_writer_url',        15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/adult/url',              '', 'get_movie_adult_url',         15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/author/url',             '', 'get_movie_author_url',        15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/certification/url',      '', 'get_movie_certification_url', 15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/composer/url',           '', 'get_movie_composer_url',      15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/local_release_date/url', '', 'get_movie_release_date_url',  15, 6 );
+		$loader->add_filter( 'wpmoly/filter/meta/photography/url',        '', 'get_movie_photographer_url',  15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/producer/url',           '', 'get_movie_producer_url',      15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/production/url',         '', 'get_movie_production_url',    15, 1 );
+		$loader->add_filter( 'wpmoly/filter/meta/country/url',            '', 'get_movie_country_url',       15, 3 );
+		$loader->add_filter( 'wpmoly/filter/meta/release_date/url',       '', 'get_movie_release_date_url',  15, 6 );
+		$loader->add_filter( 'wpmoly/filter/meta/language/url',           '', 'get_movie_language_url',      15, 4 );
+		$loader->add_filter( 'wpmoly/filter/meta/writer/url',             '', 'get_movie_writer_url',        15, 1 );
 
 		// Details Permalinks
-		$loader->add_filter( 'wpmoly/filter/detail/format/single',    '', 'get_movie_format_url',    15, 4 );
-		$loader->add_filter( 'wpmoly/filter/detail/language/single',  '', 'get_movie_language_url',  15, 4 );
-		$loader->add_filter( 'wpmoly/filter/detail/media/single',     '', 'get_movie_media_url',     15, 4 );
-		$loader->add_filter( 'wpmoly/filter/detail/rating',           '', 'get_movie_rating_url',    15, 5 );
-		$loader->add_filter( 'wpmoly/filter/detail/status/single',    '', 'get_movie_status_url',    15, 4 );
-		//$loader->add_filter( 'wpmoly/filter/detail/subtitles/single', '', 'get_movie_subtitles_url', 15, 3 );*/
+		$loader->add_filter( 'wpmoly/filter/detail/format/url',           '', 'get_movie_format_url',    15, 2 );
+		$loader->add_filter( 'wpmoly/filter/detail/language/url',         '', 'get_movie_language_url',  15, 2 );
+		$loader->add_filter( 'wpmoly/filter/detail/media/url',            '', 'get_movie_media_url',     15, 2 );
+		$loader->add_filter( 'wpmoly/filter/detail/rating/url',           '', 'get_movie_rating_url',    15, 2 );
+		$loader->add_filter( 'wpmoly/filter/detail/status/url',           '', 'get_movie_status_url',    15, 2 );
+		$loader->add_filter( 'wpmoly/filter/detail/subtitles/url',        '', 'get_movie_subtitles_url', 15, 2 );
 	}
 
 	/**
