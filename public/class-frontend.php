@@ -244,7 +244,7 @@ class Frontend {
 
 		$loader = Core\Loader::get_instance();
 
-		// Shortcodes Meta/Details Formatting
+		// Shortcodes Meta Formatting
 		$loader->add_filter( 'wpmoly/shortcode/format/adult/value',                '', 'get_formatted_movie_adult',              15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/author/value',               '', 'get_formatted_movie_author',             15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/budget/value',               '', 'get_formatted_movie_budget',             15, 2 );
@@ -253,27 +253,29 @@ class Frontend {
 		$loader->add_filter( 'wpmoly/shortcode/format/director/value',             '', 'get_formatted_movie_director',           15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/homepage/value',             '', 'get_formatted_movie_homepage',           15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/cast/value',                 '', 'get_formatted_movie_cast',               15, 2 );
-		$loader->add_filter( 'wpmoly/shortcode/format/format/value',               '', 'get_formatted_movie_format',             15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/genres/value',               '', 'get_formatted_movie_genres',             15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/imdb_id/value',              '', 'get_formatted_movie_imdb_id',            15, 2 );
-		$loader->add_filter( 'wpmoly/shortcode/format/language/value',             '', 'get_formatted_movie_language',           15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/local_release_date/value',   '', 'get_formatted_movie_local_release_date', 15, 2 );
-		$loader->add_filter( 'wpmoly/shortcode/format/media/value',                '', 'get_formatted_movie_media',              15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/photography/value',          '', 'get_formatted_movie_photography',        15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/production_countries/value', '', 'get_formatted_movie_countries',          15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/production_companies/value', '', 'get_formatted_movie_production',         15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/producer/value',             '', 'get_formatted_movie_producer',           15, 2 );
-		$loader->add_filter( 'wpmoly/shortcode/format/rating/value',               '', 'get_formatted_movie_rating',             15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/release_date/value',         '', 'get_formatted_movie_release_date',       15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/revenue/value',              '', 'get_formatted_movie_revenue',            15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/runtime/value',              '', 'get_formatted_movie_runtime',            15, 2 );
-		$loader->add_filter( 'wpmoly/shortcode/format/spoken_languages/value',     '', 'get_formatted_movie_languages',          15, 2 );
-		$loader->add_filter( 'wpmoly/shortcode/format/status/value',               '', 'get_formatted_movie_status',             15, 2 );
-		$loader->add_filter( 'wpmoly/shortcode/format/subtitles/value',            '', 'get_formatted_movie_subtitles',          15, 2 );
+		$loader->add_filter( 'wpmoly/shortcode/format/spoken_languages/value',     '', 'get_formatted_movie_spoken_languages',   15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/tmdb_id/value',              '', 'get_formatted_movie_tmdb_id',            15, 2 );
 		$loader->add_filter( 'wpmoly/shortcode/format/writer/value',               '', 'get_formatted_movie_writer',             15, 2 );
 
-		// Widgets Meta/Details Formatting
+		// Shortcodes Details Formatting
+		$loader->add_filter( 'wpmoly/shortcode/format/format/value',               '', 'get_formatted_movie_format',             15, 2 );
+		$loader->add_filter( 'wpmoly/shortcode/format/language/value',             '', 'get_formatted_movie_language',           15, 2 );
+		$loader->add_filter( 'wpmoly/shortcode/format/media/value',                '', 'get_formatted_movie_media',              15, 2 );
+		$loader->add_filter( 'wpmoly/shortcode/format/rating/value',               '', 'get_formatted_movie_rating',             15, 2 );
+		$loader->add_filter( 'wpmoly/shortcode/format/status/value',               '', 'get_formatted_movie_status',             15, 2 );
+		$loader->add_filter( 'wpmoly/shortcode/format/subtitles/value',            '', 'get_formatted_movie_subtitles',          15, 2 );
+
+		// Widgets Details Formatting
 		$loader->add_filter( 'wpmoly/widget/format/format/value',                  '', 'get_formatted_movie_format',             15, 2 );
 		$loader->add_filter( 'wpmoly/widget/format/language/value',                '', 'get_formatted_movie_language',           15, 2 );
 		$loader->add_filter( 'wpmoly/widget/format/media/value',                   '', 'get_formatted_movie_media',              15, 2 );
@@ -282,21 +284,21 @@ class Frontend {
 		$loader->add_filter( 'wpmoly/widget/format/subtitles/value',               '', 'get_formatted_movie_subtitles',          15, 2 );
 
 		// Meta Permalinks
-		$loader->add_filter( 'wpmoly/filter/meta/adult/url',              '', 'get_movie_adult_url',         15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/author/url',             '', 'get_movie_author_url',        15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/certification/url',      '', 'get_movie_certification_url', 15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/composer/url',           '', 'get_movie_composer_url',      15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/homepage/url',           '', 'get_movie_homepage_url',      15, 3 );
+		$loader->add_filter( 'wpmoly/filter/meta/adult/url',              '', 'get_movie_adult_url',         15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/author/url',             '', 'get_movie_author_url',        15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/certification/url',      '', 'get_movie_certification_url', 15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/composer/url',           '', 'get_movie_composer_url',      15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/homepage/url',           '', 'get_movie_homepage_url',      15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/imdb_id/url',            '', 'get_movie_imdb_id_url',       15, 2 );
-		$loader->add_filter( 'wpmoly/filter/meta/local_release_date/url', '', 'get_movie_release_date_url',  15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/photography/url',        '', 'get_movie_photography_url',   15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/producer/url',           '', 'get_movie_producer_url',      15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/production/url',         '', 'get_movie_production_url',    15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/country/url',            '', 'get_movie_country_url',       15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/release_date/url',       '', 'get_movie_release_date_url',  15, 3 );
-		$loader->add_filter( 'wpmoly/filter/meta/language/url',           '', 'get_movie_language_url',      15, 3 );
+		$loader->add_filter( 'wpmoly/filter/meta/local_release_date/url', '', 'get_movie_release_date_url',  15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/photography/url',        '', 'get_movie_photography_url',   15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/producer/url',           '', 'get_movie_producer_url',      15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/production/url',         '', 'get_movie_production_url',    15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/country/url',            '', 'get_movie_country_url',       15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/release_date/url',       '', 'get_movie_release_date_url',     15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/spoken_languages/url',   '', 'get_movie_spoken_languages_url', 15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/tmdb_id/url',            '', 'get_movie_tmdb_id_url',       15, 2 );
-		$loader->add_filter( 'wpmoly/filter/meta/writer/url',             '', 'get_movie_writer_url',        15, 3 );
+		$loader->add_filter( 'wpmoly/filter/meta/writer/url',             '', 'get_movie_writer_url',        15, 2 );
 
 		// Details Permalinks
 		$loader->add_filter( 'wpmoly/filter/detail/format/url',           '', 'get_movie_format_url',    15, 2 );

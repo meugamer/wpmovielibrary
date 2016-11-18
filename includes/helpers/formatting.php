@@ -136,9 +136,9 @@ function get_formatted_movie_adult( $adult, $options = array() ) {
 		 * @since    3.0
 		 * 
 		 * @param    string     $adult Filtered adult restriction.
-		 * @param    boolean    $is_adult Adult restriction?
+		 * @param    array      $options Formatting options.
 		 */
-		return apply_filters( 'wpmoly/filter/meta/adult/url', $adult, $is_adult );
+		return apply_filters( 'wpmoly/filter/meta/adult/url', $adult, array( 'is_adult' => $is_adult ) );
 	}
 
 	/**
@@ -199,7 +199,7 @@ function get_formatted_movie_author( $author, $options = array() ) {
 			 * 
 			 * @since    3.0
 			 * 
-			 * @param    string     $author Filtered single author .
+			 * @param    string     $author Filtered single author.
 			 * @param    array      $options Formatting options.
 			 */
 			$value = apply_filters( 'wpmoly/filter/meta/author/url', $value, $options );
@@ -383,85 +383,6 @@ function get_formatted_movie_composer( $composer, $options = array() ) {
 }
 
 /**
- * Format Movies directors.
- * 
- * Match each director against the director taxonomy to detect missing
- * terms. If term director exists, provide a link, raw text value
- * if no matching term could be found.
- * 
- * @since    3.0
- * 
- * @param    string    $director Director value.
- * @param    array     $options Formatting options.
- * 
- * @return   string    Formatted value
- */
-function get_formatted_movie_director( $director, $options = array() ) {
-
-	if ( empty( $director ) ) {
-
-		/**
-		 * Filter empty meta value.
-		 * 
-		 * @param    string    $value Replaced empty value.
-		 */
-		return apply_filters( 'wpmoly/filter/meta/empty/director/value', get_formatted_empty_value( $director ) );
-	}
-
-	// Formatting options.
-	$options = wp_parse_args( (array) $options, array(
-		'is_link' => true
-	) );
-
-	$director = get_formatted_terms_list( $director, 'collection', $options );
-
-	return $director;
-}
-
-/**
- * Format movie homepage link.
- * 
- * @since    3.0
- * 
- * @param    string    $homepage Homepage value.
- * @param    array     $options Formatting options.
- * 
- * @return   string    Formatted value
- */
-function get_formatted_movie_homepage( $homepage, $options = array() ) {
-
-	if ( empty( $homepage ) ) {
-
-		/**
-		 * Filter empty meta value.
-		 * 
-		 * @param    string    $value Replaced empty value.
-		 */
-		return apply_filters( 'wpmoly/filter/meta/empty/homepage/value', get_formatted_empty_value( $homepage ) );
-	}
-
-	// Formatting options.
-	$options = wp_parse_args( (array) $options, array(
-		'is_link' => true
-	) );
-
-	if ( $options['is_link'] ) {
-
-		/**
-		 * Filter homepage url.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string     $homepage Homepage value.
-		 * @param    boolean    $is_adult Adult restriction?
-		 */
-		return apply_filters( 'wpmoly/filter/meta/homepage/url', $homepage );
-	}
-
-	return $homepage;
-}
-
-/**
  * Format Movies actors.
  * 
  * Match each actor against the actor taxonomy to detect missing
@@ -495,6 +416,110 @@ function get_formatted_movie_cast( $cast, $options = array() ) {
 	$cast = get_formatted_terms_list( $cast, 'actor', $options );
 
 	return $cast;
+}
+
+/**
+ * Format Movies production countries.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $countries Movie countries list.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
+function get_formatted_movie_countries( $countries, $options = array() ) {
+
+	if ( empty( $countries ) ) {
+
+		/**
+		 * Filter empty meta value.
+		 * 
+		 * @param    string    $value Replaced empty value.
+		 */
+		return apply_filters( 'wpmoly/filter/meta/empty/countries/value', get_formatted_empty_value( $countries ) );
+	}
+
+	// Formatting options.
+	$options = wp_parse_args( (array) $options, array(
+		'show_flag' => true,
+		'is_link'   => true
+	) );
+
+	$formatted_countries = array();
+	$countries = explode( ',', $countries );
+	foreach ( $countries as $key => $country ) {
+
+		$country = get_country( $country );
+
+		$formatted_country = $country->localized_name;
+
+		if ( $options['is_link'] ) {
+
+			/**
+			 * Filter single country url.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $country Country object.
+			 * @param    array     $options Formatting options.
+			 */
+			$formatted_country = apply_filters( 'wpmoly/filter/meta/country/url', $country, $options );
+		}
+
+		if ( $options['show_flag'] ) {
+			$formatted_country = $country->flag() . $formatted_country;
+		}
+
+		$formatted_countries[] = $formatted_country;
+	}
+
+	/**
+	 * Filter final countries lists.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $countries Filtered countries list.
+	 * @param    array     $countries_data Countries data array.
+	 * @param    array     $formats Countries format.
+	 */
+	return apply_filters( 'wpmoly/filter/meta/production_countries', implode( ', ', $formatted_countries ), $formatted_countries, $countries );
+}
+
+/**
+ * Format Movies directors.
+ * 
+ * Match each director against the director taxonomy to detect missing
+ * terms. If term director exists, provide a link, raw text value
+ * if no matching term could be found.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $director Director list.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
+function get_formatted_movie_director( $director, $options = array() ) {
+
+	if ( empty( $director ) ) {
+
+		/**
+		 * Filter empty meta value.
+		 * 
+		 * @param    string    $value Replaced empty value.
+		 */
+		return apply_filters( 'wpmoly/filter/meta/empty/director/value', get_formatted_empty_value( $director ) );
+	}
+
+	// Formatting options.
+	$options = wp_parse_args( (array) $options, array(
+		'is_link' => true
+	) );
+
+	$director = get_formatted_terms_list( $director, 'collection', $options );
+
+	return $director;
 }
 
 function get_formatted_movie_format( $format, $options = array() ) {
@@ -559,6 +584,49 @@ function get_formatted_movie_genres( $genres, $options = array() ) {
 }
 
 /**
+ * Format movie homepage link.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $homepage Homepage value.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
+function get_formatted_movie_homepage( $homepage, $options = array() ) {
+
+	if ( empty( $homepage ) ) {
+
+		/**
+		 * Filter empty meta value.
+		 * 
+		 * @param    string    $value Replaced empty value.
+		 */
+		return apply_filters( 'wpmoly/filter/meta/empty/homepage/value', get_formatted_empty_value( $homepage ) );
+	}
+
+	// Formatting options.
+	$options = wp_parse_args( (array) $options, array(
+		'is_link' => true
+	) );
+
+	if ( $options['is_link'] ) {
+
+		/**
+		 * Filter homepage url.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string     $homepage Homepage value.
+		 * @param    boolean    $is_adult Adult restriction?
+		 */
+		return apply_filters( 'wpmoly/filter/meta/homepage/url', $homepage );
+	}
+
+	return $homepage;
+}
+
+/**
  * Format Movies IMDb ID.
  * 
  * @since    3.0
@@ -609,44 +677,42 @@ function get_formatted_movie_imdb_id( $imdb_id, $options = array() ) {
 	return apply_filters( 'wpmoly/filter/meta/imdb_id', $imdb_id, $options );
 }
 
-function get_formatted_movie_language( $language, $options = array() ) {
+/**
+ * Format movies languages.
+ * 
+ * These are personal languages, ie. detail.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $languages Movie languages.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
+function get_formatted_movie_language( $languages, $options = array() ) {
 
-	if ( empty( $language ) ) {
+	$options = (array) $options;
+	$options['variant'] = 'language';
 
-		/**
-		 * Filter empty meta value.
-		 * 
-		 * @param    string    $value Replaced empty value.
-		 */
-		return apply_filters( 'wpmoly/filter/meta/empty/language/value', get_formatted_empty_value( $language ) );
-	}
-
-	// Formatting options.
-	$options = wp_parse_args( (array) $options, array(
-		'is_link' => true
-	) );
-
-	return $language;
+	return get_formatted_language( $languages, $options );
 }
 
+/**
+ * Format movies local release dates.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $local_release_date Movie local release date.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
 function get_formatted_movie_local_release_date( $local_release_date, $options = array() ) {
 
-	if ( empty( $local_release_date ) ) {
+	$options = (array) $options;
+	$options['variant'] = 'local_';
 
-		/**
-		 * Filter empty meta value.
-		 * 
-		 * @param    string    $value Replaced empty value.
-		 */
-		return apply_filters( 'wpmoly/filter/meta/empty/local_release_date/value', get_formatted_empty_value( $local_release_date ) );
-	}
-
-	// Formatting options.
-	$options = wp_parse_args( (array) $options, array(
-		'is_link' => true
-	) );
-
-	return $local_release_date;
+	return get_formatted_date( $local_release_date, $options );
 }
 
 function get_formatted_movie_media( $media, $options = array() ) {
@@ -741,26 +807,6 @@ function get_formatted_movie_photography( $photography, $options = array() ) {
 	 * @param    array      $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/photography', $photographers, $options );
-}
-
-function get_formatted_movie_countries( $countries, $options = array() ) {
-
-	if ( empty( $countries ) ) {
-
-		/**
-		 * Filter empty meta value.
-		 * 
-		 * @param    string    $value Replaced empty value.
-		 */
-		return apply_filters( 'wpmoly/filter/meta/empty/countries/value', get_formatted_empty_value( $countries ) );
-	}
-
-	// Formatting options.
-	$options = wp_parse_args( (array) $options, array(
-		'is_link' => true
-	) );
-
-	return $countries;
 }
 
 /**
@@ -921,24 +967,22 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 	return $rating;
 }
 
+/**
+ * Format movies release dates.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $release_date Movie release date.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
 function get_formatted_movie_release_date( $release_date, $options = array() ) {
 
-	if ( empty( $release_date ) ) {
+	$options = (array) $options;
+	$options['variant'] = '';
 
-		/**
-		 * Filter empty meta value.
-		 * 
-		 * @param    string    $value Replaced empty value.
-		 */
-		return apply_filters( 'wpmoly/filter/meta/empty/release_date/value', get_formatted_empty_value( $release_date ) );
-	}
-
-	// Formatting options.
-	$options = wp_parse_args( (array) $options, array(
-		'is_link' => true
-	) );
-
-	return $release_date;
+	return get_formatted_date( $release_date, $options );
 }
 
 /**
@@ -1014,15 +1058,15 @@ function get_formatted_movie_runtime( $runtime, $options = array() ) {
 
 	$runtime = absint( $runtime );
 
-	$time_format = (string) $options['format'];
-	if ( empty( $time_format ) ) {
-		$time_format = wpmoly_o( 'format-time' );
-		if ( empty( $time_format ) ) {
-			$time_format = 'G \h i \m\i\n';
+	$options['format'] = (string) $options['format'];
+	if ( empty( $options['format'] ) ) {
+		$options['format'] = get_option( 'time_format' );
+		if ( empty( $options['format'] ) ) {
+			$options['format'] = 'G \h i \m\i\n';
 		}
 	}
 
-	$runtime = date_i18n( $time_format, mktime( 0, $runtime ) );
+	$runtime = date_i18n( $options['format'], mktime( 0, $runtime ) );
 	if ( false !== stripos( $runtime, 'am' ) || false !== stripos( $runtime, 'pm' ) ) {
 		$runtime = date_i18n( 'G:i', mktime( 0, $runtime ) );
 	}
@@ -1038,24 +1082,21 @@ function get_formatted_movie_runtime( $runtime, $options = array() ) {
 	return $runtime;
 }
 
-function get_formatted_movie_languages( $languages, $options = array() ) {
+/**
+ * Format Movies spoken languages.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $runtime Movie runtime.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
+function get_formatted_movie_spoken_languages( $languages, $options = array() ) {
 
-	if ( empty( $languages ) ) {
+	$options = (array) $options;
 
-		/**
-		 * Filter empty meta value.
-		 * 
-		 * @param    string    $value Replaced empty value.
-		 */
-		return apply_filters( 'wpmoly/filter/meta/empty/languages/value', get_formatted_empty_value( $languages ) );
-	}
-
-	// Formatting options.
-	$options = wp_parse_args( (array) $options, array(
-		'is_link' => true
-	) );
-
-	return $languages;
+	return get_formatted_language( $languages, $options );
 }
 
 function get_formatted_movie_status( $status, $options = array() ) {
@@ -1083,24 +1124,22 @@ function get_formatted_movie_status( $status, $options = array() ) {
 	return $status;
 }
 
+/**
+ * Format movies subtitles.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $subtitles Movie subtitles.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
 function get_formatted_movie_subtitles( $subtitles, $options = array() ) {
 
-	if ( empty( $subtitles ) ) {
+	$options = (array) $options;
+	$options['variant'] = 'subtitles';
 
-		/**
-		 * Filter empty meta value.
-		 * 
-		 * @param    string    $value Replaced empty value.
-		 */
-		return apply_filters( 'wpmoly/filter/meta/empty/subtitles/value', get_formatted_empty_value( $subtitles ) );
-	}
-
-	// Formatting options.
-	$options = wp_parse_args( (array) $options, array(
-		'is_link' => true
-	) );
-
-	return $subtitles;
+	return get_formatted_language( $subtitles, $options );
 }
 
 /**
@@ -1270,8 +1309,8 @@ function get_formatted_movie_writer( $writer, $options = array() ) {
  * 
  * @since    3.0
  * 
- * @param    string    $money
- * @param    array     $options
+ * @param    string    $money Money value.
+ * @param    array     $options Formatting options.
  * 
  * @return   string    Formatted value
  */
@@ -1296,6 +1335,76 @@ function get_formatted_money( $money, $options = array() ) {
 	}
 
 	return $money;
+}
+
+/**
+ * Format a date value.
+ * 
+ * If no format is provided, use the format defined in settings. If no such
+ * settings can be found, fallback to a standard 'j F Y' format.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $date Date value.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
+function get_formatted_date( $date, $options = array() ) {
+
+	// Parse formatting options
+	$options = wp_parse_args( (array) $options, array(
+		'format'  => '',
+		'variant' => '',
+		'is_link' => true
+	) );
+
+	if ( empty( $date ) ) {
+
+		/**
+		 * Filter empty meta value.
+		 * 
+		 * @param    string    $value Replaced empty value.
+		 */
+		return apply_filters( "wpmoly/filter/meta/empty/{$options['variant']}release_date/value", get_formatted_empty_value( $date ) );
+	}
+
+	$timestamp  = strtotime( $date );
+
+	$options['format'] = (string) $options['format'];
+	if ( empty( $options['format'] ) ) {
+		$options['format'] = get_option( 'date_format' );
+		if ( empty( $options['format'] ) ) {
+			$options['format'] = 'j F Y';
+		}
+	}
+
+	$formatted_date = date_i18n( $options['format'], $timestamp );
+
+	if ( $options['is_link'] ) {
+
+		$options['content'] = $formatted_date;
+
+		/**
+		 * Filter date URL.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string     $date Date.
+		 * @param    array      $options Formatting options.
+		 */
+		$formatted_date = apply_filters( "wpmoly/filter/meta/{$options['variant']}release_date/url", $date, $options );
+	}
+
+	/**
+	 * Filter final date value.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string     $formatted_date Filtered date.
+	 * @param    array      $options Formatting options.
+	 */
+	return apply_filters( "wpmoly/filter/meta/{$options['variant']}release_date", $formatted_date, $options );
 }
 
 /**
@@ -1324,6 +1433,137 @@ function get_formatted_empty_value( $value ) {
 	 * @param    string    $value Empty value replacer
 	 */
 	return apply_filters( 'wpmoly/filter/meta/empty/value', '&mdash;' );
+}
+
+function get_formatted_language( $languages, $options = array() ) {
+
+	// Parse formatting options
+	$options = wp_parse_args( (array) $options, array(
+		'show_icon' => true,
+		'show_text' => true,
+		'is_link'   => true,
+		'variant'   => 'spoken_languages'
+	) );
+
+	if ( empty( $languages ) ) {
+
+		/**
+		 * Filter empty meta value.
+		 * 
+		 * @param    string    $value Replaced empty value.
+		 */
+		return apply_filters( "wpmoly/filter/meta/empty/{$options['variant']}/value", get_formatted_empty_value( $date ) );
+	}
+
+	$show_text = _is_bool( $options['show_text'] );
+	$show_icon = _is_bool( $options['show_icon'] );
+
+	if ( is_string( $languages ) ) {
+		$languages = explode( ',', $languages );
+	}
+
+	$languages_data = array();
+
+	foreach ( $languages as $key => $language ) {
+
+		$language = get_language( $language );
+		$languages_data[ $key ] = $language;
+
+		if ( ! $show_text ) {
+			$name = '';
+		} elseif ( '1' == wpmoly_o( 'translate-languages' ) ) {
+			$name = $language->localized_name;
+		} else {
+			$name = $language->standard_name;
+		}
+
+		if ( $show_icon ) {
+			$icon = '<span class="wpmoly language iso icon" title="' . esc_attr( $language->localized_name ) . ' (' . esc_attr( $language->standard_name ) . ')">' . esc_attr( $language->code ) . '</span>&nbsp;';
+		} else {
+			$icon = '';
+		}
+
+		if ( $options['is_link'] ) {
+
+			$options['language'] = $language;
+
+			if ( 'language' == $options['variant'] ) {
+
+				$options['variant'] = 'language';
+				$options['title'] = sprintf( __( '%s-dubbed movies', 'wpmovielibrary' ), $language->localized_name );
+
+				/**
+				 * Filter language URL.
+				 * 
+				 * @since    3.0
+				 * 
+				 * @param    string    $language Language value.
+				 * @param    array     $options Formatting options.
+				 */
+				$name = apply_filters( "wpmoly/filter/detail/language/url", $name, $options );
+
+			} elseif ( 'subtitles' == $options['variant'] ) {
+
+				$options['variant'] = 'subtitles';
+				$options['title'] = sprintf( __( '%s-subtitled movies', 'wpmovielibrary' ), $language->localized_name );
+
+				/**
+				 * Filter subtitles URL.
+				 * 
+				 * @since    3.0
+				 * 
+				 * @param    string    $subtitles Language value.
+				 * @param    array     $options Formatting options.
+				 */
+				$name = apply_filters( "wpmoly/filter/detail/subtitles/url", $name, $options );
+
+			} else {
+
+				$options['variant'] = 'spoken_languages';
+				$options['title'] = sprintf( __( '%s-speaking movies', 'wpmovielibrary' ), $language->localized_name );
+
+				/**
+				 * Filter spoken language URL.
+				 * 
+				 * @since    3.0
+				 * 
+				 * @param    string    $language Language value.
+				 * @param    array     $options Formatting options.
+				 */
+				$name = apply_filters( "wpmoly/filter/meta/spoken_languages/url", $name, $options );
+			}
+
+		} else {
+
+			/**
+			 * Filter single language meta value.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $language Filtered language.
+			 * @param    array     $language_data Language instance.
+			 * @param    string    $icon Language icon string.
+			 * @param    array     $options Formatting options.
+			 */
+			$name = apply_filters( "wpmoly/filter/meta/{$options['variant']}/single", $name, $language, $icon, $options );
+		}
+
+		$languages[ $key ] = $icon . $name;
+	}
+
+	/**
+	 * Filter final languages lists.
+	 * 
+	 * This is used to generate permalinks for languages and can be extended to
+	 * post-formatting modifications.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $languages Filtered languages list.
+	 * @param    array     $languages_data Languages data array.
+	 * @param    array     $options Formatting options.
+	 */
+	return apply_filters( "wpmoly/filter/meta/{$options['variant']}", implode( ', ', $languages ), $languages_data, $options );
 }
 
 /**
