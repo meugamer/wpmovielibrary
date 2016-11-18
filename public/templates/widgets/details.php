@@ -30,7 +30,7 @@
 <?php else : ?>
 			<ul class="">
 <?php foreach ( $data['details'] as $slug => $detail ) : ?>
-				<li><?php echo get_formatted_movie_detail( $data['type'], $slug ); ?></li>
+				<li><?php echo $detail; ?></li>
 <?php endforeach; ?>
 			</ul>
 <?php endif; ?>

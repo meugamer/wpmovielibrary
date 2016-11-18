@@ -55,12 +55,23 @@ class Details extends Widget {
 	 * 
 	 * @return   void
 	 */
-	protected function build(  ) {
+	protected function build() {
 
 		$detail  = $this->get_attr( 'detail' );
 		$details = wpmoly_o( 'default_details' );
 		if ( ! empty( $details[ $detail ]['options'] ) ) {
 			$details = $details[ $detail ]['options'];
+			unset( $details['none'] );
+			foreach ( array_keys( $details ) as $key ) {
+				/**
+				 * Filter detail value.
+				 * 
+				 * @since    3.0
+				 * 
+				 * @param    string    $value Detail value
+				 */
+				$details[ $key ] = apply_filters( "wpmoly/widget/format/{$detail}/value", $key );
+			}
 		} else {
 			$details = array();
 		}
@@ -86,7 +97,7 @@ class Details extends Widget {
 	protected function build_form() {
 
 		if ( empty( $this->get_attr( 'title' ) ) ) {
-			$this->set_attr( 'title', __( 'Statistics', 'wpmovielibrary' ) );
+			$this->set_attr( 'title', __( 'Details', 'wpmovielibrary' ) );
 		}
 
 		if ( empty( $this->get_attr( 'description' ) ) ) {
