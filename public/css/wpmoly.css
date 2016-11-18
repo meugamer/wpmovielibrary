@@ -36,7 +36,8 @@
 	font-weight: normal;
 }
 
-.wpmoly.shortcode.block .wpmoly.shortcode.item.detail.value .wpmoly.language.iso.icon {
+.wpmoly-widget .wpmoly.language.iso.icon,
+.wpmoly.shortcode .wpmoly.language.iso.icon {
 	border: 2px solid #aaa;
 	border-radius: 4px;
 	color: #aaa;
