@@ -210,11 +210,10 @@ class Metadata extends Shortcode {
 			 * 
 			 * @since    3.0
 			 * 
-			 * @param    array     $value
-			 * @param    string    $format
-			 * @param    string    $old_value
+			 * @param    array    $value
+			 * @param    array    $options
 			 */
-			return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $format, $old_value );
+			return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, array( 'format' => $format ) );
 		}
 
 		/**
@@ -223,9 +222,9 @@ class Metadata extends Shortcode {
 		 * @since    3.0
 		 * 
 		 * @param    string    $value
-		 * @param    string    $format
+		 * @param    array     $options
 		 */
-		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $format );
+		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, array( 'format' => $format ) );
 	}
 
 	/**
