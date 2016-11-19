@@ -154,7 +154,6 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/helpers/formatting.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-language.php';
-		require_once WPMOLY_PATH . 'includes/helpers/class-permalink.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-terms.php';
 
 		// Nodes
