@@ -32,7 +32,6 @@ class Statistics extends Widget {
 
 		$this->id_base = 'statistics';
 		$this->name = __( 'WPMovieLibrary Statistics', 'wpmovielibrary' );
-		$this->classname = 'wpmoly wpmoly-widget statistics-widget';
 		$this->description = __( 'Show some statistics about your movie library.', 'wpmovielibrary' );
 	}
 
