@@ -198,6 +198,7 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/widgets/class-widget.php';
 		require_once WPMOLY_PATH . 'includes/widgets/class-statistics-widget.php';
 		require_once WPMOLY_PATH . 'includes/widgets/class-details-widget.php';
+		require_once WPMOLY_PATH . 'includes/widgets/class-grid-widget.php';
 
 		if ( is_admin() ) {
 			// Core

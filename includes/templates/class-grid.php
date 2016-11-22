@@ -134,7 +134,7 @@ class Grid extends Front {
 	 */
 	public function show_menu() {
 
-		return 1 === (int) $this->show_menu;
+		return 1 === (int) $this->show_menu && ! $this->grid->is_widget();
 	}
 
 	/**

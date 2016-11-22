@@ -404,7 +404,8 @@ class Frontend {
 
 		$widgets = array(
 			'\wpmoly\Widgets\Statistics',
-			'\wpmoly\Widgets\Details'
+			'\wpmoly\Widgets\Details',
+			'\wpmoly\Widgets\Grid'
 		);
 
 		foreach ( $widgets as $widget ) {
