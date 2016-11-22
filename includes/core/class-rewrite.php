@@ -228,6 +228,9 @@ class Rewrite {
 	/**
 	 * Add custom rewrite rules for movies.
 	 * 
+	 * Define a list of variants for movies archive to match meta/detail
+	 * permalinks.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @param    array    $rules Existing rewrite rules.
@@ -240,48 +243,122 @@ class Rewrite {
 
 		$new_rules = array();
 
+		/**
+		 * Filter default movie archives rewrite variants.
+		 * 
+		 * Each variant must define a rule and a matching array of vars.
+		 * Defaults variants support meta/detail name translation, used
+		 * to set the grid preset to 'custom'.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $variants Default variants.
+		 */
+		$variants = apply_filters( 'wpmoly/filter/movie_archives/rewrite/variants', array(
+			array(
+				'rule' => "([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})",
+				'vars' => array( 'year', 'monthnum', 'day' )
+			),
+			array(
+				'rule' => "([0-9]{4})/([0-9]{1,2})",
+				'vars' => array( 'year', 'monthnum' )
+			),
+			array(
+				'rule' => "([0-9]{4})",
+				'vars' => array( 'year' )
+			),
+			array(
+				'rule' => "(adult|" . _x( 'adult', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_adult' )
+			),
+			array(
+				'rule' => "(author|" . _x( 'author', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_author' )
+			),
+			array(
+				'rule' => "(certification|" . _x( 'certification', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_certification' )
+			),
+			array(
+				'rule' => "(composer|" . _x( 'composer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_composer' )
+			),
+			array(
+				'rule' => "(homepage|" . _x( 'homepage', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_homepage' )
+			),
+			array(
+				'rule' => "(imdb_id|" . _x( 'imdb_id', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_imdb_id' )
+			),
+			array(
+				'rule' => "(local-release-date|" . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_local_release_date' )
+			),
+			array(
+				'rule' => "(photography|" . _x( 'photography', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_photography' )
+			),
+			array(
+				'rule' => "(producer|" . _x( 'producer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_producer' )
+			),
+			array(
+				'rule' => "(production-companies|" . _x( 'company', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_production_companies' )
+			),
+			array(
+				'rule' => "(production-countries|" . _x( 'country', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_production_countries' )
+			),
+			array(
+				'rule' => "(release-date|" . _x( 'release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_release_date' )
+			),
+			array(
+				'rule' => "(spoken-languages|" . _x( 'spoken-languages', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_spoken_languages' )
+			),
+			array(
+				'rule' => "(tmdb_id|" . _x( 'tmdb_id', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_tmdb_id' )
+			),
+			array(
+				'rule' => "(writer|" . _x( 'writer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_writer' )
+			),
+			array(
+				'rule' => "(format|" . _x( 'format', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_format' )
+			),
+			array(
+				'rule' => "(language|" . _x( 'language', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_language' )
+			),
+			array(
+				'rule' => "(media|" . _x( 'media', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_media' )
+			),
+			array(
+				'rule' => "(rating|" . _x( 'rating', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_rating' )
+			),
+			array(
+				'rule' => "(status|" . _x( 'status', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_status' )
+			),
+			array(
+				'rule' => "(subtitles|" . _x( 'subtitles', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'grid_preset', 'wpmoly_movie_subtitles' )
+			)
+		) );
+
 		// Default: no archive page set
 		if ( ! has_movie_archives_page() ) {
-
-			// TODO add support for release date
-			$dates = array(
-				array(
-					'rule' => "([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})",
-					'vars' => array( 'year', 'monthnum', 'day' )
-				),
-				array(
-					'rule' => "([0-9]{4})/([0-9]{1,2})",
-					'vars' => array( 'year', 'monthnum' )
-				),
-				array(
-					'rule' => "([0-9]{4})",
-					'vars' => array( 'year' )
-				)
-			);
 
 			$query = 'index.php?post_type=movie';
 			$rule  = trim( $this->permalinks['movies'], '/' );
 			$index = 1;
-
-			foreach ( $dates as $date ) {
-
-				$_query = $query;
-				foreach ( $date['vars'] as $var ) {
-					$_query = $_query . '&' . $var . '=' . $wp_rewrite->preg_index( $index );
-					$index++;
-				}
-
-				$rule .= '/' . $date['rule'];
-
-				$new_rules[ $rule . "/?$" ]                               = $_query;
-				$new_rules[ $rule . "/embed/?$" ]                         = $_query . "&embed=true";
-				$new_rules[ $rule . "/trackback/?$" ]                     = $_query . "&tb=1";
-				$new_rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
-				$new_rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $_query . "&feed=" . $wp_rewrite->preg_index( $index );
-				$new_rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $_query . "&paged=" . $wp_rewrite->preg_index( $index );
-				$new_rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $_query . "&cpage=" . $wp_rewrite->preg_index( $index );
-				$new_rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $_query . "&page=" . $wp_rewrite->preg_index( $index );
-			}
 
 		// Existing archive page
 		} else {
@@ -294,15 +371,33 @@ class Rewrite {
 			$rule1 = trim( str_replace( home_url(), '', get_permalink( $archive_page ) ), '/' );
 			$rule2 = trim( $this->permalinks['movies'], '/' );
 			$rule  = "($rule2|$rule1)";
-			
-			$new_rules[ $rule . "/?$" ]                               = $query;
-			$new_rules[ $rule . "/embed/?$" ]                         = $query . "&embed=true";
-			$new_rules[ $rule . "/trackback/?$" ]                     = $query . "&tb=1";
-			$new_rules[ $rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $query . "&feed=" . $wp_rewrite->preg_index( $index );
-			$new_rules[ $rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $query . "&feed=" . $wp_rewrite->preg_index( $index );
-			$new_rules[ $rule . "/page/([0-9]{1,})/?$" ]              = $query . "&paged=" . $wp_rewrite->preg_index( $index );
-			$new_rules[ $rule . "/comment-page-([0-9]{1,})/?$" ]      = $query . "&cpage=" . $wp_rewrite->preg_index( $index );
-			$new_rules[ $rule . "(?:/([0-9]+))?/?$" ]                 = $query . "&page=" . $wp_rewrite->preg_index( $index );
+		}
+
+		// Loop through allowed variants
+		foreach ( $variants as $variant ) {
+
+			$_query = $query;
+			$i = $index;
+
+			// Use all vars to increment counter, but don't actually
+			// put empty vars in the regex.
+			foreach ( $variant['vars'] as $var ) {
+				if ( ! empty( $var ) ) {
+					$_query = $_query . '&' . $var . '=' . $wp_rewrite->preg_index( $i );
+				}
+				$i++;
+			}
+
+			$_rule = $rule .'/' . $variant['rule'];
+
+			$new_rules[ $_rule . "/?$" ]                               = $_query;
+			$new_rules[ $_rule . "/embed/?$" ]                         = $_query . "&embed=true";
+			$new_rules[ $_rule . "/trackback/?$" ]                     = $_query . "&tb=1";
+			$new_rules[ $_rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $_query . "&feed=" . $wp_rewrite->preg_index( $i + 1 );
+			$new_rules[ $_rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $_query . "&feed=" . $wp_rewrite->preg_index( $i + 1 );
+			$new_rules[ $_rule . "/page/([0-9]{1,})/?$" ]              = $_query . "&paged=" . $wp_rewrite->preg_index( $i + 1 );
+			$new_rules[ $_rule . "/comment-page-([0-9]{1,})/?$" ]      = $_query . "&cpage=" . $wp_rewrite->preg_index( $i + 1 );
+			$new_rules[ $_rule . "(?:/([0-9]+))?/?$" ]                 = $_query . "&page=" . $wp_rewrite->preg_index( $i + 1 );
 		}
 
 		return array_merge( $new_rules, $rules );
