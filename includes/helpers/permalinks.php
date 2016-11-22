@@ -41,41 +41,6 @@ function generate_movie_meta_url( $meta, $value ) {
 }
 
 /**
- * Build a permalink for details.
- * 
- * @since    3.0
- * 
- * @param    string          $detail Detail type.
- * @param    string|array    $value Detail value.
- * @param    array           $options Permalink options.
- * 
- * @return   string
- */
-function get_movie_detail_url( $detail, $value, $options = array() ) {
-
-	$options = wp_parse_args( (array) $options, array(
-		'content' => '',
-		'title'   => ''
-	) );
-
-	$url = generate_movie_meta_url( $detail, $value );
-
-	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
-
-	/**
-	 * Filter detail permalink.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $permalink Permalink HTML output.
-	 * @param    string    $detail Detail type.
-	 * @param    string    $value Detail value.
-	 * @param    array     $options Permalink options.
-	 */
-	return apply_filters( "wpmoly/filter/permalink/{$detail}", $permalink, $detail, $value, $options );
-}
-
-/**
  * Build a permalink for adult restrictions.
  * 
  * @since    3.0
@@ -113,7 +78,16 @@ function get_movie_adult_url( $adult, $options = array() ) {
 		}
 	}
 
-	$url = generate_movie_meta_url( 'adult', $value );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/adult/slug', _x( 'adult', 'adult permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $value );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -147,7 +121,16 @@ function get_movie_author_url( $author, $options = array() ) {
 		'title'   => sprintf( __( 'Movies from author %s', 'wpmovielibrary' ), $author )
 	) );
 
-	$url = generate_movie_meta_url( 'author', $author );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/author/slug', _x( 'author', 'author permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $author );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -181,7 +164,16 @@ function get_movie_certification_url( $certification, $options = array() ) {
 		'title'   => sprintf( __( '“%s” rated movies', 'wpmovielibrary' ), $certification )
 	) );
 
-	$url = generate_movie_meta_url( 'certification', $certification );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/certification/slug', _x( 'certification', 'certification permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $certification );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -215,7 +207,16 @@ function get_movie_composer_url( $composer, $options = array() ) {
 		'title'   => sprintf( __( 'Movies from original music composer %s', 'wpmovielibrary' ), $composer )
 	) );
 
-	$url = generate_movie_meta_url( 'composer', $composer );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/composer/slug', _x( 'composer', 'composer permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $composer );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -252,7 +253,16 @@ function get_movie_country_url( $country, $options = array() ) {
 		'title'   => sprintf( __( 'Movies produced in: %s (%s)', 'wpmovielibrary' ), $country->localized_name, $country->standard_name )
 	) );
 
-	$url = generate_movie_meta_url( 'production-country', $country->code );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/country/slug', _x( 'country', 'production-countries permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $country->localized_name );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -286,7 +296,16 @@ function get_movie_format_url( $format, $options = array() ) {
 		'title'   => sprintf( _x( '%s movies', 'movie format', 'wpmovielibrary' ), $format )
 	) );
 
-	$url = generate_movie_meta_url( 'format', $format );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/format/slug', _x( 'format', 'format permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $format );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -307,7 +326,7 @@ function get_movie_format_url( $format, $options = array() ) {
  * 
  * @since    3.0
  * 
- * @param    string    $country Movie homepage.
+ * @param    string    $homepage Movie homepage.
  * @param    array     $options Permalink options.
  * 
  * @return   string
@@ -415,17 +434,33 @@ function get_movie_language_url( $language, $options = array() ) {
 		$options['content'] = $language;
 	}
 
-	if ( empty( $options['title'] ) ) {
-		if ( 'language' == $options['variant'] ) {
+	if ( 'language' == $options['variant'] ) {
+		$slug = _x( 'language', 'language permalink slug', 'wpmovielibrary' );
+		if ( empty( $options['title'] ) ) {
 			$options['title'] = sprintf( __( '%s-dubbed movies', 'wpmovielibrary' ), $language_object->localized_name );
-		} elseif ( 'subtitles' == $options['variant'] ) {
+		}
+	} elseif ( 'subtitles' == $options['variant'] ) {
+		$slug = _x( 'subtitles', 'subtitles permalink slug', 'wpmovielibrary' );
+		if ( empty( $options['title'] ) ) {
 			$options['title'] = sprintf( __( '%s-subtitled movies', 'wpmovielibrary' ), $language_object->localized_name );
-		} else {
+		}
+	} else {
+		$slug = _x( 'spoken-languages', 'spoken languages permalink slug', 'wpmovielibrary' );
+		if ( empty( $options['title'] ) ) {
 			$options['title'] = sprintf( __( '%s-speaking movies', 'wpmovielibrary' ), $language_object->localized_name );
 		}
 	}
 
-	$url = generate_movie_meta_url( $options['variant'], $language_object->code );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/language/slug', $slug );
+
+	$url = generate_movie_meta_url( $slug, $language_object->localized_name );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -481,7 +516,16 @@ function get_movie_media_url( $media, $options = array() ) {
 		'title'   => sprintf( _x( '%s movies', 'movie media', 'wpmovielibrary' ), $media )
 	) );
 
-	$url = generate_movie_meta_url( 'media', $media );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/media/slug', _x( 'media', 'media permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $media );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -545,14 +589,29 @@ function get_movie_date_url( $date, $options = array() ) {
 		$options['content'] = $date;
 	}
 
+	if ( 'local_' == $options['variant'] ) {
+		$slug = _x( 'local-release-date', ' permalink slug', 'wpmovielibrary' );
+	} else {
+		$slug = _x( 'release-date', ' permalink slug', 'wpmovielibrary' );
+	}
+
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/date/slug', $slug );
+
 	switch ( $options['format'] ) {
 		case 'Y':
 			if ( 'local_' == $options['variant'] ) {
 				$options['title'] = sprintf( __( 'Movies locally released in %s', 'wpmovielibrary' ), date_i18n( 'Y', $timestamp ) );
-				$url = generate_movie_meta_url( 'local-release-date', date( 'Y', $timestamp ) );
+				$url = generate_movie_meta_url( $slug, date( 'Y', $timestamp ) );
 			} else {
 				$options['title'] = sprintf( __( 'Movies released in %s', 'wpmovielibrary' ), date_i18n( 'Y', $timestamp ) );
-				$url = generate_movie_meta_url( 'release-date', date( 'Y', $timestamp ) );
+				$url = generate_movie_meta_url( $slug, date( 'Y', $timestamp ) );
 			}
 
 			$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
@@ -563,20 +622,20 @@ function get_movie_date_url( $date, $options = array() ) {
 			$month = date_i18n( 'j F', $timestamp );
 			if ( 'local_' == $options['variant'] ) {
 				$options['title'] = sprintf( __( 'Movies locally released in %s', 'wpmovielibrary' ), $month );
-				$url = generate_movie_meta_url( 'local-release-date', date( 'Y-m', $timestamp ) );
+				$url = generate_movie_meta_url( $slug, date( 'Y-m', $timestamp ) );
 			} else {
 				$options['title'] = sprintf( __( 'Movies released in %s', 'wpmovielibrary' ), $month );
-				$url = generate_movie_meta_url( 'release-date', date( 'Y-m', $timestamp ) );
+				$url = generate_movie_meta_url( $slug, date( 'Y-m', $timestamp ) );
 			}
 			$permalink[] = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $month ) . '</a>';
 
 			$year = date_i18n( 'Y', $timestamp );
 			if ( 'local_' == $options['variant'] ) {
 				$options['title'] = sprintf( __( 'Movies locally released in %s', 'wpmovielibrary' ), $year );
-				$url = generate_movie_meta_url( 'local-release-date', date( 'Y', $timestamp ) );
+				$url = generate_movie_meta_url( $slug, date( 'Y', $timestamp ) );
 			} else {
 				$options['title'] = sprintf( __( 'Movies released in %s', 'wpmovielibrary' ), $year );
-				$url = generate_movie_meta_url( 'release-date', date( 'Y', $timestamp ) );
+				$url = generate_movie_meta_url( $slug, date( 'Y', $timestamp ) );
 			}
 			$permalink[] = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $year ) . '</a>';
 
@@ -588,10 +647,10 @@ function get_movie_date_url( $date, $options = array() ) {
 		default:
 			if ( 'local_' == $options['variant'] ) {
 				$options['title'] = sprintf( __( 'Movies locally released in %s', 'wpmovielibrary' ), date_i18n( 'F Y', $timestamp ) );
-				$url = generate_movie_meta_url( 'local-release-date', date( 'Y-m-d', $timestamp ) );
+				$url = generate_movie_meta_url( $slug, date( 'Y-m-d', $timestamp ) );
 			} else {
 				$options['title'] = sprintf( __( 'Movies released in %s', 'wpmovielibrary' ), date_i18n( 'F Y', $timestamp ) );
-				$url = generate_movie_meta_url( 'release-date', date( 'Y-m-d', $timestamp ) );
+				$url = generate_movie_meta_url( $slug, date( 'Y-m-d', $timestamp ) );
 			}
 
 			$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
@@ -599,7 +658,7 @@ function get_movie_date_url( $date, $options = array() ) {
 	}
 
 	/**
-	 * Filter release date permalink.
+	 * Filter date permalink.
 	 * 
 	 * @since    3.0
 	 * 
@@ -607,7 +666,7 @@ function get_movie_date_url( $date, $options = array() ) {
 	 * @param    string     $date Movie date.
 	 * @param    array      $options Formatting options.
 	 */
-	return apply_filters( 'wpmoly/filter/permalink/release_date', $permalink, $date, $options );
+	return apply_filters( 'wpmoly/filter/permalink/date', $permalink, $date, $options );
 }
 
 /**
@@ -637,7 +696,16 @@ function get_movie_photography_url( $photographer, $options = array() ) {
 		$options['title'] = sprintf( __( 'Movies from director of photography %s', 'wpmovielibrary' ), $photographer );
 	}
 
-	$url = generate_movie_meta_url( 'photography', $photographer );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/photography/slug', _x( 'photography', 'photography permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $photographer );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -680,7 +748,16 @@ function get_movie_producer_url( $producer, $options = array() ) {
 		$options['title'] = sprintf( _x( 'Movies produced by %s', 'producer', 'wpmovielibrary' ), $producer );
 	}
 
-	$url = generate_movie_meta_url( 'producer', $producer );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/producer/slug', _x( 'producer', 'producer permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $producer );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -723,7 +800,16 @@ function get_movie_production_url( $company, $options = array() ) {
 		$options['title'] = sprintf( _x( 'Movies produced by %s', 'production company', 'wpmovielibrary' ), $company );
 	}
 
-	$url = generate_movie_meta_url( 'company', $company );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/company/slug', _x( 'company', 'production company permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $company );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -757,7 +843,16 @@ function get_movie_rating_url( $rating, $options = array() ) {
 		'title'   => sprintf( _x( 'Movies rated %s', 'movie rating', 'wpmovielibrary' ), $rating )
 	) );
 
-	$url = generate_movie_meta_url( 'rating', $rating );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/rating/slug', _x( 'rating', 'rating permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, floatval( $rating ) );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . $options['content'] . '</a>';
 
@@ -809,7 +904,16 @@ function get_movie_status_url( $status, $options = array() ) {
 		'title'   => sprintf( _x( '%s movies', 'movie status', 'wpmovielibrary' ), $status )
 	) );
 
-	$url = generate_movie_meta_url( 'status', $status );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/status/slug', _x( 'status', 'status permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $status );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
@@ -913,7 +1017,16 @@ function get_movie_writer_url( $writer, $options = array() ) {
 		$options['title'] = sprintf( __( 'Movies from writer %s', 'wpmovielibrary' ), $writer );
 	}
 
-	$url = generate_movie_meta_url( 'writer', $writer );
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/writer/slug', _x( 'writer', 'writer permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $writer );
 
 	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
