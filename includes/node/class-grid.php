@@ -395,6 +395,11 @@ class Grid extends Node {
 	 */
 	private function prepare() {
 
+		$custom = get_query_var( 'grid_preset' );
+		if ( ! empty( $custom ) ) {
+			$this->preset = 'custom';
+		}
+
 		$settings = get_query_var( 'grid' );
 		if ( empty( $settings ) ) {
 			return false;
