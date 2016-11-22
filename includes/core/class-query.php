@@ -107,4 +107,109 @@ class Query {
 
 		return $query_vars;
 	}
+
+	/**
+	 * "Unsanitize" a query var, ie. turn a sanitized text to its equivalent
+	 * before sanitization. The name can be confusing but this actually just
+	 * replace any '-' by an empty space and add some capital letters. For
+	 * instance "a-sample-text" will be converted to "A sample text".
+	 * 
+	 * This is used by movie queries to match URL query vars to the real movie
+	 * metadata.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $query_var Sanitized value to "unsanitize".
+	 * 
+	 * @return   string
+	 */
+	public function unsanitize_query_var( $query_var ) {
+
+		$query_var = str_replace( array( '-', '_' ), ' ', $query_var );
+		$query_var = ucwords( $query_var );
+
+		return $query_var;
+	}
+
+	/**
+	 * Convert a sanitized rating to a float-formatted value.
+	 * 
+	 * This is used by movie queries to match URL query vars to the real movie
+	 * metadata.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $query_var Sanitized value to "unsanitize".
+	 * 
+	 * @return   string
+	 */
+	public function filter_rating_query_var( $query_var ) {
+
+		$query_var = str_replace( '-', '.', $query_var );
+		$query_var = number_format( $query_var, 1 );
+
+		return $query_var;
+	}
+
+	/**
+	 * Convert a sanitized date to a standard YYYY-MM-DD date format.
+	 * 
+	 * This is used by movie queries to match URL query vars to the real movie
+	 * metadata.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $query_var Sanitized value to "unsanitize".
+	 * 
+	 * @return   string
+	 */
+	public function filter_date_query_var( $query_var ) {
+
+		$query_var = date( 'Y-m-d', strtotime( $query_var ) );
+
+		return $query_var;
+	}
+
+	/**
+	 * Convert a sanitized language code, standard name, native name or
+	 * localized name to its clean native name.
+	 * 
+	 * This is used by movie queries to match URL query vars to the real movie
+	 * metadata.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $query_var Sanitized value to "unsanitize".
+	 * 
+	 * @return   string
+	 */
+	public function filter_language_query_var( $query_var ) {
+
+		$query_var = get_language( $query_var );
+		$query_var = $query_var->native_name;
+
+		return $query_var;
+	}
+
+	
+	/**
+	 * Convert a sanitized country code, standard name or localized name to
+	 * its clean standard name.
+	 * 
+	 * This is used by movie queries to match URL query vars to the real movie
+	 * metadata.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $query_var Sanitized value to "unsanitize".
+	 * 
+	 * @return   string
+	 */
+	public function filter_country_query_var( $query_var ) {
+
+		$query_var = get_country( $query_var );
+		$query_var = $query_var->standard_name;
+
+		return $query_var;
+	}
 }
