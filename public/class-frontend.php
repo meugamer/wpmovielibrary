@@ -307,6 +307,27 @@ class Frontend {
 		$loader->add_filter( 'wpmoly/filter/detail/rating/url',           '', 'get_movie_rating_url',    15, 2 );
 		$loader->add_filter( 'wpmoly/filter/detail/status/url',           '', 'get_movie_status_url',    15, 2 );
 		$loader->add_filter( 'wpmoly/filter/detail/subtitles/url',        '', 'get_movie_subtitles_url', 15, 2 );
+
+		// Movie queries
+		$query = Core\Query::get_instance();
+		$loader->add_filter( 'wpmoly/filter/query/movies/author/value',                     $query, 'unsanitize_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/composer/value',                   $query, 'unsanitize_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/photography/value',                $query, 'unsanitize_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/producer/value',                   $query, 'unsanitize_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/production_companies/value',       $query, 'unsanitize_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/writer/value',                     $query, 'unsanitize_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/rating/value',                     $query, 'filter_rating_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/local_release_date/value',         $query, 'filter_date_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/release_date/value',               $query, 'filter_date_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/language/value',                   $query, 'filter_language_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/spoken_languages/value',           $query, 'filter_language_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/subtitles/value',                  $query, 'filter_language_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/production_countries/value',       $query, 'filter_country_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/certification/value',              '', 'strtoupper' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/status/value',                     '', 'strtolower' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/format/value',                     '', 'strtolower' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/media/value',                      '', 'strtolower' );
+
 	}
 
 	/**
