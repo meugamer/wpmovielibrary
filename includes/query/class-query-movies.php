@@ -342,7 +342,7 @@ class Movies extends Query {
 			}
 		}
 
-		if ( 1 < count( $args['meta_query'] ) ) {
+		if ( isset( $args['meta_query'] ) && 1 < count( $args['meta_query'] ) ) {
 			$args['meta_query']['relation'] = 'AND';
 		}
 

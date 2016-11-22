@@ -355,13 +355,6 @@ class Grid extends Node {
 				$this->supported_themes[ $type_id ][ $mode_id ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type_id . '/' . $mode_id . '/themes', $mode['themes'] );
 			}
 		}
-
-		// Don't build unexisting grids
-		if ( is_null( $this->id ) ) {
-			return $this;
-		}
-
-		//$this->build();
 	}
 
 	/**

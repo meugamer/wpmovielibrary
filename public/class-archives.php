@@ -183,10 +183,10 @@ class Archives {
 	 */
 	public function single_page_content( $post_id, $type, $content ) {
 
-		$show = get_post_meta( $post_id, '_wpmoly_single_terms', $single = true );
+		/*$show = get_post_meta( $post_id, '_wpmoly_single_terms', $single = true );
 		if ( ! _is_bool( $show ) ) {
 			return $content;
-		}
+		}*/
 
 		$name = get_query_var( $type );
 		$term = get_term_by( 'slug', $name, $type );
@@ -201,9 +201,9 @@ class Archives {
 		$headbox_template = get_headbox_template( $headbox );
 
 		$grid = get_grid();
+		$grid->is_main_grid = true;
 		$grid->set_preset( 'custom' );
 		$grid->set_settings( array( $type => $name ) );
-		$grid->build();
 
 		$grid_template = get_grid_template( $grid );
 		$grid_template->show_pagination = true;
