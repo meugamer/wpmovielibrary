@@ -43,11 +43,33 @@ class Query {
 	private function __construct() {
 
 		$vars = array(
-			'grid'
+			'grid',
+			'grid_preset',
+			'wpmoly_movie_adult',
+			'wpmoly_movie_author',
+			'wpmoly_movie_certification',
+			'wpmoly_movie_composer',
+			'wpmoly_movie_homepage',
+			'wpmoly_movie_imdb_id',
+			'wpmoly_movie_local_release_date',
+			'wpmoly_movie_photography',
+			'wpmoly_movie_producer',
+			'wpmoly_movie_production_companies',
+			'wpmoly_movie_production_countries',
+			'wpmoly_movie_release_date',
+			'wpmoly_movie_spoken_languages',
+			'wpmoly_movie_tmdb_id',
+			'wpmoly_movie_writer',
+			'wpmoly_movie_format',
+			'wpmoly_movie_language',
+			'wpmoly_movie_media',
+			'wpmoly_movie_rating',
+			'wpmoly_movie_status',
+			'wpmoly_movie_subtitles'
 		);
 
 		$tags = Rewrite::get_instance()->tags;
-		foreach ( $tags as $tag => $regex ) {
+		foreach ( array_keys( $tags ) as $tag ) {
 			$vars[] = 'wpmoly_' . str_replace( '%', '', $tag );
 		}
 
