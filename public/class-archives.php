@@ -226,7 +226,13 @@ class Archives {
 	public function real_archive_page_content( $post_id, $content ) {
 
 		$grid_id = get_post_meta( $post_id, '_wpmoly_grid_id', $single = true );
-		$grid = $this->get_grid( (int) $grid_id );
+		$grid = get_grid( (int) $grid_id );
+		if ( empty( $grid->post ) ) {
+			$grid = '';
+		} else {
+			$template = get_grid_template( $grid );
+			$grid = $template->render( $require = 'always', $echo = false );
+		}
 
 		$position = get_post_meta( $post_id, '_wpmoly_grid_position', $single = true );
 		if ( 'top' === $position ) {
@@ -236,27 +242,6 @@ class Archives {
 		}
 
 		return $content;
-	}
-
-	/**
-	 * Load archive pages grids.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    int    $content Post content.
-	 * 
-	 * @return   string
-	 */
-	private function get_grid( $grid_id ) {
-
-		$grid = get_grid( $grid_id );
-		if ( empty( $grid->post ) ) {
-			return null;
-		}
-
-		$template = get_grid_template( $grid );
-
-		return $template->render( $require = 'always', $echo = false );
 	}
 
 }
