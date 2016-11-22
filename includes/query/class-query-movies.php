@@ -282,7 +282,8 @@ class Movies extends Query {
 	/**
 	 * Custom Grid.
 	 * 
-	 * Simple alias for $this->query()
+	 * Look for special query vars to narrow the query using meta/details
+	 * values.
 	 * 
 	 * @since    3.0
 	 * 
@@ -291,6 +292,59 @@ class Movies extends Query {
 	 * @return   array
 	 */
 	public function custom( $args = array() ) {
+
+		global $wp_query;
+
+		$vars = array(
+			'wpmoly_movie_adult',
+			'wpmoly_movie_author',
+			'wpmoly_movie_certification',
+			'wpmoly_movie_composer',
+			'wpmoly_movie_homepage',
+			'wpmoly_movie_imdb_id',
+			'wpmoly_movie_local_release_date',
+			'wpmoly_movie_photography',
+			'wpmoly_movie_producer',
+			'wpmoly_movie_production_companies',
+			'wpmoly_movie_production_countries',
+			'wpmoly_movie_release_date',
+			'wpmoly_movie_spoken_languages',
+			'wpmoly_movie_tmdb_id',
+			'wpmoly_movie_writer',
+			'wpmoly_movie_format',
+			'wpmoly_movie_language',
+			'wpmoly_movie_media',
+			'wpmoly_movie_rating',
+			'wpmoly_movie_status',
+			'wpmoly_movie_subtitles'
+		);
+
+		foreach ( $vars as $var ) {
+			$query_var = get_query_var( $var );
+			if ( ! empty( $query_var ) ) {
+
+				$_var = str_replace( 'wpmoly_movie_', '', $var );
+
+				/**
+				 * Filter query var value.
+				 * 
+				 * @since    3.0
+				 * 
+				 * @since    string    $query_var query var value.
+				 */
+				$query_var = apply_filters( "wpmoly/filter/query/movies/$_var/value", $query_var, $var );
+
+				$args['meta_query'][] = array(
+					'key'   => "_$var",
+					'value' => $query_var,
+					'compare' => 'LIKE'
+				);
+			}
+		}
+
+		if ( 1 < count( $args['meta_query'] ) ) {
+			$args['meta_query']['relation'] = 'AND';
+		}
 
 		return $this->query( $args );
 	}
