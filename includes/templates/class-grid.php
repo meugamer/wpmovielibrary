@@ -306,6 +306,10 @@ class Grid extends Front {
 	 */
 	public function render( $require = 'always', $echo = false ) {
 
+		if ( ! $this->grid->ready() ) {
+			$this->grid->build();
+		}
+
 		if ( empty( $this->data ) ) {
 			$this->set_data( array(
 				'grid'  => $this,

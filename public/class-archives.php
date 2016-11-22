@@ -227,6 +227,8 @@ class Archives {
 
 		$grid_id = get_post_meta( $post_id, '_wpmoly_grid_id', $single = true );
 		$grid = get_grid( (int) $grid_id );
+		$grid->is_main_grid = true;
+
 		if ( empty( $grid->post ) ) {
 			$grid = '';
 		} else {

@@ -115,6 +115,20 @@ class Grid extends Node {
 	private $supported_themes = array();
 
 	/**
+	 * Grid build status.
+	 * 
+	 * @var    boolean
+	 */
+	private $is_built = false;
+
+	/**
+	 * Main grid status.
+	 * 
+	 * @var    boolean
+	 */
+	public $is_main_grid = false;
+
+	/**
 	 * Initialize the Grid.
 	 * 
 	 * @since    3.0
@@ -347,7 +361,7 @@ class Grid extends Node {
 			return $this;
 		}
 
-		$this->build();
+		//$this->build();
 	}
 
 	/**
@@ -379,6 +393,8 @@ class Grid extends Node {
 			unset( $this->settings['taxonomy'] );
 			unset( $this->settings['post_type'] );
 
+			$this->built = true;
+
 			return $this->items;
 		}
 	}
@@ -396,7 +412,7 @@ class Grid extends Node {
 	private function prepare() {
 
 		$custom = get_query_var( 'grid_preset' );
-		if ( ! empty( $custom ) && $this->id == $custom ) {
+		if ( $this->is_main_grid && ! empty( $custom ) ) {
 			$this->preset = 'custom';
 		}
 
@@ -763,6 +779,30 @@ class Grid extends Node {
 		}
 
 		return $this->column_width;
+	}
+
+	/**
+	 * Has the grid been built?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function ready() {
+
+		return !! $this->is_built;
+	}
+
+	/**
+	 * Is this the main grid?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function is_main_grid() {
+
+		return !! $this->is_main_grid;
 	}
 
 	/**

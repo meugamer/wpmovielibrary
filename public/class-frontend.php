@@ -81,7 +81,9 @@ class Frontend {
 		$this->styles = apply_filters( 'wpmoly/filter/default/public/styles', $styles );
 
 		$scripts = array(
-			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone' ) )
+			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone' ) ),
+
+			'grids' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js', 'deps' => array( 'wpmoly-grids' ) )
 		);
 
 		/**
