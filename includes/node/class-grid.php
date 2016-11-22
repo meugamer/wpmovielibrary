@@ -790,6 +790,18 @@ class Grid extends Node {
 	}
 
 	/**
+	 * Is this a grid inside a Widget?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	public function is_widget() {
+
+		return isset( $this->is_widget );
+	}
+
+	/**
 	 * Save grid settings.
 	 * 
 	 * @since    3.0
