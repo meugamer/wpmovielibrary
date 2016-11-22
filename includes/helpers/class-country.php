@@ -74,6 +74,9 @@ class Country {
 	/**
 	 * Match a country by its name or code.
 	 * 
+	 * Perform a strict match to find languages by code and standard name,
+	 * then try an approximative match with sanitized name.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @param    string    $data
@@ -84,6 +87,7 @@ class Country {
 
 		$data = (string) $data;
 
+		// Find country ISO code
 		if ( isset( $this->standard[ $data ] ) ) {
 			$this->code = $data;
 			$this->standard_name = $this->standard[ $data ];
@@ -92,11 +96,25 @@ class Country {
 			return $this;
 		}
 
+		// Strict standard language name match
 		$code = array_search( $data, $this->standard );
 		if ( false !== $code ) {
 			$this->code = $code;
 			$this->standard_name = $data;
 			$this->localize();
+		}
+
+		// Approximative standard country name match
+		foreach ( $this->standard as $code => $standard ) {
+			$country = sanitize_title_with_dashes( strtolower( $standard ) );
+			$localized = sanitize_title_with_dashes( __( $standard, 'wpmovielibrary-iso' ) );
+			if ( ! strcasecmp( $country, $data ) || ! strcasecmp( $localized, $data ) ) {
+				$this->code = $code;
+				$this->standard_name = $standard;
+				$this->localize();
+
+				return $this;
+			}
 		}
 
 		return $this;

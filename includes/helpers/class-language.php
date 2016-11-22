@@ -89,6 +89,9 @@ class Language {
 	/**
 	 * Match a language by its name or code.
 	 * 
+	 * Perform a strict match to find languages by code, standard and
+	 * native names, then try an approximative match with sanitized name.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @param    string    $data
@@ -109,6 +112,7 @@ class Language {
 			return $this;
 		}
 
+		// Strict native language name match
 		$code = array_search( $data, $this->native );
 		if ( false !== $code ) {
 			$this->code = $code;
@@ -119,12 +123,42 @@ class Language {
 			return $this;
 		}
 
+		// Strict standard language name match
 		$code = array_search( $data, $this->standard );
 		if ( false !== $code ) {
 			$this->code = $code;
 			$this->native_name   = $this->standard[ $code ];
 			$this->standard_name = $data;
 			$this->localize();
+
+			return $this;
+		}
+
+		// Approximative native language name match
+		foreach ( $this->native as $code => $native ) {
+			$language = sanitize_title_with_dashes( $native );
+			if ( ! strcasecmp( $language, $data ) ) {
+				$this->code = $code;
+				$this->native_name   = $data;
+				$this->standard_name = $this->standard[ $code ];
+				$this->localize();
+
+				return $this;
+			}
+		}
+
+		// Approximative standard language name match
+		foreach ( $this->standard as $code => $standard ) {
+			$language = sanitize_title_with_dashes( strtolower( $standard ) );
+			$localized = sanitize_title_with_dashes( __( $standard, 'wpmovielibrary-iso' ) );
+			if ( ! strcasecmp( $language, $data ) || ! strcasecmp( $localized, $data ) ) {
+				$this->code = $code;
+				$this->native_name   = $this->native[ $code ];
+				$this->standard_name = $data;
+				$this->localize();
+
+				return $this;
+			}
 		}
 
 		return $this;
