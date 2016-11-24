@@ -102,6 +102,8 @@ class Country {
 			$this->code = $code;
 			$this->standard_name = $data;
 			$this->localize();
+
+			return $this;
 		}
 
 		// Approximative standard country name match

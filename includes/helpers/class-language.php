@@ -139,7 +139,7 @@ class Language {
 			$language = sanitize_title_with_dashes( $native );
 			if ( ! strcasecmp( $language, $data ) ) {
 				$this->code = $code;
-				$this->native_name   = $data;
+				$this->native_name   = $native;
 				$this->standard_name = $this->standard[ $code ];
 				$this->localize();
 
@@ -154,7 +154,7 @@ class Language {
 			if ( ! strcasecmp( $language, $data ) || ! strcasecmp( $localized, $data ) ) {
 				$this->code = $code;
 				$this->native_name   = $this->native[ $code ];
-				$this->standard_name = $data;
+				$this->standard_name = $standard;
 				$this->localize();
 
 				return $this;
