@@ -870,6 +870,6 @@ class Grid extends Node {
 			$json['settings'][ $setting ] = $this->get( $setting );
 		}
 
-		return $this->json = json_encode( $json );
+		return $this->json = wp_json_encode( $json );
 	}
 }
