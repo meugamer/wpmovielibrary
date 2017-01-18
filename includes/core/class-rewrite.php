@@ -353,11 +353,13 @@ class Rewrite {
 			)
 		) );
 
+		$movies = isset( $this->permalinks['movies'] ) ? $this->permalinks['movies'] : '';
+
 		// Default: no archive page set
 		if ( ! has_movie_archives_page() ) {
 
 			$query = 'index.php?post_type=movie';
-			$rule  = trim( $this->permalinks['movies'], '/' );
+			$rule  = trim( $movies, '/' );
 			$index = 1;
 
 		// Existing archive page
@@ -369,7 +371,7 @@ class Rewrite {
 			$query = sprintf( 'index.php?page_id=%d', $archive_page );
 
 			$rule1 = trim( str_replace( home_url(), '', get_permalink( $archive_page ) ), '/' );
-			$rule2 = trim( $this->permalinks['movies'], '/' );
+			$rule2 = trim( $movies, '/' );
 			$rule  = "($rule2|$rule1)";
 		}
 
