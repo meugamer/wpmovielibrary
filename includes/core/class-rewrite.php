@@ -213,7 +213,7 @@ class Rewrite {
 		global $wp_rewrite;
 
 		$slug   = _x( 'movie', 'slug', 'wpmovielibrary' );
-		$struct = $this->permalinks['movie'];
+		$struct = isset( $this->permalinks['movie'] ) ? $this->permalinks['movie'] : array();
 
 		if ( false !== strpos( $struct, $slug ) ) {
 			return $rules;
