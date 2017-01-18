@@ -75,6 +75,7 @@
  * Admin menu
  */
 
+#toplevel_page_wpmovielibrary .wp-menu-image.dashicons-before.dashicons-wpmoly:before,
 #menu-posts-movie .wp-menu-image.dashicons-before.dashicons-wpmoly:before {
 	content: "\e900";
 	font-family: "wpmovielibrary" !important;
