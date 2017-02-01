@@ -8,6 +8,11 @@
 	float: none;
 }
 
+.wpmoly.grid a:focus,
+.wpmoly.grid button:focus {
+	outline: none;
+}
+
 .wpmoly.grid.actors {}
 
 .wpmoly.grid.genres {}
