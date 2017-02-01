@@ -208,6 +208,7 @@ final class Library {
 			require_once WPMOLY_PATH . 'admin/class-notices.php';
 			require_once WPMOLY_PATH . 'admin/class-library.php';
 			require_once WPMOLY_PATH . 'admin/class-permalink-settings.php';
+			require_once WPMOLY_PATH . 'admin/class-person-editor.php';
 			require_once WPMOLY_PATH . 'admin/class-term-editor.php';
 			require_once WPMOLY_PATH . 'admin/class-archive-pages.php';
 			require_once WPMOLY_PATH . 'admin/class-grid-builder.php';
@@ -320,6 +321,15 @@ final class Library {
 		$this->loader->add_action( 'butterbean_register',         $builder, 'register_post_meta_managers', 10, 2 );
 		$this->loader->add_action( 'butterbean_before_metabox',   $builder, 'separator', 10, 4 );
 		$this->loader->add_action( 'save_post_grid',              $builder, 'save', 9, 3 );
+
+		// Person Editor
+		// TODO load this on person only
+		$person = new Admin\PersonEditor;
+		$person->register_metaboxes();
+
+		$this->loader->add_action( 'load-post.php',               $person, 'load_meta_frameworks' );
+		$this->loader->add_action( 'load-post-new.php',           $person, 'load_meta_frameworks' );
+		$this->loader->add_action( 'butterbean_register',         $person, 'register_post_meta_managers', 10, 2 );
 
 		// Permalink Settings
 		$permalinks = Admin\PermalinkSettings::get_instance();

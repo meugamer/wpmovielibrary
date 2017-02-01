@@ -128,8 +128,37 @@ class Registrar {
 					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => $movie_archives,
 					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
-					'menu_position'      => 2,
-					'menu_icon'          => 'dashicons-wpmoly'
+					'menu_position'      => 2
+				)
+			),
+			array(
+				'slug' => 'person',
+				'args' => array(
+					'labels' => array(
+						'name'               => __( 'Persons', 'wpmovielibrary' ),
+						'singular_name'      => __( 'Person', 'wpmovielibrary' ),
+						'add_new'            => __( 'Add New', 'wpmovielibrary' ),
+						'add_new_item'       => __( 'Add New Person', 'wpmovielibrary' ),
+						'edit_item'          => __( 'Edit Person', 'wpmovielibrary' ),
+						'new_item'           => __( 'New Person', 'wpmovielibrary' ),
+						'all_items'          => __( 'All Persons', 'wpmovielibrary' ),
+						'view_item'          => __( 'View Person', 'wpmovielibrary' ),
+						'search_items'       => __( 'Search Persons', 'wpmovielibrary' ),
+						'not_found'          => __( 'No persons found', 'wpmovielibrary' ),
+						'not_found_in_trash' => __( 'No persons found in Trash', 'wpmovielibrary' ),
+						'parent_item_colon'  => '',
+						'menu_name'          => __( 'Persons', 'wpmovielibrary' )
+					),
+					'rewrite' => array(
+						'slug' => ! empty( $this->permalinks['person'] ) ? trim( $this->permalinks['person'], '/' ) : 'persons'
+					),
+					'public'             => true,
+					'publicly_queryable' => true,
+					'show_ui'            => true,
+					'show_in_menu'       => 'wpmovielibrary',
+					'has_archive'        => $movie_archives,
+					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
+					'menu_position'      => 2
 				)
 			),
 			array(
