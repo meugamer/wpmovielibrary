@@ -7,9 +7,13 @@ _.extend( Grid, {
 
 	Settings: wp.Backbone.View.extend({
 
-		template: wp.template( 'wpmoly-grid-settings' ),
+		className : 'grid-settings-inner',
 
-		events: {},
+		template : wp.template( 'wpmoly-grid-settings' ),
+
+		events: {
+			'click [data-action="apply"]' : 'apply'
+		},
 
 		/**
 		 * Initialize the View.
@@ -21,6 +25,22 @@ _.extend( Grid, {
 		initialize: function( options ) {
 
 			this.controller = options.controller || {};
+
+			this.listenTo( this.controller, 'grid:menu:toggle', this.toggle );
+		},
+
+		apply: function() {
+
+			this.toggle();
+
+			return this;
+		},
+
+		toggle: function() {
+
+			this.$el.toggleClass( 'active' );
+
+			return this;
 		},
 
 		/**
@@ -33,6 +53,8 @@ _.extend( Grid, {
 		render: function() {
 
 			this.$el.html( this.template() );
+
+			this.$( '.selectize' ).selectize();
 
 			return this;
 		}

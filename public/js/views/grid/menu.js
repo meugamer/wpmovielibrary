@@ -9,7 +9,9 @@ _.extend( Grid, {
 
 		template: wp.template( 'wpmoly-grid-menu' ),
 
-		events: {},
+		events: {
+			'click [data-action="grid-menu"]' : 'toggleMenu'
+		},
 
 		/**
 		 * Initialize the View.
@@ -33,6 +35,13 @@ _.extend( Grid, {
 		render: function() {
 
 			this.$el.html( this.template() );
+
+			return this;
+		},
+
+		toggleMenu: function() {
+
+			this.controller.trigger( 'grid:menu:toggle' );
 
 			return this;
 		}

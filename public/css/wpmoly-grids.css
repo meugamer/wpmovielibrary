@@ -6,6 +6,7 @@
 .wpmoly.grid {
 	display: block;
 	float: none;
+	position: relative;
 }
 
 .wpmoly.grid a:focus,
@@ -46,6 +47,117 @@
 .wpmoly.grid .grid-menu .button.disabled:focus,
 .wpmoly.grid .grid-menu .button.disabled:active {
 	color: #555;
+}
+
+/* Settings */
+
+.wpmoly.grid .grid-settings-inner {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	display: none;
+	margin-top: -1px;
+	position: relative;
+}
+
+.wpmoly.grid .grid-settings-inner.active {
+	display: block;
+}
+
+.wpmoly.grid .grid-settings-inner:before,
+.wpmoly.grid .grid-settings-inner:after {
+	border: .5em solid transparent;
+	content: ' ';
+	position: absolute;
+}
+
+.wpmoly.grid .grid-settings-inner:before {
+	border-bottom-color: #ddd;
+	left: 1em;
+	top: -1em;
+}
+
+.wpmoly.grid .grid-settings-inner:after {
+	border-bottom-color: #fff;
+	left: 1em;
+	margin-top: 1px;
+	top: -1em;
+}
+
+.wpmoly.grid .grid-settings-inner {
+	padding: 1em;
+}
+
+.wpmoly.grid .grid-setting-block {
+	margin-bottom: .75em;
+	padding-bottom: .75em;
+	vertical-align: top;
+}
+
+.wpmoly.grid .grid-setting-block.full-col {
+	border-bottom: 1px solid #f6f6f6;
+}
+
+.wpmoly.grid .grid-setting-block.half-col {
+	border-right: 1px solid #f6f6f6;
+	display: inline-block;
+	padding: 0 .5em 0 0;
+	width: calc(50% - .5em);
+}
+
+.wpmoly.grid .grid-setting-block.half-col + .half-col {
+	border: 0;
+	padding: 0 0 0 .5em;
+}
+
+.wpmoly.grid .grid-setting-label {
+	color: #888;
+	font-size: .875em;
+}
+
+.wpmoly.grid .grid-setting-block.letter-setting {
+	text-align: center;
+}
+
+.wpmoly.grid .grid-setting-block input[type="radio"] {
+	height: 1px;
+	position: absolute;
+	visibility: hidden;
+	width: 1px;
+}
+
+.wpmoly.grid .grid-setting-block label .value,
+.wpmoly.grid .grid-setting-block label .letter {
+	border-radius: .1em;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0 .5em;
+}
+
+.wpmoly.grid .grid-setting-block label:hover .value,
+.wpmoly.grid .grid-setting-block label:hover .letter {
+	background: #8dc2e1;
+	color: #fff;
+}
+
+.wpmoly.grid .grid-setting-block label input:checked + .value,
+.wpmoly.grid .grid-setting-block label input:checked + .letter {
+	background: #3190c6;
+	color: #fff;
+}
+
+.wpmoly.grid .grid-settings-apply {
+	background: #8dc2e1;
+	color: #fff;
+	display: block;
+	font-size: 1em;
+	font-weight: 400;
+	margin-top: 1em;
+	width: 100%;
+}
+
+.wpmoly.grid .grid-settings-apply:hover {
+	background: #3190c6;
 }
 
 /* Pagination Menu */

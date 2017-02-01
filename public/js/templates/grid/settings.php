@@ -1,1 +1,31 @@
-settings
+
+		<div class="grid-setting-block full-col letter-setting">
+<?php
+$letters = str_split( '#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
+foreach ( $letters as $letter ) {
+?>
+			<label><input type="radio" name="grid-settings[letter][]" data-setting-type="letter" data-setting-value="<?php echo $letter; ?>" value="<?php echo $letter; ?>" /><span class="letter"><?php echo $letter; ?></span></label>
+
+<?php
+}
+?>
+			<label><input type="radio" name="grid-settings[letter][]" data-setting-type="letter" data-setting-value="" value="" /><span class="letter"><?php _e( 'All', 'wpmovielibrary' ); ?></span></label>
+		</div>
+
+		<div class="grid-setting-block half-col orderby-setting">
+			<span class="grid-setting-label"><?php _e( 'Order by:', 'wpmovielibrary' ); ?></span>
+			<label><input type="radio" name="grid-settings[orderby][]" data-setting-type="orderby" data-setting-value="" value="" /><span class="value"><?php _e( 'Post Title', 'wpmovielibrary' ); ?></span></label>
+			<label><input type="radio" name="grid-settings[orderby][]" data-setting-type="orderby" data-setting-value="" value="" /><span class="value"><?php _e( 'Movie Title', 'wpmovielibrary' ); ?></span></label>
+			<label><input type="radio" name="grid-settings[orderby][]" data-setting-type="orderby" data-setting-value="" value="" /><span class="value"><?php _e( 'Post Date', 'wpmovielibrary' ); ?></span></label>
+			<label><input type="radio" name="grid-settings[orderby][]" data-setting-type="orderby" data-setting-value="" value="" /><span class="value"><?php _e( 'Release Date', 'wpmovielibrary' ); ?></span></label>
+			<label><input type="radio" name="grid-settings[orderby][]" data-setting-type="orderby" data-setting-value="" value="" /><span class="value"><?php _e( 'Local Release Date', 'wpmovielibrary' ); ?></span></label>
+			<label><input type="radio" name="grid-settings[orderby][]" data-setting-type="orderby" data-setting-value="" value="" /><span class="value"><?php _e( 'Rating', 'wpmovielibrary' ); ?></span></label>
+		</div>
+
+		<div class="grid-setting-block half-col order-setting">
+			<span class="grid-setting-label"><?php _e( 'Order:', 'wpmovielibrary' ); ?></span>
+			<label><input type="radio" name="grid-settings[order][]" data-setting-type="order" data-setting-value="" value="" /><span class="value"><?php _e( 'Ascendingly' ); ?></span></label>
+			<label><input type="radio" name="grid-settings[order][]" data-setting-type="order" data-setting-value="" value="" /><span class="value"><?php _e( 'Descendingly' ); ?></span></label>
+		</div>
+
+		<button class="grid-settings-apply" type="button" data-action="apply"><?php _e( 'Apply', 'wpmovielibrary' ); ?></button>
