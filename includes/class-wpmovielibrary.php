@@ -248,6 +248,7 @@ final class Library {
 		$this->loader->add_action( 'init',                  $i18n, 'load_additional_textdomains' );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $l10n, 'localize_scripts', 20 );
+		$this->loader->add_action( 'wp_enqueue_scripts',    $l10n, 'localize_scripts', 100 );
 
 	}
 

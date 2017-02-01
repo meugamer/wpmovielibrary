@@ -69,6 +69,8 @@ class l10n {
 	 * Initialize the class.
 	 * 
 	 * @since    3.0
+	 * 
+	 * @return   void
 	 */
 	public function __construct() {
 
@@ -96,6 +98,8 @@ class l10n {
 	 * Set default countries for localization.
 	 * 
 	 * @since    3.0
+	 * 
+	 * @return   void
 	 */
 	public function set_countries() {
 
@@ -591,10 +595,28 @@ class l10n {
 
 	/**
 	 * Localize JS scripts.
-	 *
+	 * 
 	 * @since    3.0
+	 * 
+	 * @return   void
 	 */
 	public function localize_scripts() {
+
+		if ( is_admin() ) {
+			$this->localize_admin_scripts();
+		} else {
+			$this->localize_public_scripts();
+		}
+	}
+
+	/**
+	 * Localize Admin-side JS scripts.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	private function localize_admin_scripts() {
 
 		$localized = array(
 			'_locale'            => get_locale(),
@@ -660,6 +682,22 @@ class l10n {
 		);
 
 		wp_localize_script( 'wpmoly', 'wpmolyDefaultImages', $localized );
+	}
+
+	/**
+	 * Localize Public-side JS scripts.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	private function localize_public_scripts() {
+
+		$localized = array(
+			'run' => __( 'Run Forrest, run!', 'wpmovielibrary' ),
+		);
+
+		wp_localize_script( 'wpmoly', 'wpmolyL10n', $localized );
 	}
 
 }
