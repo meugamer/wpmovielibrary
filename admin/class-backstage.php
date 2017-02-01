@@ -55,6 +55,7 @@ class Backstage {
 
 		$styles = array(
 			''              => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly.css' ),
+			'library'       => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-library.css' ),
 			'metabox'       => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-metabox.css' ),
 			'permalinks'    => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-permalink-settings.css' ),
 			'term-editor'   => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-term-editor.css' ),
@@ -112,36 +113,43 @@ class Backstage {
 			'grid-builder-model'      => array( 'file' => WPMOLY_URL . 'admin/js/models/grid-builder.js' ),
 
 			// Controllers
+			'library-controller'      => array( 'file' => WPMOLY_URL . 'admin/js/controllers/library.js' ),
 			'search-controller'       => array( 'file' => WPMOLY_URL . 'admin/js/controllers/search.js' ),
 			'editor-controller'       => array( 'file' => WPMOLY_URL . 'admin/js/controllers/editor.js' ),
 			'modal-controller'        => array( 'file' => WPMOLY_URL . 'admin/js/controllers/modal.js' ),
 			'grid-builder-controller' => array( 'file' => WPMOLY_URL . 'admin/js/controllers/grid-builder.js' ),
 
 			// Views
-			'frame-view'              => array( 'file' => WPMOLY_URL . 'public/js/views/frame.js' ),
-			'confirm-view'            => array( 'file' => WPMOLY_URL . 'public/js/views/confirm.js' ),
-			'permalinks-view'         => array( 'file' => WPMOLY_URL . 'admin/js/views/permalinks.js' ),
-			'archive-pages-view'      => array( 'file' => WPMOLY_URL . 'admin/js/views/archive-pages.js' ),
-			'metabox-view'            => array( 'file' => WPMOLY_URL . 'admin/js/views/metabox.js' ),
-			'search-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/search/search.js' ),
-			'search-history-view'     => array( 'file' => WPMOLY_URL . 'admin/js/views/search/history.js' ),
-			'search-settings-view'    => array( 'file' => WPMOLY_URL . 'admin/js/views/search/settings.js' ),
-			'search-status-view'      => array( 'file' => WPMOLY_URL . 'admin/js/views/search/status.js' ),
-			'search-results-view'     => array( 'file' => WPMOLY_URL . 'admin/js/views/search/results.js' ),
-			'editor-image-view'       => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/image.js' ),
-			'editor-images-view'      => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/images.js' ),
-			'editor-meta-view'        => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/meta.js' ),
-			'editor-details-view'     => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/details.js' ),
-			'editor-tagbox-view'      => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/tagbox.js' ),
-			'editor-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/editor.js' ),
-			'modal-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/modal.js' ),
-			'modal-images-view'       => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/images.js' ),
-			'modal-browser-view'      => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/browser.js' ),
-			'modal-post-view'         => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/post.js' ),
-			'grid-builder-view'       => array( 'file' => WPMOLY_URL . 'admin/js/views/grid/builder.js' ),
-			'grid-type-view'          => array( 'file' => WPMOLY_URL . 'admin/js/views/grid/type.js' ),
+			'frame-view'                     => array( 'file' => WPMOLY_URL . 'public/js/views/frame.js' ),
+			'confirm-view'                   => array( 'file' => WPMOLY_URL . 'public/js/views/confirm.js' ),
+			'permalinks-view'                => array( 'file' => WPMOLY_URL . 'admin/js/views/permalinks.js' ),
+			'archive-pages-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/archive-pages.js' ),
+			'metabox-view'                   => array( 'file' => WPMOLY_URL . 'admin/js/views/metabox.js' ),
+			'library-view'                   => array( 'file' => WPMOLY_URL . 'admin/js/views/library/library.js' ),
+			'library-menu-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/library/menu.js' ),
+			'library-content-latest-view'    => array( 'file' => WPMOLY_URL . 'admin/js/views/library/content-latest.js' ),
+			'library-content-favorites-view' => array( 'file' => WPMOLY_URL . 'admin/js/views/library/content-favorites.js' ),
+			'library-content-import-view'    => array( 'file' => WPMOLY_URL . 'admin/js/views/library/content-import.js' ),
+			'search-view'                    => array( 'file' => WPMOLY_URL . 'admin/js/views/search/search.js' ),
+			'search-history-view'            => array( 'file' => WPMOLY_URL . 'admin/js/views/search/history.js' ),
+			'search-settings-view'           => array( 'file' => WPMOLY_URL . 'admin/js/views/search/settings.js' ),
+			'search-status-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/search/status.js' ),
+			'search-results-view'            => array( 'file' => WPMOLY_URL . 'admin/js/views/search/results.js' ),
+			'editor-image-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/image.js' ),
+			'editor-images-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/images.js' ),
+			'editor-meta-view'               => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/meta.js' ),
+			'editor-details-view'            => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/details.js' ),
+			'editor-tagbox-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/tagbox.js' ),
+			'editor-view'                    => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/editor.js' ),
+			'modal-view'                     => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/modal.js' ),
+			'modal-images-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/images.js' ),
+			'modal-browser-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/browser.js' ),
+			'modal-post-view'                => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/post.js' ),
+			'grid-builder-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/grid/builder.js' ),
+			'grid-type-view'                 => array( 'file' => WPMOLY_URL . 'admin/js/views/grid/type.js' ),
 
 			// Runners
+			'library'                 => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-library.js' ),
 			'api'                     => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-api.js' ),
 			'metabox'                 => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-metabox.js' ),
 			'permalinks'              => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-permalinks.js' ),
@@ -289,6 +297,10 @@ class Backstage {
 		$this->enqueue_style( 'grids' );
 		$this->enqueue_style( 'select2' );
 
+		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix ) {
+			$this->enqueue_style( 'library' );
+		}
+
 		if ( 'options-permalink.php' == $hook_suffix ) {
 			$this->enqueue_style( 'metabox' );
 			$this->enqueue_style( 'permalinks' );
@@ -340,6 +352,31 @@ class Backstage {
 	public function enqueue_scripts( $hook_suffix ) {
 
 		$this->register_scripts();
+
+		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix ) {
+
+			// Vendor
+			$this->enqueue_script( 'sprintf' );
+			$this->enqueue_script( 'underscore-string' );
+
+			// Base
+			$this->enqueue_script();
+
+			// Models
+
+			// Controllers
+			$this->enqueue_script( 'library-controller' );
+
+			// Views
+			$this->enqueue_script( 'library-view' );
+			$this->enqueue_script( 'library-menu-view' );
+			$this->enqueue_script( 'library-content-latest-view' );
+			$this->enqueue_script( 'library-content-favorites-view' );
+			$this->enqueue_script( 'library-content-import-view' );
+
+			// Runners
+			$this->enqueue_script( 'library' );
+		}
 
 		if ( 'options-permalink.php' == $hook_suffix ) {
 
@@ -473,6 +510,17 @@ class Backstage {
 	 */
 	public function enqueue_templates() {
 
+		global $hook_suffix;
+
+		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix ) {
+			$this->print_template( 'wpmoly-library-menu',          'admin/js/templates/library/menu.php' );
+			$this->print_template( 'wpmoly-library-content-latest',       'admin/js/templates/library/content-latest.php' );
+			$this->print_template( 'wpmoly-library-content-favorites',       'admin/js/templates/library/content-favorites.php' );
+			$this->print_template( 'wpmoly-library-content-import',       'admin/js/templates/library/content-import.php' );
+			$this->print_template( 'wpmoly-library-sidebar',       'admin/js/templates/library/sidebar.php' );
+			$this->print_template( 'wpmoly-library-footer',        'admin/js/templates/library/footer.php' );
+		}
+
 		if ( 'movie' == get_post_type() ) {
 			$this->print_template( 'wpmoly-search',                'admin/js/templates/search/search.php' );
 			$this->print_template( 'wpmoly-search-form',           'admin/js/templates/search/search-form.php' );
@@ -524,6 +572,30 @@ class Backstage {
 				$_FILES['async-upload']['name'] = $_REQUEST['name'];
 			}
 		}
+	}
+
+	/**
+	 * Plugged on the 'admin_menu' action hook.
+	 *
+	 * Register the backstage library page.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   void
+	 */
+	public function admin_menu() {
+
+		$library = Backstage\Library::get_instance();
+
+		$menu_page = add_menu_page(
+			$page_title = __( 'Movie Library' , 'wpmovielibrary' ),
+			$menu_title = __( 'Movie Library' , 'wpmovielibrary' ),
+			$capability = 'read',
+			$menu_slug  = 'wpmovielibrary',
+			$function   = array( $library, 'build' ),
+			$icon_url   = 'dashicons-wpmoly',
+			$position   = 2
+		);
 	}
 
 	/**

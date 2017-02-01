@@ -125,7 +125,7 @@ class Registrar {
 					'public'             => true,
 					'publicly_queryable' => true,
 					'show_ui'            => true,
-					'show_in_menu'       => true,
+					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => $movie_archives,
 					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
 					'menu_position'      => 2,
@@ -154,7 +154,7 @@ class Registrar {
 					'public'             => false,
 					'publicly_queryable' => false,
 					'show_ui'            => true,
-					'show_in_menu'       => 'edit.php?post_type=movie',
+					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => false,
 					'supports'           => array( 'title' )
 				)

@@ -1,0 +1,44 @@
+
+#wpmoly-library {
+	margin-top: 25px;
+}
+
+#wpmoly-library-menu {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	margin-bottom: 25px;
+	padding: 0 15px;
+}
+
+#wpmoly-library-menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#wpmoly-library-menu ul li {
+	display: inline-block;
+	margin: 0;
+}
+
+#wpmoly-library-menu ul a {
+	color: #23282d;
+	display: block;
+	font-size: 13px;
+	margin: 0 10px;
+	padding: 15px 0;
+	text-decoration: none;
+}
+
+#wpmoly-library-menu ul a.current {
+	border-bottom: 4px solid #666;
+}
+
+#wpmoly-library-menu ul a:hover {
+	color: #00a0d2;
+}
+
+#wpmoly-library-content {
+	padding: 0 2px;
+}

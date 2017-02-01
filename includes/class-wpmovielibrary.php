@@ -206,6 +206,7 @@ final class Library {
 			// Admin stuff
 			require_once WPMOLY_PATH . 'admin/class-backstage.php';
 			require_once WPMOLY_PATH . 'admin/class-notices.php';
+			require_once WPMOLY_PATH . 'admin/class-library.php';
 			require_once WPMOLY_PATH . 'admin/class-permalink-settings.php';
 			require_once WPMOLY_PATH . 'admin/class-term-editor.php';
 			require_once WPMOLY_PATH . 'admin/class-archive-pages.php';
@@ -266,11 +267,13 @@ final class Library {
 		//$admin->set_default_filters();
 
 		$this->loader->add_filter( 'admin_init',                $admin, 'admin_init' );
+		$this->loader->add_filter( 'admin_menu',                $admin, 'admin_menu', 9 );
 		$this->loader->add_filter( 'plupload_default_params',   $admin, 'plupload_default_params' );
 		$this->loader->add_action( 'admin_enqueue_scripts',     $admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts',     $admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_footer-post.php',     $admin, 'enqueue_templates' );
 		$this->loader->add_action( 'admin_footer-post-new.php', $admin, 'enqueue_templates' );
+		$this->loader->add_action( 'admin_footer-toplevel_page_wpmovielibrary', $admin, 'enqueue_templates' );
 
 		$notices = new Admin\Notices;
 		$notices->register_notices();
