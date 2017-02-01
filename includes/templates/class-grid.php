@@ -34,6 +34,13 @@ class Grid extends Front {
 	private $grid;
 
 	/**
+	 * Grid JSON.
+	 * 
+	 * @var    object
+	 */
+	protected $json;
+
+	/**
 	 * Class Constructor.
 	 * 
 	 * @since    3.0
@@ -324,5 +331,27 @@ class Grid extends Front {
 		}
 
 		echo $this->template;
+	}
+
+	/**
+	 * JSONify the Grid instance.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function toJSON() {
+
+		$json = array();
+
+		$json['settings'] = array();
+		foreach ( $this->default_settings as $setting ) {
+			$json['settings'][ $setting ] = $this->get( $setting );
+		}
+
+		$json['settings']['current_page'] = $this->get_current_page();
+		$json['settings']['total_page']   = $this->get_total_pages();
+
+		return $this->json = wp_json_encode( $json );
 	}
 }

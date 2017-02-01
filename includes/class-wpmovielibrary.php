@@ -349,11 +349,12 @@ final class Library {
 		$public = Frontend::get_instance();
 		$public->set_default_filters();
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_styles', 95 );
-		$this->loader->add_action( 'wp_enqueue_scripts', $public, 'enqueue_scripts', 95 );
-		$this->loader->add_action( 'init',               $public, 'register_shortcodes' );
-		$this->loader->add_action( 'widgets_init',       $public, 'register_widgets' );
-		$this->loader->add_filter( 'the_content',        $public, 'the_headbox' );
+		$this->loader->add_action( 'wp_enqueue_scripts',      $public, 'enqueue_styles', 95 );
+		$this->loader->add_action( 'wp_enqueue_scripts',      $public, 'enqueue_scripts', 95 );
+		$this->loader->add_action( 'wp_print_footer_scripts', $public, 'enqueue_templates' );
+		$this->loader->add_action( 'init',                    $public, 'register_shortcodes' );
+		$this->loader->add_action( 'widgets_init',            $public, 'register_widgets' );
+		$this->loader->add_filter( 'the_content',             $public, 'the_headbox' );
 
 		$archives = Archives::get_instance();
 		$this->loader->add_filter( 'the_content',        $archives, 'archive_page_content', 10, 1 );

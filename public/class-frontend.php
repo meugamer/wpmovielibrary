@@ -81,9 +81,39 @@ class Frontend {
 		$this->styles = apply_filters( 'wpmoly/filter/default/public/styles', $styles );
 
 		$scripts = array(
-			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone' ) ),
 
-			'grids' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js', 'deps' => array( 'wpmoly-grids' ) )
+			// Vendor
+			'sprintf' => array(
+				'file'    => WPMOLY_URL . 'public/js/sprintf.min.js',
+				'deps'    => array( 'jquery', 'underscore' ),
+				'version' => '1.0.3'
+			),
+			'underscore-string' => array(
+				'file' => WPMOLY_URL . 'public/js/underscore.string.min.js',
+				'deps'    => array( 'jquery', 'underscore' ),
+				'version' => '3.3.4'
+			),
+
+			// Base
+			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone' ) ),
+
+			// Utils
+			'utils' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-utils.js' ),
+
+			// Models
+			'settings-model' => array( 'file' => WPMOLY_URL . 'public/js/models/grid/settings.js' ),
+
+			// Controllers
+			'grid-controller' => array( 'file' => WPMOLY_URL . 'public/js/controllers/grid.js' ),
+
+			// Views
+			'grid-view'            => array( 'file' => WPMOLY_URL . 'public/js/views/grid.js' ),
+			'grid-menu-view'       => array( 'file' => WPMOLY_URL . 'public/js/views/grid/menu.js' ),
+			'grid-pagination-view' => array( 'file' => WPMOLY_URL . 'public/js/views/grid/pagination.js' ),
+			'grid-settings-view'   => array( 'file' => WPMOLY_URL . 'public/js/views/grid/settings.js' ),
+
+			// Runners
+			'grids' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js' ),
 		);
 
 		/**
@@ -224,6 +254,27 @@ class Frontend {
 	}
 
 	/**
+	 * Print a JavaScript template.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    string    $handle Template slug
+	 * @param    string    $src Template file path
+	 *
+	 * @return   null
+	 */
+	private function print_template( $handle, $src ) {
+
+		if ( ! file_exists( WPMOLY_PATH . $src ) ) {
+			return false;
+		}
+
+		echo "\n" . '<script type="text/html" id="tmpl-' . $handle . '">';
+		require_once WPMOLY_PATH . $src;
+		echo '</script>' . "\n";
+	}
+
+	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 * 
 	 * @since    3.0
@@ -233,6 +284,45 @@ class Frontend {
 	public function enqueue_scripts() {
 
 		$this->register_scripts();
+
+		// Vendor
+		$this->enqueue_script( 'sprintf' );
+		$this->enqueue_script( 'underscore-string' );
+
+		// Base
+		$this->enqueue_script();
+		$this->enqueue_script( 'utils' );
+
+		// Models
+		$this->enqueue_script( 'settings-model' );
+
+		// Controllers
+		$this->enqueue_script( 'grid-controller' );
+
+		// Views
+		$this->enqueue_script( 'grid-view' );
+		$this->enqueue_script( 'grid-menu-view' );
+		$this->enqueue_script( 'grid-pagination-view' );
+		$this->enqueue_script( 'grid-settings-view' );
+
+		// Runners
+		$this->enqueue_script( 'grids' );
+	}
+
+	/**
+	 * Print the JavaScript templates for the frontend area.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   void
+	 */
+	public function enqueue_templates() {
+
+		if ( is_archive_page( get_the_ID() ) ) {
+			$this->print_template( 'wpmoly-grid-menu',       'public/js/templates/grid/menu.php' );
+			$this->print_template( 'wpmoly-grid-settings',   'public/js/templates/grid/settings.php' );
+			$this->print_template( 'wpmoly-grid-pagination', 'public/js/templates/grid/pagination.php' );
+		}
 	}
 
 	/**
