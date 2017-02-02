@@ -360,7 +360,7 @@ class Grid extends Node {
 	/**
 	 * Build the Grid.
 	 * 
-	 * Load items depending on presets or custom settings.
+	 * Load items depending on presets and/or custom settings.
 	 * 
 	 * @since    3.0
 	 * 
@@ -368,16 +368,13 @@ class Grid extends Node {
 	 */
 	public function build() {
 
-		if ( ! is_admin() ) {
-			$this->prepare();
-		}
-
-		$query = $this->get_query();
+		$this->prepare();
+		$this->get_query();
 
 		$method = str_replace( '-', '_', $this->get_preset() );
-		if ( method_exists( $query, $method ) ) {
+		if ( method_exists( $this->query, $method ) ) {
 
-			$items = $query->$method( $this->settings );
+			$items = $this->query->$method( $this->settings );
 			foreach ( (array) $items as $item ) {
 				$this->items->add( $item );
 			}
@@ -393,10 +390,16 @@ class Grid extends Node {
 	}
 
 	/**
-	 * Prepare the Grid.
+	 * Prepare the Grid by parsing custom settings. This is used to browse
+	 * grids from URLs when JavaScript disabled, and for now until Ajax
+	 * browsing is implemented. Three main cases are handled here:
 	 * 
-	 * Parse custom settings. Settings can be passed through the URL 'grid'
-	 * parameter: domain.ltd/movies/?grid=id:123|orderby:post_title|order:ASC
+	 * 1/ Browsing standard grids using basic URLs: https://domain.ltd/movies/?grid=id:123|paged:3
+	 *    This will show the third page of the grid.
+	 * 2/ Browsing advanced standard grids: https://domain.ltd/movies/?grid=id:123|paged:3|orderby:post_title|order:ASC
+	 *    This will show the third page of a basic grid sorted by post title ascendingly.
+	 * 3/ Browsing dynamic grids generated from URLs: https://domain.ltd/movies/subtitles/english
+	 *    This will show the first page of a dynamic grid listing all english-subtitled movies.
 	 * 
 	 * @since    3.0
 	 * 
@@ -404,17 +407,19 @@ class Grid extends Node {
 	 */
 	private function prepare() {
 
+		// Find out custom preset, if any
 		$custom = get_query_var( 'grid_preset' );
 		if ( $this->is_main_grid && ! empty( $custom ) ) {
 			$this->preset = 'custom';
 		}
 
+		// Get grid settings from URL
 		$settings = get_query_var( 'grid' );
 		if ( empty( $settings ) ) {
 			return false;
 		}
 
-		// Extract values
+		// Extract settings
 		$settings = str_replace( array( ':', ',' ), array( '=', '&' ), $settings );
 		$defaults = array(
 			'id'      => '',
@@ -423,7 +428,7 @@ class Grid extends Node {
 		);
 		$settings = wp_parse_args( $settings, $defaults );
 
-		// Not this grid? Bail.
+		// Not the grid? Don't go any further.
 		if ( $this->id != $settings['id'] ) {
 			return false;
 		}
@@ -435,8 +440,7 @@ class Grid extends Node {
 			$settings['post_type'] = $this->get_type();
 		}
 
-		$this->settings = $settings;
-		$this->preset = 'custom';
+		return $this->settings = $settings;
 	}
 
 	/**
@@ -516,6 +520,18 @@ class Grid extends Node {
 		$settings = wp_parse_args( $settings, $this->settings );
 
 		return $this->settings = $settings;
+	}
+
+	/**
+	 * Get the Node Query parameters.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function get_query_args() {
+
+		return $this->query->get_args();
 	}
 
 	/**

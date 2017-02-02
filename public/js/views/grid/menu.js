@@ -18,6 +18,8 @@ _.extend( Grid, {
 		 * 
 		 * @since    3.0
 		 * 
+		 * @param    object    options
+		 * 
 		 * @return   void
 		 */
 		initialize: function( options ) {
@@ -30,7 +32,7 @@ _.extend( Grid, {
 		 * 
 		 * @since    3.0
 		 * 
-		 * @return   void
+		 * @return   Returns itself to allow chaining.
 		 */
 		render: function() {
 
@@ -39,6 +41,13 @@ _.extend( Grid, {
 			return this;
 		},
 
+		/**
+		 * Show/Hide the grid menu.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		toggleMenu: function() {
 
 			this.controller.trigger( 'grid:menu:toggle' );

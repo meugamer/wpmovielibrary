@@ -53,15 +53,21 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function alphabetical_movies() {
+	public function alphabetical_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_movies/args/defaults', array(
 			'meta_key'       => '_wpmoly_movie_title',
 			'orderby'        => 'meta_value',
 			'order'          => 'ASC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/alphabetical_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -71,15 +77,21 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function unalphabetical_movies() {
+	public function unalphabetical_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_movies/args/defaults', array(
 			'meta_key'       => '_wpmoly_movie_title',
 			'orderby'        => 'meta_value',
 			'order'          => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -89,11 +101,13 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function current_year_movies() {
+	public function current_year_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/current_year_movies/args/defaults', array(
 			'meta_key'   => '_wpmoly_movie_release_date',
 			'meta_type'  => 'date',
 			'meta_query' => array(
@@ -114,6 +128,10 @@ class Movies extends Query {
 			'orderby'    => 'meta_value',
 			'order'      => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/current_year_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -123,11 +141,13 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function last_year_movies() {
+	public function last_year_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/last_year_movies/args/defaults', array(
 			'meta_key'   => '_wpmoly_movie_release_date',
 			'meta_type'  => 'date',
 			'meta_query' => array(
@@ -148,6 +168,10 @@ class Movies extends Query {
 			'orderby'    => 'meta_value',
 			'order'      => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/last_year_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -157,11 +181,17 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function last_added_movies() {
+	public function last_added_movies( $args = array() ) {
 
-		return $this->query();
+		$defaults = apply_filters( 'wpmoly/filter/query/last_added_movies/args/defaults', array() );
+
+		$args = apply_filters( 'wpmoly/filter/query/last_added_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -171,13 +201,19 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function first_added_movies() {
+	public function first_added_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/first_added_movies/args/defaults', array(
 			'order' => 'ASC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/first_added_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -187,16 +223,22 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function last_released_movies() {
+	public function last_released_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/last_released_movies/args/defaults', array(
 			'meta_key'  => '_wpmoly_movie_release_date',
 			'meta_type' => 'date',
 			'orderby'   => 'meta_value',
 			'order'     => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/last_released_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -206,16 +248,22 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function first_released_movies() {
+	public function first_released_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/first_released_movies/args/defaults', array(
 			'meta_key'  => '_wpmoly_movie_release_date',
 			'meta_type' => 'date',
 			'orderby'   => 'meta_value',
 			'order'     => 'ASC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/first_released_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -225,11 +273,13 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function incoming_movies() {
+	public function incoming_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/incoming_movies/args/defaults', array(
 			'meta_key'     => '_wpmoly_movie_release_date',
 			'meta_type'    => 'date',
 			'meta_value'   => sprintf( '%d-01-01', date( 'Y' ) + 1 ),
@@ -237,6 +287,10 @@ class Movies extends Query {
 			'orderby'      => 'meta_value',
 			'order'        => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/incoming_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -246,17 +300,23 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function most_rated_movies() {
+	public function most_rated_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/most_rated_movies/args/defaults', array(
 			'meta_key'     => '_wpmoly_movie_rating',
 			//'meta_value'   => 0.0
 			//'meta_compare' => '>',
 			'orderby'      => 'meta_value_num',
 			'order'        => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/most_rated_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -266,17 +326,23 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function least_rated_movies() {
+	public function least_rated_movies( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/least_rated_movies/args/defaults', array(
 			'meta_key'     => '_wpmoly_movie_rating',
 			//'meta_value'   => 0.0
 			//'meta_compare' => '>',
 			'orderby'      => 'meta_value_num',
 			'order'        => 'ASC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/least_rated_movies/args', wp_parse_args( $defaults, $args ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -359,6 +425,18 @@ class Movies extends Query {
 	 * @return   array
 	 */
 	public function query( $args = array() ) {
+
+		// TODO Clean this up :o
+		if ( ! empty( $args['letter'] ) ) {
+			add_action( 'posts_where', function( $where, $query ) {
+				global $wpdb;
+				$letter = $query->get( 'letter' );
+				if ( ! empty( $letter ) ) {
+					$where .= " AND {$wpdb->posts}.post_title LIKE '" . $wpdb->esc_like( $letter ) . "%'";
+				}
+				return $where;
+			}, 10, 2 );
+		}
 
 		/**
 		 * Filter default preset post status.

@@ -101,6 +101,7 @@ class Frontend {
 			'utils' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-utils.js' ),
 
 			// Models
+			'query-model'    => array( 'file' => WPMOLY_URL . 'public/js/models/grid/query.js' ),
 			'settings-model' => array( 'file' => WPMOLY_URL . 'public/js/models/grid/settings.js' ),
 
 			// Controllers
@@ -294,6 +295,7 @@ class Frontend {
 		$this->enqueue_script( 'utils' );
 
 		// Models
+		$this->enqueue_script( 'query-model' );
 		$this->enqueue_script( 'settings-model' );
 
 		// Controllers

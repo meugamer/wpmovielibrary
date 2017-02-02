@@ -334,7 +334,7 @@ class Grid extends Front {
 	}
 
 	/**
-	 * JSONify the Grid instance.
+	 * JSONify the Grid Template instance.
 	 * 
 	 * @since    3.0
 	 * 
@@ -349,8 +349,11 @@ class Grid extends Front {
 			$json['settings'][ $setting ] = $this->get( $setting );
 		}
 
-		$json['settings']['current_page'] = $this->get_current_page();
-		$json['settings']['total_page']   = $this->get_total_pages();
+		$json['query_args'] = $this->get_query_args();
+		$json['query_data'] = array(
+			'current_page' => $this->get_current_page(),
+			'total_page'   => $this->get_total_pages()
+		);
 
 		return $this->json = wp_json_encode( $json );
 	}

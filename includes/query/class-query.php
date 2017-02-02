@@ -56,6 +56,18 @@ abstract class Query {
 	abstract public function query( $args = array() );
 
 	/**
+	 * Retrieve query parameters.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function get_args() {
+
+		return $this->args;
+	}
+
+	/**
 	 * Retrieve total number of result pages.
 	 * 
 	 * @since    3.0

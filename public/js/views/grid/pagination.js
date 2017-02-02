@@ -19,6 +19,8 @@ _.extend( Grid, {
 		 * 
 		 * @since    3.0
 		 * 
+		 * @param    object    options
+		 * 
 		 * @return   void
 		 */
 		initialize: function( options ) {
@@ -36,14 +38,16 @@ _.extend( Grid, {
 		 * 
 		 * @param    object    JS 'change' Event.
 		 * 
-		 * @return   void
+		 * @return   Returns itself to allow chaining.
 		 */
 		paginate: function( event ) {
 
 			var $target = this.$( event.currentTarget ),
 			      value = $target.val();
 
-			this.controller.settings.set({ current_page : parseInt( value ) });
+			this.controller.query.set({ paged : parseInt( value ) });
+
+			return this;
 		},
 
 		/**
@@ -53,7 +57,7 @@ _.extend( Grid, {
 		 * 
 		 * @param    object    JS 'click' Event.
 		 * 
-		 * @return   void
+		 * @return   Returns itself to allow chaining.
 		 */
 		navigate: function( event ) {
 
@@ -74,13 +78,14 @@ _.extend( Grid, {
 		 * 
 		 * @since    3.0
 		 * 
-		 * @return   void
+		 * @return   Returns itself to allow chaining.
 		 */
 		render: function() {
 
-			var data = this.controller.settings;
-
-			this.$el.html( this.template( data.toJSON() ) );
+			this.$el.html( this.template( {
+				total_page   : this.controller.query.total_page,
+				current_page : this.controller.query.current_page
+			} ) );
 
 			return this;
 		}

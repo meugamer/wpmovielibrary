@@ -20,6 +20,8 @@ _.extend( Grid, {
 		 * 
 		 * @since    3.0
 		 * 
+		 * @param    object    options
+		 * 
 		 * @return   void
 		 */
 		initialize: function( options ) {
@@ -29,6 +31,13 @@ _.extend( Grid, {
 			this.listenTo( this.controller, 'grid:menu:toggle', this.toggle );
 		},
 
+		/**
+		 * Apply changed settings.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		apply: function() {
 
 			this.toggle();
@@ -36,6 +45,13 @@ _.extend( Grid, {
 			return this;
 		},
 
+		/**
+		 * Show/Hide the settings menu.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		toggle: function() {
 
 			this.$el.toggleClass( 'active' );
@@ -48,13 +64,14 @@ _.extend( Grid, {
 		 * 
 		 * @since    3.0
 		 * 
-		 * @return   void
+		 * @return   Returns itself to allow chaining.
 		 */
 		render: function() {
 
-			this.$el.html( this.template() );
-
-			this.$( '.selectize' ).selectize();
+			this.$el.html( this.template( {
+				settings : this.controller.settings,
+				query    : this.controller.query
+			} ) );
 
 			return this;
 		}
