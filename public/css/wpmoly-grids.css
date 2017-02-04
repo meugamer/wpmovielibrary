@@ -140,8 +140,8 @@
 	color: #fff;
 }
 
-.wpmoly.grid .grid-setting-block label input:checked + .value,
-.wpmoly.grid .grid-setting-block label input:checked + .letter {
+.wpmoly.grid .grid-setting-block label input[checked="checked"] + .value,
+.wpmoly.grid .grid-setting-block label input[checked="checked"] + .letter {
 	background: #3190c6;
 	color: #fff;
 }
