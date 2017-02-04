@@ -28,7 +28,6 @@ _.extend( Grid, {
 
 			this.controller = options.controller || {};
 
-			console.log( this.controller.query.defaults );
 			this.listenTo( this.controller, 'grid:menu:toggle', this.toggle );
 		},
 
