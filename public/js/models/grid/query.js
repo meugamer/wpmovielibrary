@@ -5,11 +5,11 @@ _.extend( wpmoly.model, {
 
 	Query: Backbone.Model.extend({
 
-		defaults: {
+		defaults: function() { return {
 			order   : 'DESC',
 			orderby : 'post_date',
 			letter  : ''
-		},
+		} },
 
 		/**
 		 * Initialize the Model.
@@ -24,8 +24,8 @@ _.extend( wpmoly.model, {
 		initialize: function( attributes, options ) {
 
 			var options = options || {};
-			this.total_page   = options.total_page || '';
-			this.current_page = options.current_page || '';
+			this.total_page   = parseInt( options.total_page ) || '';
+			this.current_page = parseInt( options.current_page ) || '';
 		}
 
 	}),

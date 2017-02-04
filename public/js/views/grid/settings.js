@@ -28,6 +28,7 @@ _.extend( Grid, {
 
 			this.controller = options.controller || {};
 
+			console.log( this.controller.query.defaults );
 			this.listenTo( this.controller, 'grid:menu:toggle', this.toggle );
 		},
 
@@ -39,6 +40,27 @@ _.extend( Grid, {
 		 * @return   Returns itself to allow chaining.
 		 */
 		apply: function() {
+
+			var changes = {},
+			     inputs = this.$( 'input:checked' ),
+			      query = this.controller.query;
+
+			// Loop through fields to detect changes from current state.
+			_.each( inputs, function( input ) {
+				var param = this.$( input ).attr( 'data-setting-type' ),
+				    value = this.$( input ).attr( 'data-setting-value' );
+
+				if ( query.has( param ) && ( value != query.get( param ) /*|| value*/ ) ) {
+					changes[ param ] = value;
+				}
+			}, this );
+
+			// If order changed, go back to page 1.
+			if ( changes.order || changes.orderby ) {
+				changes.paged = 1;
+			}
+
+			query.set( changes );
 
 			this.toggle();
 

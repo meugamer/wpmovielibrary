@@ -220,6 +220,21 @@ wpmoly = window.wpmoly || {};
 	wpmoly.utils = {
 
 		/**
+		 * Retrieve URL parameters.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    name
+		 * 
+		 * @return   string
+		 */
+		getURLParameter: function( name ) {
+			return decodeURIComponent(
+				( new RegExp( '[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)' ).exec( window.location ) || [ null, '' ] )[1].replace( /\+/g, '%20' )
+			) || null;
+		},
+
+		/**
 		 * Find bracketed tags in a string.
 		 * 
 		 * Mainly used to prepare backdrops/posters titles and captions.

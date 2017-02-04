@@ -14,11 +14,12 @@ wpmoly = window.wpmoly || {};
 			var grids = document.querySelectorAll( '[data-grid]' );
 			_.each( grids, function( grid ) {
 
-				var controller = new wpmoly.controller.Grid(
+				var post_id = parseInt( grid.dataset.grid ),
+				 controller = new wpmoly.controller.Grid(
 					{
-						post_id  : grid.dataset.grid
+						post_id : post_id
 					},
-					window[ '_wpmoly_grid_' + grid.dataset.grid ]
+					window[ '_wpmoly_grid_' + post_id ]
 				);
 
 				var view = new wpmoly.view.Grid.Grid({
@@ -26,7 +27,7 @@ wpmoly = window.wpmoly || {};
 					controller : controller
 				});
 
-				wpmoly.grids.views[ grid.dataset.grid ] = view;
+				wpmoly.grids.views[ post_id ] = view;
 			} );
 		}
 	};

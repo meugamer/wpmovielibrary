@@ -47,6 +47,35 @@ class Movies extends Query {
 	}
 
 	/**
+	 * Parse arguments to ensure ordering are not lost when altering the
+	 * grid settings.
+	 * 
+	 * If order/orderby parameters are left empty, fallback to default
+	 * values.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $args
+	 * @param    array    $defaults
+	 * 
+	 * @return   array
+	 */
+	private function parse_args( $args, $defaults = array() ) {
+
+		$parsed_args = wp_parse_args( $args, $defaults );
+
+		if ( empty( $args['order'] ) && ! empty( $defaults['order'] ) ) {
+			$parsed_args['order'] = $defaults['order'];
+		}
+
+		if ( empty( $args['orderby'] ) && ! empty( $defaults['orderby'] ) ) {
+			$parsed_args['orderby'] = $defaults['orderby'];
+		}
+
+		return $parsed_args;
+	}
+
+	/**
 	 * 'alphabetical-movies' Grid preset.
 	 * 
 	 * Default: retrieve the first 20 movies alphabetically.
@@ -65,7 +94,7 @@ class Movies extends Query {
 			'order'          => 'ASC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/alphabetical_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/alphabetical_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -89,7 +118,7 @@ class Movies extends Query {
 			'order'          => 'DESC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -129,7 +158,7 @@ class Movies extends Query {
 			'order'      => 'DESC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/current_year_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/current_year_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -169,7 +198,7 @@ class Movies extends Query {
 			'order'      => 'DESC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/last_year_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/last_year_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -187,9 +216,12 @@ class Movies extends Query {
 	 */
 	public function last_added_movies( $args = array() ) {
 
-		$defaults = apply_filters( 'wpmoly/filter/query/last_added_movies/args/defaults', array() );
+		$defaults = apply_filters( 'wpmoly/filter/query/last_added_movies/args/defaults', array(
+			'orderby' => 'post_date',
+			'order'   => 'DESC'
+		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/last_added_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/last_added_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -211,7 +243,7 @@ class Movies extends Query {
 			'order' => 'ASC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/first_added_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/first_added_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -236,7 +268,7 @@ class Movies extends Query {
 			'order'     => 'DESC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/last_released_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/last_released_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -261,7 +293,7 @@ class Movies extends Query {
 			'order'     => 'ASC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/first_released_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/first_released_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -288,7 +320,7 @@ class Movies extends Query {
 			'order'        => 'DESC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/incoming_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/incoming_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -314,7 +346,7 @@ class Movies extends Query {
 			'order'        => 'DESC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/most_rated_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/most_rated_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
@@ -340,7 +372,7 @@ class Movies extends Query {
 			'order'        => 'ASC'
 		) );
 
-		$args = apply_filters( 'wpmoly/filter/query/least_rated_movies/args', wp_parse_args( $defaults, $args ) );
+		$args = apply_filters( 'wpmoly/filter/query/least_rated_movies/args', $this->parse_args( $args, $defaults ) );
 
 		return $this->query( $args );
 	}
