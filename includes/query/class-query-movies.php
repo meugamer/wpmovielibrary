@@ -431,18 +431,6 @@ class Movies extends Query {
 	 */
 	public function query( $args = array() ) {
 
-		// TODO Clean this up :o
-		if ( ! empty( $args['letter'] ) ) {
-			add_action( 'posts_where', function( $where, $query ) {
-				global $wpdb;
-				$letter = $query->get( 'letter' );
-				if ( ! empty( $letter ) ) {
-					$where .= " AND {$wpdb->posts}.post_title LIKE '" . $wpdb->esc_like( $letter ) . "%'";
-				}
-				return $where;
-			}, 10, 2 );
-		}
-
 		/**
 		 * Filter default preset post status.
 		 * 

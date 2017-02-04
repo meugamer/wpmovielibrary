@@ -377,6 +377,7 @@ final class Library {
 
 		$query = Core\Query::get_instance();
 		$this->loader->add_filter( 'query_vars',     $query, 'add_query_vars' );
+		$this->loader->add_filter( 'posts_where',    $query, 'filter_by_letter', 10, 2 );
 
 		// Public-side Ajax
 		$ajax = Ajax\Ajax::get_instance();

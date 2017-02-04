@@ -212,4 +212,29 @@ class Query {
 
 		return $query_var;
 	}
+
+	/**
+	 * Filter collection by letter.
+	 * 
+	 * Add a new WHERE clause to the current query to limit selection to the
+	 * movies with a title starting with a specific letter.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string      $where
+	 * @param    WP_Query    $query
+	 * 
+	 * @return   string
+	 */
+	public function filter_by_letter( $where, $query ) {
+
+		global $wpdb;
+
+		$letter = $query->get( 'letter' );
+		if ( ! empty( $letter ) ) {
+			$where .= " AND {$wpdb->posts}.post_title LIKE '" . $wpdb->esc_like( strtoupper( $letter ) ) . "%'";
+		}
+
+		return $where;
+	}
 }
