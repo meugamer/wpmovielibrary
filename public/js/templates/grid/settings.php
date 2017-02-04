@@ -12,11 +12,13 @@ foreach ( $letters as $letter ) {
 			<label><input type="radio" name="grid-settings[letter][]" data-setting-type="letter" data-setting-value="" value="" <# if ( '' == data.query.get( 'letter' ) || 'all' == data.query.get( 'letter' ) ) { #>checked="checked" <# } #>/><span class="letter"><?php _e( 'All', 'wpmovielibrary' ); ?></span></label>
 		</div>
 
+<# if ( 'movie' === data.settings.get( 'type' ) ) { #>
 		<div class="grid-setting-block half-col orderby-setting">
 			<span class="grid-setting-label"><?php _e( 'Order by:', 'wpmovielibrary' ); ?></span>
 			<label><input type="radio" name="grid-settings[orderby][]" data-setting-type="orderby" data-setting-value="post_title" value="post_title" <# if ( 'post_title' == data.query.get( 'orderby' ) ) { #>checked="checked" <# } #>/><span class="value"><?php _e( 'Post Title', 'wpmovielibrary' ); ?></span></label>
 			<label><input type="radio" name="grid-settings[orderby][]" data-setting-type="orderby" data-setting-value="post_date" value="post_title" <# if ( 'post_date' == data.query.get( 'orderby' ) ) { #>checked="checked" <# } #>/><span class="value"><?php _e( 'Post Date', 'wpmovielibrary' ); ?></span></label>
 		</div>
+<# } #>
 
 		<div class="grid-setting-block half-col order-setting">
 			<span class="grid-setting-label"><?php _e( 'Order:', 'wpmovielibrary' ); ?></span>
