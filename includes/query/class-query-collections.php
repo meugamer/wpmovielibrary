@@ -31,9 +31,11 @@ class Collections extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function default_preset() {
+	public function default_preset( $args = array() ) {
 
 		/**
 		 * Filter default preset callback.
@@ -44,7 +46,7 @@ class Collections extends Query {
 		 */
 		$callback = apply_filters( 'wpmoly/filter/query/collections/defaults/preset', 'alphabetical_collections' );
 
-		return $this->$callback();
+		return $this->$callback( $args );
 	}
 
 	/**
@@ -54,14 +56,20 @@ class Collections extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function alphabetical_collections() {
+	public function alphabetical_collections( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_collections/args/defaults', array(
 			'orderby' => 'name',
 			'order'   => 'ASC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/alphabetical_collections/args', $this->parse_args( $args, $defaults ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -71,14 +79,20 @@ class Collections extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function unalphabetical_collections() {
+	public function unalphabetical_collections( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_collections/args/defaults', array(
 			'orderby' => 'name',
 			'order'   => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_collections/args', $this->parse_args( $args, $defaults ) );
+
+		return $this->query( $args );
 	}
 
 	/**

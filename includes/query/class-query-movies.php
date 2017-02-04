@@ -30,9 +30,11 @@ class Movies extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function default_preset() {
+	public function default_preset( $args = array() ) {
 
 		/**
 		 * Filter default preset callback.
@@ -43,36 +45,7 @@ class Movies extends Query {
 		 */
 		$callback = apply_filters( 'wpmoly/filter/query/movies/defaults/preset', 'last_added_movies' );
 
-		return $this->$callback();
-	}
-
-	/**
-	 * Parse arguments to ensure ordering are not lost when altering the
-	 * grid settings.
-	 * 
-	 * If order/orderby parameters are left empty, fallback to default
-	 * values.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $args
-	 * @param    array    $defaults
-	 * 
-	 * @return   array
-	 */
-	private function parse_args( $args, $defaults = array() ) {
-
-		$parsed_args = wp_parse_args( $args, $defaults );
-
-		if ( empty( $args['order'] ) && ! empty( $defaults['order'] ) ) {
-			$parsed_args['order'] = $defaults['order'];
-		}
-
-		if ( empty( $args['orderby'] ) && ! empty( $defaults['orderby'] ) ) {
-			$parsed_args['orderby'] = $defaults['orderby'];
-		}
-
-		return $parsed_args;
+		return $this->$callback( $args );
 	}
 
 	/**

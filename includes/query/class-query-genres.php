@@ -31,9 +31,11 @@ class Genres extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function default_preset() {
+	public function default_preset( $args = array() ) {
 
 		/**
 		 * Filter default preset callback.
@@ -44,7 +46,7 @@ class Genres extends Query {
 		 */
 		$callback = apply_filters( 'wpmoly/filter/query/genres/defaults/preset', 'alphabetical_genres' );
 
-		return $this->$callback();
+		return $this->$callback( $args );
 	}
 
 	/**
@@ -54,14 +56,20 @@ class Genres extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function alphabetical_genres() {
+	public function alphabetical_genres( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_genres/args/defaults', array(
 			'orderby' => 'name',
 			'order'   => 'ASC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/alphabetical_genres/args', $this->parse_args( $args, $defaults ) );
+
+		return $this->query( $args );
 	}
 
 	/**
@@ -71,14 +79,20 @@ class Genres extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function unalphabetical_genres() {
+	public function unalphabetical_genres( $args = array() ) {
 
-		return $this->query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_genres/args/defaults', array(
 			'orderby' => 'name',
 			'order'   => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_genres/args', $this->parse_args( $args, $defaults ) );
+
+		return $this->query( $args );
 	}
 
 	/**

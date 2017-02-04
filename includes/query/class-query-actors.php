@@ -31,9 +31,11 @@ class Actors extends Query {
 	 * 
 	 * @since    3.0
 	 * 
+	 * @param    array    $args Query parameters
+	 * 
 	 * @return   array
 	 */
-	public function default_preset() {
+	public function default_preset( $args = array() ) {
 
 		/**
 		 * Filter default preset callback.
@@ -44,7 +46,7 @@ class Actors extends Query {
 		 */
 		$callback = apply_filters( 'wpmoly/filter/query/actors/defaults/preset', 'alphabetical_actors' );
 
-		return $this->$callback();
+		return $this->$callback( $args );
 	}
 
 	/**
@@ -56,12 +58,16 @@ class Actors extends Query {
 	 * 
 	 * @return   array
 	 */
-	public function alphabetical_actors() {
+	public function alphabetical_actors( $args = array() ) {
 
-		return $this->term_query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_actors/args/defaults', array(
 			'orderby' => 'name',
 			'order'   => 'ASC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/alphabetical_actors/args', $this->parse_args( $args, $defaults ) );
+
+		return $this->term_query( $args );
 	}
 
 	/**
@@ -73,12 +79,16 @@ class Actors extends Query {
 	 * 
 	 * @return   array
 	 */
-	public function unalphabetical_actors() {
+	public function unalphabetical_actors( $args = array() ) {
 
-		return $this->term_query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_actors/args/defaults', array(
 			'orderby' => 'name',
 			'order'   => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_actors/args', $this->parse_args( $args, $defaults ) );
+
+		return $this->term_query( $args );
 	}
 
 	/**
@@ -90,13 +100,17 @@ class Actors extends Query {
 	 * 
 	 * @return   array
 	 */
-	public function alphabetical_persons() {
+	public function alphabetical_persons( $args = array() ) {
 
-		return $this->post_query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_persons/args/defaults', array(
 			'meta_key' => '_wpmoly_person_name',
 			'orderby'  => 'meta_value',
 			'order'    => 'ASC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/alphabetical_persons/args', $this->parse_args( $args, $defaults ) );
+
+		return $this->post_query( $args );
 	}
 
 	/**
@@ -108,13 +122,17 @@ class Actors extends Query {
 	 * 
 	 * @return   array
 	 */
-	public function unalphabetical_persons() {
+	public function unalphabetical_persons( $args = array() ) {
 
-		return $this->post_query( array(
+		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_persons/args/defaults', array(
 			'meta_key' => '_wpmoly_person_name',
 			'orderby'  => 'meta_value',
 			'order'    => 'DESC'
 		) );
+
+		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_persons/args', $this->parse_args( $args, $defaults ) );
+
+		return $this->post_query( $args );
 	}
 
 	/**
