@@ -17,7 +17,7 @@ _.extend( wpmoly.controller, {
 		 */
 		initialize: function( attributes, options ) {
 
-			this.settings = new Backbone.Model( options.settings || {} );
+			this.settings = new wpmoly.model.Settings( options.settings || {} );
 			this.query    = new wpmoly.model.Query( options.query_args || {}, options.query_data || {} );
 
 			this.listenTo( this.query, 'change', this.browse );
@@ -43,10 +43,6 @@ _.extend( wpmoly.controller, {
 			_.each( model.changed, function( value, key ) {
 				query[ key ] = value;
 			} );
-
-			/*if ( 'all' === query.letter.toLowerCase() ) {
-				query.letter = '';
-			}*/
 
 			var url = window.location.origin + window.location.pathname;
 

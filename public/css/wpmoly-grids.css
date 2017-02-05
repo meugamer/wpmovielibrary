@@ -20,7 +20,7 @@
 
 /* Main menu  */
 
-.wpmoly.grid .grid-menu {
+.wpmoly.grid .grid-menu-inner {
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -29,24 +29,28 @@
 	padding: 0;
 }
 
-.wpmoly.grid .grid-menu .button,
-.wpmoly.grid .grid-menu .button .wpmolicon {
+.wpmoly.grid .grid-menu-inner .button,
+.wpmoly.grid .grid-menu-inner .button .wpmolicon {
 	height: 3em;
 	line-height: 3em;
 	padding: 0;
 	width: 3em;
 }
 
-.wpmoly.grid .grid-menu .button.disabled {
+.wpmoly.grid .grid-menu-inner .button.disabled {
 	background: transparent !important;
 	opacity: 0.4;
 }
 
-.wpmoly.grid .grid-menu .button.disabled,
-.wpmoly.grid .grid-menu .button.disabled:hover,
-.wpmoly.grid .grid-menu .button.disabled:focus,
-.wpmoly.grid .grid-menu .button.disabled:active {
-	color: #555;
+.wpmoly.grid .grid-menu-inner .button.disabled,
+.wpmoly.grid .grid-menu-inner .button.disabled:hover,
+.wpmoly.grid .grid-menu-inner .button.disabled:focus,
+.wpmoly.grid .grid-menu-inner .button.disabled:active,
+.wpmoly.grid .grid-menu-inner [disabled="disabled"].button,
+.wpmoly.grid .grid-menu-inner [disabled="disabled"].button:hover,
+.wpmoly.grid .grid-menu-inner [disabled="disabled"].button:focus,
+.wpmoly.grid .grid-menu-inner [disabled="disabled"].button:active {
+	color: #666;
 }
 
 /* Settings */

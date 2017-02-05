@@ -7,6 +7,8 @@ _.extend( Grid, {
 
 	Pagination: wp.Backbone.View.extend({
 
+		className: 'grid-menu-inner',
+
 		template: wp.template( 'wpmoly-grid-pagination' ),
 
 		events: {

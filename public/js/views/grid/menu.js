@@ -7,6 +7,8 @@ _.extend( Grid, {
 
 	Menu: wp.Backbone.View.extend({
 
+		className: 'grid-menu-inner',
+
 		template: wp.template( 'wpmoly-grid-menu' ),
 
 		events: {
@@ -36,7 +38,16 @@ _.extend( Grid, {
 		 */
 		render: function() {
 
-			this.$el.html( this.template() );
+			var settings = this.controller.settings;
+
+			if ( ! settings.get( 'settings_control' ) && ! settings.get( 'customs_control' ) ) {
+				return this.$el.hide();
+			}
+
+			this.$el.html( this.template( {
+				show_settings : settings.get( 'settings_control' ),
+				show_customs  : settings.get( 'customs_control' )
+			}) );
 
 			return this;
 		},

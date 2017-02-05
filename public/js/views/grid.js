@@ -8,9 +8,7 @@ _.extend( Grid, {
 	Grid: wp.Backbone.View.extend({
 
 		events: {
-			/*'click [data-action="grid-type"]'  : 'setType',
-			'click [data-action="grid-mode"]'  : 'setMode',
-			'click [data-action="grid-theme"]' : 'setTheme'*/
+			
 		},
 
 		/**
@@ -27,16 +25,33 @@ _.extend( Grid, {
 			this.set_regions();
 		},
 
+		/**
+		 * Set subviews.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		set_regions: function() {
 
-			this.menu       = new wpmoly.view.Grid.Menu({ controller: this.controller });
-			this.pagination = new wpmoly.view.Grid.Pagination({ controller: this.controller });
-			this.settings   = new wpmoly.view.Grid.Settings({ controller: this.controller });
-			
+			var settings = this.controller.settings;
 
-			this.views.set( '.grid-settings', this.settings );
-			this.views.set( '.grid-menu.settings-menu', this.menu );
-			this.views.set( '.grid-menu.pagination-menu', this.pagination );
+			if ( settings.get( 'show_menu' ) ) {
+				this.menu = new wpmoly.view.Grid.Menu({ controller: this.controller });
+				this.views.set( '.grid-menu.settings-menu', this.menu );
+			}
+
+			if ( settings.get( 'show_pagination' ) ) {
+				this.pagination = new wpmoly.view.Grid.Pagination({ controller: this.controller });
+				this.views.set( '.grid-menu.pagination-menu', this.pagination );
+			}
+
+			if ( settings.get( 'order_control' ) ) {
+				this.settings = new wpmoly.view.Grid.Settings({ controller: this.controller });
+				this.views.set( '.grid-settings', this.settings );
+			}
+
+			return this;
 		}
 
 	})

@@ -11,12 +11,7 @@
 
 	<script type="text/javascript">_wpmoly_grid_<?php echo $grid->id; ?> = <?php echo $grid->toJSON(); ?>;</script>
 	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode actors grid archive theme-<?php echo $grid->get_theme(); ?>" data-grid="<?php echo $grid->id; ?>">
-<?php if ( $grid->show_menu() ) : ?>
-		<div class="grid-menu settings-menu clearfix">
-			<button type="button" data-action="grid-menu" class="button left"><span class="wpmolicon icon-order"></span></button>
-			<button type="button" data-action="grid-settings" class="button right"><span class="wpmolicon icon-settings"></span></button>
-		</div>
-<?php endif; ?>
+		<div class="grid-menu settings-menu"></div>
 		<div class="grid-settings"></div>
 		<div class="grid-content archive clearfix">
 
