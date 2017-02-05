@@ -126,22 +126,19 @@
 	width: 1px;
 }
 
-.wpmoly.grid .grid-setting-block label .value,
-.wpmoly.grid .grid-setting-block label .letter {
+.wpmoly.grid .grid-setting-block label {
 	border-radius: .1em;
 	cursor: pointer;
 	display: inline-block;
 	padding: 0 .5em;
 }
 
-.wpmoly.grid .grid-setting-block label:hover .value,
-.wpmoly.grid .grid-setting-block label:hover .letter {
+.wpmoly.grid .grid-setting-block label:hover {
 	background: #8dc2e1;
 	color: #fff;
 }
 
-.wpmoly.grid .grid-setting-block label input[checked="checked"] + .value,
-.wpmoly.grid .grid-setting-block label input[checked="checked"] + .letter {
+.wpmoly.grid .grid-setting-block input:checked ~ label {
 	background: #3190c6;
 	color: #fff;
 }

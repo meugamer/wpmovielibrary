@@ -44,6 +44,10 @@ _.extend( wpmoly.controller, {
 				query[ key ] = value;
 			} );
 
+			/*if ( 'all' === query.letter.toLowerCase() ) {
+				query.letter = '';
+			}*/
+
 			var url = window.location.origin + window.location.pathname;
 
 			window.location.href = url + this.buildSearchQuery( query );

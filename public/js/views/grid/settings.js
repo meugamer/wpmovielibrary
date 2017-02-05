@@ -47,7 +47,7 @@ _.extend( Grid, {
 			// Loop through fields to detect changes from current state.
 			_.each( inputs, function( input ) {
 				var param = this.$( input ).attr( 'data-setting-type' ),
-				    value = this.$( input ).attr( 'data-setting-value' );
+				    value = this.$( input ).val();
 
 				if ( query.has( param ) && ( value != query.get( param ) /*|| value*/ ) ) {
 					changes[ param ] = value;
@@ -90,6 +90,7 @@ _.extend( Grid, {
 		render: function() {
 
 			this.$el.html( this.template( {
+				grid_id  : _.uniqueId( 'wpmoly-grid-' + this.controller.get( 'post_id' ) ),
 				settings : this.controller.settings,
 				query    : this.controller.query
 			} ) );
