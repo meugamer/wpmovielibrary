@@ -125,60 +125,30 @@ class GridBuilder extends Metabox {
 							)
 						)
 					),
-					/*'grid-content' => array(
-						'label'    => esc_html__( 'Content', 'wpmovielibrary' ),
-						'icon'     => 'dashicons-filter',
+					'grid-navigation' => array(
+						'label' => esc_html__( 'Navigation', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-move',
 						'settings' => array(
-							'grid-total' => array(
-								'type'     => 'text',
-								'section'  => 'grid-content',
-								'label'    => esc_html__( 'Number of movies', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of movies for the grid. Setting a number of movie will result in the rows number to be ignored. Default is 5.', 'wpmovielibrary' ),
-								'attr'     => array( 'size' => '2' ),
-								'sanitize' => 'intval',
-								'default'  => 5
+							'grid-enable-ajax' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught movies without reloading the page. Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
 							),
-							'text' => array(
-								'type'     => 'text',
-								'section'  => 'grid-content',
-								'label'    => esc_html__( 'Text input', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'widefat' ),
-								'sanitize' => 'wp_filter_nohtml_kses'
+							'grid-enable-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
 							)
 						)
 					),
-					'grid-ordering' => array(
-						'label' => esc_html__( 'Ordering', 'wpmovielibrary' ),
-						'icon'  => 'dashicons-randomize',
-						'settings' => array(
-							'grid-order-by' => array(
-								'type'     => 'select',
-								'section'  => 'grid-ordering',
-								'label'    => esc_html__( 'Order By…', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'choices' => array(
-									'post-date'           => esc_html__( 'Post Date', 'wpmovielibrary' ),
-									'released-date'       => esc_html__( 'Release Date', 'wpmovielibrary' ),
-									'local-released-date' => esc_html__( 'Local Release Date', 'wpmovielibrary' ),
-									'rating'              => esc_html__( 'Rating', 'wpmovielibrary' ),
-									'alpabetical'         => esc_html__( 'Alphabetically', 'wpmovielibrary' ),
-									'random'              => esc_html__( 'Random', 'wpmovielibrary' ),
-								),
-								'sanitize' => 'esc_attr'
-							),
-							'grid-order' => array(
-								'type'     => 'select',
-								'section'  => 'grid-ordering',
-								'label'    => esc_html__( 'Order', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'choices' => array(
-									'asc'  => esc_html__( 'Ascendingly', 'wpmovielibrary' ),
-									'desc' => esc_html__( 'Descendingly', 'wpmovielibrary' ),
-								),
-								'sanitize' => 'esc_attr'
-							)
-						)
-					),*/
 					'grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -189,7 +159,6 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								//'sanitize' => 'intval',
 								'default'  => 5
 							),
 							'grid-rows' => array(
@@ -198,7 +167,6 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								//'sanitize' => 'intval',
 								'default'  => 4
 							),
 							'grid-column-width' => array(
@@ -207,7 +175,6 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								//'sanitize' => 'intval',
 								'default'  => 160
 							),
 							'grid-row-height' => array(
@@ -216,68 +183,82 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								//'sanitize' => 'intval',
 								'default'  => 240
 							),
 						)
 					),
-					'grid-controls' => array(
-						'label' => esc_html__( 'User Control', 'wpmovielibrary' ),
-						'icon'  => 'dashicons-admin-tools',
+					'grid-settings' => array(
+						'label' => esc_html__( 'Settings', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-settings',
 						'settings' => array(
-							'grid-show-menu' => array(
+							'grid-settings-control' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Show Menu', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the grid menu. Visitors will be able to change some settings to alter the grid appearance to their liking. The changes are local not persitent and will never be stored anywhere on your site. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array(),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
-							'grid-mode-control' => array(
+							'grid-custom-letter' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable letter filtering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to filter the grid by letters. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
+							'grid-custom-order' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable custom ordering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							)
+						),
+					),
+					'grid-customization' => array(
+						'label' => esc_html__( 'Customization', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-tools',
+						'settings' => array(
+							'grid-customs-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable user customizations', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Visitors will be able to change some settings to make the grid appear differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array(),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
+							'grid-custom-mode' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid mode', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid mode. Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
-							'grid-content-control' => array(
+							'grid-custom-content' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Content', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of movies, rows, columns… Default is disabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid content', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of movies, rows, columns… Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
-								'default'  => 0
+								'default'  => 1
 							),
-							'grid-display-control' => array(
+							'grid-custom-display' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Display', 'wpmovielibrary' ),
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid display', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid display, ie. showing/hiding titles, ratings, genres… Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
-							),
-							'grid-order-control' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Ordering', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 1
-							),
-							'grid-show-pagination' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Show Pagination', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the pagination menu for visitors. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 1
 							)
 						)
 					)
@@ -332,6 +313,30 @@ class GridBuilder extends Metabox {
 							),
 						)
 					),
+					'grid-navigation' => array(
+						'label' => esc_html__( 'Navigation', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-move',
+						'settings' => array(
+							'grid-enable-ajax' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught actors without reloading the page. Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
+							),
+							'grid-enable-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							)
+						)
+					),
 					'grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -374,63 +379,78 @@ class GridBuilder extends Metabox {
 							),
 						)
 					),
-					'grid-controls' => array(
-						'label' => esc_html__( 'User Control', 'wpmovielibrary' ),
-						'icon'  => 'dashicons-admin-tools',
+					'grid-settings' => array(
+						'label' => esc_html__( 'Settings', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-settings',
 						'settings' => array(
-							'grid-show-menu' => array(
+							'grid-settings-control' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Show Menu', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the grid menu. Visitors will be able to change some settings to alter the grid appearance to their liking. The changes are local not persitent and will never be stored anywhere on your site. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array(),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
-							'grid-mode-control' => array(
+							'grid-custom-letter' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable letter filtering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to filter the grid by letters. <strong>Experimental!</strong> Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
+							),
+							'grid-custom-order' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable custom ordering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							)
+						),
+					),
+					'grid-customization' => array(
+						'label' => esc_html__( 'Customization', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-tools',
+						'settings' => array(
+							'grid-customs-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable user customizations', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Visitors will be able to change some settings to make the grid appear differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array(),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
+							'grid-custom-mode' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid mode', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid mode. Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
-							'grid-content-control' => array(
+							'grid-custom-content' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Content', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of actors, rows, columns… Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-display-control' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Display', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid display. Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-order-control' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Ordering', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid content', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of actors, rows, columns… Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
-							'grid-show-pagination' => array(
+							'grid-custom-display' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Show Pagination', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the pagination menu for visitors. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid display', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid display, ie. showing/hiding names, pictures… Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
-								'default'  => 1
+								'default'  => 0
 							)
 						)
 					)
@@ -477,6 +497,30 @@ class GridBuilder extends Metabox {
 							),
 						)
 					),
+					'grid-navigation' => array(
+						'label' => esc_html__( 'Navigation', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-move',
+						'settings' => array(
+							'grid-enable-ajax' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught collections without reloading the page. Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
+							),
+							'grid-enable-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							)
+						)
+					),
 					'grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -519,63 +563,78 @@ class GridBuilder extends Metabox {
 							),
 						)
 					),
-					'grid-controls' => array(
-						'label' => esc_html__( 'User Control', 'wpmovielibrary' ),
-						'icon'  => 'dashicons-admin-tools',
+					'grid-settings' => array(
+						'label' => esc_html__( 'Settings', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-settings',
 						'settings' => array(
-							'grid-show-menu' => array(
+							'grid-settings-control' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Show Menu', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the grid menu. Visitors will be able to change some settings to alter the grid appearance to their liking. The changes are local not persitent and will never be stored anywhere on your site. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array(),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
-							'grid-mode-control' => array(
+							'grid-custom-letter' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable letter filtering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to filter the grid by letters. <strong>Experimental!</strong> Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
+							),
+							'grid-custom-order' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable custom ordering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							)
+						),
+					),
+					'grid-customization' => array(
+						'label' => esc_html__( 'Customization', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-tools',
+						'settings' => array(
+							'grid-customs-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable user customizations', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Visitors will be able to change some settings to make the grid appear differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array(),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
+							'grid-custom-mode' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid mode', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid mode. Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
-							'grid-content-control' => array(
+							'grid-custom-content' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Content', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of actors, rows, columns… Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-display-control' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Display', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid display. Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-order-control' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Ordering', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid content', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of collections, rows, columns… Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
-							'grid-show-pagination' => array(
+							'grid-custom-display' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Show Pagination', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the pagination menu for visitors. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid display', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid display, ie. showing/hiding titles, descriptions… Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
-								'default'  => 1
+								'default'  => 0
 							)
 						)
 					)
@@ -613,6 +672,30 @@ class GridBuilder extends Metabox {
 							)
 						)
 					),
+					'grid-navigation' => array(
+						'label' => esc_html__( 'Navigation', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-move',
+						'settings' => array(
+							'grid-enable-ajax' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught genres without reloading the page. Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
+							),
+							'grid-enable-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							)
+						)
+					),
 					'grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -655,63 +738,78 @@ class GridBuilder extends Metabox {
 							),
 						)
 					),
-					'grid-controls' => array(
-						'label' => esc_html__( 'User Control', 'wpmovielibrary' ),
-						'icon'  => 'dashicons-admin-tools',
+					'grid-settings' => array(
+						'label' => esc_html__( 'Settings', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-settings',
 						'settings' => array(
-							'grid-show-menu' => array(
+							'grid-settings-control' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Show Menu', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the grid menu. Visitors will be able to change some settings to alter the grid appearance to their liking. The changes are local not persitent and will never be stored anywhere on your site. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array(),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
-							'grid-mode-control' => array(
+							'grid-custom-letter' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Mode', 'wpmovielibrary' ),
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable letter filtering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to filter the grid by letters. <strong>Experimental!</strong> Default is disabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 0
+							),
+							'grid-custom-order' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable custom ordering', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							)
+						),
+					),
+					'grid-customization' => array(
+						'label' => esc_html__( 'Customization', 'wpmovielibrary' ),
+						'icon'  => 'dashicons-admin-tools',
+						'settings' => array(
+							'grid-customs-control' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-settings',
+								'label'    => esc_html__( 'Enable user customizations', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Visitors will be able to change some settings to make the grid appear differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array(),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
+							'grid-custom-mode' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid mode', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Allow visitors can change the grid mode. Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 0
 							),
-							'grid-content-control' => array(
+							'grid-custom-content' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Content', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of genres, rows, columns… Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-display-control' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Display', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid display. Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-order-control' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Grid Ordering', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors can change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid content', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid content, ie. number of genres, rows, columns… Default is enabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
-							'grid-show-pagination' => array(
+							'grid-custom-display' => array(
 								'type'     => 'checkbox',
-								'section'  => 'grid-controls',
-								'label'    => esc_html__( 'Show Pagination', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Enable the pagination menu for visitors. Default is enabled.', 'wpmovielibrary' ),
+								'section'  => 'grid-customization',
+								'label'    => esc_html__( 'Customize grid display', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors can change the grid display, ie. showing/hiding titles, descriptions… Default is disabled.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
-								'default'  => 1
+								'default'  => 0
 							)
 						)
 					)

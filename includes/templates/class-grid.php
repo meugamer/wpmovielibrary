@@ -133,18 +133,6 @@ class Grid extends Front {
 	}
 
 	/**
-	 * Shall we show the grid menu?
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   boolean
-	 */
-	public function show_menu() {
-
-		return 1 === (int) $this->show_menu && ! $this->grid->is_widget();
-	}
-
-	/**
 	 * Shall we show the grid pagination menu?
 	 * 
 	 * @since    3.0
@@ -153,7 +141,7 @@ class Grid extends Front {
 	 */
 	public function show_pagination() {
 
-		return 1 === (int) $this->show_pagination;
+		return 1 === (int) $this->enable_pagination;
 	}
 
 	/**

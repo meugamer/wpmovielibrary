@@ -28,12 +28,15 @@ namespace wpmoly\Node;
  * @property    int       $columns Number of columns to use.
  * @property    int       $rows Number of rows to use.
  * @property    int       $total Number of Nodes to use.
- * @property    int       $show_menu Show the Grid menu to users.
- * @property    int       $mode_control Allow users to control the Grid mode.
- * @property    int       $content_control Allow users to control the Grid content.
- * @property    int       $display_control Allow users to control the Grid display.
- * @property    int       $order_control Allow users to control the Grid content ordering.
- * @property    int       $show_pagination Show the Grid pagination to users.
+ * @property    int       $enable_ajax Enable Ajax browsing.
+ * @property    int       $enable_pagination Enable pagination.
+ * @property    int       $settings_control Enable grid settings menu.
+ * @property    int       $custom_letter Enable grid customization menu.
+ * @property    int       $custom_order Enable custom ordering.
+ * @property    int       $customs_control Enable grid customization menu.
+ * @property    int       $custom_mode Enable custom grid mode.
+ * @property    int       $custom_content Enable custom content settings.
+ * @property    int       $custom_display Enable custom display settings.
  */
 class Grid extends Node {
 
@@ -156,12 +159,15 @@ class Grid extends Node {
 			'rows',
 			'column_width',
 			'row_height',
-			'show_menu',
-			'mode_control',
-			'content_control',
-			'display_control',
-			'order_control',
-			'show_pagination'
+			'enable_ajax',
+			'enable_pagination',
+			'settings_control',
+			'custom_letter',
+			'custom_order',
+			'customs_control',
+			'custom_mode',
+			'custom_content',
+			'custom_display'
 		) );
 
 		$grid_types = array(
