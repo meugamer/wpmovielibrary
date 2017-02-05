@@ -204,6 +204,7 @@
 #wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-checkbox.half-col,
 #wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.half-col label {
 	display: inline-block;
+	max-width: 420px;
 	vertical-align: top;
 	width: 49.5%;
 }
@@ -212,19 +213,45 @@
 	position: relative;
 }
 
-#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text {
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels img {
+	position: relative;
+}
+
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels label:before {
+	border: 4px solid #ddd;
+	bottom: 5px;
+	content: ' ';
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels label:after {
+	bottom: 5px;
+	color: #fff;
+	content: attr(title);
+	font-size: 1.15em;
+	left: 0;
+	padding: 6% 0 6% 20%;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+/*#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text {
 	border: 4px solid #fff;
 	clip: auto;
 	color: #fff;
-	font-size: 1rem;
+	font-size: 1em;
 	font-weight: 200;
 	height: calc( 100% - 14px );
-	line-height: 2.25rem;
+	line-height: 1.5rem;
 	margin: 0;
-	padding: 1px 1px 1px 47px;
+	padding: 1px 1px 1px 2em;
 	position: absolute;
-	width: calc( 100% - 56px );
-}
+	width: calc( 100% - 2.675em );
+}*/
 
 #wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:hover,
 #wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text:focus {
@@ -288,4 +315,22 @@
 	padding: 0 12px 2px;
 	text-align: center;
 	vertical-align: top;
+}
+
+@media screen and (min-width: 1280px) {
+	#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text {
+		font-size: 1.25em;
+		line-height: 3em;
+		padding-left: 4em;
+		width: calc( 100% - 4.55em );
+	}
+}
+
+@media screen and (min-width: 1440px) {
+	#wpmoly-grid-builder .butterbean-ui.postbox .butterbean-content .butterbean-control.butterbean-control-radio-image.visible-labels .screen-reader-text {
+		font-size: 1.25rem;
+		line-height: 3.5rem;
+		padding-left: 4em;
+		width: calc( 100% - 5.55rem );
+	}
 }
