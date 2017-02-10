@@ -10,7 +10,7 @@
 ?>
 
 	<script type="text/javascript">_wpmoly_grid_<?php echo $grid->id; ?> = <?php echo $grid->toJSON(); ?>;</script>
-	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode actors grid list theme-<?php echo $grid->get_theme(); ?>" data-grid="<?php echo $grid->id; ?>">
+	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly grid-<?php echo $grid->id; ?> shortcode actors grid list theme-<?php echo $grid->get_theme(); ?>" data-grid="<?php echo $grid->id; ?>" data-columns="<?php echo $grid->get_list_columns(); ?>">
 		<div class="grid-menu settings-menu"></div>
 		<div class="grid-settings"></div>
 		<div class="grid-content list clearfix">

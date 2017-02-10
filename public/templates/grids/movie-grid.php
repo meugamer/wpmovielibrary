@@ -10,7 +10,7 @@
 ?>
 
 	<script type="text/javascript">_wpmoly_grid_<?php echo $grid->id; ?> = <?php echo $grid->toJSON(); ?>;</script>
-	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly shortcode movies grid theme-<?php echo $grid->get_theme(); ?> <?php echo $grid->get_columns(); ?>-columns" data-grid="<?php echo $grid->id; ?>" data-columns="<?php echo $grid->get_columns(); ?>" data-rows="<?php echo $grid->get_rows(); ?>" data-column-width="<?php echo $grid->get_column_width(); ?>" data-row-height="<?php echo $grid->get_row_height(); ?>">
+	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly grid-<?php echo $grid->id; ?> shortcode movies grid theme-<?php echo $grid->get_theme(); ?>" data-grid="<?php echo $grid->id; ?>" data-columns="<?php echo $grid->get_columns(); ?>">
 		<div class="grid-menu settings-menu"></div>
 		<div class="grid-settings"></div>
 		<div class="grid-content grid clearfix">
@@ -20,7 +20,7 @@ if ( $items->has_items() ) :
 	while ( $items->has_items() ) :
 		$movie = $items->the_item();
 ?>
-			<div class="node post-node movie" data-width="<?php echo $grid->get_column_width(); ?>" data-height="<?php echo $grid->get_row_height(); ?>">
+			<div class="node post-node movie">
 				<div class="node-poster post-poster movie-poster" style="background-image:url(<?php $movie->get_poster()->render( 'medium' ); ?>)">
 					<a href="<?php echo get_the_permalink( $movie->id ); ?>"></a>
 				</div>
