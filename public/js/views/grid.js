@@ -5,11 +5,9 @@ var Grid = wpmoly.view.Grid = {};
 
 _.extend( Grid, {
 
-	Grid: wp.Backbone.View.extend({
+	//Content: {},
 
-		events: {
-			
-		},
+	Grid: wp.Backbone.View.extend({
 
 		/**
 		 * Initialize the View.
@@ -34,7 +32,8 @@ _.extend( Grid, {
 		 */
 		set_regions: function() {
 
-			var settings = this.controller.settings;
+			var settings = this.controller.settings,
+			        mode = this.controller.settings.get( 'mode' );
 
 			if ( settings.get( 'show_menu' ) ) {
 				this.menu = new wpmoly.view.Grid.Menu({ controller: this.controller });
@@ -50,6 +49,18 @@ _.extend( Grid, {
 				this.settings = new wpmoly.view.Grid.Settings({ controller: this.controller });
 				this.views.set( '.grid-settings', this.settings );
 			}
+
+			if ( 'grid' === mode ) {
+				this.content = new wpmoly.view.Grid.NodesGrid({ controller: this.controller });
+			} else if ( 'list' === mode ) {
+				this.content = new wpmoly.view.Grid.NodesList({ controller: this.controller });
+			} else if ( 'archives' === mode ) {
+				this.content = new wpmoly.view.Grid.NodesArchives({ controller: this.controller });
+			} else {
+				this.content = new wpmoly.view.Grid.Nodes({ controller: this.controller });
+			}
+
+			this.views.set( '.grid-content', this.content );
 
 			return this;
 		}

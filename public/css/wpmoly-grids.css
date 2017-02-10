@@ -226,6 +226,11 @@
 	width: calc( 20% - 8px );
 }
 
+.wpmoly.grid .grid-content.grid .node.adjusted {
+	min-height: auto;
+	min-width: auto;
+}
+
 .wpmoly.grid .grid-content.grid .node-term {
 	float: left;
 	margin: 0 4px 16px 4px;
@@ -276,6 +281,54 @@
 	-moz-column-gap: 1em;
 	-webkit-column-count: 2;
 	-webkit-column-gap: 1em;
+}
+
+.wpmoly.grid[data-list-columns="2"] .grid-content.list .nodes-list {
+	column-count: 2;
+	column-gap: 1em;
+	-moz-column-count: 2;
+	-moz-column-gap: 1em;
+	-webkit-column-count: 2;
+	-webkit-column-gap: 1em;
+}
+
+.wpmoly.grid[data-list-columns="3"] .grid-content.list .nodes-list {
+	column-count: 3;
+	column-gap: 1em;
+	-moz-column-count: 3;
+	-moz-column-gap: 1em;
+	-webkit-column-count: 3;
+	-webkit-column-gap: 1em;
+}
+
+.wpmoly.grid[data-list-columns="4"] .grid-content.list .nodes-list {
+	column-count: 4;
+	column-gap: 1em;
+	-moz-column-count: 4;
+	-moz-column-gap: 1em;
+	-webkit-column-count: 4;
+	-webkit-column-gap: 1em;
+}
+
+.wpmoly.grid[data-list-columns="5"] .grid-content.list .nodes-list {
+	column-count: 5;
+	column-gap: 1em;
+	-moz-column-count: 5;
+	-moz-column-gap: 1em;
+	-webkit-column-count: 5;
+	-webkit-column-gap: 1em;
+}
+
+.wpmoly.grid[data-list-columns="6"] .grid-content.list .nodes-list {
+	column-count: 6;
+	column-gap: 1em;
+	-moz-column-count: 6;
+	-moz-column-gap: 1em;
+	-webkit-column-count: 6;
+	-webkit-column-gap: 1em;
+}
+
+.wpmoly.grid .grid-content.list .nodes-list {
 	margin: 0;
 }
 

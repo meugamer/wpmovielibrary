@@ -112,6 +112,7 @@ class Frontend {
 			'grid-menu-view'       => array( 'file' => WPMOLY_URL . 'public/js/views/grid/menu.js' ),
 			'grid-pagination-view' => array( 'file' => WPMOLY_URL . 'public/js/views/grid/pagination.js' ),
 			'grid-settings-view'   => array( 'file' => WPMOLY_URL . 'public/js/views/grid/settings.js' ),
+			'grid-content-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/content.js' ),
 
 			// Runners
 			'grids' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js' ),
@@ -306,6 +307,7 @@ class Frontend {
 		$this->enqueue_script( 'grid-menu-view' );
 		$this->enqueue_script( 'grid-pagination-view' );
 		$this->enqueue_script( 'grid-settings-view' );
+		$this->enqueue_script( 'grid-content-view' );
 
 		// Runners
 		$this->enqueue_script( 'grids' );
