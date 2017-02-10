@@ -27,6 +27,10 @@ namespace wpmoly\Node;
  * @property    string    $order Grid content order.
  * @property    int       $columns Number of columns to use.
  * @property    int       $rows Number of rows to use.
+ * @property    int       $column_width Column width.
+ * @property    int       $row_height Row height.
+ * @property    int       $list_columns Number of columns in list mode.
+ * @property    int       $list_column_width Widget of columns in list mode.
  * @property    int       $total Number of Nodes to use.
  * @property    int       $enable_ajax Enable Ajax browsing.
  * @property    int       $enable_pagination Enable pagination.
@@ -159,6 +163,8 @@ class Grid extends Node {
 			'rows',
 			'column_width',
 			'row_height',
+			'list_columns',
+			'list_column_width',
 			'enable_ajax',
 			'enable_pagination',
 			'settings_control',
@@ -794,6 +800,56 @@ class Grid extends Node {
 		}
 
 		return $this->column_width;
+	}
+
+	/**
+	 * Retrieve current list-mode grid number of columns.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	public function get_list_columns() {
+
+		/**
+		 * Filter the default list-mode grid number of columns.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int    $default_list_columns Default list-mode grid number of columns.
+		 */
+		$default_list_columns = 3;
+
+		if ( ! isset( $this->list_columns ) ) {
+			return $this->list_columns = $this->get( 'list_columns', $default_list_columns );
+		}
+
+		return $this->list_columns;
+	}
+
+	/**
+	 * Retrieve current list-mode grid column width.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	public function get_list_column_width() {
+
+		/**
+		 * Filter the default list column width.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int    $default_list_column_width Default list column width.
+		 */
+		$default_list_column_width = 240;
+
+		if ( ! isset( $this->list_column_width ) ) {
+			return $this->list_column_width = $this->get( 'list_column_width', $default_list_column_width );
+		}
+
+		return $this->list_column_width;
 	}
 
 	/**
