@@ -185,6 +185,24 @@ class GridBuilder extends Metabox {
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								'default'  => 240
 							),
+							'grid-list-columns' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 3
+							),
+							'grid-list-column-width' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 240
+							),
 						)
 					),
 					'grid-settings' => array(
@@ -377,6 +395,24 @@ class GridBuilder extends Metabox {
 								//'sanitize' => 'intval',
 								'default'  => 200
 							),
+							'grid-list-columns' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 3
+							),
+							'grid-list-column-width' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 240
+							),
 						)
 					),
 					'grid-settings' => array(
@@ -561,6 +597,24 @@ class GridBuilder extends Metabox {
 								//'sanitize' => 'intval',
 								'default'  => 200
 							),
+							'grid-list-columns' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 3
+							),
+							'grid-list-column-width' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 240
+							),
 						)
 					),
 					'grid-settings' => array(
@@ -735,6 +789,24 @@ class GridBuilder extends Metabox {
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 200
+							),
+							'grid-list-columns' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 3
+							),
+							'grid-list-column-width' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 240
 							),
 						)
 					),
