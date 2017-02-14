@@ -106,6 +106,10 @@ class Headbox extends Shortcode {
 		}
 
 		$this->headbox = get_headbox( $this->node );
+		if ( ! $this->headbox ) {
+			return false;
+		}
+
 		$this->headbox->set( $this->attributes );
 
 		// Set Template
