@@ -5,8 +5,6 @@ var Grid = wpmoly.view.Grid = {};
 
 _.extend( Grid, {
 
-	//Content: {},
-
 	Grid: wp.Backbone.View.extend({
 
 		/**
@@ -19,6 +17,10 @@ _.extend( Grid, {
 		initialize: function( options ) {
 
 			this.controller = options.controller || {};
+
+			this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
+				this.$el.attr( 'data-columns', value );
+			} );
 
 			this.set_regions();
 		},
@@ -48,6 +50,11 @@ _.extend( Grid, {
 			if ( settings.get( 'order_control' ) ) {
 				this.settings = new wpmoly.view.Grid.Settings({ controller: this.controller });
 				this.views.set( '.grid-settings', this.settings );
+			}
+
+			if ( settings.get( 'customs_control' ) ) {
+				this.customs = new wpmoly.view.Grid.Customs({ controller: this.controller });
+				this.views.set( '.grid-customs', this.customs );
 			}
 
 			if ( 'grid' === mode ) {

@@ -22,6 +22,9 @@ wpmoly = window.wpmoly || {};
 					window[ '_wpmoly_grid_' + post_id ]
 				);
 
+				// Temporarily disable grid customs menu
+				controller.settings.set( { customs_control: false }, { silent: true } );
+
 				var view = new wpmoly.view.Grid.Grid({
 					el         : grid,
 					controller : controller

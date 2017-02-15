@@ -13,6 +13,7 @@
 	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly grid-<?php echo $grid->id; ?> shortcode actors grid list theme-<?php echo $grid->get_theme(); ?>" data-grid="<?php echo $grid->id; ?>" data-columns="<?php echo $grid->get_list_columns(); ?>">
 		<div class="grid-menu settings-menu"></div>
 		<div class="grid-settings"></div>
+		<div class="grid-customs"></div>
 		<div class="grid-content list clearfix">
 
 <?php if ( $items->has_items() ) : ?>

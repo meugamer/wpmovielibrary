@@ -55,6 +55,7 @@
 
 /* Settings */
 
+.wpmoly.grid .grid-customs-inner,
 .wpmoly.grid .grid-settings-inner {
 	background: #fff;
 	border: 1px solid #e5e5e5;
@@ -64,10 +65,13 @@
 	position: relative;
 }
 
+.wpmoly.grid .grid-customs-inner.active,
 .wpmoly.grid .grid-settings-inner.active {
 	display: block;
 }
 
+.wpmoly.grid .grid-customs-inner:before,
+.wpmoly.grid .grid-customs-inner:after,
 .wpmoly.grid .grid-settings-inner:before,
 .wpmoly.grid .grid-settings-inner:after {
 	border: .5em solid transparent;
@@ -75,9 +79,22 @@
 	position: absolute;
 }
 
+.wpmoly.grid .grid-customs-inner:before {
+	border-bottom-color: #ddd;
+	right: 1em;
+	top: -1em;
+}
+
 .wpmoly.grid .grid-settings-inner:before {
 	border-bottom-color: #ddd;
 	left: 1em;
+	top: -1em;
+}
+
+.wpmoly.grid .grid-customs-inner:after {
+	border-bottom-color: #fff;
+	right: 1em;
+	margin-top: 1px;
 	top: -1em;
 }
 
@@ -88,48 +105,71 @@
 	top: -1em;
 }
 
+.wpmoly.grid .grid-customs-inner,
 .wpmoly.grid .grid-settings-inner {
 	padding: 1em;
 }
 
+.wpmoly.grid .grid-custom-section,
+.wpmoly.grid .grid-setting-section {
+	border-top: 1px solid #e5e5e5;
+	padding-top: 1em;
+}
+
+.wpmoly.grid .grid-custom-section:first-child,
+.wpmoly.grid .grid-setting-section:first-child {
+	border: 0;
+	padding: 0;
+}
+
+.wpmoly.grid .grid-custom-block,
 .wpmoly.grid .grid-setting-block {
 	margin-bottom: .75em;
 	padding-bottom: .75em;
 	vertical-align: top;
 }
 
+.wpmoly.grid .grid-custom-block.full-col,
 .wpmoly.grid .grid-setting-block.full-col {
 	border-bottom: 1px solid #f6f6f6;
 }
 
+.wpmoly.grid .grid-custom-block.half-col,
 .wpmoly.grid .grid-setting-block.half-col {
 	border-right: 1px solid #f6f6f6;
 	display: inline-block;
-	padding: 0 .5em 0 0;
-	width: calc(50% - .5em);
-}
-
-.wpmoly.grid .grid-setting-block.half-col + .half-col {
-	border: 0;
 	padding: 0 0 0 .5em;
+	width: calc(50% - .25em);
 }
 
+.wpmoly.grid .grid-custom-block.half-col:nth-child(odd),
+.wpmoly.grid .grid-setting-block.half-col:nth-child(odd) {
+	border: 0;
+	padding: 0;
+}
+
+.wpmoly.grid .grid-custom-label,
 .wpmoly.grid .grid-setting-label {
 	color: #888;
 	font-size: .875em;
 }
 
+.wpmoly.grid .grid-custom-block.letter-setting,
 .wpmoly.grid .grid-setting-block.letter-setting {
 	text-align: center;
 }
 
-.wpmoly.grid .grid-setting-block input[type="radio"] {
+.wpmoly.grid .grid-custom-block input[type="radio"],
+.wpmoly.grid .grid-setting-block input[type="radio"],
+.wpmoly.grid .grid-custom-block input[type="checkbox"],
+.wpmoly.grid .grid-setting-block input[type="checkbox"] {
 	height: 1px;
 	position: absolute;
 	visibility: hidden;
 	width: 1px;
 }
 
+.wpmoly.grid .grid-custom-block label,
 .wpmoly.grid .grid-setting-block label {
 	border-radius: .1em;
 	cursor: pointer;
@@ -137,16 +177,19 @@
 	padding: 0 .5em;
 }
 
+.wpmoly.grid .grid-custom-block label:hover,
 .wpmoly.grid .grid-setting-block label:hover {
 	background: #8dc2e1;
 	color: #fff;
 }
 
+.wpmoly.grid .grid-custom-block input:checked ~ label,
 .wpmoly.grid .grid-setting-block input:checked ~ label {
 	background: #3190c6;
 	color: #fff;
 }
 
+.wpmoly.grid .grid-customs-apply,
 .wpmoly.grid .grid-settings-apply {
 	background: #8dc2e1;
 	color: #fff;
@@ -157,6 +200,7 @@
 	width: 100%;
 }
 
+.wpmoly.grid .grid-customs-apply:hover,
 .wpmoly.grid .grid-settings-apply:hover {
 	background: #3190c6;
 }
@@ -283,7 +327,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-list-columns="2"] .grid-content.list .nodes-list {
+.wpmoly.grid[data-columns="2"] .grid-content.list .nodes-list {
 	column-count: 2;
 	column-gap: 1em;
 	-moz-column-count: 2;
@@ -292,7 +336,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-list-columns="3"] .grid-content.list .nodes-list {
+.wpmoly.grid[data-columns="3"] .grid-content.list .nodes-list {
 	column-count: 3;
 	column-gap: 1em;
 	-moz-column-count: 3;
@@ -301,7 +345,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-list-columns="4"] .grid-content.list .nodes-list {
+.wpmoly.grid[data-columns="4"] .grid-content.list .nodes-list {
 	column-count: 4;
 	column-gap: 1em;
 	-moz-column-count: 4;
@@ -310,7 +354,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-list-columns="5"] .grid-content.list .nodes-list {
+.wpmoly.grid[data-columns="5"] .grid-content.list .nodes-list {
 	column-count: 5;
 	column-gap: 1em;
 	-moz-column-count: 5;
@@ -319,7 +363,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-list-columns="6"] .grid-content.list .nodes-list {
+.wpmoly.grid[data-columns="6"] .grid-content.list .nodes-list {
 	column-count: 6;
 	column-gap: 1em;
 	-moz-column-count: 6;

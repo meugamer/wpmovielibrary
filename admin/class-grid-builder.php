@@ -238,7 +238,7 @@ class GridBuilder extends Metabox {
 							)
 						),
 					),
-					'grid-customization' => array(
+					/*'grid-customization' => array(
 						'label' => esc_html__( 'Customization', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-tools',
 						'settings' => array(
@@ -279,7 +279,7 @@ class GridBuilder extends Metabox {
 								'default'  => 0
 							)
 						)
-					)
+					)*/
 				)
 			)
 		);
@@ -448,7 +448,7 @@ class GridBuilder extends Metabox {
 							)
 						),
 					),
-					'grid-customization' => array(
+					/*'grid-customization' => array(
 						'label' => esc_html__( 'Customization', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-tools',
 						'settings' => array(
@@ -489,7 +489,7 @@ class GridBuilder extends Metabox {
 								'default'  => 0
 							)
 						)
-					)
+					)*/
 				)
 			)
 		);
@@ -650,7 +650,7 @@ class GridBuilder extends Metabox {
 							)
 						),
 					),
-					'grid-customization' => array(
+					/*'grid-customization' => array(
 						'label' => esc_html__( 'Customization', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-tools',
 						'settings' => array(
@@ -691,7 +691,7 @@ class GridBuilder extends Metabox {
 								'default'  => 0
 							)
 						)
-					)
+					)*/
 				)
 			)
 		);
@@ -843,7 +843,7 @@ class GridBuilder extends Metabox {
 							)
 						),
 					),
-					'grid-customization' => array(
+					/*'grid-customization' => array(
 						'label' => esc_html__( 'Customization', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-tools',
 						'settings' => array(
@@ -884,7 +884,7 @@ class GridBuilder extends Metabox {
 								'default'  => 0
 							)
 						)
-					)
+					)*/
 				)
 			)
 		);

@@ -13,6 +13,7 @@
 	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly grid-<?php echo $grid->id; ?> shortcode genres grid archive theme-<?php echo $grid->get_theme(); ?>" data-grid="<?php echo $grid->id; ?>">
 		<div class="grid-menu settings-menu"></div>
 		<div class="grid-settings"></div>
+		<div class="grid-customs"></div>
 		<div class="grid-content archive clearfix">
 
 <?php

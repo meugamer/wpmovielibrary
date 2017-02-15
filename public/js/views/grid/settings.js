@@ -28,7 +28,8 @@ _.extend( Grid, {
 
 			this.controller = options.controller || {};
 
-			this.listenTo( this.controller, 'grid:menu:toggle', this.toggle );
+			this.listenTo( this.controller, 'grid:settings:open',  this.open );
+			this.listenTo( this.controller, 'grid:settings:close', this.close );
 		},
 
 		/**
@@ -67,15 +68,45 @@ _.extend( Grid, {
 		},
 
 		/**
-		 * Show/Hide the settings menu.
+		 * Open the customs menu.
 		 * 
 		 * @since    3.0
 		 * 
 		 * @return   Returns itself to allow chaining.
 		 */
-		toggle: function() {
+		open: function() {
 
-			this.$el.toggleClass( 'active' );
+			return this.toggle( true );
+		},
+
+		/**
+		 * Close the customs menu.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		close: function() {
+
+			return this.toggle( false );
+		},
+
+		/**
+		 * Show/Hide the customs menu.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    boolean    toggle
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		toggle: function( toggle ) {
+
+			if ( true !== toggle ) {
+				toggle = false;
+			}
+
+			this.$el.toggleClass( 'active', toggle );
 
 			return this;
 		},

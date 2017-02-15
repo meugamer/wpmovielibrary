@@ -21,6 +21,57 @@ _.extend( wpmoly.controller, {
 			this.query    = new wpmoly.model.Query( options.query_args || {}, options.query_data || {} );
 
 			this.listenTo( this.query, 'change', this.browse );
+
+			this.settingsOpened = false;
+			this.customsOpened  = false;
+
+			this.on( 'grid:menu:toggle', this.toggleMenu );
+		},
+
+		/**
+		 * Show/Hide the grid Settings/Customs menu.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    menu
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		toggleMenu: function( menu ) {
+
+			if ( 'settings' == menu ) {
+
+				if ( this.settingsOpened ) {
+					this.settingsOpened = false;
+					this.trigger( 'grid:settings:close' );
+				} else {
+					this.settingsOpened = true;
+					this.trigger( 'grid:settings:open' );
+				}
+
+				if ( this.customsOpened ) {
+					this.customsOpened = false;
+					this.trigger( 'grid:customs:close' );
+				}
+
+			} else if ( 'customs' == menu ) {
+
+				if ( this.customsOpened ) {
+					this.customsOpened = false;
+					this.trigger( 'grid:customs:close' );
+				} else {
+					this.customsOpened = true;
+					this.trigger( 'grid:customs:open' );
+				}
+
+				if ( this.settingsOpened ) {
+					this.settingsOpened = false;
+					this.trigger( 'grid:settings:close' );
+				}
+
+			} else {
+				return false;
+			}
 		},
 
 		/**

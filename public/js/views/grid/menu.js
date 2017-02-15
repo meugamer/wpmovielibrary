@@ -12,7 +12,8 @@ _.extend( Grid, {
 		template: wp.template( 'wpmoly-grid-menu' ),
 
 		events: {
-			'click [data-action="grid-menu"]' : 'toggleMenu'
+			'click [data-action="grid-settings"]' : 'toggleSettings',
+			'click [data-action="grid-customs"]'  : 'toggleCustoms'
 		},
 
 		/**
@@ -59,9 +60,23 @@ _.extend( Grid, {
 		 * 
 		 * @return   Returns itself to allow chaining.
 		 */
-		toggleMenu: function() {
+		toggleSettings: function() {
 
-			this.controller.trigger( 'grid:menu:toggle' );
+			this.controller.trigger( 'grid:menu:toggle', 'settings' );
+
+			return this;
+		},
+
+		/**
+		 * Show/Hide the grid menu.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		toggleCustoms: function() {
+
+			this.controller.trigger( 'grid:menu:toggle', 'customs' );
 
 			return this;
 		}

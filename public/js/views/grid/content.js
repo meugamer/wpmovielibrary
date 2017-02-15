@@ -10,14 +10,14 @@ _.extend( Grid, {
 		className : 'grid-content-inner',
 
 		/**
-		* Initialize the View.
-		* 
-		* @since    3.0
-		* 
-		* @param    object    options
-		* 
-		* @return   void
-		*/
+		 * Initialize the View.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    options
+		 * 
+		 * @return   void
+		 */
 		initialize: function( options ) {
 
 			this.controller = options.controller || {};
@@ -59,12 +59,12 @@ _.extend( Grid, {
 		adjust: function() {},
 
 		/**
-		* Render the View.
-		* 
-		* @since    3.0
-		* 
-		* @return   Returns itself to allow chaining.
-		*/
+		 * Render the View.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
 		render: function() {
 
 			if ( ! this.rendered ) {
