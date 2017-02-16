@@ -9,8 +9,8 @@
  */
 ?>
 
-	<script type="text/javascript">_wpmoly_grid_<?php echo $grid->id; ?> = <?php echo $grid->toJSON(); ?>;</script>
 	<div id="wpmoly-grid-<?php echo $grid->id; ?>" class="wpmoly grid-<?php echo $grid->id; ?> shortcode collections grid archive theme-<?php echo $grid->get_theme(); ?>" data-grid="<?php echo $grid->id; ?>">
+		<div class="grid-json"><?php echo $grid->toJSON(); ?></div>
 		<div class="grid-menu settings-menu"></div>
 		<div class="grid-settings"></div>
 		<div class="grid-customs"></div>

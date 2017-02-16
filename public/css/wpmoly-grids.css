@@ -14,6 +14,12 @@
 	outline: none;
 }
 
+.wpmoly.grid .grid-json {
+	display: none;
+	opacity: 0;
+	visibility: hidden;
+}
+
 .wpmoly.grid.actors {}
 
 .wpmoly.grid.genres {}

@@ -70,7 +70,7 @@ _.extend( Grid, {
 			if ( ! this.rendered ) {
 
 				var grid_id = this.controller.get( 'post_id' ),
-				   $content = wpmoly.$( '[data-grid="' + grid_id + '"] .grid-content' );
+				   $content = this.views.parent.$el.find( '.grid-content' );
 
 				this.$el.html( $content.html() );
 
