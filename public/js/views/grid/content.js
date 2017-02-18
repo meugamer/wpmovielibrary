@@ -7,6 +7,14 @@ Grid.Node = wp.Backbone.View.extend({
 
 	className : 'node post-node',
 
+	template: function() {
+
+		var type = this.controller.settings.get( 'type' ),
+		    mode = this.controller.settings.get( 'mode' );
+
+		//TODO load templates depending on grid type and mode.
+	},
+
 	/**
 	 * Initialize the View.
 	 * 
@@ -18,7 +26,8 @@ Grid.Node = wp.Backbone.View.extend({
 	 */
 	initialize: function( options ) {
 
-		this.model = options.model;
+		this.model = options.model || {};
+		this.controller = options.controller || {};
 	},
 
 	/**
@@ -56,12 +65,15 @@ _.extend( Grid, {
 		initialize: function( options ) {
 
 			this.controller = options.controller || {};
-			
+			this.collection = this.controller.collection;
+
 			this.$window  = wpmoly.$( window );
 			this.resizeEvent = 'resize.grid-' + this.controller.get( 'post_id' );
 
 			this.settings = this.controller.settings;
 			this.rendered = false;
+
+			this.nodes = {};
 
 			this.bindEvents();
 		},
@@ -79,19 +91,76 @@ _.extend( Grid, {
 
 			this.on( 'ready', this.adjust );
 
+			// Adjust subviews dimensions on resize
 			this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
 
-			this.listenTo( this.controller.collection, 'add', function( model, collection ) {
-				this.views.add( new Grid.Node( { model: model } ) );
-			} );
+			// Add views for new models
+			this.listenTo( this.collection, 'add', this.addNode );
 
-			this.listenTo( this.controller, 'fetch:stop', function() {
-				this.$el.removeClass( 'loading' );
-			} );
+			// Set grid as loading when reset
+			this.listenTo( this.collection, 'reset', this.loading );
 
-			this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
+			// Set grid as loaded when fetch is done
+			this.listenTo( this.controller, 'fetch:stop', this.loaded );
+
+			/*this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
 				this.$el.attr( 'data-columns', value );
-			} );
+			} );*/
+		},
+
+		/**
+		 * Add a new subview.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    model
+		 * @param    object    collection
+		 * 
+		 * @return    Returns itself to allow chaining.
+		 */
+		addNode: function( model, collection ) {
+
+			var id = model.get( 'id' );
+
+			if ( ! this.nodes[ id ] ) {
+				this.nodes[ id ] = new Grid.Node({
+					controller : this.controller,
+					collection : collection,
+					model      : model
+				});
+			}
+
+			this.views.add( this.nodes[ id ] );
+
+			return this;
+		},
+
+		/**
+		 * Set grid as loading.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return    Returns itself to allow chaining.
+		 */
+		loading: function() {
+
+			this.$el.addClass( 'loading' );
+
+			return this;
+		},
+
+		/**
+		 * Set grid as loaded.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return    Returns itself to allow chaining.
+		 */
+		loaded: function() {
+
+			this.$el.removeClass( 'loading' );
+
+			return this;
 		},
 
 		/**
@@ -103,7 +172,10 @@ _.extend( Grid, {
 		 * 
 		 * @return   Returns itself to allow chaining.
 		 */
-		adjust: function() {},
+		adjust: function() {
+
+			return this;
+		},
 
 		/**
 		 * Render the View.
