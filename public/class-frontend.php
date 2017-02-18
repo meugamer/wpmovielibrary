@@ -116,7 +116,7 @@ class Frontend {
 			'grid-content-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/content.js' ),
 
 			// Runners
-			'grids' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js' ),
+			'grids' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
 		);
 
 		/**
@@ -325,6 +325,7 @@ class Frontend {
 	public function enqueue_templates() {
 
 		if ( is_archive_page( get_the_ID() ) ) {
+			$this->print_template( 'wpmoly-grid',            'public/js/templates/grid/grid.php' );
 			$this->print_template( 'wpmoly-grid-menu',       'public/js/templates/grid/menu.php' );
 			$this->print_template( 'wpmoly-grid-customs',    'public/js/templates/grid/customs.php' );
 			$this->print_template( 'wpmoly-grid-settings',   'public/js/templates/grid/settings.php' );

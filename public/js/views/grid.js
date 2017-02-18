@@ -7,6 +7,8 @@ _.extend( Grid, {
 
 	Grid: wp.Backbone.View.extend({
 
+		template: wp.template( 'wpmoly-grid' ),
+
 		/**
 		 * Initialize the View.
 		 * 
@@ -18,9 +20,7 @@ _.extend( Grid, {
 
 			this.controller = options.controller || {};
 
-			this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
-				this.$el.attr( 'data-columns', value );
-			} );
+			this.render();
 
 			this.set_regions();
 		},
@@ -68,6 +68,45 @@ _.extend( Grid, {
 			}
 
 			this.views.set( '.grid-content', this.content );
+
+			return this;
+		},
+
+		/**
+		 * Set $el class names depending on settings.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		setClassName: function() {
+
+			var settings = this.controller.settings,
+			   className = [ 'wpmoly', 'grid' ];
+
+			className.push( settings.get( 'type' ) );
+			className.push( settings.get( 'mode' ) );
+			className.push( 'theme-' + settings.get( 'theme' ) );
+
+			this.className = className.join( ' ' );
+
+			this.$el.addClass( this.className );
+
+			return this;
+		},
+
+		/**
+		 * Render the view.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   Returns itself to allow chaining.
+		 */
+		render: function() {
+
+			this.setClassName();
+
+			this.$el.html( this.template() );
 
 			return this;
 		}

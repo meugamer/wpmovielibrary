@@ -695,6 +695,10 @@ class l10n {
 
 		$localized = array(
 			'run' => __( 'Run Forrest, run!', 'wpmovielibrary' ),
+			'api' => array(
+				'missing' => __( 'Couldn’t find WordPress Rest API Backbone client.', 'wpmovielibrary' ),
+				'missing_collection' =>__( 'Couldn’t find WordPress Rest API Backbone client collection object.', 'wpmovielibrary' )
+			)
 		);
 
 		wp_localize_script( 'wpmoly', 'wpmolyL10n', $localized );

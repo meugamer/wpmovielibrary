@@ -64,7 +64,7 @@ class Movies extends Query {
 		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_movies/args/defaults', array(
 			'meta_key'       => '_wpmoly_movie_title',
 			'orderby'        => 'meta_value',
-			'order'          => 'ASC'
+			'order'          => 'asc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/alphabetical_movies/args', $this->parse_args( $args, $defaults ) );
@@ -88,7 +88,7 @@ class Movies extends Query {
 		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_movies/args/defaults', array(
 			'meta_key'       => '_wpmoly_movie_title',
 			'orderby'        => 'meta_value',
-			'order'          => 'DESC'
+			'order'          => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_movies/args', $this->parse_args( $args, $defaults ) );
@@ -128,7 +128,7 @@ class Movies extends Query {
 				),
 			),
 			'orderby'    => 'meta_value',
-			'order'      => 'DESC'
+			'order'      => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/current_year_movies/args', $this->parse_args( $args, $defaults ) );
@@ -168,7 +168,7 @@ class Movies extends Query {
 				),
 			),
 			'orderby'    => 'meta_value',
-			'order'      => 'DESC'
+			'order'      => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/last_year_movies/args', $this->parse_args( $args, $defaults ) );
@@ -190,8 +190,8 @@ class Movies extends Query {
 	public function last_added_movies( $args = array() ) {
 
 		$defaults = apply_filters( 'wpmoly/filter/query/last_added_movies/args/defaults', array(
-			'orderby' => 'post_date',
-			'order'   => 'DESC'
+			'orderby' => 'date',
+			'order'   => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/last_added_movies/args', $this->parse_args( $args, $defaults ) );
@@ -213,7 +213,8 @@ class Movies extends Query {
 	public function first_added_movies( $args = array() ) {
 
 		$defaults = apply_filters( 'wpmoly/filter/query/first_added_movies/args/defaults', array(
-			'order' => 'ASC'
+			'orderby' => 'date',
+			'order'   => 'asc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/first_added_movies/args', $this->parse_args( $args, $defaults ) );
@@ -238,7 +239,7 @@ class Movies extends Query {
 			'meta_key'  => '_wpmoly_movie_release_date',
 			'meta_type' => 'date',
 			'orderby'   => 'meta_value',
-			'order'     => 'DESC'
+			'order'     => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/last_released_movies/args', $this->parse_args( $args, $defaults ) );
@@ -263,7 +264,7 @@ class Movies extends Query {
 			'meta_key'  => '_wpmoly_movie_release_date',
 			'meta_type' => 'date',
 			'orderby'   => 'meta_value',
-			'order'     => 'ASC'
+			'order'     => 'asc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/first_released_movies/args', $this->parse_args( $args, $defaults ) );
@@ -290,7 +291,7 @@ class Movies extends Query {
 			'meta_value'   => sprintf( '%d-01-01', date( 'Y' ) + 1 ),
 			'meta_compare' => '>=',
 			'orderby'      => 'meta_value',
-			'order'        => 'DESC'
+			'order'        => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/incoming_movies/args', $this->parse_args( $args, $defaults ) );
@@ -316,7 +317,7 @@ class Movies extends Query {
 			//'meta_value'   => 0.0
 			//'meta_compare' => '>',
 			'orderby'      => 'meta_value_num',
-			'order'        => 'DESC'
+			'order'        => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/most_rated_movies/args', $this->parse_args( $args, $defaults ) );
@@ -342,7 +343,7 @@ class Movies extends Query {
 			//'meta_value'   => 0.0
 			//'meta_compare' => '>',
 			'orderby'      => 'meta_value_num',
-			'order'        => 'ASC'
+			'order'        => 'asc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/least_rated_movies/args', $this->parse_args( $args, $defaults ) );
@@ -465,7 +466,7 @@ class Movies extends Query {
 		 * 
 		 * @param    int    $order
 		 */
-		$order = apply_filters( 'wpmoly/filter/query/movies/defaults/order', 'DESC' );
+		$order = apply_filters( 'wpmoly/filter/query/movies/defaults/order', 'desc' );
 
 		/**
 		 * Filter default query args.

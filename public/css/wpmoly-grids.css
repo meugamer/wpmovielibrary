@@ -26,6 +26,16 @@
 
 /* Main menu  */
 
+.wpmoly.grid noscript {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	display: block;
+	font-size: .9em;
+	font-style: italic;
+	padding: 1em 1.5em;
+}
+
 .wpmoly.grid .grid-menu-inner {
 	background: #fff;
 	border: 1px solid #e5e5e5;
@@ -248,14 +258,21 @@
 
 .wpmoly.grid .grid-content {
 	padding: 15px 0;
-	
 }
 
 .wpmoly.grid .grid-content a {
 	border: 0;
 	box-shadow: 0 0 0;
 	text-decoration: none;
-	
+}
+
+.wpmoly.grid .grid-content-inner {
+	min-height: 8em;
+	padding: 15px 0;
+}
+
+.wpmoly.grid .grid-content-inner.loading {
+	background: url(../img/oval.svg) center center no-repeat;
 }
 
 /*

@@ -124,7 +124,7 @@ class Grid extends Front {
 	 */
 	private function set_path() {
 
-		$path = 'public/templates/grids/' . $this->grid->get_type() . '-' . $this->grid->get_mode() . '.php';
+		$path = 'public/templates/grids/grid.php';
 		if ( ! file_exists( WPMOLY_PATH . $path ) ) {
 			return new WP_Error( 'missing_template_path', sprintf( __( 'Error: "%s" does not exists.', 'wpmovielibrary' ), esc_attr( WPMOLY_PATH . $path ) ) );
 		}

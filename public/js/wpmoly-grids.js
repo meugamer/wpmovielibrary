@@ -24,9 +24,6 @@ wpmoly = window.wpmoly || {};
 				// Temporarily disable grid customs menu
 				controller.settings.set( { customs_control: false }, { silent: true } );
 
-				// Remove JSON container div
-				$json.remove();
-
 				// Set unique grid div ID
 				$grid.prop( 'id', _.uniqueId( grid.id + '-' ) );
 

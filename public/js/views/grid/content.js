@@ -3,11 +3,46 @@ wpmoly = window.wpmoly || {};
 
 var Grid = wpmoly.view.Grid || {};
 
+Grid.Node = wp.Backbone.View.extend({
+
+	className : 'node post-node',
+
+	/**
+	 * Initialize the View.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    options
+	 * 
+	 * @return   void
+	 */
+	initialize: function( options ) {
+
+		this.model = options.model;
+	},
+
+	/**
+	 * Render the View.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	render: function() {
+
+		var link = this.model.get( 'link' ),
+		   title = this.model.get( 'title' ) || this.model.get( 'name' );
+
+		this.$el.html( '<div class="node-title"><a href="' + link + '">' + ( title.rendered || title ) + '</a></div>' );
+	}
+
+});
+
 _.extend( Grid, {
 
 	Nodes: wp.Backbone.View.extend({
 
-		className : 'grid-content-inner',
+		className : 'grid-content-inner loading',
 
 		/**
 		 * Initialize the View.
@@ -45,6 +80,18 @@ _.extend( Grid, {
 			this.on( 'ready', this.adjust );
 
 			this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
+
+			this.listenTo( this.controller.collection, 'add', function( model, collection ) {
+				this.views.add( new Grid.Node( { model: model } ) );
+			} );
+
+			this.listenTo( this.controller, 'fetch:stop', function() {
+				this.$el.removeClass( 'loading' );
+			} );
+
+			this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
+				this.$el.attr( 'data-columns', value );
+			} );
 		},
 
 		/**
@@ -67,17 +114,9 @@ _.extend( Grid, {
 		 */
 		render: function() {
 
-			if ( ! this.rendered ) {
+			wp.Backbone.View.prototype.render.apply( this, arguments );
 
-				var grid_id = this.controller.get( 'post_id' ),
-				   $content = this.views.parent.$el.find( '.grid-content' );
-
-				this.$el.html( $content.html() );
-
-				this.rendered = true;
-			}
-
-			return this;
+			wpmoly.$( this.views.selector ).addClass( this.controller.settings.get( 'mode' ) );
 		}
 
 	})
@@ -97,9 +136,9 @@ _.extend( Grid, {
 		 */
 		adjust: function() {
 
-			var columns = this.settings.get( 'columns' ),
-			       rows = this.settings.get( 'rows' ),
-			 idealWidth = this.settings.get( 'column_width' ),
+			var columns = this.controller.settings.get( 'columns' ),
+			       rows = this.controller.settings.get( 'rows' ),
+			 idealWidth = this.controller.settings.get( 'column_width' ),
 			 innerWidth = this.$el.width();
 
 			if ( 'movie' === this.settings.get( 'type' ) ) {

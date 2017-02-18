@@ -62,7 +62,7 @@ class Actors extends Query {
 
 		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_actors/args/defaults', array(
 			'orderby' => 'name',
-			'order'   => 'ASC'
+			'order'   => 'asc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/alphabetical_actors/args', $this->parse_args( $args, $defaults ) );
@@ -83,7 +83,7 @@ class Actors extends Query {
 
 		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_actors/args/defaults', array(
 			'orderby' => 'name',
-			'order'   => 'DESC'
+			'order'   => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_actors/args', $this->parse_args( $args, $defaults ) );
@@ -105,7 +105,7 @@ class Actors extends Query {
 		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_persons/args/defaults', array(
 			'meta_key' => '_wpmoly_person_name',
 			'orderby'  => 'meta_value',
-			'order'    => 'ASC'
+			'order'    => 'asc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/alphabetical_persons/args', $this->parse_args( $args, $defaults ) );
@@ -127,7 +127,7 @@ class Actors extends Query {
 		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_persons/args/defaults', array(
 			'meta_key' => '_wpmoly_person_name',
 			'orderby'  => 'meta_value',
-			'order'    => 'DESC'
+			'order'    => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_persons/args', $this->parse_args( $args, $defaults ) );
@@ -228,7 +228,7 @@ class Actors extends Query {
 		 * 
 		 * @param    string    $order
 		 */
-		$order = apply_filters( 'wpmoly/filter/query/actors/defaults/order', 'ASC' );
+		$order = apply_filters( 'wpmoly/filter/query/actors/defaults/order', 'asc' );
 
 		// paged is for Post Queries, use offset instead
 		if ( ! empty( $args['paged'] ) ) {
@@ -314,7 +314,7 @@ class Actors extends Query {
 		 * 
 		 * @param    int    $order
 		 */
-		$order = apply_filters( 'wpmoly/filter/query/actors/defaults/order', 'DESC' );
+		$order = apply_filters( 'wpmoly/filter/query/actors/defaults/order', 'desc' );
 
 		/**
 		 * Filter default query args.

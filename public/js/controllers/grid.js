@@ -20,6 +20,9 @@ _.extend( wpmoly.controller, {
 			this.settings = new wpmoly.model.Settings( options.settings || {} );
 			this.query    = new wpmoly.model.Query( options.query_args || {}, options.query_data || {} );
 
+			this.load();
+			this.prefetch();
+
 			this.listenTo( this.query, 'change', this.browse );
 
 			this.settingsOpened = false;
@@ -29,13 +32,65 @@ _.extend( wpmoly.controller, {
 		},
 
 		/**
+		 * Load REST API Backbone client.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   void
+		 */
+		load: function() {
+
+			if ( ! wp.api ) {
+				return wpmoly.error( 'missing-api', wpmolyL10n.api.missing );
+			}
+
+			var collections = {
+				movie      : wp.api.collections.Movies,
+				actor      : wp.api.collections.Actors,
+				collection : wp.api.collections.Collections,
+				genre      : wp.api.collections.Genres
+			};
+
+			if ( ! _.has( collections, this.settings.get( 'type' ) ) ) {
+				return wpmoly.error( 'missing-api-collection', wpmolyL10n.api.missing_collection );
+			}
+
+			this.collection = new collections[ this.settings.get( 'type' ) ];
+		},
+
+		/**
+		 * Load grid content.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   void
+		 */
+		prefetch: function() {
+
+			var self = this;
+			this.collection.fetch({
+				complete : function() {
+					self.trigger( 'fetch:stop' );
+				},
+				success : function() {
+					self.trigger( 'fetch:done' );
+				},
+				data : {
+					per_page : this.query.get( 'number' ) || this.query.get( 'posts_per_page' ),
+					orderby  : this.query.get( 'orderby' ),
+					order    : this.query.get( 'order' )
+				}
+			});
+		},
+
+		/**
 		 * Show/Hide the grid Settings/Customs menu.
 		 * 
 		 * @since    3.0
 		 * 
 		 * @param    string    menu
 		 * 
-		 * @return   Returns itself to allow chaining.
+		 * @return   void
 		 */
 		toggleMenu: function( menu ) {
 
