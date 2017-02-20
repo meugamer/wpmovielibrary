@@ -5,16 +5,6 @@ var Grid = wpmoly.view.Grid || {};
 
 Grid.Node = wp.Backbone.View.extend({
 
-	className : 'node post-node',
-
-	template: function() {
-
-		var type = this.controller.settings.get( 'type' ),
-		    mode = this.controller.settings.get( 'mode' );
-
-		//TODO load templates depending on grid type and mode.
-	},
-
 	/**
 	 * Initialize the View.
 	 * 
@@ -28,6 +18,51 @@ Grid.Node = wp.Backbone.View.extend({
 
 		this.model = options.model || {};
 		this.controller = options.controller || {};
+
+		this.template = this.setTemplate();
+	},
+
+	/**
+	 * Set the View template based on settings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   wp.template()
+	 */
+	setTemplate: function() {
+
+		var type = this.controller.settings.get( 'type' ),
+		    mode = this.controller.settings.get( 'mode' ),
+		template = 'wpmoly-grid-' + type + '-' + mode;
+
+		return wp.template( template );
+	},
+
+	/**
+	 * Set $el class names depending on settings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	setClassName: function() {
+
+		var settings = this.controller.settings,
+		   className = [ 'node' ];
+
+		if ( 'movie' === settings.get( 'type' ) ) {
+			className.push( 'post-node' );
+		} else if ( _.contains( [ 'actor', 'collection', 'genre' ], settings.get( 'type' ) ) ) {
+			className.push( 'term-node' );
+		}
+
+		className.push( settings.get( 'type' ) );
+
+		this.className = className.join( ' ' );
+
+		this.$el.addClass( this.className );
+
+		return this;
 	},
 
 	/**
@@ -39,10 +74,14 @@ Grid.Node = wp.Backbone.View.extend({
 	 */
 	render: function() {
 
-		var link = this.model.get( 'link' ),
-		   title = this.model.get( 'title' ) || this.model.get( 'name' );
+		var data = {
+			movie    : this.model,
+			settings : this.settings
+		};
 
-		this.$el.html( '<div class="node-title"><a href="' + link + '">' + ( title.rendered || title ) + '</a></div>' );
+		this.setClassName();
+
+		this.$el.html( this.template( data ) );
 	}
 
 });
@@ -102,6 +141,7 @@ _.extend( Grid, {
 
 			// Set grid as loaded when fetch is done
 			this.listenTo( this.controller, 'fetch:stop', this.loaded );
+			this.listenTo( this.controller, 'fetch:stop', _.debounce( this.adjust, 50 ) );
 
 			/*this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
 				this.$el.attr( 'data-columns', value );

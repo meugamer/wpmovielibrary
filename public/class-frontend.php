@@ -330,6 +330,8 @@ class Frontend {
 			$this->print_template( 'wpmoly-grid-customs',    'public/js/templates/grid/customs.php' );
 			$this->print_template( 'wpmoly-grid-settings',   'public/js/templates/grid/settings.php' );
 			$this->print_template( 'wpmoly-grid-pagination', 'public/js/templates/grid/pagination.php' );
+
+			$this->print_template( 'wpmoly-grid-movie-grid', 'public/js/templates/grid/movie-grid.php' );
 		}
 	}
 
