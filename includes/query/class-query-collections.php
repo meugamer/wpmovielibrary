@@ -64,7 +64,7 @@ class Collections extends Query {
 
 		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_collections/args/defaults', array(
 			'orderby' => 'name',
-			'order'   => 'ASC'
+			'order'   => 'asc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/alphabetical_collections/args', $this->parse_args( $args, $defaults ) );
@@ -87,7 +87,7 @@ class Collections extends Query {
 
 		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_collections/args/defaults', array(
 			'orderby' => 'name',
-			'order'   => 'DESC'
+			'order'   => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_collections/args', $this->parse_args( $args, $defaults ) );
@@ -168,7 +168,7 @@ class Collections extends Query {
 		 * 
 		 * @param    string    $order
 		 */
-		$order = apply_filters( 'wpmoly/filter/query/collections/defaults/order', 'ASC' );
+		$order = apply_filters( 'wpmoly/filter/query/collections/defaults/order', 'asc' );
 
 		// paged is for Post Queries, use offset instead
 		if ( ! empty( $args['paged'] ) ) {

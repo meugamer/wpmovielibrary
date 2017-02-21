@@ -64,7 +64,7 @@ class Genres extends Query {
 
 		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_genres/args/defaults', array(
 			'orderby' => 'name',
-			'order'   => 'ASC'
+			'order'   => 'asc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/alphabetical_genres/args', $this->parse_args( $args, $defaults ) );
@@ -87,7 +87,7 @@ class Genres extends Query {
 
 		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_genres/args/defaults', array(
 			'orderby' => 'name',
-			'order'   => 'DESC'
+			'order'   => 'desc'
 		) );
 
 		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_genres/args', $this->parse_args( $args, $defaults ) );
@@ -168,7 +168,7 @@ class Genres extends Query {
 		 * 
 		 * @param    string    $order
 		 */
-		$order = apply_filters( 'wpmoly/filter/query/genres/defaults/order', 'ASC' );
+		$order = apply_filters( 'wpmoly/filter/query/genres/defaults/order', 'asc' );
 
 		// paged is for Post Queries, use offset instead
 		if ( ! empty( $args['paged'] ) ) {

@@ -279,13 +279,13 @@
  * Default Grid Content
  */
 
-.wpmoly.grid .grid-content.grid {
+.wpmoly.grid .grid-content .grid {
 	display: block;
 	float: none;
 	margin: 0 -4px;
 }
 
-.wpmoly.grid .grid-content.grid .node {
+.wpmoly.grid .grid-content .grid .node {
 	float: left;
 	margin: 0 4px 16px 4px;
 	min-height: 240px;
@@ -293,12 +293,12 @@
 	width: calc( 20% - 8px );
 }
 
-.wpmoly.grid .grid-content.grid .node.adjusted {
+.wpmoly.grid .grid-content .grid .node.adjusted {
 	min-height: auto;
 	min-width: auto;
 }
 
-.wpmoly.grid .grid-content.grid .node-term {
+.wpmoly.grid .grid-content .grid .node-term {
 	float: left;
 	margin: 0 4px 16px 4px;
 	min-height: 200px;
@@ -306,13 +306,13 @@
 	width: calc( 20% - 8px );
 }
 
-.wpmoly.grid .grid-content.grid .node .node-picture {
+.wpmoly.grid .grid-content .grid .node .node-picture {
 	height: 200px;
 	width: 160px;
 }
 
-.wpmoly.grid .grid-content.grid .node .node-poster,
-.wpmoly.grid .grid-content.grid .node .node-thumbnail {
+.wpmoly.grid .grid-content .grid .node .node-poster,
+.wpmoly.grid .grid-content .grid .node .node-thumbnail {
 	background-image: url(../img/poster-small.jpg);
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -324,8 +324,8 @@
 	width: 160px;
 }
 
-.wpmoly.grid .grid-content.grid .node .node-title,
-.wpmoly.grid .grid-content.grid .node .node-name {
+.wpmoly.grid .grid-content .grid .node .node-title,
+.wpmoly.grid .grid-content .grid .node .node-name {
 	font-weight: 600;
 	margin-top: 6px;
 	overflow: hidden;
@@ -337,11 +337,12 @@
  * List Grid Content
  */
 
-.wpmoly.grid .grid-content.list {
+.wpmoly.grid .grid-content .list {
 	padding: 2em 0;
 }
 
-.wpmoly.grid .grid-content.list .nodes-list {
+.wpmoly.grid .grid-content .list.nodes-list,
+.wpmoly.grid .grid-content .nodes-1-column-list.nodes-list {
 	column-count: 2;
 	column-gap: 1em;
 	-moz-column-count: 2;
@@ -350,7 +351,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-columns="2"] .grid-content.list .nodes-list {
+.wpmoly.grid .grid-content .nodes-2-columns-list.nodes-list {
 	column-count: 2;
 	column-gap: 1em;
 	-moz-column-count: 2;
@@ -359,7 +360,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-columns="3"] .grid-content.list .nodes-list {
+.wpmoly.grid .grid-content .nodes-3-columns-list.nodes-list {
 	column-count: 3;
 	column-gap: 1em;
 	-moz-column-count: 3;
@@ -368,7 +369,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-columns="4"] .grid-content.list .nodes-list {
+.wpmoly.grid .grid-content .nodes-4-columns-list.nodes-list {
 	column-count: 4;
 	column-gap: 1em;
 	-moz-column-count: 4;
@@ -377,7 +378,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-columns="5"] .grid-content.list .nodes-list {
+.wpmoly.grid .grid-content .nodes-5-columns-list.nodes-list {
 	column-count: 5;
 	column-gap: 1em;
 	-moz-column-count: 5;
@@ -386,7 +387,7 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid[data-columns="6"] .grid-content.list .nodes-list {
+.wpmoly.grid .grid-content .nodes-6-columns-list.nodes-list {
 	column-count: 6;
 	column-gap: 1em;
 	-moz-column-count: 6;
@@ -395,22 +396,38 @@
 	-webkit-column-gap: 1em;
 }
 
-.wpmoly.grid .grid-content.list .nodes-list {
+.wpmoly.grid .grid-content .list.nodes-list {
 	margin: 0;
 }
 
-.wpmoly.grid .grid-content.list .nodes-list .node {
+.wpmoly.grid .grid-content .list.nodes-list .node {
 	break-inside: avoid-column;
 	page-break-inside: avoid;
 	-webkit-column-break-inside: avoid;
+	clear: both;
 	float: none;
-	margin: 0;
-	min-height: auto;
+	list-style: none;
+	margin: 0 0 0.25rem 0;
+	min-height: 2rem;
 	min-width: auto;
+	padding: 0 1em;
 	width: auto;
 }
 
-.wpmoly.grid .grid-content.list .nodes-list .node-count {
+.wpmoly.grid .grid-content .list.nodes-list .node-picture,
+.wpmoly.grid .grid-content .list.nodes-list .node-thumbnail {
+	background-color: #ccd;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	border-radius: 0.15rem;
+	float: left;
+	height: 2rem;
+	margin-right: .5rem;
+	width: 2rem;
+}
+
+.wpmoly.grid .grid-content .list.nodes-list .node-count {
 	font-size: .75rem;
 	margin-top: -.75rem;
 }
@@ -419,11 +436,11 @@
  * Archive Grid Content
  */
 
-.wpmoly.grid .grid-content.archive {
+.wpmoly.grid .grid-content .archive {
 	padding: 3em 0 2em 0;
 }
 
-.wpmoly.grid .grid-content.archive .node {
+.wpmoly.grid .grid-content .archive .node {
 	float: none;
 	margin-bottom: 4em;
 }
@@ -432,16 +449,16 @@
  * Default Grid Theme
  */
 
-.wpmoly.grid.theme-default .grid-content.grid .node .node-poster,
-.wpmoly.grid.theme-default .grid-content.grid .node .node-picture {
+.wpmoly.grid.theme-default .grid-content .grid .node .node-poster,
+.wpmoly.grid.theme-default .grid-content .grid .node .node-picture {
 	border-radius: 0.25rem;
 	box-shadow: 0 2px 2px #bbb;
 	margin: 0 0 0.5rem 0;
 	position: relative;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .node .node-poster a,
-.wpmoly.grid.theme-default .grid-content.grid .node .node-picture a {
+.wpmoly.grid.theme-default .grid-content .grid .node .node-poster a,
+.wpmoly.grid.theme-default .grid-content .grid .node .node-picture a {
 	box-shadow: 0 0 0;
 	height: 100%;
 	position: absolute;
@@ -449,43 +466,43 @@
 	width: 100%;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-title,
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-genres,
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-runtime,
-.wpmoly.grid.theme-default .grid-content.grid .node .node-name,
-.wpmoly.grid.theme-default .grid-content.grid .node .node-count {
+.wpmoly.grid.theme-default .grid-content .grid .movie .movie-title,
+.wpmoly.grid.theme-default .grid-content .grid .movie .movie-genres,
+.wpmoly.grid.theme-default .grid-content .grid .movie .movie-runtime,
+.wpmoly.grid.theme-default .grid-content .grid .node .node-name,
+.wpmoly.grid.theme-default .grid-content .grid .node .node-count {
 	padding: 0 0.25em;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-title,
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-genres,
-.wpmoly.grid.theme-default .grid-content.grid .node .node-name,
-.wpmoly.grid.theme-default .grid-content.grid .node .node-count {
+.wpmoly.grid.theme-default .grid-content .grid .movie .movie-title,
+.wpmoly.grid.theme-default .grid-content .grid .movie .movie-genres,
+.wpmoly.grid.theme-default .grid-content .grid .node .node-name,
+.wpmoly.grid.theme-default .grid-content .grid .node .node-count {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-title a,
-.wpmoly.grid.theme-default .grid-content.grid .node .node-name a {
+.wpmoly.grid.theme-default .grid-content .grid .movie .movie-title a,
+.wpmoly.grid.theme-default .grid-content .grid .node .node-name a {
 	color: #2f5066;
 	font-size: 0.9em;
 	font-weight: bold;
 	text-decoration: none;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-genres {
+.wpmoly.grid.theme-default .grid-content .grid .movie .movie-genres {
 	color: #728999;
 	font-size: 0.8em;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-genres a {
+.wpmoly.grid.theme-default .grid-content .grid .movie .movie-genres a {
 	color: #728999;
 	text-decoration: none;
 }
 
-.wpmoly.grid.theme-default .grid-content.grid .movie .movie-runtime,
-.wpmoly.grid.theme-default .grid-content.grid .node .node-count {
+.wpmoly.grid.theme-default .grid-content .grid .movie .movie-runtime,
+.wpmoly.grid.theme-default .grid-content .grid .node .node-count {
 	color: #728999;
 	font-size: 0.8em;
 }

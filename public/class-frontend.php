@@ -331,7 +331,14 @@ class Frontend {
 			$this->print_template( 'wpmoly-grid-settings',   'public/js/templates/grid/settings.php' );
 			$this->print_template( 'wpmoly-grid-pagination', 'public/js/templates/grid/pagination.php' );
 
-			$this->print_template( 'wpmoly-grid-movie-grid', 'public/js/templates/grid/movie-grid.php' );
+			$this->print_template( 'wpmoly-grid-movie-grid',      'public/js/templates/grid/movie-grid.php' );
+			$this->print_template( 'wpmoly-grid-movie-list',      'public/js/templates/grid/movie-list.php' );
+			$this->print_template( 'wpmoly-grid-actor-grid',      'public/js/templates/grid/actor-grid.php' );
+			$this->print_template( 'wpmoly-grid-actor-list',      'public/js/templates/grid/actor-list.php' );
+			$this->print_template( 'wpmoly-grid-collection-grid', 'public/js/templates/grid/collection-grid.php' );
+			$this->print_template( 'wpmoly-grid-collection-list', 'public/js/templates/grid/collection-list.php' );
+			$this->print_template( 'wpmoly-grid-genre-grid',      'public/js/templates/grid/genre-grid.php' );
+			$this->print_template( 'wpmoly-grid-genre-list',      'public/js/templates/grid/genre-list.php' );
 		}
 	}
 

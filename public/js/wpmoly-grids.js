@@ -25,7 +25,9 @@ wpmoly = window.wpmoly || {};
 				controller.settings.set( { customs_control: false }, { silent: true } );
 
 				// Set unique grid div ID
-				$grid.prop( 'id', _.uniqueId( grid.id + '-' ) );
+				/*var uniq = _.uniqueId( 'grid-' + post_id + '-' );
+				$grid.prop( 'id', 'wpmoly-' + uniq );
+				$grid.addClass( 'grid-' + post_id, uniq );*/
 
 				var view = new wpmoly.view.Grid.Grid({
 					el         : grid,

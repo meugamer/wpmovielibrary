@@ -3,6 +3,18 @@ wpmoly = window.wpmoly || {};
 
 var Grid = wpmoly.view.Grid || {};
 
+/**
+ * Single grid item view.
+ * 
+ * This is a generic view, it can be extended to add specific per-node-type
+ * features.
+ * 
+ * @since    3.0
+ * 
+ * @param    {object}    [options]             View options.
+ * @param    {object}    options.model         View related Backbone.Model object.
+ * @param    {object}    options.controller    Grid controller.
+ */
 Grid.Node = wp.Backbone.View.extend({
 
 	/**
@@ -75,8 +87,8 @@ Grid.Node = wp.Backbone.View.extend({
 	render: function() {
 
 		var data = {
-			movie    : this.model,
-			settings : this.settings
+			node     : this.model,
+			settings : this.controller.settings
 		};
 
 		this.setClassName();
@@ -86,202 +98,300 @@ Grid.Node = wp.Backbone.View.extend({
 
 });
 
-_.extend( Grid, {
+/**
+ * Single list-mode grid item view.
+ * 
+ * Simply changes the View's tagName property to 'li'.
+ * 
+ * @since    3.0
+ * 
+ * @param    {object}    [options]             View options.
+ * @param    {object}    options.model         View related Backbone.Model object.
+ * @param    {object}    options.controller    Grid controller.
+ */
+Grid.ListNode = Grid.Node.extend({
 
-	Nodes: wp.Backbone.View.extend({
+	tagName: 'li'
 
-		className : 'grid-content-inner loading',
+});
 
-		/**
-		 * Initialize the View.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    options
-		 * 
-		 * @return   void
-		 */
-		initialize: function( options ) {
+/**
+ * Grid items container view.
+ * 
+ * This is a generic view, it can be extended to add specific per-node-type
+ * features.
+ * 
+ * @since    3.0
+ * 
+ * @param    {object}    [options]             View options.
+ * @param    {object}    options.controller    Grid controller.
+ * @param    {object}    options.collection    Grid collection.
+ */
+Grid.Nodes = wp.Backbone.View.extend({
 
-			this.controller = options.controller || {};
-			this.collection = this.controller.collection;
+	className : 'grid-content-inner loading',
 
-			this.$window  = wpmoly.$( window );
-			this.resizeEvent = 'resize.grid-' + this.controller.get( 'post_id' );
+	/**
+	 * Initialize the View.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    options
+	 * 
+	 * @return   void
+	 */
+	initialize: function( options ) {
 
-			this.settings = this.controller.settings;
-			this.rendered = false;
+		this.controller = options.controller || {};
+		this.collection = this.controller.collection;
 
-			this.nodes = {};
+		this.$window  = wpmoly.$( window );
+		this.resizeEvent = 'resize.grid-' + this.controller.uniqid;
 
-			this.bindEvents();
-		},
+		this.settings = this.controller.settings;
+		this.rendered = false;
 
-		/**
-		 * Bind events.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return   void
-		 */
-		bindEvents: function() {
+		this.nodes = {};
 
-			_.bindAll( this, 'adjust' );
+		this.bindEvents();
+	},
 
-			this.on( 'ready', this.adjust );
+	/**
+	 * Bind events.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	bindEvents: function() {
 
-			// Adjust subviews dimensions on resize
-			this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
+		_.bindAll( this, 'adjust' );
 
-			// Add views for new models
-			this.listenTo( this.collection, 'add', this.addNode );
+		this.on( 'ready', this.adjust );
 
-			// Set grid as loading when reset
-			this.listenTo( this.collection, 'reset', this.loading );
+		// Adjust subviews dimensions on resize
+		this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
 
-			// Set grid as loaded when fetch is done
-			this.listenTo( this.controller, 'fetch:stop', this.loaded );
-			this.listenTo( this.controller, 'fetch:stop', _.debounce( this.adjust, 50 ) );
+		// Add views for new models
+		this.listenTo( this.collection, 'add', this.addNode );
 
-			/*this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
-				this.$el.attr( 'data-columns', value );
-			} );*/
-		},
+		// Set grid as loading when reset
+		this.listenTo( this.collection, 'reset', this.loading );
 
-		/**
-		 * Add a new subview.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    model
-		 * @param    object    collection
-		 * 
-		 * @return    Returns itself to allow chaining.
-		 */
-		addNode: function( model, collection ) {
+		// Set grid as loaded when fetch is done
+		this.listenTo( this.controller, 'fetch:stop', this.loaded );
+		this.listenTo( this.controller, 'fetch:stop', _.debounce( this.adjust, 50 ) );
 
-			var id = model.get( 'id' );
+		/*this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
+			this.$el.attr( 'data-columns', value );
+		} );*/
+	},
 
-			if ( ! this.nodes[ id ] ) {
-				this.nodes[ id ] = new Grid.Node({
-					controller : this.controller,
-					collection : collection,
-					model      : model
-				});
-			}
+	/**
+	 * Add a new subview.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    model
+	 * @param    object    collection
+	 * 
+	 * @return    Returns itself to allow chaining.
+	 */
+	addNode: function( model, collection ) {
 
-			this.views.add( this.nodes[ id ] );
+		var node = model.get( 'id' ),
+		nodeType = Grid.Node;
 
-			return this;
-		},
-
-		/**
-		 * Set grid as loading.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return    Returns itself to allow chaining.
-		 */
-		loading: function() {
-
-			this.$el.addClass( 'loading' );
-
-			return this;
-		},
-
-		/**
-		 * Set grid as loaded.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return    Returns itself to allow chaining.
-		 */
-		loaded: function() {
-
-			this.$el.removeClass( 'loading' );
-
-			return this;
-		},
-
-		/**
-		 * Adjust content nodes to fit the grid.
-		 * 
-		 * Should be extended.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		adjust: function() {
-
-			return this;
-		},
-
-		/**
-		 * Render the View.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		render: function() {
-
-			wp.Backbone.View.prototype.render.apply( this, arguments );
-
-			wpmoly.$( this.views.selector ).addClass( this.controller.settings.get( 'mode' ) );
+		if ( 'list' === this.controller.settings.get( 'mode' ) ) {
+			nodeType = Grid.ListNode;
 		}
 
-	})
-
-} );
-
-_.extend( Grid, {
-
-	NodesGrid: Grid.Nodes.extend({
-
-		/**
-		 * Adjust content nodes to fit the grid.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		adjust: function() {
-
-			var columns = this.controller.settings.get( 'columns' ),
-			       rows = this.controller.settings.get( 'rows' ),
-			 idealWidth = this.controller.settings.get( 'column_width' ),
-			 innerWidth = this.$el.width();
-
-			if ( 'movie' === this.settings.get( 'type' ) ) {
-
-				if ( ( Math.floor( innerWidth / columns ) - 8 ) < idealWidth ) {
-					--columns;
-				}
-
-				this.columnWidth  = Math.floor( innerWidth / columns ) - 8;
-				this.columnHeight = Math.floor( this.columnWidth * 1.5 );
-			}
-
-			this.$( '.node' ).addClass( 'adjusted' ).css({
-				width : this.columnWidth
-			});
-
-			this.$( '.node-poster' ).addClass( 'adjusted' ).css({
-				height : this.columnHeight,
-				width  : this.columnWidth
+		if ( ! this.nodes[ node ] ) {
+			this.nodes[ node ] = new nodeType({
+				controller : this.controller,
+				collection : collection,
+				model      : model
 			});
 		}
-	}),
 
-	NodesList: Grid.Nodes.extend({
+		this.views.add( this.nodes[ node ] );
 
-		
-	}),
+		return this;
+	},
 
-	NodesArchives: Grid.Nodes.extend({
+	/**
+	 * Set grid as loading.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return    Returns itself to allow chaining.
+	 */
+	loading: function() {
 
-		
-	})
+		this.$el.addClass( 'loading' );
 
-} );
+		return this;
+	},
+
+	/**
+	 * Set grid as loaded.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return    Returns itself to allow chaining.
+	 */
+	loaded: function() {
+
+		this.$el.removeClass( 'loading' );
+
+		return this;
+	},
+
+	/**
+	 * Adjust content nodes to fit the grid.
+	 * 
+	 * Should be extended.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	adjust: function() {
+
+		return this;
+	},
+
+	/**
+	 * Render the View.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	render: function() {
+
+		wp.Backbone.View.prototype.render.apply( this, arguments );
+
+		this.$el.addClass( this.controller.settings.get( 'mode' ) );
+	}
+
+});
+
+/**
+ * Grid items grid-mode container view.
+ * 
+ * Override this.adjust() to automatically fit items on page resizing.
+ * 
+ * @since    3.0
+ * 
+ * @param    {object}    [options]             View options.
+ * @param    {object}    options.controller    Grid controller.
+ * @param    {object}    options.collection    Grid collection.
+ */
+Grid.NodesGrid = Grid.Nodes.extend({
+
+	/**
+	 * Adjust content nodes to fit the grid.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	adjust: function() {
+
+		var columns = this.controller.settings.get( 'columns' ),
+		       rows = this.controller.settings.get( 'rows' ),
+		 idealWidth = this.controller.settings.get( 'column_width' ),
+		 innerWidth = this.$el.width()
+		      ratio = 1.25;
+
+		if ( 'movie' === this.settings.get( 'type' ) ) {
+			ratio = 1.5;
+		}
+
+		if ( ( Math.floor( innerWidth / columns ) - 8 ) < idealWidth ) {
+			--columns;
+		}
+
+		this.columnWidth  = Math.floor( innerWidth / columns ) - 8;
+		this.columnHeight = Math.floor( this.columnWidth * ratio );
+
+		this.$el.addClass( columns + '-columns' );
+
+		this.$( '.node' ).addClass( 'adjusted' ).css({
+			width : this.columnWidth
+		});
+
+		this.$( '.node-thumbnail' ).addClass( 'adjusted' ).css({
+			height : this.columnHeight,
+			width  : this.columnWidth
+		});
+	}
+});
+
+/**
+ * Grid items list-mode container view.
+ * 
+ * Override this.adjust() to automatically fit column number on page resizing.
+ * 
+ * @since    3.0
+ * 
+ * @param    {object}    [options]             View options.
+ * @param    {object}    options.controller    Grid controller.
+ * @param    {object}    options.collection    Grid collection.
+ */
+Grid.NodesList = Grid.Nodes.extend({
+
+	tagName: 'ul',
+
+	/**
+	 * Adjust content nodes to fit the grid.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	adjust: function() {
+
+		var columns = this.controller.settings.get( 'list_columns' ),
+		 idealWidth = this.controller.settings.get( 'column_width' ),
+		 innerWidth = this.$el.width();
+
+		if ( ( Math.floor( innerWidth / columns ) - 8 ) < idealWidth ) {
+			--columns;
+		}
+
+		this.columnWidth  = Math.floor( innerWidth / columns ) - 8;
+
+		this.$el.addClass( 'nodes-' + columns + '-columns-list' );
+	},
+
+	/**
+	 * Render the View.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	render: function() {
+
+		Grid.Nodes.prototype.render.apply( this, arguments );
+
+		this.$el.addClass( 'nodes-list' );
+	}
+
+});
+
+/**
+ * Grid items container view.
+ * 
+ * @since    3.0
+ * 
+ * @param    {object}    [options]             View options.
+ * @param    {object}    options.controller    Grid controller.
+ * @param    {object}    options.collection    Grid collection.
+ */
+Grid.NodesArchives = Grid.Nodes.extend({
+
+	
+});
