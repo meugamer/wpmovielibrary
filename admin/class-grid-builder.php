@@ -156,16 +156,16 @@ class GridBuilder extends Metabox {
 							'grid-columns' => array(
 								'type'     => 'text',
 								'section'  => 'grid-appearance',
-								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
+								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								'default'  => 5
 							),
 							'grid-rows' => array(
 								'type'     => 'text',
 								'section'  => 'grid-appearance',
-								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
+								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								'default'  => 4
 							),
@@ -362,8 +362,8 @@ class GridBuilder extends Metabox {
 							'grid-columns' => array(
 								'type'     => 'text',
 								'section'  => 'grid-appearance',
-								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
+								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 5
@@ -371,8 +371,8 @@ class GridBuilder extends Metabox {
 							'grid-rows' => array(
 								'type'     => 'text',
 								'section'  => 'grid-appearance',
-								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
+								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 4
@@ -564,8 +564,8 @@ class GridBuilder extends Metabox {
 							'grid-columns' => array(
 								'type'     => 'text',
 								'section'  => 'grid-appearance',
-								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
+								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 5
@@ -573,8 +573,8 @@ class GridBuilder extends Metabox {
 							'grid-rows' => array(
 								'type'     => 'text',
 								'section'  => 'grid-appearance',
-								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
+								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 4
@@ -757,8 +757,8 @@ class GridBuilder extends Metabox {
 							'grid-columns' => array(
 								'type'     => 'text',
 								'section'  => 'grid-appearance',
-								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
+								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 5
@@ -766,8 +766,8 @@ class GridBuilder extends Metabox {
 							'grid-rows' => array(
 								'type'     => 'text',
 								'section'  => 'grid-appearance',
-								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
+								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 4

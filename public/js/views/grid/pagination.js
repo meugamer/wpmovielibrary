@@ -27,8 +27,7 @@ Grid.Pagination = wp.Backbone.View.extend({
 
 		this.controller = options.controller || {};
 
-		this.listenTo( this.controller.settings, 'change:current_page', this.render );
-		this.listenTo( this.controller.settings, 'change:total_page', this.render );
+		this.listenTo( this.controller.query.state, 'change:currentPage', this.render );
 	},
 
 	/**
@@ -45,7 +44,7 @@ Grid.Pagination = wp.Backbone.View.extend({
 		var $target = this.$( event.currentTarget ),
 			value = $target.val();
 
-		this.controller.query.set({ paged : parseInt( value ) });
+		this.controller.query.set({ page : parseInt( value ) });
 
 		return this;
 	},
@@ -83,8 +82,7 @@ Grid.Pagination = wp.Backbone.View.extend({
 	render: function() {
 
 		this.$el.html( this.template( {
-			total_page   : this.controller.query.total_page,
-			current_page : this.controller.query.current_page
+			state : this.controller.query.state
 		} ) );
 
 		return this;

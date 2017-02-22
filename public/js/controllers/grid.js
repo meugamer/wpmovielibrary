@@ -8,22 +8,30 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    object    attributes
-	 * @param    object    options
+	 * @param    {object}    attributes
+	 * @param    {object}    [options]
+	 * @param    {object}    options.settings
+	 * @param    {object}    options.query_args
+	 * @param    {object}    options.query_data
 	 * 
 	 * @return   void
 	 */
 	initialize: function( attributes, options ) {
 
 		this.settings = new wpmoly.model.Settings( options.settings || {} );
-		this.query    = new wpmoly.model.Query( options.query_args || {}, options.query_data || {} );
-
 		this.uniqid = _.uniqueId( 'grid-' + this.settings.get( 'post_id' ) + '-' );
 
-		this.load();
-		this.prefetch();
+		this.query = new wpmoly.controller.Query(
+			options.query_args || {},
+			_.extend( options.query_data || {}, {
+				type: this.settings.get( 'type' )
+			} )
+		);
 
-		this.listenTo( this.query, 'change', this.browse );
+		this.listenTo( this.query, 'change:page', this.browse );
+		//this.listenTo( this.query, 'fetch:start', function() { console.log( 'fetch:start' ); } );
+		//this.listenTo( this.query, 'fetch:stop', function() { console.log( 'fetch:stop' ); } );
+		this.query.prefetch();
 
 		this.settingsOpened = false;
 		this.customsOpened  = false;
@@ -32,63 +40,11 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	},
 
 	/**
-	 * Load REST API Backbone client.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	load: function() {
-
-		if ( ! wp.api ) {
-			return wpmoly.error( 'missing-api', wpmolyL10n.api.missing );
-		}
-
-		var collections = {
-			movie      : wp.api.collections.Movies,
-			actor      : wp.api.collections.Actors,
-			collection : wp.api.collections.Collections,
-			genre      : wp.api.collections.Genres
-		};
-
-		if ( ! _.has( collections, this.settings.get( 'type' ) ) ) {
-			return wpmoly.error( 'missing-api-collection', wpmolyL10n.api.missing_collection );
-		}
-
-		this.collection = new collections[ this.settings.get( 'type' ) ];
-	},
-
-	/**
-	 * Load grid content.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	prefetch: function() {
-
-		var self = this;
-		this.collection.fetch({
-			complete : function() {
-				self.trigger( 'fetch:stop' );
-			},
-			success : function() {
-				self.trigger( 'fetch:done' );
-			},
-			data : {
-				per_page : this.query.get( 'number' ) || this.query.get( 'posts_per_page' ),
-				orderby  : this.query.get( 'orderby' ),
-				order    : this.query.get( 'order' )
-			}
-		});
-	},
-
-	/**
 	 * Show/Hide the grid Settings/Customs menu.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    string    menu
+	 * @param    {string}    menu
 	 * 
 	 * @return   void
 	 */
@@ -135,12 +91,16 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    object    model
-	 * @param    object    options
+	 * @param    {object}    model
+	 * @param    {object}    options
 	 * 
 	 * @return   void
 	 */
 	browse: function( model, options ) {
+
+		if ( this.settings.get( 'enable_ajax' ) ) {
+			return this.query.query( model.attributes );
+		}
 
 		var query = _.defaults( this.parseSearchQuery(), {
 			id : this.get( 'post_id' )
@@ -163,7 +123,7 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   object
+	 * @return   {object}
 	 */
 	parseSearchQuery: function() {
 
@@ -212,12 +172,12 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 */
 	prev: function() {
 
-		var current = parseInt( this.query.get( 'paged' ) ) || 1,
-			total = parseInt( this.query.total_page ),
-			prev = Math.max( 1, current - 1 );
+		var current = parseInt( this.query.get( 'page' ) ) || 1,
+		      total = parseInt( this.query.state.get( 'totalPages' ) ),
+		       prev = Math.max( 1, current - 1 );
 
 		if ( current != prev ) {
-			this.query.set({ paged : prev });
+			this.query.set({ page : prev });
 		}
 	},
 
@@ -230,12 +190,12 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 */
 	next: function() {
 
-		var current = parseInt( this.query.get( 'paged' ) ) || 1,
-			total = parseInt( this.query.total_page ),
-			next = Math.min( current + 1, total );
+		var current = parseInt( this.query.get( 'page' ) ) || 1,
+		      total = parseInt( this.query.state.get( 'totalPages' ) ),
+		       next = Math.min( current + 1, total );
 
 		if ( current != next ) {
-			this.query.set({ paged : next });
+			this.query.set({ page : next });
 		}
 	}
 });

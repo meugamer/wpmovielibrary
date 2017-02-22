@@ -519,7 +519,7 @@ class Movies extends Query {
 	 */
 	public function get_current_page() {
 
-		$paged = $this->query->get( 'paged' );
+		$paged = $this->query->get( 'page' );
 		if ( ! $paged ) {
 			$paged = 1;
 		}

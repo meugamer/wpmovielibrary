@@ -293,6 +293,10 @@
 	width: calc( 20% - 8px );
 }
 
+.wpmoly.grid .grid-content .grid.loading .node {
+	opacity: .25;
+}
+
 .wpmoly.grid .grid-content .grid .node.adjusted {
 	min-height: auto;
 	min-width: auto;

@@ -101,11 +101,11 @@ class Frontend {
 			'utils' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-utils.js' ),
 
 			// Models
-			'query-model'    => array( 'file' => WPMOLY_URL . 'public/js/models/grid/query.js' ),
 			'settings-model' => array( 'file' => WPMOLY_URL . 'public/js/models/grid/settings.js' ),
 
 			// Controllers
-			'grid-controller' => array( 'file' => WPMOLY_URL . 'public/js/controllers/grid.js' ),
+			'query-controller' => array( 'file' => WPMOLY_URL . 'public/js/controllers/query.js' ),
+			'grid-controller'  => array( 'file' => WPMOLY_URL . 'public/js/controllers/grid.js' ),
 
 			// Views
 			'grid-view'            => array( 'file' => WPMOLY_URL . 'public/js/views/grid.js' ),
@@ -297,10 +297,10 @@ class Frontend {
 		$this->enqueue_script( 'utils' );
 
 		// Models
-		$this->enqueue_script( 'query-model' );
 		$this->enqueue_script( 'settings-model' );
 
 		// Controllers
+		$this->enqueue_script( 'query-controller' );
 		$this->enqueue_script( 'grid-controller' );
 
 		// Views

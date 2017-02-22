@@ -143,7 +143,7 @@ Grid.Nodes = wp.Backbone.View.extend({
 	initialize: function( options ) {
 
 		this.controller = options.controller || {};
-		this.collection = this.controller.collection;
+		this.collection = this.controller.query.collection;
 
 		this.$window  = wpmoly.$( window );
 		this.resizeEvent = 'resize.grid-' + this.controller.uniqid;
@@ -174,12 +174,14 @@ Grid.Nodes = wp.Backbone.View.extend({
 
 		// Add views for new models
 		this.listenTo( this.collection, 'add', this.addNode );
+		this.listenTo( this.collection, 'remove', this.removeNode );
 
 		// Set grid as loading when reset
-		this.listenTo( this.collection, 'reset', this.loading );
+		this.listenTo( this.collection, 'reset',   this.loading );
+		this.listenTo( this.collection, 'request', this.loading );
+		this.listenTo( this.collection, 'sync',    this.loaded );
 
 		// Set grid as loaded when fetch is done
-		this.listenTo( this.controller, 'fetch:stop', this.loaded );
 		this.listenTo( this.controller, 'fetch:stop', _.debounce( this.adjust, 50 ) );
 
 		/*this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
@@ -220,6 +222,28 @@ Grid.Nodes = wp.Backbone.View.extend({
 	},
 
 	/**
+	 * Add an existing subview.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    model
+	 * @param    object    collection
+	 * @param    object    options
+	 * 
+	 * @return    Returns itself to allow chaining.
+	 */
+	removeNode: function( model, collection, options ) {
+
+		var node = model.get( 'id' );
+
+		if ( this.nodes[ node ] ) {
+			this.nodes[ node ].remove();
+		}
+
+		return this;
+	},
+
+	/**
 	 * Set grid as loading.
 	 * 
 	 * @since    3.0
@@ -227,6 +251,8 @@ Grid.Nodes = wp.Backbone.View.extend({
 	 * @return    Returns itself to allow chaining.
 	 */
 	loading: function() {
+
+		wpmoly.$( 'body,html' ).animate( { scrollTop : this.$el.offset().top - 64 }, 250 );
 
 		this.$el.addClass( 'loading' );
 
