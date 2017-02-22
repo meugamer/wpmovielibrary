@@ -40,8 +40,8 @@ Grid.Settings = wp.Backbone.View.extend({
 	apply: function() {
 
 		var changes = {},
-			inputs = this.$( 'input:checked' ),
-			query = this.controller.query;
+		     inputs = this.$( 'input:checked' ),
+		      query = this.controller.query;
 
 		// Loop through fields to detect changes from current state.
 		_.each( inputs, function( input ) {
@@ -55,7 +55,7 @@ Grid.Settings = wp.Backbone.View.extend({
 
 		// If order changed, go back to page 1.
 		if ( changes.order || changes.orderby ) {
-			changes.paged = 1;
+			changes.page = 1;
 		}
 
 		query.set( changes );

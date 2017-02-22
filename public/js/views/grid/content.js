@@ -182,7 +182,7 @@ Grid.Nodes = wp.Backbone.View.extend({
 		this.listenTo( this.collection, 'sync',    this.loaded );
 
 		// Set grid as loaded when fetch is done
-		this.listenTo( this.controller, 'fetch:stop', _.debounce( this.adjust, 50 ) );
+		this.listenTo( this.collection, 'sync', _.debounce( this.adjust, 50 ) );
 
 		/*this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
 			this.$el.attr( 'data-columns', value );
