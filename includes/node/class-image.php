@@ -38,14 +38,14 @@ class Image {
 	 * 
 	 * @var    WP_Post
 	 */
-	public $attachment;
+	protected $attachment;
 
 	/**
 	 * Image defaults sizes
 	 * 
 	 * @var    object
 	 */
-	protected $sizes;
+	public $sizes;
 
 	/**
 	 * Make the Image.
