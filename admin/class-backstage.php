@@ -599,6 +599,22 @@ class Backstage {
 	}
 
 	/**
+	 * Plugged on the 'admin_menu' action hook.
+	 *
+	 * Add taxonomies menu entries to the custom admin menu.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   void
+	 */
+	public function admin_submenu() {
+
+		add_submenu_page( 'wpmovielibrary', __( 'Actors', 'wpmovielibrary' ), __( 'Actors', 'wpmovielibrary' ), 'manage_options', 'edit-tags.php?taxonomy=actor&post_type=movie' );
+		add_submenu_page( 'wpmovielibrary', __( 'Collections', 'wpmovielibrary' ), __( 'Collections', 'wpmovielibrary' ), 'manage_options', 'edit-tags.php?taxonomy=collection&post_type=movie' );
+		add_submenu_page( 'wpmovielibrary', __( 'Genres', 'wpmovielibrary' ), __( 'Genres', 'wpmovielibrary' ), 'manage_options', 'edit-tags.php?taxonomy=genre&post_type=movie' );
+	}
+
+	/**
 	 * Add a custom nonce the default settings for PlUpload.
 	 *
 	 * @since    3.0

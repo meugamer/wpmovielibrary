@@ -272,6 +272,7 @@ final class Library {
 
 		$this->loader->add_filter( 'admin_init',                $admin, 'admin_init' );
 		$this->loader->add_filter( 'admin_menu',                $admin, 'admin_menu', 9 );
+		$this->loader->add_filter( 'admin_menu',                $admin, 'admin_submenu', 10 );
 		$this->loader->add_filter( 'plupload_default_params',   $admin, 'plupload_default_params' );
 		$this->loader->add_action( 'admin_enqueue_scripts',     $admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts',     $admin, 'enqueue_scripts' );
@@ -314,7 +315,7 @@ final class Library {
 		// Grid Builder
 		// TODO load this on grid only
 		$builder = new Admin\GridBuilder;
-		$builder->register_metaboxes();
+		$this->loader->add_action( 'admin_init',                  $builder, 'register_metaboxes' );
 
 		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
 		$this->loader->add_action( 'edit_form_after_editor',      $builder, 'preview' );
