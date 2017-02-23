@@ -56,7 +56,9 @@ class PermalinkSettings {
 	 * 
 	 * @since    3.0
 	 */
-	private function __construct() {
+	private function __construct() {}
+
+	private function add_permalinks() {
 
 		$slugs = array(
 			'movie'       => _x( 'movie', 'slug', 'wpmovielibrary' ),
@@ -99,6 +101,10 @@ class PermalinkSettings {
 		$this->defaults = apply_filters( 'wpmoly/filter/permalinks/defaults', $defaults );
 
 		$this->permalinks = $this->get_permalinks();
+
+	}
+
+	private function add_settings() {
 
 		$settings = array(
 			'movie-permalinks' => array(
@@ -343,6 +349,9 @@ class PermalinkSettings {
 	 * @return   void
 	 */
 	public function register() {
+
+		$this->add_permalinks();
+		$this->add_settings();
 
 		add_settings_section( 'wpmoly-permalink', __( 'Movie Library Permalinks', 'wpmovielibrary' ), array( $this, 'register_sections' ), 'permalink' );
 	}
