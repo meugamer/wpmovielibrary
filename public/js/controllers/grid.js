@@ -19,7 +19,7 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	initialize: function( attributes, options ) {
 
 		this.settings = new wpmoly.model.Settings( options.settings || {} );
-		this.uniqid = _.uniqueId( 'grid-' + this.settings.get( 'post_id' ) + '-' );
+		this.uniqid = _.uniqueId( 'grid-' + this.get( 'post_id' ) + '-' );
 
 		this.query = new wpmoly.controller.Query(
 			options.query_args || {},
@@ -28,7 +28,8 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 			} )
 		);
 
-		this.listenTo( this.query, 'change:page', this.browse );
+		this.listenTo( this.query, 'change:page',   this.browse );
+		this.listenTo( this.query, 'change:letter', this.browse );
 		//this.listenTo( this.query, 'fetch:start', function() { console.log( 'fetch:start' ); } );
 		//this.listenTo( this.query, 'fetch:stop', function() { console.log( 'fetch:stop' ); } );
 		this.query.prefetch();
