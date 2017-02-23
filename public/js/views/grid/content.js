@@ -252,7 +252,7 @@ Grid.Nodes = wp.Backbone.View.extend({
 	 */
 	loading: function() {
 
-		wpmoly.$( 'body,html' ).animate( { scrollTop : this.$el.offset().top - 64 }, 250 );
+		wpmoly.$( 'body,html' ).animate( { scrollTop : this.views.parent.$el.offset().top - 48 }, 250 );
 
 		this.$el.addClass( 'loading' );
 
