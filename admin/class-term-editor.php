@@ -52,6 +52,16 @@ class TermEditor extends Metabox {
 		if ( isset( $_REQUEST['taxonomy'] ) ) {
 			$this->taxonomy = $_REQUEST['taxonomy'];
 		}
+	}
+
+	/**
+	 * Define meta managers.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	protected function add_managers() {
 
 		if ( 'actor' == $this->taxonomy ) {
 
@@ -323,7 +333,7 @@ class TermEditor extends Metabox {
 							'genre-thumbnail' => array(
 								'type'        => 'radio-image',
 								'section'     => 'genre-appearance',
-								'label'       => esc_html__( 'Genre thumbnail' ),
+								'label'       => esc_html__( 'Genre thumbnail', 'wpmovielibrary' ),
 								'description' => esc_html__( 'A default thumbnail for this genre.', 'wpmovielibrary' ),
 								'attr' => array( 'class' => array( 'visible-labels' ) ),
 								'choices' => array(
@@ -616,5 +626,14 @@ class TermEditor extends Metabox {
 		$_REQUEST['_wp_original_http_referer'] = $location;
 		$_REQUEST['_wp_http_referer'] = $location;
 	}
+
+	/**
+	 * Define metaboxes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	protected function add_metaboxes() {}
 
 }

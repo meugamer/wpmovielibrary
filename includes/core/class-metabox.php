@@ -18,7 +18,7 @@ namespace wpmoly\Core;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Metabox {
+abstract class Metabox {
 
 	/**
 	 * Metaboxes.
@@ -40,6 +40,24 @@ class Metabox {
 	 * @var    array
 	 */
 	private $term_managers = array();
+
+	/**
+	 * Define metaboxes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	abstract protected function add_metaboxes();
+
+	/**
+	 * Define meta managers.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	abstract protected function add_managers();
 
 	/**
 	 * Add a new metabox.
@@ -144,6 +162,8 @@ class Metabox {
 	 * @return   void
 	 */
 	public function load_meta_frameworks() {
+
+		$this->add_managers();
 
 		if ( ! empty( $this->post_managers ) ) {
 			$this->load_post_meta_framework();
@@ -353,6 +373,8 @@ class Metabox {
 	 * @return   void
 	 */
 	public function register_metaboxes() {
+
+		$this->add_metaboxes();
 
 		foreach ( $this->metaboxes as $metabox ) {
 

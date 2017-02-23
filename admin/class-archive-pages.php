@@ -82,6 +82,16 @@ class ArchivePages extends Metabox {
 
 		// Load archive pages
 		$this->pages = get_option( '_wpmoly_archive_pages', array() );
+	}
+
+	/**
+	 * Define meta managers.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	protected function add_managers() {
 
 		// Only register archive pages' manager when needed
 		if ( ! empty( $this->pages[ $this->post_id ] ) ) {
@@ -337,5 +347,14 @@ class ArchivePages extends Metabox {
 
 		Rewrite::set_notice();
 	}
+
+	/**
+	 * Define metaboxes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	protected function add_metaboxes() {}
 
 }

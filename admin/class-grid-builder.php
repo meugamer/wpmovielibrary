@@ -39,21 +39,34 @@ class GridBuilder extends Metabox {
 	private $grid;
 
 	/**
-	 * Class constructor.
+	 * Define metaboxes.
 	 * 
 	 * @since    3.0
+	 * 
+	 * @return   void
 	 */
-	public function __construct() {
+	protected function add_metaboxes() {
 
 		$this->add_metabox( 'type', array(
 			'id'            => 'wpmoly-grid-type',
-			'title'         => __( 'Type', 'wpmovielibrary' ),
+			'title'         => __( 'Title', 'wpmovielibrary' ),
 			'callback'      => array( $this, 'type_metabox' ),
 			'screen'        => 'grid',
 			'context'       => 'side',
 			'priority'      => 'high',
 			'callback_args' => null
 		) );
+
+	}
+
+	/**
+	 * Define meta managers.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	protected function add_managers() {
 
 		$this->add_manager( 'movie-grid-settings', array(
 				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
