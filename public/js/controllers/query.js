@@ -46,10 +46,6 @@ _.extend( wpmoly.controller, {
 		 */
 		load: function() {
 
-			if ( ! wp.api ) {
-				return wpmoly.error( 'missing-api', wpmolyL10n.api.missing );
-			}
-
 			var collections = {
 				movie      : wp.api.collections.Movies,
 				actor      : wp.api.collections.Actors,

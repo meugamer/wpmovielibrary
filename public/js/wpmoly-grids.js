@@ -8,8 +8,8 @@ wpmoly = window.wpmoly || {};
 		runned: false,
 
 		views: {},
- 
-		run: function() {
+
+		_run: function() {
 
 			var grids = document.querySelectorAll( '[data-grid]' );
 			_.each( grids, function( grid ) {
@@ -24,11 +24,6 @@ wpmoly = window.wpmoly || {};
 				// Temporarily disable grid customs menu
 				controller.settings.set( { customs_control: false }, { silent: true } );
 
-				// Set unique grid div ID
-				/*var uniq = _.uniqueId( 'grid-' + post_id + '-' );
-				$grid.prop( 'id', 'wpmoly-' + uniq );
-				$grid.addClass( 'grid-' + post_id, uniq );*/
-
 				var view = new wpmoly.view.Grid.Grid({
 					el         : grid,
 					controller : controller
@@ -36,6 +31,15 @@ wpmoly = window.wpmoly || {};
 
 				wpmoly.grids.views[ post_id ] = view;
 			} );
+		},
+
+		run: function() {
+
+			if ( ! wp.api ) {
+				return wpmoly.error( 'missing-api', wpmolyL10n.api.missing );
+			}
+
+			wp.api.loadPromise.done( this._run );
 		}
 	};
 })( jQuery, _, Backbone );
