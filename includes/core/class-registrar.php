@@ -125,6 +125,8 @@ class Registrar {
 					'public'             => true,
 					'publicly_queryable' => true,
 					'show_ui'            => true,
+					'show_in_rest'       => true,
+					'rest_base'          => 'movies',
 					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => $movie_archives,
 					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
@@ -154,6 +156,7 @@ class Registrar {
 					'public'             => false,
 					'publicly_queryable' => false,
 					'show_ui'            => true,
+					'show_in_rest'       => false,
 					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => false,
 					'supports'           => array( 'title' )
@@ -187,6 +190,7 @@ class Registrar {
 				'public'             => true,
 				'publicly_queryable' => true,
 				'show_ui'            => true,
+				'show_in_rest'       => true,
 				'show_in_menu'       => true,
 				'has_archive'        => true,
 				'menu_position'      => null,
@@ -386,13 +390,16 @@ class Registrar {
 			$args = apply_filters( "wpmoly/filter/taxonomy/{$taxonomy['slug']}", $taxonomy['args'] );
 
 			$args = array_merge( array(
-				'show_ui'           => true,
-				'show_tagcloud'     => true,
-				'show_admin_column' => true,
-				'hierarchical'      => false,
-				'query_var'         => true,
-				'sort'              => true,
-				'rewrite'           => array( 'slug' => $slug )
+				'show_ui'               => true,
+				'show_tagcloud'         => true,
+				'show_admin_column'     => true,
+				'hierarchical'          => false,
+				'query_var'             => true,
+				'sort'                  => true,
+				'show_in_rest'          => true,
+				'rest_base'             => ! empty( $taxonomy['archive'] ) ? $taxonomy['archive'] : $slug,
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
+				'rewrite'               => array( 'slug' => $slug )
 			), $args );
 
 			register_taxonomy( $taxonomy['slug'], $taxonomy['posts'], $args );
