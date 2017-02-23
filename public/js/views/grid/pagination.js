@@ -28,6 +28,7 @@ Grid.Pagination = wp.Backbone.View.extend({
 		this.controller = options.controller || {};
 
 		this.listenTo( this.controller.query.state, 'change:currentPage', this.render );
+		this.listenTo( this.controller.query.state, 'change:totalPages',  this.render );
 	},
 
 	/**
@@ -41,8 +42,13 @@ Grid.Pagination = wp.Backbone.View.extend({
 	 */
 	paginate: function( event ) {
 
-		var $target = this.$( event.currentTarget ),
-			value = $target.val();
+		var $target = this.$( event.currentTarget )
+		      state = this.controller.query.state,
+		      value = $target.val();
+
+		if ( value < 1 || value == state.get( 'currentPage' ) || value > state.get( 'totalPages' ) ) {
+			return false;
+		}
 
 		this.controller.query.set({ page : parseInt( value ) });
 
