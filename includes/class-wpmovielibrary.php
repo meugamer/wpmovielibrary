@@ -179,7 +179,10 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/query/class-query-collections.php';
 		require_once WPMOLY_PATH . 'includes/query/class-query-genres.php';
 
-		// API
+		// Rest API
+		require_once WPMOLY_PATH . 'includes/rest/class-rest-api.php';
+
+		// TMDb API
 		require_once WPMOLY_PATH . 'includes/api/class-api.php';
 		require_once WPMOLY_PATH . 'includes/api/class-api-core.php';
 		require_once WPMOLY_PATH . 'includes/api/class-api-movie.php';
@@ -370,6 +373,11 @@ final class Library {
 		$this->loader->add_action( 'init', $registrar, 'register_post_types' );
 		$this->loader->add_action( 'init', $registrar, 'register_taxonomies' );
 		$this->loader->add_action( 'init', $registrar, 'register_post_statuses' );
+
+		$rest_api = Rest\API::get_instance();
+		$this->loader->add_action( 'rest_api_init',                $rest_api, 'register_fields' );
+		$this->loader->add_filter( 'rest_movie_query',             $rest_api, 'register_query_params', 10, 2 );
+		$this->loader->add_filter( 'rest_movie_collection_params', $rest_api, 'register_collection_params', 10, 2 );
 
 		$rewrite = Core\Rewrite::get_instance();
 		$this->loader->add_filter( 'init',                 $rewrite, 'add_rewrite_tags' );
