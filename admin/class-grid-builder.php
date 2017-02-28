@@ -298,7 +298,7 @@ class GridBuilder extends Metabox {
 		);
 
 		$this->add_manager( 'actor-grid-settings', array(
-				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
+				'label'     => esc_html__( 'Settings', 'wpmovielibrary' ),
 				'post_type' => 'grid',
 				'context'   => 'normal',
 				'priority'  => 'high',
