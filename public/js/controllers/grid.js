@@ -32,6 +32,7 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 		this.listenTo( this.query, 'change:letter', this.browse );
 		//this.listenTo( this.query, 'fetch:start', function() { console.log( 'fetch:start' ); } );
 		//this.listenTo( this.query, 'fetch:stop', function() { console.log( 'fetch:stop' ); } );
+		//this.listenTo( this.query.collection, 'all', function( e ) { console.log( e ); } );
 		this.query.prefetch();
 
 		this.settingsOpened = false;

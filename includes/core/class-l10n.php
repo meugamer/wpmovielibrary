@@ -699,6 +699,7 @@ class l10n {
 				'missing' => __( 'Couldn’t find WordPress Rest API Backbone client.', 'wpmovielibrary' ),
 				'missing_collection' =>__( 'Couldn’t find WordPress Rest API Backbone client collection object.', 'wpmovielibrary' )
 			),
+			'min' => _x( 'min', 'movie runtime in minutes', 'wpmovielibrary' ),
 			'nMoviesFound' => array(
 				__( 'No movie yet', 'wpmovielibrary' ),
 				__( '1 Movie', 'wpmovielibrary' ),

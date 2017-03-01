@@ -47,7 +47,7 @@ _.extend( wpmoly.controller, {
 		load: function() {
 
 			var collections = {
-				movie      : wp.api.collections.Movies,
+				movie      : wpmoly.collection.Movies,
 				actor      : wp.api.collections.Actors,
 				collection : wp.api.collections.Collections,
 				genre      : wp.api.collections.Genres
@@ -121,6 +121,7 @@ _.extend( wpmoly.controller, {
 			};
 
 			options.success = function( collection, response, options ) {
+
 				self.trigger( 'fetch:done', collection, response, options  );
 			};
 

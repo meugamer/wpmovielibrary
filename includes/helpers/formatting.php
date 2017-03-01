@@ -1618,7 +1618,7 @@ function get_formatted_language( $languages, $options = array() ) {
 		 * 
 		 * @param    string    $value Replaced empty value.
 		 */
-		return apply_filters( "wpmoly/filter/meta/empty/{$options['variant']}/value", get_formatted_empty_value( $date ) );
+		return apply_filters( "wpmoly/filter/meta/empty/{$options['variant']}/value", get_formatted_empty_value( $languages ) );
 	}
 
 	$show_text = _is_bool( $options['show_text'] );

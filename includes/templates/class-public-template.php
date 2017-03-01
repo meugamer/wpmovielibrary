@@ -81,6 +81,17 @@ class Front extends Template {
 		$template = $this->locate_template();
 		if ( is_file( $template ) ) {
 
+			/**
+			 * Filter the template data.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    array     $data Template data
+			 * @param    string    $template WordPress-relative file path
+			 * @param    string    $path Plugin-relative file path
+			 */
+			$this->data = apply_filters( "wpmoly/filter/template/data", $this->data, $template, $this->path );
+
 			extract( $this->data );
 			ob_start();
 

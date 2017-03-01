@@ -95,12 +95,13 @@ class Frontend {
 			),
 
 			// Base
-			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone' ) ),
+			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
 
 			// Utils
 			'utils' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-utils.js' ),
 
 			// Models
+			'content-model'  => array( 'file' => WPMOLY_URL . 'public/js/models/grid/content.js' ),
 			'settings-model' => array( 'file' => WPMOLY_URL . 'public/js/models/grid/settings.js' ),
 
 			// Controllers
@@ -258,22 +259,29 @@ class Frontend {
 
 	/**
 	 * Print a JavaScript template.
-	 *
+	 * 
 	 * @since    3.0
-	 *
+	 * 
 	 * @param    string    $handle Template slug
-	 * @param    string    $src Template file path
-	 *
+	 * @param    mixed     $template Template file path or instance
+	 * 
 	 * @return   null
 	 */
-	private function print_template( $handle, $src ) {
+	private function print_template( $handle, $template ) {
 
-		if ( ! file_exists( WPMOLY_PATH . $src ) ) {
+		if ( is_string( $template ) && ! file_exists( WPMOLY_PATH . $template ) ) {
 			return false;
 		}
 
 		echo "\n" . '<script type="text/html" id="tmpl-' . $handle . '">';
-		require_once WPMOLY_PATH . $src;
+
+		if ( $template instanceof \wpmoly\Templates\Template ) {
+			$template->set_data( array( 'is_json' => true ) );
+			$template->render( 'once' );
+		} else {
+			require_once WPMOLY_PATH . $template;
+		}
+
 		echo '</script>' . "\n";
 	}
 
@@ -297,6 +305,7 @@ class Frontend {
 		$this->enqueue_script( 'utils' );
 
 		// Models
+		$this->enqueue_script( 'content-model' );
 		$this->enqueue_script( 'settings-model' );
 
 		// Controllers
@@ -339,6 +348,11 @@ class Frontend {
 			$this->print_template( 'wpmoly-grid-collection-list', 'public/js/templates/grid/collection-list.php' );
 			$this->print_template( 'wpmoly-grid-genre-grid',      'public/js/templates/grid/genre-grid.php' );
 			$this->print_template( 'wpmoly-grid-genre-list',      'public/js/templates/grid/genre-list.php' );
+
+			$this->print_template( 'wpmoly-grid-actor-archive',      wpmoly_get_template( 'headboxes/actor-default.php' ) );
+			$this->print_template( 'wpmoly-grid-collection-archive', wpmoly_get_template( 'headboxes/collection-default.php' ) );
+			$this->print_template( 'wpmoly-grid-genre-archive',      wpmoly_get_template( 'headboxes/genre-default.php' ) );
+			$this->print_template( 'wpmoly-grid-movie-archive',      wpmoly_get_template( 'headboxes/movie-default.php' ) );
 		}
 	}
 
@@ -437,6 +451,18 @@ class Frontend {
 		$loader->add_filter( 'wpmoly/filter/query/movies/format/value',                     '', 'strtolower' );
 		$loader->add_filter( 'wpmoly/filter/query/movies/media/value',                      '', 'strtolower' );
 
+		// Templates
+		$loader->add_filter( 'wpmoly/filter/template/data', $this, 'js_template_data' );
+
+	}
+
+	public function js_template_data( $data = array() ) {
+
+		if ( empty( $data['is_json'] ) ) {
+			$data['is_json'] = false;
+		}
+
+		return $data;
 	}
 
 	/**

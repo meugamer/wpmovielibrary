@@ -24,6 +24,8 @@ wpmoly = window.wpmoly = {
 
 	model: {},
 
+	collection: {},
+
 	view: {},
 
 	controller: {},

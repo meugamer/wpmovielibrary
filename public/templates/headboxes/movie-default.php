@@ -7,10 +7,12 @@
  * @since    3.0
  * 
  * @uses    $movie
+ * @uses    $is_json
  */
 
+if ( ! $is_json ) :
 ?>
-	<div id="<?php echo $headbox->get_type(); ?>-headbox-<?php echo $headbox->id; ?>" class="wpmoly post-headbox <?php echo $headbox->get_type(); ?>-headbox theme-<?php echo $headbox->get_theme(); ?>">
+	<div id="movie-headbox-<?php echo $headbox->id; ?>" class="wpmoly post-headbox movie-headbox theme-<?php echo $headbox->get_theme(); ?>">
 		<div class="headbox-header">
 			<div class="headbox-backdrop-container">
 				<div class="headbox-backdrop" style="background-image:url(<?php echo $movie->get_backdrop( 'random' )->render( 'medium', 'raw' ); ?>);"></div>
@@ -36,3 +38,33 @@
 			</div>
 		</div>
 	</div>
+
+<?php else : ?>
+
+	<div id="movie-headbox-{{ data.node.get( 'id' ) }}" class="wpmoly post-headbox movie-headbox theme-{{ data.settings.get( 'theme' ) }}">
+		<div class="headbox-header">
+			<div class="headbox-backdrop-container">
+				<div class="headbox-backdrop" style="background-image:url({{ data.node.get( 'backdrop' ).sizes.medium.url }});"></div>
+				<div class="headbox-angle"></div>
+			</div>
+			<div class="headbox-poster" style="background-image:url({{ data.node.get( 'poster' ).sizes.medium.url }});"></div>
+			<div class="headbox-titles">
+				<div class="movie-title"><a href="{{ data.node.get( 'link' ) }}">{{ data.node.get( 'meta' ).get( 'title' ).rendered }}</a></div>
+				<div class="movie-original-title">{{ data.node.get( 'meta' ).get( 'original_title' ).rendered }}</div>
+				<div class="movie-tagline">{{ data.node.get( 'meta' ).get( 'tagline' ).rendered }}</div>
+			</div>
+		</div>
+		<div class="headbox-content clearfix">
+			<div class="headbox-cast">
+				<div class="movie-director"><?php _e( 'Directed by', 'wpmovielibrary' ); ?> {{{ data.node.get( 'meta' ).get( 'director' ).rendered }}}</div>
+				<div class="movie-actors"><?php _e( 'Staring', 'wpmovielibrary' ); ?> {{{ data.node.get( 'meta' ).get( 'cast' ).rendered }}}</div>
+			</div>
+			<div class="headbox-metadata">
+				<div class="movie headbox-release-info">
+					<span class="movie-year"><?php //$movie->the_year(); ?></span>&nbsp;|&nbsp;<span class="movie-runtime">{{ _.sprintf( '%d %s', data.node.get( 'meta' ).get( 'runtime' ).rendered ), wpmolyL10n.min }}</span>&nbsp;|&nbsp;<span class="movie-genres">{{{ data.node.get( 'meta' ).get( 'genres' ).rendered }}}</span>&nbsp;|&nbsp;<span class="movie-certification">{{{ data.node.get( 'meta' ).get( 'certification' ).rendered }}}</span>
+				</div>
+				<div class="movie-overview">{{ data.node.get( 'meta' ).get( 'overview' ).rendered }}</div>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
