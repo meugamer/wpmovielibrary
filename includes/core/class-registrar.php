@@ -47,11 +47,25 @@ class Registrar {
 	private $post_statuses = array();
 
 	/**
+	 * Default Custom Post Meta.
+	 * 
+	 * @var    array
+	 */
+	private $post_meta = array();
+
+	/**
 	 * Default Custom Taxonomies.
 	 * 
 	 * @var    array
 	 */
 	private $taxonomies = array();
+
+	/**
+	 * Default Custom Taxonomies Term Meta.
+	 * 
+	 * @var    array
+	 */
+	private $term_meta = array();
 
 	/**
 	 * Load permalinks settings.
@@ -127,6 +141,7 @@ class Registrar {
 					'show_ui'            => true,
 					'show_in_rest'       => true,
 					'rest_base'          => 'movies',
+					'rest_controller_class' => '\wpmoly\Rest\Movies_Controller',
 					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => $movie_archives,
 					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
@@ -196,7 +211,8 @@ class Registrar {
 				'menu_position'      => null,
 				'menu_icon'          => null,
 				'taxonomies'         => array(),
-				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' )
+				'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
+				'rest_controller_class' => 'WP_REST_Posts_Controller',
 			), $args );
 
 			register_post_type( $post_type['slug'], $args );
@@ -261,6 +277,287 @@ class Registrar {
 			), $args );
 
 			register_post_status( $post_status['slug'], $args );
+		}
+	}
+
+	/**
+	 * Register Custom Post Meta.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function register_post_meta() {
+
+		$post_meta = array(
+			'movie-tmdb_id' => array(
+				'type'         => 'integer',
+				'description'  => __( 'TheMovieDb.org movie ID', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'TMDb ID', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_tmdb_id'
+				)
+			),
+			'movie-title' => array(
+				'type'         => 'string',
+				'description'  => __( 'Title', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Title', 'wpmovielibrary' )
+				)
+			),
+			'movie-original_title' => array(
+				'type'         => 'string',
+				'description'  => __( 'Original title for the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Original Title', 'wpmovielibrary' )
+				)
+			),
+			'movie-tagline' => array(
+				'type'         => 'string',
+				'description'  => __( 'Short movie tagline', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Tagline', 'wpmovielibrary' )
+				)
+			),
+			'movie-overview' => array(
+				'type'         => 'string',
+				'description'  => __( 'Short movie overview', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Overview', 'wpmovielibrary' )
+				)
+			),
+			'movie-release_date' => array(
+				'type'         => 'string',
+				'description'  => __( 'Date the movie was initially released', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Release Date', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_release_date'
+				)
+			),
+			'movie-local_release_date' => array(
+				'type'         => 'string',
+				'description'  => __( 'Date the movie was localy released based on your settings', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Local Release Date', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_local_release_date'
+				)
+			),
+			'movie-runtime' => array(
+				'type'         => 'integer',
+				'description'  => __( 'Total movie runtime', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Runtime', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_runtime'
+				)
+			),
+			'movie-production_companies' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of companies who produced the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Production Companies', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_production'
+				)
+			),
+			'movie-production_countries' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of countries where the movie was produced', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Production Countries', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_countries'
+				)
+			),
+			'movie-spoken_languages' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of languages spoken in the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Spoken Languages', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_spoken_languages'
+				)
+			),
+			'movie-genres' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of genres for the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Genres', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_genres'
+				)
+			),
+			'movie-director' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of directors for the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Director', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_director'
+				)
+			),
+			'movie-producer' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of producers for the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Producer', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_producer'
+				)
+			),
+			'movie-cast' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of actors starring in the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Actors', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_cast'
+				)
+			),
+			'movie-photography' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of directors of photography for the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Director of photography', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_photography'
+				)
+			),
+			'movie-composer' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of original music composers for the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Composer', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_composer'
+				)
+			),
+			'movie-author' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of authors for the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Author', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_author'
+				)
+			),
+			'movie-writer' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of writers for the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Writer', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_writer'
+				)
+			),
+			'movie-certification' => array(
+				'type'         => 'string',
+				'description'  => __( 'Movie certification', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Certification', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_certification'
+				)
+			),
+			'movie-budget' => array(
+				'type'         => 'integer',
+				'description'  => __( 'Movie budget', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Budget', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_budget'
+				)
+			),
+			'movie-revenue' => array(
+				'type'         => 'integer',
+				'description'  => __( 'Movie revenue', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Revenue', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_revenue'
+				)
+			),
+			'movie-imdb_id' => array(
+				'type'         => 'string',
+				'description'  => __( 'Internet Movie Database movie ID', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'IMDb ID', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_imdb_id'
+				)
+			),
+			'movie-adult' => array(
+				'type'         => 'string',
+				'description'  => __( 'Separate adult-only movies from all-audience movies', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Adult-only', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_adult'
+				)
+			),
+			'movie-homepage' => array(
+				'type'         => 'string',
+				'description'  => __( 'Official movie Website', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Homepage', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_homepage'
+				)
+			),
+			'movie-status' => array(
+				'type'         => 'string',
+				'description'  => __( 'Current status of your copy of the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Status', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_status'
+				)
+			),
+			'movie-media' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of medias', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Media', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_media'
+				)
+			),
+			'movie-rating' => array(
+				'type'         => 'string',
+				'description'  => __( 'Your own rating of the movie', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Rating', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_rating'
+				)
+			),
+			'movie-language' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of languages', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Language', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_language'
+				)
+			),
+			'movie-subtitles' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of subtitles', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Subtitles', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_subtitles'
+				)
+			),
+			'movie-format' => array(
+				'type'         => 'string',
+				'description'  => __( 'List of formats', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Format', 'wpmovielibrary' ),
+					'prepare_callback' => 'get_formatted_movie_format'
+				)
+			)
+		);
+
+		/**
+		 * Filter the Custom Post Meta prior to registration.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $post_meta Post Meta list
+		 */
+		$this->post_meta = apply_filters( 'wpmoly/filter/post_meta', $post_meta );
+
+		foreach ( $this->post_meta as $slug => $params ) {
+
+			$meta_key = '_wpmoly_' . str_replace( '-', '_', $slug );
+
+			$args = wp_parse_args( $params, array(
+				'type'              => 'string',
+				'description'       => '',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'sanitize_callback' => null
+			) );
+
+			register_meta( $object_type = 'post', $meta_key, $args );
 		}
 	}
 
@@ -403,6 +700,42 @@ class Registrar {
 			), $args );
 
 			register_taxonomy( $taxonomy['slug'], $taxonomy['posts'], $args );
+		}
+	}
+
+	/**
+	 * Register Custom Term Meta.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function register_term_meta() {
+
+		$term_meta = array();
+
+		/**
+		 * Filter the Custom Term Meta prior to registration.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $term_meta Term Meta list
+		 */
+		$this->term_meta = apply_filters( 'wpmoly/filter/term_meta', $term_meta );
+
+		foreach ( $this->term_meta as $slug => $params ) {
+
+			$meta_key = '_wpmoly_' . str_replace( '-', '_', $slug );
+
+			$args = wp_parse_args( $params, array(
+				'type'              => 'string',
+				'description'       => '',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'sanitize_callback' => null
+			) );
+
+			register_meta( $object_type = 'term', $meta_key, $args );
 		}
 	}
 }

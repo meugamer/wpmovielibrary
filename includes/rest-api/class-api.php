@@ -6,7 +6,7 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/rest
+ * @subpackage WPMovieLibrary/includes/rest-api
  */
 
 namespace wpmoly\Rest;
@@ -18,7 +18,7 @@ use WP_Error;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/rest
+ * @subpackage WPMovieLibrary/includes/rest-api
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class API {

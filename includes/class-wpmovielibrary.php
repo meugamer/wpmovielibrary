@@ -180,7 +180,9 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/query/class-query-genres.php';
 
 		// Rest API
-		require_once WPMOLY_PATH . 'includes/rest/class-rest-api.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/class-api.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/class-movie-meta-fields.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/class-movies-controller.php';
 
 		// TMDb API
 		require_once WPMOLY_PATH . 'includes/api/class-api.php';
@@ -372,8 +374,10 @@ final class Library {
 		// Register Post Types, Taxonomies…
 		$registrar = Core\Registrar::get_instance();
 		$this->loader->add_action( 'init', $registrar, 'register_post_types' );
-		$this->loader->add_action( 'init', $registrar, 'register_taxonomies' );
 		$this->loader->add_action( 'init', $registrar, 'register_post_statuses' );
+		$this->loader->add_action( 'init', $registrar, 'register_post_meta' );
+		$this->loader->add_action( 'init', $registrar, 'register_taxonomies' );
+		$this->loader->add_action( 'init', $registrar, 'register_term_meta' );
 
 		$rest_api = Rest\API::get_instance();
 		$this->loader->add_action( 'rest_api_init',                $rest_api, 'register_fields' );
