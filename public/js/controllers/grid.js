@@ -28,8 +28,7 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 			} )
 		);
 
-		this.listenTo( this.query, 'change:page',   this.browse );
-		this.listenTo( this.query, 'change:letter', this.browse );
+		this.listenTo( this.query, 'change', this.browse );
 		//this.listenTo( this.query, 'fetch:start', function() { console.log( 'fetch:start' ); } );
 		//this.listenTo( this.query, 'fetch:stop', function() { console.log( 'fetch:stop' ); } );
 		//this.listenTo( this.query.collection, 'all', function( e ) { console.log( e ); } );
@@ -38,7 +37,31 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 		this.settingsOpened = false;
 		this.customsOpened  = false;
 
-		this.on( 'grid:menu:toggle', this.toggleMenu );
+		this.on( 'grid:settings:toggle', this.toggleSettings );
+		this.on( 'grid:customs:toggle',  this.toggleCustoms );
+	},
+
+	/**
+	 * Show/Hide the grid Settings menu.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	toggleSettings: function() {
+
+		if ( this.settingsOpened ) {
+			this.settingsOpened = false;
+			this.trigger( 'grid:settings:close' );
+		} else {
+			this.settingsOpened = true;
+			this.trigger( 'grid:settings:open' );
+		}
+
+		if ( this.customsOpened ) {
+			this.customsOpened = false;
+			this.trigger( 'grid:customs:close' );
+		}
 	},
 
 	/**
@@ -50,40 +73,19 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 * 
 	 * @return   void
 	 */
-	toggleMenu: function( menu ) {
+	toggleCustoms: function( menu ) {
 
-		if ( 'settings' == menu ) {
-
-			if ( this.settingsOpened ) {
-				this.settingsOpened = false;
-				this.trigger( 'grid:settings:close' );
-			} else {
-				this.settingsOpened = true;
-				this.trigger( 'grid:settings:open' );
-			}
-
-			if ( this.customsOpened ) {
-				this.customsOpened = false;
-				this.trigger( 'grid:customs:close' );
-			}
-
-		} else if ( 'customs' == menu ) {
-
-			if ( this.customsOpened ) {
-				this.customsOpened = false;
-				this.trigger( 'grid:customs:close' );
-			} else {
-				this.customsOpened = true;
-				this.trigger( 'grid:customs:open' );
-			}
-
-			if ( this.settingsOpened ) {
-				this.settingsOpened = false;
-				this.trigger( 'grid:settings:close' );
-			}
-
+		if ( this.customsOpened ) {
+			this.customsOpened = false;
+			this.trigger( 'grid:customs:close' );
 		} else {
-			return false;
+			this.customsOpened = true;
+			this.trigger( 'grid:customs:open' );
+		}
+
+		if ( this.settingsOpened ) {
+			this.settingsOpened = false;
+			this.trigger( 'grid:settings:close' );
 		}
 	},
 
@@ -99,6 +101,9 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 * @return   void
 	 */
 	browse: function( model, options ) {
+
+		this.settingsOpened = false;
+		this.customsOpened  = false;
 
 		if ( this.settings.get( 'enable_ajax' ) ) {
 			return this.query.query( model.attributes );

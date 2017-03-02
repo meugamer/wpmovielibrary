@@ -48,11 +48,12 @@ Grid.Settings = wp.Backbone.View.extend({
 			var param = this.$( input ).attr( 'data-setting-type' ),
 			    value = this.$( input ).val();
 
-			if ( query.has( param ) && ( value != query.get( param ) /*|| value*/ ) ) {
+			if ( query.has( param ) && ( value != query.get( param ) || value ) ) {
 				changes[ param ] = value;
 			}
 		}, this );
 
+		console.log( changes );
 		// If order changed, go back to page 1.
 		if ( changes.order || changes.orderby ) {
 			changes.page = 1;
@@ -60,7 +61,7 @@ Grid.Settings = wp.Backbone.View.extend({
 
 		query.set( changes );
 
-		this.toggle();
+		this.controller.trigger( 'grid:settings:close' );
 
 		return this;
 	},

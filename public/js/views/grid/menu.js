@@ -60,7 +60,7 @@ Grid.Menu = wp.Backbone.View.extend({
 	 */
 	toggleSettings: function() {
 
-		this.controller.trigger( 'grid:menu:toggle', 'settings' );
+		this.controller.trigger( 'grid:settings:toggle' );
 
 		return this;
 	},
@@ -74,7 +74,7 @@ Grid.Menu = wp.Backbone.View.extend({
 	 */
 	toggleCustoms: function() {
 
-		this.controller.trigger( 'grid:menu:toggle', 'customs' );
+		this.controller.trigger( 'grid:customs:toggle' );
 
 		return this;
 	}

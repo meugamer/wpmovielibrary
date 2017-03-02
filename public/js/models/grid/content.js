@@ -15,7 +15,7 @@ wpmoly.collection.Movies = wp.api.collections.Movies.extend({
 
 			_.each( meta, function( value, key ) {
 
-				if ( ! value.rendered ) {
+				if ( _.isUndefined( value.rendered ) ) {
 					var value = {
 						rendered: value
 					};
