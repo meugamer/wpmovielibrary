@@ -202,6 +202,7 @@ class Archives {
 
 		$grid = get_grid();
 		$grid->is_main_grid = true;
+		$grid->set_mode( 'grid' );
 		$grid->set_preset( 'custom' );
 		$grid->set_settings( array( $type => $name ) );
 

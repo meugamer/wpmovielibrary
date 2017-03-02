@@ -61,7 +61,15 @@ if ( ! $is_json ) :
 			</div>
 			<div class="headbox-metadata">
 				<div class="movie headbox-release-info">
-					<span class="movie-year"><?php //$movie->the_year(); ?></span>&nbsp;|&nbsp;<span class="movie-runtime">{{ _.sprintf( '%d %s', data.node.get( 'meta' ).get( 'runtime' ).rendered ), wpmolyL10n.min }}</span>&nbsp;|&nbsp;<span class="movie-genres">{{{ data.node.get( 'meta' ).get( 'genres' ).rendered }}}</span>&nbsp;|&nbsp;<span class="movie-certification">{{{ data.node.get( 'meta' ).get( 'certification' ).rendered }}}</span>
+<# /*if ( ! _.isEmpty(  ) ) { #>
+					<span class="movie-year"><?php //$movie->the_year(); ?></span><span>&nbsp;|&nbsp;</span>
+<# }*/ if ( ! _.isEmpty( data.node.get( 'meta' ).get( 'runtime' ).rendered ) ) { #>
+					<span class="movie-runtime">{{ data.node.get( 'meta' ).get( 'runtime' ).rendered }}</span><span>&nbsp;|&nbsp;</span>
+<# } if ( ! _.isEmpty( data.node.get( 'meta' ).get( 'genres' ).rendered ) ) { #>
+					<span class="movie-genres">{{{ data.node.get( 'meta' ).get( 'genres' ).rendered }}}</span><span>&nbsp;|&nbsp;</span>
+<# } if ( ! _.isEmpty( data.node.get( 'meta' ).get( 'certification' ).rendered ) ) { #>
+					<span class="movie-certification">{{{ data.node.get( 'meta' ).get( 'certification' ).rendered }}}</span>
+<# } #>
 				</div>
 				<div class="movie-overview">{{ data.node.get( 'meta' ).get( 'overview' ).rendered }}</div>
 			</div>

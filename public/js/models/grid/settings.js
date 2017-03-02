@@ -5,10 +5,10 @@ _.extend( wpmoly.model, {
 
 	Settings: Backbone.Model.extend({
 
-		defaults: function() { return {
+		defaults: {
 			type            : '',
-			mode            : '',
-			theme           : '',
+			mode            : 'grid',
+			theme           : 'default',
 			preset          : '',
 			columns         : 5,
 			rows            : 4,
@@ -20,7 +20,7 @@ _.extend( wpmoly.model, {
 			display_control : 0,
 			order_control   : 1,
 			show_pagination : 1
-		} },
+		},
 
 		/**
 		 * Initialize the Model.
@@ -35,6 +35,12 @@ _.extend( wpmoly.model, {
 		initialize: function( attributes, options ) {
 
 			var options = options || {};
+
+			_.each( attributes, function( value, key ) {
+				if ( _.isNull( value ) && _.has( this.defaults, key ) ) {
+					this.set( key, this.defaults[ key ], { silent : true } )
+				}
+			}, this );
 		}
 
 	}),

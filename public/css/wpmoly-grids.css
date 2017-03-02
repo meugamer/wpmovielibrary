@@ -242,7 +242,7 @@
 
 .wpmoly.grid .grid-menu .pagination-menu input {
 	box-shadow: 0 0 0;
-	padding: 0 4px;
+	padding: 0 .25em;
 	text-align: center;
 	width: auto;
 }
@@ -257,7 +257,7 @@
 /* Content */
 
 .wpmoly.grid .grid-content {
-	padding: 15px 0;
+	padding: 1em 0;
 }
 
 .wpmoly.grid .grid-content a {
@@ -268,11 +268,15 @@
 
 .wpmoly.grid .grid-content-inner {
 	min-height: 8em;
-	padding: 15px 0;
+	padding: 1em 0;
 }
 
 .wpmoly.grid .grid-content-inner.loading {
 	background: url(../img/oval.svg) center center no-repeat;
+}
+
+.wpmoly.grid .grid-content-inner.grid .notice {
+	margin: 0 .25em;
 }
 
 /*
@@ -282,15 +286,15 @@
 .wpmoly.grid .grid-content .grid {
 	display: block;
 	float: none;
-	margin: 0 -4px;
+	margin: 0 -.25em;
 }
 
 .wpmoly.grid .grid-content .grid .node {
 	float: left;
-	margin: 0 4px 16px 4px;
-	min-height: 240px;
-	min-width: 160px;
-	width: calc( 20% - 8px );
+	margin: 0 .25em 1em .25em;
+	min-height: 15em;
+	min-width: 10em;
+	width: calc( 20% - .5em );
 }
 
 .wpmoly.grid .grid-content .grid.loading .node {
@@ -304,15 +308,15 @@
 
 .wpmoly.grid .grid-content .grid .node-term {
 	float: left;
-	margin: 0 4px 16px 4px;
-	min-height: 200px;
-	min-width: 160px;
-	width: calc( 20% - 8px );
+	margin: 0 .25em 1em .25em;
+	min-height: 12.5em;
+	min-width: 10em;
+	width: calc( 20% - .5em );
 }
 
 .wpmoly.grid .grid-content .grid .node .node-picture {
-	height: 200px;
-	width: 160px;
+	height: 12.5em;
+	width: 10em;
 }
 
 .wpmoly.grid .grid-content .grid .node .node-poster,
@@ -322,16 +326,16 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	float: none;
-	height: 240px;
+	height: 15em;
 	max-height: 100%;
 	max-width: 100%;
-	width: 160px;
+	width: 10em;
 }
 
 .wpmoly.grid .grid-content .grid .node .node-title,
 .wpmoly.grid .grid-content .grid .node .node-name {
 	font-weight: 600;
-	margin-top: 6px;
+	margin-top: .325em;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -456,7 +460,7 @@
 .wpmoly.grid.theme-default .grid-content .grid .node .node-poster,
 .wpmoly.grid.theme-default .grid-content .grid .node .node-picture {
 	border-radius: 0.25rem;
-	box-shadow: 0 2px 2px #bbb;
+	box-shadow: 0 .125em .125em #bbb;
 	margin: 0 0 0.5rem 0;
 	position: relative;
 }

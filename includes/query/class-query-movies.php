@@ -457,7 +457,7 @@ class Movies extends Query {
 		 * 
 		 * @param    int    $orderby
 		 */
-		$orderby = apply_filters( 'wpmoly/filter/query/movies/defaults/orderby', 'post_date' );
+		$orderby = apply_filters( 'wpmoly/filter/query/movies/defaults/orderby', 'date' );
 
 		/**
 		 * Filter default query order.

@@ -705,6 +705,8 @@ class l10n {
 				__( '1 Movie', 'wpmovielibrary' ),
 				__( '%d Movies', 'wpmovielibrary' )
 			),
+			'restAPIError' => __( 'An unknown error occurred while loading the content from the REST API.', 'wpmovielibrary' ),
+			'restAPIErrorFootnote' => __( 'If the problem persists, contact the administrator.', 'wpmovielibrary' )
 		);
 
 		wp_localize_script( 'wpmoly', 'wpmolyL10n', $localized );

@@ -184,9 +184,44 @@ Grid.Nodes = wp.Backbone.View.extend({
 		// Set grid as loaded when fetch is done
 		this.listenTo( this.collection, 'sync', _.debounce( this.adjust, 50 ) );
 
+		this.listenTo( this.controller.query, 'fetch:failed', this.notifyError );
+
 		/*this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
 			this.$el.attr( 'data-columns', value );
 		} );*/
+	},
+
+	/**
+	 * Notifiy API request errors.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    collection
+	 * @param    object    xhr
+	 * @param    object    options
+	 * 
+	 * @return    Returns itself to allow chaining.
+	 */
+	notifyError: function( collection, xhr, options ) {
+
+		var message;
+		if ( ! _.isUndefined( xhr.responseJSON.message ) ) {
+			message = xhr.responseJSON.message;
+			if ( ! _.isEmpty( xhr.responseJSON.data.params ) ) {
+				message += '<br />';
+				_.each( xhr.responseJSON.data.params, function( param ) {
+					message += '<small>' + param + '</small>';
+				} );
+			}
+		} else {
+			message = wpmolyL10n.restAPIError;
+		}
+
+		this.$el.html( '<div class="wpmoly error notice"><div class="notice-content"><p>' + message + '</p></div><div class="notice-footnote">' + wpmolyL10n.restAPIErrorFootnote + '</div></div>' );
+
+		this.loaded();
+
+		return this;
 	},
 
 	/**
@@ -331,6 +366,7 @@ Grid.NodesGrid = Grid.Nodes.extend({
 		 innerWidth = this.$el.width()
 		      ratio = 1.25;
 
+		console.log( this.controller.settings );
 		if ( 'movie' === this.settings.get( 'type' ) ) {
 			ratio = 1.5;
 		}

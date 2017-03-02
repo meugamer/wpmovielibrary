@@ -116,13 +116,12 @@ _.extend( wpmoly.controller, {
 
 			this.trigger( 'fetch:start' );
 
-			options.error = function() {
-				self.trigger( 'fetch:failed' );
+			options.error = function( collection, xhr, options ) {
+				self.trigger( 'fetch:failed', collection, xhr, options );
 			};
 
 			options.success = function( collection, response, options ) {
-
-				self.trigger( 'fetch:done', collection, response, options  );
+				self.trigger( 'fetch:done', collection, response, options );
 			};
 
 			options.complete = function() {
