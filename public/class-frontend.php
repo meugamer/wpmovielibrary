@@ -326,34 +326,34 @@ class Frontend {
 
 	/**
 	 * Print the JavaScript templates for the frontend area.
-	 *
+	 * 
+	 * TODO try not to include this where it's not needed.
+	 * 
 	 * @since    3.0
-	 *
+	 * 
 	 * @return   void
 	 */
 	public function enqueue_templates() {
 
-		if ( is_archive_page( get_the_ID() ) ) {
-			$this->print_template( 'wpmoly-grid',            'public/js/templates/grid/grid.php' );
-			$this->print_template( 'wpmoly-grid-menu',       'public/js/templates/grid/menu.php' );
-			$this->print_template( 'wpmoly-grid-customs',    'public/js/templates/grid/customs.php' );
-			$this->print_template( 'wpmoly-grid-settings',   'public/js/templates/grid/settings.php' );
-			$this->print_template( 'wpmoly-grid-pagination', 'public/js/templates/grid/pagination.php' );
+		$this->print_template( 'wpmoly-grid',                   'public/js/templates/grid/grid.php' );
+		$this->print_template( 'wpmoly-grid-menu',              'public/js/templates/grid/menu.php' );
+		$this->print_template( 'wpmoly-grid-customs',           'public/js/templates/grid/customs.php' );
+		$this->print_template( 'wpmoly-grid-settings',          'public/js/templates/grid/settings.php' );
+		$this->print_template( 'wpmoly-grid-pagination',        'public/js/templates/grid/pagination.php' );
 
-			$this->print_template( 'wpmoly-grid-movie-grid',      'public/js/templates/grid/movie-grid.php' );
-			$this->print_template( 'wpmoly-grid-movie-list',      'public/js/templates/grid/movie-list.php' );
-			$this->print_template( 'wpmoly-grid-actor-grid',      'public/js/templates/grid/actor-grid.php' );
-			$this->print_template( 'wpmoly-grid-actor-list',      'public/js/templates/grid/actor-list.php' );
-			$this->print_template( 'wpmoly-grid-collection-grid', 'public/js/templates/grid/collection-grid.php' );
-			$this->print_template( 'wpmoly-grid-collection-list', 'public/js/templates/grid/collection-list.php' );
-			$this->print_template( 'wpmoly-grid-genre-grid',      'public/js/templates/grid/genre-grid.php' );
-			$this->print_template( 'wpmoly-grid-genre-list',      'public/js/templates/grid/genre-list.php' );
+		$this->print_template( 'wpmoly-grid-movie-grid',        'public/js/templates/grid/movie-grid.php' );
+		$this->print_template( 'wpmoly-grid-movie-list',        'public/js/templates/grid/movie-list.php' );
+		$this->print_template( 'wpmoly-grid-actor-grid',        'public/js/templates/grid/actor-grid.php' );
+		$this->print_template( 'wpmoly-grid-actor-list',        'public/js/templates/grid/actor-list.php' );
+		$this->print_template( 'wpmoly-grid-collection-grid',   'public/js/templates/grid/collection-grid.php' );
+		$this->print_template( 'wpmoly-grid-collection-list',   'public/js/templates/grid/collection-list.php' );
+		$this->print_template( 'wpmoly-grid-genre-grid',        'public/js/templates/grid/genre-grid.php' );
+		$this->print_template( 'wpmoly-grid-genre-list',        'public/js/templates/grid/genre-list.php' );
 
-			$this->print_template( 'wpmoly-grid-actor-archive',      wpmoly_get_template( 'headboxes/actor-default.php' ) );
-			$this->print_template( 'wpmoly-grid-collection-archive', wpmoly_get_template( 'headboxes/collection-default.php' ) );
-			$this->print_template( 'wpmoly-grid-genre-archive',      wpmoly_get_template( 'headboxes/genre-default.php' ) );
-			$this->print_template( 'wpmoly-grid-movie-archive',      wpmoly_get_template( 'headboxes/movie-default.php' ) );
-		}
+		$this->print_template( 'wpmoly-grid-actor-archive',      wpmoly_get_template( 'headboxes/actor-default.php' ) );
+		$this->print_template( 'wpmoly-grid-collection-archive', wpmoly_get_template( 'headboxes/collection-default.php' ) );
+		$this->print_template( 'wpmoly-grid-genre-archive',      wpmoly_get_template( 'headboxes/genre-default.php' ) );
+		$this->print_template( 'wpmoly-grid-movie-archive',      wpmoly_get_template( 'headboxes/movie-default.php' ) );
 	}
 
 	/**
@@ -456,6 +456,15 @@ class Frontend {
 
 	}
 
+	/**
+	 * Add an 'is_json' value to JS Templates data.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $data
+	 * 
+	 * @return   array
+	 */
 	public function js_template_data( $data = array() ) {
 
 		if ( empty( $data['is_json'] ) ) {
