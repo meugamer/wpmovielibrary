@@ -366,7 +366,6 @@ Grid.NodesGrid = Grid.Nodes.extend({
 		 innerWidth = this.$el.width()
 		      ratio = 1.25;
 
-		console.log( this.controller.settings );
 		if ( 'movie' === this.settings.get( 'type' ) ) {
 			ratio = 1.5;
 		}

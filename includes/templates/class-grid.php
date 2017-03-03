@@ -65,6 +65,8 @@ class Grid extends Front {
 
 		$this->set_path();
 
+		$this->set_content();
+
 		return $this;
 	}
 
@@ -130,6 +132,25 @@ class Grid extends Front {
 		}
 
 		return $this->path = $path;
+	}
+
+	/**
+	 * Set the content Template.
+	 * 
+	 * Grids uses a subview Template to show content in no-js mode.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   \wpmoly\Templates\Template
+	 */
+	private function set_content() {
+
+		$type = $this->grid->get_type();
+		$mode = $this->grid->get_mode();
+
+		$content = wpmoly_get_template( "grids/content/{$type}-{$mode}.php" );
+
+		return $this->content = $content;
 	}
 
 	/**
@@ -228,7 +249,7 @@ class Grid extends Front {
 		$page = $this->grid->query->get_previous_page();
 
 		$args = $this->grid->get_settings();
-		$args['paged'] = $page;
+		$args['page'] = $page;
 
 		return $this->build_url( $args );
 	}
@@ -245,7 +266,7 @@ class Grid extends Front {
 		$page = $this->grid->query->get_next_page();
 
 		$args = $this->grid->get_settings();
-		$args['paged'] = $page;
+		$args['page'] = $page;
 
 		return $this->build_url( $args );
 	}
@@ -306,9 +327,16 @@ class Grid extends Front {
 		}
 
 		if ( empty( $this->data ) ) {
-			$this->set_data( array(
+
+			$this->content->set_data( array(
 				'grid'  => $this,
 				'items' => $this->grid->items
+			) );
+
+			$this->set_data( array(
+				'grid'    => $this,
+				'items'   => $this->grid->items,
+				'content' => $this->content
 			) );
 		}
 
