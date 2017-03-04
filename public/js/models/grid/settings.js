@@ -12,6 +12,8 @@ _.extend( wpmoly.model, {
 			preset          : '',
 			columns         : 5,
 			rows            : 4,
+			list_columns    : 3,
+			list_rows       : 8,
 			column_width    : 160,
 			row_height      : 240,
 			show_menu       : 1,

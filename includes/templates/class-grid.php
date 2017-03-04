@@ -249,7 +249,7 @@ class Grid extends Front {
 		$page = $this->grid->query->get_previous_page();
 
 		$args = $this->grid->get_settings();
-		$args['page'] = $page;
+		$args['paged'] = $page;
 
 		return $this->build_url( $args );
 	}
@@ -266,7 +266,7 @@ class Grid extends Front {
 		$page = $this->grid->query->get_next_page();
 
 		$args = $this->grid->get_settings();
-		$args['page'] = $page;
+		$args['paged'] = $page;
 
 		return $this->build_url( $args );
 	}
@@ -296,6 +296,9 @@ class Grid extends Front {
 
 		// Filter empty rows
 		$args = array_filter( $args );
+
+		// Don't need pagination here
+		unset( $args['posts_per_page'] );
 
 		// Build custom query.
 		$args = array( 'grid' => build_query( $args ) );

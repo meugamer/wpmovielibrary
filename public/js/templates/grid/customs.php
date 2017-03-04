@@ -55,6 +55,14 @@ if ( data.settings.get( 'custom_content' ) ) {
 				</span>
 			</div>
 		</div>
+		<div class="grid-custom-section">
+			<div class="grid-custom-block half-col">
+				<span class="grid-setting-label"><?php _e( 'Number of rows:', 'wpmovielibrary' ); ?></span>
+				<span class="grid-setting-input">
+					<input id="{{ data.grid_id }}-list-rows" name="{{ data.grid_id }}-list-rows" type="number" size="2" data-setting-type="list-rows" value="{{ data.settings.get( 'list_rows' ) }}" />
+				</span>
+			</div>
+		</div>
 <#
 	}
 }

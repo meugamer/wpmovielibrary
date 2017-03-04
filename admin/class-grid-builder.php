@@ -216,6 +216,15 @@ class GridBuilder extends Metabox {
 								//'sanitize' => 'intval',
 								'default'  => 240
 							),
+							'grid-list-rows' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 8
+							),
 						)
 					),
 					'grid-settings' => array(
@@ -426,6 +435,15 @@ class GridBuilder extends Metabox {
 								//'sanitize' => 'intval',
 								'default'  => 240
 							),
+							'grid-list-rows' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 8
+							),
 						)
 					),
 					'grid-settings' => array(
@@ -628,6 +646,15 @@ class GridBuilder extends Metabox {
 								//'sanitize' => 'intval',
 								'default'  => 240
 							),
+							'grid-list-rows' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 8
+							),
 						)
 					),
 					'grid-settings' => array(
@@ -820,6 +847,15 @@ class GridBuilder extends Metabox {
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 240
+							),
+							'grid-list-rows' => array(
+								'type'     => 'text',
+								'section'  => 'grid-appearance',
+								'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								//'sanitize' => 'intval',
+								'default'  => 8
 							),
 						)
 					),

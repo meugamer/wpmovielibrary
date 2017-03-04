@@ -31,6 +31,7 @@ namespace wpmoly\Node;
  * @property    int       $row_height Row height.
  * @property    int       $list_columns Number of columns in list mode.
  * @property    int       $list_column_width Widget of columns in list mode.
+ * @property    int       $list_rows Number of rows in list mode.
  * @property    int       $total Number of Nodes to use.
  * @property    int       $enable_ajax Enable Ajax browsing.
  * @property    int       $enable_pagination Enable pagination.
@@ -165,6 +166,7 @@ class Grid extends Node {
 			'row_height',
 			'list_columns',
 			'list_column_width',
+			'list_rows',
 			'enable_ajax',
 			'enable_pagination',
 			'settings_control',
@@ -419,6 +421,20 @@ class Grid extends Node {
 	 */
 	private function prepare() {
 
+		// Default parameters
+		$defaults = array(
+			'id'      => '',
+			'order'   => '',
+			'orderby' => ''
+		);
+
+		// Calculate the number of nodes from display settings
+		if ( 'grid' == $this->get_mode() ) {
+			$defaults['posts_per_page'] = floor( $this->get_columns() * $this->get_rows() );
+		} elseif ( 'list' == $this->get_mode() ) {
+			$defaults['posts_per_page'] = floor( $this->get_list_columns() * $this->get_list_rows() );
+		}
+
 		// Find out custom preset, if any
 		$custom = get_query_var( 'grid_preset' );
 		if ( $this->is_main_grid && ! empty( $custom ) ) {
@@ -427,17 +443,18 @@ class Grid extends Node {
 
 		// Get grid settings from URL
 		$settings = get_query_var( 'grid' );
+		
+		// No custom setting, only set posts_per_page from defaults
 		if ( empty( $settings ) ) {
-			return false;
+			$settings = array(
+				'posts_per_page' => $defaults['posts_per_page']
+			);
+
+			return $this->settings = $settings;
 		}
 
 		// Extract settings
 		$settings = str_replace( array( ':', ',' ), array( '=', '&' ), $settings );
-		$defaults = array(
-			'id'      => '',
-			'order'   => '',
-			'orderby' => ''
-		);
 		$settings = wp_parse_args( $settings, $defaults );
 
 		// Not the grid? Don't go any further.
@@ -825,6 +842,31 @@ class Grid extends Node {
 		}
 
 		return $this->list_columns;
+	}
+
+	/**
+	 * Retrieve current list-mode grid number of rows.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	public function get_list_rows() {
+
+		/**
+		 * Filter the default list-mode grid number of rows.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    int    $default_list_rows Default list-mode grid number of rows.
+		 */
+		$default_list_rows = 8;
+
+		if ( ! isset( $this->list_rows ) ) {
+			return $this->list_rows = $this->get( 'list_rows', $default_list_rows );
+		}
+
+		return $this->list_rows;
 	}
 
 	/**
