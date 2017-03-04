@@ -85,6 +85,66 @@ abstract class Query {
 	}
 
 	/**
+	 * Retrieve query parameters for REST API.
+	 * 
+	 * Convert current query parameters to match the REST API supported
+	 * parameters.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function get_rest_args() {
+
+		$args = array();
+
+		/*
+		 * This array defines mappings between public API query parameters whose
+		 * values are accepted as-passed, and their internal WP_Query parameter
+		 * name equivalents (some are the same). Only values which are also
+		 * present in $this->args will be set.
+		 */
+		$parameter_mappings = array(
+			'offset'     => 'offset',
+			'order'      => 'order',
+			'orderby'    => 'orderby',
+			'paged'      => 'page',
+			's'          => 'search',
+			'hide_empty' => 'hide_empty',
+			'number'     => 'per_page'
+		);
+
+		/*
+		 * For each known parameter which is both registered and present in the request,
+		 * set the parameter's value on the query $args.
+		 */
+		foreach ( $parameter_mappings as $wp_param => $api_param ) {
+			if ( isset( $this->args[ $wp_param ] ) ) {
+				$args[ $api_param ] = $this->args[ $wp_param ];
+			}
+		}
+
+		if ( isset( $this->args['posts_per_page'] ) ) {
+			$args['per_page'] = $this->args['posts_per_page'];
+		}
+
+		if ( isset( $this->args['number'] ) ) {
+			$args['number'] = $this->args['number'];
+		}
+
+		if ( isset( $this->args['meta_query'] ) ) {
+			foreach ( $this->args['meta_query'] as $meta ) {
+				if ( is_array( $meta ) && ! empty( $meta['key'] ) && ! empty( $meta['value'] ) && false !== strpos( $meta['key'], '_wpmoly_movie_' ) ) {
+					$key = str_replace( '_wpmoly_movie_', '', $meta['key'] );
+					$args[ $key ] = $meta['value'];
+				}
+			}
+		}
+
+		return $args;
+	}
+
+	/**
 	 * Retrieve query parameters.
 	 * 
 	 * @since    3.0

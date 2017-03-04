@@ -138,8 +138,25 @@ class API {
 	public function register_query_params( $args, $request ) {
 
 		if ( 'movie' === $args['post_type'] ) {
+
 			if ( ! empty( $request['letter'] ) ) {
 				$args['letter'] = $request['letter'];
+			}
+
+			$metadata = get_registered_meta_keys( 'post' );
+			foreach ( $metadata as $key => $params ) {
+				if ( false !== strpos( $key, '_wpmoly_movie_' ) ) {
+					$key = str_replace( '_wpmoly_movie_', '', $key );
+					if ( ! empty( $request[ $key ] ) ) {
+						$args['meta_query'] = array(
+							array(
+								'key'     => "_wpmoly_movie_{$key}",
+								'value'   => $request[ $key ],
+								'compare' => 'LIKE',
+							)
+						);
+					}
+				}
 			}
 		}
 
@@ -160,13 +177,26 @@ class API {
 	 */
 	public function register_collection_params( $query_params, $post_type ) {
 
-		if ( 'movie' === $post_type ) {
+		if ( 'movie' === $post_type->name ) {
+
 			$query_params['letter'] = array(
-				'description'        => __( 'Filter movies by letter.', 'wpmovielibrary' ),
-				'type'               => 'string',
-				'default'            => '',
-				'enum'               => array( '' ) + str_split( '#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' ),
+				'description' => __( 'Filter movies by letter.', 'wpmovielibrary' ),
+				'type'        => 'string',
+				'default'     => '',
+				'enum'        => array( '' ) + str_split( '#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' ),
 			);
+
+			$metadata = get_registered_meta_keys( 'post' );
+			foreach ( $metadata as $key => $params ) {
+				if ( false !== strpos( $key, '_wpmoly_movie_' ) ) {
+					$key = str_replace( '_wpmoly_movie_', '', $key );
+					$query_params[ $key ] = array(
+						'description' => $params['description'],
+						'type'        => $params['type']
+					);
+				}
+			}
+
 		}
 
 		return $query_params;

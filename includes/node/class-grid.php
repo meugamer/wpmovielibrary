@@ -552,6 +552,18 @@ class Grid extends Node {
 	}
 
 	/**
+	 * Get the Node Query REST API parameters.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   array
+	 */
+	public function get_rest_args() {
+
+		return $this->query->get_rest_args();
+	}
+
+	/**
 	 * Get the Node Query parameters.
 	 * 
 	 * @since    3.0

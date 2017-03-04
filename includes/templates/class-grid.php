@@ -368,7 +368,7 @@ class Grid extends Front {
 			$json['settings'][ $setting ] = $this->get( $setting );
 		}
 
-		$json['query_args'] = $this->get_query_args();
+		$json['query_args'] = $this->get_rest_args();
 		$json['query_data'] = array(
 			'current_page' => $this->get_current_page(),
 			'total_page'   => $this->get_total_pages()
