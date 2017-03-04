@@ -277,7 +277,7 @@ class Frontend {
 
 		if ( $template instanceof \wpmoly\Templates\Template ) {
 			$template->set_data( array( 'is_json' => true ) );
-			$template->render( 'once' );
+			$template->render( 'always' );
 		} else {
 			require_once WPMOLY_PATH . $template;
 		}
@@ -341,19 +341,19 @@ class Frontend {
 		$this->print_template( 'wpmoly-grid-settings',          'public/js/templates/grid/settings.php' );
 		$this->print_template( 'wpmoly-grid-pagination',        'public/js/templates/grid/pagination.php' );
 
-		$this->print_template( 'wpmoly-grid-movie-grid',        'public/js/templates/grid/movie-grid.php' );
-		$this->print_template( 'wpmoly-grid-movie-list',        'public/js/templates/grid/movie-list.php' );
-		$this->print_template( 'wpmoly-grid-actor-grid',        'public/js/templates/grid/actor-grid.php' );
-		$this->print_template( 'wpmoly-grid-actor-list',        'public/js/templates/grid/actor-list.php' );
-		$this->print_template( 'wpmoly-grid-collection-grid',   'public/js/templates/grid/collection-grid.php' );
-		$this->print_template( 'wpmoly-grid-collection-list',   'public/js/templates/grid/collection-list.php' );
-		$this->print_template( 'wpmoly-grid-genre-grid',        'public/js/templates/grid/genre-grid.php' );
-		$this->print_template( 'wpmoly-grid-genre-list',        'public/js/templates/grid/genre-list.php' );
+		$this->print_template( 'wpmoly-grid-movie-grid',         wpmoly_get_js_template( 'grids/content/movie-grid.php' ) );
+		$this->print_template( 'wpmoly-grid-movie-list',         wpmoly_get_js_template( 'grids/content/movie-list.php' ) );
+		$this->print_template( 'wpmoly-grid-actor-grid',         wpmoly_get_js_template( 'grids/content/actor-grid.php' ) );
+		$this->print_template( 'wpmoly-grid-actor-list',         wpmoly_get_js_template( 'grids/content/actor-list.php' ) );
+		$this->print_template( 'wpmoly-grid-collection-grid',    wpmoly_get_js_template( 'grids/content/collection-grid.php' ) );
+		$this->print_template( 'wpmoly-grid-collection-list',    wpmoly_get_js_template( 'grids/content/collection-list.php' ) );
+		$this->print_template( 'wpmoly-grid-genre-grid',         wpmoly_get_js_template( 'grids/content/genre-grid.php' ) );
+		$this->print_template( 'wpmoly-grid-genre-list',         wpmoly_get_js_template( 'grids/content/genre-list.php' ) );
 
-		$this->print_template( 'wpmoly-grid-actor-archive',      wpmoly_get_template( 'headboxes/actor-default.php' ) );
-		$this->print_template( 'wpmoly-grid-collection-archive', wpmoly_get_template( 'headboxes/collection-default.php' ) );
-		$this->print_template( 'wpmoly-grid-genre-archive',      wpmoly_get_template( 'headboxes/genre-default.php' ) );
-		$this->print_template( 'wpmoly-grid-movie-archive',      wpmoly_get_template( 'headboxes/movie-default.php' ) );
+		$this->print_template( 'wpmoly-grid-actor-archive',      wpmoly_get_js_template( 'headboxes/actor-default.php' ) );
+		$this->print_template( 'wpmoly-grid-collection-archive', wpmoly_get_js_template( 'headboxes/collection-default.php' ) );
+		$this->print_template( 'wpmoly-grid-genre-archive',      wpmoly_get_js_template( 'headboxes/genre-default.php' ) );
+		$this->print_template( 'wpmoly-grid-movie-archive',      wpmoly_get_js_template( 'headboxes/movie-default.php' ) );
 	}
 
 	/**

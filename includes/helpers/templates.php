@@ -27,6 +27,28 @@ function wpmoly_get_template( $template ) {
 	return new \wpmoly\Templates\Front( $template );
 }
 
+/**
+ * Get a specific JavaScript template.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $template Template name.
+ * 
+ * @return   \wpmoly\Templates\Template
+ */
+function wpmoly_get_js_template( $template ) {
+
+	if ( is_admin() ) {
+		$template = new \wpmoly\Templates\Admin( $template );
+	} else {
+		$template = new \wpmoly\Templates\Front( $template );
+	}
+
+	$template->set_data( array( 'is_json' => true ) );
+
+	return $template;
+}
+
 
 /**
  * Get an Headbox template.
