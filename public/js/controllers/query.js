@@ -26,6 +26,7 @@ _.extend( wpmoly.controller, {
 			var options = options || {};
 
 			this.type = options.type;
+			this.settings = options.settings;
 
 			this.load();
 
@@ -107,12 +108,14 @@ _.extend( wpmoly.controller, {
 		 * 
 		 * @param    {object}    options
 		 * 
-		 * @return   void
+		 * @return   Promise
 		 */
 		query: function( options ) {
 
+			this.calculateNumber();
+
 			var self = this,
-			 options = { data : options };
+			 options = { data : _.extend( this.attributes, options ) };
 
 			this.trigger( 'fetch:start' );
 
@@ -130,6 +133,64 @@ _.extend( wpmoly.controller, {
 
 			return this.collection.fetch( options );
 		},
+
+		/**
+		 * Calculate the number of nodes to query from the number of
+		 * columns and rows of the grid.
+		 * 
+		 * TODO take into account the actual number of columns as it can
+		 * changes with screen dimensions.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   void
+		 */
+		calculateNumber: function() {
+
+			if ( 'grid' == this.settings.get( 'mode' ) ) {
+				var columns = this.settings.get( 'columns' ),
+				       rows = this.settings.get( 'rows' );
+			} else if ( 'list' == this.settings.get( 'mode' ) ) {
+				var columns = this.settings.get( 'list_columns' ),
+				       rows = this.settings.get( 'list_rows' );
+			} else {
+				return false;
+			}
+
+			if ( this.isPost() ) {
+				var attr = 'per_page';
+			} else if ( this.isTaxonomy() ) {
+				var attr = 'number';
+			} else {
+				return false;
+			}
+
+			this.set( attr, Math.round( columns * rows ), { silent : true } );
+		},
+
+		/**
+		 * Are we dealing with taxonomies?
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   boolean
+		 */
+		isTaxonomy: function() {
+
+			return _.contains( [ 'actor', 'collection', 'genre' ], this.type );
+		},
+
+		/**
+		 * Are we dealing with posts?
+		 * 
+		 * @since    3.0
+		 * 
+		 * @return   boolean
+		 */
+		isPost: function() {
+
+			return _.contains( [ 'movie' ], this.type );
+		}
 
 	}),
 

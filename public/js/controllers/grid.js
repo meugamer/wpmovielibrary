@@ -24,7 +24,8 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 		this.query = new wpmoly.controller.Query(
 			options.query_args || {},
 			_.extend( options.query_data || {}, {
-				type: this.settings.get( 'type' )
+				type     : this.settings.get( 'type' ),
+				settings : this.settings
 			} )
 		);
 
@@ -106,6 +107,7 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 		this.customsOpened  = false;
 
 		if ( this.settings.get( 'enable_ajax' ) ) {
+
 			return this.query.query( model.attributes );
 		}
 
