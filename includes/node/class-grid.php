@@ -425,8 +425,8 @@ class Grid extends Node {
 		// Default parameters
 		$defaults = array(
 			'id'      => '',
-			'order'   => '',
-			'orderby' => ''
+			'order'   => 'desc',
+			'orderby' => 'date'
 		);
 
 		// Calculate the number of nodes from display settings
