@@ -10,7 +10,7 @@
  */
 
 /**
- * Format Movies adult status.
+ * Format movie adult status.
  * 
  * @since    3.0
  * 
@@ -68,7 +68,7 @@ function get_formatted_movie_adult( $adult, $options = array() ) {
 }
 
 /**
- * Format Movies author.
+ * Format movie author.
  * 
  * @since    3.0
  * 
@@ -229,7 +229,7 @@ function get_formatted_movie_certification( $certification, $options = array() )
 }
 
 /**
- * Format Movies composer.
+ * Format movie composer.
  * 
  * @since    3.0
  * 
@@ -298,7 +298,7 @@ function get_formatted_movie_composer( $composer, $options = array() ) {
 }
 
 /**
- * Format Movies actors.
+ * Format movie actors.
  * 
  * Match each actor against the actor taxonomy to detect missing
  * terms. If term actor exists, provide a link, raw text value
@@ -334,7 +334,7 @@ function get_formatted_movie_cast( $cast, $options = array() ) {
 }
 
 /**
- * Format Movies production countries.
+ * Format movie production countries.
  * 
  * @since    3.0
  * 
@@ -402,7 +402,7 @@ function get_formatted_movie_countries( $countries, $options = array() ) {
 }
 
 /**
- * Format Movies directors.
+ * Format movie directors.
  * 
  * Match each director against the director taxonomy to detect missing
  * terms. If term director exists, provide a link, raw text value
@@ -438,7 +438,7 @@ function get_formatted_movie_director( $director, $options = array() ) {
 }
 
 /**
- * Format Movies formats.
+ * Format movie formats.
  * 
  * @since    3.0
  * 
@@ -473,7 +473,7 @@ function get_formatted_movie_format( $format, $options = array() ) {
 }
 
 /**
- * Format Movies genres.
+ * Format movie genres.
  * 
  * Match each genre against the genre taxonomy to detect missing
  * terms. If term genre exists, provide a link, raw text value
@@ -552,7 +552,7 @@ function get_formatted_movie_homepage( $homepage, $options = array() ) {
 }
 
 /**
- * Format Movies IMDb ID.
+ * Format movie IMDb ID.
  * 
  * @since    3.0
  * 
@@ -641,7 +641,7 @@ function get_formatted_movie_local_release_date( $local_release_date, $options =
 }
 
 /**
- * Format Movies medias.
+ * Format movie medias.
  * 
  * @since    3.0
  * 
@@ -676,7 +676,7 @@ function get_formatted_movie_media( $media, $options = array() ) {
 }
 
 /**
- * Format Movies director of photography.
+ * Format movie director of photography.
  * 
  * @since    3.0
  * 
@@ -745,7 +745,7 @@ function get_formatted_movie_photography( $photography, $options = array() ) {
 }
 
 /**
- * Format Movies production companies.
+ * Format movie production companies.
  * 
  * @since    3.0
  * 
@@ -814,7 +814,7 @@ function get_formatted_movie_production( $companies, $options = array() ) {
 }
 
 /**
- * Format Movies producers.
+ * Format movie producers.
  * 
  * @since    3.0
  * 
@@ -883,7 +883,7 @@ function get_formatted_movie_producer( $producer, $options = array() ) {
 }
 
 /**
- * Format Movies ratings.
+ * Format movie ratings.
  * 
  * @since    3.0
  * 
@@ -1114,7 +1114,7 @@ function get_formatted_movie_revenue( $revenue, $options = array() ) {
 }
 
 /**
- * Format Movies runtime.
+ * Format movie runtime.
  * 
  * If no format is provided, use the format defined in settings. If no such
  * settings can be found, fallback to a standard 'X h Y min' format.
@@ -1170,7 +1170,7 @@ function get_formatted_movie_runtime( $runtime, $options = array() ) {
 }
 
 /**
- * Format Movies spoken languages.
+ * Format movie spoken languages.
  * 
  * @since    3.0
  * 
@@ -1187,7 +1187,7 @@ function get_formatted_movie_spoken_languages( $languages, $options = array() ) 
 }
 
 /**
- * Format Movies statuses.
+ * Format movie statuses.
  * 
  * @since    3.0
  * 
@@ -1240,7 +1240,7 @@ function get_formatted_movie_subtitles( $subtitles, $options = array() ) {
 }
 
 /**
- * Format Movies TMDb ID.
+ * Format movie TMDb ID.
  * 
  * @since    3.0
  * 
@@ -1291,7 +1291,7 @@ function get_formatted_movie_tmdb_id( $tmdb_id, $options = array() ) {
 }
 
 /**
- * Format Movies writers.
+ * Format movie writers.
  * 
  * @since    3.0
  * 
@@ -1357,6 +1357,61 @@ function get_formatted_movie_writer( $writer, $options = array() ) {
 	 * @param    array      $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/writer', $writers, $options );
+}
+
+/**
+ * Format movie years.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $year Movie writers.
+ * @param    array     $options Formatting options.
+ * 
+ * @return   string    Formatted value
+ */
+function get_formatted_movie_year( $year, $options = array() ) {
+
+	if ( ! preg_match( '/^\d{4}$/i', $year ) ) {
+		$year = '';
+	}
+
+	if ( empty( $year ) ) {
+
+		/**
+		 * Filter empty meta value.
+		 * 
+		 * @param    string    $value Replaced empty value.
+		 */
+		return apply_filters( 'wpmoly/filter/meta/empty/year/value', get_formatted_empty_value( $year ) );
+	}
+
+	// Formatting options.
+	$options = wp_parse_args( (array) $options, array(
+		'is_link' => true
+	) );
+
+	if ( $options['is_link'] ) {
+
+		/**
+		 * Filter year URL.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string     $year Filtered year.
+		 * @param    array      $options Formatting options.
+		 */
+		$year = apply_filters( 'wpmoly/filter/meta/year/url', $year, $options );
+	}
+
+	/**
+	 * Filter final year.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string     $year Filtered year.
+	 * @param    array      $options Formatting options.
+	 */
+	return apply_filters( 'wpmoly/filter/meta/year', $year, $options );
 }
 
 /*
@@ -1561,7 +1616,7 @@ function get_formatted_detail( $detail, $value, $options = array() ) {
 }
 
 /**
- * Format Movies empty fields.
+ * Format movie empty fields.
  * 
  * This is used by almost every other formatting function to filter and replace
  * empty values.
@@ -1733,7 +1788,7 @@ function get_formatted_language( $languages, $options = array() ) {
 }
 
 /**
- * Format Movies misc actors/genres list depending on
+ * Format movie misc actors/genres list depending on
  * existing terms.
  * 
  * This is used to provide links for actors and genres lists

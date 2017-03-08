@@ -1041,3 +1041,23 @@ function get_movie_writer_url( $writer, $options = array() ) {
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/writer', $permalink, $writer, $options );
 }
+
+/**
+ * Build a permalink for years.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $writer Movie writer.
+ * @param    array     $options Permalink options.
+ * 
+ * @return   string
+ */
+function get_movie_year_url( $year, $options = array() ) {
+
+	$options = (array) $options;
+	$options['variant'] = '';
+	$options['format']  = 'Y';
+	$options['content'] = $year;
+
+	return get_movie_date_url( "$year-01-01", $options );
+}

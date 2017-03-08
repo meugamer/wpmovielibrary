@@ -13,7 +13,22 @@ namespace wpmoly\Node;
 
 /**
  * Define the most important class of the plugin: Movie.
- *
+ * 
+ * Give easy access to metadata, details, posters and images.
+ * 
+ * Movie::get( $meta )
+ * Movie::the( $meta )
+ * Movie::get_the( $meta )
+ * 
+ * Movie::get_{$meta}()
+ * Movie::the_{$meta}()
+ * Movie::get_the_{$meta}()
+ * 
+ * Movie::get_poster()
+ * Movie::get_backdrop()
+ * Movie::get_posters()
+ * Movie::get_backdrops()
+ * 
  * @since      3.0
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/includes/node
@@ -131,10 +146,13 @@ class Movie extends Node {
 	 */
 	public function __call( $method, $arguments ) {
 
-		if ( preg_match( '/get_[a-z_]+/i', $method ) ) {
-			$name = str_replace( 'get_', '', $method );
+		if ( preg_match( '/get_the_[a-z_]+/i', $method ) ) {
+			$name = str_replace( 'get_the_', '', $method );
 			return $this->get_the( $name );
-		} elseif ( preg_match( '//i', $method ) ) {
+		} elseif ( preg_match( '/get_[a-z_]+/i', $method ) ) {
+			$name = str_replace( 'get_', '', $method );
+			return $this->get( $name );
+		} elseif ( preg_match( '/the_[a-z_]+/i', $method ) ) {
 			$name = str_replace( 'the_', '', $method );
 			$this->the( $name );
 		}
@@ -154,11 +172,25 @@ class Movie extends Node {
 	 */
 	public function get( $name, $default = null ) {
 
-		if ( 'year' == $name ) {
-			return date_i18n( 'Y', strtotime( $this->get( 'release_date' ) ) );
+		switch ( $name ) {
+			case 'year':
+				$value = date_i18n( 'Y', strtotime( $this->get( 'release_date' ) ) );
+				break;
+			case 'actors':
+			case 'casting':
+				$value = $this->get( 'cast' );
+				break;
+			case 'url':
+			case 'link':
+			case 'permalink':
+				$value = $this->get_permalink();
+				break;
+			default:
+				$value = parent::get( $name, $default );
+				break;
 		}
 
-		return parent::get( $name, $default );
+		return $value;
 	}
 
 	/**
@@ -192,6 +224,34 @@ class Movie extends Node {
 	public function the( $name ) {
 
 		echo $this->get_the( $name );
+	}
+
+	/**
+	 * Get the filtered movie permalink.
+	 * 
+	 * Wrapper for get_permalink().
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function get_permalink() {
+
+		$url = get_permalink( $this->id );
+
+		return esc_url( $url );
+	}
+
+	/**
+	 * Echo the filtered movie permalink.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	public function the_permalink() {
+
+		echo $this->get_permalink();
 	}
 
 	/**
