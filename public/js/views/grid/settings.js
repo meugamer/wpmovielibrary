@@ -53,7 +53,6 @@ Grid.Settings = wp.Backbone.View.extend({
 			}
 		}, this );
 
-		console.log( changes );
 		// If order changed, go back to page 1.
 		if ( changes.order || changes.orderby ) {
 			changes.page = 1;
