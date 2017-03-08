@@ -178,11 +178,11 @@ class Actors extends Request {
 		 */
 		$order = apply_filters( 'wpmoly/filter/query/actors/defaults/order', 'asc' );
 
-		// paged is for Post Queries, use offset instead
-		if ( ! empty( $args['paged'] ) ) {
-			$args['offset'] = $args['paged'];
+		// page is for Post Queries, use offset instead
+		if ( ! empty( $args['page'] ) ) {
+			$args['offset'] = $args['page'];
 		} else {
-			$args['paged'] = 1;
+			$args['page'] = 1;
 		}
 
 		/**
@@ -320,7 +320,7 @@ class Actors extends Request {
 	 */
 	public function get_current_page() {
 
-		$page = $this->query->query_vars['paged'];
+		$page = $this->query->query_vars['page'];
 		if ( ! $page ) {
 			$page = 1;
 		}

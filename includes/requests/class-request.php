@@ -315,7 +315,7 @@ abstract class Request {
 			'offset'     => 'offset',
 			'order'      => 'order',
 			'orderby'    => 'orderby',
-			'paged'      => 'page',
+			'page'       => 'page',
 			's'          => 'search',
 			'hide_empty' => 'hide_empty',
 			'number'     => 'per_page'

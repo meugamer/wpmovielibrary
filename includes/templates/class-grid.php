@@ -256,7 +256,7 @@ class Grid extends Front {
 		$page = $this->request->get_previous_page();
 
 		$args = $this->grid->get_settings();
-		$args['paged'] = $page;
+		$args['page'] = $page;
 
 		return $this->build_url( $args );
 	}
@@ -273,7 +273,7 @@ class Grid extends Front {
 		$page = $this->request->get_next_page();
 
 		$args = $this->grid->get_settings();
-		$args['paged'] = $page;
+		$args['page'] = $page;
 
 		return $this->build_url( $args );
 	}
