@@ -26,6 +26,12 @@ if ( ! $is_json ) :
 
 <?php
 		endwhile;
+	else :
+?>
+				<div class="empty-nodes">
+					<p><em><?php _e( 'No movies found matching you request.', 'wpmovielibrary' ); ?></em></p>
+				</div>
+<?php
 	endif;
 ?>
 			</div>

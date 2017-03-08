@@ -24,6 +24,12 @@ if ( ! $is_json ) :
 				</li>
 <?php
 		endwhile;
+	else :
+?>
+				<div class="empty-nodes">
+					<p><em><?php _e( 'No actors found matching you request.', 'wpmovielibrary' ); ?></em></p>
+				</div>
+<?php
 	endif;
 ?>
 			</ul>
