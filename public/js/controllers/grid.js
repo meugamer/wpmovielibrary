@@ -181,12 +181,12 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 */
 	prev: function() {
 
-		var current = parseInt( this.query.get( 'paged' ) || this.query.get( 'page' ) ) || 1,
+		var current = parseInt( this.query.get( 'page' ) ) || 1,
 		      total = parseInt( this.query.state.get( 'totalPages' ) ),
 		       prev = Math.max( 1, current - 1 );
 
 		if ( current != prev ) {
-			this.query.set({ paged : prev });
+			this.query.set({ page : prev });
 		}
 	},
 
@@ -199,12 +199,12 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 */
 	next: function() {
 
-		var current = parseInt( this.query.get( 'paged' ) || this.query.get( 'page' ) ) || 1,
+		var current = parseInt( this.query.get( 'page' ) ) || 1,
 		      total = parseInt( this.query.state.get( 'totalPages' ) ),
 		       next = Math.min( current + 1, total );
 
 		if ( current != next ) {
-			this.query.set({ paged : next });
+			this.query.set({ page : next });
 		}
 	}
 });
