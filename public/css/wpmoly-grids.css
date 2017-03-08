@@ -289,6 +289,11 @@
 	margin: 0 -.25em;
 }
 
+.wpmoly.grid .grid-content .empty-nodes {
+	font-size: .875em;
+	text-align: center;
+}
+
 .wpmoly.grid .grid-content .grid .node {
 	float: left;
 	margin: 0 .25em 1em .25em;

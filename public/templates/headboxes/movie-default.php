@@ -12,10 +12,11 @@
 
 if ( ! $is_json ) :
 ?>
-	<div id="movie-headbox-<?php echo $headbox->id; ?>" class="wpmoly post-headbox movie-headbox theme-<?php echo $headbox->get_theme(); ?>">
+	<div id="movie-headbox-<?php echo $headbox->id; ?>" class="wpmoly headbox post-headbox movie-headbox theme-default">
 		<div class="headbox-header">
 			<div class="headbox-backdrop-container">
 				<div class="headbox-backdrop" style="background-image:url(<?php echo $movie->get_backdrop( 'random' )->render( 'medium', 'raw' ); ?>);"></div>
+				<div class="headbox-poster-shadow"></div>
 				<div class="headbox-angle"></div>
 			</div>
 			<div class="headbox-poster" style="background-image:url(<?php echo $movie->get_poster()->render( 'medium', 'raw' ); ?>);"></div>
@@ -32,19 +33,30 @@ if ( ! $is_json ) :
 			</div>
 			<div class="headbox-metadata">
 				<div class="movie headbox-release-info">
-					<span class="movie-year"><?php $movie->the_year(); ?></span>&nbsp;|&nbsp;<span class="movie-runtime"><?php printf( '%s %s', $movie->get_runtime(), _x( 'min', 'movie runtime in minutes', 'wpmovielibrary' ) ); ?></span>&nbsp;|&nbsp;<span class="movie-genres"><?php $movie->the_genres(); ?></span>&nbsp;|&nbsp;<span class="movie-certification"><?php $movie->the_certification(); ?></span>
+<?php if ( $movie->get( 'year' ) ) { ?>
+					<span class="movie-year"><?php $movie->the_year(); ?></span>
+<?php } if ( $movie->get( 'runtime' ) ) { ?>
+					<span class="movie-runtime"><?php $movie->the_runtime(); ?></span>
+<?php } if ( $movie->get( 'genres' ) ) { ?>
+					<span class="movie-genres"><?php $movie->the_genres(); ?></span>
+<?php } if ( $movie->get( 'certification' ) ) { ?>
+					<span class="movie-certification"><?php $movie->the_certification(); ?></span>
+<?php } ?>
 				</div>
 				<div class="movie-overview"><?php $movie->the_overview(); ?></div>
 			</div>
 		</div>
+		<div class="headbox-more"><button data-action="expand"><span class="wpmolicon icon-arrow-down"></span></button></div>
+		<div class="headbox-less"><button data-action="collapse"><span class="wpmolicon icon-arrow-up"></span></button></div>
 	</div>
 
 <?php else : ?>
 
-	<div id="movie-headbox-{{ data.node.get( 'id' ) }}" class="wpmoly post-headbox movie-headbox theme-{{ data.settings.get( 'theme' ) }}">
+	<div id="movie-headbox-{{ data.node.get( 'id' ) }}" class="wpmoly headbox post-headbox movie-headbox theme-default">
 		<div class="headbox-header">
 			<div class="headbox-backdrop-container">
 				<div class="headbox-backdrop" style="background-image:url({{ data.node.get( 'backdrop' ).sizes.medium.url }});"></div>
+				<div class="headbox-poster-shadow"></div>
 				<div class="headbox-angle"></div>
 			</div>
 			<div class="headbox-poster" style="background-image:url({{ data.node.get( 'poster' ).sizes.medium.url }});"></div>
@@ -62,11 +74,11 @@ if ( ! $is_json ) :
 			<div class="headbox-metadata">
 				<div class="movie headbox-release-info">
 <# /*if ( ! _.isEmpty(  ) ) { #>
-					<span class="movie-year"><?php //$movie->the_year(); ?></span><span>&nbsp;|&nbsp;</span>
+					<span class="movie-year"><?php //$movie->the_year(); ?></span>
 <# }*/ if ( ! _.isEmpty( data.node.get( 'meta' ).get( 'runtime' ).rendered ) ) { #>
-					<span class="movie-runtime">{{ data.node.get( 'meta' ).get( 'runtime' ).rendered }}</span><span>&nbsp;|&nbsp;</span>
+					<span class="movie-runtime">{{ data.node.get( 'meta' ).get( 'runtime' ).rendered }}</span>
 <# } if ( ! _.isEmpty( data.node.get( 'meta' ).get( 'genres' ).rendered ) ) { #>
-					<span class="movie-genres">{{{ data.node.get( 'meta' ).get( 'genres' ).rendered }}}</span><span>&nbsp;|&nbsp;</span>
+					<span class="movie-genres">{{{ data.node.get( 'meta' ).get( 'genres' ).rendered }}}</span>
 <# } if ( ! _.isEmpty( data.node.get( 'meta' ).get( 'certification' ).rendered ) ) { #>
 					<span class="movie-certification">{{{ data.node.get( 'meta' ).get( 'certification' ).rendered }}}</span>
 <# } #>
@@ -74,5 +86,7 @@ if ( ! $is_json ) :
 				<div class="movie-overview">{{ data.node.get( 'meta' ).get( 'overview' ).rendered }}</div>
 			</div>
 		</div>
+		<div class="headbox-more"><button data-action="expand"><span class="wpmolicon icon-arrow-down"></span></button></div>
+		<div class="headbox-less"><button data-action="collapse"><span class="wpmolicon icon-arrow-up"></span></button></div>
 	</div>
 <?php endif; ?>

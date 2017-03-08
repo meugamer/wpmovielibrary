@@ -113,7 +113,7 @@ class Headbox extends Shortcode {
 		$this->headbox->set( $this->attributes );
 
 		// Set Template
-		$this->template = get_headbox_template( $this->node );
+		$this->template = get_headbox_template( $this->headbox );
 	}
 
 	/**

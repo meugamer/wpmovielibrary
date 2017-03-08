@@ -4,6 +4,12 @@
 	position: relative;
 }
 
+.wpmoly.movie-headbox.theme-default,
+.wpmoly.movie-headbox.theme-extended {
+	box-shadow: 0 0px 1px rgba(0, 0, 0, 0.15),
+			0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
 /*
  * Movie Headboxes
  */
@@ -11,7 +17,7 @@
 .wpmoly.movie-headbox.theme-default .headbox-header,
 .wpmoly.movie-headbox.theme-extended .headbox-header {
 	background: #333;
-	height: 240px;
+	height: 15em;
 	position: relative;
 	width: 100%;
 }
@@ -40,13 +46,24 @@
 	top: -1em;
 }
 
+.wpmoly.movie-headbox.theme-default .headbox-header .headbox-poster-shadow,
+.wpmoly.movie-headbox.theme-extended .headbox-header .headbox-poster-shadow {
+	background: #333;
+	box-shadow: 0 0 2em rgba(0, 0, 0, 0.75);
+	height: 100%;
+	left: 1.5em;
+	position: absolute;
+	width: 10em;
+}
+
 .wpmoly.movie-headbox.theme-default .headbox-header .headbox-angle,
 .wpmoly.movie-headbox.theme-extended .headbox-header .headbox-angle {
 	background: #fff;
 	bottom: -5%;
+	box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.25);
 	left: -10%;
 	position: absolute;
-	height: 60px;
+	height: 3.75em;
 	transform: rotate(-2deg);
 	width: 120%;
 }
@@ -72,7 +89,7 @@
 	left: 3em !important;
 	max-width: 60%;
 	position: relative;
-	top: 80px !important;
+	top: 8em !important;
 	z-index: 1;
 }
 
@@ -81,11 +98,13 @@
 .wpmoly.movie-headbox.theme-extended .headbox-header .headbox-titles .movie-title,
 .wpmoly.movie-headbox.theme-extended .headbox-header .headbox-titles .movie-title a {
 	border: 0;
+	box-shadow: 0 0 0;
 	color: rgba(255, 255, 255, 0.85) !important;
 	font-size: 1.25em !important;
 	font-weight: 400 !important;
 	margin: 0;
 	padding: 0 !important;
+	text-decoration: none;
 }
 
 .wpmoly.movie-headbox.theme-default .headbox-header .headbox-titles .movie-original-title,
@@ -108,6 +127,7 @@
 .wpmoly.movie-headbox.theme-default .headbox-content,
 .wpmoly.movie-headbox.theme-extended .headbox-content {
 	background: #fff;
+	padding: 0 1.5em;
 	position: relative;
 	top: -2.25em;
 	z-index: 1;
@@ -116,7 +136,6 @@
 .wpmoly.movie-headbox.theme-default .headbox-content .headbox-cast,
 .wpmoly.movie-headbox.theme-extended .headbox-content .headbox-menu {
 	float: left;
-	left: 1.5em;
 	max-width: 30%;
 	position: relative;
 	top: 2em;
@@ -135,7 +154,7 @@
 
 .wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata,
 .wpmoly.movie-headbox.theme-extended .headbox-content .headbox-metadata {
-	margin-left: 13em !important;
+	margin-left: 11.5em !important;
 }
 
 .wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info,
@@ -143,6 +162,23 @@
 	font-size: 1em !important;
 	margin-bottom: 1.5em !important;
 	margin-top: 0.25em !important;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info > span,
+.wpmoly.movie-headbox.theme-extended .headbox-content .headbox-metadata .headbox-release-info > span {
+	padding-right: 1em;
+	position: relative;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info > span:not(:first-child)::after,
+.wpmoly.movie-headbox.theme-extended .headbox-content .headbox-metadata .headbox-release-info > span:not(:first-child)::after {
+	background: #888;
+	content: ' ';
+	height: 1em;
+	left: -.75em;
+	position: absolute;
+	top: .05em;
+	width: .15em;
 }
 
 .wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .headbox-release-info a,
@@ -172,6 +208,64 @@
 .wpmoly.movie-headbox.theme-extended .headbox-content .headbox-metadata .movie-overview {
 	color: #333;
 	text-align: justify;
+}
+
+/* Headbox Default theme */
+
+.wpmoly.movie-headbox.theme-default .headbox-more,
+.wpmoly.movie-headbox.theme-default .headbox-less,
+.wpmoly.movie-headbox.theme-default.collapsed .headbox-less {
+	display: none;
+}
+
+.wpmoly.movie-headbox.theme-default.collapsed .headbox-more,
+.wpmoly.movie-headbox.theme-default.collapse .headbox-less {
+	display: block;
+}
+
+.wpmoly.movie-headbox.theme-default.collapsed .headbox-content {
+	height: 14em;
+	overflow: hidden;
+}
+
+.wpmoly.movie-headbox.theme-default.collapse .headbox-content {
+	padding-bottom: 2em;
+}
+
+.wpmoly.movie-headbox.theme-default.collapsed .headbox-content:after {
+	background-image: -moz-linear-gradient(top, transparent, #fff);
+	bottom: .675em;
+	content: '';
+	height: 4em;
+	left: 0;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-more,
+.wpmoly.movie-headbox.theme-default .headbox-less {
+	bottom: 0;
+	display: block;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	z-index: 1;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-more button,
+.wpmoly.movie-headbox.theme-default .headbox-less button {
+	background: #fff;
+	border: 0;
+	box-shadow: 0 0 0;
+	color: #888;
+	outline: none;
+	width: 100%;
+}
+
+.wpmoly.movie-headbox.theme-default .headbox-more button:hover,
+.wpmoly.movie-headbox.theme-default .headbox-less button:hover {
+	color: #444;
 }
 
 /* Headbox Extended theme */

@@ -115,9 +115,11 @@ class Frontend {
 			'grid-settings-view'   => array( 'file' => WPMOLY_URL . 'public/js/views/grid/settings.js' ),
 			'grid-customs-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/customs.js' ),
 			'grid-content-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/content.js' ),
+			'headbox-view'         => array( 'file' => WPMOLY_URL . 'public/js/views/headbox.js' ),
 
 			// Runners
-			'grids' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
+			'grids'     => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
+			'headboxes' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-headboxes.js', 'deps' => array( 'jquery' ) ),
 		);
 
 		/**
@@ -319,9 +321,11 @@ class Frontend {
 		$this->enqueue_script( 'grid-settings-view' );
 		$this->enqueue_script( 'grid-customs-view' );
 		$this->enqueue_script( 'grid-content-view' );
+		$this->enqueue_script( 'headbox-view' );
 
 		// Runners
 		$this->enqueue_script( 'grids' );
+		$this->enqueue_script( 'headboxes' );
 	}
 
 	/**
