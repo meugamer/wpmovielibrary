@@ -1,15 +1,15 @@
 <?php
 /**
- * Define the Genres Query class.
+ * Define the Genres Request class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/query
+ * @subpackage WPMovieLibrary/includes/requests
  */
 
-namespace wpmoly\Query;
+namespace wpmoly\Requests;
 
 use WP_Query;
 use WP_Term_Query;
@@ -19,80 +19,54 @@ use WP_Term_Query;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/query
+ * @subpackage WPMovieLibrary/includes/requests
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Genres extends Query {
+class Genres extends Request {
 
 	/**
-	 * Define a default preset for this Query.
-	 * 
-	 * The default preset should only run an existing preset callback.
+	 * Initialize the request.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    array    $args Query parameters
-	 * 
-	 * @return   array
+	 * @return   void
 	 */
-	public function default_preset( $args = array() ) {
+	protected function init() {
 
 		/**
 		 * Filter default preset callback.
+		 * 
+		 * The default preset should only run an existing preset callback.
 		 * 
 		 * @since    3.0
 		 * 
 		 * @param    string    $callback
 		 */
-		$callback = apply_filters( 'wpmoly/filter/query/genres/defaults/preset', 'alphabetical_genres' );
+		$this->default_preset = apply_filters( 'wpmoly/filter/query/genres/defaults/preset', 'alphabetical_genres' );
 
-		return $this->$callback( $args );
-	}
+		$presets = array(
 
-	/**
-	 * 'alphabetical-genres' Grid preset.
-	 * 
-	 * Default: retrieve the first 20 genres alphabetically.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $args Query parameters
-	 * 
-	 * @return   array
-	 */
-	public function alphabetical_genres( $args = array() ) {
+			// retrieve the 20 first 20 genres alphabetically.
+			'alphabetical_genres' => array(
+				'orderby' => 'name',
+				'order'   => 'asc'
+			),
 
-		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_genres/args/defaults', array(
-			'orderby' => 'name',
-			'order'   => 'asc'
-		) );
+			// Retrieve the 20 last genres alphabetically inverted.
+			'unalphabetical_genres' => array(
+				'orderby' => 'name',
+				'order'   => 'desc'
+			)
+		);
 
-		$args = apply_filters( 'wpmoly/filter/query/alphabetical_genres/args', $this->parse_args( $args, $defaults ) );
-
-		return $this->query( $args );
-	}
-
-	/**
-	 * 'unalphabetical-genres' Grid preset.
-	 * 
-	 * Default: retrieve the last 20 genres alphabetically inverted.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $args Query parameters
-	 * 
-	 * @return   array
-	 */
-	public function unalphabetical_genres( $args = array() ) {
-
-		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_genres/args/defaults', array(
-			'orderby' => 'name',
-			'order'   => 'desc'
-		) );
-
-		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_genres/args', $this->parse_args( $args, $defaults ) );
-
-		return $this->query( $args );
+		/**
+		 * Filter default presets.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $presets
+		 */
+		$this->presets = apply_filters( 'wpmoly/filter/query/genres/defaults/presets', $presets );
 	}
 
 	/**

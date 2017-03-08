@@ -34,6 +34,13 @@ class Grid extends Front {
 	private $grid;
 
 	/**
+	 * Grid Request instance.
+	 * 
+	 * @var    Request
+	 */
+	private $request;
+
+	/**
 	 * Grid JSON.
 	 * 
 	 * @var    object
@@ -174,7 +181,7 @@ class Grid extends Front {
 	 */
 	public function get_current_page() {
 
-		return (int) $this->grid->query->get_current_page();
+		return (int) $this->request->get_current_page();
 	}
 
 	/**
@@ -186,7 +193,7 @@ class Grid extends Front {
 	 */
 	public function get_previous_page() {
 
-		return (int) $this->grid->query->get_current_page();
+		return (int) $this->request->get_current_page();
 	}
 
 	/**
@@ -198,7 +205,7 @@ class Grid extends Front {
 	 */
 	public function get_next_page() {
 
-		return (int) $this->grid->query->get_next_page();
+		return (int) $this->request->get_next_page();
 	}
 
 	/**
@@ -210,7 +217,7 @@ class Grid extends Front {
 	 */
 	public function get_total_pages() {
 
-		return (int) $this->grid->query->get_total_pages();
+		return (int) $this->request->get_total_pages();
 	}
 
 	/**
@@ -246,7 +253,7 @@ class Grid extends Front {
 	 */
 	public function get_previous_page_url() {
 
-		$page = $this->grid->query->get_previous_page();
+		$page = $this->request->get_previous_page();
 
 		$args = $this->grid->get_settings();
 		$args['paged'] = $page;
@@ -263,7 +270,7 @@ class Grid extends Front {
 	 */
 	public function get_next_page_url() {
 
-		$page = $this->grid->query->get_next_page();
+		$page = $this->request->get_next_page();
 
 		$args = $this->grid->get_settings();
 		$args['paged'] = $page;
@@ -316,6 +323,11 @@ class Grid extends Front {
 	 * Default parameters are the opposite of Template::render(): always
 	 * require and never echo.
 	 * 
+	 * If the grid is not ready yet, try to build it now. If an error has 
+	 * occurred during the query, most likely because the query preset used
+	 * is not supported, the query is empty an will result in an error notice
+	 * being displayed instead of the grid.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @param    string     $require Use 'once' to use require_once(), 'always' to use require()
@@ -325,22 +337,40 @@ class Grid extends Front {
 	 */
 	public function render( $require = 'always', $echo = false ) {
 
-		if ( ! $this->grid->ready() ) {
-			$this->grid->build();
+		// Build the Grid is needed
+		if ( ! $this->ready() ) {
+			$this->build();
 		}
 
-		if ( empty( $this->data ) ) {
+		$this->request = $this->get_request();
 
-			$this->content->set_data( array(
-				'grid'  => $this,
-				'items' => $this->grid->items
-			) );
+		// Error during query
+		if ( $this->request->has_error() ) {
 
+			$error = $this->request->get_error();
+
+			$this->path = 'public/templates/notice.php';
 			$this->set_data( array(
-				'grid'    => $this,
-				'items'   => $this->grid->items,
-				'content' => $this->content
+				'type'    => 'error',
+				'message' => sprintf( 'An error occurred while loading the grid items using the \'%s\' preset. %s.', $this->get_preset(), $error->get_error_message() ),
+				'note'    => __( 'If the problem persists, contact the administrator.', 'wpmovielibrary' )
 			) );
+
+		} else {
+
+			if ( empty( $this->data ) ) {
+
+				$this->content->set_data( array(
+					'grid'  => $this,
+					'items' => $this->grid->items
+				) );
+
+				$this->set_data( array(
+					'grid'    => $this,
+					'items'   => $this->grid->items,
+					'content' => $this->content
+				) );
+			}
 		}
 
 		$this->prepare( $require );

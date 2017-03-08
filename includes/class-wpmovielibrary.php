@@ -172,12 +172,12 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/node/class-post-headbox.php';
 		require_once WPMOLY_PATH . 'includes/node/class-term-headbox.php';
 
-		// Queries
-		require_once WPMOLY_PATH . 'includes/query/class-query.php';
-		require_once WPMOLY_PATH . 'includes/query/class-query-movies.php';
-		require_once WPMOLY_PATH . 'includes/query/class-query-actors.php';
-		require_once WPMOLY_PATH . 'includes/query/class-query-collections.php';
-		require_once WPMOLY_PATH . 'includes/query/class-query-genres.php';
+		// Requests
+		require_once WPMOLY_PATH . 'includes/requests/class-request.php';
+		require_once WPMOLY_PATH . 'includes/requests/class-request-movies.php';
+		require_once WPMOLY_PATH . 'includes/requests/class-request-actors.php';
+		require_once WPMOLY_PATH . 'includes/requests/class-request-collections.php';
+		require_once WPMOLY_PATH . 'includes/requests/class-request-genres.php';
 
 		// Rest API
 		require_once WPMOLY_PATH . 'includes/rest-api/class-api.php';
@@ -318,7 +318,6 @@ final class Library {
 		// TODO load this on grid only
 		$builder = new Admin\GridBuilder;
 		$this->loader->add_action( 'admin_init',                  $builder, 'register_metaboxes' );
-
 		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
 		$this->loader->add_action( 'edit_form_after_editor',      $builder, 'preview' );
 		$this->loader->add_action( 'dbx_post_sidebar',            $builder, 'footer' );

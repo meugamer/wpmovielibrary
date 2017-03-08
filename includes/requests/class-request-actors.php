@@ -1,15 +1,15 @@
 <?php
 /**
- * Define the Actors Query class.
+ * Define the Actors Request class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/query
+ * @subpackage WPMovieLibrary/includes/requests
  */
 
-namespace wpmoly\Query;
+namespace wpmoly\Requests;
 
 use WP_Query;
 use WP_Term_Query;
@@ -19,120 +19,68 @@ use WP_Term_Query;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/query
+ * @subpackage WPMovieLibrary/includes/requests
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Actors extends Query {
+class Actors extends Request {
 
 	/**
-	 * Define a default preset for this Query.
-	 * 
-	 * The default preset should only run an existing preset callback.
+	 * Initialize the request.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    array    $args Query parameters
-	 * 
-	 * @return   array
+	 * @return   void
 	 */
-	public function default_preset( $args = array() ) {
+	protected function init() {
 
 		/**
 		 * Filter default preset callback.
+		 * 
+		 * The default preset should only run an existing preset callback.
 		 * 
 		 * @since    3.0
 		 * 
 		 * @param    string    $callback
 		 */
-		$callback = apply_filters( 'wpmoly/filter/query/actors/defaults/preset', 'alphabetical_actors' );
+		$this->default_preset = apply_filters( 'wpmoly/filter/query/actors/defaults/preset', 'alphabetical_actors' );
 
-		return $this->$callback( $args );
-	}
+		$presets = array(
 
-	/**
-	 * 'alphabetical-actors' Grid preset.
-	 * 
-	 * Default: retrieve the first 20 actors alphabetically.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   array
-	 */
-	public function alphabetical_actors( $args = array() ) {
+			// Retrieve the first 20 actors alphabetically.
+			'alphabetical_actors' => array(
+				'orderby' => 'name',
+				'order'   => 'asc'
+			),
 
-		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_actors/args/defaults', array(
-			'orderby' => 'name',
-			'order'   => 'asc'
-		) );
+			// Retrieve the last 20 actors alphabetically inverted.
+			'unalphabetical_actors' => array(
+				'orderby' => 'name',
+				'order'   => 'desc'
+			),
 
-		$args = apply_filters( 'wpmoly/filter/query/alphabetical_actors/args', $this->parse_args( $args, $defaults ) );
+			// Retrieve the first 20 persons alphabetically.
+			'alphabetical_persons' => array(
+				'meta_key' => '_wpmoly_person_name',
+				'orderby'  => 'meta_value',
+				'order'    => 'asc'
+			),
 
-		return $this->term_query( $args );
-	}
+			// Retrieve the last 20 persons alphabetically inverted.
+			'unalphabetical_persons' => array(
+				'meta_key' => '_wpmoly_person_name',
+				'orderby'  => 'meta_value',
+				'order'    => 'desc'
+			)
+		);
 
-	/**
-	 * 'unalphabetical-actors' Grid preset.
-	 * 
-	 * Default: retrieve the last 20 actors alphabetically inverted.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   array
-	 */
-	public function unalphabetical_actors( $args = array() ) {
-
-		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_actors/args/defaults', array(
-			'orderby' => 'name',
-			'order'   => 'desc'
-		) );
-
-		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_actors/args', $this->parse_args( $args, $defaults ) );
-
-		return $this->term_query( $args );
-	}
-
-	/**
-	 * 'alphabetical-persons' Grid preset.
-	 * 
-	 * Default: retrieve the first 20 persons alphabetically.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   array
-	 */
-	public function alphabetical_persons( $args = array() ) {
-
-		$defaults = apply_filters( 'wpmoly/filter/query/alphabetical_persons/args/defaults', array(
-			'meta_key' => '_wpmoly_person_name',
-			'orderby'  => 'meta_value',
-			'order'    => 'asc'
-		) );
-
-		$args = apply_filters( 'wpmoly/filter/query/alphabetical_persons/args', $this->parse_args( $args, $defaults ) );
-
-		return $this->post_query( $args );
-	}
-
-	/**
-	 * 'unalphabetical-persons' Grid preset.
-	 * 
-	 * Default: retrieve the last 20 persons alphabetically inverted.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   array
-	 */
-	public function unalphabetical_persons( $args = array() ) {
-
-		$defaults = apply_filters( 'wpmoly/filter/query/unalphabetical_persons/args/defaults', array(
-			'meta_key' => '_wpmoly_person_name',
-			'orderby'  => 'meta_value',
-			'order'    => 'desc'
-		) );
-
-		$args = apply_filters( 'wpmoly/filter/query/unalphabetical_persons/args', $this->parse_args( $args, $defaults ) );
-
-		return $this->post_query( $args );
+		/**
+		 * Filter default presets.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    array    $presets
+		 */
+		$this->presets = apply_filters( 'wpmoly/filter/query/actors/defaults/presets', $presets );
 	}
 
 	/**

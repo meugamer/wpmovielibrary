@@ -95,11 +95,11 @@ class Grid extends Node {
 	public $items;
 
 	/**
-	 * Grid Query.
+	 * Grid Request.
 	 * 
-	 * @var    Query
+	 * @var    Request
 	 */
-	public $query;
+	private $request;
 
 	/**
 	 * Supported Grid types.
@@ -376,6 +376,9 @@ class Grid extends Node {
 	 * 
 	 * Load items depending on presets and/or custom settings.
 	 * 
+	 * The Request class should support the preset or provide a method that
+	 * matches the preset name.
+	 * 
 	 * @since    3.0
 	 * 
 	 * @return   array
@@ -383,24 +386,22 @@ class Grid extends Node {
 	public function build() {
 
 		$this->prepare();
-		$this->get_query();
+		$this->get_request();
 
 		$method = str_replace( '-', '_', $this->get_preset() );
-		if ( method_exists( $this->query, $method ) ) {
 
-			$items = $this->query->$method( $this->settings );
-			foreach ( (array) $items as $item ) {
-				$this->items->add( $item );
-			}
-
-			// Clean up settings
-			unset( $this->settings['taxonomy'] );
-			unset( $this->settings['post_type'] );
-
-			$this->built = true;
-
-			return $this->items;
+		$items = $this->request->$method( $this->settings );
+		foreach ( (array) $items as $item ) {
+			$this->items->add( $item );
 		}
+
+		// Clean up settings
+		unset( $this->settings['taxonomy'] );
+		unset( $this->settings['post_type'] );
+
+		$this->built = true;
+
+		return $this->items;
 	}
 
 	/**
@@ -441,16 +442,20 @@ class Grid extends Node {
 			$this->preset = 'custom';
 		}
 
+		// Distinction required for query.
+		if ( $this->is_taxonomy() ) {
+			$defaults['taxonomy'] = $this->get_type();
+		} elseif ( $this->is_post() ) {
+			$defaults['post_type'] = $this->get_type();
+		}
+
 		// Get grid settings from URL
 		$settings = get_query_var( 'grid' );
-		
+
 		// No custom setting, only set posts_per_page from defaults
 		if ( empty( $settings ) ) {
-			$settings = array(
-				'posts_per_page' => $defaults['posts_per_page']
-			);
 
-			return $this->settings = $settings;
+			return $this->settings = $defaults;
 		}
 
 		// Extract settings
@@ -460,13 +465,6 @@ class Grid extends Node {
 		// Not the grid? Don't go any further.
 		if ( $this->id != $settings['id'] ) {
 			return false;
-		}
-
-		// Distinction required for query.
-		if ( $this->is_taxonomy() ) {
-			$settings['taxonomy'] = $this->get_type();
-		} elseif ( $this->is_post() ) {
-			$settings['post_type'] = $this->get_type();
 		}
 
 		return $this->settings = $settings;
@@ -552,7 +550,7 @@ class Grid extends Node {
 	}
 
 	/**
-	 * Get the Node Query REST API parameters.
+	 * Get the Node Request REST API parameters.
 	 * 
 	 * @since    3.0
 	 * 
@@ -560,11 +558,11 @@ class Grid extends Node {
 	 */
 	public function get_rest_args() {
 
-		return $this->query->get_rest_args();
+		return $this->request->get_rest_args();
 	}
 
 	/**
-	 * Get the Node Query parameters.
+	 * Get the Node Request parameters.
 	 * 
 	 * @since    3.0
 	 * 
@@ -572,52 +570,52 @@ class Grid extends Node {
 	 */
 	public function get_query_args() {
 
-		return $this->query->get_args();
+		return $this->request->get_args();
 	}
 
 	/**
-	 * Get the Node Query.
+	 * Get the Node Request.
 	 * 
-	 * If the Query is not yet set, do it.
+	 * If the Request is not yet set, do it.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   array
 	 */
-	private function get_query() {
+	public function get_request() {
 
-		if ( is_null( $this->query ) ) {
-			return $this->set_query();
+		if ( is_null( $this->request ) ) {
+			return $this->set_request();
 		}
 
-		return $this->query;
+		return $this->request;
 	}
 
 	/**
-	 * Set the Node Query.
+	 * Set the Node Request.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   array
 	 */
-	private function set_query() {
+	private function set_request() {
 
-		if ( ! is_null( $this->query ) ) {
-			return $this->query;
+		if ( ! is_null( $this->request ) ) {
+			return $this->request;
 		}
 
 		$classes = array(
-			'movie'      => '\wpmoly\Query\Movies',
-			'actor'      => '\wpmoly\Query\Actors',
-			'collection' => '\wpmoly\Query\Collections',
-			'genre'      => '\wpmoly\Query\Genres'
+			'movie'      => '\wpmoly\Requests\Movies',
+			'actor'      => '\wpmoly\Requests\Actors',
+			'collection' => '\wpmoly\Requests\Collections',
+			'genre'      => '\wpmoly\Requests\Genres'
 		);
 
 		if ( ! isset( $classes[ $this->get_type() ] ) ) {
 			return false;
 		}
 
-		return $this->query = new $classes[ $this->get_type() ];
+		return $this->request = new $classes[ $this->get_type() ];
 	}
 
 	/**
