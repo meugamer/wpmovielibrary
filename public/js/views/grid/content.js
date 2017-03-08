@@ -129,7 +129,7 @@ Grid.ListNode = Grid.Node.extend({
  */
 Grid.Nodes = wp.Backbone.View.extend({
 
-	className : 'grid-content-inner loading',
+	className : 'grid-content-inner',
 
 	/**
 	 * Initialize the View.
@@ -172,6 +172,9 @@ Grid.Nodes = wp.Backbone.View.extend({
 		// Adjust subviews dimensions on resize
 		this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
 
+		// Remove no-JS content
+		this.listenToOnce( this.collection, 'add', this.preEmpty );
+
 		// Add views for new models
 		this.listenTo( this.collection, 'add', this.addNode );
 		this.listenTo( this.collection, 'remove', this.removeNode );
@@ -184,15 +187,12 @@ Grid.Nodes = wp.Backbone.View.extend({
 		// Set grid as loaded when fetch is done
 		this.listenTo( this.collection, 'sync', _.debounce( this.adjust, 50 ) );
 
+		// Notify query errors
 		this.listenTo( this.controller.query, 'fetch:failed', this.notifyError );
-
-		/*this.listenTo( this.controller.settings, 'change:list_columns', function( model, value, options ) {
-			this.$el.attr( 'data-columns', value );
-		} );*/
 	},
 
 	/**
-	 * Notifiy API request errors.
+	 * Notify API request errors.
 	 * 
 	 * @since    3.0
 	 * 
@@ -333,7 +333,31 @@ Grid.Nodes = wp.Backbone.View.extend({
 
 		wp.Backbone.View.prototype.render.apply( this, arguments );
 
+		if ( ! this.rendered ) {
+			// Replace $el with pre-generated content
+			this.$el.html( this.options.content.html() );
+		}
+
 		this.$el.addClass( this.controller.settings.get( 'mode' ) );
+	},
+
+	/**
+	 * Empty the $el.
+	 * 
+	 * Get of rid of pre-generated content.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	preEmpty: function() {
+
+		if ( ! this.rendered ) {
+			this.rendered = true;
+			this.$el.empty();
+		}
+
+		return this;
 	}
 
 });

@@ -16,6 +16,7 @@ wpmoly = window.wpmoly || {};
 
 				var $grid = wpmoly.$( grid ),
 				    $json = $grid.find( '.grid-json' ),
+				 $content = $grid.find( '.grid-content-inner' ),
 				 settings = $json.text() || '{}';
 
 				var post_id = parseInt( grid.dataset.grid ),
@@ -26,7 +27,8 @@ wpmoly = window.wpmoly || {};
 
 				var view = new wpmoly.view.Grid.Grid({
 					el         : grid,
-					controller : controller
+					controller : controller,
+					content    : $content
 				});
 
 				wpmoly.grids.views[ post_id ] = view;
