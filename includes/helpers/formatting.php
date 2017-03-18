@@ -907,7 +907,7 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 	// Parse formatting options
 	$options = wp_parse_args( (array) $options, array(
 		'show_icon' => true,
-		'show_text' => true,
+		'show_text' => false,
 		'is_link'   => true,
 		'include_empty' => true
 	) );
@@ -985,7 +985,7 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 		
 		if ( 0.0 == $value ) {
 			if ( _is_bool( $options['include_empty'] ) ) {
-				$html = str_repeat( $stars['empty'], 10 );
+				$html = str_repeat( $stars['empty'], $base );
 			} else {
 				$class = 'not-rated';
 				$html  = sprintf( '<small><em>%s</em></small>', __( 'Not rated yet!', 'wpmovielibrary' ) );
@@ -997,8 +997,11 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 
 			$html = str_repeat( $stars['filled'], $_filled ) . str_repeat( $stars['empty'], $_empty );
 		} else {
+			/*$_filled = floor( $value );
+			$_empty  = 5 - ceil( $value );*/
+
 			$title = "{$value}/5 − {$label}";
-			$html  = str_repeat( $stars['filled'], $_filled ) . str_repeat( $stars['half'], $_half ) . str_repeat( $stars['empty'], $_empty );
+			$html  = str_repeat( $stars['filled'], $filled ) . str_repeat( $stars['half'], $half ) . str_repeat( $stars['empty'], $empty );
 		}
 
 		$html = '<span class="' . $class . '" title="' . $title . '">' . $html . '</span> ';
