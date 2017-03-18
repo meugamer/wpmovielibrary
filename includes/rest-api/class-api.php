@@ -203,6 +203,34 @@ class API {
 	}
 
 	/**
+	 * Filters the post data for a response.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    WP_REST_Response    $response The response object.
+	 * @param    WP_Post             $post     Post object.
+	 * @param    WP_REST_Request     $request  Request object.
+	 */
+	public function prepare_movie_for_response( $response, $post, $request ) {
+
+		$metadata = get_registered_meta_keys( 'post' );
+		if ( empty( $response->data['meta']['release_date'] ) || empty( $metadata['_wpmoly_movie_release_date'] ) ) {
+			return $response;
+		}
+
+		$year = $response->data['meta']['release_date']['raw'];
+		$year = date( 'Y', strtotime( $year ) );
+
+		$response->data['meta']['year'] = array(
+			'rendered' => get_formatted_movie_year( $year, array( 'is_link' => false ) ),
+			'raw'      => $year
+		);
+
+		return $response;
+
+	}
+
+	/**
 	 * Add movie poster to the data response.
 	 * 
 	 * @since    3.0
