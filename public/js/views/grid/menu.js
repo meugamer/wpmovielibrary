@@ -37,9 +37,10 @@ Grid.Menu = wp.Backbone.View.extend({
 	 */
 	render: function() {
 
-		var settings = this.controller.settings;
+		var settings = this.controller.settings,
+		     preview = this.controller.preview;
 
-		if ( ! settings.get( 'settings_control' ) && ! settings.get( 'customs_control' ) ) {
+		if ( ! preview && ! settings.get( 'settings_control' ) && ! settings.get( 'customs_control' ) ) {
 			return this.$el.hide();
 		}
 

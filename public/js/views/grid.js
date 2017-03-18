@@ -1,9 +1,9 @@
 
 wpmoly = window.wpmoly || {};
 
-var Grid = wpmoly.view.Grid = {};
+wpmoly.view.Grid = wpmoly.view.Grid || {};
 
-Grid.Grid = wp.Backbone.View.extend({
+wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 
 	template: wp.template( 'wpmoly-grid' ),
 
@@ -21,6 +21,37 @@ Grid.Grid = wp.Backbone.View.extend({
 		this.render();
 
 		this.set_regions();
+
+		this.bindEvents();
+	},
+
+	/**
+	 * Bind events.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	bindEvents: function() {
+
+		// Switch themes
+		this.listenTo( this.controller.settings, 'change:theme', this.changeTheme );
+	},
+
+	/**
+	 * Update the grid classes on theme change.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	changeTheme: function( model, options ) {
+
+		this.$el.removeClass( 'theme-' + model.previous( 'theme' ) );
+
+		this.$el.addClass( 'theme-' + model.get( 'theme' ) );
+
+		return this;
 	},
 
 	/**
@@ -36,20 +67,21 @@ Grid.Grid = wp.Backbone.View.extend({
 	set_regions: function() {
 
 		var settings = this.controller.settings,
-			mode = this.controller.settings.get( 'mode' ),
+		     preview = this.controller.preview,
+		        mode = this.controller.settings.get( 'mode' ),
 		     options = { controller : this.controller };
 
-		if ( settings.get( 'show_menu' ) ) {
+		if ( preview || settings.get( 'settings_control' ) || settings.get( 'customs_control' ) ) {
 			this.menu = new wpmoly.view.Grid.Menu( options );
 			this.views.set( '.grid-menu.settings-menu', this.menu );
 		}
 
-		if ( settings.get( 'show_pagination' ) ) {
+		if ( preview || settings.get( 'enable_pagination' ) ) {
 			this.pagination = new wpmoly.view.Grid.Pagination( options );
 			this.views.set( '.grid-menu.pagination-menu', this.pagination );
 		}
 
-		if ( settings.get( 'order_control' ) ) {
+		if ( settings.get( 'settings_control' ) ) {
 			this.settings = new wpmoly.view.Grid.Settings( options );
 			this.views.set( '.grid-settings', this.settings );
 		}

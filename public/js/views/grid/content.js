@@ -45,9 +45,28 @@ Grid.Node = wp.Backbone.View.extend({
 
 		var type = this.controller.settings.get( 'type' ),
 		    mode = this.controller.settings.get( 'mode' ),
+		   theme = this.controller.settings.get( 'theme' ),
 		template = 'wpmoly-grid-' + type + '-' + mode;
 
+		if ( theme && 'default' !== theme ) {
+			template += '-' + theme;
+		}
+
 		return wp.template( template );
+	},
+
+	/**
+	 * Update the template on theme change.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	changeTheme: function() {
+
+		this.template = this.setTemplate();
+
+		this.render();
 	},
 
 	/**
@@ -189,6 +208,25 @@ Grid.Nodes = wp.Backbone.View.extend({
 
 		// Notify query errors
 		this.listenTo( this.controller.query, 'fetch:failed', this.notifyError );
+
+		// Switch themes
+		this.listenTo( this.controller.settings, 'change:theme', this.changeTheme );
+	},
+
+	/**
+	 * Update the template on theme change.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	changeTheme: function() {
+
+		_.each( this.nodes, function( node ) {
+			node.changeTheme();
+		}, this );
+
+		this.adjust();
 	},
 
 	/**

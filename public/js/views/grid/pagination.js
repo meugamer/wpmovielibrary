@@ -88,7 +88,8 @@ Grid.Pagination = wp.Backbone.View.extend({
 	render: function() {
 
 		this.$el.html( this.template( {
-			state : this.controller.query.state
+			preview : this.controller.preview,
+			state   : this.controller.query.state
 		} ) );
 
 		return this;

@@ -18,9 +18,13 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 */
 	initialize: function( attributes, options ) {
 
+		// Preview mode?
+		this.preview = options.preview || false;
+
 		this.settings = new wpmoly.model.Settings( options.settings || {} );
 		this.uniqid = _.uniqueId( 'grid-' + this.get( 'post_id' ) + '-' );
 
+		// Query controller
 		this.query = new wpmoly.controller.Query(
 			options.query_args || {},
 			_.extend( options.query_data || {}, {
@@ -29,17 +33,33 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 			} )
 		);
 
+		// Browsing
 		this.listenTo( this.query, 'change', this.browse );
 
+		// Toggle Menu
+		this.settingsOpened = false;
+		this.customsOpened  = false;
+		this.on( 'grid:settings:toggle', this.toggleSettings );
+		this.on( 'grid:customs:toggle',  this.toggleCustoms );
+
+		// Preload nodes
 		if ( options.prefetch ) {
 			this.query.prefetch();
 		}
 
-		this.settingsOpened = false;
-		this.customsOpened  = false;
+		// Disable menu on preview
+		if ( this.preview ) {
+			this.settings.set({
+				enable_pagination : false,
+				customs_control   : false,
+				settings_control  : false
+			});
+		}
 
-		this.on( 'grid:settings:toggle', this.toggleSettings );
-		this.on( 'grid:customs:toggle',  this.toggleCustoms );
+		// Preview update
+		if ( this.preview && wpmoly.gridbuilder ) {
+			this.listenTo( wpmoly.gridbuilder.controller.builder, 'change:type change:mode change:theme', this.updatePreview );
+		}
 	},
 
 	/**
@@ -88,6 +108,21 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 			this.settingsOpened = false;
 			this.trigger( 'grid:settings:close' );
 		}
+	},
+
+	/**
+	 * Update the grid when theme changes.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    {object}    model
+	 * @param    {object}    options
+	 * 
+	 * @return   void
+	 */
+	updatePreview: function( model, options ) {
+
+		this.settings.set( model.changed );
 	},
 
 	/**

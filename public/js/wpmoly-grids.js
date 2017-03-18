@@ -17,10 +17,10 @@ wpmoly = window.wpmoly || {};
 				var $grid = wpmoly.$( grid ),
 				    $json = $grid.find( '.grid-json' ),
 				 $content = $grid.find( '.grid-content-inner' ),
-				 settings = $json.text() || '{}';
+				 settings = JSON.parse( $json.text() || '{}' );
 
 				var post_id = parseInt( grid.dataset.grid ),
-				 controller = new wpmoly.controller.Grid( { post_id : post_id }, JSON.parse( settings ) );
+				 controller = new wpmoly.controller.Grid( { post_id : post_id }, settings );
 
 				// Temporarily disable grid customs menu
 				controller.settings.set( { customs_control: false }, { silent: true } );
