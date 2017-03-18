@@ -394,7 +394,9 @@ Grid.NodesGrid = Grid.Nodes.extend({
 			ratio = 1.5;
 		}
 
-		if ( ( Math.floor( innerWidth / columns ) - 8 ) < idealWidth ) {
+		if ( ( Math.floor( innerWidth / columns ) - 8 ) > idealWidth ) {
+			columns = Math.floor( innerWidth / ( idealWidth + 8 ) );
+		} else if ( ( Math.floor( innerWidth / columns ) - 8 ) < idealWidth ) {
 			--columns;
 		}
 
