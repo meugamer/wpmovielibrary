@@ -38,11 +38,7 @@ function wpmoly_get_template( $template ) {
  */
 function wpmoly_get_js_template( $template ) {
 
-	if ( is_admin() ) {
-		$template = new \wpmoly\Templates\Admin( $template );
-	} else {
-		$template = new \wpmoly\Templates\Front( $template );
-	}
+	$template = new \wpmoly\Templates\Front( $template );
 
 	$template->set_data( array( 'is_json' => true ) );
 
