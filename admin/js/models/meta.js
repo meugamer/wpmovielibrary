@@ -443,7 +443,7 @@ _.extend( wpmoly.model, {
 		 */
 		updateTaxonomy: function( taxonomy, model, value, options ) {
 
-			var value = value.split( tagsBoxL10n.tagDelimiter || ',' );
+			var value = value.split( tagsSuggestL10n.tagDelimiter || ',' );
 			    value = value.map( function( v ) {
 				return v.trim() || false;
 			} );
@@ -466,7 +466,7 @@ _.extend( wpmoly.model, {
 				success: function( response ) {
 					// Change taxonomy textarea value
 					var $field = wpmoly.$( '#tax-input-' + taxonomy );
-					    $field.val( value.join( tagsBoxL10n.tagDelimiter ) );
+					    $field.val( value.join( tagsSuggestL10n.tagDelimiter ) );
 					// Update tagBox
 					tagBox.quickClicks( '#' + taxonomy );
 				},
