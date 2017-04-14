@@ -135,14 +135,14 @@ class Front extends Template {
 	 * Public Templates can be overriden by themes.
 	 * 
 	 * A theme implementing its own WPMovieLibrary templates should have a
-	 * 'wpmovielibrary' folders at its root with an organization conform to
-	 * the plugin's templates file organization.
+	 * 'wpmovielibrary' folder at its root with an organization matching the
+	 * plugin's template files organization.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   string
 	 */
-	private function locate_template(  ) {
+	private function locate_template() {
 
 		$template = locate_template( 'wpmovielibrary/' . $this->path, false, false );
 		if ( ! $template ) {

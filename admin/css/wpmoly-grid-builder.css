@@ -79,6 +79,11 @@ body.wp-admin.post-php.post-type-grid .wp-header-end {
 	margin: 15px 0;
 }
 
+#wpmoly-grid-builder-preview .grid-content,
+#wpmoly-grid-builder-preview .grid-content-inner {
+	padding: 0;
+}
+
 /*
  * Grid Type Metabox
  */

@@ -9,7 +9,9 @@
  * @subpackage WPMovieLibrary/admin
  */
 
-namespace wpmoly;
+namespace wpmoly\Admin;
+
+use wpmoly\Core\Assets;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -21,7 +23,7 @@ namespace wpmoly;
  * @subpackage WPMovieLibrary/admin
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Backstage {
+class Backstage extends Assets {
 
 	/**
 	 * Single instance.
@@ -31,166 +33,11 @@ class Backstage {
 	private static $instance = null;
 
 	/**
-	 * Admin stylesheets.
-	 *
-	 * @var    array
-	 */
-	private $styles = array();
-
-	/**
-	 * Admin scripts.
-	 *
-	 * @var    array
-	 */
-	private $scripts = array();
-
-	/**
-	 * Initialize the class.
-	 *
-	 * @since    3.0
-	 *
-	 * @return   null
-	 */
-	public function __construct() {
-
-		$styles = array(
-			''              => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly.css' ),
-			'library'       => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-library.css' ),
-			'metabox'       => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-metabox.css' ),
-			'permalinks'    => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-permalink-settings.css' ),
-			'term-editor'   => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-term-editor.css' ),
-			'archive-pages' => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-archive-pages.css' ),
-			'grid-builder'  => array( 'file' => WPMOLY_URL . 'admin/css/wpmoly-grid-builder.css' ),
-
-			'font'          => array( 'file' => WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css' ),
-			'common'        => array( 'file' => WPMOLY_URL . 'public/css/common.css' ),
-			'grids'         => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-grids.css' ),
-			'select2'       => array( 'file' => WPMOLY_URL . 'admin/css/select2.min.css' )
-		);
-
-		/**
-		 * Filter the default styles to register.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $styles
-		 */
-		$this->styles = apply_filters( 'wpmoly/filter/default/admin/styles', $styles );
-
-		$scripts = array(
-
-			// Vendor
-			'sprintf' => array(
-				'file'    => WPMOLY_URL . 'public/js/sprintf.min.js',
-				'deps'    => array( 'jquery', 'underscore' ),
-				'version' => '1.0.3'
-			),
-			'underscore-string' => array(
-				'file' => WPMOLY_URL . 'public/js/underscore.string.min.js',
-				'deps'    => array( 'jquery', 'underscore' ),
-				'version' => '3.3.4'
-			),
-
-			// Base
-			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
-
-			// Utils
-			'utils'                   => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-utils.js' ),
-
-			// Libraries
-			'select2'                 => array( 'file' => WPMOLY_URL . 'admin/js/select2.min.js' ),
-			'jquery-actual'           => array( 'file' => WPMOLY_URL . 'admin/js/jquery.actual.min.js' ),
-
-			// Models
-			'settings-model'          => array( 'file' => WPMOLY_URL . 'admin/js/models/settings.js' ),
-			'status-model'            => array( 'file' => WPMOLY_URL . 'admin/js/models/status.js' ),
-			'results-model'           => array( 'file' => WPMOLY_URL . 'admin/js/models/results.js' ),
-			'search-model'            => array( 'file' => WPMOLY_URL . 'admin/js/models/search.js' ),
-			'meta-model'              => array( 'file' => WPMOLY_URL . 'admin/js/models/meta.js' ),
-			'modal-model'             => array( 'file' => WPMOLY_URL . 'admin/js/models/modal/modal.js' ),
-			'image-model'             => array( 'file' => WPMOLY_URL . 'admin/js/models/image.js' ),
-			'images-model'            => array( 'file' => WPMOLY_URL . 'admin/js/models/images.js' ),
-			'grid-builder-model'      => array( 'file' => WPMOLY_URL . 'admin/js/models/grid-builder.js' ),
-
-			'content-model'  => array( 'file' => WPMOLY_URL . 'public/js/models/grid/content.js' ),
-			'settings-model' => array( 'file' => WPMOLY_URL . 'public/js/models/grid/settings.js' ),
-
-			// Controllers
-			'library-controller'      => array( 'file' => WPMOLY_URL . 'admin/js/controllers/library.js' ),
-			'search-controller'       => array( 'file' => WPMOLY_URL . 'admin/js/controllers/search.js' ),
-			'editor-controller'       => array( 'file' => WPMOLY_URL . 'admin/js/controllers/editor.js' ),
-			'modal-controller'        => array( 'file' => WPMOLY_URL . 'admin/js/controllers/modal.js' ),
-			'grid-builder-controller' => array( 'file' => WPMOLY_URL . 'admin/js/controllers/grid-builder.js' ),
-
-			'query-controller' => array( 'file' => WPMOLY_URL . 'public/js/controllers/query.js' ),
-			'grid-controller'  => array( 'file' => WPMOLY_URL . 'public/js/controllers/grid.js' ),
-
-			// Views
-			'frame-view'                     => array( 'file' => WPMOLY_URL . 'public/js/views/frame.js' ),
-			'confirm-view'                   => array( 'file' => WPMOLY_URL . 'public/js/views/confirm.js' ),
-			'permalinks-view'                => array( 'file' => WPMOLY_URL . 'admin/js/views/permalinks.js' ),
-			'archive-pages-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/archive-pages.js' ),
-			'metabox-view'                   => array( 'file' => WPMOLY_URL . 'admin/js/views/metabox.js' ),
-			'library-view'                   => array( 'file' => WPMOLY_URL . 'admin/js/views/library/library.js' ),
-			'library-menu-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/library/menu.js' ),
-			'library-content-latest-view'    => array( 'file' => WPMOLY_URL . 'admin/js/views/library/content-latest.js' ),
-			'library-content-favorites-view' => array( 'file' => WPMOLY_URL . 'admin/js/views/library/content-favorites.js' ),
-			'library-content-import-view'    => array( 'file' => WPMOLY_URL . 'admin/js/views/library/content-import.js' ),
-			'search-view'                    => array( 'file' => WPMOLY_URL . 'admin/js/views/search/search.js' ),
-			'search-history-view'            => array( 'file' => WPMOLY_URL . 'admin/js/views/search/history.js' ),
-			'search-settings-view'           => array( 'file' => WPMOLY_URL . 'admin/js/views/search/settings.js' ),
-			'search-status-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/search/status.js' ),
-			'search-results-view'            => array( 'file' => WPMOLY_URL . 'admin/js/views/search/results.js' ),
-			'editor-image-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/image.js' ),
-			'editor-images-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/images.js' ),
-			'editor-meta-view'               => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/meta.js' ),
-			'editor-details-view'            => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/details.js' ),
-			'editor-tagbox-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/tagbox.js' ),
-			'editor-view'                    => array( 'file' => WPMOLY_URL . 'admin/js/views/editor/editor.js' ),
-			'modal-view'                     => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/modal.js' ),
-			'modal-images-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/images.js' ),
-			'modal-browser-view'             => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/browser.js' ),
-			'modal-post-view'                => array( 'file' => WPMOLY_URL . 'admin/js/views/modal/post.js' ),
-			'grid-builder-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/grid/builder.js' ),
-			'grid-type-view'                 => array( 'file' => WPMOLY_URL . 'admin/js/views/grid/type.js' ),
-
-			'grid-view'            => array( 'file' => WPMOLY_URL . 'public/js/views/grid.js' ),
-			'grid-menu-view'       => array( 'file' => WPMOLY_URL . 'public/js/views/grid/menu.js' ),
-			'grid-pagination-view' => array( 'file' => WPMOLY_URL . 'public/js/views/grid/pagination.js' ),
-			'grid-settings-view'   => array( 'file' => WPMOLY_URL . 'public/js/views/grid/settings.js' ),
-			'grid-customs-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/customs.js' ),
-			'grid-content-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/content.js' ),
-
-			// Runners
-			'library'                 => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-library.js' ),
-			'api'                     => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-api.js' ),
-			'metabox'                 => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-metabox.js' ),
-			'permalinks'              => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-permalinks.js' ),
-			'archive-pages'           => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-archive-pages.js' ),
-			'editor'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-editor.js' ),
-			'grid-builder'            => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-grid-builder.js', 'deps' => array( 'butterbean' ) ),
-			'search'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-search.js' ),
-			'tester'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-tester.js' ),
-
-			//'grids'     => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
-		);
-
-		/**
-		 * Filter the default scripts to register.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $scripts
-		 */
-		$this->scripts = apply_filters( 'wpmoly/filter/default/admin/scripts', $scripts );
-	}
-
-	/**
 	 * Singleton.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   Singleton
+	 * @return   \wpmoly\Admin\Backstage
 	 */
 	final public static function get_instance() {
 
@@ -202,164 +49,188 @@ class Backstage {
 	}
 
 	/**
-	 * Register the stylesheets for the admin area.
+	 * Register scripts.
 	 *
 	 * @since    3.0
 	 *
 	 * @return   null
 	 */
-	private function register_styles() {
+	protected function register_scripts() {
 
-		foreach ( $this->styles as $id => $style ) {
+		// Vendor
+		$this->register_script( 'sprintf',           'public/js/sprintf.min.js', array( 'jquery', 'underscore' ), '1.0.3' );
+		$this->register_script( 'underscore-string', 'public/js/underscore.string.min.js', array( 'jquery', 'underscore' ), '3.3.4' );
 
-			if ( ! empty( $id ) ) {
-				$id = '-' . $id;
-			}
-			$id = WPMOLY_SLUG . $id;
+		// Base
+		$this->register_script( 'public', 'public/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
 
-			$style = wp_parse_args( $style, array(
-				'file'    => '',
-				'deps'    => array(),
-				'version' => WPMOLY_VERSION,
-				'media'   => 'all'
-			) );
+		// Utils
+		$this->register_script( 'utils',  'public/js/wpmoly-utils.js' );
 
-			wp_register_style( $id, $style['file'], $style['deps'], $style['version'], $style['media'] );
-		}
+		// Libraries
+		$this->register_script( 'select2',                 'admin/js/select2.min.js' );
+		$this->register_script( 'jquery-actual',           'admin/js/jquery.actual.min.js' );
+
+		// Models
+		$this->register_script( 'settings-model',          'admin/js/models/settings.js' );
+		$this->register_script( 'status-model',            'admin/js/models/status.js' );
+		$this->register_script( 'results-model',           'admin/js/models/results.js' );
+		$this->register_script( 'search-model',            'admin/js/models/search.js' );
+		$this->register_script( 'meta-model',              'admin/js/models/meta.js' );
+		$this->register_script( 'modal-model',             'admin/js/models/modal/modal.js' );
+		$this->register_script( 'image-model',             'admin/js/models/image.js' );
+		$this->register_script( 'images-model',            'admin/js/models/images.js' );
+		$this->register_script( 'grid-builder-model',      'admin/js/models/grid-builder.js' );
+
+		$this->register_script( 'content-model',  'public/js/models/grid/content.js' );
+		$this->register_script( 'settings-model', 'public/js/models/grid/settings.js' );
+
+		// Controllers
+		$this->register_script( 'library-controller',      'admin/js/controllers/library.js' );
+		$this->register_script( 'search-controller',       'admin/js/controllers/search.js' );
+		$this->register_script( 'editor-controller',       'admin/js/controllers/editor.js' );
+		$this->register_script( 'modal-controller',        'admin/js/controllers/modal.js' );
+		$this->register_script( 'grid-builder-controller', 'admin/js/controllers/grid-builder.js' );
+
+		$this->register_script( 'query-controller', 'public/js/controllers/query.js' );
+		$this->register_script( 'grid-controller',  'public/js/controllers/grid.js' );
+
+		// Views
+		$this->register_script( 'frame-view',                     'public/js/views/frame.js' );
+		$this->register_script( 'confirm-view',                   'public/js/views/confirm.js' );
+		$this->register_script( 'permalinks-view',                'admin/js/views/permalinks.js' );
+		$this->register_script( 'archive-pages-view',             'admin/js/views/archive-pages.js' );
+		$this->register_script( 'metabox-view',                   'admin/js/views/metabox.js' );
+		$this->register_script( 'library-view',                   'admin/js/views/library/library.js' );
+		$this->register_script( 'library-menu-view',              'admin/js/views/library/menu.js' );
+		$this->register_script( 'library-content-latest-view',    'admin/js/views/library/content-latest.js' );
+		$this->register_script( 'library-content-favorites-view', 'admin/js/views/library/content-favorites.js' );
+		$this->register_script( 'library-content-import-view',    'admin/js/views/library/content-import.js' );
+		$this->register_script( 'search-view',                    'admin/js/views/search/search.js' );
+		$this->register_script( 'search-history-view',            'admin/js/views/search/history.js' );
+		$this->register_script( 'search-settings-view',           'admin/js/views/search/settings.js' );
+		$this->register_script( 'search-status-view',             'admin/js/views/search/status.js' );
+		$this->register_script( 'search-results-view',            'admin/js/views/search/results.js' );
+		$this->register_script( 'editor-image-view',              'admin/js/views/editor/image.js' );
+		$this->register_script( 'editor-images-view',             'admin/js/views/editor/images.js' );
+		$this->register_script( 'editor-meta-view',               'admin/js/views/editor/meta.js' );
+		$this->register_script( 'editor-details-view',            'admin/js/views/editor/details.js' );
+		$this->register_script( 'editor-tagbox-view',             'admin/js/views/editor/tagbox.js' );
+		$this->register_script( 'editor-view',                    'admin/js/views/editor/editor.js' );
+		$this->register_script( 'modal-view',                     'admin/js/views/modal/modal.js' );
+		$this->register_script( 'modal-images-view',              'admin/js/views/modal/images.js' );
+		$this->register_script( 'modal-browser-view',             'admin/js/views/modal/browser.js' );
+		$this->register_script( 'modal-post-view',                'admin/js/views/modal/post.js' );
+		$this->register_script( 'grid-builder-view',              'admin/js/views/grid/builder.js' );
+		$this->register_script( 'grid-type-view',                 'admin/js/views/grid/type.js' );
+
+		$this->register_script( 'grid-view',            'public/js/views/grid.js' );
+		$this->register_script( 'grid-menu-view',       'public/js/views/grid/menu.js' );
+		$this->register_script( 'grid-pagination-view', 'public/js/views/grid/pagination.js' );
+		$this->register_script( 'grid-settings-view',   'public/js/views/grid/settings.js' );
+		$this->register_script( 'grid-customs-view',    'public/js/views/grid/customs.js' );
+		$this->register_script( 'grid-content-view',    'public/js/views/grid/content.js' );
+
+		// Runners
+		$this->register_script( 'library',       'admin/js/wpmoly-library.js' );
+		$this->register_script( 'api',           'admin/js/wpmoly-api.js' );
+		$this->register_script( 'metabox',       'admin/js/wpmoly-metabox.js' );
+		$this->register_script( 'permalinks',    'admin/js/wpmoly-permalinks.js' );
+		$this->register_script( 'archive-pages', 'admin/js/wpmoly-archive-pages.js' );
+		$this->register_script( 'editor',        'admin/js/wpmoly-editor.js' );
+		$this->register_script( 'grid-builder',  'admin/js/wpmoly-grid-builder.js', array( 'butterbean' ) );
+		$this->register_script( 'search',        'admin/js/wpmoly-search.js' );
+		$this->register_script( 'tester',        'admin/js/wpmoly-tester.js' );
+
+		//$this->register_script( 'grids', 'public/js/wpmoly-grids.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
 	}
 
 	/**
-	 * Enqueue a specific style.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $id Script ID.
-	 * 
-	 * @return   void
-	 */
-	private function enqueue_style( $id = '' ) {
-
-		if ( ! empty( $id ) ) {
-			$id = '-' . $id;
-		}
-		$id = WPMOLY_SLUG . $id;
-
-		wp_enqueue_style( $id );
-	}
-
-	/**
-	 * Register the JavaScript for the admin area.
+	 * Register stylesheets.
 	 *
 	 * @since    3.0
 	 *
 	 * @return   null
 	 */
-	private function register_scripts() {
+	protected function register_styles() {
 
-		foreach ( $this->scripts as $id => $script ) {
+		$this->register_style( 'admin',         'admin/css/wpmoly.css' );
+		$this->register_style( 'library',       'admin/css/wpmoly-library.css' );
+		$this->register_style( 'metabox',       'admin/css/wpmoly-metabox.css' );
+		$this->register_style( 'permalinks',    'admin/css/wpmoly-permalink-settings.css' );
+		$this->register_style( 'term-editor',   'admin/css/wpmoly-term-editor.css' );
+		$this->register_style( 'archive-pages', 'admin/css/wpmoly-archive-pages.css' );
+		$this->register_style( 'grid-builder',  'admin/css/wpmoly-grid-builder.css' );
 
-			if ( ! empty( $id ) ) {
-				$id = '-' . $id;
-			}
-			$id = WPMOLY_SLUG . $id;
-
-			$script = wp_parse_args( $script, array(
-				'file'    => '',
-				'deps'    => array(),
-				'version' => WPMOLY_VERSION,
-				'footer'  => true
-			) );
-
-			wp_register_script( $id, $script['file'], $script['deps'], $script['version'], $script['footer'] );
-		}
+		$this->register_style( 'font',          'public/fonts/wpmovielibrary/style.css' );
+		$this->register_style( 'common',        'public/css/common.css' );
+		$this->register_style( 'grids',         'public/css/wpmoly-grids.css' );
+		$this->register_style( 'select2',       'admin/css/select2.min.css' );
 	}
 
 	/**
-	 * Enqueue a specific script.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $id Style ID.
-	 * 
-	 * @return   void
-	 */
-	private function enqueue_script( $id = '' ) {
-
-		if ( ! empty( $id ) ) {
-			$id = '-' . $id;
-		}
-		$id = WPMOLY_SLUG . $id;
-
-		wp_enqueue_script( $id );
-	}
-
-	/**
-	 * Enqueue the stylesheets for the admin area.
+	 * Register templates.
 	 *
 	 * @since    3.0
-	 * 
-	 * @param    string    $hook_suffix
 	 *
 	 * @return   null
 	 */
-	public function enqueue_styles( $hook_suffix ) {
+	protected function register_templates() {
 
-		$this->register_styles();
-
-		$this->enqueue_style();
-		$this->enqueue_style( 'font' );
-		$this->enqueue_style( 'common' );
-		$this->enqueue_style( 'grids' );
-		$this->enqueue_style( 'select2' );
+		global $hook_suffix;
 
 		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix ) {
-			$this->enqueue_style( 'library' );
+			$this->register_template( 'library-menu',              'admin/js/templates/library/menu.php' );
+			$this->register_template( 'library-content-latest',    'admin/js/templates/library/content-latest.php' );
+			$this->register_template( 'library-content-favorites', 'admin/js/templates/library/content-favorites.php' );
+			$this->register_template( 'library-content-import',    'admin/js/templates/library/content-import.php' );
+			$this->register_template( 'library-sidebar',           'admin/js/templates/library/sidebar.php' );
+			$this->register_template( 'library-footer',            'admin/js/templates/library/footer.php' );
 		}
 
-		if ( 'options-permalink.php' == $hook_suffix ) {
-			$this->enqueue_style( 'metabox' );
-			$this->enqueue_style( 'permalinks' );
+		if ( 'movie' == get_post_type() ) {
+			$this->register_template( 'search',                'admin/js/templates/search/search.php' );
+			$this->register_template( 'search-form',           'admin/js/templates/search/search-form.php' );
+			$this->register_template( 'search-settings',       'admin/js/templates/search/settings.php' );
+			$this->register_template( 'search-status',         'admin/js/templates/search/status.php' );
+			$this->register_template( 'search-history',        'admin/js/templates/search/history.php' );
+			$this->register_template( 'search-history-item',   'admin/js/templates/search/history-item.php' );
+			$this->register_template( 'search-result',         'admin/js/templates/search/result.php' );
+			$this->register_template( 'search-results',        'admin/js/templates/search/results.php' );
+			$this->register_template( 'search-results-header', 'admin/js/templates/search/results-header.php' );
+			$this->register_template( 'search-results-menu',   'admin/js/templates/search/results-menu.php' );
+
+			$this->register_template( 'editor-image-editor',   'admin/js/templates/editor/image-editor.php' );
+			$this->register_template( 'editor-image-more',     'admin/js/templates/editor/image-more.php' );
+			$this->register_template( 'editor-image',          'admin/js/templates/editor/image.php' );
+
+			$this->register_template( 'modal-browser',         'admin/js/templates/modal/browser.php' );
+			$this->register_template( 'modal-sidebar',         'admin/js/templates/modal/sidebar.php' );
+			$this->register_template( 'modal-toolbar',         'admin/js/templates/modal/toolbar.php' );
+			$this->register_template( 'modal-image',           'admin/js/templates/modal/image.php' );
+			$this->register_template( 'modal-selection',       'admin/js/templates/modal/selection.php' );
+
+			$this->register_template( 'confirm-modal',         'public/js/templates/confirm.php' );
 		}
 
-		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'grid' == get_post_type() ) {
-			$this->enqueue_style( 'grid-builder' );
+		if ( 'grid' == get_post_type() ) {
+			$this->register_template( 'grid',                     'public/js/templates/grid/grid.php' );
+			$this->register_template( 'grid-menu',                'public/js/templates/grid/menu.php' );
+			$this->register_template( 'grid-customs',             'public/js/templates/grid/customs.php' );
+			$this->register_template( 'grid-settings',            'public/js/templates/grid/settings.php' );
+			$this->register_template( 'grid-pagination',          'public/js/templates/grid/pagination.php' );
+
+			$this->register_template( 'grid-movie-grid',           'public/templates/grids/content/movie-grid.php' );
+			$this->register_template( 'grid-movie-grid-variant-1', 'public/templates/grids/content/movie-grid-variant-1.php' );
+			$this->register_template( 'grid-movie-grid-variant-2', 'public/templates/grids/content/movie-grid-variant-2.php' );
+			$this->register_template( 'grid-movie-list',           'public/templates/grids/content/movie-list.php' );
+			$this->register_template( 'grid-actor-grid',           'public/templates/grids/content/actor-grid.php' );
+			$this->register_template( 'grid-actor-list',           'public/templates/grids/content/actor-list.php' );
+			$this->register_template( 'grid-collection-grid',      'public/templates/grids/content/collection-grid.php' );
+			$this->register_template( 'grid-collection-list',      'public/templates/grids/content/collection-list.php' );
+			$this->register_template( 'grid-genre-grid',           'public/templates/grids/content/genre-grid.php' );
+			$this->register_template( 'grid-genre-list',           'public/templates/grids/content/genre-list.php' );
 		}
-
-		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'page' == get_post_type() ) {
-			$this->enqueue_style( 'archive-pages' );
-		}
-
-		if ( 'term.php' == $hook_suffix || 'edit-tags.php' == $hook_suffix ) {
-			$this->enqueue_style( 'term-editor' );
-		}
-	}
-
-	/**
-	 * Print a JavaScript template.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $handle Template slug
-	 * @param    mixed     $template Template file path or instance
-	 * 
-	 * @return   null
-	 */
-	private function print_template( $handle, $template ) {
-
-		if ( is_string( $template ) && ! file_exists( WPMOLY_PATH . $template ) ) {
-			return false;
-		}
-
-		echo "\n" . '<script type="text/html" id="tmpl-' . $handle . '">';
-
-		if ( $template instanceof \wpmoly\Templates\Template ) {
-			$template->set_data( array( 'is_json' => true ) );
-			$template->render( 'always' );
-		} else {
-			require_once WPMOLY_PATH . $template;
-		}
-
-		echo '</script>' . "\n";
 	}
 
 	/**
@@ -367,11 +238,11 @@ class Backstage {
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    string    $hook_suffix
-	 * 
 	 * @return   null
 	 */
-	public function enqueue_scripts( $hook_suffix ) {
+	public function enqueue_scripts() {
+
+		global $hook_suffix;
 
 		$this->register_scripts();
 
@@ -382,7 +253,7 @@ class Backstage {
 			$this->enqueue_script( 'underscore-string' );
 
 			// Base
-			$this->enqueue_script();
+			$this->enqueue_script( 'public' );
 
 			// Models
 
@@ -407,7 +278,7 @@ class Backstage {
 			$this->enqueue_script( 'underscore-string' );
 
 			// Base
-			$this->enqueue_script();
+			$this->enqueue_script( 'public' );
 
 			// Metabox
 			$this->enqueue_script( 'metabox-view' );
@@ -425,7 +296,7 @@ class Backstage {
 			$this->enqueue_script( 'underscore-string' );
 
 			// Base
-			$this->enqueue_script();
+			$this->enqueue_script( 'public' );
 			$this->enqueue_script( 'utils' );
 
 			// Models
@@ -484,7 +355,7 @@ class Backstage {
 			$this->enqueue_script( 'wp-backbone' );
 
 			// Base
-			$this->enqueue_script();
+			$this->enqueue_script( 'public' );
 			$this->enqueue_script( 'utils' );
 
 			// Libraries
@@ -523,7 +394,7 @@ class Backstage {
 			$this->enqueue_script( 'wp-backbone' );
 
 			// Base
-			$this->enqueue_script();
+			$this->enqueue_script( 'public' );
 			$this->enqueue_script( 'utils' );
 
 			// Views
@@ -531,6 +402,47 @@ class Backstage {
 
 			// Runners
 			$this->enqueue_script( 'archive-pages' );
+		}
+	}
+
+	/**
+	 * Enqueue the stylesheets for the admin area.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   null
+	 */
+	public function enqueue_styles() {
+
+		global $hook_suffix;
+
+		$this->register_styles();
+
+		$this->enqueue_style( 'admin' );
+		$this->enqueue_style( 'font' );
+		$this->enqueue_style( 'common' );
+		$this->enqueue_style( 'grids' );
+		$this->enqueue_style( 'select2' );
+
+		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix ) {
+			$this->enqueue_style( 'library' );
+		}
+
+		if ( 'options-permalink.php' == $hook_suffix ) {
+			$this->enqueue_style( 'metabox' );
+			$this->enqueue_style( 'permalinks' );
+		}
+
+		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'grid' == get_post_type() ) {
+			$this->enqueue_style( 'grid-builder' );
+		}
+
+		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'page' == get_post_type() ) {
+			$this->enqueue_style( 'archive-pages' );
+		}
+
+		if ( 'term.php' == $hook_suffix || 'edit-tags.php' == $hook_suffix ) {
+			$this->enqueue_style( 'term-editor' );
 		}
 	}
 
@@ -545,57 +457,59 @@ class Backstage {
 
 		global $hook_suffix;
 
+		$this->register_templates();
+
 		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix ) {
-			$this->print_template( 'wpmoly-library-menu',          'admin/js/templates/library/menu.php' );
-			$this->print_template( 'wpmoly-library-content-latest',       'admin/js/templates/library/content-latest.php' );
-			$this->print_template( 'wpmoly-library-content-favorites',       'admin/js/templates/library/content-favorites.php' );
-			$this->print_template( 'wpmoly-library-content-import',       'admin/js/templates/library/content-import.php' );
-			$this->print_template( 'wpmoly-library-sidebar',       'admin/js/templates/library/sidebar.php' );
-			$this->print_template( 'wpmoly-library-footer',        'admin/js/templates/library/footer.php' );
+			$this->enqueue_template( 'library-menu',              'admin/js/templates/library/menu.php' );
+			$this->enqueue_template( 'library-content-latest',    'admin/js/templates/library/content-latest.php' );
+			$this->enqueue_template( 'library-content-favorites', 'admin/js/templates/library/content-favorites.php' );
+			$this->enqueue_template( 'library-content-import',    'admin/js/templates/library/content-import.php' );
+			$this->enqueue_template( 'library-sidebar',           'admin/js/templates/library/sidebar.php' );
+			$this->enqueue_template( 'library-footer',            'admin/js/templates/library/footer.php' );
 		}
 
 		if ( 'movie' == get_post_type() ) {
-			$this->print_template( 'wpmoly-search',                'admin/js/templates/search/search.php' );
-			$this->print_template( 'wpmoly-search-form',           'admin/js/templates/search/search-form.php' );
-			$this->print_template( 'wpmoly-search-settings',       'admin/js/templates/search/settings.php' );
-			$this->print_template( 'wpmoly-search-status',         'admin/js/templates/search/status.php' );
-			$this->print_template( 'wpmoly-search-history',        'admin/js/templates/search/history.php' );
-			$this->print_template( 'wpmoly-search-history-item',   'admin/js/templates/search/history-item.php' );
-			$this->print_template( 'wpmoly-search-result',         'admin/js/templates/search/result.php' );
-			$this->print_template( 'wpmoly-search-results',        'admin/js/templates/search/results.php' );
-			$this->print_template( 'wpmoly-search-results-header', 'admin/js/templates/search/results-header.php' );
-			$this->print_template( 'wpmoly-search-results-menu',   'admin/js/templates/search/results-menu.php' );
+			$this->enqueue_template( 'search',                'admin/js/templates/search/search.php' );
+			$this->enqueue_template( 'search-form',           'admin/js/templates/search/search-form.php' );
+			$this->enqueue_template( 'search-settings',       'admin/js/templates/search/settings.php' );
+			$this->enqueue_template( 'search-status',         'admin/js/templates/search/status.php' );
+			$this->enqueue_template( 'search-history',        'admin/js/templates/search/history.php' );
+			$this->enqueue_template( 'search-history-item',   'admin/js/templates/search/history-item.php' );
+			$this->enqueue_template( 'search-result',         'admin/js/templates/search/result.php' );
+			$this->enqueue_template( 'search-results',        'admin/js/templates/search/results.php' );
+			$this->enqueue_template( 'search-results-header', 'admin/js/templates/search/results-header.php' );
+			$this->enqueue_template( 'search-results-menu',   'admin/js/templates/search/results-menu.php' );
 
-			$this->print_template( 'wpmoly-editor-image-editor',   'admin/js/templates/editor/image-editor.php' );
-			$this->print_template( 'wpmoly-editor-image-more',     'admin/js/templates/editor/image-more.php' );
-			$this->print_template( 'wpmoly-editor-image',          'admin/js/templates/editor/image.php' );
+			$this->enqueue_template( 'editor-image-editor',   'admin/js/templates/editor/image-editor.php' );
+			$this->enqueue_template( 'editor-image-more',     'admin/js/templates/editor/image-more.php' );
+			$this->enqueue_template( 'editor-image',          'admin/js/templates/editor/image.php' );
 
-			$this->print_template( 'wpmoly-modal-browser',         'admin/js/templates/modal/browser.php' );
-			$this->print_template( 'wpmoly-modal-sidebar',         'admin/js/templates/modal/sidebar.php' );
-			$this->print_template( 'wpmoly-modal-toolbar',         'admin/js/templates/modal/toolbar.php' );
-			$this->print_template( 'wpmoly-modal-image',           'admin/js/templates/modal/image.php' );
-			$this->print_template( 'wpmoly-modal-selection',       'admin/js/templates/modal/selection.php' );
+			$this->enqueue_template( 'modal-browser',         'admin/js/templates/modal/browser.php' );
+			$this->enqueue_template( 'modal-sidebar',         'admin/js/templates/modal/sidebar.php' );
+			$this->enqueue_template( 'modal-toolbar',         'admin/js/templates/modal/toolbar.php' );
+			$this->enqueue_template( 'modal-image',           'admin/js/templates/modal/image.php' );
+			$this->enqueue_template( 'modal-selection',       'admin/js/templates/modal/selection.php' );
 
-			$this->print_template( 'wpmoly-confirm-modal',         'public/js/templates/confirm.php' );
+			$this->enqueue_template( 'confirm-modal',         'public/js/templates/confirm.php' );
 		}
 
 		if ( 'grid' == get_post_type() ) {
-			$this->print_template( 'wpmoly-grid',                   'public/js/templates/grid/grid.php' );
-			$this->print_template( 'wpmoly-grid-menu',              'public/js/templates/grid/menu.php' );
-			$this->print_template( 'wpmoly-grid-customs',           'public/js/templates/grid/customs.php' );
-			$this->print_template( 'wpmoly-grid-settings',          'public/js/templates/grid/settings.php' );
-			$this->print_template( 'wpmoly-grid-pagination',        'public/js/templates/grid/pagination.php' );
+			$this->enqueue_template( 'grid',                   'public/js/templates/grid/grid.php' );
+			$this->enqueue_template( 'grid-menu',              'public/js/templates/grid/menu.php' );
+			$this->enqueue_template( 'grid-customs',           'public/js/templates/grid/customs.php' );
+			$this->enqueue_template( 'grid-settings',          'public/js/templates/grid/settings.php' );
+			$this->enqueue_template( 'grid-pagination',        'public/js/templates/grid/pagination.php' );
 
-			$this->print_template( 'wpmoly-grid-movie-grid',         wpmoly_get_js_template( 'grids/content/movie-grid.php' ) );
-			$this->print_template( 'wpmoly-grid-movie-grid-variant-1', wpmoly_get_js_template( 'grids/content/movie-grid-variant-1.php' ) );
-			$this->print_template( 'wpmoly-grid-movie-grid-variant-2', wpmoly_get_js_template( 'grids/content/movie-grid-variant-2.php' ) );
-			$this->print_template( 'wpmoly-grid-movie-list',         wpmoly_get_js_template( 'grids/content/movie-list.php' ) );
-			$this->print_template( 'wpmoly-grid-actor-grid',         wpmoly_get_js_template( 'grids/content/actor-grid.php' ) );
-			$this->print_template( 'wpmoly-grid-actor-list',         wpmoly_get_js_template( 'grids/content/actor-list.php' ) );
-			$this->print_template( 'wpmoly-grid-collection-grid',    wpmoly_get_js_template( 'grids/content/collection-grid.php' ) );
-			$this->print_template( 'wpmoly-grid-collection-list',    wpmoly_get_js_template( 'grids/content/collection-list.php' ) );
-			$this->print_template( 'wpmoly-grid-genre-grid',         wpmoly_get_js_template( 'grids/content/genre-grid.php' ) );
-			$this->print_template( 'wpmoly-grid-genre-list',         wpmoly_get_js_template( 'grids/content/genre-list.php' ) );
+			$this->enqueue_template( 'grid-movie-grid',         wpmoly_get_js_template( 'grids/content/movie-grid.php' ) );
+			$this->enqueue_template( 'grid-movie-grid-variant-1', wpmoly_get_js_template( 'grids/content/movie-grid-variant-1.php' ) );
+			$this->enqueue_template( 'grid-movie-grid-variant-2', wpmoly_get_js_template( 'grids/content/movie-grid-variant-2.php' ) );
+			$this->enqueue_template( 'grid-movie-list',         wpmoly_get_js_template( 'grids/content/movie-list.php' ) );
+			$this->enqueue_template( 'grid-actor-grid',         wpmoly_get_js_template( 'grids/content/actor-grid.php' ) );
+			$this->enqueue_template( 'grid-actor-list',         wpmoly_get_js_template( 'grids/content/actor-list.php' ) );
+			$this->enqueue_template( 'grid-collection-grid',    wpmoly_get_js_template( 'grids/content/collection-grid.php' ) );
+			$this->enqueue_template( 'grid-collection-list',    wpmoly_get_js_template( 'grids/content/collection-list.php' ) );
+			$this->enqueue_template( 'grid-genre-grid',         wpmoly_get_js_template( 'grids/content/genre-grid.php' ) );
+			$this->enqueue_template( 'grid-genre-list',         wpmoly_get_js_template( 'grids/content/genre-list.php' ) );
 		}
 	}
 
@@ -637,7 +551,7 @@ class Backstage {
 	 */
 	public function admin_menu() {
 
-		$library = Backstage\Library::get_instance();
+		$library = Library::get_instance();
 
 		$menu_page = add_menu_page(
 			$page_title = __( 'Movie Library' , 'wpmovielibrary' ),

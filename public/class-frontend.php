@@ -11,133 +11,32 @@
 
 namespace wpmoly;
 
+use wpmoly\Core\Assets;
+
 /**
  * The public-facing functionality of the plugin.
  *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
+ * Register and enqueue public scripts, styles and templates.
  *
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/public
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Frontend {
+class Frontend extends Assets {
 
 	/**
 	 * Single instance.
 	 *
-	 * @var    Frontend
+	 * @var    \wpmoly\Frontend
 	 */
 	private static $instance = null;
-
-	/**
-	 * Public stylesheets.
-	 *
-	 * @var    array
-	 */
-	private $styles = array();
-
-	/**
-	 * Public scripts.
-	 *
-	 * @var    array
-	 */
-	private $scripts = array();
-
-	/**
-	 * Initialize the class and set its properties.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function __construct() {
-
-		$styles = array(
-
-			// Plugin-wide normalize
-			'normalize' => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-normalize-min.css' ),
-
-			// Main stylesheet
-			''          => array( 'file' => WPMOLY_URL . 'public/css/wpmoly.css', 'deps' => array( WPMOLY_SLUG . '-normalize' ) ),
-
-			// Common stylesheets
-			'common'    => array( 'file' => WPMOLY_URL . 'public/css/common.css' ),
-			'headboxes' => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-headboxes.css' ),
-			'grids'     => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-grids.css' ),
-			'flags'     => array( 'file' => WPMOLY_URL . 'public/css/wpmoly-flags.css' ),
-
-			// Plugin icon font
-			'font'      => array( 'file' => WPMOLY_URL . 'public/fonts/wpmovielibrary/style.css' )
-		);
-
-		/**
-		 * Filter the default styles to register.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $styles
-		 */
-		$this->styles = apply_filters( 'wpmoly/filter/default/public/styles', $styles );
-
-		$scripts = array(
-
-			// Vendor
-			'sprintf' => array(
-				'file'    => WPMOLY_URL . 'public/js/sprintf.min.js',
-				'deps'    => array( 'jquery', 'underscore' ),
-				'version' => '1.0.3'
-			),
-			'underscore-string' => array(
-				'file' => WPMOLY_URL . 'public/js/underscore.string.min.js',
-				'deps'    => array( 'jquery', 'underscore' ),
-				'version' => '3.3.4'
-			),
-
-			// Base
-			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
-
-			// Utils
-			'utils' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-utils.js' ),
-
-			// Models
-			'content-model'  => array( 'file' => WPMOLY_URL . 'public/js/models/grid/content.js' ),
-			'settings-model' => array( 'file' => WPMOLY_URL . 'public/js/models/grid/settings.js' ),
-
-			// Controllers
-			'query-controller' => array( 'file' => WPMOLY_URL . 'public/js/controllers/query.js' ),
-			'grid-controller'  => array( 'file' => WPMOLY_URL . 'public/js/controllers/grid.js' ),
-
-			// Views
-			'grid-view'            => array( 'file' => WPMOLY_URL . 'public/js/views/grid.js' ),
-			'grid-menu-view'       => array( 'file' => WPMOLY_URL . 'public/js/views/grid/menu.js' ),
-			'grid-pagination-view' => array( 'file' => WPMOLY_URL . 'public/js/views/grid/pagination.js' ),
-			'grid-settings-view'   => array( 'file' => WPMOLY_URL . 'public/js/views/grid/settings.js' ),
-			'grid-customs-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/customs.js' ),
-			'grid-content-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/content.js' ),
-			'headbox-view'         => array( 'file' => WPMOLY_URL . 'public/js/views/headbox.js' ),
-
-			// Runners
-			'grids'     => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
-			'headboxes' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-headboxes.js', 'deps' => array( 'jquery' ) ),
-		);
-
-		/**
-		 * Filter the default scripts to register.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $scripts
-		 */
-		$this->scripts = apply_filters( 'wpmoly/filter/default/public/scripts', $scripts );
-	}
 
 	/**
 	 * Singleton.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   Singleton
+	 * @return   \wpmoly\Frontend
 	 */
 	final public static function get_instance() {
 
@@ -149,150 +48,101 @@ class Frontend {
 	}
 
 	/**
+	 * Register scripts.
+	 *
+	 * @since    3.0
+	 */
+	protected function register_scripts() {
+
+		// Vendor
+		$this->register_script( 'sprintf',              'public/js/sprintf.min.js',           array( 'jquery', 'underscore' ), '1.0.3' );
+		$this->register_script( 'underscore-string',    'public/js/underscore.string.min.js', array( 'jquery', 'underscore' ), '3.3.4' );
+
+		// Base
+		$this->register_script( 'public',               'public/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
+
+		// Utils
+		$this->register_script( 'utils',                'public/js/wpmoly-utils.js' );
+
+		// Models
+		$this->register_script( 'content-model',        'public/js/models/grid/content.js' );
+		$this->register_script( 'settings-model',       'public/js/models/grid/settings.js' );
+
+		// Controllers
+		$this->register_script( 'query-controller',     'public/js/controllers/query.js' );
+		$this->register_script( 'grid-controller',      'public/js/controllers/grid.js' );
+
+		// Views
+		$this->register_script( 'grid-view',            'public/js/views/grid.js' );
+		$this->register_script( 'grid-menu-view',       'public/js/views/grid/menu.js' );
+		$this->register_script( 'grid-pagination-view', 'public/js/views/grid/pagination.js' );
+		$this->register_script( 'grid-settings-view',   'public/js/views/grid/settings.js' );
+		$this->register_script( 'grid-customs-view',    'public/js/views/grid/customs.js' );
+		$this->register_script( 'grid-content-view',    'public/js/views/grid/content.js' );
+		$this->register_script( 'headbox-view',         'public/js/views/headbox.js' );
+
+		// Runners
+		$this->register_script( 'grids',                'public/js/wpmoly-grids.js',     array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
+		$this->register_script( 'headboxes',            'public/js/wpmoly-headboxes.js', array( 'jquery' ) );
+	}
+
+	/**
 	 * Register frontend stylesheets.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
-	public function register_styles() {
+	protected function register_styles() {
 
-		foreach ( $this->styles as $id => $style ) {
+		// Plugin-wide normalize
+		$this->register_style( 'normalize', 'public/css/wpmoly-normalize-min.css' );
 
-			if ( ! empty( $id ) ) {
-				$id = '-' . $id;
-			}
-			$id = WPMOLY_SLUG . $id;
+		// Main stylesheet
+		$this->register_style( 'public',    'public/css/wpmoly.css' );
 
-			$style = wp_parse_args( $style, array(
-				'file'    => '',
-				'deps'    => array(),
-				'version' => WPMOLY_VERSION,
-				'media'   => 'all'
-			) );
+		// Common stylesheets
+		$this->register_style( 'common',    'public/css/common.css' );
+		$this->register_style( 'headboxes', 'public/css/wpmoly-headboxes.css' );
+		$this->register_style( 'grids',     'public/css/wpmoly-grids.css' );
+		$this->register_style( 'flags',     'public/css/wpmoly-flags.css' );
 
-			wp_register_style( $id, $style['file'], $style['deps'], $style['version'], $style['media'] );
-		}
+		// Plugin icon font
+		$this->register_style( 'font',      'public/fonts/wpmovielibrary/style.css' );
 	}
 
 	/**
-	 * Enqueue a specific style.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $id Script ID.
-	 * 
-	 * @return   void
-	 */
-	private function enqueue_style( $id = '' ) {
-
-		if ( ! empty( $id ) ) {
-			$id = '-' . $id;
-		}
-		$id = WPMOLY_SLUG . $id;
-
-		wp_enqueue_style( $id );
-	}
-
-	/**
-	 * Register frontend JavaScript.
+	 * Register frontend templates.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
-	public function register_scripts() {
+	protected function register_templates() {
 
-		foreach ( $this->scripts as $id => $script ) {
+		$this->register_template( 'grid',                      'public/js/templates/grid/grid.php' );
+		$this->register_template( 'grid-menu',                 'public/js/templates/grid/menu.php' );
+		$this->register_template( 'grid-customs',              'public/js/templates/grid/customs.php' );
+		$this->register_template( 'grid-settings',             'public/js/templates/grid/settings.php' );
+		$this->register_template( 'grid-pagination',           'public/js/templates/grid/pagination.php' );
 
-			if ( ! empty( $id ) ) {
-				$id = '-' . $id;
-			}
-			$id = WPMOLY_SLUG . $id;
+		$this->register_template( 'grid-movie-grid',           'public/templates/grids/content/movie-grid.php' );
+		$this->register_template( 'grid-movie-grid-variant-1', 'public/templates/grids/content/movie-grid-variant-1.php' );
+		$this->register_template( 'grid-movie-grid-variant-2', 'public/templates/grids/content/movie-grid-variant-2.php' );
+		$this->register_template( 'grid-movie-list',           'public/templates/grids/content/movie-list.php' );
+		$this->register_template( 'grid-actor-grid',           'public/templates/grids/content/actor-grid.php' );
+		$this->register_template( 'grid-actor-list',           'public/templates/grids/content/actor-list.php' );
+		$this->register_template( 'grid-collection-grid',      'public/templates/grids/content/collection-grid.php' );
+		$this->register_template( 'grid-collection-list',      'public/templates/grids/content/collection-list.php' );
+		$this->register_template( 'grid-genre-grid',           'public/templates/grids/content/genre-grid.php' );
+		$this->register_template( 'grid-genre-list',           'public/templates/grids/content/genre-list.php' );
 
-			$script = wp_parse_args( $script, array(
-				'file'    => '',
-				'deps'    => array(),
-				'version' => WPMOLY_VERSION,
-				'footer'  => true
-			) );
-
-			wp_register_script( $id, $script['file'], $script['deps'], $script['version'], $script['footer'] );
-		}
-	}
-
-	/**
-	 * Enqueue a specific script.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $id Style ID.
-	 * 
-	 * @return   void
-	 */
-	private function enqueue_script( $id = '' ) {
-
-		if ( ! empty( $id ) ) {
-			$id = '-' . $id;
-		}
-		$id = WPMOLY_SLUG . $id;
-
-		wp_enqueue_script( $id );
-	}
-
-	/**
-	 * Register the stylesheets for the public-facing side of the site.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function enqueue_styles() {
-
-		$this->register_styles();
-
-		$this->enqueue_style();
-		$this->enqueue_style( 'common' );
-		$this->enqueue_style( 'headboxes' );
-		$this->enqueue_style( 'grids' );
-		$this->enqueue_style( 'flags' );
-		$this->enqueue_style( 'font' );
-	}
-
-	/**
-	 * Print a JavaScript template.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $handle Template slug
-	 * @param    mixed     $template Template file path or instance
-	 * 
-	 * @return   null
-	 */
-	private function print_template( $handle, $template ) {
-
-		if ( is_string( $template ) && ! file_exists( WPMOLY_PATH . $template ) ) {
-			return false;
-		}
-
-		echo "\n" . '<script type="text/html" id="tmpl-' . $handle . '">';
-
-		if ( $template instanceof \wpmoly\Templates\Template ) {
-			$template->set_data( array( 'is_json' => true ) );
-			$template->render( 'always' );
-		} else {
-			require_once WPMOLY_PATH . $template;
-		}
-
-		echo '</script>' . "\n";
+		$this->register_template( 'grid-actor-archive',        'public/templates/headboxes/actor-default.php' );
+		$this->register_template( 'grid-collection-archive',   'public/templates/headboxes/collection-default.php' );
+		$this->register_template( 'grid-genre-archive',        'public/templates/headboxes/genre-default.php' );
+		$this->register_template( 'grid-movie-archive',        'public/templates/headboxes/movie-default.php' );
 	}
 
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 * 
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function enqueue_scripts() {
 
@@ -303,7 +153,7 @@ class Frontend {
 		$this->enqueue_script( 'underscore-string' );
 
 		// Base
-		$this->enqueue_script();
+		$this->enqueue_script( 'public' );
 		$this->enqueue_script( 'utils' );
 
 		// Models
@@ -329,36 +179,54 @@ class Frontend {
 	}
 
 	/**
+	 * Register the stylesheets for the public-facing side of the site.
+	 * 
+	 * @since    3.0
+	 */
+	public function enqueue_styles() {
+
+		$this->register_styles();
+
+		$this->enqueue_style( 'public' );
+		$this->enqueue_style( 'common' );
+		$this->enqueue_style( 'headboxes' );
+		$this->enqueue_style( 'grids' );
+		$this->enqueue_style( 'flags' );
+		$this->enqueue_style( 'font' );
+	}
+
+	/**
 	 * Print the JavaScript templates for the frontend area.
 	 * 
 	 * TODO try not to include this where it's not needed.
 	 * 
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function enqueue_templates() {
 
-		$this->print_template( 'wpmoly-grid',                   'public/js/templates/grid/grid.php' );
-		$this->print_template( 'wpmoly-grid-menu',              'public/js/templates/grid/menu.php' );
-		$this->print_template( 'wpmoly-grid-customs',           'public/js/templates/grid/customs.php' );
-		$this->print_template( 'wpmoly-grid-settings',          'public/js/templates/grid/settings.php' );
-		$this->print_template( 'wpmoly-grid-pagination',        'public/js/templates/grid/pagination.php' );
+		$this->register_templates();
 
-		$this->print_template( 'wpmoly-grid-movie-grid',           wpmoly_get_js_template( 'grids/content/movie-grid.php' ) );
-		$this->print_template( 'wpmoly-grid-movie-grid-variant-1', wpmoly_get_js_template( 'grids/content/movie-grid-variant-1.php' ) );
-		$this->print_template( 'wpmoly-grid-movie-list',         wpmoly_get_js_template( 'grids/content/movie-list.php' ) );
-		$this->print_template( 'wpmoly-grid-actor-grid',         wpmoly_get_js_template( 'grids/content/actor-grid.php' ) );
-		$this->print_template( 'wpmoly-grid-actor-list',         wpmoly_get_js_template( 'grids/content/actor-list.php' ) );
-		$this->print_template( 'wpmoly-grid-collection-grid',    wpmoly_get_js_template( 'grids/content/collection-grid.php' ) );
-		$this->print_template( 'wpmoly-grid-collection-list',    wpmoly_get_js_template( 'grids/content/collection-list.php' ) );
-		$this->print_template( 'wpmoly-grid-genre-grid',         wpmoly_get_js_template( 'grids/content/genre-grid.php' ) );
-		$this->print_template( 'wpmoly-grid-genre-list',         wpmoly_get_js_template( 'grids/content/genre-list.php' ) );
+		$this->enqueue_template( 'grid' );
+		$this->enqueue_template( 'grid-menu' );
+		$this->enqueue_template( 'grid-customs' );
+		$this->enqueue_template( 'grid-settings' );
+		$this->enqueue_template( 'grid-pagination' );
 
-		$this->print_template( 'wpmoly-grid-actor-archive',      wpmoly_get_js_template( 'headboxes/actor-default.php' ) );
-		$this->print_template( 'wpmoly-grid-collection-archive', wpmoly_get_js_template( 'headboxes/collection-default.php' ) );
-		$this->print_template( 'wpmoly-grid-genre-archive',      wpmoly_get_js_template( 'headboxes/genre-default.php' ) );
-		$this->print_template( 'wpmoly-grid-movie-archive',      wpmoly_get_js_template( 'headboxes/movie-default.php' ) );
+		$this->enqueue_template( 'grid-movie-grid' );
+		$this->enqueue_template( 'grid-movie-grid-variant-1' );
+		$this->enqueue_template( 'grid-movie-grid-variant-2' );
+		$this->enqueue_template( 'grid-movie-list' );
+		$this->enqueue_template( 'grid-actor-grid' );
+		$this->enqueue_template( 'grid-actor-list' );
+		$this->enqueue_template( 'grid-collection-grid' );
+		$this->enqueue_template( 'grid-collection-list' );
+		$this->enqueue_template( 'grid-genre-grid' );
+		$this->enqueue_template( 'grid-genre-list' );
+
+		$this->enqueue_template( 'grid-actor-archive' );
+		$this->enqueue_template( 'grid-collection-archive' );
+		$this->enqueue_template( 'grid-genre-archive' );
+		$this->enqueue_template( 'grid-movie-archive' );
 	}
 
 	/**
@@ -509,8 +377,6 @@ class Frontend {
 	 * Register the Shortcodes.
 	 * 
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_shortcodes() {
 
@@ -572,8 +438,6 @@ class Frontend {
 	 * Register Widgets.
 	 * 
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_widgets() {
 

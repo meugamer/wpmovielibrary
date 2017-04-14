@@ -9,7 +9,7 @@
  * @subpackage WPMovieLibrary/admin
  */
 
-namespace wpmoly\Backstage;
+namespace wpmoly\Admin;
 
 use wpmoly\Templates\Admin as Template;
 

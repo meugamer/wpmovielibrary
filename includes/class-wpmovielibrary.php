@@ -129,6 +129,7 @@ final class Library {
 	private function load_dependencies() {
 
 		// Core
+		require_once WPMOLY_PATH . 'includes/core/class-assets.php';
 		require_once WPMOLY_PATH . 'includes/core/class-loader.php';
 		require_once WPMOLY_PATH . 'includes/core/class-i18n.php';
 		require_once WPMOLY_PATH . 'includes/core/class-l10n.php';
@@ -139,8 +140,9 @@ final class Library {
 
 		// Templates
 		require_once WPMOLY_PATH . 'includes/templates/class-template.php';
-		require_once WPMOLY_PATH . 'includes/templates/class-admin-template.php';
-		require_once WPMOLY_PATH . 'includes/templates/class-public-template.php';
+		require_once WPMOLY_PATH . 'includes/templates/class-admin.php';
+		require_once WPMOLY_PATH . 'includes/templates/class-front.php';
+		require_once WPMOLY_PATH . 'includes/templates/class-javascript.php';
 		require_once WPMOLY_PATH . 'includes/templates/class-grid.php';
 		require_once WPMOLY_PATH . 'includes/templates/class-headbox.php';
 
@@ -269,7 +271,7 @@ final class Library {
 			return false;
 		}
 
-		$admin = Backstage::get_instance();
+		$admin = Admin\Backstage::get_instance();
 		//$admin->set_default_filters();
 
 		$this->loader->add_filter( 'admin_init',                $admin, 'admin_init' );

@@ -32,19 +32,18 @@ function wpmoly_get_template( $template ) {
  * 
  * @since    3.0
  * 
- * @param    string    $template Template name.
+ * @param    string     $template Template name.
  * 
- * @return   \wpmoly\Templates\Template
+ * @return   \wpmoly\Templates\JavaScript
  */
 function wpmoly_get_js_template( $template ) {
 
-	$template = new \wpmoly\Templates\Front( $template );
+	$template = new \wpmoly\Templates\JavaScript( $template );
 
 	$template->set_data( array( 'is_json' => true ) );
 
 	return $template;
 }
-
 
 /**
  * Get an Headbox template.
