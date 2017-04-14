@@ -226,6 +226,9 @@ class API {
 			'raw'      => $year
 		);
 
+		// Content is overkilled for grids.
+		$response->data['content']['rendered'] = '';
+
 		return $response;
 
 	}

@@ -51,7 +51,7 @@ _.extend( wpmoly.model, {
 					if ( _.contains( booleans, key ) ) {
 						this.set( key, !! value, { silent : true } );
 					} else if ( _.contains( integers, key ) ) {
-						this.set( key, parseInt( value ), { silent : true } );
+						this.set( key, parseInt( value ) || this.defaults[ key ], { silent : true } );
 					}
 				}
 			}, this );

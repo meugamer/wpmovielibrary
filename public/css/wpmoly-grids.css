@@ -442,7 +442,7 @@
 
 .wpmoly.grid .grid-content .list.nodes-list .node-count {
 	font-size: .75rem;
-	margin-top: -.75rem;
+	margin-top: -.125rem;
 }
 
 /*
@@ -520,3 +520,171 @@
 	font-size: 0.8em;
 }
 
+/*
+ * Variant-1 Grid Theme
+ */
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie {
+	box-shadow: 0 0.15em .25em rgba(0, 0, 0, 0.25);
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .node .node-poster,
+.wpmoly.grid.theme-variant-1 .grid-content .grid .node .node-picture {
+	position: relative;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .node .node-poster a,
+.wpmoly.grid.theme-variant-1 .grid-content .grid .node .node-picture a {
+	box-shadow: 0 0 0;
+	height: 100%;
+	position: absolute;
+	text-decoration: none;
+	width: 100%;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-content {
+	background: #fff;
+	overflow: hidden;
+	padding: .5em .75em;
+	position: relative;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-title {
+	font-size: .8em;
+	text-transform: uppercase;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-title a {
+	color: #333;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-title a:hover {
+	color: #728999;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-genres {
+	font-size: .675em;
+	margin-top: -.5em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-rating {
+	margin-top: .5em;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-readmore {
+	bottom: 0;
+	height: 1em;
+	position: absolute;
+	right: 0;
+	width: 1em;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-readmore a {
+	color: #eee;
+	display: block;
+	font-weight: 800;
+	height: 1em;
+	line-height: .8em;
+	position: relative;
+	width: 1em;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-readmore:before {
+	border: 2em solid transparent;
+	border-right-color: #666;
+	bottom: -2em;
+	content: '';
+	position: absolute;
+	right: 0;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-readmore:hover a {
+	color: #fff;
+}
+
+.wpmoly.grid.theme-variant-1 .grid-content .grid .movie .node-readmore:hover::before {
+	border-right-color: #333;
+}
+
+/*
+ * Variant-2 Grid Theme
+ */
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie {
+	background: #333;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie:hover {
+	background: #fff;
+	box-shadow: 0 0.05em .15em rgba(0, 0, 0, 0.15);
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie a,
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie:hover a {
+	transition: none;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-poster {
+	position: relative;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-poster a {
+	border: 6px solid #333;
+	box-shadow: 0 0 0;
+	height: 100%;
+	position: absolute;
+	text-decoration: none;
+	width: 100%;
+}
+
+.grid-builder-preview .wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-poster a {
+	height: calc( 100% - 12px );
+	width: calc( 100% - 12px );
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie:hover .movie-poster a {
+	border-color: #fff;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .node-content {
+	padding: 0 .75em .5em;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-title a {
+	color: #666;
+	font-size: .675em;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-title a:hover {
+	color: #aaa;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-year,
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-rating {
+	color: #aaa;
+	font-size: .75em;
+}
+
+/*.wpmoly.grid.theme-variant-2 .grid-content .grid .movie:hover .movie-year,
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie:hover .movie-rating {
+	color: #bbb;
+}*/
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-year {
+	float: left;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-rating {
+	float: right;
+}

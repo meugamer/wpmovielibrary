@@ -52,6 +52,7 @@
 	box-shadow: 0 0 2em rgba(0, 0, 0, 0.75);
 	height: 100%;
 	left: 1.5em;
+	max-width: 30%;
 	position: absolute;
 	width: 10em;
 }
@@ -219,7 +220,7 @@
 }
 
 .wpmoly.movie-headbox.theme-default.collapsed .headbox-more,
-.wpmoly.movie-headbox.theme-default.collapse .headbox-less {
+.wpmoly.movie-headbox.theme-default.collapse:not(.collapsed) .headbox-less {
 	display: block;
 }
 
@@ -229,7 +230,7 @@
 }
 
 .wpmoly.movie-headbox.theme-default.collapse .headbox-content {
-	padding-bottom: 2em;
+	padding-bottom: 4em;
 }
 
 .wpmoly.movie-headbox.theme-default.collapsed .headbox-content:after {

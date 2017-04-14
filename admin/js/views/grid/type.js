@@ -42,6 +42,31 @@ _.extend( Grid, {
 			this.listenTo( this.model, 'change:type',  this.render );
 			this.listenTo( this.model, 'change:mode',  this.render );
 			this.listenTo( this.model, 'change:theme', this.render );
+
+			wpmoly.$( '[data-action="customize-grid"]' ).on( 'click', this.toggle );
+		},
+
+		/**
+		 * Toggle the Metabox.
+		 * 
+		 * If a 'click' event is passed, trigger the default WP Metabox
+		 * toggle process.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    object    JS 'click' event
+		 * 
+		 * @return   void
+		 */
+		toggle: function( e ) {
+
+			if ( e ) {
+				wpmoly.$( '#wpmoly-grid-type-metabox .handlediv' ).trigger( 'click' );
+			}
+
+			var closed = wpmoly.$( '#wpmoly-grid-type-metabox' ).hasClass( 'closed' );
+
+			wpmoly.$( '#customize-grid' ).toggleClass( 'active', ! closed );
 		},
 
 		/**
@@ -111,6 +136,8 @@ _.extend( Grid, {
 		 * @return   Returns itself to allow chaining.
 		 */
 		render: function() {
+
+			this.toggle();
 
 			this.$el.html( this.template(
 				_.extend( this.model.toJSON(), {

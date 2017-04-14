@@ -3,32 +3,28 @@ wpmoly = window.wpmoly || {};
 
 wpmoly.collection = wpmoly.collection || {};
 
-wp.api.loadPromise.done( function() {
+/*wpmoly.collection.Movies = wp.api.collections.Movies.extend({
 
-	wpmoly.collection.Movies = wp.api.collections.Movies.extend({
+	parse: function( response, options ) {
 
-		parse: function( response, options ) {
+		_.each( response, function( model, i ) {
 
-			_.each( response, function( model, i ) {
+			var meta = model.meta;
 
-				var meta = model.meta;
+			model.meta = new Backbone.Model();
 
-				model.meta = new Backbone.Model();
+			_.each( meta, function( value, key ) {
 
-				_.each( meta, function( value, key ) {
+				if ( _.isUndefined( value.rendered ) ) {
+					var value = {
+						rendered: value
+					};
+				}
 
-					if ( _.isUndefined( value.rendered ) ) {
-						var value = {
-							rendered: value
-						};
-					}
-
-					model.meta.set( key, value );
-				} );
+				model.meta.set( key, value );
 			} );
+		} );
 
-			return response;
-		}
-	});
-
-} );
+		return response;
+	}
+});*/

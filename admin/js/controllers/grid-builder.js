@@ -1,66 +1,101 @@
 
 wpmoly = window.wpmoly || {};
 
-_.extend( wpmoly.controller, {
+wpmoly.controller.GridBuilder = Backbone.Model.extend({
 
-	GridBuilder: Backbone.Model.extend({
+	/**
+	 * Initialize the Model.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	initialize: function( attributes, options ) {
 
-		/**
-		 * Initialize the Model.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return   void
-		 */
-		initialize: function( attributes, options ) {
+		this.preview = options.preview;
 
-			this.builder = new wpmoly.model.GridBuilder( {}, { controller: this } );
-		},
+		this.builder = new wpmoly.model.GridBuilder( {}, { controller: this } );
 
-		/**
-		 * Set grid type.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    Grid type.
-		 * 
-		 * @return   void
-		 */
-		setType: function( type ) {
+		this.listenTo( this.builder, 'change:type change:mode change:theme', this.updatePreview );
+	},
 
-			this.builder.set( this.builder.defaults(), { silent: true } );
-			this.builder.set({ theme: 'default', mode: 'grid', type: type });
-		},
+	/**
+	 * Ready the controller.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	ready: function() {
 
-		/**
-		 * Set grid mode.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    Grid mode.
-		 * 
-		 * @return   void
-		 */
-		setMode: function( mode ) {
+		return this.trigger( 'ready' );
+	},
 
-			this.builder.set({ theme: 'default', mode: mode });
-		},
+	/**
+	 * Update the grid preview when some settings change.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    {object}    model
+	 * @param    {object}    options
+	 * 
+	 * @return   void
+	 */
+	updatePreview: function( model, options ) {
 
-		/**
-		 * Set grid theme.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    Grid theme.
-		 * 
-		 * @return   void
-		 */
-		setTheme: function( theme ) {
+		this.preview.setSettings( model.changed );
+	},
 
-			this.builder.set({ theme: theme });
+	/**
+	 * Set grid type.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    Grid type.
+	 * 
+	 * @return   void
+	 */
+	setType: function( type ) {
 
-			this.setTitle();
-		}
-	})
+		this.builder.reset();
 
+		return this.builder.set({
+			theme : 'default',
+			mode  : 'grid',
+			type  : type
+		});
+	},
+
+	/**
+	 * Set grid mode.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    Grid mode.
+	 * 
+	 * @return   void
+	 */
+	setMode: function( mode ) {
+
+		return this.builder.set({
+			theme : 'default',
+			mode  : mode
+		});
+	},
+
+	/**
+	 * Set grid theme.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    Grid theme.
+	 * 
+	 * @return   void
+	 */
+	setTheme: function( theme ) {
+
+		return this.builder.set({
+			theme : theme
+		});
+	}
 });

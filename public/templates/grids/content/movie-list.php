@@ -35,6 +35,6 @@ if ( ! $is_json ) :
 			</ul>
 <?php else : ?>
 
-					<div class="node-title movie-title"><a href="{{ data.node.get( 'link' ) }}">{{ data.node.get( 'meta' ).get( 'title' ).rendered }}</a></div>
-					<div class="node-count movie-count"><span class="movie-runtime">{{ data.node.get( 'meta' ).get( 'runtime' ).rendered }}</span>&nbsp;−&nbsp;<span class="movie-genres">{{ data.node.get( 'meta' ).get( 'genres' ).raw }}</span></div>
+					<div class="node-title movie-title"><a href="{{ data.node.get( 'link' ) }}">{{ data.node.get( 'meta' ).title.rendered }}</a></div>
+					<div class="node-count movie-count"><span class="movie-runtime">{{ data.node.get( 'meta' ).runtime.rendered }}</span>&nbsp;−&nbsp;<span class="movie-genres">{{ data.node.get( 'meta' ).genres.raw }}</span></div>
 <?php endif; ?>

@@ -345,7 +345,8 @@ class Frontend {
 		$this->print_template( 'wpmoly-grid-settings',          'public/js/templates/grid/settings.php' );
 		$this->print_template( 'wpmoly-grid-pagination',        'public/js/templates/grid/pagination.php' );
 
-		$this->print_template( 'wpmoly-grid-movie-grid',         wpmoly_get_js_template( 'grids/content/movie-grid.php' ) );
+		$this->print_template( 'wpmoly-grid-movie-grid',           wpmoly_get_js_template( 'grids/content/movie-grid.php' ) );
+		$this->print_template( 'wpmoly-grid-movie-grid-variant-1', wpmoly_get_js_template( 'grids/content/movie-grid-variant-1.php' ) );
 		$this->print_template( 'wpmoly-grid-movie-list',         wpmoly_get_js_template( 'grids/content/movie-list.php' ) );
 		$this->print_template( 'wpmoly-grid-actor-grid',         wpmoly_get_js_template( 'grids/content/actor-grid.php' ) );
 		$this->print_template( 'wpmoly-grid-actor-list',         wpmoly_get_js_template( 'grids/content/actor-list.php' ) );

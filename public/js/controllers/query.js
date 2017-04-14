@@ -28,7 +28,7 @@ _.extend( wpmoly.controller, {
 			this.type = options.type;
 			this.settings = options.settings;
 
-			this.load();
+			this.ready();
 
 			this.on( 'fetch:done', this.setState, this );
 
@@ -45,10 +45,10 @@ _.extend( wpmoly.controller, {
 		 * 
 		 * @return   void
 		 */
-		load: function() {
+		ready: function() {
 
 			var collections = {
-				movie      : wpmoly.collection.Movies,
+				movie      : wp.api.collections.Movies,
 				actor      : wp.api.collections.Actors,
 				collection : wp.api.collections.Collections,
 				genre      : wp.api.collections.Genres
@@ -111,6 +111,10 @@ _.extend( wpmoly.controller, {
 		 * @return   Promise
 		 */
 		query: function( options ) {
+
+			if ( ! this.collection ) {
+				this.load();
+			}
 
 			this.calculateNumber();
 

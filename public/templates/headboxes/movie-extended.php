@@ -46,8 +46,8 @@ if ( ! $is_json ) :
 			<div class="headbox-poster" style="background-image:url({{ data.node.get( 'poster' ).sizes.medium.url }});"></div>
 			<div class="headbox-titles">
 				<div class="movie-title"><a href="{{ data.node.get( 'link' ) }}">{{ data.node.get( 'title' ).rendered }}</a></div>
-				<div class="movie-original-title">{{ data.node.get( 'meta' ).get( 'original_title' ).rendered }}</div>
-				<div class="movie-tagline">{{ data.node.get( 'meta' ).get( 'tagline' ).rendered }}</div>
+				<div class="movie-original-title">{{ data.node.get( 'meta' ).original_title.rendered }}</div>
+				<div class="movie-tagline">{{ data.node.get( 'meta' ).tagline.rendered }}</div>
 			</div>
 		</div>
 		<div class="headbox-content clearfix">
@@ -55,7 +55,7 @@ if ( ! $is_json ) :
 				
 			</div>
 			<div class="headbox-metadata">
-				<div class="movie-overview">{{ data.node.get( 'meta' ).get( 'overview' ).rendered }}</div>
+				<div class="movie-overview">{{ data.node.get( 'meta' ).overview.rendered }}</div>
 			</div>
 		</div>
 	</div>

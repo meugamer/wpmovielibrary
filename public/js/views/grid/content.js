@@ -373,7 +373,7 @@ Grid.Nodes = wp.Backbone.View.extend({
 
 		if ( ! this.rendered ) {
 			// Replace $el with pre-generated content
-			this.$el.html( this.options.content.html() );
+			this.$el.append( this.options.content );
 		}
 
 		this.$el.addClass( this.controller.settings.get( 'mode' ) );
@@ -432,10 +432,10 @@ Grid.NodesGrid = Grid.Nodes.extend({
 			ratio = 1.5;
 		}
 
-		if ( ( Math.floor( innerWidth / columns ) - 8 ) > idealWidth ) {
-			columns = Math.floor( innerWidth / ( idealWidth + 8 ) );
-		} else if ( ( Math.floor( innerWidth / columns ) - 8 ) < idealWidth ) {
+		if ( ( Math.floor( innerWidth / columns ) - 8 ) < idealWidth ) {
 			--columns;
+		} else if ( ( Math.floor( innerWidth / columns ) - 8 ) > idealWidth ) {
+			columns = Math.floor( innerWidth / ( idealWidth + 8 ) );
 		}
 
 		this.columnWidth  = Math.floor( innerWidth / columns ) - 8;

@@ -39,6 +39,24 @@ class GridBuilder extends Metabox {
 	private $grid;
 
 	/**
+	 * Class constructor.
+	 * 
+	 * Mostly set the grid instance.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function __construct() {
+		
+		if ( isset( $_REQUEST['post'] ) ) {
+			$this->grid = get_grid( $_REQUEST['post'] );
+		} elseif ( isset( $_REQUEST['post_ID'] ) ) {
+			$this->grid = get_grid( $_REQUEST['post_ID'] );
+		}
+	}
+
+	/**
 	 * Define metaboxes.
 	 * 
 	 * @since    3.0
@@ -53,7 +71,7 @@ class GridBuilder extends Metabox {
 			'callback'      => array( $this, 'type_metabox' ),
 			'screen'        => 'grid',
 			'context'       => 'side',
-			'priority'      => 'high',
+			'priority'      => 'low',
 			'callback_args' => null
 		) );
 
@@ -972,12 +990,10 @@ class GridBuilder extends Metabox {
 		if ( 'grid' !== $post->post_type ) {
 			return false;
 		}
-
-		$grid = get_grid( $post->ID );
 ?>
 		<div id="wpmoly-grid-builder">
 
-			<script type="text/javascript">var _wpmolyGridBuilderData = <?php echo $grid->toJSON(); ?>;</script>
+			<script type="text/javascript">var _wpmolyGridBuilderData = <?php echo $this->grid->toJSON(); ?>;</script>
 			<?php wp_nonce_field( 'save-grid-setting', 'wpmoly_save_grid_setting_nonce', $referer = false ); ?>
 
 			<div id="wpmoly-grid-builder-shortcuts">
@@ -1004,15 +1020,35 @@ class GridBuilder extends Metabox {
 		if ( 'grid' !== $post->post_type ) {
 			return false;
 		}
-
-		/*if ( ! in_array( $manager->name, array_keys( $this->get_managers() ) ) ) {
-			return false;
-		}*/
 ?>
 		<div class="grid-builder-separator">
 			<div class="button separator-label"><?php _e( 'Settings' ); ?></div>
 		</div>
 
+<?php
+	}
+
+	/**
+	 * Grid Submit Metabox additional/custom buttons.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   void
+	 */
+	public function submitbox() {
+
+		global $post;
+
+		if ( 'grid' !== $post->post_type ) {
+			return false;
+		}
+?>
+		<div id="customize-action">
+			<button type="button" name="customize" id="customize-grid" data-action="customize-grid"><span class="dashicons dashicons-admin-settings"></span></button>
+		</div>
+		<div id="save-action">
+			<button type="submit" name="save" id="save-grid"><span class="dashicons dashicons-upload"></span></button>
+		</div>
 <?php
 	}
 
@@ -1034,50 +1070,44 @@ class GridBuilder extends Metabox {
 
 		<script id="tmpl-wpmoly-grid-builder-type-metabox" type="text/html">
 
-		<div class="grid-builder-separator">
-			<div class="button separator-label"><?php _e( 'Type' ); ?></div>
-		</div>
-
 		<input type="hidden" name="_wpmoly_grid_type" value="{{ data.type }}" />
 		<input type="hidden" name="_wpmoly_grid_mode" value="{{ data.mode }}" />
 		<input type="hidden" name="_wpmoly_grid_theme" value="{{ data.theme }}" />
 
-		<div id="grid-types" class="supported-grid-types active">
+		<div id="grid-types" class="block supported-grid-types active">
+			<h4><?php _e( 'Select a type of grid', 'wpmovielibrary' ); ?></h4>
+			<div class="block-inner clearfix">
 			<# _.each( data.types, function( type, type_id ) { #>
-			<button type="button" data-action="grid-type" data-value="{{ type_id }}" title="{{ type.label }}" class="<# if ( type_id == data.type ) { #>active<# } #>"><span class="{{ type.icon }}"></span></button>
+				<button type="button" data-action="grid-type" data-value="{{ type_id }}" title="{{ type.label }}" class="<# if ( type_id == data.type ) { #>active<# } #>"><span class="{{ type.icon }}"></span></button>
 			<# } ); #>
-			<div class="clear"></div>
-		</div>
-
-		<div class="grid-builder-separator">
-			<div class="button separator-label"><?php _e( 'Mode' ); ?></div>
+			</div>
 		</div>
 
 		<# _.each( data.types, function( type, type_id ) { #>
 			<# if ( type_id == data.type ) { #>
-		<div id="{{ type_id }}-grid-modes" class="supported-grid-modes active">
+		<div id="{{ type_id }}-grid-modes" class="block supported-grid-modes active">
+			<h4><?php _e( 'Select a grid mode', 'wpmovielibrary' ); ?></h4>
+			<div class="block-inner clearfix">
 			<# _.each( data.modes[ type_id ], function( mode, mode_id ) { #>
-			<button type="button" data-action="grid-mode" data-value="{{ mode_id }}" title="{{ mode.label }}" class="<# if ( mode_id == data.mode ) { #>active<# } #>"><span class="{{ mode.icon }}"></span></button>
+				<button type="button" data-action="grid-mode" data-value="{{ mode_id }}" title="{{ mode.label }}" class="<# if ( mode_id == data.mode ) { #>active<# } #>"><span class="{{ mode.icon }}"></span></button>
 			<# } ); #>
-			<div class="clear"></div>
+			</div>
 		</div>
 			<# } #>
 		<# } ); #>
-
-		<div class="grid-builder-separator">
-			<div class="button separator-label"><?php _e( 'Theme' ); ?></div>
-		</div>
 
 		<# _.each( data.types, function( type, type_id ) { #>
 			<# if ( type_id == data.type ) { #>
 				<# _.each( data.modes[ type_id ], function( mode, mode_id ) { #>
 					<# if ( mode_id == data.mode ) { #>
-		<div id="{{ type_id }}-grid-{{ mode_id }}-mode-themes" class="supported-grid-themes active">
+		<div id="{{ type_id }}-grid-{{ mode_id }}-mode-themes" class="block supported-grid-themes active">
+			<h4><?php _e( 'Select a theme', 'wpmovielibrary' ); ?></h4>
+			<div class="block-inner clearfix">
 						<# _.each( data.themes[ type_id ][ mode_id ], function( theme, theme_id ) { #>
-			<button type="button" data-action="grid-theme" data-value="{{ theme_id }}" title="{{ theme.label }}" class="<# if ( theme_id == data.theme ) { #>active<# } #>"><span class="{{ theme.icon }}"></span></button>
+				<button type="button" data-action="grid-theme" data-value="{{ theme_id }}" title="{{ theme.label }}" class="<# if ( theme_id == data.theme ) { #>active<# } #>"><span class="{{ theme.icon }}"></span></button>
 						<# } ); #>
 					<# } #>
-			<div class="clear"></div>
+			</div>
 		</div>
 				<# } ); #>
 			<# } #>
@@ -1086,10 +1116,6 @@ class GridBuilder extends Metabox {
 		</script>
 
 		<div id="wpmoly-grid-builder-type-metabox"></div>
-
-		<div class="grid-builder-separator">
-			<div class="button separator-label"><?php _e( 'Save' ); ?></div>
-		</div>
 
 <?php
 	}
@@ -1110,14 +1136,19 @@ class GridBuilder extends Metabox {
 		}
 
 		// Grid template setup
-		//$template = get_grid_template( $this->grid );
+		if ( ! is_null( $this->grid ) ) {
+			$template = get_grid_template( $this->grid );
+			$grid = $template->render();
+		} else {
+			$grid = '';
+		}
 
 ?>
-		<div class="wpmoly">
+		<div class="wpmoly grid-builder">
 			<div class="grid-builder-separator">
 				<button type="button" data-action="toggle-preview" class="button separator-label"><?php _e( 'Preview' ); ?></button>
 			</div>
-			<div id="wpmoly-grid-builder-preview"><?php //$template->render( 'always', $echo = true ); ?></div>
+			<div id="wpmoly-grid-builder-preview" class="grid-builder-preview"><?php echo $grid; ?></div>
 		</div>
 <?php
 	}
@@ -1161,11 +1192,9 @@ class GridBuilder extends Metabox {
 	 */
 	public function save( $post_id, $post, $update ) {
 
-		$grid = get_grid( $post_id );
-
 		if ( ! empty( $_POST['_wpmoly_grid_type'] ) ) {
 			$type = $_POST['_wpmoly_grid_type'];
-			$grid->set_type( $type );
+			$this->grid->set_type( $type );
 			foreach ( $_POST as $key => $value ) {
 				if ( false !== strpos( $key, 'butterbean_' ) && false === strpos( $key, "{$type}-grid-settings" ) ) {
 					unset( $_POST[ $key ] );
@@ -1174,14 +1203,14 @@ class GridBuilder extends Metabox {
 		}
 
 		if ( ! empty( $_POST['_wpmoly_grid_mode'] ) ) {
-			$grid->set_mode( $_POST['_wpmoly_grid_mode'] );
+			$this->grid->set_mode( $_POST['_wpmoly_grid_mode'] );
 		}
 
 		if ( ! empty( $_POST['_wpmoly_grid_theme'] ) ) {
-			$grid->set_theme( $_POST['_wpmoly_grid_theme'] );
+			$this->grid->set_theme( $_POST['_wpmoly_grid_theme'] );
 		}
 
-		$grid->save();
+		$this->grid->save();
 	}
 
 }

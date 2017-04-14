@@ -18,23 +18,11 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 
 		this.controller = options.controller || {};
 
-		this.render();
+		// Wait for the controller's signal to render.
+		this.listenToOnce( this.controller, 'ready', this.render );
+		this.listenToOnce( this.controller, 'ready', this.setRegions );
 
-		this.set_regions();
-
-		this.bindEvents();
-	},
-
-	/**
-	 * Bind events.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	bindEvents: function() {
-
-		// Switch themes
+		// Change Theme.
 		this.listenTo( this.controller.settings, 'change:theme', this.changeTheme );
 	},
 
@@ -64,29 +52,27 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
-	set_regions: function() {
+	setRegions: function() {
 
-		var settings = this.controller.settings,
-		     preview = this.controller.preview,
-		        mode = this.controller.settings.get( 'mode' ),
-		     options = { controller : this.controller };
+		var mode = this.controller.getMode(),
+		 options = { controller : this.controller };
 
-		if ( preview || settings.get( 'settings_control' ) || settings.get( 'customs_control' ) ) {
+		if ( this.controller.canEdit() || this.controller.canCustomize() ) {
 			this.menu = new wpmoly.view.Grid.Menu( options );
 			this.views.set( '.grid-menu.settings-menu', this.menu );
 		}
 
-		if ( preview || settings.get( 'enable_pagination' ) ) {
+		if ( this.controller.canBrowse() ) {
 			this.pagination = new wpmoly.view.Grid.Pagination( options );
 			this.views.set( '.grid-menu.pagination-menu', this.pagination );
 		}
 
-		if ( settings.get( 'settings_control' ) ) {
+		if ( this.controller.canEdit() ) {
 			this.settings = new wpmoly.view.Grid.Settings( options );
 			this.views.set( '.grid-settings', this.settings );
 		}
 
-		if ( settings.get( 'customs_control' ) ) {
+		if ( this.controller.canCustomize() ) {
 			this.customs = new wpmoly.view.Grid.Customs( options );
 			this.views.set( '.grid-customs', this.customs );
 		}
@@ -141,9 +127,16 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 	 */
 	setUniqueId: function() {
 
-		this.$el.prop( 'id', 'wpmoly-' + this.controller.uniqid );
+		var post_id = this.controller.get( 'post_id' ),
+		    grid_id = 'grid-' + post_id;
 
-		this.$el.addClass( 'grid-' + this.controller.get( 'post_id' ), this.controller.uniqid );
+		if ( ! this.uniqid ) {
+			this.uniqid = _.uniqueId( grid_id + '-' );
+		}
+
+		this.$el.prop( 'id', 'wpmoly-' + this.uniqid );
+
+		this.$el.addClass( grid_id, this.uniqid );
 	},
 
 	/**

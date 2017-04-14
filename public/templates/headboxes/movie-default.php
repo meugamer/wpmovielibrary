@@ -61,29 +61,29 @@ if ( ! $is_json ) :
 			</div>
 			<div class="headbox-poster" style="background-image:url({{ data.node.get( 'poster' ).sizes.medium.url }});"></div>
 			<div class="headbox-titles">
-				<div class="movie-title"><a href="{{ data.node.get( 'link' ) }}">{{ data.node.get( 'meta' ).get( 'title' ).rendered }}</a></div>
-				<div class="movie-original-title">{{ data.node.get( 'meta' ).get( 'original_title' ).rendered }}</div>
-				<div class="movie-tagline">{{ data.node.get( 'meta' ).get( 'tagline' ).rendered }}</div>
+				<div class="movie-title"><a href="{{ data.node.get( 'link' ) }}">{{ data.node.get( 'meta' ).title.rendered }}</a></div>
+				<div class="movie-original-title">{{ data.node.get( 'meta' ).original_title.rendered }}</div>
+				<div class="movie-tagline">{{ data.node.get( 'meta' ).tagline.rendered }}</div>
 			</div>
 		</div>
 		<div class="headbox-content clearfix">
 			<div class="headbox-cast">
-				<div class="movie-director"><?php _e( 'Directed by', 'wpmovielibrary' ); ?> {{{ data.node.get( 'meta' ).get( 'director' ).rendered }}}</div>
-				<div class="movie-actors"><?php _e( 'Staring', 'wpmovielibrary' ); ?> {{{ data.node.get( 'meta' ).get( 'cast' ).rendered }}}</div>
+				<div class="movie-director"><?php _e( 'Directed by', 'wpmovielibrary' ); ?> {{{ data.node.get( 'meta' ).director.rendered }}}</div>
+				<div class="movie-actors"><?php _e( 'Staring', 'wpmovielibrary' ); ?> {{{ data.node.get( 'meta' ).cast.rendered }}}</div>
 			</div>
 			<div class="headbox-metadata">
 				<div class="movie headbox-release-info">
 <# /*if ( ! _.isEmpty(  ) ) { #>
 					<span class="movie-year"><?php //$movie->the_year(); ?></span>
-<# }*/ if ( ! _.isEmpty( data.node.get( 'meta' ).get( 'runtime' ).rendered ) ) { #>
-					<span class="movie-runtime">{{ data.node.get( 'meta' ).get( 'runtime' ).rendered }}</span>
-<# } if ( ! _.isEmpty( data.node.get( 'meta' ).get( 'genres' ).rendered ) ) { #>
-					<span class="movie-genres">{{{ data.node.get( 'meta' ).get( 'genres' ).rendered }}}</span>
-<# } if ( ! _.isEmpty( data.node.get( 'meta' ).get( 'certification' ).rendered ) ) { #>
-					<span class="movie-certification">{{{ data.node.get( 'meta' ).get( 'certification' ).rendered }}}</span>
+<# }*/ if ( ! _.isEmpty( data.node.get( 'meta' ).runtime.rendered ) ) { #>
+					<span class="movie-runtime">{{ data.node.get( 'meta' ).runtime.rendered }}</span>
+<# } if ( ! _.isEmpty( data.node.get( 'meta' ).genres.rendered ) ) { #>
+					<span class="movie-genres">{{{ data.node.get( 'meta' ).genres.rendered }}}</span>
+<# } if ( ! _.isEmpty( data.node.get( 'meta' ).certification.rendered ) ) { #>
+					<span class="movie-certification">{{{ data.node.get( 'meta' ).certification.rendered }}}</span>
 <# } #>
 				</div>
-				<div class="movie-overview">{{ data.node.get( 'meta' ).get( 'overview' ).rendered }}</div>
+				<div class="movie-overview">{{ data.node.get( 'meta' ).overview.rendered }}</div>
 			</div>
 		</div>
 		<div class="headbox-more"><button data-action="expand"><span class="wpmolicon icon-arrow-down"></span></button></div>

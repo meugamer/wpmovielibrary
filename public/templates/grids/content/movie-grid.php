@@ -42,6 +42,6 @@ if ( ! $is_json ) :
 					<a href="{{ data.node.get( 'link' ) }}"></a>
 				</div>
 				<div class="node-title post-title movie-title"><a href="{{ data.node.get( 'link' ) }}">{{{ data.node.get( 'title' ).rendered }}}</a></div>
-				<div class="node-genres post-genres movie-genres">{{{ data.node.get( 'meta' ).get( 'genres' ).rendered }}}</div>
-				<div class="node-runtime post-runtime movie-runtime">{{ data.node.get( 'meta' ).get( 'runtime' ).rendered }}</div>
+				<div class="node-genres post-genres movie-genres">{{{ data.node.get( 'meta' ).genres.rendered }}}</div>
+				<div class="node-runtime post-runtime movie-runtime">{{{ data.node.get( 'meta' ).runtime.rendered }}}</div>
 <?php endif; ?>

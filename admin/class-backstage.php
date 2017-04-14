@@ -92,7 +92,7 @@ class Backstage {
 			),
 
 			// Base
-			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone' ) ),
+			'' => array( 'file' => WPMOLY_URL . 'public/js/wpmoly.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
 
 			// Utils
 			'utils'                   => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-utils.js' ),
@@ -112,12 +112,18 @@ class Backstage {
 			'images-model'            => array( 'file' => WPMOLY_URL . 'admin/js/models/images.js' ),
 			'grid-builder-model'      => array( 'file' => WPMOLY_URL . 'admin/js/models/grid-builder.js' ),
 
+			'content-model'  => array( 'file' => WPMOLY_URL . 'public/js/models/grid/content.js' ),
+			'settings-model' => array( 'file' => WPMOLY_URL . 'public/js/models/grid/settings.js' ),
+
 			// Controllers
 			'library-controller'      => array( 'file' => WPMOLY_URL . 'admin/js/controllers/library.js' ),
 			'search-controller'       => array( 'file' => WPMOLY_URL . 'admin/js/controllers/search.js' ),
 			'editor-controller'       => array( 'file' => WPMOLY_URL . 'admin/js/controllers/editor.js' ),
 			'modal-controller'        => array( 'file' => WPMOLY_URL . 'admin/js/controllers/modal.js' ),
 			'grid-builder-controller' => array( 'file' => WPMOLY_URL . 'admin/js/controllers/grid-builder.js' ),
+
+			'query-controller' => array( 'file' => WPMOLY_URL . 'public/js/controllers/query.js' ),
+			'grid-controller'  => array( 'file' => WPMOLY_URL . 'public/js/controllers/grid.js' ),
 
 			// Views
 			'frame-view'                     => array( 'file' => WPMOLY_URL . 'public/js/views/frame.js' ),
@@ -148,6 +154,13 @@ class Backstage {
 			'grid-builder-view'              => array( 'file' => WPMOLY_URL . 'admin/js/views/grid/builder.js' ),
 			'grid-type-view'                 => array( 'file' => WPMOLY_URL . 'admin/js/views/grid/type.js' ),
 
+			'grid-view'            => array( 'file' => WPMOLY_URL . 'public/js/views/grid.js' ),
+			'grid-menu-view'       => array( 'file' => WPMOLY_URL . 'public/js/views/grid/menu.js' ),
+			'grid-pagination-view' => array( 'file' => WPMOLY_URL . 'public/js/views/grid/pagination.js' ),
+			'grid-settings-view'   => array( 'file' => WPMOLY_URL . 'public/js/views/grid/settings.js' ),
+			'grid-customs-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/customs.js' ),
+			'grid-content-view'    => array( 'file' => WPMOLY_URL . 'public/js/views/grid/content.js' ),
+
 			// Runners
 			'library'                 => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-library.js' ),
 			'api'                     => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-api.js' ),
@@ -158,6 +171,8 @@ class Backstage {
 			'grid-builder'            => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-grid-builder.js', 'deps' => array( 'butterbean' ) ),
 			'search'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-search.js' ),
 			'tester'                  => array( 'file' => WPMOLY_URL . 'admin/js/wpmoly-tester.js' ),
+
+			//'grids'     => array( 'file' => WPMOLY_URL . 'public/js/wpmoly-grids.js', 'deps' => array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) ),
 		);
 
 		/**
@@ -321,22 +336,29 @@ class Backstage {
 
 	/**
 	 * Print a JavaScript template.
-	 *
+	 * 
 	 * @since    3.0
-	 *
+	 * 
 	 * @param    string    $handle Template slug
-	 * @param    string    $src Template file path
-	 *
+	 * @param    mixed     $template Template file path or instance
+	 * 
 	 * @return   null
 	 */
-	private function print_template( $handle, $src ) {
+	private function print_template( $handle, $template ) {
 
-		if ( ! file_exists( WPMOLY_PATH . $src ) ) {
+		if ( is_string( $template ) && ! file_exists( WPMOLY_PATH . $template ) ) {
 			return false;
 		}
 
 		echo "\n" . '<script type="text/html" id="tmpl-' . $handle . '">';
-		require_once WPMOLY_PATH . $src;
+
+		if ( $template instanceof \wpmoly\Templates\Template ) {
+			$template->set_data( array( 'is_json' => true ) );
+			$template->render( 'always' );
+		} else {
+			require_once WPMOLY_PATH . $template;
+		}
+
 		echo '</script>' . "\n";
 	}
 
@@ -470,16 +492,27 @@ class Backstage {
 
 			// Models
 			$this->enqueue_script( 'grid-builder-model' );
+			$this->enqueue_script( 'content-model' );
+			$this->enqueue_script( 'settings-model' );
 
 			// Controllers
 			$this->enqueue_script( 'grid-builder-controller' );
+			$this->enqueue_script( 'query-controller' );
+			$this->enqueue_script( 'grid-controller' );
 
 			// Views
 			$this->enqueue_script( 'grid-builder-view' );
 			$this->enqueue_script( 'grid-type-view' );
+			$this->enqueue_script( 'grid-view' );
+			$this->enqueue_script( 'grid-menu-view' );
+			$this->enqueue_script( 'grid-pagination-view' );
+			$this->enqueue_script( 'grid-settings-view' );
+			$this->enqueue_script( 'grid-customs-view' );
+			$this->enqueue_script( 'grid-content-view' );
 
 			// Runners
 			$this->enqueue_script( 'grid-builder' );
+			$this->enqueue_script( 'grids' );
 		}
 
 		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'page' == get_post_type() ) {
@@ -544,6 +577,25 @@ class Backstage {
 			$this->print_template( 'wpmoly-modal-selection',       'admin/js/templates/modal/selection.php' );
 
 			$this->print_template( 'wpmoly-confirm-modal',         'public/js/templates/confirm.php' );
+		}
+
+		if ( 'grid' == get_post_type() ) {
+			$this->print_template( 'wpmoly-grid',                   'public/js/templates/grid/grid.php' );
+			$this->print_template( 'wpmoly-grid-menu',              'public/js/templates/grid/menu.php' );
+			$this->print_template( 'wpmoly-grid-customs',           'public/js/templates/grid/customs.php' );
+			$this->print_template( 'wpmoly-grid-settings',          'public/js/templates/grid/settings.php' );
+			$this->print_template( 'wpmoly-grid-pagination',        'public/js/templates/grid/pagination.php' );
+
+			$this->print_template( 'wpmoly-grid-movie-grid',         wpmoly_get_js_template( 'grids/content/movie-grid.php' ) );
+			$this->print_template( 'wpmoly-grid-movie-grid-variant-1', wpmoly_get_js_template( 'grids/content/movie-grid-variant-1.php' ) );
+			$this->print_template( 'wpmoly-grid-movie-grid-variant-2', wpmoly_get_js_template( 'grids/content/movie-grid-variant-2.php' ) );
+			$this->print_template( 'wpmoly-grid-movie-list',         wpmoly_get_js_template( 'grids/content/movie-list.php' ) );
+			$this->print_template( 'wpmoly-grid-actor-grid',         wpmoly_get_js_template( 'grids/content/actor-grid.php' ) );
+			$this->print_template( 'wpmoly-grid-actor-list',         wpmoly_get_js_template( 'grids/content/actor-list.php' ) );
+			$this->print_template( 'wpmoly-grid-collection-grid',    wpmoly_get_js_template( 'grids/content/collection-grid.php' ) );
+			$this->print_template( 'wpmoly-grid-collection-list',    wpmoly_get_js_template( 'grids/content/collection-list.php' ) );
+			$this->print_template( 'wpmoly-grid-genre-grid',         wpmoly_get_js_template( 'grids/content/genre-grid.php' ) );
+			$this->print_template( 'wpmoly-grid-genre-list',         wpmoly_get_js_template( 'grids/content/genre-list.php' ) );
 		}
 	}
 

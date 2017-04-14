@@ -152,10 +152,16 @@ class Grid extends Front {
 	 */
 	private function set_content() {
 
-		$type = $this->grid->get_type();
-		$mode = $this->grid->get_mode();
+		$type  = $this->grid->get_type();
+		$mode  = $this->grid->get_mode();
+		$theme = $this->grid->get_theme();
 
-		$content = wpmoly_get_template( "grids/content/{$type}-{$mode}.php" );
+		$template = "{$type}-{$mode}";
+		if ( 'default' !== $theme ) {
+			$template .= "-{$theme}";
+		}
+
+		$content = wpmoly_get_template( "grids/content/{$template}.php" );
 
 		return $this->content = $content;
 	}

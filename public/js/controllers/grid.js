@@ -18,48 +18,49 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 */
 	initialize: function( attributes, options ) {
 
-		// Preview mode?
-		this.preview = options.preview || false;
+		this.options = options || {};
 
 		this.settings = new wpmoly.model.Settings( options.settings || {} );
-		this.uniqid = _.uniqueId( 'grid-' + this.get( 'post_id' ) + '-' );
 
-		// Query controller
+		// Toggle Menu.
+		// TODO think of something cleaner.
+		this.settingsOpened = false;
+		this.customsOpened  = false;
+		this.on( 'grid:settings:toggle', this.toggleSettings );
+		this.on( 'grid:customs:toggle',  this.toggleCustoms );
+	},
+
+	/**
+	 * Ready the controller.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	ready: function() {
+
+		var options = _.defaults( this.options, {
+			query_args : {},
+			query_data : {}
+		} );
+
 		this.query = new wpmoly.controller.Query(
-			options.query_args || {},
-			_.extend( options.query_data || {}, {
+			options.query_args,
+			_.extend( options.query_data, {
 				type     : this.settings.get( 'type' ),
 				settings : this.settings
 			} )
 		);
 
 		// Browsing
-		this.listenTo( this.query, 'change', this.browse );
-
-		// Toggle Menu
-		this.settingsOpened = false;
-		this.customsOpened  = false;
-		this.on( 'grid:settings:toggle', this.toggleSettings );
-		this.on( 'grid:customs:toggle',  this.toggleCustoms );
+		this.listenTo( this.query, 'change', this._updateQuery );
 
 		// Preload nodes
-		if ( options.prefetch ) {
+		if ( this.options.prefetch ) {
 			this.query.prefetch();
 		}
 
-		// Disable menu on preview
-		if ( this.preview ) {
-			this.settings.set({
-				enable_pagination : false,
-				customs_control   : false,
-				settings_control  : false
-			});
-		}
-
-		// Preview update
-		if ( this.preview && wpmoly.gridbuilder ) {
-			this.listenTo( wpmoly.gridbuilder.controller.builder, 'change:type change:mode change:theme', this.updatePreview );
-		}
+		return this.trigger( 'ready' );
 	},
 
 	/**
@@ -111,21 +112,6 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	},
 
 	/**
-	 * Update the grid when theme changes.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    {object}    model
-	 * @param    {object}    options
-	 * 
-	 * @return   void
-	 */
-	updatePreview: function( model, options ) {
-
-		this.settings.set( model.changed );
-	},
-
-	/**
 	 * Alternative to yet-to-be-implemented Ajax browsing: update
 	 * URL and reload the page.
 	 * 
@@ -136,17 +122,16 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 * 
 	 * @return   void
 	 */
-	browse: function( model, options ) {
+	_updateQuery: function( model, options ) {
 
 		this.settingsOpened = false;
 		this.customsOpened  = false;
 
-		if ( this.settings.get( 'enable_ajax' ) ) {
-
+		if ( this.isDynamic() ) {
 			return this.query.query( model.attributes );
 		}
 
-		var query = _.defaults( this.parseSearchQuery(), {
+		var query = _.defaults( this._parseSearchQuery(), {
 			id : this.get( 'post_id' )
 		} );
 
@@ -156,7 +141,7 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 
 		var url = window.location.origin + window.location.pathname;
 
-		window.location.href = url + this.buildSearchQuery( query );
+		window.location.href = url + this._buildSearchQuery( query );
 	},
 
 	/**
@@ -169,7 +154,7 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 * 
 	 * @return   {object}
 	 */
-	parseSearchQuery: function() {
+	_parseSearchQuery: function() {
 
 		var search = wpmoly.utils.getURLParameter( 'grid' );
 		if ( ! search ) {
@@ -197,7 +182,7 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 * 
 	 * @return   string
 	 */
-	buildSearchQuery: function( query ) {
+	_buildSearchQuery: function( query ) {
 
 		var _query = [];
 		_.each( query, function( value, param ) {
@@ -208,21 +193,191 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	},
 
 	/**
+	 * Retrieve Grid Type.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	getType : function() {
+
+		return this.settings.get( 'type' );
+	},
+
+	/**
+	 * Retrieve Grid Mode.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	getMode : function() {
+
+		return this.settings.get( 'mode' );
+	},
+
+	/**
+	 * Retrieve Grid Theme.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   string
+	 */
+	getTheme : function() {
+
+		return this.settings.get( 'theme' );
+	},
+
+	/**
+	 * Is settings edition enabled?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	canEdit: function() {
+
+		return true === this.settings.get( 'settings_control' );
+	},
+
+	/**
+	 * Is customization enabled?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	canCustomize: function() {
+
+		return true === this.settings.get( 'customs_control' );
+	},
+
+	/**
+	 * Is pagination enabled?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	canBrowse: function() {
+
+		return true === this.settings.get( 'enable_pagination' );
+	},
+
+	/**
+	 * Is Ajax browsing enabled?
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   boolean
+	 */
+	isDynamic: function() {
+
+		return true === this.settings.get( 'enable_ajax' );
+	},
+
+	/**
+	 * Update settings.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    settings
+	 * 
+	 * @return   void
+	 */
+	setSettings: function( settings ) {
+
+		return this.settings.set( settings );
+	},
+
+	/**
+	 * Check if a specific page number matches the current page number.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    int    page Page number.
+	 * 
+	 * @return   boolean
+	 */
+	isCurrentPage: function( page ) {
+
+		var page = parseInt( page );
+
+		return page === this.getCurrentPage();
+	},
+
+	/**
+	 * Check if a specific page number is reachable.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    int    page Page number.
+	 * 
+	 * @return   boolean
+	 */
+	isBrowsable: function( page ) {
+
+		var page = parseInt( page );
+
+		return 1 <= page && page <= this.getTotalPages() && ! this.isCurrentPage( page );
+	},
+
+	/**
+	 * Jump to the specific page number after making sure that number is
+	 * reachable.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    int    page Page number.
+	 * 
+	 * @return   int
+	 */
+	setCurrentPage: function( page ) {
+
+		var page = parseInt( page );
+		if ( ! this.isBrowsable( page ) ) {
+			return 0;
+		}
+
+		this.query.set( 'page', page );
+
+		return page;
+	},
+
+	/**
+	 * Retrieve the current page number.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	getCurrentPage: function() {
+
+		return parseInt( this.query.state.get( 'currentPage' ) ) || 1;
+	},
+
+	/**
+	 * Retrieve the total number of pages.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @return   int
+	 */
+	getTotalPages: function() {
+
+		return parseInt( this.query.state.get( 'totalPages' ) ) || 1;
+	},
+
+	/**
 	 * Jump to the previous page, if any.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   void
+	 * @return   int
 	 */
-	prev: function() {
+	previousPage: function() {
 
-		var current = parseInt( this.query.get( 'page' ) ) || 1,
-		      total = parseInt( this.query.state.get( 'totalPages' ) ),
-		       prev = Math.max( 1, current - 1 );
-
-		if ( current != prev ) {
-			this.query.set({ page : prev });
-		}
+		return this.setCurrentPage( this.getCurrentPage() - 1 );
 	},
 
 	/**
@@ -230,16 +385,10 @@ wpmoly.controller.Grid = Backbone.Model.extend({
 	 * 
 	 * @since    3.0
 	 * 
-	 * @return   void
+	 * @return   int
 	 */
-	next: function() {
+	nextPage: function() {
 
-		var current = parseInt( this.query.get( 'page' ) ) || 1,
-		      total = parseInt( this.query.state.get( 'totalPages' ) ),
-		       next = Math.min( current + 1, total );
-
-		if ( current != next ) {
-			this.query.set({ page : next });
-		}
+		return this.setCurrentPage( this.getCurrentPage() + 1 );
 	}
 });

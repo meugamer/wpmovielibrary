@@ -624,6 +624,11 @@ class l10n {
 			'_country'           => wpmoly_o( 'api-country' ),
 			'_country_alt'       => wpmoly_o( 'api-country-alt' ),
 
+			'api' => array(
+				'missing' => __( 'Couldn’t find WordPress Rest API Backbone client.', 'wpmovielibrary' ),
+				'missing_collection' =>__( 'Couldn’t find WordPress Rest API Backbone client collection object.', 'wpmovielibrary' )
+			),
+
 			'actors'             => __( 'actors', 'wpmovielibrary' ),
 			'autocomplete'       => __( 'add automatically', 'wpmovielibrary' ),
 			'availableBackdrops' => __( 'Available Backdrops', 'wpmovielibrary' ),

@@ -320,6 +320,7 @@ final class Library {
 		$this->loader->add_action( 'admin_init',                  $builder, 'register_metaboxes' );
 		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
 		$this->loader->add_action( 'edit_form_after_editor',      $builder, 'preview' );
+		$this->loader->add_action( 'post_submitbox_start',        $builder, 'submitbox' );
 		$this->loader->add_action( 'dbx_post_sidebar',            $builder, 'footer' );
 		$this->loader->add_action( 'load-post.php',               $builder, 'load_meta_frameworks' );
 		$this->loader->add_action( 'load-post-new.php',           $builder, 'load_meta_frameworks' );

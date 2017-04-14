@@ -1,4 +1,15 @@
 
+body.wp-admin.post-php.post-type-grid .wrap h1.wp-heading-inline,
+body.wp-admin.post-php.post-type-grid .wrap .wp-heading-inline + .page-title-action,
+body.wp-admin.post-php.post-type-grid .wp-header-end {
+	display: none;
+}
+
+#wpmoly-grid-builder {
+	margin: 4em auto 0;
+	max-width: 1280px;
+}
+
 /*
  * Grid Builder separator
  */
@@ -76,7 +87,11 @@
 	background: transparent;
 	border: 0;
 	box-shadow: 0 0 0;
-	margin: 55px 1px 20px 1px;
+}
+
+#wpmoly-grid-type-metabox.closed {
+	border: 0;
+	box-shadow: 0 0 0;
 }
 
 #wpmoly-grid-type-metabox .grid-builder-separator {
@@ -94,66 +109,81 @@
 }
 
 #wpmoly-grid-type-metabox .inside button {
-	background: rgba(49, 144, 198, 0.5);
+	background: #fff;
 	border: 0;
-	color: #fff;
+	color: #666;
 	cursor: pointer;
 	float: left;
-	font-size: 2.5em;
-	height: 2em;
-	opacity: 0.6;
-	width: 25%
+	font-size: 20px;
+	height: 48px;
+	width: 48px;
 }
 
-#wpmoly-grid-type-metabox .inside button {
-	background: #414bcf;
-}
-
-#wpmoly-grid-type-metabox .inside button:hover,
 #wpmoly-grid-type-metabox .inside button.active {
-	opacity: 1.0;
+	color: #3190c6;
 }
 
-#wpmoly-grid-type-metabox #movie-grid-modes button,
-#wpmoly-grid-type-metabox #movie-grid-grid-mode-themes button,
-#wpmoly-grid-type-metabox #movie-grid-list-mode-themes button,
-#wpmoly-grid-type-metabox #movie-grid-archive-mode-themes button,
-#wpmoly-grid-type-metabox #grid-types button[data-value="movie"] {
-	background: #3190c6;
+#wpmoly-grid-type-metabox .inside h4 {
+	border-bottom: 1px solid #e5e5e5;
+	color: #888;
+	font-size: .875em;
+	font-weight: 300;
+	margin: 1rem .75rem 0;
+	padding: 0 .25rem .5rem;
 }
 
-#wpmoly-grid-type-metabox #collection-grid-modes button,
-#wpmoly-grid-type-metabox #collection-grid-grid-mode-themes button,
-#wpmoly-grid-type-metabox #collection-grid-list-mode-themes button,
-#wpmoly-grid-type-metabox #collection-grid-archive-mode-themes button,
-#wpmoly-grid-type-metabox #grid-types button[data-value="collection"] {
-	background: #9250c0;
+#wpmoly-grid-type-metabox .inside .block {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+	margin: 0 0 1.5rem 0;
 }
 
-#wpmoly-grid-type-metabox #actor-grid-modes button,
-#wpmoly-grid-type-metabox #actor-grid-grid-mode-themes button,
-#wpmoly-grid-type-metabox #actor-grid-list-mode-themes button,
-#wpmoly-grid-type-metabox #actor-grid-archive-mode-themes button,
-#wpmoly-grid-type-metabox #grid-types button[data-value="actor"] {
-	background: #2ad07c;
+#wpmoly-grid-type-metabox .inside .block-inner {
+	padding: 0 .5rem;
 }
 
-#wpmoly-grid-type-metabox #genre-grid-modes button,
-#wpmoly-grid-type-metabox #genre-grid-grid-mode-themes button,
-#wpmoly-grid-type-metabox #genre-grid-list-mode-themes button,
-#wpmoly-grid-type-metabox #genre-grid-archive-mode-themes button,
-#wpmoly-grid-type-metabox #grid-types button[data-value="genre"] {
-	background: #ffa434;
+#wpmoly-grid-type-metabox .inside .block {
+	position: relative;
 }
 
-#wpmoly-grid-type-metabox .supported-grid-modes,
-#wpmoly-grid-type-metabox .supported-grid-themes {
+#wpmoly-grid-type-metabox .inside .block:after {
+	border: .5rem solid transparent;
+	border-bottom-color: #fff;
+	content: '';
+	left: 1.5rem;
+	position: absolute;
+	top: -1rem;
+}
+
+#wpmoly-grid-type-metabox .inside .block:before {
+	border: .5rem solid transparent;
+	border-bottom-color: #ddd;
+	content: '';
+	left: 1.5rem;
+	position: absolute;
+	top: -1.05rem;
+}
+
+#wpmoly-grid-type-metabox .inside .block.supported-grid-types:after,
+#wpmoly-grid-type-metabox .inside .block.supported-grid-types:before {
+	left: 1rem;
+}
+
+#wpmoly-grid-type-metabox .inside .block.supported-grid-modes,
+#wpmoly-grid-type-metabox .inside .block.supported-grid-themes {
 	display: none;
 }
 
-#wpmoly-grid-type-metabox .supported-grid-modes.active,
-#wpmoly-grid-type-metabox .supported-grid-themes.active {
+#wpmoly-grid-type-metabox .inside .block.supported-grid-modes.active,
+#wpmoly-grid-type-metabox .inside .block.supported-grid-themes.active {
 	display: block;
+}
+
+#wpmoly-grid-type-metabox .inside .block button:active {
+	margin: 0;
+	padding: 0;
+	top: 1px;
 }
 
 /*
@@ -266,16 +296,28 @@
  * Grid Publish Metabox
  */
 
-#wpmoly-grid-builder #submitdiv,
-#wpmoly-grid-builder #major-publishing-actions {
+#wpmoly-grid-builder #submitdiv {
 	background: transparent;
 	border: 0;
 	box-shadow: 0 0 0;
+	margin-top: 86px;
 }
 
 #wpmoly-grid-builder #major-publishing-actions {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	height: 48px;
 	margin: 0;
 	padding: 0;
+}
+
+#wpmoly-grid-builder #major-publishing-actions a:active {
+	margin-top: 1px;
+}
+
+#wpmoly-grid-builder #major-publishing-actions button:active {
+	padding-top: 1px;
 }
 
 #wpmoly-grid-builder .hndle,
@@ -292,29 +334,95 @@
 }
 
 #wpmoly-grid-builder #publish {
+	display: none;
+}
+
+#wpmoly-grid-builder #customize-action {
+	height: 48px;
+	left: 1px;
+	position: absolute;
+	top: 1px;
+	width: 48px;
+}
+
+#wpmoly-grid-builder #customize-action button {
+	background: #fff;
+	border: 0;
+	color: #ccc;
+	height: 48px;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	width: 48px;
+}
+
+#wpmoly-grid-builder #customize-action button.active {
+	color: #888;
+}
+
+#wpmoly-grid-builder #customize-action button:hover {
+	color: #aaa;
+	cursor: pointer;
+}
+
+#wpmoly-grid-builder #save-action button {
+	background: #fff;
 	border: 0;
 	border-radius: 0;
 	box-shadow: 0 0 0;
-	display: block;
-	font-size: 14px;
-	font-weight: 200;
-	height: 38px;
-	line-height: 38px;
-	padding: 0 12px 2px;
-	text-shadow: 0 0 0;
-	width: 100%;
+	color: #0073aa;
+	height: 48px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: 1px;
+	top: 1px;
+	width: 48px;
+}
+
+#wpmoly-grid-builder #save-action button:hover {
+	color: #00a0d2;
+	cursor: pointer;
+}
+
+#wpmoly-grid-builder #delete-action {
+	height: 48px;
+	margin: 0;
+	overflow: hidden;
+	position: absolute;
+	right: 50px;
+	top: 1px;
+	width: 48px;
 }
 
 #wpmoly-grid-builder #delete-action a {
-	background: #de0c0c;
-	color: #fff;
-	display: block;
-	font-size: 14px;
-	height: 36px;
-	line-height: 38px;
-	padding: 0 12px 2px;
+	background: #fff;
+	box-shadow: 0 0 0;
+	color: #de0c0c;
+	height: 48px;
+	overflow: hidden;
+	position: absolute;
+	width: 48px;
+}
+
+#wpmoly-grid-builder #delete-action a:after {
+	background: #fff;
+	color: #de0c0c;
+	content: '\f182';
+	font-family: 'dashicons' !important;
+	font-size: 20px;
+	height: 48px;
+	left: 0;
+	line-height: 48px;
+	position: absolute;
 	text-align: center;
-	vertical-align: top;
+	top: 0;
+	width: 48px;
+}
+
+#wpmoly-grid-builder #delete-action a:hover::after {
+	color: #f00;
 }
 
 @media screen and (min-width: 1280px) {
