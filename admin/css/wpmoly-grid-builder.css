@@ -119,9 +119,22 @@ body.wp-admin.post-php.post-type-grid .wp-header-end {
 	color: #666;
 	cursor: pointer;
 	float: left;
-	font-size: 20px;
-	height: 48px;
-	width: 48px;
+	font-size: 1em;
+	height: 5.375rem;
+	width: 5.375rem;
+}
+
+#wpmoly-grid-type-metabox .inside button:hover {
+	background: #f6f6fa;
+	border-radius: 2px;
+}
+
+#wpmoly-grid-type-metabox .inside button .wpmolicon,
+#wpmoly-grid-type-metabox .inside button .dashicons {
+	font-size: 2.625rem;
+	height: 3.5rem;
+	line-height: 3.5rem;
+	width: 4.75rem;
 }
 
 #wpmoly-grid-type-metabox .inside button.active {
@@ -145,7 +158,7 @@ body.wp-admin.post-php.post-type-grid .wp-header-end {
 }
 
 #wpmoly-grid-type-metabox .inside .block-inner {
-	padding: 0 .5rem;
+	padding: 1rem .5rem;
 }
 
 #wpmoly-grid-type-metabox .inside .block {

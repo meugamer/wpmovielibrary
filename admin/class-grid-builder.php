@@ -1078,7 +1078,10 @@ class GridBuilder extends Metabox {
 			<h4><?php _e( 'Select a type of grid', 'wpmovielibrary' ); ?></h4>
 			<div class="block-inner clearfix">
 			<# _.each( data.types, function( type, type_id ) { #>
-				<button type="button" data-action="grid-type" data-value="{{ type_id }}" title="{{ type.label }}" class="<# if ( type_id == data.type ) { #>active<# } #>"><span class="{{ type.icon }}"></span></button>
+				<button type="button" data-action="grid-type" data-value="{{ type_id }}" title="{{ type.label }}" class="<# if ( type_id == data.type ) { #>active<# } #>">
+					<span class="{{ type.icon }}"></span>
+					<span class="label">{{ type.label }}</span>
+				</button>
 			<# } ); #>
 			</div>
 		</div>
@@ -1089,7 +1092,10 @@ class GridBuilder extends Metabox {
 			<h4><?php _e( 'Select a grid mode', 'wpmovielibrary' ); ?></h4>
 			<div class="block-inner clearfix">
 			<# _.each( data.modes[ type_id ], function( mode, mode_id ) { #>
-				<button type="button" data-action="grid-mode" data-value="{{ mode_id }}" title="{{ mode.label }}" class="<# if ( mode_id == data.mode ) { #>active<# } #>"><span class="{{ mode.icon }}"></span></button>
+				<button type="button" data-action="grid-mode" data-value="{{ mode_id }}" title="{{ mode.label }}" class="<# if ( mode_id == data.mode ) { #>active<# } #>">
+					<span class="{{ mode.icon }}"></span>
+					<span class="label">{{ mode.label }}</span>
+				</button>
 			<# } ); #>
 			</div>
 		</div>
@@ -1104,7 +1110,10 @@ class GridBuilder extends Metabox {
 			<h4><?php _e( 'Select a theme', 'wpmovielibrary' ); ?></h4>
 			<div class="block-inner clearfix">
 						<# _.each( data.themes[ type_id ][ mode_id ], function( theme, theme_id ) { #>
-				<button type="button" data-action="grid-theme" data-value="{{ theme_id }}" title="{{ theme.label }}" class="<# if ( theme_id == data.theme ) { #>active<# } #>"><span class="{{ theme.icon }}"></span></button>
+				<button type="button" data-action="grid-theme" data-value="{{ theme_id }}" title="{{ theme.label }}" class="<# if ( theme_id == data.theme ) { #>active<# } #>">
+					<span class="{{ theme.icon }}"></span>
+					<span class="label">{{ theme.label }}</span>
+				</button>
 						<# } ); #>
 					<# } #>
 			</div>

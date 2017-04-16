@@ -224,12 +224,15 @@ class Backstage extends Assets {
 			$this->register_template( 'grid-movie-grid-variant-1', 'public/templates/grids/content/movie-grid-variant-1.php' );
 			$this->register_template( 'grid-movie-grid-variant-2', 'public/templates/grids/content/movie-grid-variant-2.php' );
 			$this->register_template( 'grid-movie-list',           'public/templates/grids/content/movie-list.php' );
+			$this->register_template( 'grid-movie-archive',        'public/templates/grids/content/movie-archive.php' );
 			$this->register_template( 'grid-actor-grid',           'public/templates/grids/content/actor-grid.php' );
 			$this->register_template( 'grid-actor-list',           'public/templates/grids/content/actor-list.php' );
 			$this->register_template( 'grid-collection-grid',      'public/templates/grids/content/collection-grid.php' );
 			$this->register_template( 'grid-collection-list',      'public/templates/grids/content/collection-list.php' );
 			$this->register_template( 'grid-genre-grid',           'public/templates/grids/content/genre-grid.php' );
 			$this->register_template( 'grid-genre-list',           'public/templates/grids/content/genre-list.php' );
+
+			$this->register_template( 'grid-movie-archive',        'public/templates/headboxes/movie-default.php' );
 		}
 	}
 

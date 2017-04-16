@@ -23,6 +23,7 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 		this.listenToOnce( this.controller, 'ready', this.setRegions );
 
 		// Change Theme.
+		this.listenTo( this.controller.settings, 'change:mode',  this.setNodesView );
 		this.listenTo( this.controller.settings, 'change:theme', this.changeTheme );
 	},
 
@@ -45,37 +46,133 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 	/**
 	 * Set subviews.
 	 * 
-	 * The content is set to use the original grid content generated on the
-	 * server to avoid reloading the grid directly on page load.
-	 * 
 	 * @since    3.0
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
 	setRegions: function() {
 
-		var mode = this.controller.getMode(),
-		 options = { controller : this.controller };
+		this.setMenuView();
+		this.setSettingsView();
+		this.setCustomsView();
+		this.setPaginationView();
+		this.setNodesView();
+
+		return this;
+	},
+
+	/**
+	 * Set menu subview.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    options
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	setMenuView : function( options ) {
+
+		if ( this.menu && ! options.silent ) {
+			this.menu.remove();
+		}
 
 		if ( this.controller.canEdit() || this.controller.canCustomize() ) {
-			this.menu = new wpmoly.view.Grid.Menu( options );
+			this.menu = new wpmoly.view.Grid.Menu( { controller : this.controller } );
 			this.views.set( '.grid-menu.settings-menu', this.menu );
 		}
 
-		if ( this.controller.canBrowse() ) {
-			this.pagination = new wpmoly.view.Grid.Pagination( options );
-			this.views.set( '.grid-menu.pagination-menu', this.pagination );
+		return this;
+	},
+
+	/**
+	 * Set settings subview.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    options
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	setSettingsView : function( options ) {
+
+		if ( this.settings && ! options.silent ) {
+			this.settings.remove();
 		}
 
 		if ( this.controller.canEdit() ) {
-			this.settings = new wpmoly.view.Grid.Settings( options );
+			this.settings = new wpmoly.view.Grid.Settings( { controller : this.controller } );
 			this.views.set( '.grid-settings', this.settings );
 		}
 
+		return this;
+	},
+
+	/**
+	 * Set customization subview.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    options
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	setCustomsView : function( options ) {
+
+		if ( this.customs && ! options.silent ) {
+			this.customs.remove();
+		}
+
 		if ( this.controller.canCustomize() ) {
-			this.customs = new wpmoly.view.Grid.Customs( options );
+			this.customs = new wpmoly.view.Grid.Customs( { controller : this.controller } );
 			this.views.set( '.grid-customs', this.customs );
 		}
+
+		return this;
+	},
+
+	/**
+	 * Set pagination subview.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    options
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	setPaginationView : function( options ) {
+
+		if ( this.pagination && ! options.silent ) {
+			this.pagination.remove();
+		}
+
+		if ( this.controller.canBrowse() ) {
+			this.pagination = new wpmoly.view.Grid.Pagination( { controller : this.controller } );
+			this.views.set( '.grid-menu.pagination-menu', this.pagination );
+		}
+
+		return this;
+	},
+
+	/**
+	 * Set content subview.
+	 * 
+	 * The content is set to use the original grid content generated on the
+	 * server to avoid reloading the grid directly on page load.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    object    options
+	 * 
+	 * @return   Returns itself to allow chaining.
+	 */
+	setNodesView : function( options ) {
+
+		if ( this.content && ! options.silent ) {
+			this.content.remove();
+		}
+
+		var mode = this.controller.getMode(),
+		 options = { controller : this.controller };
 
 		// Use server-generated grid content first
 		_.extend( options, { content : this.options.content } );

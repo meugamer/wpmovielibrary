@@ -420,7 +420,7 @@
 	clear: both;
 	float: none;
 	list-style: none;
-	margin: 0 0 0.25rem 0;
+	margin: 0 0 0.75rem 0;
 	min-height: 2rem;
 	min-width: auto;
 	padding: 0 1em;
@@ -435,14 +435,17 @@
 	background-size: 100% auto;
 	border-radius: 0.15rem;
 	float: left;
-	height: 2rem;
+	height: 2.5rem;
 	margin-right: .5rem;
-	width: 2rem;
+	width: 2.5rem;
 }
 
-.wpmoly.grid .grid-content .list.nodes-list .node-count {
+.wpmoly.grid .grid-content .list.nodes-list .node-meta {
 	font-size: .75rem;
 	margin-top: -.125rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /*

@@ -134,6 +134,12 @@ Grid.ListNode = Grid.Node.extend({
 
 });
 
+Grid.ArchiveNode = Grid.Node.extend({
+
+	
+
+});
+
 /**
  * Grid items container view.
  * 
@@ -192,7 +198,7 @@ Grid.Nodes = wp.Backbone.View.extend({
 		this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
 
 		// Remove no-JS content
-		this.listenToOnce( this.collection, 'add', this.preEmpty );
+		//this.listenToOnce( this.collection, 'add', this.preEmpty );
 
 		// Add views for new models
 		this.listenTo( this.collection, 'add', this.addNode );
@@ -277,8 +283,10 @@ Grid.Nodes = wp.Backbone.View.extend({
 		var node = model.get( 'id' ),
 		nodeType = Grid.Node;
 
-		if ( 'list' === this.controller.settings.get( 'mode' ) ) {
+		if ( 'list' === this.controller.getMode() ) {
 			nodeType = Grid.ListNode;
+		} else if ( 'list' === this.controller.getMode() ) {
+			nodeType = Grid.ArchiveNode;
 		}
 
 		if ( ! this.nodes[ node ] ) {
@@ -351,6 +359,8 @@ Grid.Nodes = wp.Backbone.View.extend({
 	 * 
 	 * Should be extended.
 	 * 
+	 * TODO prevent this from running twice
+	 * 
 	 * @since    3.0
 	 * 
 	 * @return   Returns itself to allow chaining.
@@ -371,12 +381,14 @@ Grid.Nodes = wp.Backbone.View.extend({
 
 		wp.Backbone.View.prototype.render.apply( this, arguments );
 
-		if ( ! this.rendered ) {
-			// Replace $el with pre-generated content
-			this.$el.append( this.options.content );
-		}
-
 		this.$el.addClass( this.controller.settings.get( 'mode' ) );
+
+		if ( ! this.collection.length ) {
+			// Replace $el with pre-generated content
+			this.$el.html( wpmoly.$( this.options.content || '' ).html() );
+		} else {
+			this.collection.each( this.addNode, this );
+		}
 	},
 
 	/**
@@ -432,10 +444,8 @@ Grid.NodesGrid = Grid.Nodes.extend({
 			ratio = 1.5;
 		}
 
-		if ( ( Math.floor( innerWidth / columns ) - 8 ) < idealWidth ) {
-			--columns;
-		} else if ( ( Math.floor( innerWidth / columns ) - 8 ) > idealWidth ) {
-			columns = Math.floor( innerWidth / ( idealWidth + 8 ) );
+		if ( ( Math.floor( innerWidth / columns ) - 8 ) > idealWidth ) {
+			++columns;
 		}
 
 		this.columnWidth  = Math.floor( innerWidth / columns ) - 8;
@@ -471,6 +481,8 @@ Grid.NodesList = Grid.Nodes.extend({
 
 	/**
 	 * Adjust content nodes to fit the grid.
+	 * 
+	 * TODO handle this by UL columns rather than width
 	 * 
 	 * @since    3.0
 	 * 
