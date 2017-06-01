@@ -35,7 +35,7 @@ wpmoly = window.wpmoly || {};
 				} )
 			);
 
-			var view = new wpmoly.view.Grid.Grid({
+			var view = new wpmoly.view.GridPreview({
 				el         : grid,
 				content    : content,
 				controller : controller
@@ -64,7 +64,7 @@ wpmoly = window.wpmoly || {};
 				preview : gridbuilder.grid
 			} );
 
-			var view = new wpmoly.view.Grid.Builder({
+			var view = new wpmoly.view.GridBuilder({
 				el         : builder,
 				controller : controller
 			});

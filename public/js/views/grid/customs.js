@@ -1,9 +1,7 @@
 
 wpmoly = window.wpmoly || {};
 
-var Grid = wpmoly.view.Grid || {};
-
-Grid.Customs = Grid.Settings.extend({
+wpmoly.view.GridCustoms = wpmoly.view.GridSettings.extend({
 
 	className : 'grid-customs-inner',
 

@@ -65,13 +65,23 @@ class GridBuilder extends Metabox {
 	 */
 	protected function add_metaboxes() {
 
-		$this->add_metabox( 'type', array(
-			'id'            => 'wpmoly-grid-type',
-			'title'         => __( 'Title', 'wpmovielibrary' ),
-			'callback'      => array( $this, 'type_metabox' ),
+		$this->add_metabox( 'parameters', array(
+			'id'            => 'wpmoly-grid-parameters',
+			'title'         => __( 'Type', 'wpmovielibrary' ),
+			'callback'      => array( $this, 'grid_parameters_metabox' ),
 			'screen'        => 'grid',
 			'context'       => 'side',
 			'priority'      => 'low',
+			'callback_args' => null
+		) );
+
+		$this->add_metabox( 'preview', array(
+			'id'            => 'wpmoly-grid-preview',
+			'title'         => __( 'Preview', 'wpmovielibrary' ),
+			'callback'      => array( $this, 'grid_preview_metabox' ),
+			'screen'        => 'grid',
+			'context'       => 'normal',
+			'priority'      => 'high',
 			'callback_args' => null
 		) );
 
@@ -87,10 +97,10 @@ class GridBuilder extends Metabox {
 	protected function add_managers() {
 
 		$this->add_manager( 'movie-grid-settings', array(
-				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
+				'label'     => esc_html__( 'Movies Grid Settings ', 'wpmovielibrary' ),
 				'post_type' => 'grid',
-				'context'   => 'normal',
-				'priority'  => 'high',
+				'context'   => 'advanced',
+				'priority'  => 'low',
 				'sections'  => array(
 					'grid-presets' => array(
 						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
@@ -325,10 +335,10 @@ class GridBuilder extends Metabox {
 		);
 
 		$this->add_manager( 'actor-grid-settings', array(
-				'label'     => esc_html__( 'Settings', 'wpmovielibrary' ),
+				'label'     => esc_html__( 'Actors Grid Settings', 'wpmovielibrary' ),
 				'post_type' => 'grid',
-				'context'   => 'normal',
-				'priority'  => 'high',
+				'context'   => 'advanced',
+				'priority'  => 'low',
 				'sections'  => array(
 					'grid-presets' => array(
 						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
@@ -544,10 +554,10 @@ class GridBuilder extends Metabox {
 		);
 
 		$this->add_manager( 'collection-grid-settings', array(
-				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
+				'label'     => esc_html__( 'Collections Grid Settings', 'wpmovielibrary' ),
 				'post_type' => 'grid',
-				'context'   => 'normal',
-				'priority'  => 'high',
+				'context'   => 'advanced',
+				'priority'  => 'low',
 				'sections'  => array(
 					'grid-presets' => array(
 						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
@@ -755,10 +765,10 @@ class GridBuilder extends Metabox {
 		);
 
 		$this->add_manager( 'genre-grid-settings', array(
-				'label'     => esc_html__( 'Réglages', 'wpmovielibrary' ),
+				'label'     => esc_html__( 'Genres Grid Settings', 'wpmovielibrary' ),
 				'post_type' => 'grid',
-				'context'   => 'normal',
-				'priority'  => 'high',
+				'context'   => 'advanced',
+				'priority'  => 'low',
 				'sections'  => array(
 					'grid-presets' => array(
 						'label'    => esc_html__( 'Presets', 'wpmovielibrary' ),
@@ -1004,31 +1014,6 @@ class GridBuilder extends Metabox {
 	}
 
 	/**
-	 * Add a separator before ButterBean metaboxes.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    object    $manager Manager instance.
-	 * @param    object    $post Current Post instance.
-	 * @param    array     $metabox Current Metabox properties.
-	 * @param    object    $butterbean ButterBean instance.
-	 * 
-	 * @return   void
-	 */
-	public function separator( $manager, $post, $metabox, $butterbean ) {
-
-		if ( 'grid' !== $post->post_type ) {
-			return false;
-		}
-?>
-		<div class="grid-builder-separator">
-			<div class="button separator-label"><?php _e( 'Settings' ); ?></div>
-		</div>
-
-<?php
-	}
-
-	/**
 	 * Grid Submit Metabox additional/custom buttons.
 	 * 
 	 * @since    3.0
@@ -1061,14 +1046,14 @@ class GridBuilder extends Metabox {
 	 * 
 	 * @return   void
 	 */
-	public function type_metabox( $post ) {
+	public function grid_parameters_metabox( $post ) {
 
 		if ( 'grid' !== $post->post_type ) {
 			return false;
 		}
 ?>
 
-		<script id="tmpl-wpmoly-grid-builder-type-metabox" type="text/html">
+		<script id="tmpl-wpmoly-grid-builder-parameters-metabox" type="text/html">
 
 		<input type="hidden" name="_wpmoly_grid_type" value="{{ data.type }}" />
 		<input type="hidden" name="_wpmoly_grid_mode" value="{{ data.mode }}" />
@@ -1124,13 +1109,13 @@ class GridBuilder extends Metabox {
 
 		</script>
 
-		<div id="wpmoly-grid-builder-type-metabox"></div>
+		<div id="wpmoly-grid-builder-parameters-metabox"></div>
 
 <?php
 	}
 
 	/**
-	 * Grid Preview editor toolbox.
+	 * Grid Preview metabox.
 	 * 
 	 * @since    3.0
 	 * 
@@ -1138,7 +1123,7 @@ class GridBuilder extends Metabox {
 	 * 
 	 * @return   void
 	 */
-	public function preview( $post ) {
+	public function grid_preview_metabox( $post ) {
 
 		if ( 'grid' !== $post->post_type ) {
 			return false;
@@ -1154,9 +1139,6 @@ class GridBuilder extends Metabox {
 
 ?>
 		<div class="wpmoly grid-builder">
-			<div class="grid-builder-separator">
-				<button type="button" data-action="toggle-preview" class="button separator-label"><?php _e( 'Preview' ); ?></button>
-			</div>
 			<div id="wpmoly-grid-builder-preview" class="grid-builder-preview"><?php echo $grid; ?></div>
 		</div>
 <?php

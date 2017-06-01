@@ -1,9 +1,7 @@
 
 wpmoly = window.wpmoly || {};
 
-var Grid = wpmoly.view.Grid || {};
-
-Grid.Menu = wp.Backbone.View.extend({
+wpmoly.view.GridMenu = wp.Backbone.View.extend({
 
 	className: 'grid-menu-inner',
 

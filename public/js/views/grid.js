@@ -1,9 +1,7 @@
 
 wpmoly = window.wpmoly || {};
 
-wpmoly.view.Grid = wpmoly.view.Grid || {};
-
-wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
+wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	template: wp.template( 'wpmoly-grid' ),
 
@@ -25,6 +23,10 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 		// Change Theme.
 		this.listenTo( this.controller.settings, 'change:mode',  this.setNodesView );
 		this.listenTo( this.controller.settings, 'change:theme', this.changeTheme );
+
+		// Prepare $el.
+		this.on( 'prepare', this.setClassName );
+		this.on( 'prepare', this.setUniqueId );
 	},
 
 	/**
@@ -77,7 +79,7 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 		}
 
 		if ( this.controller.canEdit() || this.controller.canCustomize() ) {
-			this.menu = new wpmoly.view.Grid.Menu( { controller : this.controller } );
+			this.menu = new wpmoly.view.GridMenu( { controller : this.controller } );
 			this.views.set( '.grid-menu.settings-menu', this.menu );
 		}
 
@@ -100,7 +102,7 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 		}
 
 		if ( this.controller.canEdit() ) {
-			this.settings = new wpmoly.view.Grid.Settings( { controller : this.controller } );
+			this.settings = new wpmoly.view.GridSettings( { controller : this.controller } );
 			this.views.set( '.grid-settings', this.settings );
 		}
 
@@ -123,7 +125,7 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 		}
 
 		if ( this.controller.canCustomize() ) {
-			this.customs = new wpmoly.view.Grid.Customs( { controller : this.controller } );
+			this.customs = new wpmoly.view.GridCustoms( { controller : this.controller } );
 			this.views.set( '.grid-customs', this.customs );
 		}
 
@@ -146,7 +148,7 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 		}
 
 		if ( this.controller.canBrowse() ) {
-			this.pagination = new wpmoly.view.Grid.Pagination( { controller : this.controller } );
+			this.pagination = new wpmoly.view.GridPagination( { controller : this.controller } );
 			this.views.set( '.grid-menu.pagination-menu', this.pagination );
 		}
 
@@ -178,13 +180,13 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 		_.extend( options, { content : this.options.content } );
 
 		if ( 'grid' === mode ) {
-			this.content = new wpmoly.view.Grid.NodesGrid( options );
+			this.content = new wpmoly.view.GridNodesGrid( options );
 		} else if ( 'list' === mode ) {
-			this.content = new wpmoly.view.Grid.NodesList( options );
+			this.content = new wpmoly.view.GridNodesList( options );
 		} else if ( 'archives' === mode ) {
-			this.content = new wpmoly.view.Grid.NodesArchives( options );
+			this.content = new wpmoly.view.GridNodesArchives( options );
 		} else {
-			this.content = new wpmoly.view.Grid.Nodes( options );
+			this.content = new wpmoly.view.GridNodes( options );
 		}
 
 		this.views.set( '.grid-content', this.content );
@@ -243,7 +245,7 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
-	render: function() {
+	/*render: function() {
 
 		this.setClassName();
 		this.setUniqueId();
@@ -251,6 +253,6 @@ wpmoly.view.Grid.Grid = wp.Backbone.View.extend({
 		this.$el.html( this.template() );
 
 		return this;
-	}
+	}*/
 
 });

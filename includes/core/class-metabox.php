@@ -372,7 +372,7 @@ abstract class Metabox {
 	 * 
 	 * @return   void
 	 */
-	public function register_metaboxes() {
+	public function add_meta_boxes() {
 
 		$this->add_metaboxes();
 

@@ -122,7 +122,8 @@ class Backstage extends Assets {
 		$this->register_script( 'modal-browser-view',             'admin/js/views/modal/browser.js' );
 		$this->register_script( 'modal-post-view',                'admin/js/views/modal/post.js' );
 		$this->register_script( 'grid-builder-view',              'admin/js/views/grid/builder.js' );
-		$this->register_script( 'grid-type-view',                 'admin/js/views/grid/type.js' );
+		$this->register_script( 'grid-preview-view',              'admin/js/views/grid/preview.js' );
+		$this->register_script( 'grid-parameters-view',           'admin/js/views/grid/parameters.js' );
 
 		$this->register_script( 'grid-view',            'public/js/views/grid.js' );
 		$this->register_script( 'grid-menu-view',       'public/js/views/grid/menu.js' );
@@ -375,14 +376,15 @@ class Backstage extends Assets {
 			$this->enqueue_script( 'grid-controller' );
 
 			// Views
-			$this->enqueue_script( 'grid-builder-view' );
-			$this->enqueue_script( 'grid-type-view' );
 			$this->enqueue_script( 'grid-view' );
 			$this->enqueue_script( 'grid-menu-view' );
 			$this->enqueue_script( 'grid-pagination-view' );
 			$this->enqueue_script( 'grid-settings-view' );
 			$this->enqueue_script( 'grid-customs-view' );
 			$this->enqueue_script( 'grid-content-view' );
+			$this->enqueue_script( 'grid-builder-view' );
+			$this->enqueue_script( 'grid-preview-view' );
+			$this->enqueue_script( 'grid-parameters-view' );
 
 			// Runners
 			$this->enqueue_script( 'grid-builder' );

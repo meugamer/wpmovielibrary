@@ -1,8 +1,6 @@
 
 wpmoly = window.wpmoly || {};
 
-var Grid = wpmoly.view.Grid || {};
-
 /**
  * Single grid item view.
  * 
@@ -15,7 +13,7 @@ var Grid = wpmoly.view.Grid || {};
  * @param    {object}    options.model         View related Backbone.Model object.
  * @param    {object}    options.controller    Grid controller.
  */
-Grid.Node = wp.Backbone.View.extend({
+wpmoly.view.GridNode = wp.Backbone.View.extend({
 
 	/**
 	 * Initialize the View.
@@ -32,6 +30,11 @@ Grid.Node = wp.Backbone.View.extend({
 		this.controller = options.controller || {};
 
 		this.template = this.setTemplate();
+
+		this.listenTo( this.controller.settings, 'change:theme', this.render );
+
+		this.on( 'prepare', this.setTemplate );
+		this.on( 'prepare', this.setClassName );
 	},
 
 	/**
@@ -52,21 +55,9 @@ Grid.Node = wp.Backbone.View.extend({
 			template += '-' + theme;
 		}
 
-		return wp.template( template );
-	},
+		this.template = wp.template( template );
 
-	/**
-	 * Update the template on theme change.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   Returns itself to allow chaining.
-	 */
-	changeTheme: function() {
-
-		this.template = this.setTemplate();
-
-		this.render();
+		return this;
 	},
 
 	/**
@@ -97,23 +88,21 @@ Grid.Node = wp.Backbone.View.extend({
 	},
 
 	/**
-	 * Render the View.
+	 * Prepare the View rendering options.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @return   Returns itself to allow chaining.
 	 */
-	render: function() {
+	prepare : function() {
 
-		var data = {
+		var options = {
 			node     : this.model,
 			settings : this.controller.settings
 		};
 
-		this.setClassName();
-
-		this.$el.html( this.template( data ) );
-	}
+		return options;
+	},
 
 });
 
@@ -128,13 +117,13 @@ Grid.Node = wp.Backbone.View.extend({
  * @param    {object}    options.model         View related Backbone.Model object.
  * @param    {object}    options.controller    Grid controller.
  */
-Grid.ListNode = Grid.Node.extend({
+wpmoly.view.GridListNode = wpmoly.view.GridNode.extend({
 
 	tagName: 'li'
 
 });
 
-Grid.ArchiveNode = Grid.Node.extend({
+wpmoly.view.GridArchiveNode = wpmoly.view.GridNode.extend({
 
 	
 
@@ -152,7 +141,7 @@ Grid.ArchiveNode = Grid.Node.extend({
  * @param    {object}    options.controller    Grid controller.
  * @param    {object}    options.collection    Grid collection.
  */
-Grid.Nodes = wp.Backbone.View.extend({
+wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	className : 'grid-content-inner',
 
@@ -201,7 +190,7 @@ Grid.Nodes = wp.Backbone.View.extend({
 		//this.listenToOnce( this.collection, 'add', this.preEmpty );
 
 		// Add views for new models
-		this.listenTo( this.collection, 'add', this.addNode );
+		this.listenTo( this.collection, 'add',    this.addNode );
 		this.listenTo( this.collection, 'remove', this.removeNode );
 
 		// Set grid as loading when reset
@@ -216,23 +205,7 @@ Grid.Nodes = wp.Backbone.View.extend({
 		this.listenTo( this.controller.query, 'fetch:failed', this.notifyError );
 
 		// Switch themes
-		this.listenTo( this.controller.settings, 'change:theme', this.changeTheme );
-	},
-
-	/**
-	 * Update the template on theme change.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   Returns itself to allow chaining.
-	 */
-	changeTheme: function() {
-
-		_.each( this.nodes, function( node ) {
-			node.changeTheme();
-		}, this );
-
-		this.adjust();
+		this.listenTo( this.controller.settings, 'change:theme', this.adjust );
 	},
 
 	/**
@@ -281,12 +254,12 @@ Grid.Nodes = wp.Backbone.View.extend({
 	addNode: function( model, collection ) {
 
 		var node = model.get( 'id' ),
-		nodeType = Grid.Node;
+		nodeType = wpmoly.view.GridNode;
 
 		if ( 'list' === this.controller.getMode() ) {
-			nodeType = Grid.ListNode;
+			nodeType = wpmoly.view.GridListNode;
 		} else if ( 'list' === this.controller.getMode() ) {
-			nodeType = Grid.ArchiveNode;
+			nodeType = wpmoly.view.GridArchiveNode;
 		}
 
 		if ( ! this.nodes[ node ] ) {
@@ -335,6 +308,9 @@ Grid.Nodes = wp.Backbone.View.extend({
 
 		wpmoly.$( 'body,html' ).animate( { scrollTop : this.views.parent.$el.offset().top - 48 }, 250 );
 
+		this.views.remove();
+
+		this.$el.empty();
 		this.$el.addClass( 'loading' );
 
 		return this;
@@ -423,7 +399,7 @@ Grid.Nodes = wp.Backbone.View.extend({
  * @param    {object}    options.controller    Grid controller.
  * @param    {object}    options.collection    Grid collection.
  */
-Grid.NodesGrid = Grid.Nodes.extend({
+wpmoly.view.GridNodesGrid = wpmoly.view.GridNodes.extend({
 
 	/**
 	 * Adjust content nodes to fit the grid.
@@ -475,7 +451,7 @@ Grid.NodesGrid = Grid.Nodes.extend({
  * @param    {object}    options.controller    Grid controller.
  * @param    {object}    options.collection    Grid collection.
  */
-Grid.NodesList = Grid.Nodes.extend({
+wpmoly.view.GridNodesList = wpmoly.view.GridNodes.extend({
 
 	tagName: 'ul',
 
@@ -512,7 +488,7 @@ Grid.NodesList = Grid.Nodes.extend({
 	 */
 	render: function() {
 
-		Grid.Nodes.prototype.render.apply( this, arguments );
+		wpmoly.view.GridNodes.prototype.render.apply( this, arguments );
 
 		this.$el.addClass( 'nodes-list' );
 	}
@@ -528,7 +504,7 @@ Grid.NodesList = Grid.Nodes.extend({
  * @param    {object}    options.controller    Grid controller.
  * @param    {object}    options.collection    Grid collection.
  */
-Grid.NodesArchives = Grid.Nodes.extend({
+wpmoly.view.GridNodesArchives = wpmoly.view.GridNodes.extend({
 
 	
 });

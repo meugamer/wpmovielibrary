@@ -37,7 +37,7 @@ wpmoly = window.wpmoly || {};
 				JSON.parse( json.textContent || '{}' )
 			);
 
-			var view = new wpmoly.view.Grid.Grid({
+			var view = new wpmoly.view.Grid({
 				el         : grid,
 				content    : content,
 				controller : controller

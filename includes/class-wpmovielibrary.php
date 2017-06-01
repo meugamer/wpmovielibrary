@@ -319,15 +319,14 @@ final class Library {
 		// Grid Builder
 		// TODO load this on grid only
 		$builder = new Admin\GridBuilder;
-		$this->loader->add_action( 'admin_init',                  $builder, 'register_metaboxes' );
+		$this->loader->add_action( 'add_meta_boxes',              $builder, 'add_meta_boxes', 4 );
 		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
-		$this->loader->add_action( 'edit_form_after_editor',      $builder, 'preview' );
+		//$this->loader->add_action( 'edit_form_after_editor',      $builder, 'preview' );
 		$this->loader->add_action( 'post_submitbox_start',        $builder, 'submitbox' );
 		$this->loader->add_action( 'dbx_post_sidebar',            $builder, 'footer' );
 		$this->loader->add_action( 'load-post.php',               $builder, 'load_meta_frameworks' );
 		$this->loader->add_action( 'load-post-new.php',           $builder, 'load_meta_frameworks' );
 		$this->loader->add_action( 'butterbean_register',         $builder, 'register_post_meta_managers', 10, 2 );
-		$this->loader->add_action( 'butterbean_before_metabox',   $builder, 'separator', 10, 4 );
 		$this->loader->add_action( 'save_post_grid',              $builder, 'save', 9, 3 );
 
 		// Permalink Settings

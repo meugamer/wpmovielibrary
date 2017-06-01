@@ -1,9 +1,7 @@
 
 wpmoly = window.wpmoly || {};
 
-var Grid = wpmoly.view.Grid || {};
-
-Grid.Settings = wp.Backbone.View.extend({
+wpmoly.view.GridSettings = wp.Backbone.View.extend({
 
 	className : 'grid-settings-inner',
 
