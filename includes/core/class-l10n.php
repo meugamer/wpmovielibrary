@@ -677,7 +677,7 @@ class l10n {
 			'settingsSaved'      => __( 'Settings saved!', 'wpmovielibrary' ),
 		);
 
-		wp_localize_script( 'wpmoly', 'wpmolyL10n', $localized );
+		wp_localize_script( 'wpmoly-core', 'wpmolyL10n', $localized );
 
 		$poster   = Node\DefaultPoster::get_instance();
 		$backdrop = Node\DefaultBackdrop::get_instance();
@@ -686,7 +686,7 @@ class l10n {
 			'backdrop' => $backdrop->get_sizes()
 		);
 
-		wp_localize_script( 'wpmoly', 'wpmolyDefaultImages', $localized );
+		wp_localize_script( 'wpmoly-core', 'wpmolyDefaultImages', $localized );
 	}
 
 	/**
@@ -714,7 +714,7 @@ class l10n {
 			'restAPIErrorFootnote' => __( 'If the problem persists, contact the administrator.', 'wpmovielibrary' )
 		);
 
-		wp_localize_script( 'wpmoly', 'wpmolyL10n', $localized );
+		wp_localize_script( 'wpmoly-core', 'wpmolyL10n', $localized );
 	}
 
 }

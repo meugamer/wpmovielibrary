@@ -55,35 +55,19 @@ class Frontend extends Assets {
 	protected function register_scripts() {
 
 		// Vendor
-		$this->register_script( 'sprintf',              'public/js/sprintf.min.js',           array( 'jquery', 'underscore' ), '1.0.3' );
-		$this->register_script( 'underscore-string',    'public/js/underscore.string.min.js', array( 'jquery', 'underscore' ), '3.3.4' );
+		$this->register_script( 'sprintf',           'public/js/sprintf.min.js',           array( 'jquery', 'underscore' ), '1.0.3' );
+		$this->register_script( 'underscore-string', 'public/js/underscore.string.min.js', array( 'jquery', 'underscore' ), '3.3.4' );
 
 		// Base
-		$this->register_script( 'public',               'public/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
-
-		// Utils
-		$this->register_script( 'utils',                'public/js/wpmoly-utils.js' );
-
-		// Models
-		$this->register_script( 'content-model',        'public/js/models/grid/content.js' );
-		$this->register_script( 'settings-model',       'public/js/models/grid/settings.js' );
-
-		// Controllers
-		$this->register_script( 'query-controller',     'public/js/controllers/query.js' );
-		$this->register_script( 'grid-controller',      'public/js/controllers/grid.js' );
+		$this->register_script( 'core',              'public/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
+		$this->register_script( 'utils',             'public/js/wpmoly-utils.js' );
 
 		// Views
-		$this->register_script( 'grid-view',            'public/js/views/grid.js' );
-		$this->register_script( 'grid-menu-view',       'public/js/views/grid/menu.js' );
-		$this->register_script( 'grid-pagination-view', 'public/js/views/grid/pagination.js' );
-		$this->register_script( 'grid-settings-view',   'public/js/views/grid/settings.js' );
-		$this->register_script( 'grid-customs-view',    'public/js/views/grid/customs.js' );
-		$this->register_script( 'grid-content-view',    'public/js/views/grid/content.js' );
-		$this->register_script( 'headbox-view',         'public/js/views/headbox.js' );
+		$this->register_script( 'headbox-view',      'public/js/views/headbox.js' );
 
 		// Runners
-		$this->register_script( 'grids',                'public/js/wpmoly-grids.js',     array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
-		$this->register_script( 'headboxes',            'public/js/wpmoly-headboxes.js', array( 'jquery' ) );
+		$this->register_script( 'grids',             'public/js/wpmoly-grids.js',     array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
+		$this->register_script( 'headboxes',         'public/js/wpmoly-headboxes.js', array( 'jquery' ) );
 	}
 
 	/**
@@ -97,7 +81,7 @@ class Frontend extends Assets {
 		$this->register_style( 'normalize', 'public/css/wpmoly-normalize-min.css' );
 
 		// Main stylesheet
-		$this->register_style( 'public',    'public/css/wpmoly.css' );
+		$this->register_style( 'core',      'public/css/wpmoly.css' );
 
 		// Common stylesheets
 		$this->register_style( 'common',    'public/css/common.css' );
@@ -153,24 +137,10 @@ class Frontend extends Assets {
 		$this->enqueue_script( 'underscore-string' );
 
 		// Base
-		$this->enqueue_script( 'public' );
+		$this->enqueue_script( 'core' );
 		$this->enqueue_script( 'utils' );
 
-		// Models
-		$this->enqueue_script( 'content-model' );
-		$this->enqueue_script( 'settings-model' );
-
-		// Controllers
-		$this->enqueue_script( 'query-controller' );
-		$this->enqueue_script( 'grid-controller' );
-
 		// Views
-		$this->enqueue_script( 'grid-view' );
-		$this->enqueue_script( 'grid-menu-view' );
-		$this->enqueue_script( 'grid-pagination-view' );
-		$this->enqueue_script( 'grid-settings-view' );
-		$this->enqueue_script( 'grid-customs-view' );
-		$this->enqueue_script( 'grid-content-view' );
 		$this->enqueue_script( 'headbox-view' );
 
 		// Runners
@@ -187,7 +157,7 @@ class Frontend extends Assets {
 
 		$this->register_styles();
 
-		$this->enqueue_style( 'public' );
+		$this->enqueue_style( 'core' );
 		$this->enqueue_style( 'common' );
 		$this->enqueue_style( 'headboxes' );
 		$this->enqueue_style( 'grids' );

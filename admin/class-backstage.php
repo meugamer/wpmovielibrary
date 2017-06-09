@@ -62,10 +62,8 @@ class Backstage extends Assets {
 		$this->register_script( 'underscore-string', 'public/js/underscore.string.min.js', array( 'jquery', 'underscore' ), '3.3.4' );
 
 		// Base
-		$this->register_script( 'public', 'public/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
-
-		// Utils
-		$this->register_script( 'utils',  'public/js/wpmoly-utils.js' );
+		$this->register_script( 'core',  'public/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
+		$this->register_script( 'utils', 'public/js/wpmoly-utils.js' );
 
 		// Libraries
 		$this->register_script( 'select2',                 'admin/js/select2.min.js' );
@@ -80,20 +78,12 @@ class Backstage extends Assets {
 		$this->register_script( 'modal-model',             'admin/js/models/modal/modal.js' );
 		$this->register_script( 'image-model',             'admin/js/models/image.js' );
 		$this->register_script( 'images-model',            'admin/js/models/images.js' );
-		$this->register_script( 'grid-builder-model',      'admin/js/models/grid-builder.js' );
-
-		$this->register_script( 'content-model',  'public/js/models/grid/content.js' );
-		$this->register_script( 'settings-model', 'public/js/models/grid/settings.js' );
 
 		// Controllers
 		$this->register_script( 'library-controller',      'admin/js/controllers/library.js' );
 		$this->register_script( 'search-controller',       'admin/js/controllers/search.js' );
 		$this->register_script( 'editor-controller',       'admin/js/controllers/editor.js' );
 		$this->register_script( 'modal-controller',        'admin/js/controllers/modal.js' );
-		$this->register_script( 'grid-builder-controller', 'admin/js/controllers/grid-builder.js' );
-
-		$this->register_script( 'query-controller', 'public/js/controllers/query.js' );
-		$this->register_script( 'grid-controller',  'public/js/controllers/grid.js' );
 
 		// Views
 		$this->register_script( 'frame-view',                     'public/js/views/frame.js' );
@@ -121,16 +111,6 @@ class Backstage extends Assets {
 		$this->register_script( 'modal-images-view',              'admin/js/views/modal/images.js' );
 		$this->register_script( 'modal-browser-view',             'admin/js/views/modal/browser.js' );
 		$this->register_script( 'modal-post-view',                'admin/js/views/modal/post.js' );
-		$this->register_script( 'grid-builder-view',              'admin/js/views/grid/builder.js' );
-		$this->register_script( 'grid-preview-view',              'admin/js/views/grid/preview.js' );
-		$this->register_script( 'grid-parameters-view',           'admin/js/views/grid/parameters.js' );
-
-		$this->register_script( 'grid-view',            'public/js/views/grid.js' );
-		$this->register_script( 'grid-menu-view',       'public/js/views/grid/menu.js' );
-		$this->register_script( 'grid-pagination-view', 'public/js/views/grid/pagination.js' );
-		$this->register_script( 'grid-settings-view',   'public/js/views/grid/settings.js' );
-		$this->register_script( 'grid-customs-view',    'public/js/views/grid/customs.js' );
-		$this->register_script( 'grid-content-view',    'public/js/views/grid/content.js' );
 
 		// Runners
 		$this->register_script( 'library',       'admin/js/wpmoly-library.js' );
@@ -140,10 +120,9 @@ class Backstage extends Assets {
 		$this->register_script( 'archive-pages', 'admin/js/wpmoly-archive-pages.js' );
 		$this->register_script( 'editor',        'admin/js/wpmoly-editor.js' );
 		$this->register_script( 'grid-builder',  'admin/js/wpmoly-grid-builder.js', array( 'butterbean' ) );
+		$this->register_script( 'grids',         'public/js/wpmoly-grids.js' );
 		$this->register_script( 'search',        'admin/js/wpmoly-search.js' );
 		$this->register_script( 'tester',        'admin/js/wpmoly-tester.js' );
-
-		//$this->register_script( 'grids', 'public/js/wpmoly-grids.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
 	}
 
 	/**
@@ -257,7 +236,7 @@ class Backstage extends Assets {
 			$this->enqueue_script( 'underscore-string' );
 
 			// Base
-			$this->enqueue_script( 'public' );
+			$this->enqueue_script( 'core' );
 
 			// Models
 
@@ -282,7 +261,7 @@ class Backstage extends Assets {
 			$this->enqueue_script( 'underscore-string' );
 
 			// Base
-			$this->enqueue_script( 'public' );
+			$this->enqueue_script( 'core' );
 
 			// Metabox
 			$this->enqueue_script( 'metabox-view' );
@@ -300,7 +279,7 @@ class Backstage extends Assets {
 			$this->enqueue_script( 'underscore-string' );
 
 			// Base
-			$this->enqueue_script( 'public' );
+			$this->enqueue_script( 'core' );
 			$this->enqueue_script( 'utils' );
 
 			// Models
@@ -359,36 +338,15 @@ class Backstage extends Assets {
 			$this->enqueue_script( 'wp-backbone' );
 
 			// Base
-			$this->enqueue_script( 'public' );
+			$this->enqueue_script( 'core' );
 			$this->enqueue_script( 'utils' );
 
 			// Libraries
 			$this->enqueue_script( 'select2' );
 
-			// Models
-			$this->enqueue_script( 'grid-builder-model' );
-			$this->enqueue_script( 'content-model' );
-			$this->enqueue_script( 'settings-model' );
-
-			// Controllers
-			$this->enqueue_script( 'grid-builder-controller' );
-			$this->enqueue_script( 'query-controller' );
-			$this->enqueue_script( 'grid-controller' );
-
-			// Views
-			$this->enqueue_script( 'grid-view' );
-			$this->enqueue_script( 'grid-menu-view' );
-			$this->enqueue_script( 'grid-pagination-view' );
-			$this->enqueue_script( 'grid-settings-view' );
-			$this->enqueue_script( 'grid-customs-view' );
-			$this->enqueue_script( 'grid-content-view' );
-			$this->enqueue_script( 'grid-builder-view' );
-			$this->enqueue_script( 'grid-preview-view' );
-			$this->enqueue_script( 'grid-parameters-view' );
-
 			// Runners
-			$this->enqueue_script( 'grid-builder' );
 			$this->enqueue_script( 'grids' );
+			$this->enqueue_script( 'grid-builder' );
 		}
 
 		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'page' == get_post_type() ) {
@@ -399,7 +357,7 @@ class Backstage extends Assets {
 			$this->enqueue_script( 'wp-backbone' );
 
 			// Base
-			$this->enqueue_script( 'public' );
+			$this->enqueue_script( 'core' );
 			$this->enqueue_script( 'utils' );
 
 			// Views

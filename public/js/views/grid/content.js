@@ -157,12 +157,14 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 	initialize: function( options ) {
 
 		this.controller = options.controller || {};
-		this.collection = this.controller.query.collection;
+
+		this.query      = this.controller.query;
+		this.settings   = this.controller.settings;
+		this.collection = this.controller.collection;
 
 		this.$window  = wpmoly.$( window );
 		this.resizeEvent = 'resize.grid-' + this.controller.uniqid;
 
-		this.settings = this.controller.settings;
 		this.rendered = false;
 
 		this.nodes = {};
@@ -186,26 +188,28 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 		// Adjust subviews dimensions on resize
 		this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
 
+		this.listenTo( this.query, 'all', function( e ) { console.log( e ) } );
+
 		// Remove no-JS content
-		//this.listenToOnce( this.collection, 'add', this.preEmpty );
+		//this.listenToOnce( this.query, 'add', this.preEmpty );
 
 		// Add views for new models
-		this.listenTo( this.collection, 'add',    this.addNode );
-		this.listenTo( this.collection, 'remove', this.removeNode );
+		//this.listenTo( this.query, 'fetch:add',    this.addNode );
+		//this.listenTo( this.query, 'fetch:remove', this.removeNode );
 
 		// Set grid as loading when reset
-		this.listenTo( this.collection, 'reset',   this.loading );
-		this.listenTo( this.collection, 'request', this.loading );
-		this.listenTo( this.collection, 'sync',    this.loaded );
+		//this.listenTo( this.query, 'fetch:reset',   this.loading );
+		//this.listenTo( this.query, 'fetch:request', this.loading );
+		//this.listenTo( this.query, 'fetch:sync',    this.loaded );
 
 		// Set grid as loaded when fetch is done
-		this.listenTo( this.collection, 'sync', _.debounce( this.adjust, 50 ) );
+		//this.listenTo( this.query, 'fetch:sync', _.debounce( this.adjust, 50 ) );
 
 		// Notify query errors
-		this.listenTo( this.controller.query, 'fetch:failed', this.notifyError );
+		//this.listenTo( this.query, 'fetch:failed', this.notifyError );
 
 		// Switch themes
-		this.listenTo( this.controller.settings, 'change:theme', this.adjust );
+		this.listenTo( this.settings, 'change:theme', this.adjust );
 	},
 
 	/**
@@ -306,7 +310,11 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 	 */
 	loading: function() {
 
-		wpmoly.$( 'body,html' ).animate( { scrollTop : this.views.parent.$el.offset().top - 48 }, 250 );
+		if ( this.views.parent ) {
+			wpmoly.$( 'body,html' ).animate({
+				scrollTop : Math.round( this.views.parent.$el.offset().top - 48 ),
+			}, 250 );
+		}
 
 		this.views.remove();
 
@@ -359,11 +367,11 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 		this.$el.addClass( this.controller.settings.get( 'mode' ) );
 
-		if ( ! this.collection.length ) {
+		if ( ! this.query.collection.length ) {
 			// Replace $el with pre-generated content
 			this.$el.html( wpmoly.$( this.options.content || '' ).html() );
 		} else {
-			this.collection.each( this.addNode, this );
+			this.query.collection.each( this.addNode, this );
 		}
 	},
 

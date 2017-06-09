@@ -424,9 +424,7 @@ class Grid extends Node {
 
 		// Default parameters
 		$defaults = array(
-			'id'      => '',
-			'order'   => 'desc',
-			'orderby' => 'date'
+			'id' => '',
 		);
 
 		// Calculate the number of nodes from display settings
@@ -445,8 +443,12 @@ class Grid extends Node {
 		// Distinction required for query.
 		if ( $this->is_taxonomy() ) {
 			$defaults['taxonomy'] = $this->get_type();
+			$defaults['orderby'] = 'name';
+			$defaults['order']   = 'asc';
 		} elseif ( $this->is_post() ) {
 			$defaults['post_type'] = $this->get_type();
+			$defaults['orderby'] = 'date';
+			$defaults['order']   = 'desc';
 		}
 
 		// Get grid settings from URL
@@ -747,11 +749,11 @@ class Grid extends Node {
 		 */
 		$default_rows = 4;
 
-		if ( ! isset( $this->rows ) ) {
-			return $this->rows = $this->get( 'rows', $default_rows );
+		if ( empty( $this->rows ) ) {
+			$this->rows = $this->get( 'rows', $default_rows );
 		}
 
-		return $this->rows;
+		return absint( $this->rows );
 	}
 
 	/**
@@ -772,11 +774,11 @@ class Grid extends Node {
 		 */
 		$default_columns = 5;
 
-		if ( ! isset( $this->columns ) ) {
-			return $this->columns = $this->get( 'columns', $default_columns );
+		if ( empty( $this->columns ) ) {
+			$this->columns = $this->get( 'columns', $default_columns );
 		}
 
-		return $this->columns;
+		return absint( $this->columns );
 	}
 
 	/**
@@ -797,11 +799,11 @@ class Grid extends Node {
 		 */
 		$default_row_height = 200;
 
-		if ( ! isset( $this->row_height ) ) {
-			return $this->row_height = $this->get( 'row_height', $default_row_height );
+		if ( empty( $this->row_height ) ) {
+			$this->row_height = $this->get( 'row_height', $default_row_height );
 		}
 
-		return $this->row_height;
+		return absint( $this->row_height );
 	}
 
 	/**
@@ -822,11 +824,11 @@ class Grid extends Node {
 		 */
 		$default_column_width = 160;
 
-		if ( ! isset( $this->column_width ) ) {
-			return $this->column_width = $this->get( 'column_width', $default_column_width );
+		if ( empty( $this->column_width ) ) {
+			$this->column_width = $this->get( 'column_width', $default_column_width );
 		}
 
-		return $this->column_width;
+		return absint( $this->column_width );
 	}
 
 	/**
@@ -847,11 +849,11 @@ class Grid extends Node {
 		 */
 		$default_list_columns = 3;
 
-		if ( ! isset( $this->list_columns ) ) {
-			return $this->list_columns = $this->get( 'list_columns', $default_list_columns );
+		if ( empty( $this->list_columns ) ) {
+			$this->list_columns = $this->get( 'list_columns', $default_list_columns );
 		}
 
-		return $this->list_columns;
+		return absint( $this->list_columns );
 	}
 
 	/**
@@ -872,11 +874,11 @@ class Grid extends Node {
 		 */
 		$default_list_rows = 8;
 
-		if ( ! isset( $this->list_rows ) ) {
-			return $this->list_rows = $this->get( 'list_rows', $default_list_rows );
+		if ( empty( $this->list_rows ) ) {
+			$this->list_rows = $this->get( 'list_rows', $default_list_rows );
 		}
 
-		return $this->list_rows;
+		return absint( $this->list_rows );
 	}
 
 	/**
@@ -897,11 +899,11 @@ class Grid extends Node {
 		 */
 		$default_list_column_width = 240;
 
-		if ( ! isset( $this->list_column_width ) ) {
-			return $this->list_column_width = $this->get( 'list_column_width', $default_list_column_width );
+		if ( empty( $this->list_column_width ) ) {
+			$this->list_column_width = $this->get( 'list_column_width', $default_list_column_width );
 		}
 
-		return $this->list_column_width;
+		return absint( $this->list_column_width );
 	}
 
 	/**
