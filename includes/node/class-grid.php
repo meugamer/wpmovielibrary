@@ -453,11 +453,14 @@ class Grid extends Node {
 
 		// Get grid settings from URL
 		$settings = get_query_var( 'grid' );
+		if ( ! empty( $this->settings ) ) {
+			$settings = wp_parse_args( $this->settings, $settings );
+		}
 
 		// No custom setting, only set posts_per_page from defaults
 		if ( empty( $settings ) ) {
-
-			return $this->settings = $defaults;
+			$this->settings = wp_parse_args( $this->settings, $defaults );
+			return $this->settings;
 		}
 
 		// Extract settings

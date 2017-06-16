@@ -205,9 +205,9 @@ class Archives {
 		$grid->set_mode( 'grid' );
 		$grid->set_preset( 'custom' );
 		$grid->set_settings( array( $type => $name ) );
+		$grid->enable_pagination = 1;
 
 		$grid_template = get_grid_template( $grid );
-		$grid_template->show_pagination = true;
 
 		$content = $headbox_template->render() . $grid_template->render() . $content;
 
