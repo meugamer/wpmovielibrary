@@ -2191,11 +2191,13 @@ window.wpmoly = window.wpmoly || {};
 			return wpmoly.error( 'missing-api', wpmolyL10n.api.missing );
 		}
 
-		wp.api.loadPromise.done( _.map(
-			document.querySelectorAll( '[data-grid]' ),
-			Grids.add,
-			Grids
-		) );
+		wp.api.loadPromise.done( function() {
+			return _.map(
+				document.querySelectorAll( '[data-grid]' ),
+				Grids.add,
+				Grids
+			);
+		} );
 	};
 
 } )( jQuery, _, Backbone );
