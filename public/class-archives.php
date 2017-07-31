@@ -194,24 +194,35 @@ class Archives {
 			return $content;
 		}
 
+		$pre_content = '';
+
 		$theme = get_post_meta( $post_id, '_wpmoly_headbox_theme', $single = true );
 		$headbox = get_term_headbox( $term );
 		$headbox->set_theme( $theme );
 
 		$headbox_template = get_headbox_template( $headbox );
+		$pre_content = $headbox_template->render();
 
-		$grid = get_grid();
-		$grid->is_main_grid = true;
-		$grid->set_mode( 'grid' );
-		$grid->set_preset( 'custom' );
-		$grid->set_settings( array( $type => $name ) );
-		$grid->enable_pagination = 1;
+		$archive_page_id = get_archives_page_id( 'movie' );
+		if ( ! $archive_page_id ) {
+			return $pre_content;
+		}
+
+		$grid_id = get_post_meta( $archive_page_id, '_wpmoly_grid_id', $single = true );
+		if ( empty( $grid_id ) ) {
+			return $pre_content;
+		}
+
+		$grid = get_grid( (int) $grid_id );
+		$grid->set_preset( array(
+			$type => $name,
+		) );
 
 		$grid_template = get_grid_template( $grid );
 
-		$content = $headbox_template->render() . $grid_template->render() . $content;
+		$pre_content .= $grid_template->render() . $content;
 
-		return $content;
+		return $pre_content;
 	}
 
 	/**
@@ -228,7 +239,7 @@ class Archives {
 
 		$grid_id = get_post_meta( $post_id, '_wpmoly_grid_id', $single = true );
 		$grid = get_grid( (int) $grid_id );
-		$grid->is_main_grid = true;
+		//$grid->is_main_grid = true;
 
 		if ( empty( $grid->post ) ) {
 			$grid = '';

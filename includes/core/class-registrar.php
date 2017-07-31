@@ -171,10 +171,11 @@ class Registrar {
 					'public'             => false,
 					'publicly_queryable' => false,
 					'show_ui'            => true,
-					'show_in_rest'       => false,
+					'show_in_rest'       => true,
+					'rest_controller_class' => '\wpmoly\Rest\Grids_Controller',
 					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => false,
-					'supports'           => array( 'title' )
+					'supports'           => array( 'title', 'custom-fields' )
 				)
 			)
 		);
@@ -533,7 +534,137 @@ class Registrar {
 					'label' => __( 'Format', 'wpmovielibrary' ),
 					'prepare_callback' => 'get_formatted_movie_format'
 				)
-			)
+			),
+			'grid-type' => array(
+				'type'         => 'string',
+				'description'  => __( 'Grid type', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Type', 'wpmovielibrary' ),
+				),
+			),
+			'grid-mode' => array(
+				'type'         => 'string',
+				'description'  => __( 'Grid mode', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => __( 'Mode', 'wpmovielibrary' ),
+				),
+			),
+			'grid-theme' => array(
+				'type'         => 'string',
+				'description'  => esc_html__( 'Grid theme', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label' => esc_html__( 'Theme', 'wpmovielibrary' ),
+				),
+			),
+			'grid-preset' => array(
+				'type'        => 'string',
+				'show_in_rest' => array(
+					'label'       => esc_html__( 'Grid preset', 'wpmovielibrary' ),
+				),
+				'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+				'default'     => 'custom',
+			),
+			'grid-enable-ajax' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught movies without reloading the page. Default is disabled.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
+				),
+				'sanitize_callback' => '_is_bool',
+				'default'  => 0
+			),
+			'grid-enable-pagination' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+				),
+				'sanitize_callback' => '_is_bool',
+				'default'  => 1
+			),
+			'grid-columns' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
+				),
+				'default'  => 5
+			),
+			'grid-rows' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
+				),
+				'default'  => 4
+			),
+			'grid-column-width' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
+				),
+				'default'  => 160
+			),
+			'grid-row-height' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
+				),
+				'default'  => 240
+			),
+			'grid-list-columns' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
+				),
+				'default'  => 3
+			),
+			'grid-list-column-width' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
+				),
+				'default'  => 240
+			),
+			'grid-list-rows' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
+				),
+				'default'  => 8
+			),
+			'grid-settings-control' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
+				),
+				'sanitize_callback' => '_is_bool',
+				'default'  => 1
+			),
+			'grid-custom-letter' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Allow visitors to filter the grid by letters. Default is enabled.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Enable letter filtering', 'wpmovielibrary' ),
+				),
+				'sanitize_callback' => '_is_bool',
+				'default'  => 1
+			),
+			'grid-custom-order' => array(
+				'type' => 'integer',
+				'description' => esc_html__( 'Allow visitors to change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+				'show_in_rest' => array(
+					'label'    => esc_html__( 'Enable custom ordering', 'wpmovielibrary' ),
+				),
+				'sanitize_callback' => '_is_bool',
+				'default'  => 1
+			),
 		);
 
 		/**

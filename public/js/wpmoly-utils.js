@@ -148,6 +148,42 @@ wpmoly = window.wpmoly || {};
 		return results;
 	};
 
+	/**
+	 * Returns true is the value is true.
+	 *
+	 * Accepts litteral values.
+	 *
+	 * @param    mixed    value
+	 *
+	 * @return   boolean
+	 */
+	_.isTrue = _.isTrue || function( value ) {
+
+		if ( _.isString( value ) ) {
+			value = value.toLowerCase();
+		}
+
+		return _.contains( [ 1, '1', true, 'true' ], value );
+	};
+
+	/**
+	 * Returns false is the value is false.
+	 *
+	 * Accepts litteral values.
+	 *
+	 * @param    mixed    value
+	 *
+	 * @return   boolean
+	 */
+	_.isFalse = _.isFalse || function( value ) {
+
+		if ( _.isString( value ) ) {
+			value = value.toLowerCase();
+		}
+
+		return _.contains( [ 0, '0', false, 'false' ], value );
+	};
+
 	wpmoly.l10n = {
 
 		/**

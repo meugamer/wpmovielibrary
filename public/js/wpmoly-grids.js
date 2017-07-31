@@ -12,32 +12,49 @@ window.wpmoly = window.wpmoly || {};
 	 *
 	 * @return   {object}     Grid instance.
 	 */
-	var Grid = function( grid ) {
+	Grid = wpmoly.Grid = function( grid, options ) {
+
+		var options = options || {};
 
 		// Set a unique grid ID to the grid element.
-		grid.id  = _.uniqueId( grid.id + '-' );
+		grid.id  = _.uniqueId( 'wpmoly-grid-' );
 
-		// Store unique and post ID.
-		var grid_id = parseInt( grid.getAttribute( 'data-grid' ) ),
-		   selector = grid.id;
+		var post_id = parseInt( grid.getAttribute( 'data-grid' ) ),
+		     widget = _.isTrue( grid.getAttribute( 'data-widget' ) );
+
+		// Handle presets.
+		var preset = {},
+		 presetName = grid.getAttribute( 'data-preset-name' ) || '',
+		presetValue = grid.getAttribute( 'data-preset-value' ) || '';
+		if ( ! _.isEmpty( presetName ) && ! _.isEmpty( presetValue ) ) {
+			preset[ presetName ] = presetValue;
+		}
+
+		// Grid settings and query.
+		var settings = new Grids.model.Settings,
+		       query = new Grids.controller.Query( [], { settings : settings } ),
+		       model = new wp.api.models.Grid( { id : post_id } );
 
 		// Grid controller.
-		var controller = new Grids.controller.Grid(
-			{
-				post_id : this.id
-			},
-			JSON.parse( grid.querySelector( '.grid-json' ).textContent || '{}' )
-		);
+		var controller = new Grids.controller.Grid( {
+			context : options.context || 'view',
+			post_id : post_id,
+			widget  : widget,
+			preset  : preset
+		}, {
+			model    : model,
+			query    : query,
+			settings : settings
+		} );
 
-		// Grid view.
+		// Build the View.
 		var view = new Grids.view.Grid({
 			el         : grid,
-			content    : grid.querySelector( '.grid-content-inner' ),
-			controller : controller
+			controller : controller,
 		});
 
-		var query    = controller.query;
-		var settings = controller.settings;
+		// Grid view.
+		view.render();
 
 		/**
 		 * Grid instance.
@@ -56,7 +73,7 @@ window.wpmoly = window.wpmoly || {};
 			 *
 			 * @var      int
 			 */
-			grid_id : grid_id,
+			grid_id : post_id,
 
 			/**
 			 * Grid selector.
@@ -65,7 +82,7 @@ window.wpmoly = window.wpmoly || {};
 			 *
 			 * @var      string
 			 */
-			selector : selector,
+			selector : grid.id,
 
 			/**
 			 * Retrieve grid type.
@@ -76,7 +93,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			getType : function() {
 
-				return settings.get( 'type' );
+				return controller.settings.get( 'type' );
 			},
 
 			/**
@@ -88,7 +105,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			getMode : function() {
 
-				return settings.get( 'mode' );
+				return controller.settings.get( 'mode' );
 			},
 
 			/**
@@ -100,7 +117,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			getTheme : function() {
 
-				return settings.get( 'theme' );
+				return controller.settings.get( 'theme' );
 			},
 
 			/**
@@ -114,7 +131,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			setType : function( type ) {
 
-				return settings.set({
+				return controller.settings.set({
 					type  : type,
 					mode  : 'grid',
 					theme : 'default',
@@ -132,7 +149,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			setMode : function( mode ) {
 
-				return settings.set({
+				return controller.settings.set({
 					mode  : mode,
 					theme : 'default',
 				});
@@ -149,7 +166,19 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			setTheme : function( theme ) {
 
-				return settings.set( { theme : theme } );
+				return controller.settings.set( { theme : theme } );
+			},
+
+			/**
+			 * Is the grid part of a Widget?
+			 *
+			 * @since    3.0
+			 *
+			 * @return   {boolean}
+			 */
+			isWidget : function() {
+
+				return controller.isWidget();
 			},
 
 			/**
@@ -167,10 +196,10 @@ window.wpmoly = window.wpmoly || {};
 			get : function( attribute ) {
 
 				if ( ! attribute ) {
-					return settings.attributes;
+					return controller.settings.attributes;
 				}
 
-				return settings.get( attribute );
+				return controller.settings.get( attribute );
 			},
 
 			/**
@@ -184,7 +213,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			set : function( attributes ) {
 
-				return settings.set( attributes );
+				return controller.settings.set( attributes );
 			},
 
 			/**
@@ -208,7 +237,7 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			reload : function() {
 
-				return query.fetch();
+				return controller.query.fetch();
 			},
 
 			/**
@@ -220,10 +249,19 @@ window.wpmoly = window.wpmoly || {};
 			 */
 			reset : function() {
 
-				return query.fetch();
+				return controller.query.fetch();
 			},
 
 		};
+
+		// This comes handy when editing the grid.
+		if ( 'edit' === options.context ) {
+			grid.controller = controller;
+			grid.settings = settings;
+			grid.query = query;
+			grid.model = model;
+			grid.view = view;
+		}
 
 		return grid;
 	};
@@ -235,7 +273,7 @@ window.wpmoly = window.wpmoly || {};
 	 *
 	 * @since    3.0
 	 */
-	var Grids = wpmoly.grids = {
+	Grids = wpmoly.Grids = wpmoly.grids = {
 
 		/**
 		 * List of grid instances.
@@ -361,34 +399,6 @@ window.wpmoly = window.wpmoly || {};
 			custom_display    : 0
 		},
 
-		/**
-		 * Initialize the Model.
-		 *
-		 * @since    3.0
-		 *
-		 * @param    {object}    attributes
-		 * @param    {object}    options
-		 */
-		initialize : function( attributes, options ) {
-
-			var options = options || {},
-			   booleans = [ 'enable_ajax', 'enable_pagination', 'settings_control', 'custom_letter', 'custom_order', 'customs_control', 'custom_mode', 'custom_content', 'custom_display' ],
-			   integers = [ 'columns', 'rows', 'column_width', 'row_height', 'list_columns', 'list_column_width', 'list_rows' ];
-
-			_.each( attributes, function( value, key ) {
-				if ( _.isNull( value ) && _.has( this.defaults, key ) ) {
-					this.set( key, this.defaults[ key ], { silent : true } );
-				} else if ( ! _.isNull( value ) ) {
-					if ( _.contains( booleans, key ) ) {
-						this.set( key, !! value, { silent : true } );
-					} else if ( _.contains( integers, key ) ) {
-						this.set( key, parseInt( value ) || this.defaults[ key ], { silent : true } );
-					}
-				}
-			}, this );
-
-		},
-
 	});
 
 	/**
@@ -411,10 +421,11 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		initialize : function( attributes, options ) {
 
-			this.controller = options.controller;
+			var options = options || {};
+
+			this.settings = options.settings;
 
 			this.setDefaults();
-			this.setCollection();
 
 			this.on( 'fetch:done', this.setState, this );
 			this.state = new Backbone.Model({
@@ -422,7 +433,14 @@ window.wpmoly = window.wpmoly || {};
 				totalPages  : parseInt( options.total_page ) || ''
 			});
 
-			this.listenTo( this.controller.settings, 'change:type', this.changeType );
+			this.listenTo( this.settings, 'change:type', this.resetQuery );
+
+			this.on( 'change',    this.browseCollection, this );
+			/*this.on( 'change:media',    this.browseCollection, this );
+			this.on( 'change:page',    this.browseCollection, this );
+			this.on( 'change:letter',  this.browseCollection, this );
+			this.on( 'change:order',   this.browseCollection, this );
+			this.on( 'change:orderby', this.browseCollection, this );*/
 		},
 
 		/**
@@ -459,7 +477,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		setCollection : function() {
 
-			var type = this.controller.settings.get( 'type' ),
+			var type = this.settings.get( 'type' ),
 			collections = {
 				movie      : wp.api.collections.Movies,
 				actor      : wp.api.collections.Actors,
@@ -540,7 +558,7 @@ window.wpmoly = window.wpmoly || {};
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		changeType : function( model, value, options ) {
+		resetQuery : function( model, value, options ) {
 
 			this.setCollection();
 			this.setDefaults();
@@ -551,15 +569,23 @@ window.wpmoly = window.wpmoly || {};
 		},
 
 		/**
-		 * Prefetch nodes. Should be used when initializing the controller.
+		 * Browse the collection.
 		 *
 		 * @since    3.0
 		 *
-		 * @return   Promise
+		 * @param    {object}    model Settings Model
+		 * @param    {string}    value New type
+		 * @param    {object}    options Options
+		 *
+		 * @return   Returns itself to allow chaining.
 		 */
-		preFetch : function() {
+		browseCollection : function( model, value, options ) {
 
-			return this.fetch();
+			console.log( model );
+			console.log( value );
+			console.log( options );
+
+			return this.fetch( model.changed );
 		},
 
 		/**
@@ -568,11 +594,13 @@ window.wpmoly = window.wpmoly || {};
 		 * Filter the attributes and return a list of supported query
 		 * parameters.
 		 *
+		 * @TODO Implement limits for integers.
+		 *
 		 * @since    3.0
 		 *
 		 * @return   {object}
 		 */
-		prepare : function() {
+		prepareQueryParameters : function() {
 
 			var options = {};
 			if ( ! this.collection.options || _.isEmpty( this.attributes ) ) {
@@ -583,14 +611,13 @@ window.wpmoly = window.wpmoly || {};
 				if ( _.has( this.collection.options, key ) ) {
 					var o = this.collection.options[ key ];
 					if ( 'integer' === o.type ) {
-						// TODO implement limits
 						if ( ! value ) {
 							options[ key ] = o.default;
 						} else {
 							options[ key ] = value;
 						}
 					} else if ( 'string' === o.type ) {
-						if ( ! _.contains( o.enum, value ) ) {
+						if ( o.enum && ! _.contains( o.enum, value ) ) {
 							options[ key ] = o.default;
 						} else {
 							options[ key ] = value;
@@ -617,13 +644,13 @@ window.wpmoly = window.wpmoly || {};
 		fetch : function( options ) {
 
 			if ( ! this.collection ) {
-				this.load();
+				this.setCollection();
 			}
 
 			this.calculateNumber();
 
 			var self = this,
-			 options = _.extend( options || {}, { data : this.prepare() } );
+			 options = _.extend( options || {}, { data : this.prepareQueryParameters() } );
 
 			options.error = function( collection, xhr, options ) {
 				self.trigger( 'fetch:failed', collection, xhr, options );
@@ -644,19 +671,19 @@ window.wpmoly = window.wpmoly || {};
 		 * Calculate the number of nodes to query from the number of
 		 * columns and rows of the grid.
 		 *
-		 * TODO take into account the actual number of columns as it can
+		 * @TODO take into account the actual number of columns as it can
 		 * changes with screen dimensions.
 		 *
 		 * @since    3.0
 		 */
 		calculateNumber : function() {
 
-			if ( 'grid' == this.controller.settings.get( 'mode' ) ) {
-				var columns = this.controller.settings.get( 'columns' ),
-				       rows = this.controller.settings.get( 'rows' );
-			} else if ( 'list' == this.controller.settings.get( 'mode' ) ) {
-				var columns = this.controller.settings.get( 'list_columns' ),
-				       rows = this.controller.settings.get( 'list_rows' );
+			if ( 'grid' == this.settings.get( 'mode' ) ) {
+				var columns = this.settings.get( 'columns' ),
+				       rows = this.settings.get( 'rows' );
+			} else if ( 'list' == this.settings.get( 'mode' ) ) {
+				var columns = this.settings.get( 'list_columns' ),
+				       rows = this.settings.get( 'list_rows' );
 			} else {
 				return false;
 			}
@@ -673,6 +700,20 @@ window.wpmoly = window.wpmoly || {};
 		},
 
 		/**
+		 * Check if collection support a specific query parameter.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    {string}    name Property name.
+		 *
+		 * @return   {boolean}
+		 */
+		supports : function( name ) {
+
+			return _.has( this.collection.__proto__.options, name );
+		},
+
+		/**
 		 * Are we dealing with taxonomies?
 		 *
 		 * @since    3.0
@@ -681,7 +722,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		isTaxonomy : function() {
 
-			return _.contains( [ 'actor', 'collection', 'genre' ], this.controller.settings.get( 'type' ) );
+			return _.contains( [ 'actor', 'collection', 'genre' ], this.settings.get( 'type' ) );
 		},
 
 		/**
@@ -693,7 +734,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		isPost : function() {
 
-			return _.contains( [ 'movie' ], this.controller.settings.get( 'type' ) );
+			return _.contains( [ 'movie' ], this.settings.get( 'type' ) );
 		}
 
 	});
@@ -706,7 +747,11 @@ window.wpmoly = window.wpmoly || {};
 	Grids.controller.Grid = Backbone.Model.extend({
 
 		defaults : {
+			post_id : '',
 			submenu : '',
+			context : 'view',
+			widget  : false,
+			preset  : {}
 		},
 
 		/**
@@ -719,119 +764,81 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		initialize : function( attributes, options ) {
 
-			this.settings = new Grids.model.Settings( options.settings || {} );
+			var options = _.defaults( options || {}, {
+				prefetch : true,
+			} );
 
-			this.setQuery( options || {} );
+			this.settings = options.settings;
+			this.query    = options.query;
+			this.model    = options.model;
 
-			// Preload nodes
-			if ( options.prefetch ) {
-				this.query.preFetch();
-			}
+			//this.listenTo( this.query, 'change', this.updateQuery );
+
+			this.loadSettings();
 		},
 
 		/**
-		 * Set the Query controller.
+		 * Load the grid settings.
+		 *
+		 * Fetch settings from the REST API.
+		 *
+		 * @TODO Make this usable more than once?
+		 *
+		 * @since    3.0
+		 */
+		loadSettings : function() {
+
+			// Load Grid from REST API.
+			var self = this;
+			this.model.fetch( {
+				data : {
+					context : this.get( 'context' ),
+				},
+				success : function( model, xhr, options ) {
+					self.setSettings( model.get( 'meta' ) );
+					//self.setQueryArgs();
+				},
+				error : function( model, xhr, options ) {},
+			} );
+		},
+
+		/**
+		 * Set Query parameters.
 		 *
 		 * @since    3.0
 		 *
-		 * @param    {object}    options
+		 * @param    {object}    args
 		 */
-		setQuery : function( options ) {
+		/*setQueryArgs : function( args ) {
 
-			var options = _.defaults( options || {}, {
-				query_args : {},
-				query_data : {}
-			} );
+			//console.log( _.extend( args || {}, this.get( 'preset' ) || {} ) );
 
-			this.query = new Grids.controller.Query(
-				options.query_args,
-				_.extend( options.query_data, {
-					type       : this.settings.get( 'type' ),
-					controller : this,
-				} )
-			);
-
-			// Browsing
-			this.listenTo( this.query, 'change', this._updateQuery );
-		},
+			//return this.query.set( _.extend( args || {}, this.get( 'preset' ) || {} ) );
+		},*/
 
 		/**
-		 * Alternative to yet-to-be-implemented Ajax browsing: update
-		 * URL and reload the page.
+		 * Ajax browsing.
 		 *
 		 * @since    3.0
 		 *
 		 * @param    {object}    model
 		 * @param    {object}    options
 		 */
-		_updateQuery : function( model, options ) {
+		/*updateQuery : function( model, options ) {
 
-			this.settingsOpened = false;
-			this.customsOpened  = false;
-
-			if ( this.isDynamic() ) {
-				return this.query.fetch( model.attributes );
-			}
-
-			var query = _.defaults( this._parseSearchQuery(), {
-				id : this.get( 'post_id' )
-			} );
-
-			_.each( model.changed, function( value, key ) {
-				query[ key ] = value;
-			} );
-
-			var url = window.location.origin + window.location.pathname;
-
-			window.location.href = url + this._buildSearchQuery( query );
-		},
+			return this.query.fetch( model.attributes );
+		},*/
 
 		/**
-		 * Parse URL to extract settings.
-		 *
-		 * Grid settings can be passed through URL to keep history and
-		 * handle Ajax browsing deactivation.
+		 * Is current grid part of a Widget?
 		 *
 		 * @since    3.0
 		 *
-		 * @return   {object}
+		 * @return   {boolean}
 		 */
-		_parseSearchQuery : function() {
+		isWidget : function() {
 
-			var search = wpmoly.utils.getURLParameter( 'grid' );
-			if ( ! search ) {
-				return {};
-			}
-
-			var query = {},
-			    regexp = new RegExp( '^([A-Za-z]+):([A-Za-z0-9]+)$' );
-			_.each( search.split( ',' ), function( param ) {
-				var rparam = regexp.exec( param );
-				if ( ! _.isNull( rparam ) ) {
-					query[ rparam[1] ] = rparam[2];
-				}
-			} );
-
-			return query;
-		},
-
-		/**
-		 * Build a new URL parameter to contain the grid settings.
-		 *
-		 * @since    3.0
-		 *
-		 * @param    {object}    query
-		 *
-		 * @return   {string}
-		 */
-		_buildSearchQuery : function( query ) {
-
-			var _query = [];
-			_.each( query, function( value, param ) {
-				_query.push( param + ':' + value );
-			} );
-
-			return '?grid=' + _query.join( ',' );
+			return _.isTrue( this.get( 'widget' ) );
 		},
 
 		/**
@@ -843,7 +850,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		canEdit : function() {
 
-			return true === this.settings.get( 'settings_control' );
+			return _.isTrue( this.settings.get( 'settings_control' ) );
 		},
 
 		/**
@@ -855,7 +862,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		canCustomize : function() {
 
-			return true === this.settings.get( 'customs_control' );
+			return _.isTrue( this.settings.get( 'customs_control' ) );
 		},
 
 		/**
@@ -867,7 +874,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		canBrowse : function() {
 
-			return true === this.settings.get( 'enable_pagination' );
+			return _.isTrue( this.settings.get( 'enable_pagination' ) );
 		},
 
 		/**
@@ -879,7 +886,7 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		isDynamic : function() {
 
-			return true === this.settings.get( 'enable_ajax' );
+			return _.isTrue( this.settings.get( 'enable_ajax' ) );
 		},
 
 		/**
@@ -1218,7 +1225,7 @@ window.wpmoly = window.wpmoly || {};
 				var param = this.$( input ).data( 'setting-type' ),
 				    value = this.$( input ).val();
 
-				if ( query.has( param ) && ( value != query.get( param ) || value ) ) {
+				if ( value && query.supports( param ) && value != query.get( param ) ) {
 					changes[ param ] = value;
 				}
 			}, this );
@@ -1384,7 +1391,7 @@ window.wpmoly = window.wpmoly || {};
 		paginate : function( event ) {
 
 			var $target = this.$( event.currentTarget ),
-			    value = $target.val();
+			      value = $target.val();
 
 			if ( ! this.controller.isBrowsable( value ) ) {
 				return false;
@@ -1592,9 +1599,6 @@ window.wpmoly = window.wpmoly || {};
 
 			this.controller = options.controller || {};
 
-			this.query      = this.controller.query;
-			this.settings   = this.controller.settings;
-
 			this.$window  = wpmoly.$( window );
 			this.resizeEvent = 'resize.grid-' + this.controller.uniqid;
 
@@ -1620,22 +1624,22 @@ window.wpmoly = window.wpmoly || {};
 			this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
 
 			// Add views for new models
-			this.listenTo( this.query, 'collection:add',    this.addNode );
-			this.listenTo( this.query, 'collection:remove', this.removeNode );
+			this.listenTo( this.controller.query, 'collection:add',    this.addNode );
+			this.listenTo( this.controller.query, 'collection:remove', this.removeNode );
 
 			// Set grid as loading when reset
-			this.listenTo( this.query, 'fetch:start', this.loading );
-			this.listenTo( this.query, 'fetch:done',  this.loaded );
+			this.listenTo( this.controller.query, 'fetch:start', this.loading );
+			this.listenTo( this.controller.query, 'fetch:done',  this.loaded );
 
 			// Set grid as loaded when fetch is done
-			this.listenTo( this.query, 'fetch:done', _.debounce( this.adjust, 50 ) );
+			this.listenTo( this.controller.query, 'fetch:done', _.debounce( this.adjust, 50 ) );
 
 			// Notify query errors
-			this.listenTo( this.query, 'fetch:failed', this.notifyError );
-			this.listenTo( this.query, 'fetch:failed', this.loaded );
+			this.listenTo( this.controller.query, 'fetch:failed', this.notifyError );
+			this.listenTo( this.controller.query, 'fetch:failed', this.loaded );
 
 			// Switch themes
-			this.listenTo( this.settings, 'change:theme', this.adjust );
+			this.listenTo( this.controller.settings, 'change:theme', this.adjust );
 		},
 
 		/**
@@ -1769,7 +1773,7 @@ window.wpmoly = window.wpmoly || {};
 		 *
 		 * Should be extended.
 		 *
-		 * TODO prevent this from running twice
+		 * @TODO prevent this from running twice
 		 *
 		 * @since    3.0
 		 *
@@ -1793,12 +1797,7 @@ window.wpmoly = window.wpmoly || {};
 
 			this.$el.addClass( this.controller.settings.get( 'mode' ) );
 
-			if ( ! this.query.collection.length ) {
-				// Replace $el with pre-generated content
-				this.$el.html( wpmoly.$( this.options.content || '' ).html() );
-			} else {
-				this.query.collection.each( this.addNode, this );
-			}
+			//this.controller.query.collection.each( this.addNode, this );
 		},
 
 		/**
@@ -1850,7 +1849,7 @@ window.wpmoly = window.wpmoly || {};
 			innerWidth = this.$el.width()
 			    ratio = 1.25;
 
-			if ( 'movie' === this.settings.get( 'type' ) ) {
+			if ( 'movie' === this.controller.settings.get( 'type' ) ) {
 				ratio = 1.5;
 			}
 
@@ -1892,7 +1891,7 @@ window.wpmoly = window.wpmoly || {};
 		/**
 		 * Adjust content nodes to fit the grid.
 		 *
-		 * TODO handle this by UL columns rather than width
+		 * @TODO handle this by UL columns rather than width
 		 *
 		 * @since    3.0
 		 *
@@ -1967,8 +1966,8 @@ window.wpmoly = window.wpmoly || {};
 
 			this.controller = options.controller || {};
 
+			// Set subviews.
 			this.setRegions();
-			this.render();
 
 			// Change Theme.
 			this.listenTo( this.controller.settings, 'change:mode',  this.setNodesView );
@@ -2031,7 +2030,7 @@ window.wpmoly = window.wpmoly || {};
 				this.menu.remove();
 			}
 
-			if ( this.controller.canEdit() || this.controller.canCustomize() ) {
+			if ( ( this.controller.canEdit() || this.controller.canCustomize() ) && ! this.controller.isWidget() ) {
 				this.menu = new Grids.view.Menu( { controller : this.controller } );
 				this.views.set( '.grid-menu.settings-menu', this.menu );
 			}
@@ -2125,16 +2124,11 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		setNodesView : function( options ) {
 
-			var options = options || {};
-			if ( this.content && ! options.silent ) {
-				this.content.remove();
-			}
-
 			var mode = this.controller.settings.get( 'mode' ),
-			options = { controller : this.controller };
-
-			// Use server-generated grid content first
-			_.extend( options, { content : this.options.content } );
+			 options = _.extend( options || {}, {
+				controller : this.controller,
+				silent     : true,
+			} );
 
 			if ( 'grid' === mode ) {
 				this.content = new Grids.view.NodesGrid( options );

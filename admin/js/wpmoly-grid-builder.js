@@ -12,47 +12,24 @@ wpmoly = window.wpmoly || {};
 	 */
 	var Builder = function() {
 
+		var post_id = document.querySelector( '#post_ID' ).value;
+
+		var builder = new wp.api.models.Grid( { id : post_id } );
+
 		var controller = new GridBuilder.controller.Builder({
-			post_id : document.querySelector( '#post_ID' ).value,
-			nonce   : document.querySelector( '#wpmoly_save_grid_setting_nonce' ).value,
+			post_id : post_id,
+		}, {
+			builder : builder,
 		});
 
-		var view = new GridBuilder.view.Builder({
-			el         : document.querySelector( '#wpmoly-grid-builder' ),
-			controller : controller
-		});
+		builder.once( 'change', function( e ) {
+			var view = new GridBuilder.view.Builder({
+				el         : document.querySelector( '#wpmoly-grid-builder' ),
+				controller : controller
+			});
+		} );
 
 		return this;
-	};
-
-	/**
-	 * Create a new Grid instance for preview.
-	 *
-	 * @since    3.0
-	 *
-	 * @param    {Element}    grid Grid DOM element.
-	 *
-	 * @return   {object}     Grid instance.
-	 */
-	var Preview = function( grid ) {
-
-		var preview = wpmoly.grids.get( parseInt( grid.getAttribute( 'data-grid' ) ) );
-		if ( ! preview.length || ! _.isArray( preview ) ) {
-			return false;
-		}
-
-		var grid = preview.shift();
-
-		grid.set({
-			enable_pagination : false,
-			customs_control   : false,
-			settings_control  : false
-		});
-
-		grid.refresh();
-		grid.reload();
-
-		return grid;
 	};
 
 	/**
@@ -111,22 +88,7 @@ wpmoly = window.wpmoly || {};
 
 	};
 
-	/**
-	 * GridBuilder Builder Model.
-	 *
-	 * 
-	 *
-	 * @since    3.0
-	 */
 	GridBuilder.model.Builder = Backbone.Model.extend({
-
-		defaults: function() {
-			var defaults = {};
-			_.each( _wpmolyGridBuilderData.settings, function( value, key ) {
-				defaults[ key ] = '';
-			}, this );
-			return defaults;
-		},
 
 		/**
 		 * Initialize the Model.
@@ -139,54 +101,8 @@ wpmoly = window.wpmoly || {};
 		initialize: function( attributes, options ) {
 
 			var options = options || {};
-			this.controller = options.controller;
-
-			var data = _wpmolyGridBuilderData || {};
-
-			this.set( data.settings );
-			this.types  = data.types  || '';
-			this.modes  = data.modes  || '';
-			this.themes = data.themes || '';
-
-			this.on( 'change', this.update, this );
 		},
 
-		/**
-		 * Save settings.
-		 *
-		 * @since    3.0
-		 *
-		 * @param    {object}    model
-		 * @param    {object}    options
-		 *
-		 * @return   xhr
-		 */
-		update: function( model, options ) {
-
-			if ( model.isEmpty() ) {
-				return;
-			}
-
-			return wp.ajax.post( 'wpmoly_autosave_grid_setting', {
-				data        : model.toJSON(),
-				post_id     : this.controller.get( 'post_id' ),
-				_ajax_nonce : this.controller.get( 'nonce' )
-			} );
-		},
-
-		/**
-		 * Restore default attributes.
-		 *
-		 * @since    3.0
-		 *
-		 * @return   Returns itself to allow chaining.
-		 */
-		reset: function() {
-
-			this.set( this.defaults(), { silent: true } );
-
-			return this;
-		}
 	});
 
 	/**
@@ -208,9 +124,32 @@ wpmoly = window.wpmoly || {};
 		 */
 		initialize: function( attributes, options ) {
 
-			this.builder = new GridBuilder.model.Builder( {}, { controller: this } );
+			var options = options || {};
 
-			this.listenTo( this.builder, 'change:type change:mode change:theme', this.updatePreview );
+			this.builder = options.builder;
+			this.listenTo( this.builder, 'change:meta', this.updateModel );
+
+			this.model = new GridBuilder.model.Builder;
+			this.listenTo( this.model, 'change', this.updatePreview );
+			this.listenTo( this.model, 'all', function( e ) { console.log( e ); } );
+
+			this.builder.fetch( { data : { context : 'edit' } } );
+		},
+
+		/**
+		 * Update the model to match settings change.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    {object}    model Model instance.
+		 * @param    {mixed}     value Changed value(s).
+		 * @param    {object}    options Options.
+		 *
+		 * @return   {object}
+		 */
+		updateModel : function( model, value, options ) {
+
+			return this.model.set( value );
 		},
 
 		/**
@@ -219,9 +158,8 @@ wpmoly = window.wpmoly || {};
 		 * @since    3.0
 		 *
 		 * @param    {object}    model
-		 * @param    {object}    options
 		 */
-		updatePreview: function( model, options ) {
+		updatePreview: function( model ) {
 
 			if ( ! GridBuilder.preview ) {
 				return;
@@ -235,15 +173,13 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    {string}    Grid type.
+		 * @param    {string}    type Grid type.
 		 *
 		 * @return   {object}
 		 */
 		setType: function( type ) {
 
-			this.builder.reset();
-
-			return this.builder.set({
+			return this.model.set({
 				theme : 'default',
 				mode  : 'grid',
 				type  : type
@@ -255,13 +191,13 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    {string}    Grid mode.
+		 * @param    {string}    mode Grid mode.
 		 *
 		 * @return   {object}
 		 */
 		setMode: function( mode ) {
 
-			return this.builder.set({
+			return this.model.set({
 				theme : 'default',
 				mode  : mode
 			});
@@ -272,13 +208,13 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    {string}    Grid theme.
+		 * @param    {string}    theme Grid theme.
 		 *
 		 * @return   {object}
 		 */
 		setTheme: function( theme ) {
 
-			return this.builder.set({
+			return this.model.set({
 				theme : theme
 			});
 		}
@@ -310,7 +246,7 @@ wpmoly = window.wpmoly || {};
 		initialize: function( options ) {
 
 			this.controller = options.controller || {};
-			this.model = this.controller.builder;
+			this.model = this.controller.model;
 
 			this.setRegions();
 			this.bindEvents();
@@ -357,8 +293,12 @@ wpmoly = window.wpmoly || {};
 		 */
 		togglePostbox: function( model, value, options ) {
 
+			/*if ( _.isUndefined( value ) ) {
+				return false;
+			}*/
+
 			var $postbox = this.$( '#butterbean-ui-' + value + '-grid-settings' ),
-			    $postboxes = this.$( '.butterbean-ui.postbox' );
+			  $postboxes = this.$( '.butterbean-ui.postbox' );
 			if ( ! $postbox.length ) {
 				return;
 			}
@@ -437,7 +377,7 @@ wpmoly = window.wpmoly || {};
 	 */
 	GridBuilder.view.Parameters = wp.Backbone.View.extend({
 
-		template: wp.template( 'wpmoly-grid-builder-parameters-metabox' ),
+		template: wp.template( 'wpmoly-grid-builder-parameters' ),
 
 		events: {
 			'click [data-action="grid-type"]'  : 'setType',
@@ -453,7 +393,6 @@ wpmoly = window.wpmoly || {};
 		initialize: function( options ) {
 
 			this.controller = options.controller || {};
-			this.model = this.controller.builder;
 
 			this.bindEvents();
 
@@ -467,9 +406,9 @@ wpmoly = window.wpmoly || {};
 		 */
 		bindEvents: function() {
 
-			this.listenTo( this.model, 'change:type',  this.render );
-			this.listenTo( this.model, 'change:mode',  this.render );
-			this.listenTo( this.model, 'change:theme', this.render );
+			this.listenTo( this.controller.model, 'change:type',  this.render );
+			this.listenTo( this.controller.model, 'change:mode',  this.render );
+			this.listenTo( this.controller.model, 'change:theme', this.render );
 
 			wpmoly.$( '[data-action="customize-grid"]' ).on( 'click', this.toggle );
 		},
@@ -563,11 +502,11 @@ wpmoly = window.wpmoly || {};
 		 */
 		prepare : function() {
 
-			var options = _.extend( this.model.toJSON(), {
-				types  : this.model.types,
-				modes  : this.model.modes,
-				themes : this.model.themes
-			} );
+			var options = _.extend(
+				_.pick( this.controller.builder.toJSON(), 'support' ) || {}, {
+					meta : _.pick( this.controller.model.toJSON(), 'type', 'mode', 'theme' ) || {},
+				}
+			);
 
 			return options;
 		},
@@ -588,9 +527,15 @@ wpmoly = window.wpmoly || {};
 	 */
 	GridBuilder.load = function() {
 
-		GridBuilder.builder = new Builder();
+		var grid = document.querySelector( '[data-preview-grid]' );
 
-		GridBuilder.preview = new Preview( document.querySelector( '[data-grid]' ) );
+		// Switch attributes to allow 'edit' context.
+		grid.setAttribute( 'data-grid', grid.getAttribute( 'data-preview-grid' ) );
+		grid.removeAttribute( 'data-preview-grid' );
+
+		GridBuilder.preview = new Grid( grid, { context : 'edit' } );
+
+		GridBuilder.builder = new Builder();
 
 		return this;
 	};

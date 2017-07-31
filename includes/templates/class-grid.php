@@ -34,20 +34,6 @@ class Grid extends Front {
 	private $grid;
 
 	/**
-	 * Grid Request instance.
-	 * 
-	 * @var    Request
-	 */
-	private $request;
-
-	/**
-	 * Grid JSON.
-	 * 
-	 * @var    object
-	 */
-	protected $json;
-
-	/**
 	 * Class Constructor.
 	 * 
 	 * @since    3.0
@@ -72,54 +58,7 @@ class Grid extends Front {
 
 		$this->set_path();
 
-		$this->set_content();
-
 		return $this;
-	}
-
-	/**
-	 * __call().
-	 * 
-	 * Allows access to $this->grid methods through this class.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $name
-	 * 
-	 * @return   mixed
-	 */
-	public function __call( $method, $arguments ) {
-
-		if ( method_exists( $this->grid, $method ) ) {
-			return call_user_func_array( array( $this->grid, $method ), $arguments );
-		}
-
-		return null;
-	}
-
-	/**
-	 * __get().
-	 * 
-	 * Allows access to $this->grid properties through this class.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    string    $name
-	 * 
-	 * @return   mixed
-	 */
-	public function __get( $name ) {
-
-		if ( ! isset( $this->$name ) ) {
-			$method = "get_$name";
-			if ( method_exists( $this->grid, $method ) ) {
-				return $this->grid->$method();
-			} elseif ( $this->grid->get( $name ) ) {
-				return $this->grid->get( $name );
-			}
-		}
-
-		return null;
 	}
 
 	/**
@@ -133,7 +72,7 @@ class Grid extends Front {
 	 */
 	private function set_path() {
 
-		$path = 'public/templates/grids/grid.php';
+		$path = 'public/templates/grid.php';
 		if ( ! file_exists( WPMOLY_PATH . $path ) ) {
 			return new WP_Error( 'missing_template_path', sprintf( __( 'Error: "%s" does not exists.', 'wpmovielibrary' ), esc_attr( WPMOLY_PATH . $path ) ) );
 		}
@@ -142,185 +81,40 @@ class Grid extends Front {
 	}
 
 	/**
-	 * Set the content Template.
-	 * 
-	 * Grids uses a subview Template to show content in no-js mode.
-	 * 
+	 * Prepare grid attributes.
+	 *
+	 * Generate a list of data- attributes to add to the grid container tag.
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   \wpmoly\Templates\Template
+	 *
+	 * @return   string
 	 */
-	private function set_content() {
+	private function get_data_attributes() {
 
-		$type  = $this->grid->get_type();
-		$mode  = $this->grid->get_mode();
-		$theme = $this->grid->get_theme();
+		$data = array(
+			'grid'   => $this->grid->id,
+			'type'   => $this->grid->get_type(),
+			'mode'   => $this->grid->get_mode(),
+			'theme'  => $this->grid->get_theme(),
+		);
 
-		$template = "{$type}-{$mode}";
-		if ( 'default' !== $theme ) {
-			$template .= "-{$theme}";
+		if ( $this->grid->is_widget() ) {
+			$data['widget'] = 1;
 		}
 
-		$content = wpmoly_get_template( "grids/content/{$template}.php" );
-
-		return $this->content = $content;
-	}
-
-	/**
-	 * Shall we show the grid pagination menu?
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   boolean
-	 */
-	public function show_pagination() {
-
-		return 1 === (int) $this->enable_pagination;
-	}
-
-	/**
-	 * Retrieve current page number.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   int
-	 */
-	public function get_current_page() {
-
-		return (int) $this->request->get_current_page();
-	}
-
-	/**
-	 * Retrieve previous page number.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   int
-	 */
-	public function get_previous_page() {
-
-		return (int) $this->request->get_current_page();
-	}
-
-	/**
-	 * Retrieve next page number.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   int
-	 */
-	public function get_next_page() {
-
-		return (int) $this->request->get_next_page();
-	}
-
-	/**
-	 * Retrieve total pages number.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   int
-	 */
-	public function get_total_pages() {
-
-		return (int) $this->request->get_total_pages();
-	}
-
-	/**
-	 * Are we on the first available grid page?
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   boolean
-	 */
-	public function is_first_page() {
-
-		return 1 === $this->get_current_page();
-	}
-
-	/**
-	 * Did we reach the last available grid page?
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   boolean
-	 */
-	public function is_last_page() {
-
-		return $this->get_current_page() === $this->get_total_pages();
-	}
-
-	/**
-	 * Get previous grid page URL.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   string
-	 */
-	public function get_previous_page_url() {
-
-		$page = $this->request->get_previous_page();
-
-		$args = $this->grid->get_settings();
-		$args['page'] = $page;
-
-		return $this->build_url( $args );
-	}
-
-	/**
-	 * Get next grid page URL.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   string
-	 */
-	public function get_next_page_url() {
-
-		$page = $this->request->get_next_page();
-
-		$args = $this->grid->get_settings();
-		$args['page'] = $page;
-
-		return $this->build_url( $args );
-	}
-
-	/**
-	 * Build custom grid URLs.
-	 * 
-	 * Generate an URL from the current page's permalink with an additional
-	 * 'grid' URL parameter containing a formatted string of grid settings.
-	 * Grid ID should always be contained in this string in order to apply
-	 * settings on the intended grid.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $args Query parameters
-	 * 
-	 * @return   string
-	 */
-	private function build_url( $args ) {
-
-		global $wp;
-
-		// Grid ID is required.
-		if ( ! isset( $args['id'] ) ) {
-			$args = array_merge( array( 'id' => $this->id ), $args );
+		$preset = $this->grid->get_preset();
+		if ( is_array( $preset ) && ! empty( $preset ) ) {
+			$data['preset-name']  = key( $preset );
+			$data['preset-value'] = current( $preset );
 		}
 
-		// Filter empty rows
-		$args = array_filter( $args );
+		foreach ( $data as $key => $value ) {
+			$data[ $key ] = sprintf( 'data-%s="%s"', esc_attr( $key ), esc_attr( $value ) );
+		}
 
-		// Don't need pagination here
-		unset( $args['posts_per_page'] );
+		$data = implode( ' ', $data );
 
-		// Build custom query.
-		$args = array( 'grid' => build_query( $args ) );
-		$args = str_replace( array( '&', '=' ), array( ',', ':' ), $args );
-
-		// Build URL
-		$url = add_query_arg( $args, home_url( $wp->request ) );
-
-		return $url;
+		return $data;
 	}
 
 	/**
@@ -343,41 +137,10 @@ class Grid extends Front {
 	 */
 	public function render( $require = 'always', $echo = false ) {
 
-		// Build the Grid is needed
-		if ( ! $this->ready() ) {
-			$this->build();
-		}
-
-		$this->request = $this->get_request();
-
-		// Error during query
-		if ( $this->request->has_error() ) {
-
-			$error = $this->request->get_error();
-
-			$this->path = 'public/templates/notice.php';
-			$this->set_data( array(
-				'type'    => 'error',
-				'message' => sprintf( 'An error occurred while loading the grid items using the \'%s\' preset. %s.', $this->get_preset(), $error->get_error_message() ),
-				'note'    => __( 'If the problem persists, contact the administrator.', 'wpmovielibrary' )
-			) );
-
-		} else {
-
-			if ( empty( $this->data ) ) {
-
-				$this->content->set_data( array(
-					'grid'  => $this,
-					'items' => $this->grid->items
-				) );
-
-				$this->set_data( array(
-					'grid'    => $this,
-					'items'   => $this->grid->items,
-					'content' => $this->content
-				) );
-			}
-		}
+		$this->set_data( array(
+			'grid' => $this->grid,
+			'data' => $this->get_data_attributes(),
+		) );
 
 		$this->prepare( $require );
 
@@ -386,30 +149,5 @@ class Grid extends Front {
 		}
 
 		echo $this->template;
-	}
-
-	/**
-	 * JSONify the Grid Template instance.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   string
-	 */
-	public function toJSON() {
-
-		$json = array();
-
-		$json['settings'] = array();
-		foreach ( $this->default_settings as $setting ) {
-			$json['settings'][ $setting ] = $this->get( $setting );
-		}
-
-		$json['query_args'] = $this->get_rest_args();
-		$json['query_data'] = array(
-			'current_page' => $this->get_current_page(),
-			'total_page'   => $this->get_total_pages()
-		);
-
-		return $this->json = wp_json_encode( $json );
 	}
 }

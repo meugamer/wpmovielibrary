@@ -53,8 +53,38 @@ body.wp-admin.post-php.post-type-grid .metabox-prefs label[for="butterbean-ui-ge
  * Grid Builder Preview
  */
 
+#wpmoly-grid-preview-metabox {
+	background: transparent;
+	border: 0;
+	box-shadow: 0 0 0;
+}
+
 #wpmoly-grid-builder-preview {
-	margin: 20px 0 0;
+	margin: 0 -12px -12px -12px;
+	overflow: hidden;
+	position: relative;
+}
+
+#wpmoly-grid-builder-preview::after {
+	background: #f1f1f1;
+	bottom: -14em;
+	box-shadow: 0 -10em 4em #f1f1f1, 0 -10em 4em #f1f1f1;
+	content: '';
+	left: -10em;
+	height: 10em;
+	right: -10em;
+	position: absolute;
+}
+
+#wpmoly-grid-builder-preview > .wpmoly.grid {
+	margin-right: -13px;
+	height: 42em;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+#wpmoly-grid-builder-preview .grid-content {
+	margin-bottom: 10em;
 }
 
 #wpmoly-grid-builder-preview .grid-content,
@@ -64,6 +94,10 @@ body.wp-admin.post-php.post-type-grid .metabox-prefs label[for="butterbean-ui-ge
 
 #wpmoly-grid-builder-preview a {
 	cursor: no-drop;
+}
+
+#wpmoly-grid-builder-preview .grid-menu {
+	display: none;
 }
 
 /*
@@ -380,6 +414,14 @@ body.wp-admin.post-php.post-type-grid .metabox-prefs label[for="butterbean-ui-ge
 #wpmoly-grid-builder #save-action button:hover {
 	color: #00a0d2;
 	cursor: pointer;
+}
+
+#wpmoly-grid-builder #save-action.saving button {
+	background: url(/wp-admin/images/spinner.gif) center center no-repeat;
+}
+
+#wpmoly-grid-builder #save-action.saving button .dashicons {
+	display: none;
 }
 
 #wpmoly-grid-builder #delete-action {

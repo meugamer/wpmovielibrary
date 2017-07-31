@@ -194,25 +194,24 @@ class Backstage extends Assets {
 		}
 
 		if ( 'grid' == get_post_type() ) {
-			$this->register_template( 'grid',                     'public/js/templates/grid/grid.php' );
-			$this->register_template( 'grid-menu',                'public/js/templates/grid/menu.php' );
-			$this->register_template( 'grid-customs',             'public/js/templates/grid/customs.php' );
-			$this->register_template( 'grid-settings',            'public/js/templates/grid/settings.php' );
-			$this->register_template( 'grid-pagination',          'public/js/templates/grid/pagination.php' );
+			$this->register_template( 'grid-builder-parameters',   'admin/js/templates/builder/parameters.php' );
 
-			$this->register_template( 'grid-movie-grid',           'public/templates/grids/content/movie-grid.php' );
-			$this->register_template( 'grid-movie-grid-variant-1', 'public/templates/grids/content/movie-grid-variant-1.php' );
-			$this->register_template( 'grid-movie-grid-variant-2', 'public/templates/grids/content/movie-grid-variant-2.php' );
-			$this->register_template( 'grid-movie-list',           'public/templates/grids/content/movie-list.php' );
-			$this->register_template( 'grid-movie-archive',        'public/templates/grids/content/movie-archive.php' );
-			$this->register_template( 'grid-actor-grid',           'public/templates/grids/content/actor-grid.php' );
-			$this->register_template( 'grid-actor-list',           'public/templates/grids/content/actor-list.php' );
-			$this->register_template( 'grid-collection-grid',      'public/templates/grids/content/collection-grid.php' );
-			$this->register_template( 'grid-collection-list',      'public/templates/grids/content/collection-list.php' );
-			$this->register_template( 'grid-genre-grid',           'public/templates/grids/content/genre-grid.php' );
-			$this->register_template( 'grid-genre-list',           'public/templates/grids/content/genre-list.php' );
+			$this->register_template( 'grid',                      'public/js/templates/grid/grid.php' );
+			$this->register_template( 'grid-menu',                 'public/js/templates/grid/menu.php' );
+			$this->register_template( 'grid-customs',              'public/js/templates/grid/customs.php' );
+			$this->register_template( 'grid-settings',             'public/js/templates/grid/settings.php' );
+			$this->register_template( 'grid-pagination',           'public/js/templates/grid/pagination.php' );
 
-			$this->register_template( 'grid-movie-archive',        'public/templates/headboxes/movie-default.php' );
+			$this->register_template( 'grid-movie-grid',           'public/js/templates/grid/content/movie-grid.php' );
+			$this->register_template( 'grid-movie-grid-variant-1', 'public/js/templates/grid/content/movie-grid-variant-1.php' );
+			$this->register_template( 'grid-movie-grid-variant-2', 'public/js/templates/grid/content/movie-grid-variant-2.php' );
+			$this->register_template( 'grid-movie-list',           'public/js/templates/grid/content/movie-list.php' );
+			$this->register_template( 'grid-actor-grid',           'public/js/templates/grid/content/actor-grid.php' );
+			$this->register_template( 'grid-actor-list',           'public/js/templates/grid/content/actor-list.php' );
+			$this->register_template( 'grid-collection-grid',      'public/js/templates/grid/content/collection-grid.php' );
+			$this->register_template( 'grid-collection-list',      'public/js/templates/grid/content/collection-list.php' );
+			$this->register_template( 'grid-genre-grid',           'public/js/templates/grid/content/genre-grid.php' );
+			$this->register_template( 'grid-genre-list',           'public/js/templates/grid/content/genre-list.php' );
 		}
 	}
 
@@ -423,56 +422,58 @@ class Backstage extends Assets {
 		$this->register_templates();
 
 		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix ) {
-			$this->enqueue_template( 'library-menu',              'admin/js/templates/library/menu.php' );
-			$this->enqueue_template( 'library-content-latest',    'admin/js/templates/library/content-latest.php' );
-			$this->enqueue_template( 'library-content-favorites', 'admin/js/templates/library/content-favorites.php' );
-			$this->enqueue_template( 'library-content-import',    'admin/js/templates/library/content-import.php' );
-			$this->enqueue_template( 'library-sidebar',           'admin/js/templates/library/sidebar.php' );
-			$this->enqueue_template( 'library-footer',            'admin/js/templates/library/footer.php' );
+			$this->enqueue_template( 'library-menu' );
+			$this->enqueue_template( 'library-content-latest' );
+			$this->enqueue_template( 'library-content-favorites' );
+			$this->enqueue_template( 'library-content-import' );
+			$this->enqueue_template( 'library-sidebar' );
+			$this->enqueue_template( 'library-footer' );
 		}
 
 		if ( 'movie' == get_post_type() ) {
-			$this->enqueue_template( 'search',                'admin/js/templates/search/search.php' );
-			$this->enqueue_template( 'search-form',           'admin/js/templates/search/search-form.php' );
-			$this->enqueue_template( 'search-settings',       'admin/js/templates/search/settings.php' );
-			$this->enqueue_template( 'search-status',         'admin/js/templates/search/status.php' );
-			$this->enqueue_template( 'search-history',        'admin/js/templates/search/history.php' );
-			$this->enqueue_template( 'search-history-item',   'admin/js/templates/search/history-item.php' );
-			$this->enqueue_template( 'search-result',         'admin/js/templates/search/result.php' );
-			$this->enqueue_template( 'search-results',        'admin/js/templates/search/results.php' );
-			$this->enqueue_template( 'search-results-header', 'admin/js/templates/search/results-header.php' );
-			$this->enqueue_template( 'search-results-menu',   'admin/js/templates/search/results-menu.php' );
+			$this->enqueue_template( 'search' );
+			$this->enqueue_template( 'search-form' );
+			$this->enqueue_template( 'search-settings' );
+			$this->enqueue_template( 'search-status' );
+			$this->enqueue_template( 'search-history' );
+			$this->enqueue_template( 'search-history-item' );
+			$this->enqueue_template( 'search-result' );
+			$this->enqueue_template( 'search-results' );
+			$this->enqueue_template( 'search-results-header' );
+			$this->enqueue_template( 'search-results-menu' );
 
-			$this->enqueue_template( 'editor-image-editor',   'admin/js/templates/editor/image-editor.php' );
-			$this->enqueue_template( 'editor-image-more',     'admin/js/templates/editor/image-more.php' );
-			$this->enqueue_template( 'editor-image',          'admin/js/templates/editor/image.php' );
+			$this->enqueue_template( 'editor-image-editor' );
+			$this->enqueue_template( 'editor-image-more' );
+			$this->enqueue_template( 'editor-image' );
 
-			$this->enqueue_template( 'modal-browser',         'admin/js/templates/modal/browser.php' );
-			$this->enqueue_template( 'modal-sidebar',         'admin/js/templates/modal/sidebar.php' );
-			$this->enqueue_template( 'modal-toolbar',         'admin/js/templates/modal/toolbar.php' );
-			$this->enqueue_template( 'modal-image',           'admin/js/templates/modal/image.php' );
-			$this->enqueue_template( 'modal-selection',       'admin/js/templates/modal/selection.php' );
+			$this->enqueue_template( 'modal-browser' );
+			$this->enqueue_template( 'modal-sidebar' );
+			$this->enqueue_template( 'modal-toolbar' );
+			$this->enqueue_template( 'modal-image' );
+			$this->enqueue_template( 'modal-selection' );
 
-			$this->enqueue_template( 'confirm-modal',         'public/js/templates/confirm.php' );
+			$this->enqueue_template( 'confirm-modal' );
 		}
 
 		if ( 'grid' == get_post_type() ) {
-			$this->enqueue_template( 'grid',                   'public/js/templates/grid/grid.php' );
-			$this->enqueue_template( 'grid-menu',              'public/js/templates/grid/menu.php' );
-			$this->enqueue_template( 'grid-customs',           'public/js/templates/grid/customs.php' );
-			$this->enqueue_template( 'grid-settings',          'public/js/templates/grid/settings.php' );
-			$this->enqueue_template( 'grid-pagination',        'public/js/templates/grid/pagination.php' );
+			$this->enqueue_template( 'grid-builder-parameters' );
 
-			$this->enqueue_template( 'grid-movie-grid',         wpmoly_get_js_template( 'grids/content/movie-grid.php' ) );
-			$this->enqueue_template( 'grid-movie-grid-variant-1', wpmoly_get_js_template( 'grids/content/movie-grid-variant-1.php' ) );
-			$this->enqueue_template( 'grid-movie-grid-variant-2', wpmoly_get_js_template( 'grids/content/movie-grid-variant-2.php' ) );
-			$this->enqueue_template( 'grid-movie-list',         wpmoly_get_js_template( 'grids/content/movie-list.php' ) );
-			$this->enqueue_template( 'grid-actor-grid',         wpmoly_get_js_template( 'grids/content/actor-grid.php' ) );
-			$this->enqueue_template( 'grid-actor-list',         wpmoly_get_js_template( 'grids/content/actor-list.php' ) );
-			$this->enqueue_template( 'grid-collection-grid',    wpmoly_get_js_template( 'grids/content/collection-grid.php' ) );
-			$this->enqueue_template( 'grid-collection-list',    wpmoly_get_js_template( 'grids/content/collection-list.php' ) );
-			$this->enqueue_template( 'grid-genre-grid',         wpmoly_get_js_template( 'grids/content/genre-grid.php' ) );
-			$this->enqueue_template( 'grid-genre-list',         wpmoly_get_js_template( 'grids/content/genre-list.php' ) );
+			$this->enqueue_template( 'grid' );
+			$this->enqueue_template( 'grid-menu' );
+			$this->enqueue_template( 'grid-customs' );
+			$this->enqueue_template( 'grid-settings' );
+			$this->enqueue_template( 'grid-pagination' );
+
+			$this->enqueue_template( 'grid-movie-grid' );
+			$this->enqueue_template( 'grid-movie-grid-variant-1' );
+			$this->enqueue_template( 'grid-movie-grid-variant-2' );
+			$this->enqueue_template( 'grid-movie-list' );
+			$this->enqueue_template( 'grid-actor-grid' );
+			$this->enqueue_template( 'grid-actor-list' );
+			$this->enqueue_template( 'grid-collection-grid' );
+			$this->enqueue_template( 'grid-collection-list' );
+			$this->enqueue_template( 'grid-genre-grid' );
+			$this->enqueue_template( 'grid-genre-list' );
 		}
 	}
 

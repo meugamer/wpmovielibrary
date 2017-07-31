@@ -175,16 +175,18 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/node/class-term-headbox.php';
 
 		// Requests
-		require_once WPMOLY_PATH . 'includes/requests/class-request.php';
-		require_once WPMOLY_PATH . 'includes/requests/class-request-movies.php';
-		require_once WPMOLY_PATH . 'includes/requests/class-request-actors.php';
-		require_once WPMOLY_PATH . 'includes/requests/class-request-collections.php';
-		require_once WPMOLY_PATH . 'includes/requests/class-request-genres.php';
+		// require_once WPMOLY_PATH . 'includes/requests/class-request.php';
+		// require_once WPMOLY_PATH . 'includes/requests/class-request-movies.php';
+		// require_once WPMOLY_PATH . 'includes/requests/class-request-actors.php';
+		// require_once WPMOLY_PATH . 'includes/requests/class-request-collections.php';
+		// require_once WPMOLY_PATH . 'includes/requests/class-request-genres.php';
 
 		// Rest API
 		require_once WPMOLY_PATH . 'includes/rest-api/class-api.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/class-movie-meta-fields.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/class-movies-controller.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/class-grid-meta-fields.php';
+		require_once WPMOLY_PATH . 'includes/rest-api/class-grids-controller.php';
 
 		// TMDb API
 		require_once WPMOLY_PATH . 'includes/api/class-api.php';
@@ -321,7 +323,6 @@ final class Library {
 		$builder = new Admin\GridBuilder;
 		$this->loader->add_action( 'add_meta_boxes',              $builder, 'add_meta_boxes', 4 );
 		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
-		//$this->loader->add_action( 'edit_form_after_editor',      $builder, 'preview' );
 		$this->loader->add_action( 'post_submitbox_start',        $builder, 'submitbox' );
 		$this->loader->add_action( 'dbx_post_sidebar',            $builder, 'footer' );
 		$this->loader->add_action( 'load-post.php',               $builder, 'load_meta_frameworks' );

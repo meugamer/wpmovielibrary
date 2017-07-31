@@ -6,6 +6,7 @@
 .wpmoly.grid {
 	display: block;
 	float: none;
+	margin: auto;
 	position: relative;
 }
 
@@ -47,14 +48,17 @@
 
 .wpmoly.grid .grid-menu-inner .button,
 .wpmoly.grid .grid-menu-inner .button .wpmolicon {
+	cursor: pointer;
 	height: 3em;
 	line-height: 3em;
 	padding: 0;
 	width: 3em;
 }
 
-.wpmoly.grid .grid-menu-inner .button.disabled {
+.wpmoly.grid .grid-menu-inner .button.disabled,
+.wpmoly.grid .grid-menu-inner [disabled="disabled"].button {
 	background: transparent !important;
+	cursor: inherit;
 	opacity: 0.4;
 }
 
@@ -152,15 +156,15 @@
 
 .wpmoly.grid .grid-custom-block.half-col,
 .wpmoly.grid .grid-setting-block.half-col {
-	border-right: 1px solid #f6f6f6;
+	/*border-right: 1px solid #f6f6f6;*/
 	display: inline-block;
 	padding: 0 0 0 .5em;
-	width: calc(50% - .25em);
+	width: calc(50% - .45em);
 }
 
-.wpmoly.grid .grid-custom-block.half-col:nth-child(odd),
-.wpmoly.grid .grid-setting-block.half-col:nth-child(odd) {
-	border: 0;
+.wpmoly.grid .grid-custom-block.half-col:nth-child(even),
+.wpmoly.grid .grid-setting-block.half-col:nth-child(even) {
+	/*border: 0;*/
 	padding: 0;
 }
 
@@ -208,11 +212,14 @@
 .wpmoly.grid .grid-customs-apply,
 .wpmoly.grid .grid-settings-apply {
 	background: #8dc2e1;
+	border: 0;
+	border-radius: 3px;
 	color: #fff;
 	display: block;
 	font-size: 1em;
 	font-weight: 400;
 	margin-top: 1em;
+	padding: 1em;
 	width: 100%;
 }
 
@@ -236,13 +243,37 @@
 
 .wpmoly.grid .grid-menu .pagination-menu span {
 	display: inline-block;
-	line-height: 3em;
+	line-height: 3rem;
 	vertical-align: middle;
 }
 
+.wpmoly.grid .grid-menu .pagination-menu .current-page,
+.wpmoly.grid .grid-menu .pagination-menu .total-pages {
+	margin: 0 .325rem;
+}
+
+.widget .wpmoly.grid .grid-menu .pagination-menu .page-label,
+.widget .wpmoly.grid .grid-menu .pagination-menu .of-label {
+	display: none;
+}
+
+.widget .wpmoly.grid .grid-menu .pagination-menu .total-pages {
+	margin-left: .5rem;
+	position: relative;
+}
+
+.widget .wpmoly.grid .grid-menu .pagination-menu .total-pages::before {
+	content: '/';
+	left: -0.5rem;
+	position: absolute;
+}
+
 .wpmoly.grid .grid-menu .pagination-menu input {
+	background: #fff;
+	border: 1px solid #ccc;
 	box-shadow: 0 0 0;
-	padding: 0 .25em;
+	color: #222;
+	padding: .25rem;
 	text-align: center;
 	width: auto;
 }
@@ -339,8 +370,9 @@
 
 .wpmoly.grid .grid-content .grid .node .node-title,
 .wpmoly.grid .grid-content .grid .node .node-name {
+	font-size: 1em;
 	font-weight: 600;
-	margin-top: .325em;
+	margin: .325em 0 0 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -510,6 +542,7 @@
 .wpmoly.grid.theme-default .grid-content .grid .movie .movie-genres {
 	color: #728999;
 	font-size: 0.8em;
+	line-height: 1.25em;
 }
 
 .wpmoly.grid.theme-default .grid-content .grid .movie .movie-genres a {
@@ -521,6 +554,7 @@
 .wpmoly.grid.theme-default .grid-content .grid .node .node-count {
 	color: #728999;
 	font-size: 0.8em;
+	line-height: 1.25em;
 }
 
 /*

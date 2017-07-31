@@ -62,9 +62,9 @@ class Grid extends Widget {
 		$this->data['title'] = $before_title . $widget_title . $after_title;
 		$this->data['description'] = $this->get_attr( 'description' );
 
-		$grid_id = $this->get_attr( 'grid_id' );
-		$grid = get_grid( (int) $grid_id );
+		$grid = get_grid( (int) $this->get_attr( 'grid_id' ) );
 		$grid->is_widget = true;
+		$grid->prepare();
 
 		$template = get_grid_template( $grid );
 
@@ -79,14 +79,6 @@ class Grid extends Widget {
 	 * @return   void
 	 */
 	protected function build_form() {
-
-		if ( empty( $this->get_attr( 'title' ) ) ) {
-			$this->set_attr( 'title', __( 'Grid', 'wpmovielibrary' ) );
-		}
-
-		if ( empty( $this->get_attr( 'description' ) ) ) {
-			$this->set_attr( 'description', '' );
-		}
 
 		$grids = get_posts( array(
 			'post_type'   => 'grid',

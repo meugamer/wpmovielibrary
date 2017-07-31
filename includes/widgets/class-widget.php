@@ -38,14 +38,14 @@ abstract class Widget extends WP_Widget {
 	public $title;
 
 	/**
-	 * Widget .
+	 * Widget Class Name.
 	 * 
 	 * @var    string
 	 */
 	public $classname;
 
 	/**
-	 * Widget .
+	 * Widget Description.
 	 * 
 	 * @var    string
 	 */
@@ -208,6 +208,8 @@ abstract class Widget extends WP_Widget {
 	public function form( $instance ) {
 
 		$this->instance = $instance;
+
+		$this->set_defaults();
 		$this->build_form();
 
 		$template = get_widget_template( $this->id_base );
@@ -217,6 +219,20 @@ abstract class Widget extends WP_Widget {
 		) );
 
 		echo $template->render( $require = 'always' );
+	}
+
+	/**
+	 * Set default Widget parameters.
+	 *
+	 * @since    3.0
+	 */
+	public function set_defaults() {
+
+		foreach ( $this->defaults as $key => $value ) {
+			if ( empty( $this->get_attr( $key ) ) ) {
+				$this->set_attr( $key, $value );
+			}
+		}
 	}
 
 	/**

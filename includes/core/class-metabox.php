@@ -126,9 +126,11 @@ abstract class Metabox {
 			'label'    => '',
 			'taxonomy' => ''
 		);
-		$args = wp_parse_args( $args, $defaults );
+		$manager = wp_parse_args( $args, $defaults );
 
-		return $this->term_managers[ (string) $manager_id ] = $args;
+		$this->term_managers[ (string) $manager_id ] = $manager;
+
+		return $manager;
 	}
 
 	/**
@@ -149,9 +151,11 @@ abstract class Metabox {
 			'context'   => '',
 			'priority'  => ''
 		);
-		$args = wp_parse_args( $args, $defaults );
+		$manager = wp_parse_args( $args, $defaults );
 
-		return $this->post_managers[ (string) $manager_id ] = $args;
+		$this->post_managers[ (string) $manager_id ] = $manager;
+
+		return $manager;
 	}
 
 	/**

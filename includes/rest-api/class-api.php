@@ -121,6 +121,19 @@ class API {
 				'schema'          => null,
 			)
 		);
+
+		register_rest_field( 'grid',
+			'support',
+			array(
+				'get_callback'    => array( $this, 'get_grid_support' ),
+				'update_callback' => null,
+				'schema'          => array(
+					'description' => 'Meeeeh',
+					'type'        => 'array',
+					'context'     => array( 'edit' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -203,13 +216,15 @@ class API {
 	}
 
 	/**
-	 * Filters the post data for a response.
+	 * Filter the movie post data for REST API response.
 	 *
 	 * @since    3.0
 	 *
 	 * @param    WP_REST_Response    $response The response object.
 	 * @param    WP_Post             $post     Post object.
 	 * @param    WP_REST_Request     $request  Request object.
+	 *
+	 * @return   array
 	 */
 	public function prepare_movie_for_response( $response, $post, $request ) {
 
@@ -230,7 +245,6 @@ class API {
 		$response->data['content']['rendered'] = '';
 
 		return $response;
-
 	}
 
 	/**
@@ -339,6 +353,28 @@ class API {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Filter the grid post data for REST API response.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    array              $object Post object.
+	 * @param    string             $field_name Field name.
+	 * @param    WP_REST_Request    $request Current REST Request.
+	 *
+	 * @return   array
+	 */
+	public function get_grid_support( $object, $field_name, $request ) {
+
+		if ( 'edit' !== $request['context'] ) {
+			return array();
+		}
+
+		$grid = get_grid( $object['id'] );
+
+		return $grid->get_supported_types();
 	}
 
 }

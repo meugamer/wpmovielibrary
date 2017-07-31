@@ -106,21 +106,16 @@ class Frontend extends Assets {
 		$this->register_template( 'grid-settings',             'public/js/templates/grid/settings.php' );
 		$this->register_template( 'grid-pagination',           'public/js/templates/grid/pagination.php' );
 
-		$this->register_template( 'grid-movie-grid',           'public/templates/grids/content/movie-grid.php' );
-		$this->register_template( 'grid-movie-grid-variant-1', 'public/templates/grids/content/movie-grid-variant-1.php' );
-		$this->register_template( 'grid-movie-grid-variant-2', 'public/templates/grids/content/movie-grid-variant-2.php' );
-		$this->register_template( 'grid-movie-list',           'public/templates/grids/content/movie-list.php' );
-		$this->register_template( 'grid-actor-grid',           'public/templates/grids/content/actor-grid.php' );
-		$this->register_template( 'grid-actor-list',           'public/templates/grids/content/actor-list.php' );
-		$this->register_template( 'grid-collection-grid',      'public/templates/grids/content/collection-grid.php' );
-		$this->register_template( 'grid-collection-list',      'public/templates/grids/content/collection-list.php' );
-		$this->register_template( 'grid-genre-grid',           'public/templates/grids/content/genre-grid.php' );
-		$this->register_template( 'grid-genre-list',           'public/templates/grids/content/genre-list.php' );
-
-		$this->register_template( 'grid-actor-archive',        'public/templates/headboxes/actor-default.php' );
-		$this->register_template( 'grid-collection-archive',   'public/templates/headboxes/collection-default.php' );
-		$this->register_template( 'grid-genre-archive',        'public/templates/headboxes/genre-default.php' );
-		$this->register_template( 'grid-movie-archive',        'public/templates/headboxes/movie-default.php' );
+		$this->register_template( 'grid-movie-grid',           'public/js/templates/grid/content/movie-grid.php' );
+		$this->register_template( 'grid-movie-grid-variant-1', 'public/js/templates/grid/content/movie-grid-variant-1.php' );
+		$this->register_template( 'grid-movie-grid-variant-2', 'public/js/templates/grid/content/movie-grid-variant-2.php' );
+		$this->register_template( 'grid-movie-list',           'public/js/templates/grid/content/movie-list.php' );
+		$this->register_template( 'grid-actor-grid',           'public/js/templates/grid/content/actor-grid.php' );
+		$this->register_template( 'grid-actor-list',           'public/js/templates/grid/content/actor-list.php' );
+		$this->register_template( 'grid-collection-grid',      'public/js/templates/grid/content/collection-grid.php' );
+		$this->register_template( 'grid-collection-list',      'public/js/templates/grid/content/collection-list.php' );
+		$this->register_template( 'grid-genre-grid',           'public/js/templates/grid/content/genre-grid.php' );
+		$this->register_template( 'grid-genre-list',           'public/js/templates/grid/content/genre-list.php' );
 	}
 
 	/**
@@ -192,11 +187,6 @@ class Frontend extends Assets {
 		$this->enqueue_template( 'grid-collection-list' );
 		$this->enqueue_template( 'grid-genre-grid' );
 		$this->enqueue_template( 'grid-genre-list' );
-
-		$this->enqueue_template( 'grid-actor-archive' );
-		$this->enqueue_template( 'grid-collection-archive' );
-		$this->enqueue_template( 'grid-genre-archive' );
-		$this->enqueue_template( 'grid-movie-archive' );
 	}
 
 	/**
