@@ -354,12 +354,13 @@ window.wpmoly = window.wpmoly || {};
 		 * @since    3.0
 		 *
 		 * @param    {string}    grid Grid unique identifier.
+		 * @param    {object}    options Grid options.
 		 *
 		 * @return   {Grid}      Grid instance.
 		 */
-		add : function( grid ) {
+		add : function( grid, options ) {
 
-			var grid = new Grid( grid );
+			var grid = new Grid( grid, options );
 
 			this.grids.push( grid );
 
@@ -435,12 +436,7 @@ window.wpmoly = window.wpmoly || {};
 
 			this.listenTo( this.settings, 'change:type', this.resetQuery );
 
-			this.on( 'change',    this.browseCollection, this );
-			/*this.on( 'change:media',    this.browseCollection, this );
-			this.on( 'change:page',    this.browseCollection, this );
-			this.on( 'change:letter',  this.browseCollection, this );
-			this.on( 'change:order',   this.browseCollection, this );
-			this.on( 'change:orderby', this.browseCollection, this );*/
+			this.on( 'change', this.browseCollection, this );
 		},
 
 		/**
@@ -580,10 +576,6 @@ window.wpmoly = window.wpmoly || {};
 		 * @return   Returns itself to allow chaining.
 		 */
 		browseCollection : function( model, value, options ) {
-
-			console.log( model );
-			console.log( value );
-			console.log( options );
 
 			return this.fetch( model.changed );
 		},
@@ -795,8 +787,8 @@ window.wpmoly = window.wpmoly || {};
 					context : this.get( 'context' ),
 				},
 				success : function( model, xhr, options ) {
+					self.setQueryArgs();
 					self.setSettings( model.get( 'meta' ) );
-					//self.setQueryArgs();
 				},
 				error : function( model, xhr, options ) {},
 			} );
@@ -807,14 +799,14 @@ window.wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    {object}    args
+		 * @return   Returns itself to allow chaining.
 		 */
-		/*setQueryArgs : function( args ) {
+		setQueryArgs : function() {
 
-			//console.log( _.extend( args || {}, this.get( 'preset' ) || {} ) );
+			var atts = _.extend( this.attributes, this.get( 'preset' ) || {} );
 
-			//return this.query.set( _.extend( args || {}, this.get( 'preset' ) || {} ) );
-		},*/
+			return this.query.set( atts, { silent : true } );
+		},
 
 		/**
 		 * Ajax browsing.
@@ -1205,6 +1197,9 @@ window.wpmoly = window.wpmoly || {};
 			this.controller = options.controller || {};
 
 			this.listenTo( this.controller, 'change:submenu', this.toggle );
+
+			this.listenTo( this.controller.settings, 'change', this.render );
+			this.listenTo( this.controller.query, 'change', this.render );
 		},
 
 		/**
@@ -1271,8 +1266,8 @@ window.wpmoly = window.wpmoly || {};
 
 			var options = {
 				grid_id  : _.uniqueId( 'wpmoly-grid-' + this.controller.get( 'post_id' ) ),
-				settings : this.controller.settings,
-				query    : this.controller.query
+				settings : this.controller.settings.toJSON(),
+				query    : this.controller.query.toJSON()
 			};
 
 			return options;
@@ -1623,9 +1618,10 @@ window.wpmoly = window.wpmoly || {};
 			// Adjust subviews dimensions on resize
 			this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
 
+			//this.listenTo( this.controller.query, 'all', function( e ) { console.log( e ); } );
+
 			// Add views for new models
-			this.listenTo( this.controller.query, 'collection:add',    this.addNode );
-			this.listenTo( this.controller.query, 'collection:remove', this.removeNode );
+			this.listenTo( this.controller.query, 'collection:update', this.render );
 
 			// Set grid as loading when reset
 			this.listenTo( this.controller.query, 'fetch:start', this.loading );
@@ -1740,11 +1736,11 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		loading : function() {
 
-			if ( this.views.parent ) {
+			/*if ( this.views.parent ) {
 				wpmoly.$( 'body,html' ).animate({
 					scrollTop : Math.round( this.views.parent.$el.offset().top - 48 ),
 				}, 250 );
-			}
+			}*/
 
 			this.views.remove();
 
@@ -1795,29 +1791,13 @@ window.wpmoly = window.wpmoly || {};
 
 			wp.Backbone.View.prototype.render.apply( this, arguments );
 
+			this.rendered = true;
 			this.$el.addClass( this.controller.settings.get( 'mode' ) );
 
-			//this.controller.query.collection.each( this.addNode, this );
-		},
-
-		/**
-		 * Empty the $el.
-		 *
-		 * Get of rid of pre-generated content.
-		 *
-		 * @since    3.0
-		 *
-		 * @return   Returns itself to allow chaining.
-		 */
-		preEmpty : function() {
-
-			if ( ! this.rendered ) {
-				this.rendered = true;
-				this.$el.empty();
+			if ( this.controller.query.collection ) {
+				this.controller.query.collection.each( this.addNode, this );
 			}
-
-			return this;
-		}
+		},
 
 	});
 
