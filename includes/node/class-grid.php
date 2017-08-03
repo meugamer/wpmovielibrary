@@ -309,6 +309,17 @@ class Grid extends Node {
 		) );
 	}
 
+	/**
+	 * Retrieve a list of supported grid types.
+	 *
+	 * If no type is specified, return all supported types.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    string    $type Grid type.
+	 *
+	 * @return   array
+	 */
 	public function get_supported_types( $type = '' ) {
 
 		if ( ! empty( $this->supported_types[ $type ] ) ) {
@@ -318,6 +329,17 @@ class Grid extends Node {
 		return $this->supported_types;
 	}
 
+	/**
+	 * Retrieve a list of supported grid modes.
+	 *
+	 * If no type is specified, return all supported modes.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    string    $type Grid type.
+	 *
+	 * @return   array
+	 */
 	public function get_supported_modes( $type = '' ) {
 
 		if ( ! empty( $this->supported_modes[ $type ] ) ) {
@@ -327,6 +349,18 @@ class Grid extends Node {
 		return $this->supported_modes;
 	}
 
+	/**
+	 * Retrieve a list of supported grid themes.
+	 *
+	 * If no type/mode is specified, return all supported themes.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    string    $type Grid type.
+	 * @param    string    $mode Grid mode.
+	 *
+	 * @return   array
+	 */
 	public function get_supported_themes( $type = '', $mode = '' ) {
 
 		if ( ! empty( $this->supported_themes[ $type ][ $mode ] ) ) {
