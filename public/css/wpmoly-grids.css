@@ -311,6 +311,16 @@
 	margin: 0 .25em;
 }
 
+.wpmoly.grid .grid-content-inner.grid .empty.notice {
+	margin-top: 2.5rem;
+}
+
+.wpmoly.grid .grid-content-inner.grid .empty.notice .notice-content {
+	border: 0;
+	box-shadow: 0 0 0 !important;
+	text-align: center;
+}
+
 /*
  * Default Grid Content
  */
@@ -672,14 +682,9 @@
 .wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-poster a {
 	border: 6px solid #333;
 	box-shadow: 0 0 0;
-	height: 100%;
+	height: calc( 100% - 12px );
 	position: absolute;
 	text-decoration: none;
-	width: 100%;
-}
-
-.grid-builder-preview .wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-poster a {
-	height: calc( 100% - 12px );
 	width: calc( 100% - 12px );
 }
 
