@@ -237,25 +237,32 @@ class Archives {
 	 */
 	public function real_archive_page_content( $post_id, $content ) {
 
-		$grid_id = get_post_meta( $post_id, '_wpmoly_grid_id', $single = true );
-		$grid = get_grid( (int) $grid_id );
-		//$grid->is_main_grid = true;
+		$pre_content = '';
 
-		if ( empty( $grid->post ) ) {
-			$grid = '';
-		} else {
-			$template = get_grid_template( $grid );
-			$grid = $template->render( $require = 'always', $echo = false );
+		$grid_id = get_post_meta( $post_id, '_wpmoly_grid_id', $single = true );
+		if ( empty( $grid_id ) ) {
+			return $pre_content;
 		}
+
+		$grid = get_grid( (int) $grid_id );
+
+		$preset = get_query_var( 'preset' );
+		if ( ! empty( $preset ) ) {
+			$grid->set_preset( array(
+				$preset => get_query_var( $preset ),
+			) );
+		}
+
+		$grid_template = get_grid_template( $grid );
 
 		$position = get_post_meta( $post_id, '_wpmoly_grid_position', $single = true );
 		if ( 'top' === $position ) {
-			$content = $grid . $content;
+			$pre_content = $grid_template->render() . $pre_content;
 		} elseif ( 'bottom' === $position ) {
-			$content = $content . $grid;
+			$pre_content = $pre_content . $grid_template->render();
 		}
 
-		return $content;
+		return $pre_content;
 	}
 
 }

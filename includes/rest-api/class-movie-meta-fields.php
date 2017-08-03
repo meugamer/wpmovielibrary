@@ -76,7 +76,7 @@ class Movie_Meta_Fields extends WP_REST_Post_Meta_Fields {
 
 		$meta = array();
 		foreach ( $response as $key => $value ) {
-			$key = str_replace( '_wpmoly_movie_', '', $key );
+			$key = unprefix_movie_meta_key( $key, false );
 			$meta[ $key ] = $value;
 		}
 

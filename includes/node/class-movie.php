@@ -105,8 +105,6 @@ class Movie extends Node {
 	 */
 	public function init() {
 
-		$this->suffix = '_wpmoly_movie_';
-
 		$this->backdrops = new NodeList;
 		$this->posters   = new NodeList;
 		$this->backdrops->loaded = false;
@@ -510,7 +508,7 @@ class Movie extends Node {
 
 		foreach ( $this->default_meta as $key ) {
 			if ( isset( $this->$key ) ) {
-				update_post_meta( $this->id, $this->suffix . $key, $this->$key );
+				update_post_meta( $this->id, prefix_movie_meta_key( $key ), $this->$key );
 			}
 		}
 	}
@@ -526,7 +524,7 @@ class Movie extends Node {
 
 		foreach ( $this->default_details as $key ) {
 			if ( isset( $this->$key ) ) {
-				update_post_meta( $this->id, $this->suffix . $key, $this->$key );
+				update_post_meta( $this->id, prefix_movie_meta_key( $key ), $this->$key );
 			}
 		}
 	}

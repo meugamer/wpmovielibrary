@@ -42,6 +42,35 @@ class API {
 	public function __construct() {
 
 		self::$instance = $this;
+
+		$supported_parameters = apply_filters( 'wpmoly/filter/query/default/parameters', array(
+			'actor'         => 'cast',
+			'adult'         => 'adult',
+			'author'        => 'author',
+			'budget'        => 'budget',
+			'certification' => 'certification',
+			'company'       => 'production_companies',
+			'composer'      => 'composer',
+			'country'       => 'production_countries',
+			'director'      => 'director',
+			'format'        => 'format',
+			'genre'         => 'genres',
+			'language'      => 'language',
+			'languages'     => 'spoken_languages',
+			'local_release' => 'local_release_date',
+			'media'         => 'media',
+			'photography'   => 'photography',
+			'producer'      => 'producer',
+			'rating'        => 'rating',
+			'release'       => 'release_date',
+			'revenue'       => 'revenue',
+			'runtime'       => 'runtime',
+			'status'        => 'status',
+			'subtitles'     => 'subtitles',
+			'writer'        => 'writer',
+		) );
+
+		$this->supported_parameters = $supported_parameters;
 	}
 
 	/**
@@ -156,19 +185,15 @@ class API {
 				$args['letter'] = $request['letter'];
 			}
 
-			$metadata = get_registered_meta_keys( 'post' );
-			foreach ( $metadata as $key => $params ) {
-				if ( false !== strpos( $key, '_wpmoly_movie_' ) ) {
-					$key = str_replace( '_wpmoly_movie_', '', $key );
-					if ( ! empty( $request[ $key ] ) ) {
-						$args['meta_query'] = array(
-							array(
-								'key'     => "_wpmoly_movie_{$key}",
-								'value'   => $request[ $key ],
-								'compare' => 'LIKE',
-							)
-						);
-					}
+			foreach ( $this->supported_parameters as $param => $key ) {
+
+				if ( ! empty( $request[ $param ] ) ) {
+
+					$key = prefix_movie_meta_key( $key );
+					$value = $request[ $param ];
+					$compare = 'LIKE';
+
+					$args['meta_query'][] = compact( 'key', 'value', 'compare' );
 				}
 			}
 		}
@@ -200,12 +225,15 @@ class API {
 			);
 
 			$metadata = get_registered_meta_keys( 'post' );
-			foreach ( $metadata as $key => $params ) {
-				if ( false !== strpos( $key, '_wpmoly_movie_' ) ) {
-					$key = str_replace( '_wpmoly_movie_', '', $key );
-					$query_params[ $key ] = array(
-						'description' => $params['description'],
-						'type'        => $params['type']
+
+			foreach ( $this->supported_parameters as $param => $key ) {
+
+				$meta_key = prefix_movie_meta_key( $key );
+
+				if ( ! empty( $metadata[ $meta_key ] ) ) {
+					$query_params[ $param ] = array(
+						'description' => $metadata[ $meta_key ]['description'],
+						'type'        => $metadata[ $meta_key ]['type'],
 					);
 				}
 			}
@@ -229,7 +257,8 @@ class API {
 	public function prepare_movie_for_response( $response, $post, $request ) {
 
 		$metadata = get_registered_meta_keys( 'post' );
-		if ( empty( $response->data['meta']['release_date'] ) || empty( $metadata['_wpmoly_movie_release_date'] ) ) {
+		$meta_key = prefix_movie_meta_key( 'release_date' );
+		if ( empty( $response->data['meta']['release_date'] ) || empty( $metadata[ $meta_key ] ) ) {
 			return $response;
 		}
 

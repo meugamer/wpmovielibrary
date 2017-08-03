@@ -291,379 +291,383 @@ class Registrar {
 	public function register_post_meta() {
 
 		$post_meta = array(
-			'movie-tmdb_id' => array(
-				'type'         => 'integer',
-				'description'  => __( 'TheMovieDb.org movie ID', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'TMDb ID', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_tmdb_id'
-				)
-			),
-			'movie-title' => array(
-				'type'         => 'string',
-				'description'  => __( 'Title', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Title', 'wpmovielibrary' )
-				)
-			),
-			'movie-original_title' => array(
-				'type'         => 'string',
-				'description'  => __( 'Original title for the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Original Title', 'wpmovielibrary' )
-				)
-			),
-			'movie-tagline' => array(
-				'type'         => 'string',
-				'description'  => __( 'Short movie tagline', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Tagline', 'wpmovielibrary' )
-				)
-			),
-			'movie-overview' => array(
-				'type'         => 'string',
-				'description'  => __( 'Short movie overview', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Overview', 'wpmovielibrary' )
-				)
-			),
-			'movie-release_date' => array(
-				'type'         => 'string',
-				'description'  => __( 'Date the movie was initially released', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Release Date', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_release_date'
-				)
-			),
-			'movie-local_release_date' => array(
-				'type'         => 'string',
-				'description'  => __( 'Date the movie was localy released based on your settings', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Local Release Date', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_local_release_date'
-				)
-			),
-			'movie-runtime' => array(
-				'type'         => 'integer',
-				'description'  => __( 'Total movie runtime', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Runtime', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_runtime'
-				)
-			),
-			'movie-production_companies' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of companies who produced the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Production Companies', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_production'
-				)
-			),
-			'movie-production_countries' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of countries where the movie was produced', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Production Countries', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_countries'
-				)
-			),
-			'movie-spoken_languages' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of languages spoken in the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Spoken Languages', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_spoken_languages'
-				)
-			),
-			'movie-genres' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of genres for the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Genres', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_genres'
-				)
-			),
-			'movie-director' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of directors for the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Director', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_director'
-				)
-			),
-			'movie-producer' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of producers for the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Producer', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_producer'
-				)
-			),
-			'movie-cast' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of actors starring in the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Actors', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_cast'
-				)
-			),
-			'movie-photography' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of directors of photography for the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Director of photography', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_photography'
-				)
-			),
-			'movie-composer' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of original music composers for the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Composer', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_composer'
-				)
-			),
-			'movie-author' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of authors for the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Author', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_author'
-				)
-			),
-			'movie-writer' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of writers for the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Writer', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_writer'
-				)
-			),
-			'movie-certification' => array(
-				'type'         => 'string',
-				'description'  => __( 'Movie certification', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Certification', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_certification'
-				)
-			),
-			'movie-budget' => array(
-				'type'         => 'integer',
-				'description'  => __( 'Movie budget', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Budget', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_budget'
-				)
-			),
-			'movie-revenue' => array(
-				'type'         => 'integer',
-				'description'  => __( 'Movie revenue', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Revenue', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_revenue'
-				)
-			),
-			'movie-imdb_id' => array(
-				'type'         => 'string',
-				'description'  => __( 'Internet Movie Database movie ID', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'IMDb ID', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_imdb_id'
-				)
-			),
-			'movie-adult' => array(
-				'type'         => 'string',
-				'description'  => __( 'Separate adult-only movies from all-audience movies', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Adult-only', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_adult'
-				)
-			),
-			'movie-homepage' => array(
-				'type'         => 'string',
-				'description'  => __( 'Official movie Website', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Homepage', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_homepage'
-				)
-			),
-			'movie-status' => array(
-				'type'         => 'string',
-				'description'  => __( 'Current status of your copy of the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Status', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_status'
-				)
-			),
-			'movie-media' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of medias', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Media', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_media'
-				)
-			),
-			'movie-rating' => array(
-				'type'         => 'string',
-				'description'  => __( 'Your own rating of the movie', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Rating', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_rating'
-				)
-			),
-			'movie-language' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of languages', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Language', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_language'
-				)
-			),
-			'movie-subtitles' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of subtitles', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Subtitles', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_subtitles'
-				)
-			),
-			'movie-format' => array(
-				'type'         => 'string',
-				'description'  => __( 'List of formats', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Format', 'wpmovielibrary' ),
-					'prepare_callback' => 'get_formatted_movie_format'
-				)
-			),
-			'grid-type' => array(
-				'type'         => 'string',
-				'description'  => __( 'Grid type', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Type', 'wpmovielibrary' ),
+			'movie' => array(
+				'tmdb_id' => array(
+					'type'         => 'integer',
+					'description'  => __( 'TheMovieDb.org movie ID', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'TMDb ID', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_tmdb_id'
+					)
+				),
+				'title' => array(
+					'type'         => 'string',
+					'description'  => __( 'Title', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Title', 'wpmovielibrary' )
+					)
+				),
+				'original_title' => array(
+					'type'         => 'string',
+					'description'  => __( 'Original title for the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Original Title', 'wpmovielibrary' )
+					)
+				),
+				'tagline' => array(
+					'type'         => 'string',
+					'description'  => __( 'Short movie tagline', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Tagline', 'wpmovielibrary' )
+					)
+				),
+				'overview' => array(
+					'type'         => 'string',
+					'description'  => __( 'Short movie overview', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Overview', 'wpmovielibrary' )
+					)
+				),
+				'release_date' => array(
+					'type'         => 'string',
+					'description'  => __( 'Date the movie was initially released', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Release Date', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_release_date'
+					)
+				),
+				'local_release_date' => array(
+					'type'         => 'string',
+					'description'  => __( 'Date the movie was localy released based on your settings', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Local Release Date', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_local_release_date'
+					)
+				),
+				'runtime' => array(
+					'type'         => 'integer',
+					'description'  => __( 'Total movie runtime', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Runtime', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_runtime'
+					)
+				),
+				'production_companies' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of companies who produced the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Production Companies', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_production'
+					)
+				),
+				'production_countries' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of countries where the movie was produced', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Production Countries', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_countries'
+					)
+				),
+				'spoken_languages' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of languages spoken in the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Spoken Languages', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_spoken_languages'
+					)
+				),
+				'genres' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of genres for the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Genres', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_genres'
+					)
+				),
+				'director' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of directors for the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Director', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_director'
+					)
+				),
+				'producer' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of producers for the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Producer', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_producer'
+					)
+				),
+				'cast' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of actors starring in the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Actors', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_cast'
+					)
+				),
+				'photography' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of directors of photography for the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Director of photography', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_photography'
+					)
+				),
+				'composer' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of original music composers for the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Composer', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_composer'
+					)
+				),
+				'author' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of authors for the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Author', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_author'
+					)
+				),
+				'writer' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of writers for the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Writer', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_writer'
+					)
+				),
+				'certification' => array(
+					'type'         => 'string',
+					'description'  => __( 'Movie certification', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Certification', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_certification'
+					)
+				),
+				'budget' => array(
+					'type'         => 'integer',
+					'description'  => __( 'Movie budget', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Budget', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_budget'
+					)
+				),
+				'revenue' => array(
+					'type'         => 'integer',
+					'description'  => __( 'Movie revenue', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Revenue', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_revenue'
+					)
+				),
+				'imdb_id' => array(
+					'type'         => 'string',
+					'description'  => __( 'Internet Movie Database movie ID', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'IMDb ID', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_imdb_id'
+					)
+				),
+				'adult' => array(
+					'type'         => 'string',
+					'description'  => __( 'Separate adult-only movies from all-audience movies', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Adult-only', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_adult'
+					)
+				),
+				'homepage' => array(
+					'type'         => 'string',
+					'description'  => __( 'Official movie Website', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Homepage', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_homepage'
+					)
+				),
+				'status' => array(
+					'type'         => 'string',
+					'description'  => __( 'Current status of your copy of the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Status', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_status'
+					)
+				),
+				'media' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of medias', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Media', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_media'
+					)
+				),
+				'rating' => array(
+					'type'         => 'string',
+					'description'  => __( 'Your own rating of the movie', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Rating', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_rating'
+					)
+				),
+				'language' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of languages', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Language', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_language'
+					)
+				),
+				'subtitles' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of subtitles', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Subtitles', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_subtitles'
+					)
+				),
+				'format' => array(
+					'type'         => 'string',
+					'description'  => __( 'List of formats', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Format', 'wpmovielibrary' ),
+						'prepare_callback' => 'get_formatted_movie_format'
+					)
 				),
 			),
-			'grid-mode' => array(
-				'type'         => 'string',
-				'description'  => __( 'Grid mode', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => __( 'Mode', 'wpmovielibrary' ),
+			'grid' => array(
+				'type' => array(
+					'type'         => 'string',
+					'description'  => __( 'Grid type', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Type', 'wpmovielibrary' ),
+					),
 				),
-			),
-			'grid-theme' => array(
-				'type'         => 'string',
-				'description'  => esc_html__( 'Grid theme', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label' => esc_html__( 'Theme', 'wpmovielibrary' ),
+				'mode' => array(
+					'type'         => 'string',
+					'description'  => __( 'Grid mode', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => __( 'Mode', 'wpmovielibrary' ),
+					),
 				),
-			),
-			'grid-preset' => array(
-				'type'        => 'string',
-				'show_in_rest' => array(
-					'label'       => esc_html__( 'Grid preset', 'wpmovielibrary' ),
+				'theme' => array(
+					'type'         => 'string',
+					'description'  => esc_html__( 'Grid theme', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label' => esc_html__( 'Theme', 'wpmovielibrary' ),
+					),
 				),
-				'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
-				'default'     => 'custom',
-			),
-			'grid-enable-ajax' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught movies without reloading the page. Default is disabled.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
+				'preset' => array(
+					'type'        => 'string',
+					'show_in_rest' => array(
+						'label'       => esc_html__( 'Grid preset', 'wpmovielibrary' ),
+					),
+					'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+					'default'     => 'custom',
 				),
-				'sanitize_callback' => '_is_bool',
-				'default'  => 0
-			),
-			'grid-enable-pagination' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+				'enable-ajax' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught movies without reloading the page. Default is disabled.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
+					),
+					'sanitize_callback' => '_is_bool',
+					'default'  => 0
 				),
-				'sanitize_callback' => '_is_bool',
-				'default'  => 1
-			),
-			'grid-columns' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
+				'enable-pagination' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+					),
+					'sanitize_callback' => '_is_bool',
+					'default'  => 1
 				),
-				'default'  => 5
-			),
-			'grid-rows' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
+				'columns' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
+					),
+					'default'  => 5
 				),
-				'default'  => 4
-			),
-			'grid-column-width' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
+				'rows' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
+					),
+					'default'  => 4
 				),
-				'default'  => 160
-			),
-			'grid-row-height' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
+				'column-width' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
+					),
+					'default'  => 160
 				),
-				'default'  => 240
-			),
-			'grid-list-columns' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
+				'row-height' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
+					),
+					'default'  => 240
 				),
-				'default'  => 3
-			),
-			'grid-list-column-width' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
+				'list-columns' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
+					),
+					'default'  => 3
 				),
-				'default'  => 240
-			),
-			'grid-list-rows' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
+				'list-column-width' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
+					),
+					'default'  => 240
 				),
-				'default'  => 8
-			),
-			'grid-settings-control' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
+				'list-rows' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
+					),
+					'default'  => 8
 				),
-				'sanitize_callback' => '_is_bool',
-				'default'  => 1
-			),
-			'grid-custom-letter' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Allow visitors to filter the grid by letters. Default is enabled.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Enable letter filtering', 'wpmovielibrary' ),
+				'settings-control' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
+					),
+					'sanitize_callback' => '_is_bool',
+					'default'  => 1
 				),
-				'sanitize_callback' => '_is_bool',
-				'default'  => 1
-			),
-			'grid-custom-order' => array(
-				'type' => 'integer',
-				'description' => esc_html__( 'Allow visitors to change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
-				'show_in_rest' => array(
-					'label'    => esc_html__( 'Enable custom ordering', 'wpmovielibrary' ),
+				'custom-letter' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Allow visitors to filter the grid by letters. Default is enabled.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Enable letter filtering', 'wpmovielibrary' ),
+					),
+					'sanitize_callback' => '_is_bool',
+					'default'  => 1
 				),
-				'sanitize_callback' => '_is_bool',
-				'default'  => 1
+				'custom-order' => array(
+					'type' => 'integer',
+					'description' => esc_html__( 'Allow visitors to change the grid ordering, ie. the sorting and ordering settings. Default is enabled.', 'wpmovielibrary' ),
+					'show_in_rest' => array(
+						'label'    => esc_html__( 'Enable custom ordering', 'wpmovielibrary' ),
+					),
+					'sanitize_callback' => '_is_bool',
+					'default'  => 1
+				),
 			),
 		);
 
@@ -676,19 +680,25 @@ class Registrar {
 		 */
 		$this->post_meta = apply_filters( 'wpmoly/filter/post_meta', $post_meta );
 
-		foreach ( $this->post_meta as $slug => $params ) {
+		foreach ( $this->post_meta as $post_type => $post_meta ) {
 
-			$meta_key = '_wpmoly_' . str_replace( '-', '_', $slug );
+			foreach ( $post_meta as $slug => $params ) {
 
-			$args = wp_parse_args( $params, array(
-				'type'              => 'string',
-				'description'       => '',
-				'single'            => true,
-				'show_in_rest'      => true,
-				'sanitize_callback' => null
-			) );
+				/**
+				 * 
+				 */
+				$meta_key = apply_filters( "wpmoly/filter/{$post_type}/meta/key", $slug );
 
-			register_meta( $object_type = 'post', $meta_key, $args );
+				$args = wp_parse_args( $params, array(
+					'type'              => 'string',
+					'description'       => '',
+					'single'            => true,
+					'show_in_rest'      => true,
+					'sanitize_callback' => null
+				) );
+
+				register_meta( $object_type = 'post', $meta_key, $args );
+			}
 		}
 	}
 
@@ -854,19 +864,22 @@ class Registrar {
 		 */
 		$this->term_meta = apply_filters( 'wpmoly/filter/term_meta', $term_meta );
 
-		foreach ( $this->term_meta as $slug => $params ) {
+		foreach ( $this->term_meta as $taxonomy => $term_meta ) {
 
-			$meta_key = '_wpmoly_' . str_replace( '-', '_', $slug );
+			foreach ( $term_meta as $slug => $params ) {
 
-			$args = wp_parse_args( $params, array(
-				'type'              => 'string',
-				'description'       => '',
-				'single'            => true,
-				'show_in_rest'      => true,
-				'sanitize_callback' => null
-			) );
+				$meta_key = apply_filters( "wpmoly/filter/{$taxonomy}/meta/key", $slug );
 
-			register_meta( $object_type = 'term', $meta_key, $args );
+				$args = wp_parse_args( $params, array(
+					'type'              => 'string',
+					'description'       => '',
+					'single'            => true,
+					'show_in_rest'      => true,
+					'sanitize_callback' => null
+				) );
+
+				register_meta( $object_type = 'term', $meta_key, $args );
+			}
 		}
 	}
 }

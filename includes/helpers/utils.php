@@ -220,19 +220,122 @@ function get_genre( $genre ) {
 function get_movie_meta( $movie_id, $key = '', $single = false ) {
 
 	$key = (string) $key;
-
 	$value = '';
-	if ( 'movie' != get_post_type( $movie_id ) ) {
+
+	$post_type = get_post_type( (int) $movie_id );
+	if ( 'movie' !== $post_type ) {
 		return $value;
+	}
+
+	if ( ! empty( $key ) ) {
+
+		/**
+		 * Filter the movie meta key.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    string     $key Meta key.
+		 *
+		 * @return   
+		 */
+		$key = prefix_movie_meta_key( $key );
+	}
+
+	$value = get_post_meta( $movie_id, $key, $single );
+
+	return $value;
+}
+
+/**
+ * Prefix movie meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Meta key.
+ * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ *
+ * @return   string
+ */
+function prefix_movie_meta_key( $key, $strip_hyphens = true ) {
+
+	$key = (string) $key;
+
+	if ( true === $strip_hyphens ) {
+		$key = str_replace( '-', '_', $key );
 	}
 
 	if ( ! empty( $key ) ) {
 		$key = '_wpmoly_movie_' . $key;
 	}
 
-	$value = get_post_meta( $movie_id, $key, $single );
+	return $key;
+}
 
-	return $value;
+/**
+ * Remove prefix from movie meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Prefixed meta key.
+ * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ *
+ * @return   string
+ */
+function unprefix_movie_meta_key( $key, $strip_underscores = true ) {
+
+	$key = str_replace( '_wpmoly_movie_', '', (string) $key );
+
+	if ( true === $strip_underscores ) {
+		$key = str_replace( '_', '-', $key );
+	}
+
+	return $key;
+}
+
+/**
+ * Prefix grid meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Meta key.
+ * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ *
+ * @return   string
+ */
+function prefix_grid_meta_key( $key, $strip_hyphens = true ) {
+
+	$key = (string) $key;
+
+	if ( true === $strip_hyphens ) {
+		$key = str_replace( '-', '_', $key );
+	}
+
+	if ( ! empty( $key ) ) {
+		$key = '_wpmoly_grid_' . $key;
+	}
+
+	return $key;
+}
+
+/**
+ * Remove prefix from grid meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Prefixed meta key.
+ * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ *
+ * @return   string
+ */
+function unprefix_grid_meta_key( $key, $strip_underscores = true ) {
+
+	$key = str_replace( '_wpmoly_grid_', '', (string) $key );
+
+	if ( true === $strip_underscores ) {
+		$key = str_replace( '_', '-', $key );
+	}
+
+	return $key;
 }
 
 /**

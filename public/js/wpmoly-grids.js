@@ -181,6 +181,26 @@ window.wpmoly = window.wpmoly || {};
 				return controller.isWidget();
 			},
 
+			getSettings : function() {
+
+				return controller.settings.toJSON();
+			},
+
+			setSettings : function( attributes, value ) {
+
+				return controller.settings.set( attributes, value );
+			},
+
+			getArgs : function() {
+
+				return controller.query.toJSON();
+			},
+
+			setArgs : function( attributes, value ) {
+
+				return controller.query.set( attributes, value );
+			},
+
 			/**
 			 * Retrieve grid settings.
 			 *
@@ -1626,6 +1646,7 @@ window.wpmoly = window.wpmoly || {};
 			// Set grid as loading when reset
 			this.listenTo( this.controller.query, 'fetch:start', this.loading );
 			this.listenTo( this.controller.query, 'fetch:done',  this.loaded );
+			this.listenTo( this.controller.query, 'fetch:done',  this.notifyEmpty );
 
 			// Set grid as loaded when fetch is done
 			this.listenTo( this.controller.query, 'fetch:done', _.debounce( this.adjust, 50 ) );
@@ -1664,9 +1685,37 @@ window.wpmoly = window.wpmoly || {};
 				message = wpmolyL10n.restAPIError;
 			}
 
-			this.$el.html( '<div class="wpmoly error notice"><div class="notice-content"><p>' + message + '</p></div><div class="notice-footnote">' + wpmolyL10n.restAPIErrorFootnote + '</div></div>' );
+			var template = wp.template( 'wpmoly-grid-error' );
 
-			this.loaded();
+			this.$el.html( template( {
+				message :  message,
+				footnote : wpmolyL10n.restAPIErrorFootnote
+			} ) );
+
+			return this;
+		},
+
+		/**
+		 * Notify empty results.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    {object}    collection
+		 * @param    {object}    xhr
+		 * @param    {object}    options
+		 *
+		 * @return    Returns itself to allow chaining.
+		 */
+		notifyEmpty : function( collection, xhr, options ) {
+
+			if ( ! collection.isEmpty() ) {
+				return;
+			}
+
+			var type = this.controller.settings.get( 'type' ),
+			template = wp.template( 'wpmoly-grid-empty' );
+
+			this.$el.html( template() );
 
 			return this;
 		},

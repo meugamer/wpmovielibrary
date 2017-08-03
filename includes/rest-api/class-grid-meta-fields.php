@@ -26,36 +26,6 @@ use WP_REST_Post_Meta_Fields;
 class Grid_Meta_Fields extends WP_REST_Post_Meta_Fields {
 
 	/**
-	 * Prepare a meta value for a response.
-	 * 
-	 * Override WP_REST_Post_Meta_Fields::prepare_value_for_response() to 
-	 * keep a copy of the raw value along with the rendered version.
-	 * 
-	 * @see WP_REST_Post_Meta_Fields::prepare_value_for_response()
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    mixed              $value   Meta value to prepare.
-	 * @param    WP_REST_Request    $request Current request object.
-	 * @param    array              $args    Options for the field.
-	 * 
-	 * @return   mixed              Prepared value.
-	 */
-	/*protected function prepare_value_for_response( $value, $request, $args ) {
-
-		if ( ! empty( $args['prepare_callback'] ) ) {
-			$value = array(
-				'rendered' => call_user_func( $args['prepare_callback'], $value, $request, $args ),
-				'raw'      => $value
-			);
-		} else {
-			$value = array( 'rendered' => $value );
-		}
-
-		return $value;
-	}*/
-
-	/**
 	 * Retrieves the meta field value.
 	 * 
 	 * Override WP_REST_Post_Meta_Fields::get_value() to remove custom prefix
@@ -76,7 +46,7 @@ class Grid_Meta_Fields extends WP_REST_Post_Meta_Fields {
 
 		$meta = array();
 		foreach ( $response as $key => $value ) {
-			$key = str_replace( '_wpmoly_grid_', '', $key );
+			$key = unprefix_grid_meta_key( $key, false );
 			$meta[ $key ] = $value;
 		}
 

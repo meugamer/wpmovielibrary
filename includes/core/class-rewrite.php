@@ -119,7 +119,7 @@ class Rewrite {
 		global $wp_rewrite;
 
 		foreach ( $this->tags as $tag => $regex ) {
-			$wp_rewrite->add_rewrite_tag( $tag, $regex, 'wpmoly_movie_' . str_replace( '%', '', $tag ) . '=' );
+			$wp_rewrite->add_rewrite_tag( $tag, $regex, str_replace( array( '%', '_' ), array( '', '-' ), $tag ) . '=' );
 		}
 	}
 
@@ -135,7 +135,7 @@ class Rewrite {
 	public function add_query_vars( $query_vars ) {
 
 		foreach ( $this->tags as $tag => $regex ) {
-			$query_vars[] = 'wpmoly_movie_' . str_replace( '%', '', $tag );
+			$query_vars[] = str_replace( array( '%', '_' ), array( '', '-' ), $tag );
 		}
 
 		return $query_vars;
@@ -269,87 +269,79 @@ class Rewrite {
 			),
 			array(
 				'rule' => "(adult|" . _x( 'adult', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_adult' )
+				'vars' => array( 'preset', 'adult' )
 			),
 			array(
 				'rule' => "(author|" . _x( 'author', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_author' )
+				'vars' => array( 'preset', 'author' )
 			),
 			array(
 				'rule' => "(certification|" . _x( 'certification', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_certification' )
+				'vars' => array( 'preset', 'certification' )
 			),
 			array(
 				'rule' => "(composer|" . _x( 'composer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_composer' )
+				'vars' => array( 'preset', 'composer' )
 			),
 			array(
-				'rule' => "(homepage|" . _x( 'homepage', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_homepage' )
+				'rule' => "(director|" . _x( 'director', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'director' )
 			),
 			array(
-				'rule' => "(imdb_id|" . _x( 'imdb_id', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_imdb_id' )
-			),
-			array(
-				'rule' => "(local-release-date|" . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_local_release_date' )
+				'rule' => "(local-release|local-release-date|" . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'local_release_date' )
 			),
 			array(
 				'rule' => "(photography|" . _x( 'photography', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_photography' )
+				'vars' => array( 'preset', 'photography' )
 			),
 			array(
 				'rule' => "(producer|" . _x( 'producer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_producer' )
+				'vars' => array( 'preset', 'producer' )
 			),
 			array(
-				'rule' => "(production-companies|" . _x( 'company', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_production_companies' )
+				'rule' => "(company|production-companies|" . _x( 'company', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'production_companies' )
 			),
 			array(
-				'rule' => "(production-countries|" . _x( 'country', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_production_countries' )
+				'rule' => "(country|production-countries|" . _x( 'country', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'country' )
 			),
 			array(
-				'rule' => "(release-date|" . _x( 'release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_release_date' )
+				'rule' => "(release|release-date|" . _x( 'release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'release_date' )
 			),
 			array(
-				'rule' => "(spoken-languages|" . _x( 'spoken-languages', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_spoken_languages' )
-			),
-			array(
-				'rule' => "(tmdb_id|" . _x( 'tmdb_id', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_tmdb_id' )
+				'rule' => "(languages|spoken-languages|" . _x( 'spoken-languages', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'spoken_languages' )
 			),
 			array(
 				'rule' => "(writer|" . _x( 'writer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_writer' )
+				'vars' => array( 'preset', 'writer' )
 			),
 			array(
 				'rule' => "(format|" . _x( 'format', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_format' )
+				'vars' => array( 'preset', 'format' )
 			),
 			array(
 				'rule' => "(language|" . _x( 'language', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_language' )
+				'vars' => array( 'preset', 'language' )
 			),
 			array(
 				'rule' => "(media|" . _x( 'media', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_media' )
+				'vars' => array( 'preset', 'media' )
 			),
 			array(
 				'rule' => "(rating|" . _x( 'rating', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_rating' )
+				'vars' => array( 'preset', 'rating' )
 			),
 			array(
 				'rule' => "(status|" . _x( 'status', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_status' )
+				'vars' => array( 'preset', 'status' )
 			),
 			array(
 				'rule' => "(subtitles|" . _x( 'subtitles', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'grid_preset', 'wpmoly_movie_subtitles' )
+				'vars' => array( 'preset', 'subtitles' )
 			)
 		) );
 

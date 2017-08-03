@@ -245,6 +245,10 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/widget/format/status/value',                  '', 'get_formatted_movie_status',             15, 2 );
 		$loader->add_filter( 'wpmoly/widget/format/subtitles/value',               '', 'get_formatted_movie_subtitles',          15, 2 );
 
+		// Meta prefix
+		$loader->add_filter( 'wpmoly/filter/movie/meta/key', '', 'prefix_movie_meta_key', 15, 1 );
+		$loader->add_filter( 'wpmoly/filter/grid/meta/key',  '', 'prefix_grid_meta_key',  15, 1 );
+
 		// Meta Formatting
 		$loader->add_filter( 'wpmoly/filter/the/movie/actors',               '', 'get_formatted_movie_cast',               15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/adult',                '', 'get_formatted_movie_adult',              15, 2 );
@@ -298,7 +302,7 @@ class Frontend extends Assets {
 
 		// Movie queries
 		$query = Core\Query::get_instance();
-		$loader->add_filter( 'wpmoly/filter/query/movies/author/value',                     $query, 'unsanitize_query_var', 10, 2 );
+		/*$loader->add_filter( 'wpmoly/filter/query/movies/author/value',                     $query, 'unsanitize_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/composer/value',                   $query, 'unsanitize_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/photography/value',                $query, 'unsanitize_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/producer/value',                   $query, 'unsanitize_query_var', 10, 2 );
@@ -314,7 +318,7 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/filter/query/movies/certification/value',              '', 'strtoupper' );
 		$loader->add_filter( 'wpmoly/filter/query/movies/status/value',                     '', 'strtolower' );
 		$loader->add_filter( 'wpmoly/filter/query/movies/format/value',                     '', 'strtolower' );
-		$loader->add_filter( 'wpmoly/filter/query/movies/media/value',                      '', 'strtolower' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/media/value',                      '', 'strtolower' );*/
 
 		// Templates
 		$loader->add_filter( 'wpmoly/filter/template/data', $this, 'js_template_data' );
