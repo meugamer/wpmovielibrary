@@ -567,8 +567,10 @@ class TermEditor extends Metabox {
 	 */
 	public function load_meta_frameworks() {
 
+		$screen = get_current_screen();
+
 		// Bail if not our post type.
-		if ( ! in_array( get_current_screen()->taxonomy, array( 'actor', 'collection', 'genre' ) ) ) {
+		if ( 'term' !== $screen->base || ! in_array( $screen->taxonomy, array( 'actor', 'collection', 'genre' ) ) ) {
 			return;
 		}
 
