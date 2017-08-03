@@ -106,6 +106,9 @@ class Frontend extends Assets {
 		$this->register_template( 'grid-settings',             'public/js/templates/grid/settings.php' );
 		$this->register_template( 'grid-pagination',           'public/js/templates/grid/pagination.php' );
 
+		$this->register_template( 'grid-error',                'public/js/templates/grid/content/error.php' );
+		$this->register_template( 'grid-empty',                'public/js/templates/grid/content/empty.php' );
+
 		$this->register_template( 'grid-movie-grid',           'public/js/templates/grid/content/movie-grid.php' );
 		$this->register_template( 'grid-movie-grid-variant-1', 'public/js/templates/grid/content/movie-grid-variant-1.php' );
 		$this->register_template( 'grid-movie-grid-variant-2', 'public/js/templates/grid/content/movie-grid-variant-2.php' );
@@ -176,6 +179,9 @@ class Frontend extends Assets {
 		$this->enqueue_template( 'grid-customs' );
 		$this->enqueue_template( 'grid-settings' );
 		$this->enqueue_template( 'grid-pagination' );
+
+		$this->enqueue_template( 'grid-empty' );
+		$this->enqueue_template( 'grid-error' );
 
 		$this->enqueue_template( 'grid-movie-grid' );
 		$this->enqueue_template( 'grid-movie-grid-variant-1' );
