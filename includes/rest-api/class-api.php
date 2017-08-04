@@ -166,7 +166,7 @@ class API {
 	}
 
 	/**
-	 * Register custom REST API query params.
+	 * Add custom REST API query params.
 	 * 
 	 * Add support for letter filtering.
 	 * 
@@ -177,7 +177,7 @@ class API {
 	 * 
 	 * @return   array
 	 */
-	public function register_query_params( $args, $request ) {
+	public function add_query_params( $args, $request ) {
 
 		if ( 'movie' === $args['post_type'] ) {
 
@@ -185,18 +185,112 @@ class API {
 				$args['letter'] = $request['letter'];
 			}
 
+			if ( ! isset( $args['meta_query'] ) ) {
+				$args['meta_query'] = array();
+			}
+
 			foreach ( $this->supported_parameters as $param => $key ) {
-
 				if ( ! empty( $request[ $param ] ) ) {
-
-					$key = prefix_movie_meta_key( $key );
-					$value = $request[ $param ];
-					$compare = 'LIKE';
-
-					$args['meta_query'][] = compact( 'key', 'value', 'compare' );
+					$args = apply_filters( "wpmoly/filter/query/movies/{$param}/param", $args, $key, $param, $request );
 				}
 			}
 		}
+
+		return $args;
+	}
+
+	/**
+	 * Add custom parameters to query movies of a specific director.
+	 * 
+	 * @TODO This does not work with hyphened names.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array               $args    Key value array of query var to query value.
+	 * @param    string              $key     Meta key.
+	 * @param    mixed               $param   Meta value.
+	 * @param    WP_REST_Request     $request The request used.
+	 *
+	 * @return   array
+	 */
+	public function add_director_query_param( $args, $key, $param, $request ) {
+
+		if ( empty( $key ) || empty( $param ) ) {
+			return $args;
+		}
+
+		/**
+		 * Filter meta key.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $key
+		 */
+		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
+
+		/**
+		 * Filter meta value.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $value
+		 */
+		$value = apply_filters( 'wpmoly/filter/query/movies/director/value', $request[ $param ] );
+
+		/**
+		 * Filter meta comparison operator.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $compare
+		 */
+		$compare = apply_filters( 'wpmoly/filter/query/movies/director/compare', 'LIKE' );
+
+		$args['meta_query'][] = compact( 'key', 'value', 'compare' );
+
+		return $args;
+	}
+
+	/**
+	 * Add custom parameters to query movies of a specific meta.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array               $args    Key value array of query var to query value.
+	 * @param    string              $key     Meta key.
+	 * @param    mixed               $param   Meta value.
+	 * @param    WP_REST_Request     $request The request used.
+	 *
+	 * @return   array
+	 */
+	public function add_meta_query_param( $args, $key, $param, $request ) {
+
+		if ( empty( $key ) || empty( $param ) ) {
+			return $args;
+		}
+
+		/**
+		 * Filter meta value.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $value
+		 */
+		$value = apply_filters( "wpmoly/filter/query/movies/{$key}/value", $request[ $param ] );
+
+		/**
+		 * Filter meta comparison operator.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $compare
+		 */
+		$compare = apply_filters( "wpmoly/filter/query/movies/{$key}/compare", 'LIKE' );
+
+		/** This filter is documented in includes/helpers/utils.php */
+		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
+
+		$args['meta_query'][] = compact( 'key', 'value', 'compare' );
 
 		return $args;
 	}

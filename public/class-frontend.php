@@ -300,10 +300,37 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/filter/detail/status/url',           '', 'get_movie_status_url',    15, 2 );
 		$loader->add_filter( 'wpmoly/filter/detail/subtitles/url',        '', 'get_movie_subtitles_url', 15, 2 );
 
-		// Movie queries
+		// REST API queries
+		$rest_api = Rest\API::get_instance();
+		$loader->add_filter( 'wpmoly/filter/query/movies/actor/param',         $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/adult/param',         $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/author/param',        $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/budget/param',        $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/certification/param', $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/company/param',       $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/composer/param',      $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/country/param',       $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/director/param',      $rest_api, 'add_director_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/format/param',        $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/genre/param',         $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/language/param',      $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/languages/param',     $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/local_release/param', $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/media/param',         $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/photography/param',   $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/producer/param',      $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/rating/param',        $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/release/param',       $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/revenue/param',       $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/runtime/param',       $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/status/param',        $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/subtitles/param',     $rest_api, 'add_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/writer/param',        $rest_api, 'add_meta_query_param', 10, 4 );
+
 		$query = Core\Query::get_instance();
-		/*$loader->add_filter( 'wpmoly/filter/query/movies/author/value',                     $query, 'unsanitize_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/author/value',                     $query, 'unsanitize_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/composer/value',                   $query, 'unsanitize_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/director/value',                   $query, 'unsanitize_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/photography/value',                $query, 'unsanitize_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/producer/value',                   $query, 'unsanitize_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/production_companies/value',       $query, 'unsanitize_query_var', 10, 2 );
@@ -318,7 +345,7 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/filter/query/movies/certification/value',              '', 'strtoupper' );
 		$loader->add_filter( 'wpmoly/filter/query/movies/status/value',                     '', 'strtolower' );
 		$loader->add_filter( 'wpmoly/filter/query/movies/format/value',                     '', 'strtolower' );
-		$loader->add_filter( 'wpmoly/filter/query/movies/media/value',                      '', 'strtolower' );*/
+		$loader->add_filter( 'wpmoly/filter/query/movies/media/value',                      '', 'strtolower' );
 
 		// Templates
 		$loader->add_filter( 'wpmoly/filter/template/data', $this, 'js_template_data' );

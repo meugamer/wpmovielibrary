@@ -383,7 +383,7 @@ final class Library {
 
 		$rest_api = Rest\API::get_instance();
 		$this->loader->add_action( 'rest_api_init',                $rest_api, 'register_fields' );
-		$this->loader->add_filter( 'rest_movie_query',             $rest_api, 'register_query_params', 10, 2 );
+		$this->loader->add_filter( 'rest_movie_query',             $rest_api, 'add_query_params', 10, 2 );
 		$this->loader->add_filter( 'rest_movie_collection_params', $rest_api, 'register_collection_params', 10, 2 );
 		$this->loader->add_filter( 'rest_prepare_movie',           $rest_api, 'prepare_movie_for_response', 10, 3 );
 
