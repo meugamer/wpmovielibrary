@@ -64,7 +64,7 @@ class Grid extends Front {
 	/**
 	 * Determine the grid template path based on the grid's type and mode.
 	 * 
-	 * TODO make use of that WP_Error.
+	 * @TODO make use of that WP_Error.
 	 * 
 	 * @since    3.0
 	 * 
@@ -78,6 +78,45 @@ class Grid extends Front {
 		}
 
 		return $this->path = $path;
+	}
+
+	/**
+	 * Determine grid preset.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $data Template data.
+	 * 
+	 * @return   array
+	 */
+	private function set_preset( $data = array() ) {
+
+		$preset = $this->grid->get_preset();
+		if ( is_array( $preset ) && ! empty( $preset ) ) {
+			$data['preset-name']  = key( $preset );
+			$data['preset-value'] = current( $preset );
+		} else {
+			return $data;
+		}
+
+		if ( ! in_array( $data['preset-name'], array( 'actor', 'collection', 'genre' ) ) ) {
+			return $data;
+		}
+
+		$term = get_term_by( 'slug', $data['preset-value'], $data['preset-name'] );
+		if ( ! $term ) {
+			return $data;
+		}
+
+		$taxonomy = get_taxonomy( $data['preset-name'] );
+		if ( ! $taxonomy ) {
+			return $data;
+		}
+
+		$data['preset-name']  = $taxonomy->rest_base;
+		$data['preset-value'] = $term->term_id;
+
+		return $data;
 	}
 
 	/**
@@ -102,11 +141,7 @@ class Grid extends Front {
 			$data['widget'] = 1;
 		}
 
-		$preset = $this->grid->get_preset();
-		if ( is_array( $preset ) && ! empty( $preset ) ) {
-			$data['preset-name']  = key( $preset );
-			$data['preset-value'] = current( $preset );
-		}
+		$data = $this->set_preset( $data );
 
 		foreach ( $data as $key => $value ) {
 			$data[ $key ] = sprintf( 'data-%s="%s"', esc_attr( $key ), esc_attr( $value ) );

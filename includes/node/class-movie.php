@@ -97,6 +97,13 @@ class Movie extends Node {
 	protected $backdrops;
 
 	/**
+	 * Movie meta suffix.
+	 * 
+	 * @var    string
+	 */
+	protected $suffix;
+
+	/**
 	 * Initialize the Movie.
 	 * 
 	 * @since    3.0
@@ -109,6 +116,9 @@ class Movie extends Node {
 		$this->posters   = new NodeList;
 		$this->backdrops->loaded = false;
 		$this->posters->loaded   = false;
+
+		/** This filter is documented in includes/helpers/utils.php */
+		$this->suffix = apply_filters( 'wpmoly/filter/movie/meta/key', '' );
 
 		/**
 		 * Filter the default movie meta list.

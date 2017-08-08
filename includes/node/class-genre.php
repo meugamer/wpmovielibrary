@@ -72,7 +72,8 @@ class Genre extends Node {
 	 */
 	public function init() {
 
-		$this->suffix = '_wpmoly_genre_';
+		/** This filter is documented in includes/helpers/utils.php */
+		$this->suffix = apply_filters( 'wpmoly/filter/genre/meta/key', '' );
 
 		/**
 		 * Filter the default genre meta list.

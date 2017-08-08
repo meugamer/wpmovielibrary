@@ -183,25 +183,26 @@ class Archives {
 	 */
 	public function single_page_content( $post_id, $type, $content ) {
 
-		/*$show = get_post_meta( $post_id, '_wpmoly_single_terms', $single = true );
+		$show = get_post_meta( $post_id, '_wpmoly_single_terms', $single = true );
 		if ( ! _is_bool( $show ) ) {
-			return $content;
-		}*/
-
-		$name = get_query_var( $type );
-		$term = get_term_by( 'slug', $name, $type );
-		if ( ! $term ) {
 			return $content;
 		}
 
 		$pre_content = '';
 
-		$theme = get_post_meta( $post_id, '_wpmoly_headbox_theme', $single = true );
-		$headbox = get_term_headbox( $term );
-		$headbox->set_theme( $theme );
+		$name = get_query_var( $type );
+		$term = get_term_by( 'slug', $name, $type );
+		if ( $term ) {
 
-		$headbox_template = get_headbox_template( $headbox );
-		$pre_content = $headbox_template->render();
+			$name = $term->name;
+
+			$theme = get_post_meta( $post_id, '_wpmoly_headbox_theme', $single = true );
+			$headbox = get_term_headbox( $term );
+			$headbox->set_theme( $theme );
+
+			$headbox_template = get_headbox_template( $headbox );
+			$pre_content = $headbox_template->render();
+		}
 
 		$archive_page_id = get_archives_page_id( 'movie' );
 		if ( ! $archive_page_id ) {

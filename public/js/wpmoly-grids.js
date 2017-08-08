@@ -634,6 +634,11 @@ window.wpmoly = window.wpmoly || {};
 						} else {
 							options[ key ] = value;
 						}
+					} else if ( 'array' === o.type ) {
+						if ( ! _.isArray( value ) ) {
+							value = [ value ];
+						}
+						options[ key ] = value;
 					}
 				}
 			}, this );

@@ -100,7 +100,8 @@ class Grid extends Node {
 	 */
 	public function init() {
 
-		$this->suffix = '_wpmoly_grid_';
+		/** This filter is documented in includes/helpers/utils.php */
+		$this->suffix = apply_filters( 'wpmoly/filter/grid/meta/key', '' );
 
 		/**
 		 * Filter the default grid settings list.

@@ -345,7 +345,7 @@ class Registrar {
 					)
 				),
 				'runtime' => array(
-					'type'         => 'integer',
+					'type'         => 'string',
 					'description'  => __( 'Total movie runtime', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Runtime', 'wpmovielibrary' ),
@@ -449,7 +449,7 @@ class Registrar {
 					)
 				),
 				'budget' => array(
-					'type'         => 'integer',
+					'type'         => 'string',
 					'description'  => __( 'Movie budget', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Budget', 'wpmovielibrary' ),
@@ -457,7 +457,7 @@ class Registrar {
 					)
 				),
 				'revenue' => array(
-					'type'         => 'integer',
+					'type'         => 'string',
 					'description'  => __( 'Movie revenue', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Revenue', 'wpmovielibrary' ),

@@ -276,48 +276,28 @@ class Rewrite {
 				'vars' => array( 'preset', 'author' )
 			),
 			array(
+				'rule' => "(budget|" . _x( 'budget', 'permalink', 'wpmovielibrary' ) . ")/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)",
+				'vars' => array( 'preset', 'budget' )
+			),
+			array(
 				'rule' => "(certification|" . _x( 'certification', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
 				'vars' => array( 'preset', 'certification' )
-			),
-			array(
-				'rule' => "(composer|" . _x( 'composer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'composer' )
-			),
-			array(
-				'rule' => "(director|" . _x( 'director', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'director' )
-			),
-			array(
-				'rule' => "(local-release|local-release-date|" . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'local_release_date' )
-			),
-			array(
-				'rule' => "(photography|" . _x( 'photography', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'photography' )
-			),
-			array(
-				'rule' => "(producer|" . _x( 'producer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'producer' )
 			),
 			array(
 				'rule' => "(company|production-companies|" . _x( 'company', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
 				'vars' => array( 'preset', 'production_companies' )
 			),
 			array(
+				'rule' => "(composer|" . _x( 'composer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'composer' )
+			),
+			array(
 				'rule' => "(country|production-countries|" . _x( 'country', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
 				'vars' => array( 'preset', 'country' )
 			),
 			array(
-				'rule' => "(release|release-date|" . _x( 'release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'release_date' )
-			),
-			array(
-				'rule' => "(languages|spoken-languages|" . _x( 'spoken-languages', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'spoken_languages' )
-			),
-			array(
-				'rule' => "(writer|" . _x( 'writer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'writer' )
+				'rule' => "(director|" . _x( 'director', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'director' )
 			),
 			array(
 				'rule' => "(format|" . _x( 'format', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
@@ -328,12 +308,40 @@ class Rewrite {
 				'vars' => array( 'preset', 'language' )
 			),
 			array(
+				'rule' => "(languages|spoken-languages|" . _x( 'spoken-languages', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'spoken_languages' )
+			),
+			array(
+				'rule' => "(local-release|local-release-date|" . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'local_release_date' )
+			),
+			array(
 				'rule' => "(media|" . _x( 'media', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
 				'vars' => array( 'preset', 'media' )
 			),
 			array(
+				'rule' => "(photography|" . _x( 'photography', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'photography' )
+			),
+			array(
+				'rule' => "(producer|" . _x( 'producer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'producer' )
+			),
+			array(
 				'rule' => "(rating|" . _x( 'rating', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
 				'vars' => array( 'preset', 'rating' )
+			),
+			array(
+				'rule' => "(release|release-date|" . _x( 'release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'release_date' )
+			),
+			array(
+				'rule' => "(revenue|" . _x( 'revenue', 'permalink', 'wpmovielibrary' ) . ")/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)",
+				'vars' => array( 'preset', 'revenue' )
+			),
+			array(
+				'rule' => "(runtime|" . _x( 'runtime', 'permalink', 'wpmovielibrary' ) . ")/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)",
+				'vars' => array( 'preset', 'runtime' )
 			),
 			array(
 				'rule' => "(status|" . _x( 'status', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
@@ -342,7 +350,11 @@ class Rewrite {
 			array(
 				'rule' => "(subtitles|" . _x( 'subtitles', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
 				'vars' => array( 'preset', 'subtitles' )
-			)
+			),
+			array(
+				'rule' => "(writer|" . _x( 'writer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'writer' )
+			),
 		) );
 
 		$movies = isset( $this->permalinks['movies'] ) ? $this->permalinks['movies'] : '';

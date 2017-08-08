@@ -68,7 +68,8 @@ class Collection extends Node {
 	 */
 	public function init() {
 
-		$this->suffix = '_wpmoly_collection_';
+		/** This filter is documented in includes/helpers/utils.php */
+		$this->suffix = apply_filters( 'wpmoly/filter/collection/meta/key', '' );
 
 		/**
 		 * Filter the default collection meta list.

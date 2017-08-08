@@ -247,7 +247,7 @@ function get_movie_meta( $movie_id, $key = '', $single = false ) {
 }
 
 /**
- * Prefix movie meta keys.
+ * Prefix meta keys.
  *
  * @since    3.0
  *
@@ -256,7 +256,7 @@ function get_movie_meta( $movie_id, $key = '', $single = false ) {
  *
  * @return   string
  */
-function prefix_movie_meta_key( $key, $strip_hyphens = true ) {
+function prefix_meta_key( $key, $prefix = '', $strip_hyphens = true ) {
 
 	$key = (string) $key;
 
@@ -264,15 +264,15 @@ function prefix_movie_meta_key( $key, $strip_hyphens = true ) {
 		$key = str_replace( '-', '_', $key );
 	}
 
-	if ( ! empty( $key ) ) {
-		$key = '_wpmoly_movie_' . $key;
+	if ( ! empty( $prefix ) ) {
+		$key = $prefix . $key;
 	}
 
 	return $key;
 }
 
 /**
- * Remove prefix from movie meta keys.
+ * Remove prefix from meta keys.
  *
  * @since    3.0
  *
@@ -281,15 +281,108 @@ function prefix_movie_meta_key( $key, $strip_hyphens = true ) {
  *
  * @return   string
  */
-function unprefix_movie_meta_key( $key, $strip_underscores = true ) {
+function unprefix_meta_key( $key, $prefix = '', $strip_underscores = true ) {
 
-	$key = str_replace( '_wpmoly_movie_', '', (string) $key );
+	$key = (string) $key;
+	if ( ! empty( $prefix ) ) {
+		$key = str_replace( $prefix, '', $key );
+	}
 
 	if ( true === $strip_underscores ) {
 		$key = str_replace( '_', '-', $key );
 	}
 
 	return $key;
+}
+
+/**
+ * Prefix actor meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Meta key.
+ * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ *
+ * @return   string
+ */
+function prefix_actor_meta_key( $key, $strip_hyphens = true ) {
+
+	return prefix_meta_key( $key, '_wpmoly_actor_', $strip_hyphens );
+}
+
+/**
+ * Remove prefix from actor meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Prefixed meta key.
+ * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ *
+ * @return   string
+ */
+function unprefix_actor_meta_key( $key, $strip_underscores = true ) {
+
+	return unprefix_meta_key( $key, '_wpmoly_actor_', $strip_underscores );
+}
+
+/**
+ * Prefix collection meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Meta key.
+ * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ *
+ * @return   string
+ */
+function prefix_collection_meta_key( $key, $strip_hyphens = true ) {
+
+	return prefix_meta_key( $key, '_wpmoly_collection_', $strip_hyphens );
+}
+
+/**
+ * Remove prefix from collection meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Prefixed meta key.
+ * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ *
+ * @return   string
+ */
+function unprefix_collection_meta_key( $key, $strip_underscores = true ) {
+
+	return unprefix_meta_key( $key, '_wpmoly_collection_', $strip_underscores );
+}
+
+/**
+ * Prefix genre meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Meta key.
+ * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ *
+ * @return   string
+ */
+function prefix_genre_meta_key( $key, $strip_hyphens = true ) {
+
+	return prefix_meta_key( $key, '_wpmoly_genre_', $strip_hyphens );
+}
+
+/**
+ * Remove prefix from genre meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Prefixed meta key.
+ * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ *
+ * @return   string
+ */
+function unprefix_genre_meta_key( $key, $strip_underscores = true ) {
+
+	return unprefix_meta_key( $key, '_wpmoly_genre_', $strip_underscores );
 }
 
 /**
@@ -304,17 +397,7 @@ function unprefix_movie_meta_key( $key, $strip_underscores = true ) {
  */
 function prefix_grid_meta_key( $key, $strip_hyphens = true ) {
 
-	$key = (string) $key;
-
-	if ( true === $strip_hyphens ) {
-		$key = str_replace( '-', '_', $key );
-	}
-
-	if ( ! empty( $key ) ) {
-		$key = '_wpmoly_grid_' . $key;
-	}
-
-	return $key;
+	return prefix_meta_key( $key, '_wpmoly_grid_', $strip_hyphens );
 }
 
 /**
@@ -329,13 +412,37 @@ function prefix_grid_meta_key( $key, $strip_hyphens = true ) {
  */
 function unprefix_grid_meta_key( $key, $strip_underscores = true ) {
 
-	$key = str_replace( '_wpmoly_grid_', '', (string) $key );
+	return unprefix_meta_key( $key, '_wpmoly_grid_', $strip_underscores );
+}
 
-	if ( true === $strip_underscores ) {
-		$key = str_replace( '_', '-', $key );
-	}
+/**
+ * Prefix movie meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Meta key.
+ * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ *
+ * @return   string
+ */
+function prefix_movie_meta_key( $key, $strip_hyphens = true ) {
 
-	return $key;
+	return prefix_meta_key( $key, '_wpmoly_movie_', $strip_hyphens );
+}
+
+/**
+ * Remove prefix from movie meta keys.
+ *
+ * @since    3.0
+ *
+ * @param    string     $key Prefixed meta key.
+ * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ *
+ * @return   string
+ */
+function unprefix_movie_meta_key( $key, $strip_underscores = true ) {
+
+	return unprefix_meta_key( $key, '_wpmoly_movie_', $strip_underscores );
 }
 
 /**
