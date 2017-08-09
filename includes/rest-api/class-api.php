@@ -49,7 +49,6 @@ class API {
 			'author'        => 'author',
 			'budget'        => 'budget',
 			'certification' => 'certification',
-			//'collection'    => 'collection',
 			'company'       => 'production_companies',
 			'composer'      => 'composer',
 			'country'       => 'production_countries',
@@ -192,6 +191,12 @@ class API {
 
 			foreach ( $this->supported_parameters as $param => $key ) {
 				if ( ! empty( $request[ $param ] ) ) {
+					/**
+					 * 
+					 * 
+					 * 
+					 * 
+					 */
 					$args = apply_filters( "wpmoly/filter/query/movies/{$param}/param", $args, $key, $param, $request );
 				}
 			}
@@ -200,113 +205,73 @@ class API {
 		return $args;
 	}
 
-// 	/**
-// 	 * Add custom parameters to query movies of a specific .
-// 	 * 
-// 	 * @TODO This does not work with hyphened names.
-// 	 * 
-// 	 * @since    3.0
-// 	 * 
-// 	 * @param    array               $args    Key value array of query var to query value.
-// 	 * @param    string              $key     Meta key.
-// 	 * @param    mixed               $param   Meta value.
-// 	 * @param    WP_REST_Request     $request The request used.
-// 	 *
-// 	 * @return   array
-// 	 */
-// 	public function add_budget_query_param
-// 	
-// 	/**
-// 	 * Add custom parameters to query movies of a specific .
-// 	 * 
-// 	 * @TODO This does not work with hyphened names.
-// 	 * 
-// 	 * @since    3.0
-// 	 * 
-// 	 * @param    array               $args    Key value array of query var to query value.
-// 	 * @param    string              $key     Meta key.
-// 	 * @param    mixed               $param   Meta value.
-// 	 * @param    WP_REST_Request     $request The request used.
-// 	 *
-// 	 * @return   array
-// 	 */
-// 	public function add_company_query_param
-// 	
-// 	/**
-// 	 * Add custom parameters to query movies of a specific .
-// 	 * 
-// 	 * @TODO This does not work with hyphened names.
-// 	 * 
-// 	 * @since    3.0
-// 	 * 
-// 	 * @param    array               $args    Key value array of query var to query value.
-// 	 * @param    string              $key     Meta key.
-// 	 * @param    mixed               $param   Meta value.
-// 	 * @param    WP_REST_Request     $request The request used.
-// 	 *
-// 	 * @return   array
-// 	 */
-// 	public function add_country_query_param
-// 
-// 	/**
-// 	 * Add custom parameters to query movies of a specific director.
-// 	 * 
-// 	 * @TODO This does not work with hyphened names.
-// 	 * 
-// 	 * @since    3.0
-// 	 * 
-// 	 * @param    array               $args    Key value array of query var to query value.
-// 	 * @param    string              $key     Meta key.
-// 	 * @param    mixed               $param   Meta value.
-// 	 * @param    WP_REST_Request     $request The request used.
-// 	 *
-// 	 * @return   array
-// 	 */
-// 	public function add_director_query_param( $args, $key, $param, $request ) {
-// 
-// 		if ( empty( $key ) || empty( $param ) ) {
-// 			return $args;
-// 		}
-// 
-// 		/**
-// 		 * Filter meta key.
-// 		 * 
-// 		 * @since    3.0
-// 		 * 
-// 		 * @param    string    $key
-// 		 */
-// 		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
-// 
-// 		/**
-// 		 * Filter meta value.
-// 		 * 
-// 		 * @since    3.0
-// 		 * 
-// 		 * @param    string    $value
-// 		 */
-// 		$value = apply_filters( 'wpmoly/filter/query/movies/director/value', $request[ $param ] );
-// 
-// 		/**
-// 		 * Filter meta comparison operator.
-// 		 * 
-// 		 * @since    3.0
-// 		 * 
-// 		 * @param    string    $compare
-// 		 */
-// 		$compare = apply_filters( 'wpmoly/filter/query/movies/director/compare', 'LIKE' );
-// 
-// 		$args['meta_query'][] = compact( 'key', 'value', 'compare' );
-// 
-// 		return $args;
-// 	}
-// 
-// 	add_genre_query_param
-// 	add_language_query_param
-// 	add_release_query_param
-// 	add_rating_query_param
-// 	add_revenue_query_param
-// 	add_runtime_query_param
-// 	add_subtitles_query_param
+	/**
+	 * Filter 'author' meta query parameter.
+	 * 
+	 * There is a confusion between post authors and movie authors, the former
+	 * being a WordPress user and the latter a movie meta value. Post authors
+	 * should be queried by their user ID while movie authors should be queried
+	 * by their full name.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array               $args    Key value array of query var to query value.
+	 * @param    string              $key     Meta key.
+	 * @param    mixed               $param   Meta value.
+	 * @param    WP_REST_Request     $request The request used.
+	 *
+	 * @return   array
+	 */
+	public function add_meta_author_query_param( $args, $key, $param, $request ) {
+
+		if ( empty( $key ) || empty( $param ) ) {
+			return $args;
+		}
+
+		// Clean up data.
+		$author = array_filter( $request[ $param ] );
+		if ( empty( $author ) ) {
+			return $args;
+		}
+
+		// Don't bother with extra data.
+		$author = array_shift( $author );
+
+		// WordPress author (ie. user ID)?
+		if ( preg_match( '/^[\d]+$/', $author ) ) {
+			$request['author'] = array( (int) $author );
+		}
+		// Movie author.
+		else {
+
+			$args['author__in'] = array();
+
+			/**
+			 * Filter meta value.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $value
+			 */
+			$value = apply_filters( "wpmoly/filter/query/movies/author/value", $author );
+
+			/** This filter is documented in includes/helpers/utils.php */
+			$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
+
+			/**
+			 * Filter meta comparison operator.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $compare
+			 */
+			$compare = apply_filters( "wpmoly/filter/query/movies/author/compare", 'LIKE' );
+
+			$args['meta_query'][] = compact( 'key', 'value', 'compare' );
+		}
+
+		return $args;
+	}
 
 	/**
 	 * Add custom parameters to query movies of a specific meta interval.
@@ -335,8 +300,8 @@ class API {
 		 */
 		$value = apply_filters( "wpmoly/filter/query/movies/{$param}/value", $request[ $param ] );
 
-			/** This filter is documented in includes/helpers/utils.php */
-			$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
+		/** This filter is documented in includes/helpers/utils.php */
+		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
 
 		if ( ! is_array( $value ) ) {
 
@@ -353,23 +318,30 @@ class API {
 
 		} else {
 
+			/**
+			 * Filter meta casting type.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $type Casting type.
+			 */
+			$type = apply_filters( "wpmoly/filter/query/movies/{$param}/type", 'NUMERIC' );
+
 			$args['meta_query'] = array(
 				array(
 					'key'     => $key,
 					'value'   => $value[0],
-					'type'    => 'NUMERIC',
+					'type'    => $type,
 					'compare' => '>=',
 				),
 				array(
 					'key'     => $key,
 					'value'   => $value[1],
-					'type'    => 'NUMERIC',
+					'type'    => $type,
 					'compare' => '<=',
 				),
 				'relation' => 'AND',
 			);
-
-			
 		}
 
 		return $args;
@@ -435,6 +407,10 @@ class API {
 
 		if ( 'movie' === $post_type->name ) {
 
+			$metadata = get_registered_meta_keys( 'post' );
+
+			$supported = $this->supported_parameters;
+
 			$query_params['letter'] = array(
 				'description' => __( 'Filter movies by letter.', 'wpmovielibrary' ),
 				'type'        => 'string',
@@ -442,10 +418,18 @@ class API {
 				'enum'        => array( '' ) + str_split( '#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' ),
 			);
 
-			$metadata = get_registered_meta_keys( 'post' );
+			// Authors are WordPress users; we want to be able to use
+			// that option to match movie authors.
+			if ( ! empty( $query_params['author']['items']['type'] ) ) {
 
-			foreach ( $this->supported_parameters as $param => $key ) {
+				unset( $supported['author'] );
 
+				$query_params['author']['description'] = __( 'Limit result set to posts assigned to specific authors. Use integers to match WordPress users, strings to match movie authors.', 'wpmovielibrary' );
+				$query_params['author']['items']['type'] = 'string';
+			}
+
+			foreach ( $supported as $param => $key ) {
+		
 				$meta_key = prefix_movie_meta_key( $key );
 
 				if ( ! empty( $metadata[ $meta_key ] ) ) {

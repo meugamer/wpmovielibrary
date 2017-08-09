@@ -48,7 +48,6 @@ class Query {
 			'author',
 			'budget',
 			'certification',
-			//'collection',
 			'company',
 			'composer',
 			'country',
@@ -148,9 +147,12 @@ class Query {
 	 */
 	public function filter_actor_query_var( $query_var ) {
 
-		
+		$term = get_term_by( 'slug', $query_var, 'actor' );
+		if ( ! empty( $term->name ) ) {
+			return $term->name;
+		}
 
-		return $query_var;
+		return $this->filter_name_query_var( $query_var, 'actor' );
 	}
 
 	/**
@@ -164,7 +166,7 @@ class Query {
 	 */
 	public function filter_adult_query_var( $query_var ) {
 
-		
+		$query_var = _is_bool( $query_var ) ? 'true' : 'false';
 
 		return $query_var;
 	}
@@ -180,9 +182,7 @@ class Query {
 	 */
 	public function filter_author_query_var( $query_var ) {
 
-		
-
-		return $query_var;
+		return $this->filter_name_query_var( $query_var, 'author' );
 	}
 
 	/**
@@ -196,7 +196,7 @@ class Query {
 	 */
 	public function filter_certification_query_var( $query_var ) {
 
-		
+		$query_var = strtoupper( $query_var );
 
 		return $query_var;
 	}
@@ -212,7 +212,7 @@ class Query {
 	 */
 	public function filter_company_query_var( $query_var ) {
 
-		
+		return $this->filter_name_query_var( $query_var, 'company' );
 
 		return $query_var;
 	}
@@ -228,9 +228,7 @@ class Query {
 	 */
 	public function filter_composer_query_var( $query_var ) {
 
-		
-
-		return $query_var;
+		return $this->filter_name_query_var( $query_var, 'composer' );
 	}
 
 	/**
@@ -289,7 +287,7 @@ class Query {
 	 */
 	public function filter_format_query_var( $query_var ) {
 
-		
+		$query_var = strtolower( $query_var );
 
 		return $query_var;
 	}
@@ -306,28 +304,46 @@ class Query {
 	 */
 	public function filter_genre_query_var( $query_var ) {
 
-		
+		$term = get_term_by( 'slug', $query_var, 'genre' );
+		if ( ! empty( $term->name ) ) {
+			return $term->name;
+		}
+
+		return $this->filter_name_query_var( $query_var, 'genre' );
+	}
+
+	/**
+	 * Filter 'languages' query var value. Convert a sanitized language code,
+	 * standard name or localized name to its clean native name.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $query_var Query var value.
+	 * 
+	 * @return   string
+	 */
+	public function filter_languages_query_var( $query_var ) {
+
+		$query_var = get_language( $query_var );
+		$query_var = $query_var->native_name;
 
 		return $query_var;
 	}
 
 	/**
-	 * Convert a sanitized language code, standard name, native name or
-	 * localized name to its clean native name.
-	 * 
-	 * This is used by movie queries to match URL query vars to the real movie
-	 * metadata.
+	 * Filter 'language' query var value. Convert a sanitized language
+	 * standard name, native name or localized name to its ISO code.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    string    $query_var Sanitized value to "unsanitize".
+	 * @param    string    $query_var Query var value.
 	 * 
 	 * @return   string
 	 */
 	public function filter_language_query_var( $query_var ) {
 
 		$query_var = get_language( $query_var );
-		$query_var = $query_var->native_name;
+		$query_var = $query_var->code;
 
 		return $query_var;
 	}
@@ -343,7 +359,7 @@ class Query {
 	 */
 	public function filter_media_query_var( $query_var ) {
 
-		
+		$query_var = strtolower( $query_var );
 
 		return $query_var;
 	}
@@ -431,9 +447,7 @@ class Query {
 	 */
 	public function filter_photography_query_var( $query_var ) {
 
-		
-
-		return $query_var;
+		return $this->filter_name_query_var( $query_var, 'photography' );
 	}
 
 	/**
@@ -447,9 +461,7 @@ class Query {
 	 */
 	public function filter_producer_query_var( $query_var ) {
 
-		
-
-		return $query_var;
+		return $this->filter_name_query_var( $query_var, 'producer' );
 	}
 
 	/**
@@ -466,10 +478,47 @@ class Query {
 	 */
 	public function filter_rating_query_var( $query_var ) {
 
-		$query_var = str_replace( '-', '.', $query_var );
-		$query_var = number_format( $query_var, 1 );
+		if ( ! preg_match( '/^[\d](\.([\d])?)?|[\d](\.([\d])?)?-[\d](\.([\d])?)?$/', $query_var ) ) {
+			return $query_var;
+		}
 
-		return $query_var;
+		$interval = explode( '-', $query_var );
+
+		if ( 2 === count( $interval ) ) {
+			$interval = array_map( function( $n ) {
+				return number_format( max( 0.0, min( $n, 5.0 ) ), 1 );
+			}, $interval );
+			sort( $interval );
+		} elseif ( 1 === count( $interval ) ) {
+			$interval = array_shift( $interval );
+		} else {
+			$interval = $query_var;
+		}
+
+		return $interval;
+	}
+
+	/**
+	 * Filter 'rating' query type.
+	 * 
+	 * Movies can be filtered by ratings interval but require values to be
+	 * casted as DECIMAL instead of NUMERIC.
+	 * 
+	 * @see \wpmoly\Rest\API::add_meta_interval_query_param()
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $type Query type.
+	 * 
+	 * @return   string
+	 */
+	public function filter_rating_query_type( $type ) {
+
+		if ( 'DECIMAL' !== $type ) {
+			$type = 'DECIMAL';
+		}
+
+		return $type;
 	}
 
 	/**
@@ -569,7 +618,7 @@ class Query {
 	 */
 	public function filter_status_query_var( $query_var ) {
 
-		
+		$query_var = strtolower( $query_var );
 
 		return $query_var;
 	}
@@ -585,7 +634,8 @@ class Query {
 	 */
 	public function filter_subtitles_query_var( $query_var ) {
 
-		
+		$query_var = get_language( $query_var );
+		$query_var = $query_var->code;
 
 		return $query_var;
 	}
@@ -601,9 +651,105 @@ class Query {
 	 */
 	public function filter_writer_query_var( $query_var ) {
 
-		
+		return $this->filter_name_query_var( $query_var, 'writer' );
+	}
+
+	/**
+	 * Filter people-based query var value.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $query_var Query var value.
+	 * 
+	 * @return   string
+	 */
+	public function filter_name_query_var( $query_var, $type ) {
+
+		if ( ! is_string( $type ) ) {
+			return $query_var;
+		}
+
+		$cache = $this->get_cached_names( $type );
+		if ( ! empty( $cache[ $query_var ] ) ) {
+			return $cache[ $query_var ];
+		}
 
 		return $query_var;
+	}
+
+	/**
+	 * Retrieve a cached list of people and company names.
+	 * 
+	 * Meta value passed through URL are sanitized and can not be accurately
+	 * matched with original value due to ambiguities around hyphens and
+	 * accenttuated letters. Matching table are stored as options to retrieve
+	 * original value from slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $type Meta type.
+	 * 
+	 * @return   array
+	 */
+	private function get_cached_names( $type ) {
+
+		global $wpdb;
+
+		$cached_names = array();
+		$supported = array(
+			'actor'       => 'cast',
+			'author'      => 'author',
+			'company'     => 'production_companies',
+			'composer'    => 'composer',
+			'director'    => 'director',
+			'photography' => 'photography',
+			'producer'    => 'producer',
+			'writer'      => 'writer',
+		);
+
+		if ( ! isset( $supported[ $type ] ) ) {
+			return $cached_names;
+		}
+
+		/** This filter is documented in includes/helpers/utils.php */
+		$meta_key = apply_filters( 'wpmoly/filter/movie/meta/key', $supported[ $type ] );
+
+		/**
+		 * Filter cache option name.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $option_name Option name.
+		 */
+		$option_name = apply_filters( 'wpmoly/filter/people/cache/option/name', "_wpmoly_{$type}_cache_table" );
+
+		/**
+		 * Filter cache option autoload.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $option_autoload Option autoload.
+		 */
+		$option_autoload = apply_filters( 'wpmoly/filter/people/cache/option/autoload', 'no' );
+
+		$cached_names = get_option( $option_name, $cached_names );
+		if ( ! empty( $cached_names ) ) {
+			return $cached_names;
+		}
+
+		$people = $wpdb->get_results( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s", $meta_key ) );
+		foreach ( $people as $list ) {
+			$list = explode( ',', $list->meta_value );
+			foreach ( $list as $item ) {
+				$item = trim( $item );
+				$slug = sanitize_title_with_dashes( $item );
+				$cached_names[ $slug ] = $item;
+			}
+		}
+
+		update_option( $option_name, $cached_names, $option_autoload );
+
+		return $cached_names;
 	}
 
 	/**
