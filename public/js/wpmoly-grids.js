@@ -1877,24 +1877,30 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		adjust : function() {
 
-			var columns = this.controller.settings.get( 'columns' ),
-			    rows = this.controller.settings.get( 'rows' ),
-			idealWidth = this.controller.settings.get( 'column_width' ),
-			innerWidth = this.$el.width()
-			    ratio = 1.25;
+			var settings = this.controller.settings;
+			var settings = {
+				type       : settings.get( 'type' ),
+				columns    : settings.get( 'columns' ),
+				rows       : settings.get( 'rows' ),
+				idealWidth : settings.get( 'column_width' ),
+				innerWidth : this.$el.width(),
+				ratio      : 1.25
+			};
 
-			if ( 'movie' === this.controller.settings.get( 'type' ) ) {
-				ratio = 1.5;
+			if ( 'movie' === settings.type ) {
+				settings.ratio = 1.5;
 			}
 
-			if ( ( Math.floor( innerWidth / columns ) - 8 ) > idealWidth ) {
-				++columns;
+			if ( ( Math.floor( settings.innerWidth / settings.columns ) - 8 ) < settings.idealWidth ) {
+				settings.columns = Math.floor( ( settings.innerWidth - settings.innerWidth % settings.idealWidth ) / settings.idealWidth );
+			} else {
+				++settings.columns;
 			}
 
-			this.columnWidth  = Math.floor( innerWidth / columns ) - 8;
-			this.columnHeight = Math.floor( this.columnWidth * ratio );
+			this.columnWidth  = Math.floor( settings.innerWidth / settings.columns ) - 8;
+			this.columnHeight = Math.floor( this.columnWidth * settings.ratio );
 
-			this.$el.addClass( columns + '-columns' );
+			this.$el.addClass( settings.columns + '-columns' );
 
 			this.$( '.node' ).addClass( 'adjusted' ).css({
 				width : this.columnWidth
@@ -1933,17 +1939,22 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		adjust : function() {
 
-			var columns = this.controller.settings.get( 'list_columns' ),
-			idealWidth = this.controller.settings.get( 'column_width' ),
-			innerWidth = this.$el.width();
+			var settings = this.controller.settings;
+			var settings = {
+				columns    : settings.get( 'list_columns' ),
+				idealWidth : settings.get( 'column_width' ),
+				innerWidth : this.$el.width()
+			};
 
-			if ( ( Math.floor( innerWidth / columns ) - 8 ) < idealWidth ) {
-				--columns;
+			if ( ( Math.floor( settings.innerWidth / settings.columns ) - 8 ) < settings.idealWidth ) {
+				settings.columns = Math.floor( ( settings.innerWidth - settings.innerWidth % settings.idealWidth ) / settings.idealWidth );
+			} else {
+				++settings.columns;
 			}
 
-			this.columnWidth  = Math.floor( innerWidth / columns ) - 8;
+			this.columnWidth = Math.floor( settings.innerWidth / settings.columns ) - 8;
 
-			this.$el.addClass( 'nodes-' + columns + '-columns-list' );
+			this.$el.addClass( 'nodes-' + settings.columns + '-columns-list' );
 
 			return this;
 		},
