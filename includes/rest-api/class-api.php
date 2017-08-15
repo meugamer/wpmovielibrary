@@ -191,11 +191,16 @@ class API {
 
 			foreach ( $this->supported_parameters as $param => $key ) {
 				if ( ! empty( $request[ $param ] ) ) {
+
 					/**
-					 * 
-					 * 
-					 * 
-					 * 
+					 * Filter query parameters.
+					 *
+					 * @since    3.0
+					 *
+					 * @param    array              $args Query parameters.
+					 * @param    string             $key Meta key.
+					 * @param    string             $param Parameter slug.
+					 * @param    WP_REST_Request    $request The request used.
 					 */
 					$args = apply_filters( "wpmoly/filter/query/movies/{$param}/param", $args, $key, $param, $request );
 				}
@@ -423,7 +428,7 @@ class API {
 			$query_params['fields'] = array(
 				'description' => __( 'Limit result meta set to specific fields.', 'wpmovielibrary' ),
 				'type'        => 'array',
-				'default'     => array( 'title', 'genres', 'director', 'rating', 'year' ),
+				'default'     => array( 'title', 'genres', 'director', 'rating', 'release_date', 'runtime', 'year' ),
 				'items'       => array(
 					'type' => 'string',
 				),
