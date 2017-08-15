@@ -411,11 +411,23 @@ class API {
 
 			$supported = $this->supported_parameters;
 
+			// Filter movies by first letter.
 			$query_params['letter'] = array(
 				'description' => __( 'Filter movies by letter.', 'wpmovielibrary' ),
 				'type'        => 'string',
 				'default'     => '',
 				'enum'        => array( '' ) + str_split( '#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' ),
+			);
+
+			// Avoid loading all available meta.
+			$query_params['fields'] = array(
+				'description' => __( 'Limit result meta set to specific fields.', 'wpmovielibrary' ),
+				'type'        => 'array',
+				'default'     => array( 'title', 'genres', 'director', 'rating', 'year' ),
+				'items'       => array(
+					'type' => 'string',
+				),
+				//'sanitize_callback' => '',
 			);
 
 			// Authors are WordPress users; we want to be able to use
@@ -448,6 +460,8 @@ class API {
 	/**
 	 * Filter the movie post data for REST API response.
 	 *
+	 * @TODO Allow rendered content when specifically requested.
+	 *
 	 * @since    3.0
 	 *
 	 * @param    WP_REST_Response    $response The response object.
@@ -458,22 +472,38 @@ class API {
 	 */
 	public function prepare_movie_for_response( $response, $post, $request ) {
 
-		$metadata = get_registered_meta_keys( 'post' );
-		$meta_key = prefix_movie_meta_key( 'release_date' );
-		if ( empty( $response->data['meta']['release_date'] ) || empty( $metadata[ $meta_key ] ) ) {
+		// Content/excerpt are overkill.
+		$response->data['excerpt']['rendered'] = '';
+		$response->data['content']['rendered'] = '';
+
+		$requested_fields = array_filter( $request['fields'] );
+		if ( empty( $requested_fields ) || ! in_array( 'year', $requested_fields ) ) {
 			return $response;
 		}
 
-		$year = $response->data['meta']['release_date']['raw'];
-		$year = date( 'Y', strtotime( $year ) );
+		$metadata = get_registered_meta_keys( 'post' );
+		$meta_key = prefix_movie_meta_key( 'release_date' );
+
+		// Release date not supported. Unusual, but...
+		if ( empty( $metadata[ $meta_key ] ) ) {
+			return $response;
+		}
+
+		if ( ! empty( $response->data['meta']['release_date'] ) ) {
+			$date = $response->data['meta']['release_date']['raw'];
+		} else {
+			$date = get_movie_meta( $post->ID, 'release_date' );
+			if ( empty( $date ) ) {
+				return $response;
+			}
+		}
+
+		$year = date( 'Y', strtotime( $date ) );
 
 		$response->data['meta']['year'] = array(
 			'rendered' => get_formatted_movie_year( $year, array( 'is_link' => false ) ),
 			'raw'      => $year
 		);
-
-		// Content is overkilled for grids.
-		$response->data['content']['rendered'] = '';
 
 		return $response;
 	}

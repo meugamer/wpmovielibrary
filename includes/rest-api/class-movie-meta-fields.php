@@ -59,7 +59,7 @@ class Movie_Meta_Fields extends WP_REST_Post_Meta_Fields {
 	 * Retrieves the meta field value.
 	 * 
 	 * Override WP_REST_Post_Meta_Fields::get_value() to remove custom prefix
-	 * on meta keys.
+	 * on meta keys and filtered unwanted meta.
 	 *
 	 * @see WP_REST_Post_Meta_Fields::get_value()
 	 * 
@@ -72,14 +72,38 @@ class Movie_Meta_Fields extends WP_REST_Post_Meta_Fields {
 	 */
 	public function get_value( $object_id, $request ) {
 
-		$response = parent::get_value( $object_id, $request );
+		$fields   = $this->get_registered_fields();
+		$response = array();
 
-		$meta = array();
-		foreach ( $response as $key => $value ) {
-			$key = unprefix_movie_meta_key( $key, false );
-			$meta[ $key ] = $value;
+		foreach ( $fields as $meta_key => $args ) {
+
+			// Unprefix meta keys.
+			$name = unprefix_movie_meta_key( $args['name'] );
+
+			// Only include requested fields.
+			$requested_fields = array_filter( $request['fields'] );
+			if ( ! empty( $requested_fields ) && ! in_array( $name, $requested_fields ) ) {
+				continue;
+			}
+
+			$all_values = get_metadata( $this->get_meta_type(), $object_id, $meta_key, false );
+			if ( $args['single'] ) {
+				if ( empty( $all_values ) ) {
+					$value = $args['schema']['default'];
+				} else {
+					$value = $all_values[0];
+				}
+				$value = $this->prepare_value_for_response( $value, $request, $args );
+			} else {
+				$value = array();
+				foreach ( $all_values as $row ) {
+					$value[] = $this->prepare_value_for_response( $row, $request, $args );
+				}
+			}
+
+			$response[ $name ] = $value;
 		}
 
-		return $meta;
+		return $response;
 	}
 }
