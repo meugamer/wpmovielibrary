@@ -1578,21 +1578,6 @@ window.wpmoly = window.wpmoly || {};
 	});
 
 	/**
-	 * Single archive-mode grid item view.
-	 *
-	 * @since    3.0
-	 *
-	 * @param    {object}    [options]             View options.
-	 * @param    {object}    options.model         View related Backbone.Model object.
-	 * @param    {object}    options.controller    Grid controller.
-	*/
-	Grids.view.ArchiveNode = Grids.view.Node.extend({
-
-		
-
-	});
-
-	/**
 	* Grid items container view.
 	*
 	* This is a generic view, it can be extended to add specific per-node-type
@@ -1742,8 +1727,8 @@ window.wpmoly = window.wpmoly || {};
 
 			if ( 'list' === this.controller.settings.get( 'mode' ) ) {
 				nodeType = Grids.view.ListNode;
-			} else if ( 'list' === this.controller.settings.get( 'mode' ) ) {
-				nodeType = Grids.view.ArchiveNode;
+			} else {
+				nodeType = Grids.view.Node;
 			}
 
 			if ( ! this.nodes[ node ] ) {
@@ -1952,6 +1937,7 @@ window.wpmoly = window.wpmoly || {};
 				++settings.columns;
 			}
 
+			console.log( settings.columns );
 			this.columnWidth = Math.floor( settings.innerWidth / settings.columns ) - 8;
 
 			this.$el.addClass( 'nodes-' + settings.columns + '-columns-list' );
@@ -1975,20 +1961,6 @@ window.wpmoly = window.wpmoly || {};
 			return this;
 		}
 
-	});
-
-	/**
-	 * Grid items container view.
-	 *
-	 * @since    3.0
-	 *
-	 * @param    {object}    [options]             View options.
-	 * @param    {object}    options.controller    Grid controller.
-	 * @param    {object}    options.collection    Grid collection.
-	 */
-	Grids.view.NodesArchives = Grids.view.Nodes.extend({
-
-		
 	});
 
 	/**
@@ -2179,8 +2151,6 @@ window.wpmoly = window.wpmoly || {};
 				this.content = new Grids.view.NodesGrid( options );
 			} else if ( 'list' === mode ) {
 				this.content = new Grids.view.NodesList( options );
-			} else if ( 'archives' === mode ) {
-				this.content = new Grids.view.NodesArchives( options );
 			} else {
 				this.content = new Grids.view.Nodes( options );
 			}
