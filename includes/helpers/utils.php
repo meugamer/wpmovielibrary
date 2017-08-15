@@ -217,7 +217,7 @@ function get_genre( $genre ) {
  * 
  * @return   Movie|boolean
  */
-function get_movie_meta( $movie_id, $key = '', $single = false ) {
+function get_movie_meta( $movie_id, $key = '', $single = true ) {
 
 	$key = (string) $key;
 	$value = '';
@@ -326,6 +326,20 @@ function unprefix_actor_meta_key( $key, $strip_underscores = true ) {
 }
 
 /**
+ * Determine if the submitted meta key is an actor related meta key.
+ *
+ * @since    3.0
+ *
+ * @param    string    $key Prefixed meta key.
+ *
+ * @return   boolean
+ */
+function is_actor_meta_key( $key ) {
+
+	return ( false !== strpos( $key, '_wpmoly_actor_' ) );
+}
+
+/**
  * Prefix collection meta keys.
  *
  * @since    3.0
@@ -353,6 +367,20 @@ function prefix_collection_meta_key( $key, $strip_hyphens = true ) {
 function unprefix_collection_meta_key( $key, $strip_underscores = true ) {
 
 	return unprefix_meta_key( $key, '_wpmoly_collection_', $strip_underscores );
+}
+
+/**
+ * Determine if the submitted meta key is a collection related meta key.
+ *
+ * @since    3.0
+ *
+ * @param    string    $key Prefixed meta key.
+ *
+ * @return   boolean
+ */
+function is_collection_meta_key( $key ) {
+
+	return ( false !== strpos( $key, '_wpmoly_collection_' ) );
 }
 
 /**
@@ -386,6 +414,20 @@ function unprefix_genre_meta_key( $key, $strip_underscores = true ) {
 }
 
 /**
+ * Determine if the submitted meta key is a genre related meta key.
+ *
+ * @since    3.0
+ *
+ * @param    string    $key Prefixed meta key.
+ *
+ * @return   boolean
+ */
+function is_genre_meta_key( $key ) {
+
+	return ( false !== strpos( $key, '_wpmoly_genre_' ) );
+}
+
+/**
  * Prefix grid meta keys.
  *
  * @since    3.0
@@ -416,6 +458,20 @@ function unprefix_grid_meta_key( $key, $strip_underscores = true ) {
 }
 
 /**
+ * Determine if the submitted meta key is a grid related meta key.
+ *
+ * @since    3.0
+ *
+ * @param    string    $key Prefixed meta key.
+ *
+ * @return   boolean
+ */
+function is_grid_meta_key( $key ) {
+
+	return ( false !== strpos( $key, '_wpmoly_grid_' ) );
+}
+
+/**
  * Prefix movie meta keys.
  *
  * @since    3.0
@@ -443,6 +499,20 @@ function prefix_movie_meta_key( $key, $strip_hyphens = true ) {
 function unprefix_movie_meta_key( $key, $strip_underscores = true ) {
 
 	return unprefix_meta_key( $key, '_wpmoly_movie_', $strip_underscores );
+}
+
+/**
+ * Determine if the submitted meta key is a movie related meta key.
+ *
+ * @since    3.0
+ *
+ * @param    string    $key Prefixed meta key.
+ *
+ * @return   boolean
+ */
+function is_movie_meta_key( $key ) {
+
+	return ( false !== strpos( $key, '_wpmoly_movie_' ) );
 }
 
 /**
