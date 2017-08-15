@@ -30,18 +30,6 @@ class Library {
 	private static $instance = null;
 
 	/**
-	 * Initialize the class.
-	 *
-	 * @since    3.0
-	 *
-	 * @return   null
-	 */
-	public function __construct() {
-
-		
-	}
-
-	/**
 	 * Singleton.
 	 * 
 	 * @since    3.0
@@ -66,8 +54,8 @@ class Library {
 	 */
 	public function build() {
 
-		$library = new Template( 'library.php' );
-		$library->render();
+		//$library = new Template( 'library.php' );
+		//$library->render();
 	}
 
 }
