@@ -1937,7 +1937,6 @@ window.wpmoly = window.wpmoly || {};
 				++settings.columns;
 			}
 
-			console.log( settings.columns );
 			this.columnWidth = Math.floor( settings.innerWidth / settings.columns ) - 8;
 
 			this.$el.addClass( 'nodes-' + settings.columns + '-columns-list' );
