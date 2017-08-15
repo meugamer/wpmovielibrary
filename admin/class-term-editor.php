@@ -69,7 +69,7 @@ class TermEditor extends Metabox {
 				'label'    => esc_html__( 'Actor Meta', 'wpmovielibrary' ),
 				'taxonomy' => 'actor',
 				'sections' => array(
-					'actor-identity' => array(
+					/*'actor-identity' => array(
 						'label' => esc_html__( 'Identity', 'wpmovielibrary' ),
 						'icon'  => 'wpmolicon icon-actor-alt',
 						'settings' => array(
@@ -88,7 +88,7 @@ class TermEditor extends Metabox {
 								'attr'     => array( 'class' => 'half-col widefat' ),
 							)
 						)
-					),
+					),*/
 					'actor-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -132,7 +132,7 @@ class TermEditor extends Metabox {
 				'label'    => esc_html__( 'Genre Meta', 'wpmovielibrary' ),
 				'taxonomy' => 'collection',
 				'sections' => array(
-					'collection-identity' => array(
+					/*'collection-identity' => array(
 						'label' => esc_html__( 'Identity', 'wpmovielibrary' ),
 						'icon'  => 'wpmolicon icon-tag',
 						'settings' => array(
@@ -144,7 +144,7 @@ class TermEditor extends Metabox {
 								'description' => esc_html__( 'Select a Person related to this collection. A director maybe?', 'wpmovielibrary' ),
 							),
 						)
-					),
+					),*/
 					'collection-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
