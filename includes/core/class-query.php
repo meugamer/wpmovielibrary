@@ -65,6 +65,7 @@ class Query {
 			'producer',
 			'rating',
 			'release',
+			'revenue',
 			'runtime',
 			'status',
 			'subtitles',

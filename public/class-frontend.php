@@ -280,6 +280,7 @@ class Frontend extends Assets {
 		// Meta Permalinks
 		$loader->add_filter( 'wpmoly/filter/meta/adult/url',              '', 'get_movie_adult_url',            15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/author/url',             '', 'get_movie_author_url',           15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/budget/url',             '', 'get_movie_budget_url',           15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/certification/url',      '', 'get_movie_certification_url',    15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/composer/url',           '', 'get_movie_composer_url',         15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/homepage/url',           '', 'get_movie_homepage_url',         15, 2 );
@@ -290,6 +291,7 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/filter/meta/production/url',         '', 'get_movie_production_url',       15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/country/url',            '', 'get_movie_country_url',          15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/release_date/url',       '', 'get_movie_release_date_url',     15, 2 );
+		$loader->add_filter( 'wpmoly/filter/meta/revenue/url',            '', 'get_movie_revenue_url',          15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/spoken_languages/url',   '', 'get_movie_spoken_languages_url', 15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/tmdb_id/url',            '', 'get_movie_tmdb_id_url',          15, 2 );
 		$loader->add_filter( 'wpmoly/filter/meta/writer/url',             '', 'get_movie_writer_url',           15, 2 );

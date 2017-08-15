@@ -147,6 +147,49 @@ function get_movie_author_url( $author, $options = array() ) {
 }
 
 /**
+ * Build a permalink for budget.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $budget Movie budget.
+ * @param    array     $options Permalink options.
+ * 
+ * @return   string
+ */
+function get_movie_budget_url( $budget, $options = array() ) {
+
+	$budget = (string) $budget;
+	$options = wp_parse_args( (array) $options, array(
+		'content' => $budget,
+		'title'   => sprintf( __( 'Movies of %s budget', 'wpmovielibrary' ), $budget )
+	) );
+
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/budget/slug', _x( 'budget', 'budget permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $budget );
+
+	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
+
+	/**
+	 * Filter budget permalink.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string     $permalink Permalink HTML output.
+	 * @param    string     $budget Movie budget.
+	 * @param    array      $options Formatting options.
+	 */
+	return apply_filters( 'wpmoly/filter/permalink/budget', $permalink, $budget, $options );
+}
+
+/**
  * Build a permalink for certifications.
  * 
  * @since    3.0
@@ -866,6 +909,49 @@ function get_movie_rating_url( $rating, $options = array() ) {
 	 * @param    array      $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/rating', $permalink, $rating, $options );
+}
+
+/**
+ * Build a permalink for revenues.
+ * 
+ * @since    3.0
+ * 
+ * @param    string    $revenue Movie revenue.
+ * @param    array     $options Permalink options.
+ * 
+ * @return   string
+ */
+function get_movie_revenue_url( $revenue, $options = array() ) {
+
+	$revenue = (string) $revenue;
+	$options = wp_parse_args( (array) $options, array(
+		'content' => $revenue,
+		'title'   => sprintf( __( 'Movies of %s revenue', 'wpmovielibrary' ), $revenue )
+	) );
+
+	/**
+	 * Filter permalink slug.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string    $slug Default slug
+	 */
+	$slug = apply_filters( 'wpmoly/filter/permalink/revenue/slug', _x( 'revenue', 'revenue permalink slug', 'wpmovielibrary' ) );
+
+	$url = generate_movie_meta_url( $slug, $revenue );
+
+	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
+
+	/**
+	 * Filter revenue permalink.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    string     $permalink Permalink HTML output.
+	 * @param    string     $revenue Movie revenue.
+	 * @param    array      $options Formatting options.
+	 */
+	return apply_filters( 'wpmoly/filter/permalink/revenue', $permalink, $revenue, $options );
 }
 
 /**

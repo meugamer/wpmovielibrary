@@ -160,9 +160,23 @@ function get_formatted_movie_budget( $budget, $options = array() ) {
 
 	// Formatting options.
 	$options = wp_parse_args( (array) $options, array(
+		'is_link'       => true,
 		'currency'      => '$',
 		'sign_position' => 'before'
 	) );
+
+	if ( $options['is_link'] && has_filter( 'wpmoly/filter/meta/budget/url' ) ) {
+
+		/**
+		 * Filter final budget restriction.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string     $adult Filtered budget restriction.
+		 * @param    array      $options Formatting options.
+		 */
+		return apply_filters( 'wpmoly/filter/meta/budget/url', $budget, array( 'content' => get_formatted_money( $budget, $options ) ) );
+	}
 
 	$budget = get_formatted_money( $budget, $options );
 
@@ -1099,9 +1113,23 @@ function get_formatted_movie_revenue( $revenue, $options = array() ) {
 
 	// Formatting options.
 	$options = wp_parse_args( (array) $options, array(
+		'is_link'       => true,
 		'currency'      => '$',
 		'sign_position' => 'before'
 	) );
+
+	if ( $options['is_link'] && has_filter( 'wpmoly/filter/meta/revenue/url' ) ) {
+
+		/**
+		 * Filter final revenue restriction.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string     $adult Filtered revenue restriction.
+		 * @param    array      $options Formatting options.
+		 */
+		return apply_filters( 'wpmoly/filter/meta/revenue/url', $revenue, array( 'content' => get_formatted_money( $revenue, $options ) ) );
+	}
 
 	$revenue = get_formatted_money( $revenue, $options );
 
