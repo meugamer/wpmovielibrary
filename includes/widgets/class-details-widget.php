@@ -30,8 +30,6 @@ class Details extends Widget {
 		'title'       => '',
 		'description' => '',
 		'detail'      => '',
-		'list'        => '',
-		'css'         => ''
 	);
 
 	/**
@@ -82,7 +80,6 @@ class Details extends Widget {
 
 		$this->data['title'] = $before_title . $widget_title . $after_title;
 		$this->data['description'] = $this->get_attr( 'description' );
-		$this->data['is_list'] = _is_bool( $this->get_attr( 'list' ) );
 		$this->data['details'] = $details;
 		$this->data['type'] = $detail;
 	}

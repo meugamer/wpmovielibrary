@@ -20,18 +20,10 @@
 			<p><?php echo $data['description']; ?></p>
 <?php endif; ?>
 
-<?php if ( $data['is_list'] ) : ?>
-			<select>
-				<option value=""><?php echo esc_html__( 'Select detail…', 'wpmovielibrary' ); ?></option>
-<?php foreach ( $detail['options'] as $slug => $title ) : ?>
-				<option value="<?php echo esc_html( $slug ); ?>"><?php echo esc_html__( $title, 'wpmovielibrary' ); ?></option>
-<?php endforeach; ?>
-			</select>
-<?php else : ?>
-			<ul class="">
+			<ul class="wpmoly details list">
 <?php foreach ( $data['details'] as $slug => $detail ) : ?>
 				<li><?php echo $detail; ?></li>
 <?php endforeach; ?>
 			</ul>
-<?php endif; ?>
+
 		</section>
