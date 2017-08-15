@@ -284,15 +284,15 @@ class Rewrite {
 				'vars' => array( 'preset', 'certification' )
 			),
 			array(
-				'rule' => "(company|production-companies|" . _x( 'company', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'production_companies' )
+				'rule' => "(company|production-company|production-companies|" . _x( 'company', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'vars' => array( 'preset', 'company' )
 			),
 			array(
 				'rule' => "(composer|" . _x( 'composer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
 				'vars' => array( 'preset', 'composer' )
 			),
 			array(
-				'rule' => "(country|production-countries|" . _x( 'country', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
+				'rule' => "(country|production-country|production-countries|" . _x( 'country', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
 				'vars' => array( 'preset', 'country' )
 			),
 			array(
@@ -309,7 +309,7 @@ class Rewrite {
 			),
 			array(
 				'rule' => "(languages|spoken-languages|" . _x( 'spoken-languages', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'spoken_languages' )
+				'vars' => array( 'preset', 'languages' )
 			),
 			array(
 				'rule' => "(local-release|local-release-date|" . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
