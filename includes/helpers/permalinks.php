@@ -488,7 +488,7 @@ function get_movie_language_url( $language, $options = array() ) {
 			$options['title'] = sprintf( __( '%s-subtitled movies', 'wpmovielibrary' ), $language_object->localized_name );
 		}
 	} else {
-		$slug = _x( 'spoken-languages', 'spoken languages permalink slug', 'wpmovielibrary' );
+		$slug = _x( 'languages', 'spoken languages permalink slug', 'wpmovielibrary' );
 		if ( empty( $options['title'] ) ) {
 			$options['title'] = sprintf( __( '%s-speaking movies', 'wpmovielibrary' ), $language_object->localized_name );
 		}
@@ -633,9 +633,9 @@ function get_movie_date_url( $date, $options = array() ) {
 	}
 
 	if ( 'local_' == $options['variant'] ) {
-		$slug = _x( 'local-release-date', ' permalink slug', 'wpmovielibrary' );
+		$slug = _x( 'local-release', ' permalink slug', 'wpmovielibrary' );
 	} else {
-		$slug = _x( 'release-date', ' permalink slug', 'wpmovielibrary' );
+		$slug = _x( 'release', ' permalink slug', 'wpmovielibrary' );
 	}
 
 	/**

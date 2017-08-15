@@ -313,7 +313,7 @@ class Rewrite {
 			),
 			array(
 				'rule' => "(local-release|local-release-date|" . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'local_release_date' )
+				'vars' => array( 'preset', 'local_release' )
 			),
 			array(
 				'rule' => "(media|" . _x( 'media', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
@@ -333,7 +333,7 @@ class Rewrite {
 			),
 			array(
 				'rule' => "(release|release-date|" . _x( 'release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'release_date' )
+				'vars' => array( 'preset', 'release' )
 			),
 			array(
 				'rule' => "(revenue|" . _x( 'revenue', 'permalink', 'wpmovielibrary' ) . ")/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)",

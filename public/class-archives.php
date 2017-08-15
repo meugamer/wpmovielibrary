@@ -249,6 +249,7 @@ class Archives {
 
 		$preset = get_query_var( 'preset' );
 		if ( ! empty( $preset ) ) {
+			$preset = prefix_meta_key( $preset, '', true );
 			$grid->set_preset( array(
 				$preset => get_query_var( $preset ),
 			) );
