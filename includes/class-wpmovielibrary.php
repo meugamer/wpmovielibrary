@@ -174,13 +174,6 @@ final class Library {
 		require_once WPMOLY_PATH . 'includes/node/class-post-headbox.php';
 		require_once WPMOLY_PATH . 'includes/node/class-term-headbox.php';
 
-		// Requests
-		// require_once WPMOLY_PATH . 'includes/requests/class-request.php';
-		// require_once WPMOLY_PATH . 'includes/requests/class-request-movies.php';
-		// require_once WPMOLY_PATH . 'includes/requests/class-request-actors.php';
-		// require_once WPMOLY_PATH . 'includes/requests/class-request-collections.php';
-		// require_once WPMOLY_PATH . 'includes/requests/class-request-genres.php';
-
 		// Rest API
 		require_once WPMOLY_PATH . 'includes/rest-api/class-api.php';
 		require_once WPMOLY_PATH . 'includes/rest-api/class-movie-meta-fields.php';
