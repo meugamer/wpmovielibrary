@@ -436,9 +436,9 @@ class Frontend extends Assets {
 		$headbox = get_headbox( $movie );
 
 		if ( is_single() ) {
-			$headbox->set_theme( 'extended' );
+			$headbox->set_theme( 'default' );
 		} elseif ( is_archive() || is_search() ) {
-			$headbox->set_theme( 'extended' );
+			$headbox->set_theme( 'default' );
 		}
 
 		$template = get_movie_headbox_template( $headbox );

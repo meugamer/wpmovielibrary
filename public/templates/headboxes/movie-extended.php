@@ -51,6 +51,4 @@
 				<div class="movie-production"><?php _e( 'Produced in', 'wpmovielibrary' ); ?> <?php $movie->the_production_countries(); ?> <?php _e( 'by', 'wpmovielibrary' ); ?> <?php $movie->the_production_companies(); ?></div>
 			</div>
 		</div>
-		<div class="headbox-more"><button data-action="expand"><span class="wpmolicon icon-arrow-down"></span></button></div>
-		<div class="headbox-less"><button data-action="collapse"><span class="wpmolicon icon-arrow-up"></span></button></div>
 	</div>
