@@ -433,15 +433,17 @@ class Frontend extends Assets {
 		}
 
 		$movie = get_movie( get_the_ID() );
-		$headbox = get_movie_headbox_template( $movie );
+		$headbox = get_headbox( $movie );
 
 		if ( is_single() ) {
-			$headbox->set( 'theme', 'default' );
+			$headbox->set_theme( 'extended' );
 		} elseif ( is_archive() || is_search() ) {
-			$headbox->set( 'theme', 'default' );
+			$headbox->set_theme( 'extended' );
 		}
 
-		return $headbox->render() . $content;
+		$template = get_movie_headbox_template( $headbox );
+
+		return $template->render() . $content;
 	}
 
 	/**

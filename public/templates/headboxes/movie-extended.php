@@ -7,12 +7,10 @@
  * @since    3.0
  * 
  * @uses    $movie
- * @uses    $is_json
  */
 
-if ( ! $is_json ) :
 ?>
-	<div id="movie-headbox-<?php echo $movie->id; ?>" class="wpmoly headbox movie-headbox theme-extended">
+	<div id="movie-headbox-<?php echo $headbox->id; ?>" class="wpmoly headbox post-headbox movie-headbox theme-extended">
 		<div class="headbox-header">
 			<div class="headbox-backdrop-container">
 				<div class="headbox-backdrop" style="background-image:url(<?php echo $movie->get_backdrop( 'random' )->render( 'medium', 'raw' ); ?>);"></div>
@@ -20,43 +18,39 @@ if ( ! $is_json ) :
 				<div class="headbox-angle"></div>
 			</div>
 			<div class="headbox-poster" style="background-image:url(<?php echo $movie->get_poster()->render( 'medium', 'raw' ); ?>);"></div>
+			<div class="headbox-rating"><span class="wpmolicon icon-star-filled"></span><?php $movie->the_rating(); ?></div>
 			<div class="headbox-titles">
-				<div class="movie-title"><a href="<?php $movie->the_url(); ?>"><?php $movie->the_title(); ?></a></div>
+				<div class="movie-title"><a href="<?php the_permalink( $movie->id ); ?>"><?php $movie->the_title(); ?></a></div>
 				<div class="movie-original-title"><?php $movie->the_original_title(); ?></div>
+			</div>
+		</div>
+		<div class="headbox-content clearfix">
+			<div class="headbox-crew">
+				<div class="movie-director"><?php _e( 'Directed by', 'wpmovielibrary' ); ?> <?php $movie->the_director(); ?></div>
+				<div class="movie-producer"><?php _e( 'Produced by', 'wpmovielibrary' ); ?> <?php $movie->the_producer(); ?></div>
+				<div class="movie-photography"><?php _e( 'Photography by', 'wpmovielibrary' ); ?> <?php $movie->the_photography(); ?></div>
+				<div class="movie-composer"><?php _e( 'Music by', 'wpmovielibrary' ); ?> <?php $movie->the_composer(); ?></div>
+				<div class="movie-writer"><?php _e( 'Written by', 'wpmovielibrary' ); ?> <?php $movie->the_writer(); ?></div>
+			</div>
+			<div class="headbox-metadata">
+				<div class="movie headbox-release-info">
+<?php if ( $movie->get( 'year' ) ) { ?>
+					<span class="movie-year"><?php $movie->the_year(); ?></span>
+<?php } if ( $movie->get( 'runtime' ) ) { ?>
+					<span class="movie-runtime"><?php $movie->the_runtime(); ?></span>
+<?php } if ( $movie->get( 'certification' ) ) { ?>
+					<span class="movie-certification"><?php $movie->the_certification(); ?></span>
+<?php } ?>
+				</div>
+<?php if ( $movie->get( 'genres' ) ) { ?>
+				<div class="movie-genres"><?php $movie->the_genres(); ?></div>
+<?php } ?>
 				<div class="movie-tagline"><?php $movie->the_tagline(); ?></div>
+				<div class="movie-overview"><?php $movie->the_overview(); ?></div>
+				<div class="movie-actors"><?php _e( 'Staring', 'wpmovielibrary' ); ?> <?php $movie->the_actors(); ?></div>
+				<div class="movie-production"><?php _e( 'Produced in', 'wpmovielibrary' ); ?> <?php $movie->the_production_countries(); ?> <?php _e( 'by', 'wpmovielibrary' ); ?> <?php $movie->the_production_companies(); ?></div>
 			</div>
 		</div>
-		<div class="headbox-content clearfix">
-			<div class="headbox-menu">
-				
-			</div>
-			<div class="headbox-metadata">
-				<div class="movie-overview"><?php $movie->the( 'overview' ); ?></div>
-			</div>
-		</div>
+		<div class="headbox-more"><button data-action="expand"><span class="wpmolicon icon-arrow-down"></span></button></div>
+		<div class="headbox-less"><button data-action="collapse"><span class="wpmolicon icon-arrow-up"></span></button></div>
 	</div>
-
-<?php else : ?>
-	<div id="movie-headbox-{{ data.node.get( 'id' ) }}" class="wpmoly movie-headbox theme-extended">
-		<div class="headbox-header">
-			<div class="headbox-backdrop-container">
-				<div class="headbox-backdrop" style="background-image:url({{ data.node.get( 'backdrop' ).sizes.medium.url }});"></div>
-				<div class="headbox-angle"></div>
-			</div>
-			<div class="headbox-poster" style="background-image:url({{ data.node.get( 'poster' ).sizes.medium.url }});"></div>
-			<div class="headbox-titles">
-				<div class="movie-title"><a href="{{ data.node.get( 'link' ) }}">{{ data.node.get( 'title' ).rendered }}</a></div>
-				<div class="movie-original-title">{{ data.node.get( 'meta' ).original_title.rendered }}</div>
-				<div class="movie-tagline">{{ data.node.get( 'meta' ).tagline.rendered }}</div>
-			</div>
-		</div>
-		<div class="headbox-content clearfix">
-			<div class="headbox-menu">
-				
-			</div>
-			<div class="headbox-metadata">
-				<div class="movie-overview">{{ data.node.get( 'meta' ).overview.rendered }}</div>
-			</div>
-		</div>
-	</div>
-<?php endif; ?>
