@@ -680,15 +680,25 @@
 }
 
 .wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-poster a {
-	border: 6px solid #333;
-	box-shadow: 0 0 0;
-	height: calc( 100% - 12px );
-	position: absolute;
-	text-decoration: none;
-	width: calc( 100% - 12px );
+	display: block;
+	height: 100%;
+	position: relative;
+	width: 100%;
 }
 
-.wpmoly.grid.theme-variant-2 .grid-content .grid .movie:hover .movie-poster a {
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie .movie-poster a:after {
+	border: 6px solid #333;
+	bottom: 0;
+	box-shadow: 0 0 0;
+	content: ' ';
+	left: 0;
+	position: absolute;
+	right: 0;
+	text-decoration: none;
+	top: 0;
+}
+
+.wpmoly.grid.theme-variant-2 .grid-content .grid .movie:hover .movie-poster a:after {
 	border-color: #fff;
 }
 
