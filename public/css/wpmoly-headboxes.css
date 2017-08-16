@@ -8,6 +8,10 @@
 	position: relative;
 }
 
+/*
+ * Basic themes
+ */
+
 .wpmoly.movie-headbox.theme-extended,
 .wpmoly.movie-headbox.theme-default {
 	box-shadow: 0 0px 1px rgba(0, 0, 0, .15),
@@ -331,6 +335,204 @@
 	position: absolute;
 	text-align: center;
 	width: 100%;
+}
+
+/*
+ * Headbox 'Vintage' theme
+ */
+
+.wpmoly.movie-headbox.theme-vintage {
+	background-color: #fff;
+	background-position: center -142px;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header {
+	background: rgba(32, 32, 32, 0.75);
+	color: #fff;
+	height: 180px;
+	position: relative;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header a {
+	border: 0;
+	box-shadow: 0 0 0;
+	color: #fff;
+	text-decoration: none;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-rating {
+	position: absolute;
+	right: 20px;
+	top: 24px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-titles {
+	left: 20px;
+	position: absolute;
+	top: 24px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-titles .movie-title {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-titles .movie-tagline {
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-release-info {
+	bottom: 20px;
+	font-size: 12px;
+	left: 20px;
+	position: absolute;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-release-info span {
+	margin-right: 16px;
+	position: relative;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-release-info span:not(:first-child):after {
+	background: #888;
+	content: '';
+	height: 8px;
+	left: -10px;
+	position: absolute;
+	top: 4px;
+	width: 2px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu {
+	bottom: 14px;
+	position: absolute;
+	right: 20px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu li {
+	display: inline-block;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu a {
+	color: #eee;
+	display: block;
+	margin-right: 4px;
+	position: relative;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu a:after {
+	border: 10px solid transparent;
+	bottom: -14px;
+	content: ' ';
+	left: -2px;
+	position: absolute;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu li:hover a,
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu li.active a {
+	color: #fff;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu li.active a {
+	text-shadow: 0 0 4px #fff;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu li.active a:after {
+	border-bottom-color: #fff;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu a span {
+	font-size: 20px;
+	height: 20px;
+	width: 20px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content {
+	background: #fff;
+	padding: 24px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.overview {
+	line-height: 24px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.overview .wpmolicon {
+	color: #ccc;
+	font-size: 36px;
+	float: left;
+	height: 36px;
+	margin: 12px 8px 0 0;
+	width: 36px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta {
+	
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details {
+	
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field {
+	margin-top: 16px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field .title,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field .value,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field .title,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field .value {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field .title,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field .title {
+	font-size: 12px;
+	font-weight: 600;
+	margin: 4px 0 0 0;
+	text-align: right;
+	width: 24%;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field .value,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field .value {
+	font-size: 14px;
+	font-weight: 400;
+	margin: 0 0 0 4%;
+	text-align: left;
+	width: 70%;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images {
+	
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images .movie-backdrops,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images .movie-posters {
+	margin-top: 16px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images .movie-backdrop,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images .movie-poster {
+	float: left;
+	height: 150px;
+	margin: 4px;
+	overflow: hidden;
+	width: 150px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.actors {
+	
 }
 
 /*

@@ -257,22 +257,28 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/filter/the/movie/adult',                '', 'get_formatted_movie_adult',              15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/author',               '', 'get_formatted_movie_author',             15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/budget',               '', 'get_formatted_movie_budget',             15, 2 );
+		$loader->add_filter( 'wpmoly/filter/the/movie/cast',                 '', 'get_formatted_movie_cast',               15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/certification',        '', 'get_formatted_movie_certification',      15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/composer',             '', 'get_formatted_movie_composer',           15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/director',             '', 'get_formatted_movie_director',           15, 2 );
-		$loader->add_filter( 'wpmoly/filter/the/movie/homepage',             '', 'get_formatted_movie_homepage',           15, 2 );
-		$loader->add_filter( 'wpmoly/filter/the/movie/cast',                 '', 'get_formatted_movie_cast',               15, 2 );
+		$loader->add_filter( 'wpmoly/filter/the/movie/format',               '', 'get_formatted_movie_format',             15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/genres',               '', 'get_formatted_movie_genres',             15, 2 );
+		$loader->add_filter( 'wpmoly/filter/the/movie/homepage',             '', 'get_formatted_movie_homepage',           15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/imdb_id',              '', 'get_formatted_movie_imdb_id',            15, 2 );
+		$loader->add_filter( 'wpmoly/filter/the/movie/language',             '', 'get_formatted_movie_language',           15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/local_release_date',   '', 'get_formatted_movie_local_release_date', 15, 2 );
+		$loader->add_filter( 'wpmoly/filter/the/movie/media',                '', 'get_formatted_movie_media',              15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/photography',          '', 'get_formatted_movie_photography',        15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/production_countries', '', 'get_formatted_movie_countries',          15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/production_companies', '', 'get_formatted_movie_production',         15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/producer',             '', 'get_formatted_movie_producer',           15, 2 );
+		$loader->add_filter( 'wpmoly/filter/the/movie/rating',               '', 'get_formatted_movie_rating',             15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/release_date',         '', 'get_formatted_movie_release_date',       15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/revenue',              '', 'get_formatted_movie_revenue',            15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/runtime',              '', 'get_formatted_movie_runtime',            15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/spoken_languages',     '', 'get_formatted_movie_spoken_languages',   15, 2 );
+		$loader->add_filter( 'wpmoly/filter/the/movie/status',               '', 'get_formatted_movie_status',             15, 2 );
+		$loader->add_filter( 'wpmoly/filter/the/movie/subtitles',            '', 'get_formatted_movie_subtitles',          15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/tmdb_id',              '', 'get_formatted_movie_tmdb_id',            15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/writer',               '', 'get_formatted_movie_writer',             15, 2 );
 		$loader->add_filter( 'wpmoly/filter/the/movie/year',                 '', 'get_formatted_movie_year',               15, 2 );
@@ -436,7 +442,7 @@ class Frontend extends Assets {
 		$headbox = get_headbox( $movie );
 
 		if ( is_single() ) {
-			$headbox->set_theme( 'default' );
+			$headbox->set_theme( 'vintage' );
 		} elseif ( is_archive() || is_search() ) {
 			$headbox->set_theme( 'default' );
 		}
