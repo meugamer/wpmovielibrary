@@ -181,21 +181,55 @@ window.wpmoly = window.wpmoly || {};
 				return controller.isWidget();
 			},
 
+			/**
+			 * Retrieve grid settings.
+			 *
+			 * @since    3.0
+			 *
+			 * @return   {object}
+			 */
 			getSettings : function() {
 
 				return controller.settings.toJSON();
 			},
 
+			/**
+			 * Set grid settings.
+			 *
+			 * @since    3.0
+			 *
+			 * @param    object    attributes Settings object or single setting name.
+			 * @param    mixed     value Single setting value.
+			 *
+			 * @return   {object}
+			 */
 			setSettings : function( attributes, value ) {
 
 				return controller.settings.set( attributes, value );
 			},
 
+			/**
+			 * Retrieve grid query args.
+			 *
+			 * @since    3.0
+			 *
+			 * @return   {object}
+			 */
 			getArgs : function() {
 
 				return controller.query.toJSON();
 			},
 
+			/**
+			 * Set grid query args.
+			 *
+			 * @since    3.0
+			 *
+			 * @param    object    attributes Query args object or single arg name.
+			 * @param    mixed     value Single arg value.
+			 *
+			 * @return   {object}
+			 */
 			setArgs : function( attributes, value ) {
 
 				return controller.query.set( attributes, value );
