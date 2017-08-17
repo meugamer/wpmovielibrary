@@ -54,9 +54,10 @@ wpmoly = window.wpmoly || {};
 		      theme = headbox.getAttribute( 'data-theme' );
 
 		var views = {
-			default  : Headboxes.view.DefaultHeadbox,
-			extended : Headboxes.view.ExtendedHeadbox,
-			vintage  : Headboxes.view.VintageHeadbox,
+			'default'    : Headboxes.view.DefaultHeadbox,
+			'extended'   : Headboxes.view.ExtendedHeadbox,
+			'vintage'    : Headboxes.view.VintageHeadbox,
+			'allocine-2' : Headboxes.view.Allocine2Headbox,
 		};
 
 		if ( ! _.isEmpty( theme ) ) {
@@ -264,6 +265,32 @@ wpmoly = window.wpmoly || {};
 	 * @since    3.0
 	 */
 	Headboxes.view.VintageHeadbox = wp.Backbone.View.extend({
+
+		events : {
+			'click .headbox-tab a' : 'switchTab',
+		},
+
+		switchTab : function( e ) {
+
+			e.preventDefault();
+
+			var $target = this.$( e.currentTarget );
+			     target = $target.data( 'tab' );
+
+			this.$( '.headbox-tab' ).removeClass( 'active' );
+			this.$( '.headbox-panel' ).removeClass( 'active' );
+
+			$target.parent( 'li.headbox-tab' ).addClass( 'active' );
+			this.$( '[data-panel="' + target + '"]' ).addClass( 'active' );
+		},
+	});
+
+	/**
+	 * 'Allocine v2' Headbox view.
+	 *
+	 * @since    3.0
+	 */
+	Headboxes.view.Allocine2Headbox = wp.Backbone.View.extend({
 
 		events : {
 			'click .headbox-tab a' : 'switchTab',

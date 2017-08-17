@@ -436,7 +436,7 @@ class Frontend extends Assets {
 		$headbox = get_headbox( $movie );
 
 		if ( is_single() ) {
-			$headbox->set_theme( 'vintage' );
+			$headbox->set_theme( 'allocine-2' );
 		} elseif ( is_archive() || is_search() ) {
 			$headbox->set_theme( 'default' );
 		}

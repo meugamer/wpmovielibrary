@@ -63,11 +63,12 @@ class PostHeadbox extends Headbox {
 			'movie' => array(
 				'label'  => __( 'Movie', 'wpmovielibrary' ),
 				'themes' => array(
-					'default'  => __( 'Default', 'wpmovielibrary' ),
-					'extended' => __( 'Extended', 'wpmovielibrary' ),
-					'vintage'  => __( 'Vintage', 'wpmovielibrary' ),
-					'allocine' => __( 'Allocine', 'wpmovielibrary' ),
-					'imdb'     => __( 'IMDb', 'wpmovielibrary' )
+					'default'    => __( 'Default', 'wpmovielibrary' ),
+					'extended'   => __( 'Extended', 'wpmovielibrary' ),
+					'vintage'    => __( 'Vintage', 'wpmovielibrary' ),
+					'allocine'   => __( 'Allocine', 'wpmovielibrary' ),
+					'allocine-2' => __( 'Allocine v2', 'wpmovielibrary' ),
+					'imdb'       => __( 'IMDb', 'wpmovielibrary' )
 				)
 			)
 		);
