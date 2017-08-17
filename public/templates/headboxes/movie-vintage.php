@@ -11,9 +11,9 @@
  */
 
 ?>
-	<div id="movie-headbox-<?php echo $headbox->id; ?>" class="wpmoly headbox post-headbox movie-headbox theme-vintage" style="background-image:url(<?php $movie->get_poster()->render( 'large', 'raw' ); ?>)">
+	<div data-headbox="<?php echo $headbox->id; ?>" data-theme="vintage" class="wpmoly headbox post-headbox movie-headbox theme-vintage" style="background-image:url(<?php $movie->get_poster()->render( 'large', 'raw' ); ?>)">
 		<div class="headbox-header">
-			<div class="headbox-rating"><span class="wpmolicon icon-star-filled"></span><?php $movie->the_rating(); ?></div>
+			<div class="headbox-rating"><span class="wpmolicon icon-star-filled"></span><?php echo $movie->get( 'rating' ); ?></div>
 			<div class="headbox-titles">
 				<div class="movie-title"><a href="<?php the_permalink( $movie->id ); ?>"><?php $movie->the_title(); ?></a></div>
 				<div class="movie-tagline"><?php $movie->the_tagline(); ?></div>
@@ -27,21 +27,19 @@
 				<span class="movie-certification"><?php $movie->the_certification(); ?></span>
 <?php } ?>
 			</div>
-			<div class="headbox-menu">
-				<ul>
-					<li class="active"><a href="#"><span class="wpmolicon icon-overview"></span></a></li>
-					<li><a href="#"><span class="wpmolicon icon-meta"></span></a></li>
-					<li><a href="#"><span class="wpmolicon icon-details"></span></a></li>
-					<li><a href="#"><span class="wpmolicon icon-images"></span></a></li>
-					<li><a href="#"><span class="wpmolicon icon-actor"></span></a></li>
-				</ul>
-			</div>
+			<ul class="headbox-menu">
+				<li class="headbox-tab active"><a data-tab="overview" href="#"><span class="wpmolicon icon-overview"></span></a></li>
+				<li class="headbox-tab"><a data-tab="meta" href="#"><span class="wpmolicon icon-meta"></span></a></li>
+				<li class="headbox-tab"><a data-tab="details" href="#"><span class="wpmolicon icon-details"></span></a></li>
+				<li class="headbox-tab"><a data-tab="images" href="#"><span class="wpmolicon icon-images"></span></a></li>
+				<li class="headbox-tab"><a data-tab="actors" href="#"><span class="wpmolicon icon-actor"></span></a></li>
+			</ul>
 		</div>
 		<div class="headbox-content">
-			<div class="headbox-tab overview active">
+			<div data-panel="overview" class="headbox-panel overview active">
 				<span class="wpmolicon icon-overview"></span><?php $movie->the_overview(); ?>
 			</div>
-			<div class="headbox-tab meta">
+			<div data-panel="meta" class="headbox-panel meta">
 				<div class="meta field director">
 					<span class="meta field title"><?php _e( 'Director', 'wpmovielibrary' ); ?></span>
 					<span class="meta field value"><?php $movie->the_director(); ?></span>
@@ -83,7 +81,7 @@
 					<span class="meta field value"><?php $movie->the_adult(); ?></span>
 				</div>
 			</div>
-			<div class="headbox-tab details">
+			<div data-panel="details" class="headbox-panel details">
 				<div class="meta detail field format">
 					<span class="meta field title"><?php _e( 'Format', 'wpmovielibrary' ); ?></span>
 					<span class="meta field value"><?php $movie->the_format(); ?></span>
@@ -109,7 +107,7 @@
 					<span class="meta field value"><?php $movie->the_subtitles(); ?></span>
 				</div>
 			</div>
-			<div class="headbox-tab images">
+			<div data-panel="images" class="headbox-panel images">
 				<div class="movie-backdrops clearfix">
 				<?php
 					$backdrops = $movie->get_backdrops();
@@ -133,6 +131,6 @@
 				?>
 				</div>
 			</div>
-			<div class="headbox-tab actors"><?php $movie->the_actors(); ?></div>
+			<div data-panel="actors" class="headbox-panel actors"><?php _e( 'Starring', 'wpmovielibrary' ); ?> <?php $movie->the_actors(); ?></div>
 		</div>
 	</div>

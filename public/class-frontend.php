@@ -62,12 +62,9 @@ class Frontend extends Assets {
 		$this->register_script( 'core',              'public/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
 		$this->register_script( 'utils',             'public/js/wpmoly-utils.js' );
 
-		// Views
-		$this->register_script( 'headbox-view',      'public/js/views/headbox.js' );
-
 		// Runners
-		$this->register_script( 'grids',             'public/js/wpmoly-grids.js',     array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
-		$this->register_script( 'headboxes',         'public/js/wpmoly-headboxes.js', array( 'jquery' ) );
+		$this->register_script( 'grids',     'public/js/wpmoly-grids.js',     array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
+		$this->register_script( 'headboxes', 'public/js/wpmoly-headboxes.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone' ) );
 	}
 
 	/**
@@ -137,9 +134,6 @@ class Frontend extends Assets {
 		// Base
 		$this->enqueue_script( 'core' );
 		$this->enqueue_script( 'utils' );
-
-		// Views
-		$this->enqueue_script( 'headbox-view' );
 
 		// Runners
 		$this->enqueue_script( 'grids' );

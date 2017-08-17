@@ -408,14 +408,11 @@
 
 .wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu {
 	bottom: 14px;
-	position: absolute;
-	right: 20px;
-}
-
-.wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	position: absolute;
+	right: 20px;
 }
 
 .wpmoly.movie-headbox.theme-vintage .headbox-header .headbox-menu li {
@@ -461,11 +458,19 @@
 	padding: 24px;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.overview {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel {
+	display: none;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.active {
+	display: block;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.overview {
 	line-height: 24px;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.overview .wpmolicon {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.overview .wpmolicon {
 	color: #ccc;
 	font-size: 36px;
 	float: left;
@@ -474,29 +479,29 @@
 	width: 36px;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.meta {
 	
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.details {
 	
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field,
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.meta .meta.field,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.details .meta.field {
 	margin-top: 16px;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field .title,
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field .value,
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field .title,
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field .value {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.meta .meta.field .title,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.meta .meta.field .value,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.details .meta.field .title,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.details .meta.field .value {
 	display: inline-block;
 	vertical-align: top;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field .title,
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field .title {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.meta .meta.field .title,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.details .meta.field .title {
 	font-size: 12px;
 	font-weight: 600;
 	margin: 4px 0 0 0;
@@ -504,8 +509,8 @@
 	width: 24%;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.meta .meta.field .value,
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.details .meta.field .value {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.meta .meta.field .value,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.details .meta.field .value {
 	font-size: 14px;
 	font-weight: 400;
 	margin: 0 0 0 4%;
@@ -513,17 +518,17 @@
 	width: 70%;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.images {
 	
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images .movie-backdrops,
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images .movie-posters {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.images .movie-backdrops,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.images .movie-posters {
 	margin-top: 16px;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images .movie-backdrop,
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.images .movie-poster {
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.images .movie-backdrop,
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.images .movie-poster {
 	float: left;
 	height: 150px;
 	margin: 4px;
@@ -531,8 +536,13 @@
 	width: 150px;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-tab.actors {
-	
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.actors {
+	font-size: 12px;
+}
+
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.actors a {
+	font-size: 14px;
+	font-weight: 400;
 }
 
 /*

@@ -11,7 +11,7 @@
  */
 
 ?>
-	<div id="movie-headbox-<?php echo $headbox->id; ?>" class="wpmoly headbox post-headbox movie-headbox theme-default">
+	<div data-headbox="<?php echo $headbox->id; ?>" data-theme="default" class="wpmoly headbox post-headbox movie-headbox theme-default">
 		<div class="headbox-header">
 			<div class="headbox-backdrop-container">
 				<div class="headbox-backdrop" style="background-image:url(<?php echo $movie->get_backdrop( 'random' )->render( 'medium', 'raw' ); ?>);"></div>
