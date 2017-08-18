@@ -685,8 +685,18 @@
 	top: 2px;
 }
 
+.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.overview .movie-meta {
+	display: none;
+	margin-top: 36px;
+}
+
+.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.overview .movie-meta > .meta.field:nth-child(odd) {
+	background: #f2f2f2;
+}
+
 .wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.overview .movie-meta .meta.field {
 	margin: 4px 0;
+	padding: 4px 8px;
 }
 
 .wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.overview .movie-meta .meta.field.title,
@@ -699,7 +709,7 @@
 	color: #888;
 	font-size: 12px;
 	font-weight: 600;
-	margin-top: 4px;
+	margin-top: 6px;
 	width: 40%;
 }
 
@@ -729,6 +739,12 @@
 
 .wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.details .meta.field {
 	margin: 4px 0;
+	padding: 4px 8px;
+}
+
+.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.details .headbox-details > .meta.field:nth-child(odd),
+.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.details .headbox-release-info > .meta.field:nth-child(odd) {
+	background: #f2f2f2;
 }
 
 .wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.details .meta.field.title,
@@ -741,7 +757,7 @@
 	color: #888;
 	font-size: 12px;
 	font-weight: 600;
-	margin-top: 4px;
+	margin-top: 6px;
 	width: 30%;
 }
 

@@ -243,6 +243,8 @@ wpmoly = window.wpmoly || {};
 		expand : function() {
 
 			this.$el.removeClass( 'collapsed' );
+
+			return this;
 		},
 
 		/**
@@ -255,6 +257,8 @@ wpmoly = window.wpmoly || {};
 		collapse : function() {
 
 			this.$el.addClass( 'collapsed' );
+
+			return this;
 		}
 
 	});
@@ -270,11 +274,20 @@ wpmoly = window.wpmoly || {};
 			'click .headbox-tab a' : 'switchTab',
 		},
 
-		switchTab : function( e ) {
+		/**
+		 * Switch headbox panels.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    {object}    event JS 'click' Event.
+		 *
+		 * @return   Returns itself to allow chaining.
+		 */
+		switchTab : function( event ) {
 
-			e.preventDefault();
+			event.preventDefault();
 
-			var $target = this.$( e.currentTarget );
+			var $target = this.$( event.currentTarget );
 			     target = $target.data( 'tab' );
 
 			this.$( '.headbox-tab' ).removeClass( 'active' );
@@ -282,6 +295,8 @@ wpmoly = window.wpmoly || {};
 
 			$target.parent( 'li.headbox-tab' ).addClass( 'active' );
 			this.$( '[data-panel="' + target + '"]' ).addClass( 'active' );
+
+			return this;
 		},
 	});
 
@@ -293,14 +308,24 @@ wpmoly = window.wpmoly || {};
 	Headboxes.view.Allocine2Headbox = wp.Backbone.View.extend({
 
 		events : {
-			'click .headbox-tab a' : 'switchTab',
+			'click .headbox-tab a'         : 'switchTab',
+			'click [data-action="expand"]' : 'showDetails',
 		},
 
-		switchTab : function( e ) {
+		/**
+		 * Switch headbox panels.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    {object}    event JS 'click' Event.
+		 *
+		 * @return   Returns itself to allow chaining.
+		 */
+		switchTab : function( event ) {
 
-			e.preventDefault();
+			event.preventDefault();
 
-			var $target = this.$( e.currentTarget );
+			var $target = this.$( event.currentTarget );
 			     target = $target.data( 'tab' );
 
 			this.$( '.headbox-tab' ).removeClass( 'active' );
@@ -308,7 +333,29 @@ wpmoly = window.wpmoly || {};
 
 			$target.parent( 'li.headbox-tab' ).addClass( 'active' );
 			this.$( '[data-panel="' + target + '"]' ).addClass( 'active' );
+
+			return this;
 		},
+
+		/**
+		 * Show details block.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    {object}    event JS 'click' Event.
+		 *
+		 * @return   Returns itself to allow chaining.
+		 */
+		showDetails : function( event ) {
+
+			event.preventDefault();
+
+			this.$( '.headbox-more' ).slideToggle();
+			this.$( '.movie-meta' ).slideToggle();
+
+			return this;
+		},
+
 	});
 
 	/**
