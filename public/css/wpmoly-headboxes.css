@@ -1,6 +1,6 @@
 
 /*
- * Movie Headbox
+ * Movie Headbox.
  */
 
 .wpmoly.movie-headbox {
@@ -9,7 +9,7 @@
 }
 
 /*
- * Basic themes
+ * Headbox Basic themes.
  */
 
 .wpmoly.movie-headbox.theme-extended,
@@ -239,7 +239,9 @@
 	text-align: justify;
 }
 
-/* Headbox 'Extended' theme */
+/*
+ * Headbox 'Extended' theme.
+ */
 
 .wpmoly.movie-headbox.theme-extended .headbox-rating {
 	bottom: 80px;
@@ -280,7 +282,9 @@
 	display: none;
 }
 
-/* Headbox 'Default' theme */
+/*
+ * Headbox 'Default' theme.
+ */
 
 .wpmoly.movie-headbox.theme-default .headbox-content .headbox-metadata .movie-overview {
 	margin-top: 12px;
@@ -338,7 +342,7 @@
 }
 
 /*
- * Headbox 'Vintage' theme
+ * Headbox 'Vintage' theme.
  */
 
 .wpmoly.movie-headbox.theme-vintage {
@@ -546,7 +550,7 @@
 }
 
 /*
- * Headbox 'Allocine' theme 
+ * Headbox 'Allocine' theme.
  */
 
 .wpmoly.movie-headbox.theme-allocine {
@@ -860,7 +864,7 @@
 }
 
 /*
- * Headbox 'Allocine v2' theme 
+ * Headbox 'Allocine v2' theme.
  */
 
 .wpmoly.movie-headbox.theme-allocine-2 {
@@ -1146,6 +1150,257 @@
 	margin: 4px;
 	overflow: hidden;
 	width: 150px;
+}
+
+/*
+ * Headbox 'IMDb' theme.
+ */
+
+.wpmoly.movie-headbox.theme-imdb-2 {
+	background: #f2f2f2;
+	border: 1px solid #2b2b2b;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header {
+	background: #2b2b2b;
+	color: #eee;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header a {
+	border: 0;
+	box-shadow: 0 0 0;
+	color: #ccc;
+	text-decoration: none;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header a:hover {
+	color: #ddd;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info {
+	padding: 12px 16px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-rating {
+	float: right;
+	font-size: 24px;
+	margin: 8px 16px 0 0;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-rating span {
+	font-size: 24px;
+	height: 24px;
+	margin-right: 8px;
+	width: 24px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .headbox-titles {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-title {
+	color: #fff;
+	font-size: 32px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-year {
+	font-size: 20px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-meta {
+	font-size: 12px;
+	margin-top: -4px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-meta span {
+	padding-right: 12px;
+	position: relative;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-meta span:after {
+	background: #bbb;
+	content: ' ';
+	height: 8px;
+	left: -8px;
+	position: absolute;
+	top: 4px;
+	width: 1px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-meta span:first-child::after {
+	width: 0;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2  .headbox-header .headbox-release-info .movie-certification {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-runtime {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-genres {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-release-date {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-poster {
+	overflow: hidden;
+	position: absolute;
+	width: 30%;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-poster img {
+	border-radius: 0;
+	height: auto;
+	max-width: none;
+	width: 100%;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-backdrop {
+	margin-left: 30%;
+	overflow: hidden;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-backdrop img {
+	border-radius: 0;
+	height: auto;
+	max-width: none;
+	width: 100%;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-content {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-content a {
+	color: #136cb2;
+	text-decoration: none;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-content a:hover {
+	text-decoration: underline;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-content a:active {
+	color: #e7be00;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-content h4 {
+	font-size: 20px;
+	font-weight: 400;
+	margin: 0;
+	padding: 0 16px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-intro {
+	padding: 8px 16px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-intro .movie-tagline {
+	margin: 8px 0;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-intro .movie-director,
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-intro .movie-writer,
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-intro .movie-actors {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-intro .movie-director a,
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-intro .movie-writer a,
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-intro .movie-actors a {
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-images {
+	margin: 24px 0;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-images .movie-backdrops {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-images .movie-backdrops .movie-backdrop {
+	float: left;
+	height: 128px;
+	width: 128px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-images .movie-backdrops .movie-backdrop img {
+	border-radius: 0;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-cast {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-cast .movie-cast {
+	margin: 16px 0;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-cast .movie-cast .movie-actor {
+	margin: 4px 0;
+	padding: 6px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-cast .movie-cast .movie-actor:nth-child(odd) {
+	background: #fff;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-cast .movie-cast .movie-actor .movie-actor-thumbnail {
+	display: inline-block;
+	height: 36px;
+	margin: 0 8px;
+	vertical-align: bottom;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-cast .movie-cast .movie-actor .movie-actor-thumbnail img {
+	border-radius: 0;
+	height: 36px;
+	width: 36px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-cast .movie-cast .movie-actor .movie-actor-permalink {
+	display: inline-block;
+	height: 36px;
+	line-height: 36px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-meta,
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-details,
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-box-office,
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-credits,
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-technical {
+	padding: 8px 16px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-meta .movie-overview {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-details {
+	
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .meta.field {
+	margin: 4px 0;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .meta.field.title {
+	font-size: 14px;
+	font-weight: 600;
+	margin-right: 8px;
+}
+
+.wpmoly.movie-headbox.theme-imdb-2 .meta.field.value {
+	font-size: 16px;
+	font-weight: 400;
 }
 
 /*

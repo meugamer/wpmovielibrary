@@ -68,7 +68,7 @@ class PostHeadbox extends Headbox {
 					'vintage'    => __( 'Vintage', 'wpmovielibrary' ),
 					'allocine'   => __( 'Allocine', 'wpmovielibrary' ),
 					'allocine-2' => __( 'Allocine v2', 'wpmovielibrary' ),
-					'imdb'       => __( 'IMDb', 'wpmovielibrary' )
+					'imdb-2'     => __( 'IMDb v2', 'wpmovielibrary' ),
 				)
 			)
 		);

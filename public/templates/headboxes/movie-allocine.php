@@ -11,7 +11,7 @@
  */
 
 ?>
-	<div data-headbox="<?php echo $headbox->id; ?>" data-theme="allocine-2" class="wpmoly headbox post-headbox movie-headbox theme-allocine">
+	<div data-headbox="<?php echo $headbox->id; ?>" data-theme="allocine" class="wpmoly headbox post-headbox movie-headbox theme-allocine">
 		<div class="headbox-header">
 			<ul class="headbox-menu">
 				<li class="headbox-tab active"><a data-tab="overview" href="#"><span class="wpmolicon icon-home"></span></a></li>

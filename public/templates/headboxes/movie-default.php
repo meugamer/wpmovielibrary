@@ -28,12 +28,12 @@
 			<div class="headbox-crew">
 				<div class="movie-director"><?php _e( 'Directed by', 'wpmovielibrary' ); ?> <?php $movie->the_director(); ?></div>
 				<div class="movie-actors"><?php _e( 'Staring', 'wpmovielibrary' ); ?> <?php
-$actors = $movie->get_the_actors();
-$actors = explode( ', ', $actors );
-$actors = array_slice( $actors, 0, 6 );
-$actors = implode( ', ', $actors );
-echo $actors . '&nbsp;&hellip;';
-?></div>
+					$actors = $movie->get_the_actors();
+					$actors = explode( ', ', $actors );
+					$actors = array_slice( $actors, 0, 6 );
+					$actors = implode( ', ', $actors );
+					echo $actors . '&nbsp;&hellip;';
+				?></div>
 			</div>
 			<div class="headbox-metadata">
 				<div class="movie headbox-release-info">

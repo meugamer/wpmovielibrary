@@ -57,7 +57,9 @@ wpmoly = window.wpmoly || {};
 			'default'    : Headboxes.view.DefaultHeadbox,
 			'extended'   : Headboxes.view.ExtendedHeadbox,
 			'vintage'    : Headboxes.view.VintageHeadbox,
+			'allocine'   : Headboxes.view.AllocineHeadbox,
 			'allocine-2' : Headboxes.view.Allocine2Headbox,
+			'imdb-2'     : Headboxes.view.IMDb2Headbox,
 		};
 
 		if ( ! _.isEmpty( theme ) ) {
@@ -301,11 +303,11 @@ wpmoly = window.wpmoly || {};
 	});
 
 	/**
-	 * 'Allocine v2' Headbox view.
+	 * 'Allocine' Headbox view.
 	 *
 	 * @since    3.0
 	 */
-	Headboxes.view.Allocine2Headbox = wp.Backbone.View.extend({
+	Headboxes.view.AllocineHeadbox = Headboxes.view.Allocine2Headbox = wp.Backbone.View.extend({
 
 		events : {
 			'click .headbox-tab a'         : 'switchTab',
@@ -352,6 +354,49 @@ wpmoly = window.wpmoly || {};
 
 			this.$( '.headbox-more' ).slideToggle();
 			this.$( '.movie-meta' ).slideToggle();
+
+			return this;
+		},
+
+	});
+
+	/**
+	 * 'IMDb v2' Headbox view.
+	 *
+	 * @since    3.0
+	 */
+	Headboxes.view.IMDb2Headbox = wp.Backbone.View.extend({
+
+		/**
+		 * Initialize the View.
+		 *
+		 * @since    3.0
+		 */
+		initialize : function() {
+
+			_.bindAll( this, 'resize' );
+
+			var event = 'resize.' + this.el.className;
+			  $window = wpmoly.$( window );
+
+			$window.off( event ).on( event, _.debounce( this.resize, 100 ) );
+
+			this.resize();
+		},
+
+		/**
+		 * Resize header backdrop.
+		 *
+		 * @since    3.0
+		 *
+		 * @return   Returns itself to allow chaining.
+		 */
+		resize : function() {
+
+			var $poster = this.$( '.headbox-poster img' ),
+			  $backdrop = this.$( '.headbox-backdrop' );
+
+			$backdrop.css( { height : $poster.innerHeight() } );
 
 			return this;
 		},
