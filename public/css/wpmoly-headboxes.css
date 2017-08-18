@@ -546,6 +546,320 @@
 }
 
 /*
+ * Headbox 'Allocine' theme 
+ */
+
+.wpmoly.movie-headbox.theme-allocine {
+	background: #fff;
+	color: #222;
+}
+
+.wpmoly.movie-headbox.theme-allocine a {
+	border: 0;
+	box-shadow: 0 0 0;
+	color: #005ea8;
+	text-decoration: none;
+}
+
+.wpmoly.movie-headbox.theme-allocine a:hover {
+	color: #b00000;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header {
+	background: #fff;
+	border-bottom: 1px solid #a6b2c8;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header .headbox-menu {
+	height: 42px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header .headbox-menu li {
+	float: left;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header .headbox-menu a {
+	background: -webkit-linear-gradient(center top, #eef1f5, #e3e7ec);
+	background: -moz-linear-gradient(center top, #eef1f5, #e3e7ec);
+	background: linear-gradient(center top, #eef1f5, #e3e7ec);
+	border: 1px solid #a6b2c8;
+	border-bottom: 0;
+	border-right: 0;
+	box-shadow: 0 0 0;
+	display: block;
+	font-size: 12px;
+	font-weight: 600;
+	height: 42px;
+	line-height: 42px;
+	min-width: 42px;
+	padding: 0 12px 0 0;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header .headbox-menu a:hover {
+	background: -webkit-linear-gradient(center top, #e3e7ec, #eef1f5);
+	background: -moz-linear-gradient(center top, #e3e7ec, #eef1f5);
+	background: linear-gradient(center top, #e3e7ec, #eef1f5);
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header .headbox-menu li.active a {
+	background: #fff;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header .headbox-menu li:first-child a {
+	border-top-left-radius: 4px;
+	padding: 0;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header .headbox-menu li:first-child a span {
+	color: #005ea8;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header .headbox-menu li:last-child a {
+	border-right: 1px solid #a6b2c8;
+	border-top-right-radius: 4px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-header .headbox-menu span {
+	color: #a8bdce;
+	height: 42px;
+	line-height: 42px;
+	text-align: center;
+	text-shadow: 0 1px 0 #fff;
+	vertical-align: top;
+	width: 42px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content {
+	margin: 24px 0;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content h4 {
+	font-size: 20px;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel {
+	display: none;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.active {
+	display: block;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .headbox-poster {
+	float: left;
+	margin-right: 4%;
+	max-width: 200px;
+	width: 33%;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .headbox-meta {
+	float: left;
+	width: 60%;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .headbox-meta .meta.field {
+	margin-bottom: 4px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .headbox-meta .meta.field.title {
+	color: #333;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .headbox-meta .meta.field.value {
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .headbox-overview {
+	border-top: 1px solid #efefef;
+	margin: 24px 0;
+	padding: 24px 0;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .headbox-more {
+	border: 1px solid #e5e5e5;
+	border-left: 0;
+	border-right: 0;
+	margin: 24px 0;
+	padding: 6px 0;
+	text-align: center;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .headbox-more button {
+	background: #fff;
+	border: 0;
+	color: #222;
+	font-size: 14px;
+	font-weight: 600;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .headbox-more button span {
+	margin-left: 4px;
+	position: relative;
+	top: 2px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .movie-meta {
+	display: none;
+	margin-top: 36px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .movie-meta > .meta.field:nth-child(odd) {
+	background: #efefee;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .movie-meta .meta.field {
+	margin: 4px 0;
+	padding: 4px 8px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .movie-meta .meta.field.title,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .movie-meta .meta.field.value {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .movie-meta .meta.field.title {
+	color: #333;
+	font-size: 12px;
+	font-weight: 600;
+	margin-top: 6px;
+	width: 40%;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.overview .movie-meta .meta.field.value {
+	font-size: 14px;
+	font-weight: 400;
+	width: 58%;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details {
+	
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .movie-tagline {
+	font-size: 14px;
+	font-style: italic;
+	font-weight: 600;
+	margin-bottom: 16px;
+	text-transform: uppercase;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .headbox-details {
+	border-top: 1px solid #e5e5e5;
+	margin-top: 24px;
+	padding-top: 24px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .meta.field {
+	margin: 4px 0;
+	padding: 4px 8px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .headbox-details > .meta.field:nth-child(odd),
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .headbox-release-info > .meta.field:nth-child(odd) {
+	background: #efefee;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .meta.field.title,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .meta.field.value {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .meta.field.title {
+	color: #333;
+	font-size: 12px;
+	font-weight: 600;
+	margin-top: 6px;
+	width: 30%;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .meta.field.value {
+	font-size: 14px;
+	font-weight: 400;
+	width: 68%;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .headbox-release-info {
+	border-top: 1px solid #e5e5e5;
+	margin-top: 24px;
+	padding-top: 24px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors {
+	
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .headbox-director,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .headbox-cast,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .headbox-writing,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .headbox-music,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .headbox-production,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .headbox-companies {
+	margin-top: 24px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .movie-actor,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .movie-director {
+	display: inline-block;
+	margin: 4px 4px 12px 4px;
+	width: 150px;
+	vertical-align: top;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .movie-actor .movie-actor-thumbnail,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .movie-director .movie-director-thumbnail {
+	height: auto;
+	max-width: 150px;
+	width: 100%;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .movie-actor.small,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .movie-director.small {
+	width: 100px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .movie-actor .movie-actor-permalink {
+	margin-top: 4px;
+	text-align: center;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .movie-director .movie-director-permalink {
+	margin-top: 12px;
+	text-align: center;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.images {
+	
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.images .movie-backdrops,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.images .movie-posters {
+	margin-top: 16px;
+}
+
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.images .movie-backdrop,
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.images .movie-poster {
+	float: left;
+	height: 150px;
+	margin: 4px;
+	overflow: hidden;
+	width: 150px;
+}
+
+/*
  * Headbox 'Allocine v2' theme 
  */
 
