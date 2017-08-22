@@ -207,6 +207,44 @@ function get_genre( $genre ) {
 }
 
 /**
+ * Return a grid metadata.
+ * 
+ * @since    3.0
+ * 
+ * @param    int        $grid_id Grid ID, object or array
+ * @param    string     $key Grid Meta key to return.
+ * @param    boolean    $single Whether to return a single value
+ * 
+ * @return   Grid|boolean
+ */
+function get_grid_meta( $grid_id, $key = '', $single = true ) {
+
+	$key = (string) $key;
+	$value = '';
+
+	$post_type = get_post_type( (int) $grid_id );
+	if ( 'grid' !== $post_type ) {
+		return $value;
+	}
+
+	if ( ! empty( $key ) ) {
+
+		/**
+		 * Filter the grid meta key.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    string     $key Meta key.
+		 */
+		$key = prefix_grid_meta_key( $key );
+	}
+
+	$value = get_post_meta( $grid_id, $key, $single );
+
+	return $value;
+}
+
+/**
  * Return a movie metadata.
  * 
  * @since    3.0
@@ -235,8 +273,6 @@ function get_movie_meta( $movie_id, $key = '', $single = true ) {
 		 * @since    3.0
 		 *
 		 * @param    string     $key Meta key.
-		 *
-		 * @return   
 		 */
 		$key = prefix_movie_meta_key( $key );
 	}
