@@ -1916,7 +1916,7 @@ window.wpmoly = window.wpmoly || {};
 				++settings.columns;
 			}
 
-			this.columnWidth  = Math.floor( settings.innerWidth / settings.columns ) - 8;
+			this.columnWidth  = Math.floor( settings.innerWidth / settings.columns ) - 10;
 			this.columnHeight = Math.floor( this.columnWidth * settings.ratio );
 
 			this.$el.addClass( settings.columns + '-columns' );
