@@ -418,8 +418,6 @@ class Frontend extends Assets {
 	 * If we're in search or archive templates, show the default, minimal
 	 * Headbox; if we're in single template, show the default full Headbox.
 	 * 
-	 * TODO implement other Headbox themes
-	 * 
 	 * @since    3.0
 	 * 
 	 * @param    string    $content Post content.
@@ -436,7 +434,7 @@ class Frontend extends Assets {
 		$headbox = get_headbox( $movie );
 
 		if ( is_single() ) {
-			$headbox->set_theme( 'allocine' );
+			$headbox->set_theme( 'extended' );
 		} elseif ( is_archive() || is_search() ) {
 			$headbox->set_theme( 'default' );
 		}
