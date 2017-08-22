@@ -424,6 +424,10 @@ function get_movie_imdb_id_url( $imdb_id, $options = array() ) {
 
 	$imdb_id = (string) $imdb_id;
 
+	if ( empty( $options['target'] ) ) {
+		$options['target'] = '_blank';
+	}
+
 	if ( empty( $options['content'] ) ) {
 		$options['content'] = $imdb_id;
 	}
@@ -434,7 +438,7 @@ function get_movie_imdb_id_url( $imdb_id, $options = array() ) {
 
 	$url = sprintf( 'https://www.imdb.com/title/%s/', $imdb_id );
 
-	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
+	$permalink = '<a href="' . esc_url( $url ) . '" target="' . $options['target'] . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
 	/**
 	 * Filter movie IMDb ID permalink.
@@ -1052,6 +1056,10 @@ function get_movie_tmdb_id_url( $tmdb_id, $options = array() ) {
 
 	$tmdb_id = absint( $tmdb_id );
 
+	if ( empty( $options['target'] ) ) {
+		$options['target'] = '_blank';
+	}
+
 	if ( empty( $options['content'] ) ) {
 		$options['content'] = $tmdb_id;
 	}
@@ -1062,7 +1070,7 @@ function get_movie_tmdb_id_url( $tmdb_id, $options = array() ) {
 
 	$url = sprintf( 'https://www.themoviedb.org/movie/%d', $tmdb_id );
 
-	$permalink = '<a href="' . esc_url( $url ) . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
+	$permalink = '<a href="' . esc_url( $url ) . '" target="' . $options['target'] . '" title="' . esc_attr( $options['title'] ) . '">' . esc_html( $options['content'] ) . '</a>';
 
 	/**
 	 * Filter movie TMDb ID permalink.
