@@ -110,6 +110,116 @@ body.wp-admin.post-php.post-type-grid #titlediv #title {
 }
 
 /*
+ * Grid Tutorial
+ */
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial,
+#wpmoly-grid-builder-preview.with-tutorial .wpmoly.grid {
+	display: none;
+}
+
+#wpmoly-grid-builder-preview.with-tutorial .grid-builder-tutorial,
+#wpmoly-grid-builder-preview .wpmoly.grid {
+	display: block;
+}
+
+#wpmoly-grid-builder-preview.with-tutorial .wpmoly.grid {
+	display: none;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial {
+	margin: 0 auto;
+	padding: 36px;
+	width: 560px;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-notice {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	margin-bottom: 64px;
+	padding: 20px;
+	position: relative;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-notice:before {
+	background: #de0c0c;
+	bottom: 0;
+	content: ' ';
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 3px;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step {
+	margin: 48px 0 0;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step .step-capture {
+	float: right;
+	width: 260px;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step .step-title {
+	margin: 32px 0 10px;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step.step-1 .step-content {
+	padding-top: 24px;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step.step-1 .step-arrow {
+	background: url(../img/tutorial-down-left-arrow.png) center center no-repeat;
+	background-size: cover;
+	display: block;
+	float: right;
+	height: 64px;
+	margin: 24px 24px 0 0;
+	position: static;
+	width: 160px;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step.step-2 .step-capture {
+	float: left;
+	margin: 24px 32px 0 0;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step.step-2 .step-content {
+	padding: 15px 0 0;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step.step-2 .step-arrow {
+	background: url(../img/tutorial-left-arrow.png) center center no-repeat;
+	background-size: cover;
+	display: block;
+	float: left;
+	height: 64px;
+	margin: 0 0 0 24px;
+	position: static;
+	width: 160px;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step.step-3 {
+	margin-top: 76px;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step.step-3 .step-arrow {
+	background: url(../img/tutorial-down-left-arrow.png) center center no-repeat;
+	background-size: cover;
+	display: block;
+	height: 94px;
+	margin: 0 0 32px 48px;
+	position: static;
+	width: 160px;
+}
+
+#wpmoly-grid-builder-preview .grid-builder-tutorial .tutorial-step.step-4 .step-capture {
+	float: none;
+	width: 100%;
+}
+
+/*
  * Grid Type Metabox
  */
 

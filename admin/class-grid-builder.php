@@ -1065,11 +1065,61 @@ class GridBuilder extends Metabox {
 			return false;
 		}
 
+		$type = get_grid_meta( $this->post_id, 'type' );
 ?>
 		<div class="wpmoly grid-builder">
-			<div id="wpmoly-grid-builder-preview" class="grid-builder-preview">
-				<div class="wpmoly grid" data-preview-grid="<?php echo esc_attr( $this->post_id ); ?>">
+<?php
+		if ( empty( $type ) ) {
+?>
+			<div id="wpmoly-grid-builder-preview" class="grid-builder-preview with-tutorial">
+				<div id="wpmoly-grid-builder-tutorial" class="grid-builder-tutorial" data-tutorial-grid="<?php echo esc_attr( $this->post_id ); ?>">
+					<div class="tutorial-notice">
+						<?php _e( '<strong>This grid is empty!</strong> Follow these steps to create your new grid.', 'wpmovielibrary' ); ?>
+						<span></span>
+					</div>
+					<div class="tutorial-step step-1 clearfix">
+						<img class="step-capture" src="<?php echo WPMOLY_URL . 'admin/img/tutorial-grid-type.png'; ?>" alt="" />
+						<div class="step-content">
+							<h4 class="step-title"><?php _e( '1. Select a grid type', 'wpmovielibrary' ); ?></h4>
+							<p class="step-description"><?php _e( 'First, select a type of content for your grid.', 'wpmovielibrary' ); ?></p>
+							<span class="step-arrow"></span>
+						</div>
+					</div>
+					<div class="tutorial-step step-2 clearfix">
+						<img class="step-capture" src="<?php echo WPMOLY_URL . 'admin/img/tutorial-grid-mode.png'; ?>" alt="" />
+						<div class="step-content">
+							<h4><?php _e( '2. Select a display mode', 'wpmovielibrary' ); ?></h4>
+							<p class="step-description"><?php _e( 'Then chose a display mode among those available for your selected content…', 'wpmovielibrary' ); ?></p>
+							<span class="step-arrow"></span>
+						</div>
+					</div>
+					<div class="tutorial-step step-3 clearfix">
+						<img class="step-capture" src="<?php echo WPMOLY_URL . 'admin/img/tutorial-grid-theme.png'; ?>" alt="" />
+						<div class="step-content">
+							<h4><?php _e( '3. Select a theme', 'wpmovielibrary' ); ?></h4>
+							<p class="step-description"><?php _e( '… And then a theme to apply to the grid items.', 'wpmovielibrary' ); ?></p>
+							<span class="step-arrow"></span>
+						</div>
+					</div>
+					<div class="tutorial-step step-4 clearfix">
+						<div class="step-content">
+							<h4><?php _e( '4. Pick your settings', 'wpmovielibrary' ); ?></h4>
+							<p class="step-description"><?php _e( 'Finally, tune your grid to your liking using the settings!', 'wpmovielibrary' ); ?></p>
+							<span class="step-arrow"></span>
+						</div>
+						<img class="step-capture" src="<?php echo WPMOLY_URL . 'admin/img/tutorial-grid-settings.png'; ?>" alt="" />
+					</div>
+				</div>
 			</div>
+<?php
+		} else {
+?>
+			<div id="wpmoly-grid-builder-preview" class="grid-builder-preview">
+				<div class="wpmoly grid" data-preview-grid="<?php echo esc_attr( $this->post_id ); ?>"></div>
+			</div>
+<?php
+		}
+?>
 		</div>
 <?php
 	}

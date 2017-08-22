@@ -10,7 +10,7 @@ wpmoly = window.wpmoly || {};
 	 *
 	 * @return   {object}    Builder instance.
 	 */
-	var Builder = function() {
+	Builder = function() {
 
 		var post_id = document.querySelector( '#post_ID' ).value;
 
@@ -33,13 +33,72 @@ wpmoly = window.wpmoly || {};
 	};
 
 	/**
+	 * Create a new Tutorial instance.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   {object}    Builder instance.
+	 */
+	Tutorial = function() {
+
+		var tutorial = document.querySelector( '[data-tutorial-grid]' ),
+		     grid_id = tutorial.getAttribute( 'data-tutorial-grid' );
+
+		if ( ! tutorial ) {
+			return;
+		}
+
+		var $tutorial = wpmoly.$( tutorial ),
+		     $preview = wpmoly.$( '<div class="wpmoly grid" data-grid="' + grid_id + '"></div>' );
+
+		// Add preview grid to DOM.
+		$tutorial.after( $preview );
+
+		GridBuilder.preview = new Grid( $preview[0], { context : 'edit' } );
+
+		var tutorial = {
+
+			remove : function() {
+
+				$tutorial.remove();
+				$preview.show();
+			},
+
+		};
+
+		return tutorial;
+	};
+
+	/**
+	 * Create a new Grid Preview instance.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   {object}    Builder instance.
+	 */
+	Preview = function() {
+
+		var grid = document.querySelector( '[data-preview-grid]' );
+		if ( ! grid ) {
+			return;
+		}
+
+		grid.setAttribute( 'data-grid', grid.getAttribute( 'data-preview-grid' ) );
+		grid.removeAttribute( 'data-preview-grid' );
+
+		return new Grid( grid, { context : 'edit' } );
+	};
+
+	/**
 	 * Grid Builder Wrapper.
 	 *
 	 * Store models, controllers, views, builder and preview objects.
 	 *
 	 * @since    3.0
 	 */
-	var GridBuilder = wpmoly.gridbuilder = {
+	GridBuilder = wpmoly.gridbuilder = {
+
+		$el : wpmoly.$( '#wpmoly-grid-builder-preview' ),
 
 		/**
 		 * 
@@ -161,11 +220,17 @@ wpmoly = window.wpmoly || {};
 		 */
 		updatePreview: function( model ) {
 
-			if ( ! GridBuilder.preview ) {
-				return;
+			// Hide Tutorial, if needed.
+			if ( GridBuilder.tutorial ) {
+				if ( ! _.isEmpty( model.get( 'type' ) ) ) {
+					GridBuilder.tutorial.remove();
+				}
 			}
 
-			GridBuilder.preview.set( model.changed );
+			// Update preview.
+			if ( GridBuilder.preview ) {
+				GridBuilder.preview.set( model.changed );
+			}
 		},
 
 		/**
@@ -368,6 +433,14 @@ wpmoly = window.wpmoly || {};
 
 	});
 
+	GridBuilder.view.Tutorial = wp.Backbone.View.extend({
+
+		className : 'grid-tutorial',
+
+		template : wp.template( 'wpmoly-grid-builder-tutorial' ),
+
+	});
+
 	/**
 	 * GridBuilder Parameters View.
 	 *
@@ -514,6 +587,32 @@ wpmoly = window.wpmoly || {};
 	});
 
 	/**
+	 * Create tutorial and preview.
+	 *
+	 * @since    3.0
+	 */
+	GridBuilder.loadPreview = function() {
+
+		if ( document.querySelector( '[data-tutorial-grid]' ) ) {
+			GridBuilder.tutorial = new Tutorial();
+		}
+
+		if ( document.querySelector( '[data-preview-grid]' ) ) {
+			GridBuilder.preview = new Preview();
+		}
+	};
+
+	/**
+	 * Create grid builder instance.
+	 *
+	 * @since    3.0
+	 */
+	GridBuilder.loadBuilder = function() {
+
+		GridBuilder.builder = new Builder();
+	};
+
+	/**
 	 * Create controllers.
 	 *
 	 * This should be called after the REST API Backbone client has
@@ -527,17 +626,10 @@ wpmoly = window.wpmoly || {};
 	 */
 	GridBuilder.load = function() {
 
-		var grid = document.querySelector( '[data-preview-grid]' );
+		GridBuilder.loadPreview();
+		GridBuilder.loadBuilder();
 
-		// Switch attributes to allow 'edit' context.
-		grid.setAttribute( 'data-grid', grid.getAttribute( 'data-preview-grid' ) );
-		grid.removeAttribute( 'data-preview-grid' );
-
-		GridBuilder.preview = new Grid( grid, { context : 'edit' } );
-
-		GridBuilder.builder = new Builder();
-
-		return this;
+		return GridBuilder;
 	};
 
 	/**

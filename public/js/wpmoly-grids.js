@@ -2207,7 +2207,10 @@ window.wpmoly = window.wpmoly || {};
 
 			className.push( settings.get( 'type' ) );
 			className.push( settings.get( 'mode' ) );
-			className.push( 'theme-' + settings.get( 'theme' ) );
+
+			if ( ! _.isEmpty( settings.get( 'theme' ) ) ) {
+				className.push( 'theme-' + settings.get( 'theme' ) );
+			}
 
 			this.className = className.join( ' ' );
 

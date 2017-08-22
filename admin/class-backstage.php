@@ -237,8 +237,6 @@ class Backstage extends Assets {
 			// Base
 			$this->enqueue_script( 'core' );
 
-			// Models
-
 			// Controllers
 			$this->enqueue_script( 'library-controller' );
 
