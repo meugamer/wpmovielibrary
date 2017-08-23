@@ -65,9 +65,10 @@ class Grid_Meta_Fields extends WP_REST_Post_Meta_Fields {
 	 */
 	protected function get_registered_fields() {
 
+		$prefix = prefix_grid_meta_key( '' );
 		$registered = parent::get_registered_fields();
 		foreach ( $registered as $name => $field ) {
-			if ( ! preg_match( '/^_wpmoly_grid_(.*)$/i', $name ) ) {
+			if ( false === strpos( $name, $prefix ) ) {
 				unset( $registered[ $name ] );
 			}
 		}

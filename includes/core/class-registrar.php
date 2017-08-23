@@ -685,17 +685,46 @@ class Registrar {
 			foreach ( $post_meta as $slug => $params ) {
 
 				/**
+				 * Filter meta_key.
 				 * 
+				 * Add a '_wpmoly_{$post_type}_' prefix to meta_keys.
+				 * 
+				 * @since    3.0
+				 * 
+				 * @param    string    $slug Post meta slug.
 				 */
 				$meta_key = apply_filters( "wpmoly/filter/{$post_type}/meta/key", $slug );
 
 				$args = wp_parse_args( $params, array(
 					'type'              => 'string',
 					'description'       => '',
+					'default'           => '',
 					'single'            => true,
 					'show_in_rest'      => true,
-					'sanitize_callback' => null
+					'sanitize_callback' => null,
 				) );
+
+				if ( is_array( $args['show_in_rest'] ) ) {
+
+					$schema = array();
+					if ( isset( $args['show_in_rest']['schema'] ) ) {
+						$schema = $args['show_in_rest']['schema'];
+					} else {
+						$schema = array(
+							'type'        => isset( $args['type'] ) ? $args['type'] : '',
+							'description' => isset( $args['description'] ) ? $args['description'] : '',
+							'default'     => isset( $args['default'] ) ? $args['default'] : '',
+						);
+					}
+
+					$schema = wp_parse_args( $schema, array(
+						'type'        => '',
+						'description' => '',
+						'default'     => '',
+					) );
+
+					$args['show_in_rest']['schema'] = $schema;
+				}
 
 				register_meta( $object_type = 'post', $meta_key, $args );
 			}
@@ -868,6 +897,15 @@ class Registrar {
 
 			foreach ( $term_meta as $slug => $params ) {
 
+				/**
+				 * Filter meta_key.
+				 * 
+				 * Add a '_wpmoly_{$taxonomy}_' prefix to meta_keys.
+				 * 
+				 * @since    3.0
+				 * 
+				 * @param    string    $slug Post meta slug.
+				 */
 				$meta_key = apply_filters( "wpmoly/filter/{$taxonomy}/meta/key", $slug );
 
 				$args = wp_parse_args( $params, array(

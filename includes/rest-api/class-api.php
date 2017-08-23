@@ -260,7 +260,7 @@ class API {
 			 */
 			$value = apply_filters( "wpmoly/filter/query/movies/author/value", $author );
 
-			/** This filter is documented in includes/helpers/utils.php */
+			/** This filter is documented in includes/core/class-registrar.php */
 			$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
 
 			/**
@@ -305,7 +305,7 @@ class API {
 		 */
 		$value = apply_filters( "wpmoly/filter/query/movies/{$param}/value", $request[ $param ] );
 
-		/** This filter is documented in includes/helpers/utils.php */
+		/** This filter is documented in includes/core/class-registrar.php */
 		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
 
 		if ( ! is_array( $value ) ) {
@@ -388,7 +388,7 @@ class API {
 		 */
 		$compare = apply_filters( "wpmoly/filter/query/movies/{$param}/compare", 'LIKE' );
 
-		/** This filter is documented in includes/helpers/utils.php */
+		/** This filter is documented in includes/core/class-registrar.php */
 		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
 
 		$args['meta_query'][] = compact( 'key', 'value', 'compare' );

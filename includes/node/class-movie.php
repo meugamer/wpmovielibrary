@@ -117,7 +117,7 @@ class Movie extends Node {
 		$this->backdrops->loaded = false;
 		$this->posters->loaded   = false;
 
-		/** This filter is documented in includes/helpers/utils.php */
+		/** This filter is documented in includes/core/class-registrar.php */
 		$this->suffix = apply_filters( 'wpmoly/filter/movie/meta/key', '' );
 
 		/**

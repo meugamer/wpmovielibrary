@@ -88,8 +88,7 @@ body.wp-admin.post-php.post-type-grid #titlediv #title {
 #wpmoly-grid-builder-preview > .wpmoly.grid {
 	margin-right: -13px;
 	height: 42em;
-	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow: hidden;
 }
 
 #wpmoly-grid-builder-preview .grid-content {

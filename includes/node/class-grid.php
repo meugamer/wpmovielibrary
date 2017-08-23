@@ -100,7 +100,7 @@ class Grid extends Node {
 	 */
 	public function init() {
 
-		/** This filter is documented in includes/helpers/utils.php */
+		/** This filter is documented in includes/core/class-registrar.php */
 		$this->suffix = apply_filters( 'wpmoly/filter/grid/meta/key', '' );
 
 		/**
@@ -122,7 +122,6 @@ class Grid extends Node {
 			'list_columns',
 			'list_column_width',
 			'list_rows',
-			'enable_ajax',
 			'enable_pagination',
 			'settings_control',
 			'custom_letter',

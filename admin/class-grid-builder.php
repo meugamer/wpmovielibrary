@@ -159,30 +159,6 @@ class GridBuilder extends Metabox {
 							)
 						)
 					),
-					'grid-navigation' => array(
-						'label' => esc_html__( 'Navigation', 'wpmovielibrary' ),
-						'icon'  => 'dashicons-move',
-						'settings' => array(
-							'grid-enable-ajax' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-pagination',
-								'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught movies without reloading the page. Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-enable-pagination' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-pagination',
-								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 1
-							)
-						)
-					),
 					'grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -252,12 +228,21 @@ class GridBuilder extends Metabox {
 						'label' => esc_html__( 'Settings', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-settings',
 						'settings' => array(
+							'grid-enable-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
 							'grid-settings-control' => array(
 								'type'     => 'checkbox',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array(),
+								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
@@ -374,30 +359,6 @@ class GridBuilder extends Metabox {
 							),
 						)
 					),
-					'grid-navigation' => array(
-						'label' => esc_html__( 'Navigation', 'wpmovielibrary' ),
-						'icon'  => 'dashicons-move',
-						'settings' => array(
-							'grid-enable-ajax' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-pagination',
-								'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught actors without reloading the page. Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-enable-pagination' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-pagination',
-								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 1
-							)
-						)
-					),
 					'grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -471,12 +432,21 @@ class GridBuilder extends Metabox {
 						'label' => esc_html__( 'Settings', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-settings',
 						'settings' => array(
+							'grid-enable-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
 							'grid-settings-control' => array(
 								'type'     => 'checkbox',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array(),
+								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
@@ -585,30 +555,6 @@ class GridBuilder extends Metabox {
 							),
 						)
 					),
-					'grid-navigation' => array(
-						'label' => esc_html__( 'Navigation', 'wpmovielibrary' ),
-						'icon'  => 'dashicons-move',
-						'settings' => array(
-							'grid-enable-ajax' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-pagination',
-								'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught collections without reloading the page. Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-enable-pagination' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-pagination',
-								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 1
-							)
-						)
-					),
 					'grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -682,12 +628,21 @@ class GridBuilder extends Metabox {
 						'label' => esc_html__( 'Settings', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-settings',
 						'settings' => array(
+							'grid-enable-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
 							'grid-settings-control' => array(
 								'type'     => 'checkbox',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array(),
+								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),
@@ -787,30 +742,6 @@ class GridBuilder extends Metabox {
 							)
 						)
 					),
-					'grid-navigation' => array(
-						'label' => esc_html__( 'Navigation', 'wpmovielibrary' ),
-						'icon'  => 'dashicons-move',
-						'settings' => array(
-							'grid-enable-ajax' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-pagination',
-								'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught genres without reloading the page. Default is disabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 0
-							),
-							'grid-enable-pagination' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-pagination',
-								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 1
-							)
-						)
-					),
 					'grid-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-appearance',
@@ -884,12 +815,21 @@ class GridBuilder extends Metabox {
 						'label' => esc_html__( 'Settings', 'wpmovielibrary' ),
 						'icon'  => 'dashicons-admin-settings',
 						'settings' => array(
+							'grid-enable-pagination' => array(
+								'type'     => 'checkbox',
+								'section'  => 'grid-pagination',
+								'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
+								'attr'     => array( 'class' => 'half-col' ),
+								'sanitize' => '_is_bool',
+								'default'  => 1
+							),
 							'grid-settings-control' => array(
 								'type'     => 'checkbox',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Visitors will be able to change some settings to browse the grid differently. The changes only impact the user’s view and are not kept between visits. Default is enabled.', 'wpmovielibrary' ),
-								'attr'     => array(),
+								'attr'     => array( 'class' => 'half-col' ),
 								'sanitize' => '_is_bool',
 								'default'  => 1
 							),

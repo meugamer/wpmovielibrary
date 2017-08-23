@@ -712,7 +712,7 @@ class Query {
 			return $cached_names;
 		}
 
-		/** This filter is documented in includes/helpers/utils.php */
+		/** This filter is documented in includes/core/class-registrar.php */
 		$meta_key = apply_filters( 'wpmoly/filter/movie/meta/key', $supported[ $type ] );
 
 		/**
