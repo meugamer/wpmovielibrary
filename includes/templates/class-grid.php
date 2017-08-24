@@ -96,6 +96,7 @@ class Grid extends Front {
 			$data['preset-name']  = key( $preset );
 			$data['preset-value'] = current( $preset );
 		} else {
+			$data['preset'] = $preset;
 			return $data;
 		}
 

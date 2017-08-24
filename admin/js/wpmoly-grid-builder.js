@@ -29,7 +29,15 @@ wpmoly = window.wpmoly || {};
 			});
 		} );
 
-		return this;
+		var builder = {
+
+			post_id : post_id,
+
+			controller : controller,
+
+		};
+
+		return builder;
 	};
 
 	/**
@@ -190,7 +198,6 @@ wpmoly = window.wpmoly || {};
 
 			this.model = new GridBuilder.model.Builder;
 			this.listenTo( this.model, 'change', this.updatePreview );
-			this.listenTo( this.model, 'all', function( e ) { console.log( e ); } );
 
 			this.builder.fetch( { data : { context : 'edit' } } );
 		},

@@ -386,7 +386,8 @@ final class Library {
 
 		$query = Core\Query::get_instance();
 		$this->loader->add_filter( 'query_vars',     $query, 'add_query_vars' );
-		$this->loader->add_filter( 'posts_where',    $query, 'filter_posts_by_letter', 10, 2 );
+		$this->loader->add_filter( 'posts_where',    $query, 'filter_movies_by_letter', 10, 2 );
+		$this->loader->add_filter( 'pre_get_posts',  $query, 'filter_movies_by_preset', 10, 1 );
 
 		// Public-side Ajax
 		$ajax = Ajax\Ajax::get_instance();

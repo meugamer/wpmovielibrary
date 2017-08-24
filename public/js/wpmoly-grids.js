@@ -23,11 +23,13 @@ window.wpmoly = window.wpmoly || {};
 		     widget = _.isTrue( grid.getAttribute( 'data-widget' ) );
 
 		// Handle presets.
-		var preset = {},
-		 presetName = grid.getAttribute( 'data-preset-name' ) || '',
-		presetValue = grid.getAttribute( 'data-preset-value' ) || '';
-		if ( ! _.isEmpty( presetName ) && ! _.isEmpty( presetValue ) ) {
-			preset[ presetName ] = presetValue;
+		var preset = grid.getAttribute( 'data-preset' ) || {};
+		if ( _.isObject( preset ) ) {
+			var presetName = grid.getAttribute( 'data-preset-name' ) || '',
+			   presetValue = grid.getAttribute( 'data-preset-value' ) || '';
+			if ( ! _.isEmpty( presetName ) && ! _.isEmpty( presetValue ) ) {
+				preset[ presetName ] = presetValue;
+			}
 		}
 
 		// Grid settings and query.
@@ -815,15 +817,11 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		initialize : function( attributes, options ) {
 
-			var options = _.defaults( options || {}, {
-				prefetch : true,
-			} );
+			var options = options || {};
 
 			this.settings = options.settings;
 			this.query    = options.query;
 			this.model    = options.model;
-
-			//this.listenTo( this.query, 'change', this.updateQuery );
 
 			this.loadSettings();
 		},
@@ -862,23 +860,17 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		setQueryArgs : function() {
 
-			var atts = _.extend( this.attributes, this.get( 'preset' ) || {} );
+			var atts = {},
+			  preset = this.get( 'preset' );
+
+			if ( _.isObject( preset ) ) {
+				atts = _.extend( _.omit( this.toJSON(), 'preset' ), this.get( 'preset' ) || {} );
+			} else if ( _.isString( preset ) ) {
+				atts = this.toJSON();
+			}
 
 			return this.query.set( atts, { silent : true } );
 		},
-
-		/**
-		 * Ajax browsing.
-		 *
-		 * @since    3.0
-		 *
-		 * @param    {object}    model
-		 * @param    {object}    options
-		 */
-		/*updateQuery : function( model, options ) {
-
-			return this.query.fetch( model.attributes );
-		},*/
 
 		/**
 		 * Is current grid part of a Widget?

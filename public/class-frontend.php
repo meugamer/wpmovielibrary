@@ -358,6 +358,18 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/filter/query/movies/subtitles/value',     $query, 'filter_subtitles_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/writer/value',        $query, 'filter_writer_query_var', 10, 2 );
 
+		$loader->add_filter( 'wpmoly/filter/query/movies/alphabetical/param',   $query, 'filter_alphabetical_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/unalphabetical/param', $query, 'filter_unalphabetical_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/current-year/param',   $query, 'filter_current_year_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/last-year/param',      $query, 'filter_last_year_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/last-added/param',     $query, 'filter_last_added_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/first-added/param',    $query, 'filter_first_added_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/last-released/param',  $query, 'filter_last_released_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/first-released/param', $query, 'filter_first_released_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/incoming/param',       $query, 'filter_incoming_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/most-rated/param',     $query, 'filter_most_rated_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/least-rated/param',    $query, 'filter_least_rated_movies_query_vars', 10, 1 );
+
 		$loader->add_filter( 'wpmoly/filter/query/movies/rating/type',         $query, 'filter_rating_query_type', 10, 2 );
 
 		// Templates

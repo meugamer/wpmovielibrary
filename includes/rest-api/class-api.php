@@ -60,6 +60,7 @@ class API {
 			'local_release' => 'local_release_date',
 			'media'         => 'media',
 			'photography'   => 'photography',
+			'preset'        => 'preset',
 			'producer'      => 'producer',
 			'rating'        => 'rating',
 			'release'       => 'release_date',
@@ -180,6 +181,14 @@ class API {
 	public function add_query_params( $args, $request ) {
 
 		if ( 'movie' === $args['post_type'] ) {
+
+			if ( ! empty( $request['preset'] ) ) {
+
+				$preset = str_replace( '-movies', '', $request['preset'] );
+
+				/** This filter is documented in includes/core/class-query.php */
+				$args = apply_filters( "wpmoly/filter/query/movies/{$preset}/param", $args );
+			}
 
 			if ( ! empty( $request['letter'] ) ) {
 				$args['letter'] = $request['letter'];
@@ -412,9 +421,15 @@ class API {
 
 		if ( 'movie' === $post_type->name ) {
 
-			$metadata = get_registered_meta_keys( 'post' );
-
 			$supported = $this->supported_parameters;
+
+			// Support grid presets.
+			$query_params['preset'] = array(
+				'description' => __( 'Limit result set using presets.', 'wpmovielibrary' ),
+				'type'        => 'string',
+				'default'     => 'custom',
+				//'sanitize_callback' => '',
+			);
 
 			// Filter movies by first letter.
 			$query_params['letter'] = array(
@@ -444,6 +459,8 @@ class API {
 				$query_params['author']['description'] = __( 'Limit result set to posts assigned to specific authors. Use integers to match WordPress users, strings to match movie authors.', 'wpmovielibrary' );
 				$query_params['author']['items']['type'] = 'string';
 			}
+
+			$metadata = get_registered_meta_keys( 'post' );
 
 			foreach ( $supported as $param => $key ) {
 		
