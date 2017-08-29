@@ -567,15 +567,6 @@ class Registrar {
 					'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
 					'default'     => 'custom',
 				),
-				'enable-ajax' => array(
-					'type' => 'integer',
-					'description' => esc_html__( 'Allow visitors to browse through the grid dynamically. This will use the WordPress REST API to load contents and browse throught movies without reloading the page. Default is disabled.', 'wpmovielibrary' ),
-					'show_in_rest' => array(
-						'label'    => esc_html__( 'Ajax browsing', 'wpmovielibrary' ),
-					),
-					'sanitize_callback' => '_is_bool',
-					'default'  => 0
-				),
 				'enable-pagination' => array(
 					'type' => 'integer',
 					'description' => esc_html__( 'Allow visitors to browse through the grid. Is Ajax browsing is enabled, pagination will use Ajax to dynamically load new pages instead of reloading. Default is enabled.', 'wpmovielibrary' ),
@@ -607,7 +598,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
 					),
-					'default'  => 160
+					'default'  => 134
 				),
 				'row-height' => array(
 					'type' => 'integer',
@@ -615,7 +606,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
 					),
-					'default'  => 240
+					'default'  => 200
 				),
 				'list-columns' => array(
 					'type' => 'integer',

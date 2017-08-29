@@ -322,6 +322,8 @@ wpmoly = window.wpmoly || {};
 
 			this.setRegions();
 			this.bindEvents();
+
+			this.preFill();
 		},
 
 		/**
@@ -350,8 +352,37 @@ wpmoly = window.wpmoly || {};
 		bindEvents: function() {
 
 			this.listenTo( this.model, 'change:type',  this.togglePostbox );
-			this.listenTo( this.model, 'change:mode',  this.togglePostbox );
-			this.listenTo( this.model, 'change:theme', this.togglePostbox );
+		},
+
+		/**
+		 * Update ButterBean Meta Box values.
+		 *
+		 * Avoid leaving empty fields, which is default ButterBean behaviour.
+		 *
+		 * @since    3.0
+		 *
+		 * @return   Returns itself to allow chaining.
+		 */
+		preFill: function() {
+
+			var type = this.model.get( 'type' ),
+			$postbox = this.$( '#butterbean-ui-' + type + '-grid-settings' );
+
+			_.each( this.model.attributes, function( value, key ) {
+				var $field = $postbox.find( '[name="butterbean_' + type + '-grid-settings_setting__wpmoly_grid_' + key + '"]' );
+				if ( $field.length ) {
+					var $control = $field.parents( '.butterbean-control' );
+					if ( $control.hasClass( 'butterbean-control-radio-image' ) ) {
+						$control.find( 'input[value="' + value + '"]' ).prop( 'checked', true );
+					} else if ( $control.hasClass( 'butterbean-control-checkbox' ) ) {
+						$control.find( 'input[type="checkbox"]' ).prop( 'checked', true );
+					} else if ( $control.hasClass( 'butterbean-control-text' ) ) {
+						$control.find( 'input[type="text"]' ).val( value );
+					}
+				}
+			}, this );
+
+			return this;
 		},
 
 		/**

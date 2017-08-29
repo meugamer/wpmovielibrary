@@ -185,7 +185,7 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'default'  => 160
+								'default'  => 134
 							),
 							'grid-row-height' => array(
 								'type'     => 'text',
@@ -193,7 +193,7 @@ class GridBuilder extends Metabox {
 								'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'default'  => 240
+								'default'  => 200
 							),
 							'grid-list-columns' => array(
 								'type'     => 'text',

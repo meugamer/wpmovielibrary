@@ -75,4 +75,30 @@ class Grid_Meta_Fields extends WP_REST_Post_Meta_Fields {
 
 		return $registered;
 	}
+
+	/**
+	 * Prepares a meta value for a response.
+	 *
+	 * Replace empty grid meta with default values.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    mixed              $value   Meta value to prepare.
+	 * @param    WP_REST_Request    $request Current request object.
+	 * @param    array              $args    Options for the field.
+	 *
+	 * @return   mixed Prepared value.
+	 */
+	protected function prepare_value_for_response( $value, $request, $args ) {
+
+		if ( '' === $value && ! empty( $args['schema']['default'] ) ) {
+			$value = $args['schema']['default'];
+		}
+
+		if ( ! empty( $args['prepare_callback'] ) ) {
+			$value = call_user_func( $args['prepare_callback'], $value, $request, $args );
+		}
+
+		return $value;
+	}
 }
