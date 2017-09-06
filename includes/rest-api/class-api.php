@@ -12,6 +12,8 @@
 namespace wpmoly\Rest;
 
 use WP_Error;
+use WP_Taxonomy;
+use WP_Post_Type;
 
 /**
  * Handle the custom WordPress Rest API endpoints.
@@ -158,7 +160,7 @@ class API {
 				'get_callback'    => array( $this, 'get_grid_support' ),
 				'update_callback' => null,
 				'schema'          => array(
-					'description' => 'Meeeeh',
+					'description' => '',
 					'type'        => 'array',
 					'context'     => array( 'edit' ),
 				),
@@ -167,9 +169,7 @@ class API {
 	}
 
 	/**
-	 * Add custom REST API query params.
-	 * 
-	 * Add support for letter filtering.
+	 * Add custom REST API post query params.
 	 * 
 	 * @since    3.0
 	 * 
@@ -178,41 +178,44 @@ class API {
 	 * 
 	 * @return   array
 	 */
-	public function add_query_params( $args, $request ) {
+	public function add_post_query_params( $args, $request ) {
 
-		if ( 'movie' === $args['post_type'] ) {
+		// Preset should be overriden by custom order request.
+		// We have to use $_REQUEST instead of $request to ignore defaults.
+		if ( ! empty( $request['preset'] ) && ! ( empty( $_REQUEST['order'] ) || empty( $_REQUEST['orderby'] ) ) ) {
+			unset( $request['preset'] );
+		}
 
-			if ( ! empty( $request['preset'] ) ) {
+		if ( ! empty( $request['preset'] ) ) {
 
-				$preset = str_replace( '-movies', '', $request['preset'] );
+			$preset = str_replace( '-movies', '', $request['preset'] );
 
-				/** This filter is documented in includes/core/class-query.php */
-				$args = apply_filters( "wpmoly/filter/query/movies/{$preset}/param", $args );
-			}
+			/** This filter is documented in includes/core/class-query.php */
+			$args = apply_filters( "wpmoly/filter/query/movies/{$preset}/preset/param", $args );
+		}
 
-			if ( ! empty( $request['letter'] ) ) {
-				$args['letter'] = $request['letter'];
-			}
+		if ( ! empty( $request['letter'] ) ) {
+			$args['letter'] = $request['letter'];
+		}
 
-			if ( ! isset( $args['meta_query'] ) ) {
-				$args['meta_query'] = array();
-			}
+		if ( ! isset( $args['meta_query'] ) ) {
+			$args['meta_query'] = array();
+		}
 
-			foreach ( $this->supported_parameters as $param => $key ) {
-				if ( ! empty( $request[ $param ] ) ) {
+		foreach ( $this->supported_parameters as $param => $key ) {
+			if ( ! empty( $request[ $param ] ) ) {
 
-					/**
-					 * Filter query parameters.
-					 *
-					 * @since    3.0
-					 *
-					 * @param    array              $args Query parameters.
-					 * @param    string             $key Meta key.
-					 * @param    string             $param Parameter slug.
-					 * @param    WP_REST_Request    $request The request used.
-					 */
-					$args = apply_filters( "wpmoly/filter/query/movies/{$param}/param", $args, $key, $param, $request );
-				}
+				/**
+				 * Filter query parameters.
+				 *
+				 * @since    3.0
+				 *
+				 * @param    array              $args Query parameters.
+				 * @param    string             $key Meta key.
+				 * @param    string             $param Parameter slug.
+				 * @param    WP_REST_Request    $request The request used.
+				 */
+				$args = apply_filters( "wpmoly/filter/query/movies/{$param}/param", $args, $key, $param, $request );
 			}
 		}
 
@@ -220,187 +223,40 @@ class API {
 	}
 
 	/**
-	 * Filter 'author' meta query parameter.
-	 * 
-	 * There is a confusion between post authors and movie authors, the former
-	 * being a WordPress user and the latter a movie meta value. Post authors
-	 * should be queried by their user ID while movie authors should be queried
-	 * by their full name.
+	 * Add custom REST API term query params.
 	 * 
 	 * @since    3.0
 	 * 
-	 * @param    array               $args    Key value array of query var to query value.
-	 * @param    string              $key     Meta key.
-	 * @param    mixed               $param   Meta value.
-	 * @param    WP_REST_Request     $request The request used.
-	 *
+	 * @param    array              $args    Key value array of query var to query value.
+	 * @param    WP_REST_Request    $request The request used.
+	 * 
 	 * @return   array
 	 */
-	public function add_meta_author_query_param( $args, $key, $param, $request ) {
+	public function add_term_query_params( $args, $request ) {
 
-		if ( empty( $key ) || empty( $param ) ) {
+		// Preset should be overriden by custom order request.
+		// We have to use $_REQUEST instead of $request to ignore defaults.
+		if ( ! empty( $request['preset'] ) && ! ( empty( $_REQUEST['order'] ) || empty( $_REQUEST['orderby'] ) ) ) {
+			unset( $request['preset'] );
+		}
+
+		$taxonomy = str_replace( array( 'rest_', '_query' ), '', current_filter() );
+		if ( ! in_array( $taxonomy, array( 'actor', 'collection', 'genre' ) ) ) {
 			return $args;
 		}
 
-		// Clean up data.
-		$author = array_filter( $request[ $param ] );
-		if ( empty( $author ) ) {
+		$taxonomy = get_taxonomy( $taxonomy );
+		if ( ! $taxonomy ) {
 			return $args;
 		}
 
-		// Don't bother with extra data.
-		$author = array_shift( $author );
+		if ( ! empty( $request['preset'] ) ) {
 
-		// WordPress author (ie. user ID)?
-		if ( preg_match( '/^[\d]+$/', $author ) ) {
-			$request['author'] = array( (int) $author );
+			$preset = str_replace( "-{$taxonomy->rest_base}", '', $request['preset'] );
+
+			/** This filter is documented in includes/core/class-query.php */
+			$args = apply_filters( "wpmoly/filter/query/{$taxonomy->rest_base}/{$preset}/preset/param", $args );
 		}
-		// Movie author.
-		else {
-
-			$args['author__in'] = array();
-
-			/**
-			 * Filter meta value.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    string    $value
-			 */
-			$value = apply_filters( "wpmoly/filter/query/movies/author/value", $author );
-
-			/** This filter is documented in includes/core/class-registrar.php */
-			$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
-
-			/**
-			 * Filter meta comparison operator.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    string    $compare
-			 */
-			$compare = apply_filters( "wpmoly/filter/query/movies/author/compare", 'LIKE' );
-
-			$args['meta_query'][] = compact( 'key', 'value', 'compare' );
-		}
-
-		return $args;
-	}
-
-	/**
-	 * Add custom parameters to query movies of a specific meta interval.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array               $args    Key value array of query var to query value.
-	 * @param    string              $key     Meta key.
-	 * @param    mixed               $param   Meta value.
-	 * @param    WP_REST_Request     $request The request used.
-	 *
-	 * @return   array
-	 */
-	public function add_meta_interval_query_param( $args, $key, $param, $request ) {
-
-		if ( empty( $key ) || empty( $param ) ) {
-			return $args;
-		}
-
-		/**
-		 * Filter meta value.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    $value
-		 */
-		$value = apply_filters( "wpmoly/filter/query/movies/{$param}/value", $request[ $param ] );
-
-		/** This filter is documented in includes/core/class-registrar.php */
-		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
-
-		if ( ! is_array( $value ) ) {
-
-			/**
-			 * Filter meta comparison operator.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    string    $compare
-			 */
-			$compare = apply_filters( "wpmoly/filter/query/movies/{$param}/compare", 'LIKE' );
-
-			$args['meta_query'][] = compact( 'key', 'value', 'compare' );
-
-		} else {
-
-			/**
-			 * Filter meta casting type.
-			 * 
-			 * @since    3.0
-			 * 
-			 * @param    string    $type Casting type.
-			 */
-			$type = apply_filters( "wpmoly/filter/query/movies/{$param}/type", 'NUMERIC' );
-
-			$args['meta_query'] = array(
-				array(
-					'key'     => $key,
-					'value'   => $value[0],
-					'type'    => $type,
-					'compare' => '>=',
-				),
-				array(
-					'key'     => $key,
-					'value'   => $value[1],
-					'type'    => $type,
-					'compare' => '<=',
-				),
-				'relation' => 'AND',
-			);
-		}
-
-		return $args;
-	}
-
-	/**
-	 * Add custom parameters to query movies of a specific meta.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array               $args    Key value array of query var to query value.
-	 * @param    string              $key     Meta key.
-	 * @param    mixed               $param   Meta value.
-	 * @param    WP_REST_Request     $request The request used.
-	 *
-	 * @return   array
-	 */
-	public function add_meta_query_param( $args, $key, $param, $request ) {
-
-		if ( empty( $key ) || empty( $param ) ) {
-			return $args;
-		}
-
-		/**
-		 * Filter meta value.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    $value
-		 */
-		$value = apply_filters( "wpmoly/filter/query/movies/{$param}/value", $request[ $param ] );
-
-		/**
-		 * Filter meta comparison operator.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    $compare
-		 */
-		$compare = apply_filters( "wpmoly/filter/query/movies/{$param}/compare", 'LIKE' );
-
-		/** This filter is documented in includes/core/class-registrar.php */
-		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
-
-		$args['meta_query'][] = compact( 'key', 'value', 'compare' );
 
 		return $args;
 	}
@@ -408,16 +264,37 @@ class API {
 	/**
 	 * Register custom REST API collection params.
 	 * 
-	 * Add support for letter filtering.
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_params JSON Schema-formatted collection parameters.
+	 * @param    mixed    $object       WP_Post_Type or WP_Taxonomy object.
+	 * 
+	 * @return   array
+	 */
+	public function register_collection_params( $query_params, $object ) {
+
+		if ( $object instanceof WP_Post_Type ) {
+			return $this->register_post_collection_params( $query_params, $object );
+		} elseif ( $object instanceof WP_Taxonomy ) {
+			return $this->register_term_collection_params( $query_params, $object );
+		}
+
+		return $query_params;
+	}
+
+	/**
+	 * Register custom REST API post collection params.
+	 * 
+	 * Add support for letter and meta filtering, presets, fields selection.
 	 * 
 	 * @since    3.0
 	 * 
 	 * @param    array           $query_params JSON Schema-formatted collection parameters.
-	 * @param    WP_Post_Type    $post_type    Post type object.
+	 * @param    WP_Post_Type    $post_type    Post Type object.
 	 * 
 	 * @return   array
 	 */
-	public function register_collection_params( $query_params, $post_type ) {
+	private function register_post_collection_params( $query_params, $post_type ) {
 
 		if ( 'movie' === $post_type->name ) {
 
@@ -474,6 +351,34 @@ class API {
 				}
 			}
 
+		}
+
+		return $query_params;
+	}
+
+	/**
+	 * Register custom REST API term collection params.
+	 * 
+	 * Add support for presets.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array          $query_params JSON Schema-formatted collection parameters.
+	 * @param    WP_Taxonomy    $taxonomy     Taxonomy object.
+	 * 
+	 * @return   array
+	 */
+	private function register_term_collection_params( $query_params, $taxonomy ) {
+
+		if ( in_array( $taxonomy->name, array( 'actor', 'collection', 'genre' ) ) ) {
+
+			// Support grid presets.
+			$query_params['preset'] = array(
+				'description' => __( 'Limit result set using presets.', 'wpmovielibrary' ),
+				'type'        => 'string',
+				'default'     => 'custom',
+				//'sanitize_callback' => '',
+			);
 		}
 
 		return $query_params;

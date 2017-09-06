@@ -114,6 +114,565 @@ class Query {
 	}
 
 	/**
+	 * Filter 'author' meta query parameter.
+	 * 
+	 * There is a confusion between post authors and movie authors, the former
+	 * being a WordPress user and the latter a movie meta value. Post authors
+	 * should be queried by their user ID while movie authors should be queried
+	 * by their full name.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array               $args    Key value array of query var to query value.
+	 * @param    string              $key     Meta key.
+	 * @param    mixed               $param   Meta value.
+	 * @param    WP_REST_Request     $request The request used.
+	 *
+	 * @return   array
+	 */
+	public function filter_meta_author_query_param( $args, $key, $param, $request ) {
+
+		if ( empty( $key ) || empty( $param ) ) {
+			return $args;
+		}
+
+		// Clean up data.
+		$author = array_filter( $request[ $param ] );
+		if ( empty( $author ) ) {
+			return $args;
+		}
+
+		// Don't bother with extra data.
+		$author = array_shift( $author );
+
+		// WordPress author (ie. user ID)?
+		if ( preg_match( '/^[\d]+$/', $author ) ) {
+			$request['author'] = array( (int) $author );
+		}
+		// Movie author.
+		else {
+
+			$args['author__in'] = array();
+
+			/**
+			 * Filter meta value.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $value
+			 */
+			$value = apply_filters( "wpmoly/filter/query/movies/author/value", $author );
+
+			/** This filter is documented in includes/core/class-registrar.php */
+			$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
+
+			/**
+			 * Filter meta comparison operator.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $compare
+			 */
+			$compare = apply_filters( "wpmoly/filter/query/movies/author/compare", 'LIKE' );
+
+			$args['meta_query'][] = compact( 'key', 'value', 'compare' );
+		}
+
+		return $args;
+	}
+
+	/**
+	 * Add custom parameters to query movies of a specific meta interval.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array               $args    Key value array of query var to query value.
+	 * @param    string              $key     Meta key.
+	 * @param    mixed               $param   Meta value.
+	 * @param    WP_REST_Request     $request The request used.
+	 *
+	 * @return   array
+	 */
+	public function filter_meta_interval_query_param( $args, $key, $param, $request ) {
+
+		if ( empty( $key ) || empty( $param ) ) {
+			return $args;
+		}
+
+		/**
+		 * Filter meta value.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $value
+		 */
+		$value = apply_filters( "wpmoly/filter/query/movies/{$param}/value", $request[ $param ] );
+
+		/** This filter is documented in includes/core/class-registrar.php */
+		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
+
+		if ( ! is_array( $value ) ) {
+
+			/**
+			 * Filter meta comparison operator.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $compare
+			 */
+			$compare = apply_filters( "wpmoly/filter/query/movies/{$param}/compare", 'LIKE' );
+
+			$args['meta_query'][] = compact( 'key', 'value', 'compare' );
+
+		} else {
+
+			/**
+			 * Filter meta casting type.
+			 * 
+			 * @since    3.0
+			 * 
+			 * @param    string    $type Casting type.
+			 */
+			$type = apply_filters( "wpmoly/filter/query/movies/{$param}/type", 'NUMERIC' );
+
+			$args['meta_query'] = array(
+				array(
+					'key'     => $key,
+					'value'   => $value[0],
+					'type'    => $type,
+					'compare' => '>=',
+				),
+				array(
+					'key'     => $key,
+					'value'   => $value[1],
+					'type'    => $type,
+					'compare' => '<=',
+				),
+				'relation' => 'AND',
+			);
+		}
+
+		return $args;
+	}
+
+	/**
+	 * Add custom parameters to query movies of a specific meta.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array               $args    Key value array of query var to query value.
+	 * @param    string              $key     Meta key.
+	 * @param    mixed               $param   Meta value.
+	 * @param    WP_REST_Request     $request The request used.
+	 *
+	 * @return   array
+	 */
+	public function filter_meta_query_param( $args, $key, $param, $request ) {
+
+		if ( empty( $key ) || empty( $param ) ) {
+			return $args;
+		}
+
+		/**
+		 * Filter meta value.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $value
+		 */
+		$value = apply_filters( "wpmoly/filter/query/movies/{$param}/value", $request[ $param ] );
+
+		/**
+		 * Filter meta comparison operator.
+		 * 
+		 * @since    3.0
+		 * 
+		 * @param    string    $compare
+		 */
+		$compare = apply_filters( "wpmoly/filter/query/movies/{$param}/compare", 'LIKE' );
+
+		/** This filter is documented in includes/core/class-registrar.php */
+		$key = apply_filters( 'wpmoly/filter/movie/meta/key', $key );
+
+		$args['meta_query'][] = compact( 'key', 'value', 'compare' );
+
+		return $args;
+	}
+
+	/**
+	 * 'alphabetical' actors query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_alphabetical_actors_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'orderby' => 'name',
+			'order'   => 'asc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'unalphabetical' actors query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_unalphabetical_actors_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'orderby' => 'name',
+			'order'   => 'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'alphabetical' collections query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_alphabetical_collections_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'orderby' => 'name',
+			'order'   => 'asc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'unalphabetical' collections query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_unalphabetical_collections_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'orderby' => 'name',
+			'order'   => 'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'alphabetical' genres query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_alphabetical_genres_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'orderby' => 'name',
+			'order'   => 'asc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'unalphabetical' genres query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_unalphabetical_genres_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'orderby' => 'name',
+			'order'   => 'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'alphabetical' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_alphabetical_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'meta_key' => prefix_movie_meta_key( 'title' ),
+			'orderby'  => 'meta_value',
+			'order'    => 'asc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'unalphabetical' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_unalphabetical_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'meta_key' => prefix_movie_meta_key( 'title' ),
+			'orderby'  => 'meta_value',
+			'order'    => 'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'current-year' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_current_year_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'meta_key'   => prefix_movie_meta_key( 'release_date' ),
+			'meta_type'  => 'date',
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key'     => prefix_movie_meta_key( 'release_date' ),
+					'type'    => 'date',
+					'value'   => sprintf( '%d-01-01', date( 'Y' ) ),
+					'compare' => '>='
+				),
+				array(
+					'key'     => prefix_movie_meta_key( 'release_date' ),
+					'type'    => 'date',
+					'value'   => sprintf( '%d-12-31', date( 'Y' ) ),
+					'compare' => '<='
+				),
+			),
+			'orderby' => 'meta_value',
+			'order'   => 'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'last-year' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_last_year_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'meta_key'   => prefix_movie_meta_key( 'release_date' ),
+			'meta_type'  => 'date',
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key'     => prefix_movie_meta_key( 'release_date' ),
+					'type'    => 'date',
+					'value'   => sprintf( '%d-01-01', date( 'Y' ) - 1 ),
+					'compare' => '>='
+				),
+				array(
+					'key'     => prefix_movie_meta_key( 'release_date' ),
+					'type'    => 'date',
+					'value'   => sprintf( '%d-12-31', date( 'Y' ) - 1 ),
+				'compare' => '<='
+				),
+			),
+			'orderby' => 'meta_value',
+			'order'   =>  'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'last-added' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_last_added_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'orderby' => 'date',
+			'order'   => 'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'first-added' movie query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_first_added_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'orderby' => 'date',
+			'order'   => 'asc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'last-released' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_last_released_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'meta_key'  => prefix_movie_meta_key( 'release_date' ),
+			'meta_type' => 'date',
+			'orderby'   => 'meta_value',
+			'order'     => 'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'first-released' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_first_released_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'meta_key'  => prefix_movie_meta_key( 'release_date' ),
+			'meta_type' => 'date',
+			'orderby'   => 'meta_value',
+			'order'     => 'asc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'incoming' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_incoming_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'meta_key'     => prefix_movie_meta_key( 'release_date' ),
+			'meta_type'    => 'date',
+			'meta_value'   => sprintf( '%d-01-01', date( 'Y' ) + 1 ),
+			'meta_compare' => '>=',
+			'orderby'      => 'meta_value',
+			'order'        => 'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'most-rated' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_most_rated_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'meta_key'     => prefix_movie_meta_key( 'rating' ),
+			//'meta_value'   => 0.0
+			//'meta_compare' => '>',
+			'orderby'      => 'meta_value_num',
+			'order'        => 'desc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
+	 * 'least-rated' movies query preset query vars.
+	 * 
+	 * @since    3.0
+	 * 
+	 * @param    array    $query_vars Query vars.
+	 * 
+	 * @return   array
+	 */
+	public function filter_least_rated_movies_preset_param( $query_vars = array() ) {
+
+		$query_vars = array_merge( (array) $query_vars, array(
+			'meta_key'     => prefix_movie_meta_key( 'rating' ),
+			//'meta_value'   => 0.0
+			//'meta_compare' => '>',
+			'orderby'      => 'meta_value_num',
+			'order'        => 'asc',
+		) );
+
+		return $query_vars;
+	}
+
+	/**
 	 * Filter 'rating' query type.
 	 * 
 	 * Movies can be filtered by ratings interval but require values to be
@@ -780,272 +1339,13 @@ class Query {
 		 * 
 		 * @param    array    $query_vars
 		 */
-		$query_vars = apply_filters( "wpmoly/filter/query/movies/{$preset}/param", $wp_query->query_vars );
+		$query_vars = apply_filters( "wpmoly/filter/query/movies/{$preset}/preset/param", $wp_query->query_vars );
 
 		foreach ( $query_vars as $name => $var ) {
 			$wp_query->set( $name, $var );
 		}
 
 		unset( $wp_query->query['preset'] );
-	}
-
-	/**
-	 * 'alphabetical' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_alphabetical_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key' => prefix_movie_meta_key( 'title' ),
-			'orderby'  => 'meta_value',
-			'order'    => 'asc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'unalphabetical' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_unalphabetical_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key' => prefix_movie_meta_key( 'title' ),
-			'orderby'  => 'meta_value',
-			'order'    => 'desc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'current-year' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_current_year_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'   => prefix_movie_meta_key( 'release_date' ),
-			'meta_type'  => 'date',
-			'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					'key'     => prefix_movie_meta_key( 'release_date' ),
-					'type'    => 'date',
-					'value'   => sprintf( '%d-01-01', date( 'Y' ) ),
-					'compare' => '>='
-				),
-				array(
-					'key'     => prefix_movie_meta_key( 'release_date' ),
-					'type'    => 'date',
-					'value'   => sprintf( '%d-12-31', date( 'Y' ) ),
-					'compare' => '<='
-				),
-			),
-			'orderby' => 'meta_value',
-			'order'   => 'desc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'last-year' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_last_year_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'   => prefix_movie_meta_key( 'release_date' ),
-			'meta_type'  => 'date',
-			'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					'key'     => prefix_movie_meta_key( 'release_date' ),
-					'type'    => 'date',
-					'value'   => sprintf( '%d-01-01', date( 'Y' ) - 1 ),
-					'compare' => '>='
-				),
-				array(
-					'key'     => prefix_movie_meta_key( 'release_date' ),
-					'type'    => 'date',
-					'value'   => sprintf( '%d-12-31', date( 'Y' ) - 1 ),
-				'compare' => '<='
-				),
-			),
-			'orderby' => 'meta_value',
-			'order'   =>  'desc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'last-added' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_last_added_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'orderby' => 'date',
-			'order'   => 'desc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'first-added' movie query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_first_added_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'orderby' => 'date',
-			'order'   => 'asc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'last-released' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_last_released_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'  => prefix_movie_meta_key( 'release_date' ),
-			'meta_type' => 'date',
-			'orderby'   => 'meta_value',
-			'order'     => 'desc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'first-released' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_first_released_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'  => prefix_movie_meta_key( 'release_date' ),
-			'meta_type' => 'date',
-			'orderby'   => 'meta_value',
-			'order'     => 'asc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'incoming' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_incoming_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'     => prefix_movie_meta_key( 'release_date' ),
-			'meta_type'    => 'date',
-			'meta_value'   => sprintf( '%d-01-01', date( 'Y' ) + 1 ),
-			'meta_compare' => '>=',
-			'orderby'      => 'meta_value',
-			'order'        => 'desc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'most-rated' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_most_rated_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'     => prefix_movie_meta_key( 'rating' ),
-			//'meta_value'   => 0.0
-			//'meta_compare' => '>',
-			'orderby'      => 'meta_value_num',
-			'order'        => 'desc',
-		) );
-
-		return $query_vars;
-	}
-
-	/**
-	 * 'least-rated' movies query preset query vars.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $query_vars Query vars.
-	 * 
-	 * @return   array
-	 */
-	public function filter_least_rated_movies_query_vars( $query_vars = array() ) {
-
-		$query_vars = array_merge( (array) $query_vars, array(
-			'meta_key'     => prefix_movie_meta_key( 'rating' ),
-			//'meta_value'   => 0.0
-			//'meta_compare' => '>',
-			'orderby'      => 'meta_value_num',
-			'order'        => 'asc',
-		) );
-
-		return $query_vars;
 	}
 
 }

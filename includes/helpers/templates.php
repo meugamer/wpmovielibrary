@@ -40,8 +40,6 @@ function wpmoly_get_js_template( $template ) {
 
 	$template = new \wpmoly\Templates\JavaScript( $template );
 
-	$template->set_data( array( 'is_json' => true ) );
-
 	return $template;
 }
 

@@ -305,94 +305,78 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/filter/detail/status/url',           '', 'get_movie_status_url',    15, 2 );
 		$loader->add_filter( 'wpmoly/filter/detail/subtitles/url',        '', 'get_movie_subtitles_url', 15, 2 );
 
-		// REST API queries
-		$rest_api = Rest\API::get_instance();
-		$loader->add_filter( 'wpmoly/filter/query/movies/actor/param',         $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/adult/param',         $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/author/param',        $rest_api, 'add_meta_author_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/budget/param',        $rest_api, 'add_meta_interval_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/certification/param', $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/company/param',       $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/composer/param',      $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/country/param',       $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/director/param',      $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/format/param',        $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/genre/param',         $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/language/param',      $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/languages/param',     $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/local_release/param', $rest_api, 'add_meta_interval_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/media/param',         $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/photography/param',   $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/producer/param',      $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/rating/param',        $rest_api, 'add_meta_interval_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/release/param',       $rest_api, 'add_meta_interval_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/revenue/param',       $rest_api, 'add_meta_interval_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/runtime/param',       $rest_api, 'add_meta_interval_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/status/param',        $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/subtitles/param',     $rest_api, 'add_meta_query_param', 10, 4 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/writer/param',        $rest_api, 'add_meta_query_param', 10, 4 );
-
+		// Queries
 		$query = Core\Query::get_instance();
-		$loader->add_filter( 'wpmoly/filter/query/movies/actor/value',         $query, 'filter_actor_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/adult/value',         $query, 'filter_adult_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/author/value',        $query, 'filter_author_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/budget/value',        $query, 'filter_money_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/certification/value', $query, 'filter_certification_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/company/value',       $query, 'filter_company_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/composer/value',      $query, 'filter_composer_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/country/value',       $query, 'filter_country_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/director/value',      $query, 'filter_director_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/format/value',        $query, 'filter_format_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/genre/value',         $query, 'filter_genre_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/language/value',      $query, 'filter_language_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/languages/value',     $query, 'filter_languages_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/local_release/value', $query, 'filter_release_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/media/value',         $query, 'filter_media_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/photography/value',   $query, 'filter_photography_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/producer/value',      $query, 'filter_producer_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/rating/value',        $query, 'filter_rating_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/release/value',       $query, 'filter_release_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/revenue/value',       $query, 'filter_money_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/runtime/value',       $query, 'filter_runtime_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/status/value',        $query, 'filter_status_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/subtitles/value',     $query, 'filter_subtitles_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/writer/value',        $query, 'filter_writer_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/alphabetical/preset/param',        $query, 'filter_alphabetical_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/unalphabetical/preset/param',      $query, 'filter_unalphabetical_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/current-year/preset/param',        $query, 'filter_current_year_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/last-year/preset/param',           $query, 'filter_last_year_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/last-added/preset/param',          $query, 'filter_last_added_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/first-added/preset/param',         $query, 'filter_first_added_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/last-released/preset/param',       $query, 'filter_last_released_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/first-released/preset/param',      $query, 'filter_first_released_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/incoming/preset/param',            $query, 'filter_incoming_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/most-rated/preset/param',          $query, 'filter_most_rated_movies_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/least-rated/preset/param',         $query, 'filter_least_rated_movies_preset_param' );
 
-		$loader->add_filter( 'wpmoly/filter/query/movies/alphabetical/param',   $query, 'filter_alphabetical_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/unalphabetical/param', $query, 'filter_unalphabetical_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/current-year/param',   $query, 'filter_current_year_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/last-year/param',      $query, 'filter_last_year_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/last-added/param',     $query, 'filter_last_added_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/first-added/param',    $query, 'filter_first_added_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/last-released/param',  $query, 'filter_last_released_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/first-released/param', $query, 'filter_first_released_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/incoming/param',       $query, 'filter_incoming_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/most-rated/param',     $query, 'filter_most_rated_movies_query_vars', 10, 1 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/least-rated/param',    $query, 'filter_least_rated_movies_query_vars', 10, 1 );
+		$loader->add_filter( 'wpmoly/filter/query/actors/alphabetical/preset/param',        $query, 'filter_alphabetical_actors_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/actors/unalphabetical/preset/param',      $query, 'filter_unalphabetical_actors_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/collections/alphabetical/preset/param',   $query, 'filter_alphabetical_collections_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/collections/unalphabetical/preset/param', $query, 'filter_unalphabetical_collections_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/genres/alphabetical/preset/param',        $query, 'filter_alphabetical_genres_preset_param' );
+		$loader->add_filter( 'wpmoly/filter/query/genres/unalphabetical/preset/param',      $query, 'filter_unalphabetical_genres_preset_param' );
 
-		$loader->add_filter( 'wpmoly/filter/query/movies/rating/type',         $query, 'filter_rating_query_type', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/actor/param',                      $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/adult/param',                      $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/author/param',                     $query, 'filter_meta_author_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/budget/param',                     $query, 'filter_meta_interval_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/certification/param',              $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/company/param',                    $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/composer/param',                   $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/country/param',                    $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/director/param',                   $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/format/param',                     $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/genre/param',                      $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/language/param',                   $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/languages/param',                  $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/local_release/param',              $query, 'filter_meta_interval_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/media/param',                      $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/photography/param',                $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/producer/param',                   $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/rating/param',                     $query, 'filter_meta_interval_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/release/param',                    $query, 'filter_meta_interval_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/revenue/param',                    $query, 'filter_meta_interval_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/runtime/param',                    $query, 'filter_meta_interval_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/status/param',                     $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/subtitles/param',                  $query, 'filter_meta_query_param', 10, 4 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/writer/param',                     $query, 'filter_meta_query_param', 10, 4 );
 
-		// Templates
-		$loader->add_filter( 'wpmoly/filter/template/data', $this, 'js_template_data' );
+		$loader->add_filter( 'wpmoly/filter/query/movies/actor/value',                      $query, 'filter_actor_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/adult/value',                      $query, 'filter_adult_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/author/value',                     $query, 'filter_author_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/budget/value',                     $query, 'filter_money_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/certification/value',              $query, 'filter_certification_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/company/value',                    $query, 'filter_company_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/composer/value',                   $query, 'filter_composer_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/country/value',                    $query, 'filter_country_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/director/value',                   $query, 'filter_director_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/format/value',                     $query, 'filter_format_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/genre/value',                      $query, 'filter_genre_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/language/value',                   $query, 'filter_language_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/languages/value',                  $query, 'filter_languages_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/local_release/value',              $query, 'filter_release_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/media/value',                      $query, 'filter_media_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/photography/value',                $query, 'filter_photography_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/producer/value',                   $query, 'filter_producer_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/rating/value',                     $query, 'filter_rating_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/release/value',                    $query, 'filter_release_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/revenue/value',                    $query, 'filter_money_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/runtime/value',                    $query, 'filter_runtime_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/status/value',                     $query, 'filter_status_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/subtitles/value',                  $query, 'filter_subtitles_query_var', 10, 2 );
+		$loader->add_filter( 'wpmoly/filter/query/movies/writer/value',                     $query, 'filter_writer_query_var', 10, 2 );
 
-	}
-
-	/**
-	 * Add an 'is_json' value to JS Templates data.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @param    array    $data
-	 * 
-	 * @return   array
-	 */
-	public function js_template_data( $data = array() ) {
-
-		if ( empty( $data['is_json'] ) ) {
-			$data['is_json'] = false;
-		}
-
-		return $data;
+		$loader->add_filter( 'wpmoly/filter/query/movies/rating/type',                      $query, 'filter_rating_query_type', 10, 2 );
 	}
 
 	/**
