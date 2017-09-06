@@ -704,6 +704,8 @@ window.wpmoly = window.wpmoly || {};
 			if ( ! this.collection ) {
 				this.setCollection();
 			}
+ 
+			this.calculateNumber();
 
 			var self = this,
 			 options = _.extend( options || {}, { data : this.prepareQueryParameters() } );
@@ -721,6 +723,40 @@ window.wpmoly = window.wpmoly || {};
 			};
 
 			return this.collection.fetch( options );
+		},
+ 
+ 		/**
+		 * Calculate the number of nodes to query from the number of
+		 * columns and rows of the grid.
+		 *
+		 * @TODO take into account the actual number of columns as it can
+		 * changes with screen dimensions.
+		 *
+		 * @since    3.0
+		 */
+		calculateNumber : function() {
+
+			if ( 'grid' == this.settings.get( 'mode' ) ) {
+				var columns = this.settings.get( 'columns' ),
+				       rows = this.settings.get( 'rows' );
+			} else if ( 'list' == this.settings.get( 'mode' ) ) {
+				var columns = this.settings.get( 'list_columns' ),
+				       rows = this.settings.get( 'list_rows' );
+			} else {
+				return false;
+			}
+
+			if ( this.isPost() ) {
+				var attr = 'per_page';
+			} else if ( this.isTaxonomy() ) {
+				var attr = 'number';
+			} else {
+				return false;
+			}
+
+			console.log( Math.round( columns * rows ) );
+
+			this.set( attr, Math.round( columns * rows ), { silent : true } );
 		},
 
 		/**

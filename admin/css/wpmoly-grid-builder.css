@@ -440,6 +440,11 @@ body.wp-admin.post-php.post-type-grid #titlediv #title {
 	border-color: #00a0d2 !important;
 }
 
+#wpmoly-grid-builder [data-filter-mode="grid"].butterbean-ui.postbox .butterbean-content .butterbean-control.list-mode,
+#wpmoly-grid-builder [data-filter-mode="list"].butterbean-ui.postbox .butterbean-content .butterbean-control.grid-mode {
+	display: none;
+}
+
 /*
  * Grid Publish Metabox
  */

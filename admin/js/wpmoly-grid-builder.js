@@ -398,11 +398,7 @@ wpmoly = window.wpmoly || {};
 		 */
 		togglePostbox: function( model, value, options ) {
 
-			/*if ( _.isUndefined( value ) ) {
-				return false;
-			}*/
-
-			var $postbox = this.$( '#butterbean-ui-' + value + '-grid-settings' ),
+			var $postbox = this.$( '#butterbean-ui-' + model.get( 'type' ) + '-grid-settings' ),
 			  $postboxes = this.$( '.butterbean-ui.postbox' );
 			if ( ! $postbox.length ) {
 				return;
@@ -410,6 +406,8 @@ wpmoly = window.wpmoly || {};
 
 			$postboxes.removeClass( 'active' );
 			$postbox.addClass( 'active' );
+
+			$postbox.attr( 'data-filter-mode', model.get( 'mode' ) );
 		},
 
 		/**

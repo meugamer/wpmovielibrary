@@ -168,7 +168,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								'default'  => 5
 							),
 							'grid-rows' => array(
@@ -176,7 +176,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								'default'  => 4
 							),
 							'grid-column-width' => array(
@@ -184,7 +184,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								'default'  => 134
 							),
 							'grid-row-height' => array(
@@ -192,7 +192,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								'default'  => 200
 							),
 							'grid-list-columns' => array(
@@ -200,7 +200,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 3
 							),
@@ -209,7 +209,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 240
 							),
@@ -218,7 +218,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 8
 							),
@@ -351,7 +351,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 5
 							),
@@ -360,7 +360,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 4
 							),
@@ -369,7 +369,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Actor picture ideal width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 160
 							),
@@ -378,7 +378,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Actor picture ideal height', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 200
 							),
@@ -387,7 +387,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 3
 							),
@@ -396,7 +396,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 240
 							),
@@ -405,7 +405,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 8
 							),
@@ -538,7 +538,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 5
 							),
@@ -547,7 +547,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 4
 							),
@@ -556,7 +556,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Actor picture ideal width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 160
 							),
@@ -565,7 +565,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Actor picture ideal height', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 200
 							),
@@ -574,7 +574,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 3
 							),
@@ -583,7 +583,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 240
 							),
@@ -592,7 +592,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 8
 							),
@@ -725,7 +725,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 5
 							),
@@ -734,7 +734,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 4
 							),
@@ -743,7 +743,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Actor picture ideal width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 160
 							),
@@ -752,7 +752,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Actor picture ideal height', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col grid-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 200
 							),
@@ -761,7 +761,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of columns for the grid in list mode. Default is 3.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 3
 							),
@@ -770,7 +770,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Ideal width for columns in list mode. Default is 240.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 240
 							),
@@ -779,7 +779,7 @@ class GridBuilder extends Metabox {
 								'section'  => 'grid-appearance',
 								'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Number of rows for the grid in list mode. Default is 8.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
+								'attr'     => array( 'class' => 'half-col list-mode', 'size' => '2' ),
 								//'sanitize' => 'intval',
 								'default'  => 8
 							),
