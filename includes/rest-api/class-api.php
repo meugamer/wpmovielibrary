@@ -236,7 +236,7 @@ class API {
 
 		// Preset should be overriden by custom order request.
 		// We have to use $_REQUEST instead of $request to ignore defaults.
-		if ( ! empty( $request['preset'] ) && ! ( empty( $_REQUEST['order'] ) || empty( $_REQUEST['orderby'] ) ) ) {
+		if ( ! empty( $request['preset'] ) && ( ! empty( $_REQUEST['order'] ) || ! empty( $_REQUEST['orderby'] ) ) ) {
 			unset( $request['preset'] );
 		}
 
