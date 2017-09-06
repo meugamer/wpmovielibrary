@@ -337,25 +337,8 @@ class GridBuilder extends Metabox {
 										'label' => esc_html__( 'Unalphabetical Actors', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-actors.png'
 									),
-									'alphabetical-persons' => array(
-										'label' => esc_html__( 'Alphabetical Persons', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/alphabetical-persons.png'
-									),
-									'unalphabetical-persons' => array(
-										'label' => esc_html__( 'Unalphabetical Persons', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-persons.png'
-									)
 								),
 								'sanitize' => 'esc_attr'
-							),
-							'grid-actor-person' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-preset',
-								'label'    => esc_html__( 'Use Person', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Use the Person data when available?', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 1
 							),
 						)
 					),
@@ -543,15 +526,6 @@ class GridBuilder extends Metabox {
 									)
 								),
 								'sanitize' => 'esc_attr'
-							),
-							'grid-collection-person' => array(
-								'type'     => 'checkbox',
-								'section'  => 'grid-preset',
-								'label'    => esc_html__( 'Use Person', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Use the Person data when available?', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
-								'sanitize' => '_is_bool',
-								'default'  => 1
 							),
 						)
 					),
