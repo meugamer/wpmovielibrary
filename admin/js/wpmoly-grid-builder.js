@@ -14,20 +14,16 @@ wpmoly = window.wpmoly || {};
 
 		var post_id = document.querySelector( '#post_ID' ).value;
 
-		var builder = new wp.api.models.Grid( { id : post_id } );
-
 		var controller = new GridBuilder.controller.Builder({
 			post_id : post_id,
 		}, {
-			builder : builder,
+			grid : GridBuilder.preview.controller.model,
 		});
 
-		builder.once( 'change', function( e ) {
-			var view = new GridBuilder.view.Builder({
-				el         : document.querySelector( '#wpmoly-grid-builder' ),
-				controller : controller
-			});
-		} );
+		var view = new GridBuilder.view.Builder({
+			el         : document.querySelector( '#wpmoly-grid-builder' ),
+			controller : controller
+		});
 
 		var builder = {
 
@@ -155,23 +151,6 @@ wpmoly = window.wpmoly || {};
 
 	};
 
-	GridBuilder.model.Builder = Backbone.Model.extend({
-
-		/**
-		 * Initialize the Model.
-		 *
-		 * @since    3.0
-		 *
-		 * @param    {object}    attributes
-		 * @param    {object}    options
-		 */
-		initialize: function( attributes, options ) {
-
-			var options = options || {};
-		},
-
-	});
-
 	/**
 	 * GridBuilder Builder Controller.
 	 *
@@ -193,13 +172,28 @@ wpmoly = window.wpmoly || {};
 
 			var options = options || {};
 
-			this.builder = options.builder;
-			this.listenTo( this.builder, 'change:meta', this.updateModel );
+			this.grid = options.grid;
 
-			this.model = new GridBuilder.model.Builder;
-			this.listenTo( this.model, 'change', this.updatePreview );
+			// Set model.
+			this.setModel();
 
-			this.builder.fetch( { data : { context : 'edit' } } );
+			// Mirror grid meta changes.
+			this.listenTo( this.grid,  'change:meta', this.updateModel );
+			this.listenTo( this.model, 'change',      this.updatePreview );
+		},
+
+		/**
+		 * Set a model to mirror grid meta changes.
+		 *
+		 * @since    3.0
+		 *
+		 * @return   Returns itself to allow chaining
+		 */
+		setModel : function() {
+
+			this.model = new Backbone.Model( this.grid.get( 'meta' ) );
+
+			return this;
 		},
 
 		/**
@@ -215,6 +209,10 @@ wpmoly = window.wpmoly || {};
 		 */
 		updateModel : function( model, value, options ) {
 
+			if ( ! this.model ) {
+				this.setModel();
+			}
+
 			return this.model.set( value );
 		},
 
@@ -225,7 +223,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @param    {object}    model
 		 */
-		updatePreview: function( model ) {
+		updatePreview : function( model ) {
 
 			// Hide Tutorial, if needed.
 			if ( GridBuilder.tutorial ) {
@@ -236,7 +234,11 @@ wpmoly = window.wpmoly || {};
 
 			// Update preview.
 			if ( GridBuilder.preview ) {
-				GridBuilder.preview.set( model.changed );
+				if ( _.has( model.changed, 'preset' ) ) {
+					GridBuilder.preview.setArgs( { preset : model.get( 'preset' ) } );
+				} else {
+					GridBuilder.preview.setSettings( model.changed );
+				}
 			}
 		},
 
@@ -505,6 +507,7 @@ wpmoly = window.wpmoly || {};
 
 			this.controller = options.controller || {};
 
+			//this.render();
 			this.bindEvents();
 
 			this.on( 'prepare', this.toggle );
@@ -614,7 +617,7 @@ wpmoly = window.wpmoly || {};
 		prepare : function() {
 
 			var options = _.extend(
-				_.pick( this.controller.builder.toJSON(), 'support' ) || {}, {
+				_.pick( this.controller.grid.toJSON(), 'support' ) || {}, {
 					meta : _.pick( this.controller.model.toJSON(), 'type', 'mode', 'theme' ) || {},
 				}
 			);
@@ -665,7 +668,9 @@ wpmoly = window.wpmoly || {};
 	GridBuilder.load = function() {
 
 		GridBuilder.loadPreview();
-		GridBuilder.loadBuilder();
+		if ( GridBuilder.preview ) {
+			GridBuilder.preview.controller.model.on( 'sync', GridBuilder.loadBuilder );
+		}
 
 		return GridBuilder;
 	};

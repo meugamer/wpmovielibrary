@@ -482,8 +482,6 @@ window.wpmoly = window.wpmoly || {};
 
 			this.settings = options.settings;
 
-			this.setDefaults();
-
 			this.on( 'fetch:done', this.setState, this );
 			this.state = new Backbone.Model({
 				currentPage : parseInt( options.current_page ) || '',
@@ -505,7 +503,14 @@ window.wpmoly = window.wpmoly || {};
 		 */
 		setDefaults : function() {
 
-			if ( this.isPost() ) {
+			var preset = this.settings.get( 'preset' );
+			if ( '' !== preset && 'custom' !== preset ) {
+				this.set({
+					preset : preset,
+				}, {
+					silent  : true,
+				});
+			} else if ( this.isPost() ) {
 				this.set({
 					order   : 'desc',
 					orderby : 'date',
