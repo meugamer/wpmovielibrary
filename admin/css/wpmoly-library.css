@@ -1,4 +1,25 @@
 
+body.toplevel_page_wpmovielibrary .wrap {
+	height: 200px;
+	left: calc( 50% - 100px );
+	position: absolute;
+	text-align: center;
+	top: calc( 50% - 100px );
+	width: 200px;
+}
+
+body.toplevel_page_wpmovielibrary .wrap > .dashicons {
+	font-size: 128px;
+	height: 128px;
+	line-height: 128px;
+	width: 128px;
+}
+
+body.toplevel_page_wpmovielibrary .wrap > p {
+	font-size: 11px;
+	font-weight: 600;
+}
+
 #wpmoly-library {
 	margin-top: 25px;
 }

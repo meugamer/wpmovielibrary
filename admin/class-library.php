@@ -54,6 +54,12 @@ class Library {
 	 */
 	public function build() {
 
+?>
+	<div class="wrap">
+		<span class="dashicons dashicons-smiley"></span>
+		<p><?php _e( 'Still on Alpha2, nothing here yet!', 'wpmovielibrary' ); ?></p>
+	</div>
+<?php
 		//$library = new Template( 'library.php' );
 		//$library->render();
 	}
