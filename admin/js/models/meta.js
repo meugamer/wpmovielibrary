@@ -7,8 +7,8 @@ wpmoly.model.Meta = Backbone.Model.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    attributes
-	 * @param    object    options
+	 * @param    {object}    attributes
+	 * @param    {object}    options
 	 */
 	initialize : function( attributes, options ) {
 
@@ -22,8 +22,8 @@ wpmoly.model.Meta = Backbone.Model.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model Current model
-	 * @param    object    options
+	 * @param    {object}    model Current model
+	 * @param    {object}    options
 	 *
 	 * @return   deferred
 	 */
@@ -44,7 +44,7 @@ wpmoly.model.Meta = Backbone.Model.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	reset : function( options ) {
 
@@ -72,9 +72,9 @@ wpmoly.model.Meta = Backbone.Model.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    string    method Are we reading or is it a regular sync?
-	 * @param    object    model Current model
-	 * @param    object    options Query options
+	 * @param    {string}    method Are we reading or is it a regular sync?
+	 * @param    {object}    model Current model
+	 * @param    {object}    options Query options
 	 *
 	 * @return   mixed
 	 */
@@ -144,8 +144,8 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    attributes
-	 * @param    object    options
+	 * @param    {object}    attributes
+	 * @param    {object}    options
 	 */
 	initialize : function( attributes, options ) {
 
@@ -169,8 +169,8 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    attributes
-	 * @param    object    options
+	 * @param    {object}    attributes
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining
 	 */
@@ -238,7 +238,7 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    values
+	 * @param    {object}    values
 	 *
 	 * @return   string
 	 */
@@ -282,7 +282,7 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    values
+	 * @param    {object}    values
 	 *
 	 * @return   string
 	 */
@@ -308,7 +308,7 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    values
+	 * @param    {object}    values
 	 *
 	 * @return   string
 	 */
@@ -322,7 +322,7 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    values
+	 * @param    {object}    values
 	 *
 	 * @return   string
 	 */
@@ -336,7 +336,7 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    values
+	 * @param    {object}    values
 	 *
 	 * @return   string
 	 */
@@ -353,7 +353,7 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    values
+	 * @param    {object}    values
 	 *
 	 * @return   string
 	 */
@@ -376,9 +376,9 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
-	 * @param    string    value
-	 * @param    object    options
+	 * @param    {object}    model
+	 * @param    {string}    value
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining
 	 */
@@ -392,9 +392,9 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
-	 * @param    string    value
-	 * @param    object    options
+	 * @param    {object}    model
+	 * @param    {string}    value
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining
 	 */
@@ -410,9 +410,9 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
-	 * @param    string    value
-	 * @param    object    options
+	 * @param    {object}    model
+	 * @param    {string}    value
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining
 	 */
@@ -429,10 +429,10 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    string    taxonomy
-	 * @param    object    model
-	 * @param    string    value
-	 * @param    object    options
+	 * @param    {string}    taxonomy
+	 * @param    {object}    model
+	 * @param    {string}    value
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining
 	 */

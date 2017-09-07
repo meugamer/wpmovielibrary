@@ -16,7 +16,7 @@ wpmoly.view.GridMenu = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	initialize : function( options ) {
 

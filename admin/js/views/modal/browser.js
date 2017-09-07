@@ -21,7 +21,7 @@ Modal.ImagesToolbar = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	initialize : function( options ) {
 
@@ -155,7 +155,7 @@ Modal.ImagesBrowser = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	previewImage : function( model ) {
 
@@ -205,7 +205,7 @@ Modal.ImagesBrowser = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS event
+	 * @param    {object}    JS event
 	 */
 	browse : function( event ) {
 

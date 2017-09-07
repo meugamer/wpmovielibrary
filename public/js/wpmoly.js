@@ -52,9 +52,9 @@ wpmoly = window.wpmoly = {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    message
-		 * @param    string    callback
-		 * @param    object    options
+		 * @param    {string}    message
+		 * @param    {string}    callback
+		 * @param    {object}    options
 		 */
 		confirm : function( message, callback, options ) {
 
@@ -74,9 +74,9 @@ wpmoly = window.wpmoly = {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    message
-		 * @param    string    code
-		 * @param    object    options
+		 * @param    {string}    message
+		 * @param    {string}    code
+		 * @param    {object}    options
 		 */
 		error : function( message, code, options ) {
 
@@ -92,9 +92,9 @@ wpmoly = window.wpmoly = {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    message
-		 * @param    string    code
-		 * @param    object    options
+		 * @param    {string}    message
+		 * @param    {string}    code
+		 * @param    {object}    options
 		 */
 		warn : function( message, code, options ) {
 
@@ -110,9 +110,9 @@ wpmoly = window.wpmoly = {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    message
-		 * @param    string    code
-		 * @param    object    options
+		 * @param    {string}    message
+		 * @param    {string}    code
+		 * @param    {object}    options
 		 */
 		info : function( message, code, options ) {
 
@@ -132,9 +132,9 @@ wpmoly = window.wpmoly = {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    message
-		 * @param    string    code
-		 * @param    object    options
+		 * @param    {string}    message
+		 * @param    {string}    code
+		 * @param    {object}    options
 		 */
 		log : function( message, code, options ) {
 

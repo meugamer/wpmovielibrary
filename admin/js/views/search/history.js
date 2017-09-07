@@ -75,9 +75,9 @@ Search.History = wp.Backbone.View.extend({
 	/**
 	 * Create subviews for models added to the collection.
 	 *
-	 * @param    object    model
-	 * @param    object    collection
-	 * @param    object    options
+	 * @param    {object}    model
+	 * @param    {object}    collection
+	 * @param    {object}    options
 	 */
 	createSubviews : function( model, collection, options ) {
 
@@ -92,9 +92,9 @@ Search.History = wp.Backbone.View.extend({
 	/**
 	 * Remove subviews when models are removed from the collection.
 	 *
-	 * @param    object    model
-	 * @param    object    collection
-	 * @param    object    options
+	 * @param    {object}    model
+	 * @param    {object}    collection
+	 * @param    {object}    options
 	 */
 	removeSubviews : function( model, collection, options ) {
 

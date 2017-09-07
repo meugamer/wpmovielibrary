@@ -671,8 +671,8 @@ class L10n {
 
 		wp_localize_script( 'wpmoly-core', 'wpmolyL10n', $localized );
 
-		$poster   = Node\DefaultPoster::get_instance();
-		$backdrop = Node\DefaultBackdrop::get_instance();
+		$poster   = Node\Default_Poster::get_instance();
+		$backdrop = Node\Default_Backdrop::get_instance();
 		$localized = array(
 			'poster'   => $poster->get_sizes(),
 			'backdrop' => $backdrop->get_sizes(),

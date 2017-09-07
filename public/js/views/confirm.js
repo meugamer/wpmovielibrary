@@ -24,7 +24,7 @@ _.extend( wpmoly.view, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    Options
+		 * @param    {object}    Options
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
@@ -69,7 +69,7 @@ _.extend( wpmoly.view, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    JS 'click' Event
+		 * @param    {object}    JS 'click' Event
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
@@ -90,7 +90,7 @@ _.extend( wpmoly.view, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    JS 'click' Event
+		 * @param    {object}    JS 'click' Event
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
@@ -111,7 +111,7 @@ _.extend( wpmoly.view, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    JS 'keydown' Event
+		 * @param    {object}    JS 'keydown' Event
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */

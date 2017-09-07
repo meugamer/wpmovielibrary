@@ -21,7 +21,7 @@ Modal.Image = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	initialize : function( options ) {
 
@@ -88,7 +88,7 @@ Modal.Image = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS event
+	 * @param    {object}    JS event
 	 */
 	toggleSelectionHandler : function( event ) {
 
@@ -135,7 +135,7 @@ Modal.Image = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	toggleSelection : function( options ) {
 
@@ -221,7 +221,7 @@ Modal.Image = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 *
 	 * @return   Boolean
 	 */
@@ -238,8 +238,8 @@ Modal.Image = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
-	 * @param    object    collection
+	 * @param    {object}    model
+	 * @param    {object}    collection
 	 */
 	select : function( model, collection ) {
 
@@ -265,8 +265,8 @@ Modal.Image = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
-	 * @param    object    collection
+	 * @param    {object}    model
+	 * @param    {object}    collection
 	 */
 	deselect : function( model, collection ) {
 
@@ -285,9 +285,9 @@ Modal.Image = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object     model
-	 * @param    boolean    value
-	 * @param    object     options
+	 * @param    {object}     model
+	 * @param    {boolean}    value
+	 * @param    {object}     options
 	 */
 	updateExisting : function( model, value, options ) {
 
@@ -301,8 +301,8 @@ Modal.Image = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
-	 * @param    object    collection
+	 * @param    {object}    model
+	 * @param    {object}    collection
 	 */
 	details : function( model, collection ) {
 
@@ -323,7 +323,7 @@ Modal.Image = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS event
+	 * @param    {object}    JS event
 	 */
 	checkClickHandler : function ( event ) {
 
@@ -459,7 +459,7 @@ Model.Images = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
+	 * @param    {object}    model
 	 */
 	createImage : function( model, collection, options ) {
 
@@ -482,8 +482,8 @@ Model.Images = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    int    min Minimal images width
-	 * @param    int    max Maximal images width
+	 * @param    {int}    min Minimal images width
+	 * @param    {int}    max Maximal images width
 	 *
 	 * @return   Returns itself to allow chaining
 	 */
@@ -525,7 +525,7 @@ Model.Images = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    string    language Language ISO639-1 code or 'all'
+	 * @param    {string}    language Language ISO639-1 code or 'all'
 	 *
 	 * @return   Returns itself to allow chaining
 	 */

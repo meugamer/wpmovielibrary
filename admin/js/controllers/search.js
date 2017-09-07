@@ -90,7 +90,7 @@ _.extend( wpmoly.controller, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    model
+		 * @param    {object}    model
 		 *
 		 * @return   xhr
 		 */
@@ -129,7 +129,7 @@ _.extend( wpmoly.controller, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    data
+		 * @param    {object}    data
 		 */
 		searchProcess : function( data ) {
 
@@ -144,7 +144,7 @@ _.extend( wpmoly.controller, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    response
+		 * @param    {object}    response
 		 */
 		searchResults : function( response ) {
 
@@ -184,7 +184,7 @@ _.extend( wpmoly.controller, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    model
+		 * @param    {object}    model
 		 */
 		fetchMovie : function( model ) {
 
@@ -215,7 +215,7 @@ _.extend( wpmoly.controller, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    data
+		 * @param    {object}    data
 		 */
 		fetchProcess : function( data ) {
 
@@ -231,7 +231,7 @@ _.extend( wpmoly.controller, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    response
+		 * @param    {object}    response
 		 */
 		fetchResults : function( response ) {
 

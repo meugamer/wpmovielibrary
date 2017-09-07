@@ -13,7 +13,7 @@ wpmoly.view.ImageMore = wp.Backbone.View.extend({
 	/**
 	 * Initialize the View.
 	 *
-	 * @param    object    Options
+	 * @param    {object}    Options
 	 *
 	 * @since    3.0
 	 */
@@ -46,7 +46,7 @@ wpmoly.view.ImageMore = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -60,7 +60,7 @@ wpmoly.view.ImageMore = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -74,7 +74,7 @@ wpmoly.view.ImageMore = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -103,7 +103,7 @@ wpmoly.view.Image = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Options
+	 * @param    {object}    Options
 	 *
 	 * @return   null
 	 */
@@ -142,7 +142,7 @@ wpmoly.view.Image = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -165,7 +165,7 @@ wpmoly.view.Image = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -181,7 +181,7 @@ wpmoly.view.Image = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -197,7 +197,7 @@ wpmoly.view.Image = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -214,7 +214,7 @@ wpmoly.view.Image = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */

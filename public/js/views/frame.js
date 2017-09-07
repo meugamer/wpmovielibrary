@@ -7,8 +7,8 @@ wpmoly.view.Frame = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    string    mode
-	 * @param    object    options
+	 * @param    {string}    mode
+	 * @param    {object}    options
 	 *
 	 * @return   Returns the current mode.
 	 */

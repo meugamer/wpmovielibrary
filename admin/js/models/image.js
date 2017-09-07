@@ -9,8 +9,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    Model
-		 * @param    object    Options
+		 * @param    {object}    Model
+		 * @param    {object}    Options
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
@@ -29,8 +29,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    Model
-		 * @param    object    Options
+		 * @param    {object}    Model
+		 * @param    {object}    Options
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
@@ -51,7 +51,7 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    model Current model
+		 * @param    {object}    model Current model
 		 *
 		 * @return   deferred
 		 */
@@ -65,9 +65,9 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    Method
-		 * @param    object    Model
-		 * @param    object    Options
+		 * @param    {string}    Method
+		 * @param    {object}    Model
+		 * @param    {object}    Options
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */

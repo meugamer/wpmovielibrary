@@ -44,7 +44,7 @@ _.extend( wpmoly.view, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    JS 'change' event
+		 * @param    {object}    JS 'change' event
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
@@ -77,7 +77,7 @@ _.extend( wpmoly.view, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    JS 'focus' event
+		 * @param    {object}    JS 'focus' event
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */

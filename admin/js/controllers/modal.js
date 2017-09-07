@@ -9,8 +9,8 @@ Modal.Modal = Backbone.Model.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    attributes
-	 * @param    object    options
+	 * @param    {object}    attributes
+	 * @param    {object}    options
 	 */
 	initialize : function( attributes, options ) {
 
@@ -156,7 +156,7 @@ Modal.State = wp.media.controller.State.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	*/
 	initialize : function( options ) {
 

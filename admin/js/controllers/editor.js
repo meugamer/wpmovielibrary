@@ -93,9 +93,9 @@ _.extend( wpmoly.controller, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    Frame state ID
-		 * @param    string    Frame content mode ID
-		 * @param    object    options
+		 * @param    {string}    Frame state ID
+		 * @param    {string}    Frame content mode ID
+		 * @param    {object}    options
 		 */
 		openMediaModal : function( state, mode, options ) {
 
@@ -121,7 +121,7 @@ _.extend( wpmoly.controller, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    JS 'click' Event
+		 * @param    {object}    JS 'click' Event
 		 */
 		setFeatured : function( model ) {
 
@@ -153,9 +153,9 @@ _.extend( wpmoly.controller, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    Image Model
-		 * @param    string    Image type
-		 * @param    object    Image Collection
+		 * @param    {object}    Image Model
+		 * @param    {string}    Image type
+		 * @param    {object}    Image Collection
 		 *
 		 * @return   Returns itself to allow chaining
 		 */

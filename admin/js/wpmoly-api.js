@@ -52,8 +52,8 @@ wpmoly = window.wpmoly || {};
 			 *
 			 * @since    3.0
 			 *
-			 * @param    string    query
-			 * @param    object    params
+			 * @param    {string}    query
+			 * @param    {object}    params
 			 *
 			 * @return   xhr
 			 */
@@ -91,8 +91,8 @@ wpmoly = window.wpmoly || {};
 			 *
 			 * @since    3.0
 			 *
-			 * @param    string    query
-			 * @param    object    params
+			 * @param    {string}    query
+			 * @param    {object}    params
 			 *
 			 * @return   xhr
 			 */

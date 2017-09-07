@@ -15,7 +15,7 @@ wpmoly.view.GridSettings = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	initialize : function( options ) {
 
@@ -89,7 +89,7 @@ wpmoly.view.GridSettings = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    boolean    toggle
+	 * @param    {boolean}    toggle
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */

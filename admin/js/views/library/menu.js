@@ -32,7 +32,7 @@ _.extend( wpmoly.view.Library, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    JS 'click' Event
+		 * @param    {object}    JS 'click' Event
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */

@@ -79,7 +79,7 @@ Search.Status = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    boolean    toggle
+	 * @param    {boolean}    toggle
 	 */
 	toggleEffect : function( toggle, options ) {
 

@@ -31,8 +31,8 @@ wpmoly = window.wpmoly || {};
 	 *
 	 * @since    3.0
 	 *
-	 * @param    string    string
-	 * @param    int       html
+	 * @param    {string}    string
+	 * @param    {int}       html
 	 *
 	 * @return   string
 	 */
@@ -54,9 +54,9 @@ wpmoly = window.wpmoly || {};
 	 *
 	 * @since    3.0
 	 *
-	 * @param    function    func
-	 * @param    object      context
-	 * @param    int         argCount
+	 * @param    {function}    func
+	 * @param    {object}      context
+	 * @param    {int}         argCount
 	 *
 	 * @return   mixed
 	 */
@@ -96,9 +96,9 @@ wpmoly = window.wpmoly || {};
 	 *
 	 * @since    3.0
 	 *
-	 * @param    function    func
-	 * @param    object      context
-	 * @param    int         argCount
+	 * @param    {function}    func
+	 * @param    {object}      context
+	 * @param    {int}         argCount
 	 *
 	 * @return   mixed
 	 */
@@ -127,9 +127,9 @@ wpmoly = window.wpmoly || {};
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object      obj
-	 * @param    function    iteratee
-	 * @param    object      context
+	 * @param    {object}      obj
+	 * @param    {function}    iteratee
+	 * @param    {object}      context
 	 *
 	 * @return   object
 	 */
@@ -154,7 +154,7 @@ wpmoly = window.wpmoly || {};
 	 *
 	 * Accepts litteral values.
 	 *
-	 * @param    mixed    value
+	 * @param    {mixed}    value
 	 *
 	 * @return   boolean
 	 */
@@ -172,7 +172,7 @@ wpmoly = window.wpmoly || {};
 	 *
 	 * Accepts litteral values.
 	 *
-	 * @param    mixed    value
+	 * @param    {mixed}    value
 	 *
 	 * @return   boolean
 	 */
@@ -195,9 +195,9 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    string
-		 * @param    int       n
-		 * @param    string    param1, param
+		 * @param    {string}    string
+		 * @param    {int}       n
+		 * @param    {string}    param1, param
 		 *
 		 * @return   string
 		 */
@@ -225,7 +225,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    Action name
+		 * @param    {string}    Action name
 		 *
 		 * @return   boolean|string    Nonce value if available, false else.
 		 */
@@ -242,7 +242,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    Action name
+		 * @param    {string}    Action name
 		 */
 		set : function( action, nonce ) {
 
@@ -259,7 +259,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    name
+		 * @param    {string}    name
 		 *
 		 * @return   string
 		 */
@@ -276,7 +276,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    string String to parse
+		 * @param    {string}    string String to parse
 		 *
 		 * @return   array
 		 */
@@ -315,9 +315,9 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    int       current
-		 * @param    int       total
-		 * @param    object    options
+		 * @param    {int}       current
+		 * @param    {int}       total
+		 * @param    {object}    options
 		 *
 		 * @return   string
 		 */

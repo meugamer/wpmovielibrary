@@ -9,8 +9,8 @@ wpmoly.model.Images = Backbone.Collection.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Model
-	 * @param    object    Options
+	 * @param    {object}    Model
+	 * @param    {object}    Options
 	 *
 	 * @return   null
 	 */
@@ -24,7 +24,7 @@ wpmoly.model.Images = Backbone.Collection.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Image Models
+	 * @param    {object}    Image Models
 	 */
 	setAs : function( models ) {
 
@@ -111,7 +111,7 @@ wpmoly.model.Images = Backbone.Collection.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    array    images
+	 * @param    {array}    images
 	 */
 	import : function( images ) {
 
@@ -173,9 +173,9 @@ wpmoly.model.Images = Backbone.Collection.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    string    Method
-	 * @param    object    Model
-	 * @param    object    Options
+	 * @param    {string}    Method
+	 * @param    {object}    Model
+	 * @param    {object}    Options
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -202,8 +202,8 @@ wpmoly.model.Images = Backbone.Collection.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Model
-	 * @param    object    Model
+	 * @param    {object}    Model
+	 * @param    {object}    Model
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -234,8 +234,8 @@ wpmoly.model.Backdrops = wpmoly.model.Images.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Model
-	 * @param    object    Options
+	 * @param    {object}    Model
+	 * @param    {object}    Options
 	 */
 	initialize : function( models, options ) {
 
@@ -261,8 +261,8 @@ wpmoly.model.Posters = wpmoly.model.Images.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Model
-	 * @param    object    Options
+	 * @param    {object}    Model
+	 * @param    {object}    Options
 	 */
 	initialize : function( models, options ) {
 

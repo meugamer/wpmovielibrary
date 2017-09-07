@@ -34,7 +34,7 @@ wpmoly.view.TagBox = Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' event.
+	 * @param    {object}    JS 'click' event.
 	 */
 	autocomplete : function( event ) {
 

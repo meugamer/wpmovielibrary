@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Define the NodeList class.
+ * Define the Node_List class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -23,56 +23,56 @@ namespace wpmoly\Node;
 class Node_List implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
-	 * NodeList Loop status
+	 * Node_List Loop status
 	 *
 	 * @var    boolean
 	 */
 	protected $looping;
 
 	/**
-	 * NodeList current position
+	 * Node_List current position
 	 *
 	 * @var    int
 	 */
 	protected $position = -1;
 
 	/**
-	 * NodeList current Node
+	 * Node_List current Node
 	 *
 	 * @var    Node
 	 */
 	public $item;
 
 	/**
-	 * NodeList Nodes
+	 * Node_List Nodes
 	 *
 	 * @var    array
 	 */
 	public $items = array();
 
 	/**
-	 * NodeList Previous Node
+	 * Node_List Previous Node
 	 *
 	 * @var    Node
 	 */
 	protected $previous;
 
 	/**
-	 * NodeList Next Node
+	 * Node_List Next Node
 	 *
 	 * @var    Node
 	 */
 	protected $next;
 
 	/**
-	 * NodeList size
+	 * Node_List size
 	 *
 	 * @var    int
 	 */
 	public $length;
 
 	/**
-	 * Initialize NodeList.
+	 * Initialize Node_List.
 	 *
 	 * @since    3.0
 	 *

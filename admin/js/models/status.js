@@ -20,8 +20,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    attributes
-		 * @param    object    options
+		 * @param    {object}    attributes
+		 * @param    {object}    options
 		 */
 		initialize : function( attributes, options ) {
 
@@ -48,8 +48,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    models
-		 * @param    object    options
+		 * @param    {object}    models
+		 * @param    {object}    options
 		 */
 		initialize : function( models, options ) {
 
@@ -83,8 +83,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    model
-		 * @param    object    options
+		 * @param    {object}    model
+		 * @param    {object}    options
 		 */
 		stack : function( model, options ) {
 
@@ -98,8 +98,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    model
-		 * @param    object    options
+		 * @param    {object}    model
+		 * @param    {object}    options
 		 */
 		start : function( model, options ) {
 
@@ -113,8 +113,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    model
-		 * @param    object    options
+		 * @param    {object}    model
+		 * @param    {object}    options
 		 */
 		stop : function( model, options ) {
 

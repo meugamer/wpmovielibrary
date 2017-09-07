@@ -15,8 +15,8 @@ _.extend( Modal, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    collection
-		 * @param    object    options
+		 * @param    {object}    collection
+		 * @param    {object}    options
 		 */
 		initialize : function( collection, options ) {
 
@@ -31,9 +31,9 @@ _.extend( Modal, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    method
-		 * @param    object    collection
-		 * @param    object    options
+		 * @param    {string}    method
+		 * @param    {object}    collection
+		 * @param    {object}    options
 		 */
 		sync : function( method, collection, options ) {
 

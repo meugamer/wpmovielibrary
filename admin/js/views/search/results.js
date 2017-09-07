@@ -93,7 +93,7 @@ Search.ResultsHeader = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    string    mode
+	 * @param    {string}    mode
 	 *
 	 * @return   Returns itself to allow chaining
 	 */
@@ -176,7 +176,7 @@ Search.ResultsMenu = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    string    mode
+	 * @param    {string}    mode
 	 *
 	 * @return   Returns itself to allow chaining
 	 */
@@ -250,7 +250,7 @@ Search.ResultsList = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Model
+	 * @param    {object}    Model
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -317,7 +317,7 @@ Search.ResultsList = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    boolean    force resize
+	 * @param    {boolean}    force resize
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -360,7 +360,7 @@ Search.ResultsList = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Model
+	 * @param    {object}    Model
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */

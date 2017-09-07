@@ -11,7 +11,7 @@
 
 namespace wpmoly\Shortcodes;
 
-use wpmoly\Node\NodeList;
+use wpmoly\Node\Node_List;
 use wpmoly\Templates\Front as Template;
 
 /**
@@ -92,7 +92,7 @@ class Images extends Shortcode {
 	 */
 	protected function make() {
 
-		$this->nodes = new NodeList;
+		$this->nodes = new Node_List;
 
 		switch ( $this->tag ) {
 			case 'movie_image':

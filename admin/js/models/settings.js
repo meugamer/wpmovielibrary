@@ -28,8 +28,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    attributes
-		 * @param    object    options
+		 * @param    {object}    attributes
+		 * @param    {object}    options
 		 */
 		initialize : function( attributes, options ) {
 
@@ -44,7 +44,7 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    options
+		 * @param    {object}    options
 		 *
 		 * @return   deferred
 		 */
@@ -58,9 +58,9 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    method Are we saving or is it a regular sync?
-		 * @param    object    model Current model
-		 * @param    object    options Query options
+		 * @param    {string}    method Are we saving or is it a regular sync?
+		 * @param    {object}    model Current model
+		 * @param    {object}    options Query options
 		 *
 		 * @return   mixed
 		 */

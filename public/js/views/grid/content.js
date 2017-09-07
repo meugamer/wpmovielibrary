@@ -19,7 +19,7 @@ wpmoly.view.GridNode = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	initialize : function( options ) {
 
@@ -143,7 +143,7 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	initialize : function( options ) {
 
@@ -206,9 +206,9 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    collection
-	 * @param    object    xhr
-	 * @param    object    options
+	 * @param    {object}    collection
+	 * @param    {object}    xhr
+	 * @param    {object}    options
 	 *
 	 * @return    Returns itself to allow chaining.
 	 */
@@ -239,8 +239,8 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
-	 * @param    object    collection
+	 * @param    {object}    model
+	 * @param    {object}    collection
 	 *
 	 * @return    Returns itself to allow chaining.
 	 */
@@ -273,9 +273,9 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
-	 * @param    object    collection
-	 * @param    object    options
+	 * @param    {object}    model
+	 * @param    {object}    collection
+	 * @param    {object}    options
 	 *
 	 * @return    Returns itself to allow chaining.
 	 */

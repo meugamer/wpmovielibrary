@@ -16,7 +16,7 @@ wpmoly.view.GridPagination = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	initialize : function( options ) {
 
@@ -37,7 +37,7 @@ wpmoly.view.GridPagination = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'change' Event.
+	 * @param    {object}    JS 'change' Event.
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -60,7 +60,7 @@ wpmoly.view.GridPagination = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event.
+	 * @param    {object}    JS 'click' Event.
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */

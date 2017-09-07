@@ -5,7 +5,7 @@ wpmoly.view.ImageList = wp.Backbone.View.extend({
 	/**
 	 * Initialize the View.
 	 *
-	 * @param    object    Options
+	 * @param    {object}    Options
 	 *
 	 * @since    3.0
 	 */
@@ -47,7 +47,7 @@ wpmoly.view.ImageList = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Model
+	 * @param    {object}    Model
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -119,7 +119,7 @@ wpmoly.view.ImageList = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param boolean force resize
+	 * @param {boolean} force resize
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -169,7 +169,7 @@ wpmoly.view.ImageList = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    int    width
+	 * @param    {int}    width
 	 *
 	 * @return   int
 	 */
@@ -183,7 +183,7 @@ wpmoly.view.ImageList = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Model
+	 * @param    {object}    Model
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -215,7 +215,7 @@ wpmoly.view.ImageEditor = wp.Backbone.View.extend({
 	/**
 	 * Initialize the View.
 	 *
-	 * @param    object    Options
+	 * @param    {object}    Options
 	 *
 	 * @since    3.0
 	 */
@@ -254,7 +254,7 @@ wpmoly.view.ImageEditor = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    Event     JS 'change' event.
+	 * @param    {Event}     JS 'change' event.
 	 */
 	update : function( event ) {
 
@@ -270,8 +270,8 @@ wpmoly.view.ImageEditor = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    Model     Model changed
-	 * @param    object    Changes options
+	 * @param    {Model}     Model changed
+	 * @param    {object}    Changes options
 	 */
 	change : function( model, options ) {
 
@@ -288,8 +288,8 @@ wpmoly.view.ImageEditor = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    fields Changed fFields, usually one single field
-	 * @param    string    status Saving or saved?
+	 * @param    {object}    fields Changed fFields, usually one single field
+	 * @param    {string}    status Saving or saved?
 	 */
 	saving : function( fields, status ) {
 
@@ -323,7 +323,7 @@ wpmoly.view.ImageEditor = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    fields Changed fFields
+	 * @param    {object}    fields Changed fFields
 	 */
 	saved : function( fields ) {
 
@@ -337,7 +337,7 @@ wpmoly.view.ImageEditor = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    fields Changed fFields
+	 * @param    {object}    fields Changed fFields
 	 */
 	notsaved : function( fields ) {
 
@@ -349,7 +349,7 @@ wpmoly.view.ImageEditor = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -395,7 +395,7 @@ wpmoly.view.ImageEditor = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -414,7 +414,7 @@ wpmoly.view.ImageEditor = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' Event
+	 * @param    {object}    JS 'click' Event
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -433,7 +433,7 @@ wpmoly.view.Images = wpmoly.view.Frame.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Options
+	 * @param    {object}    Options
 	 */
 	initialize : function( options ) {
 
@@ -456,8 +456,8 @@ wpmoly.view.Images = wpmoly.view.Frame.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    model
-	 * @param    object    options
+	 * @param    {object}    model
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -476,7 +476,7 @@ wpmoly.view.Images = wpmoly.view.Frame.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    Options
+	 * @param    {object}    Options
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -511,7 +511,7 @@ wpmoly.view.BackdropList = wpmoly.view.ImageList.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    int    width
+	 * @param    {int}    width
 	 *
 	 * @return   int
 	 */
@@ -541,7 +541,7 @@ wpmoly.view.PosterList = wpmoly.view.ImageList.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    int    width
+	 * @param    {int}    width
 	 *
 	 * @return   int
 	 */
@@ -589,7 +589,7 @@ wpmoly.view.Backdrops = wpmoly.view.Images.extend({
 	/**
 	 * Initialize the View.
 	 *
-	 * @param    object    Options
+	 * @param    {object}    Options
 	 *
 	 * @since    3.0
 	 */
@@ -618,7 +618,7 @@ wpmoly.view.Posters = wpmoly.view.Images.extend({
 	/**
 	 * Initialize the View.
 	 *
-	 * @param    object    Options
+	 * @param    {object}    Options
 	 *
 	 * @since    3.0
 	 */

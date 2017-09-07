@@ -92,7 +92,7 @@ _.extend( Search, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object   JS 'click' event
+		 * @param    {object}   JS 'click' event
 		 */
 		switchSetting : function( event ) {
 
@@ -114,7 +114,7 @@ _.extend( Search, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object   JS 'click' event
+		 * @param    {object}   JS 'click' event
 		 */
 		setSetting : function( event ) {
 

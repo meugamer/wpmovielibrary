@@ -76,8 +76,8 @@ media.view.MediaFrame.Post = Post.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
-	 * @param    View      view
+	 * @param    {object}    options
+	 * @param    {View}      view
 	 */
 	imagesRouterRender : function( options, view ) {
 
@@ -99,7 +99,7 @@ media.view.MediaFrame.Post = Post.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    toolbar
+	 * @param    {object}    toolbar
 	 */
 	imagesToolbarCreate : function( toolbar ) {
 
@@ -115,8 +115,8 @@ media.view.MediaFrame.Post = Post.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
-	 * @param    View      view
+	 * @param    {object}    options
+	 * @param    {View}      view
 	 */
 	imagesContentRender : function( options, tab ) {
 

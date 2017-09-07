@@ -9,8 +9,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    attributes
-		 * @param    object    options
+		 * @param    {object}    attributes
+		 * @param    {object}    options
 		 */
 		initialize : function( attributes, options ) {
 

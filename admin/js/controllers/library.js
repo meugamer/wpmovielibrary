@@ -13,7 +13,7 @@ wpmoly.controller.Library = Backbone.Model.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    string    mode
+	 * @param    {string}    mode
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */

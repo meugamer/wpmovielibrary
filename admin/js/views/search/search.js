@@ -134,7 +134,7 @@ Search.SearchForm = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'keypress'
+	 * @param    {object}    JS 'keypress'
 	 */
 	keypress : function( event ) {
 

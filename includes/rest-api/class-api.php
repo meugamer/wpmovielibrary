@@ -461,7 +461,7 @@ class API {
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
 	 *
-	 * @return   \wpmoly\Node\NodeList
+	 * @return   \wpmoly\Node\Node_List
 	 */
 	public function get_movie_posters( $object, $field_name, $request ) {
 
@@ -497,7 +497,7 @@ class API {
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
 	 *
-	 * @return   \wpmoly\Node\NodeList
+	 * @return   \wpmoly\Node\Node_List
 	 */
 	public function get_movie_backdrops( $object, $field_name, $request ) {
 

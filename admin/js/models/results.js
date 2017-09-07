@@ -11,8 +11,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @since    3.0
 		 *
-		 * @param    array     models
-		 * @param    object    options
+		 * @param    {array}     models
+		 * @param    {object}    options
 		 */
 		initialize : function( models, options ) {
 

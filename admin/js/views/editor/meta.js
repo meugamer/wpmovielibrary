@@ -46,7 +46,7 @@ wpmoly.view.Meta = Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    Event     JS 'change' event.
+	 * @param    {Event}     JS 'change' event.
 	 */
 	update : function( event ) {
 
@@ -62,8 +62,8 @@ wpmoly.view.Meta = Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    Model     Model changed
-	 * @param    object    Changes options
+	 * @param    {Model}     Model changed
+	 * @param    {object}    Changes options
 	 */
 	change : function( model, options ) {
 
@@ -80,8 +80,8 @@ wpmoly.view.Meta = Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    fields Changed fFields, usually one single field
-	 * @param    string    status Saving or saved?
+	 * @param    {object}    fields Changed fFields, usually one single field
+	 * @param    {string}    status Saving or saved?
 	 */
 	saving : function( fields, status ) {
 
@@ -115,7 +115,7 @@ wpmoly.view.Meta = Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    fields Changed fFields
+	 * @param    {object}    fields Changed fFields
 	 */
 	saved : function( fields ) {
 
@@ -129,7 +129,7 @@ wpmoly.view.Meta = Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    fields Changed fFields
+	 * @param    {object}    fields Changed fFields
 	 */
 	notsaved : function( fields ) {
 

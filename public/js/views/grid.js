@@ -65,7 +65,7 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -88,7 +88,7 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -111,7 +111,7 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -134,7 +134,7 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */
@@ -160,7 +160,7 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */

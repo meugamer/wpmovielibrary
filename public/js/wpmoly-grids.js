@@ -201,8 +201,8 @@ window.wpmoly = window.wpmoly || {};
 			 *
 			 * @since    3.0
 			 *
-			 * @param    object    attributes Settings object or single setting name.
-			 * @param    mixed     value Single setting value.
+			 * @param    {object}    attributes Settings object or single setting name.
+			 * @param    {mixed}     value Single setting value.
 			 *
 			 * @return   {object}
 			 */
@@ -228,8 +228,8 @@ window.wpmoly = window.wpmoly || {};
 			 *
 			 * @since    3.0
 			 *
-			 * @param    object    attributes Query args object or single arg name.
-			 * @param    mixed     value Single arg value.
+			 * @param    {object}    attributes Query args object or single arg name.
+			 * @param    {mixed}     value Single arg value.
 			 *
 			 * @return   {object}
 			 */
@@ -767,8 +767,6 @@ window.wpmoly = window.wpmoly || {};
 				return false;
 			}
 
-			console.log( Math.round( columns * rows ) );
-
 			this.set( attr, Math.round( columns * rows ), { silent : true } );
 		},
 
@@ -999,8 +997,8 @@ window.wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    object    settings
-		 * @param    object    options
+		 * @param    {object}    settings
+		 * @param    {object}    options
 		 *
 		 * @return   {object}
 		 */
@@ -1014,7 +1012,7 @@ window.wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    string    property
+		 * @param    {string}    property
 		 *
 		 * @return   {object}
 		 */
@@ -1028,7 +1026,7 @@ window.wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    int    page Page number.
+		 * @param    {int}    page Page number.
 		 *
 		 * @return   {boolean}
 		 */
@@ -1044,7 +1042,7 @@ window.wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 *
-		 * @param    int    page Page number.
+		 * @param    {int}    page Page number.
 		 *
 		 * @return   {boolean}
 		 */

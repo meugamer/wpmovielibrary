@@ -16,7 +16,7 @@ wpmoly.view.GridCustoms = wpmoly.view.GridSettings.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	initialize : function( options ) {
 
@@ -31,7 +31,7 @@ wpmoly.view.GridCustoms = wpmoly.view.GridSettings.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'change' event.
+	 * @param    {object}    JS 'change' event.
 	 *
 	 * @return   Returns itself to allow chaining.
 	 */

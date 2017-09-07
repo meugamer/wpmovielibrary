@@ -84,7 +84,7 @@ Modal.ImagesSelection = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    options
+	 * @param    {object}    options
 	 */
 	initialize : function( options ) {
 
@@ -143,7 +143,7 @@ Modal.ImagesSelection = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' event.
+	 * @param    {object}    JS 'click' event.
 	 */
 	openSwitch : function( event ) {
 
@@ -158,7 +158,7 @@ Modal.ImagesSelection = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' event.
+	 * @param    {object}    JS 'click' event.
 	 */
 	setAsBackdrop : function( event ) {
 
@@ -172,7 +172,7 @@ Modal.ImagesSelection = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' event.
+	 * @param    {object}    JS 'click' event.
 	 */
 	setAsPoster : function( event ) {
 
@@ -186,7 +186,7 @@ Modal.ImagesSelection = wp.media.View.extend({
 	 *
 	 * @since    3.0
 	 *
-	 * @param    object    JS 'click' event.
+	 * @param    {object}    JS 'click' event.
 	 */
 	setAsImage : function( type ) {
 

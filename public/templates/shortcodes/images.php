@@ -22,7 +22,7 @@ if ( $images->has_items() ) :
 
 		<div class="wpmoly shortcode inline-block image <?php echo $type . ' ' . $size . ' ' . 'attachment-' . $image->id; ?>">
 
-			<?php $image->render( $size, 'html', false ); ?>
+			<?php $image->render( $size, 'html' ); ?>
 		</div>
 <?php
 	endwhile;
