@@ -23,21 +23,19 @@ class Grid extends Widget {
 
 	/**
 	 * Widget default attributes.
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $defaults = array(
 		'title'       => '',
 		'description' => '',
-		'grid_id'     => ''
+		'grid_id'     => '',
 	);
 
 	/**
 	 * Set default properties.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
@@ -48,10 +46,8 @@ class Grid extends Widget {
 
 	/**
 	 * Build Widget content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function build() {
 
@@ -68,22 +64,20 @@ class Grid extends Widget {
 
 		$template = get_grid_template( $grid );
 
-		$this->data['grid'] = $template->render( $require = 'always', $echo = false );
+		$this->data['grid'] = $template->render( 'always', false );
 	}
 
 	/**
 	 * Build Widget form content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function build_form() {
 
 		$grids = get_posts( array(
 			'post_type'   => 'grid',
 			'post_status' => 'publish',
-			'numberposts' => -1
+			'numberposts' => -1,
 		) );
 		$this->formdata['grids'] = $grids;
 	}

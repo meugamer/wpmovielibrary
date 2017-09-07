@@ -11,7 +11,7 @@
 
 namespace wpmoly\Helpers;
 
-use wpmoly\Core\l10n;
+use wpmoly\Core\L10n;
 
 /**
  * Handle languages translation, localization and flags.
@@ -25,78 +25,76 @@ class Language {
 
 	/**
 	 * Language ISO 639-1 Code.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $code = '';
 
 	/**
 	 * Language native name.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $native_name = '';
 
 	/**
 	 * Language standard name.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $standard_name = '';
 
 	/**
 	 * Language translated name.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $localized_name = '';
 
 	/**
 	 * Restricted list for API support
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $supported = array();
 
 	/**
 	 * ISO 639-1 table of native languages names.
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $native = array();
 
 	/**
 	 * ISO 639-1 table of standard languages names.
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $standard = array();
 
 	/**
 	 * Initialize the instance.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function __construct() {
 
-		$this->supported = l10n::$supported_languages;
-		$this->native    = l10n::$native_languages;
-		$this->standard  = l10n::$standard_languages;
+		$this->supported = L10n::$supported_languages;
+		$this->native    = L10n::$native_languages;
+		$this->standard  = L10n::$standard_languages;
 	}
 
 	/**
 	 * Match a language by its name or code.
-	 * 
+	 *
 	 * Perform a strict match to find languages by code, standard and
 	 * native names, then try an approximative match with sanitized name.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $data
-	 * 
-	 * @return   void
+	 *
+	 * @return   Language
 	 */
 	protected function match( $data ) {
 
@@ -166,31 +164,30 @@ class Language {
 
 	/**
 	 * Set the translated name of the language.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
+	 *
+	 * @return   string
 	 */
 	protected function localize() {
 
-		if ( empty( $this->code ) ) {
-			return false;
+		$localized_name = '';
+		if ( ! empty( $this->code ) && isset( $this->standard[ $this->code ] ) ) {
+			$localized_name = __( $this->standard[ $this->code ], 'wpmovielibrary-iso' );
 		}
 
-		if ( ! isset( $this->standard[ $this->code ] ) ) {
-			return false;
-		}
+		$this->localized_name = $localized_name;
 
-		$this->localized_name = __( $this->standard[ $this->code ], 'wpmovielibrary-iso' );
+		return $this->localized_name;
 	}
 
 	/**
 	 * Get a language.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $language
-	 * 
+	 *
 	 * @return   Language
 	 */
 	public static function get( $language ) {
@@ -202,4 +199,5 @@ class Language {
 
 		return $instance;
 	}
+
 }

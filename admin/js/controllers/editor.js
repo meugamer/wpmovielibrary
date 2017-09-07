@@ -1,24 +1,21 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.controller, {
 
-	Editor: Backbone.Model.extend({
+	Editor : Backbone.Model.extend({
 
 		/**
 		 * Initialize the Model.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
-		 * @return   void
 		 */
-		initialize: function( attributes, options ) {
+		initialize : function( attributes, options ) {
 
 			// Metadata block
-			this.meta      = new wpmoly.model.Metadata( {}, { post_id: options.post_id } );
-			this.details   = new wpmoly.model.Details( {}, { post_id: options.post_id } );
-			this.backdrops = new wpmoly.model.Backdrops( [], { post_id: options.post_id } );
-			this.posters   = new wpmoly.model.Posters( [], { post_id: options.post_id } );
+			this.meta      = new wpmoly.model.Metadata( {}, { post_id : options.post_id } );
+			this.details   = new wpmoly.model.Details( {}, { post_id : options.post_id } );
+			this.backdrops = new wpmoly.model.Backdrops( [], { post_id : options.post_id } );
+			this.posters   = new wpmoly.model.Posters( [], { post_id : options.post_id } );
 
 			// Bind events
 			this.mirror();
@@ -27,16 +24,14 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Mirror the Meta and Details changes to the Model.
-		 * 
+		 *
 		 * Allows the View to listen for changes on the Movie Model
 		 * instead of having to listen for both Movie, Meta and Details
 		 * Models.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
-		 * @return   void
 		 */
-		mirror: function() {
+		mirror : function() {
 
 			this.meta.on( 'all', function( event, arguments ) {
 				wpmoly.trigger( 'editor:meta:' + event, arguments );
@@ -49,27 +44,25 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Bind controller events.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
-		 * @return   void
 		 */
-		bindEvents: function() {
+		bindEvents : function() {
 
 			wpmoly.on( 'editor:backdrop:import:open', function() {
-				return this.openMediaModal( 'movie-images', 'backdrop', { type: 'backdrop' } );
+				return this.openMediaModal( 'movie-images', 'backdrop', { type : 'backdrop' } );
 			}, this );
 
 			wpmoly.on( 'editor:poster:import:open', function() {
-				return this.openMediaModal( 'movie-images', 'poster', { type: 'poster' } );
+				return this.openMediaModal( 'movie-images', 'poster', { type : 'poster' } );
 			}, this );
 
 			wpmoly.on( 'editor:backdrop:upload:open', function() {
-				return this.openMediaModal( 'insert', 'upload', { type: 'backdrop' } );
+				return this.openMediaModal( 'insert', 'upload', { type : 'backdrop' } );
 			}, this );
 
 			wpmoly.on( 'editor:poster:upload:open', function() {
-				return this.openMediaModal( 'insert', 'upload', { type: 'poster' } );
+				return this.openMediaModal( 'insert', 'upload', { type : 'poster' } );
 			}, this );
 
 			wpmoly.on( 'editor:backdrop:set-as:done', function() {
@@ -97,16 +90,14 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Open wp.media Modal.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    Frame state ID
 		 * @param    string    Frame content mode ID
 		 * @param    object    options
-		 * 
-		 * @return   void
 		 */
-		openMediaModal: function( state, mode, options ) {
+		openMediaModal : function( state, mode, options ) {
 
 			var options = options || {};
 
@@ -119,31 +110,20 @@ _.extend( wpmoly.controller, {
 			}
 		},
 
-		autoImportImages: function( images ) {
+		autoImportImages : function( images ) {},
 
-			
-		},
+		autoImportBackdrops : function( backdrops ) {},
 
-		autoImportBackdrops: function( backdrops ) {
-
-			
-		},
-
-		autoImportPosters: function( posters ) {
-
-			
-		},
+		autoImportPosters : function( posters ) {},
 
 		/**
 		 * Set poster as featured image.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'click' Event
-		 * 
-		 * @return   void
 		 */
-		setFeatured: function( model ) {
+		setFeatured : function( model ) {
 
 			var id = model.get( 'id' ) || 0,
 			currentImage = wp.media.featuredImage.get();
@@ -168,29 +148,29 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Unset an image from backdrops/posters.
-		 * 
-		 * TODO: move to wpmoly.model.Image
-		 * 
+		 *
+		 * TODO : move to wpmoly.model.Image
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    Image Model
 		 * @param    string    Image type
 		 * @param    object    Image Collection
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining
 		 */
-		removeImage: function( model, type, collection ) {
+		removeImage : function( model, type, collection ) {
 
 			wp.ajax.send( 'wpmoly_remove_' + type, {
-				data: {
-					post_id: model.get( 'id' ),
-					tmdb_id: this.meta.get( 'tmdb_id' ),
+				data : {
+					post_id : model.get( 'id' ),
+					tmdb_id : this.meta.get( 'tmdb_id' ),
 					//nonce  : ''
 				},
-				success: function( response ) {
+				success : function( response ) {
 					collection.remove( model );
 				},
-				error: function( response ) {
+				error : function( response ) {
 					wpmoly.error( response );
 				}
 			} );

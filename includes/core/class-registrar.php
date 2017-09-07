@@ -15,7 +15,7 @@ namespace wpmoly\Core;
 
 /**
  * Register the 'movie' Custom Post Type along with the 'import' post statuses.
- * 
+ *
  * Also register 'collection', 'actor' and 'genre' Custom Taxonomies.
  *
  * @since      3.0
@@ -34,42 +34,42 @@ class Registrar {
 
 	/**
 	 * Default Custom Post Types.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $post_types = array();
 
 	/**
 	 * Default Custom Post Statuses.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $post_statuses = array();
 
 	/**
 	 * Default Custom Post Meta.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $post_meta = array();
 
 	/**
 	 * Default Custom Taxonomies.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $taxonomies = array();
 
 	/**
 	 * Default Custom Taxonomies Term Meta.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $term_meta = array();
 
 	/**
 	 * Load permalinks settings.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function __construct() {
@@ -80,9 +80,9 @@ class Registrar {
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Options
 	 */
 	final public static function get_instance() {
@@ -96,10 +96,8 @@ class Registrar {
 
 	/**
 	 * Register Custom Post Types.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_post_types() {
 
@@ -131,10 +129,10 @@ class Registrar {
 						'not_found'          => __( 'No movies found', 'wpmovielibrary' ),
 						'not_found_in_trash' => __( 'No movies found in Trash', 'wpmovielibrary' ),
 						'parent_item_colon'  => '',
-						'menu_name'          => __( 'Movie Library', 'wpmovielibrary' )
+						'menu_name'          => __( 'Movie Library', 'wpmovielibrary' ),
 					),
 					'rewrite' => array(
-						'slug' => ! empty( $this->permalinks['movie'] ) ? trim( $this->permalinks['movie'], '/' ) : 'movies'
+						'slug' => ! empty( $this->permalinks['movie'] ) ? trim( $this->permalinks['movie'], '/' ) : 'movies',
 					),
 					'public'             => true,
 					'publicly_queryable' => true,
@@ -146,8 +144,8 @@ class Registrar {
 					'has_archive'        => $movie_archives,
 					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
 					'menu_position'      => 2,
-					'menu_icon'          => 'dashicons-wpmoly'
-				)
+					'menu_icon'          => 'dashicons-wpmoly',
+				),
 			),
 			array(
 				'slug' => 'grid',
@@ -165,7 +163,7 @@ class Registrar {
 						'not_found'          => __( 'No grids found', 'wpmovielibrary' ),
 						'not_found_in_trash' => __( 'No grids found in Trash', 'wpmovielibrary' ),
 						'parent_item_colon'  => '',
-						'menu_name'          => __( 'Grids', 'wpmovielibrary' )
+						'menu_name'          => __( 'Grids', 'wpmovielibrary' ),
 					),
 					'rewrite'            => false,
 					'public'             => false,
@@ -175,16 +173,16 @@ class Registrar {
 					'rest_controller_class' => '\wpmoly\Rest\Grids_Controller',
 					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => false,
-					'supports'           => array( 'title', 'custom-fields' )
-				)
-			)
+					'supports'           => array( 'title', 'custom-fields' ),
+				),
+			),
 		);
 
 		/**
 		 * Filter the Custom Post Types parameters prior to registration.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $post_types Post Types list
 		 */
 		$this->post_types = apply_filters( 'wpmoly/filter/post_types', $post_types );
@@ -193,9 +191,9 @@ class Registrar {
 
 			/**
 			 * Filter the Custom Post Type parameters prior to registration.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    array    $args Post Type args
 			 */
 			$args = apply_filters( "wpmoly/filter/post_type/{$post_type['slug']}", $post_type['args'] );
@@ -222,10 +220,8 @@ class Registrar {
 
 	/**
 	 * Register Custom Post Statuses.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_post_statuses() {
 
@@ -235,22 +231,22 @@ class Registrar {
 				'args' => array(
 					'label'       => _x( 'Imported Draft', 'wpmovielibrary' ),
 					'label_count' => _n_noop( 'Imported Draft <span class="count">(%s)</span>', 'Imported Draft <span class="count">(%s)</span>', 'wpmovielibrary' ),
-				)
+				),
 			),
 			array(
 				'slug' => 'import-queued',
 				'args' => array(
 					'label'       => _x( 'Queued Movie', 'wpmovielibrary' ),
 					'label_count' => _n_noop( 'Queued Movie <span class="count">(%s)</span>', 'Queued Movies <span class="count">(%s)</span>', 'wpmovielibrary' ),
-				)
-			)
+				),
+			),
 		);
 
 		/**
 		 * Filter the Custom Post Statuses parameters prior to registration.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $post_statuses Post Statuses list
 		 */
 		$this->post_statuses = apply_filters( 'wpmoly/filter/post_statuses', $post_statuses );
@@ -259,9 +255,9 @@ class Registrar {
 
 			/**
 			 * Filter the Custom Post Status parameters prior to registration.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    array    $args Post Status args
 			 */
 			$args = apply_filters( "wpmoly/filter/post_status/{$post_status['slug']}", $post_status['args'] );
@@ -283,10 +279,8 @@ class Registrar {
 
 	/**
 	 * Register Custom Post Meta.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_post_meta() {
 
@@ -297,244 +291,244 @@ class Registrar {
 					'description'  => __( 'TheMovieDb.org movie ID', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'TMDb ID', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_tmdb_id'
-					)
+						'prepare_callback' => 'get_formatted_movie_tmdb_id',
+					),
 				),
 				'title' => array(
 					'type'         => 'string',
 					'description'  => __( 'Title', 'wpmovielibrary' ),
 					'show_in_rest' => array(
-						'label' => __( 'Title', 'wpmovielibrary' )
-					)
+						'label' => __( 'Title', 'wpmovielibrary' ),
+					),
 				),
 				'original_title' => array(
 					'type'         => 'string',
 					'description'  => __( 'Original title for the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
-						'label' => __( 'Original Title', 'wpmovielibrary' )
-					)
+						'label' => __( 'Original Title', 'wpmovielibrary' ),
+					),
 				),
 				'tagline' => array(
 					'type'         => 'string',
 					'description'  => __( 'Short movie tagline', 'wpmovielibrary' ),
 					'show_in_rest' => array(
-						'label' => __( 'Tagline', 'wpmovielibrary' )
-					)
+						'label' => __( 'Tagline', 'wpmovielibrary' ),
+					),
 				),
 				'overview' => array(
 					'type'         => 'string',
 					'description'  => __( 'Short movie overview', 'wpmovielibrary' ),
 					'show_in_rest' => array(
-						'label' => __( 'Overview', 'wpmovielibrary' )
-					)
+						'label' => __( 'Overview', 'wpmovielibrary' ),
+					),
 				),
 				'release_date' => array(
 					'type'         => 'string',
 					'description'  => __( 'Date the movie was initially released', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Release Date', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_release_date'
-					)
+						'prepare_callback' => 'get_formatted_movie_release_date',
+					),
 				),
 				'local_release_date' => array(
 					'type'         => 'string',
 					'description'  => __( 'Date the movie was localy released based on your settings', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Local Release Date', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_local_release_date'
-					)
+						'prepare_callback' => 'get_formatted_movie_local_release_date',
+					),
 				),
 				'runtime' => array(
 					'type'         => 'string',
 					'description'  => __( 'Total movie runtime', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Runtime', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_runtime'
-					)
+						'prepare_callback' => 'get_formatted_movie_runtime',
+					),
 				),
 				'production_companies' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of companies who produced the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Production Companies', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_production'
-					)
+						'prepare_callback' => 'get_formatted_movie_production',
+					),
 				),
 				'production_countries' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of countries where the movie was produced', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Production Countries', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_countries'
-					)
+						'prepare_callback' => 'get_formatted_movie_countries',
+					),
 				),
 				'spoken_languages' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of languages spoken in the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Spoken Languages', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_spoken_languages'
-					)
+						'prepare_callback' => 'get_formatted_movie_spoken_languages',
+					),
 				),
 				'genres' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of genres for the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Genres', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_genres'
-					)
+						'prepare_callback' => 'get_formatted_movie_genres',
+					),
 				),
 				'director' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of directors for the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Director', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_director'
-					)
+						'prepare_callback' => 'get_formatted_movie_director',
+					),
 				),
 				'producer' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of producers for the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Producer', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_producer'
-					)
+						'prepare_callback' => 'get_formatted_movie_producer',
+					),
 				),
 				'cast' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of actors starring in the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Actors', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_cast'
-					)
+						'prepare_callback' => 'get_formatted_movie_cast',
+					),
 				),
 				'photography' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of directors of photography for the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Director of photography', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_photography'
-					)
+						'prepare_callback' => 'get_formatted_movie_photography',
+					),
 				),
 				'composer' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of original music composers for the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Composer', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_composer'
-					)
+						'prepare_callback' => 'get_formatted_movie_composer',
+					),
 				),
 				'author' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of authors for the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Author', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_author'
-					)
+						'prepare_callback' => 'get_formatted_movie_author',
+					),
 				),
 				'writer' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of writers for the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Writer', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_writer'
-					)
+						'prepare_callback' => 'get_formatted_movie_writer',
+					),
 				),
 				'certification' => array(
 					'type'         => 'string',
 					'description'  => __( 'Movie certification', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Certification', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_certification'
-					)
+						'prepare_callback' => 'get_formatted_movie_certification',
+					),
 				),
 				'budget' => array(
 					'type'         => 'string',
 					'description'  => __( 'Movie budget', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Budget', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_budget'
-					)
+						'prepare_callback' => 'get_formatted_movie_budget',
+					),
 				),
 				'revenue' => array(
 					'type'         => 'string',
 					'description'  => __( 'Movie revenue', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Revenue', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_revenue'
-					)
+						'prepare_callback' => 'get_formatted_movie_revenue',
+					),
 				),
 				'imdb_id' => array(
 					'type'         => 'string',
 					'description'  => __( 'Internet Movie Database movie ID', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'IMDb ID', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_imdb_id'
-					)
+						'prepare_callback' => 'get_formatted_movie_imdb_id',
+					),
 				),
 				'adult' => array(
 					'type'         => 'string',
 					'description'  => __( 'Separate adult-only movies from all-audience movies', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Adult-only', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_adult'
-					)
+						'prepare_callback' => 'get_formatted_movie_adult',
+					),
 				),
 				'homepage' => array(
 					'type'         => 'string',
 					'description'  => __( 'Official movie Website', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Homepage', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_homepage'
-					)
+						'prepare_callback' => 'get_formatted_movie_homepage',
+					),
 				),
 				'status' => array(
 					'type'         => 'string',
 					'description'  => __( 'Current status of your copy of the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Status', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_status'
-					)
+						'prepare_callback' => 'get_formatted_movie_status',
+					),
 				),
 				'media' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of medias', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Media', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_media'
-					)
+						'prepare_callback' => 'get_formatted_movie_media',
+					),
 				),
 				'rating' => array(
 					'type'         => 'string',
 					'description'  => __( 'Your own rating of the movie', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Rating', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_rating'
-					)
+						'prepare_callback' => 'get_formatted_movie_rating',
+					),
 				),
 				'language' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of languages', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Language', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_language'
-					)
+						'prepare_callback' => 'get_formatted_movie_language',
+					),
 				),
 				'subtitles' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of subtitles', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Subtitles', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_subtitles'
-					)
+						'prepare_callback' => 'get_formatted_movie_subtitles',
+					),
 				),
 				'format' => array(
 					'type'         => 'string',
 					'description'  => __( 'List of formats', 'wpmovielibrary' ),
 					'show_in_rest' => array(
 						'label' => __( 'Format', 'wpmovielibrary' ),
-						'prepare_callback' => 'get_formatted_movie_format'
-					)
+						'prepare_callback' => 'get_formatted_movie_format',
+					),
 				),
 			),
 			'grid' => array(
@@ -574,7 +568,7 @@ class Registrar {
 						'label'    => esc_html__( 'Enable Pagination', 'wpmovielibrary' ),
 					),
 					'sanitize_callback' => '_is_bool',
-					'default'  => 1
+					'default'  => 1,
 				),
 				'columns' => array(
 					'type' => 'integer',
@@ -582,7 +576,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
 					),
-					'default'  => 5
+					'default'  => 5,
 				),
 				'rows' => array(
 					'type' => 'integer',
@@ -590,7 +584,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
 					),
-					'default'  => 4
+					'default'  => 4,
 				),
 				'column-width' => array(
 					'type' => 'integer',
@@ -598,7 +592,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
 					),
-					'default'  => 134
+					'default'  => 134,
 				),
 				'row-height' => array(
 					'type' => 'integer',
@@ -606,7 +600,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
 					),
-					'default'  => 200
+					'default'  => 200,
 				),
 				'list-columns' => array(
 					'type' => 'integer',
@@ -614,7 +608,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Number of list columns', 'wpmovielibrary' ),
 					),
-					'default'  => 3
+					'default'  => 3,
 				),
 				'list-column-width' => array(
 					'type' => 'integer',
@@ -622,7 +616,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Ideal column width', 'wpmovielibrary' ),
 					),
-					'default'  => 240
+					'default'  => 240,
 				),
 				'list-rows' => array(
 					'type' => 'integer',
@@ -630,7 +624,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Number of list rows', 'wpmovielibrary' ),
 					),
-					'default'  => 8
+					'default'  => 8,
 				),
 				'settings-control' => array(
 					'type' => 'integer',
@@ -639,7 +633,7 @@ class Registrar {
 						'label'    => esc_html__( 'Enable user settings', 'wpmovielibrary' ),
 					),
 					'sanitize_callback' => '_is_bool',
-					'default'  => 1
+					'default'  => 1,
 				),
 				'custom-letter' => array(
 					'type' => 'integer',
@@ -648,7 +642,7 @@ class Registrar {
 						'label'    => esc_html__( 'Enable letter filtering', 'wpmovielibrary' ),
 					),
 					'sanitize_callback' => '_is_bool',
-					'default'  => 1
+					'default'  => 1,
 				),
 				'custom-order' => array(
 					'type' => 'integer',
@@ -657,16 +651,16 @@ class Registrar {
 						'label'    => esc_html__( 'Enable custom ordering', 'wpmovielibrary' ),
 					),
 					'sanitize_callback' => '_is_bool',
-					'default'  => 1
+					'default'  => 1,
 				),
 			),
 		);
 
 		/**
 		 * Filter the Custom Post Meta prior to registration.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $post_meta Post Meta list
 		 */
 		$this->post_meta = apply_filters( 'wpmoly/filter/post_meta', $post_meta );
@@ -677,11 +671,11 @@ class Registrar {
 
 				/**
 				 * Filter meta_key.
-				 * 
+				 *
 				 * Add a '_wpmoly_{$post_type}_' prefix to meta_keys.
-				 * 
+				 *
 				 * @since    3.0
-				 * 
+				 *
 				 * @param    string    $slug Post meta slug.
 				 */
 				$meta_key = apply_filters( "wpmoly/filter/{$post_type}/meta/key", $slug );
@@ -717,17 +711,15 @@ class Registrar {
 					$args['show_in_rest']['schema'] = $schema;
 				}
 
-				register_meta( $object_type = 'post', $meta_key, $args );
-			}
-		}
+				register_meta( 'post', $meta_key, $args );
+			} // End foreach().
+		} // End foreach().
 	}
 
 	/**
 	 * Register Custom Taxonomies.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_taxonomies() {
 
@@ -756,9 +748,9 @@ class Registrar {
 						'no_terms'                   => __( 'No collections', 'wpmovielibrary' ),
 						'items_list_navigation'      => __( 'Collections list navigation', 'wpmovielibrary' ),
 						'items_list'                 => __( 'Collections list', 'wpmovielibrary' ),
-					)
+					),
 				),
-				'archive' => 'collections'
+				'archive' => 'collections',
 			),
 			array(
 				'slug'  => 'genre',
@@ -784,9 +776,9 @@ class Registrar {
 						'no_terms'                   => __( 'No genres', 'wpmovielibrary' ),
 						'items_list_navigation'      => __( 'Genres list navigation', 'wpmovielibrary' ),
 						'items_list'                 => __( 'Genres list', 'wpmovielibrary' ),
-					)
+					),
 				),
-				'archive' => 'genres'
+				'archive' => 'genres',
 			),
 			array(
 				'slug'  => 'actor',
@@ -812,17 +804,17 @@ class Registrar {
 						'no_terms'                   => __( 'No actors', 'wpmovielibrary' ),
 						'items_list_navigation'      => __( 'Actors list navigation', 'wpmovielibrary' ),
 						'items_list'                 => __( 'Actors list', 'wpmovielibrary' ),
-					)
+					),
 				),
-				'archive' => 'actors'
-			)
+				'archive' => 'actors',
+			),
 		);
 
 		/**
 		 * Filter the custom taxonomies parameters prior to registration.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $taxonomies Taxonomies list
 		 */
 		$this->taxonomies = apply_filters( 'wpmoly/filter/taxonomies', $taxonomies );
@@ -840,9 +832,9 @@ class Registrar {
 
 			/**
 			 * Filter the custom taxonomy parameters prior to registration.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    array    $taxonomy Taxonomy parameters
 			 */
 			$args = apply_filters( "wpmoly/filter/taxonomy/{$taxonomy['slug']}", $taxonomy['args'] );
@@ -857,19 +849,19 @@ class Registrar {
 				'show_in_rest'          => true,
 				'rest_base'             => ! empty( $taxonomy['archive'] ) ? $taxonomy['archive'] : $slug,
 				'rest_controller_class' => 'WP_REST_Terms_Controller',
-				'rewrite'               => array( 'slug' => $slug )
+				'rewrite'               => array(
+					'slug' => $slug,
+				),
 			), $args );
 
 			register_taxonomy( $taxonomy['slug'], $taxonomy['posts'], $args );
-		}
+		} // End foreach().
 	}
 
 	/**
 	 * Register Custom Term Meta.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_term_meta() {
 
@@ -877,9 +869,9 @@ class Registrar {
 
 		/**
 		 * Filter the Custom Term Meta prior to registration.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $term_meta Term Meta list
 		 */
 		$this->term_meta = apply_filters( 'wpmoly/filter/term_meta', $term_meta );
@@ -890,11 +882,11 @@ class Registrar {
 
 				/**
 				 * Filter meta_key.
-				 * 
+				 *
 				 * Add a '_wpmoly_{$taxonomy}_' prefix to meta_keys.
-				 * 
+				 *
 				 * @since    3.0
-				 * 
+				 *
 				 * @param    string    $slug Post meta slug.
 				 */
 				$meta_key = apply_filters( "wpmoly/filter/{$taxonomy}/meta/key", $slug );
@@ -904,10 +896,10 @@ class Registrar {
 					'description'       => '',
 					'single'            => true,
 					'show_in_rest'      => true,
-					'sanitize_callback' => null
+					'sanitize_callback' => null,
 				) );
 
-				register_meta( $object_type = 'term', $meta_key, $args );
+				register_meta( 'term', $meta_key, $args );
 			}
 		}
 	}

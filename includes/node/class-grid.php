@@ -23,80 +23,78 @@ class Grid extends Node {
 
 	/**
 	 * Grid type.
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $type;
-	
+
 	/**
 	 * Grid mode.
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $mode;
-	
+
 	/**
 	 * Grid theme.
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $theme;
 
 	/**
 	 * Grid preset.
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $preset;
 
 	/**
 	 * Custom settings.
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $settings;
 
 	/**
 	 * Supported Grid types.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $supported_types = array();
 
 	/**
 	 * Supported Grid modes.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $supported_modes = array();
 
 	/**
 	 * Supported Grid themes.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $supported_themes = array();
 
 	/**
 	 * Grid Widget.
-	 * 
+	 *
 	 * @var    boolean
 	 */
 	public $is_widget = false;
 
 	/**
 	 * Main grid status.
-	 * 
+	 *
 	 * @var    boolean
 	 */
 	public $is_main_grid = false;
 
 	/**
 	 * Initialize the Grid.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function init() {
 
@@ -105,9 +103,9 @@ class Grid extends Node {
 
 		/**
 		 * Filter the default grid settings list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $default_settings
 		 */
 		$this->default_settings = apply_filters( 'wpmoly/filter/default/' . $this->get_type() . '/grid/settings', array(
@@ -129,7 +127,7 @@ class Grid extends Node {
 			'customs_control',
 			'custom_mode',
 			'custom_content',
-			'custom_display'
+			'custom_display',
 		) );
 
 		$grid_types = array(
@@ -143,17 +141,17 @@ class Grid extends Node {
 						'themes' => array(
 							'default' => array(
 								'label' => __( 'Default' ),
-								'icon'  => 'wpmolicon icon-style'
+								'icon'  => 'wpmolicon icon-style',
 							),
 							'variant-1' => array(
 								'label' => __( 'Variant #1' ),
-								'icon'  => 'wpmolicon icon-style'
+								'icon'  => 'wpmolicon icon-style',
 							),
 							'variant-2' => array(
 								'label' => __( 'Variant #2' ),
-								'icon'  => 'wpmolicon icon-style'
-							)
-						)
+								'icon'  => 'wpmolicon icon-style',
+							),
+						),
 					),
 					'list' => array(
 						'label' => __( 'List', 'wpmovielibrary' ),
@@ -178,8 +176,8 @@ class Grid extends Node {
 							'default' => array(
 								'label' => __( 'Default' ),
 								'icon'  => 'wpmolicon icon-style',
-							)
-						)
+							),
+						),
 					),
 					'list' => array(
 						'label' => __( 'List', 'wpmovielibrary' ),
@@ -204,8 +202,8 @@ class Grid extends Node {
 							'default' => array(
 								'label' => __( 'Default' ),
 								'icon'  => 'wpmolicon icon-style',
-							)
-						)
+							),
+						),
 					),
 					'list' => array(
 						'label' => __( 'List', 'wpmovielibrary' ),
@@ -230,8 +228,8 @@ class Grid extends Node {
 							'default' => array(
 								'label' => __( 'Default' ),
 								'icon'  => 'wpmolicon icon-style',
-							)
-						)
+							),
+						),
 					),
 					'list' => array(
 						'label' => __( 'List', 'wpmovielibrary' ),
@@ -249,9 +247,9 @@ class Grid extends Node {
 
 		/**
 		 * Filter the supported Grid types.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $default_types
 		 */
 		$this->supported_types = apply_filters( 'wpmoly/filter/grid/supported/types', $grid_types );
@@ -260,9 +258,9 @@ class Grid extends Node {
 
 			/**
 			 * Filter the supported Grid modes.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    array    $default_modes
 			 */
 			$this->supported_modes[ $type_id ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type_id . '/modes', $type['modes'] );
@@ -271,9 +269,9 @@ class Grid extends Node {
 
 				/**
 				 * Filter the supported Grid themes.
-				 * 
+				 *
 				 * @since    3.0
-				 * 
+				 *
 				 * @param    array    $default_themes
 				 */
 				$this->supported_themes[ $type_id ][ $mode_id ] = apply_filters( 'wpmoly/filter/grid/supported/' . $type_id . '/' . $mode_id . '/themes', $mode['themes'] );
@@ -372,19 +370,20 @@ class Grid extends Node {
 
 	/**
 	 * Retrieve current grid settings.
-	 * 
+	 *
 	 * Settings differs from parameters in that they should be temporary
 	 * and therefore never saved. They're used to generate URLs and run
 	 * queries.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_settings() {
 
 		if ( is_null( $this->settings ) ) {
-			return $this->settings = array();
+			$this->settings = array();
+			return $this->settings;
 		}
 
 		return $this->settings;
@@ -392,34 +391,36 @@ class Grid extends Node {
 
 	/**
 	 * Set grid settings.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $settings New settings.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function set_settings( $settings ) {
 
 		$settings = wp_parse_args( $settings, $this->settings );
 
-		return $this->settings = $settings;
+		$this->settings = $settings;
+
+		return $this->settings;
 	}
 
 	/**
 	 * Retrieve current grid preset.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_preset() {
 
 		/**
 		 * Filter grid default preset.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $default_preset
 		 */
 		$default_preset = apply_filters( 'wpmoly/filter/default/' . $this->get_type() . '/grid/preset', 'default_preset' );
@@ -429,7 +430,7 @@ class Grid extends Node {
 			if ( empty( $preset ) ) {
 				$preset = $default_preset;
 			}
-			return $this->preset = $preset;
+			$this->preset = $preset;
 		}
 
 		return $this->preset;
@@ -437,32 +438,34 @@ class Grid extends Node {
 
 	/**
 	 * Set grid preset.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $preset New preset.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function set_preset( $preset ) {
 
-		return $this->preset = $preset;
+		$this->preset = $preset;
+
+		return $this->preset;
 	}
 
 	/**
 	 * Retrieve current grid type.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_type() {
 
 		/**
 		 * Filter grid default type.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $default_type
 		 */
 		$default_type = apply_filters( 'wpmoly/filter/grid/default/type', 'movie' );
@@ -476,11 +479,11 @@ class Grid extends Node {
 
 	/**
 	 * Set grid type.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $type
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function set_type( $type ) {
@@ -489,14 +492,16 @@ class Grid extends Node {
 			$type = 'movie';
 		}
 
-		return $this->type = $type;
+		$this->type = $type;
+
+		return $this->type;
 	}
 
 	/**
 	 * Retrieve current grid mode.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_mode() {
@@ -510,11 +515,11 @@ class Grid extends Node {
 
 	/**
 	 * Set grid mode.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $mode
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function set_mode( $mode ) {
@@ -523,14 +528,16 @@ class Grid extends Node {
 			$mode = 'grid';
 		}
 
-		return $this->mode = $mode;
+		$this->mode = $mode;
+
+		return $this->mode;
 	}
 
 	/**
 	 * Retrieve current grid theme.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_theme() {
@@ -544,11 +551,11 @@ class Grid extends Node {
 
 	/**
 	 * Set grid theme.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $theme
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function set_theme( $theme ) {
@@ -557,14 +564,16 @@ class Grid extends Node {
 			$theme = 'default';
 		}
 
-		return $this->theme = $theme;
+		$this->theme = $theme;
+
+		return $this->theme;
 	}
 
 	/**
 	 * Is this a posts grid?
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   boolean
 	 */
 	public function is_post() {
@@ -574,9 +583,9 @@ class Grid extends Node {
 
 	/**
 	 * Is this a terms grid?
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   boolean
 	 */
 	public function is_taxonomy() {
@@ -586,9 +595,9 @@ class Grid extends Node {
 
 	/**
 	 * Is this a grid inside a Widget?
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   boolean
 	 */
 	public function is_widget() {
@@ -598,10 +607,8 @@ class Grid extends Node {
 
 	/**
 	 * Save grid settings.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save() {
 

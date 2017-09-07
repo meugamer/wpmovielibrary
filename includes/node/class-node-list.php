@@ -14,68 +14,68 @@ namespace wpmoly\Node;
 
 /**
  * Manipulate lists of multiple nodes.
- * 
+ *
  * @since      3.0
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
+class Node_List implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * NodeList Loop status
-	 * 
+	 *
 	 * @var    boolean
 	 */
 	protected $looping;
 
 	/**
 	 * NodeList current position
-	 * 
+	 *
 	 * @var    int
 	 */
 	protected $position = -1;
 
 	/**
 	 * NodeList current Node
-	 * 
+	 *
 	 * @var    Node
 	 */
 	public $item;
 
 	/**
 	 * NodeList Nodes
-	 * 
+	 *
 	 * @var    array
 	 */
 	public $items = array();
 
 	/**
 	 * NodeList Previous Node
-	 * 
+	 *
 	 * @var    Node
 	 */
 	protected $previous;
 
 	/**
 	 * NodeList Next Node
-	 * 
+	 *
 	 * @var    Node
 	 */
 	protected $next;
 
 	/**
 	 * NodeList size
-	 * 
+	 *
 	 * @var    int
 	 */
 	public $length;
 
 	/**
 	 * Initialize NodeList.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Images    Return itself to allow chaining
 	 */
 	public function __construct() {
@@ -91,15 +91,13 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Add a Node to the list.
-	 * 
+	 *
 	 * If no position is specified the Node will added at the end of the list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    \Node    $item Node instance
 	 * @param    int      $position Node position
-	 * 
-	 * @return   void
 	 */
 	public function add( $item, $position = null, $append = false ) {
 
@@ -119,12 +117,10 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Remove a Node to the list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string     $key Item key
-	 * 
-	 * @return   void
 	 */
 	public function remove( $key ) {
 
@@ -135,14 +131,14 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Filter Nodes by given key-value pair.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string     $key Item key
 	 * @param    mixed      $value Item value
 	 * @param    boolean    $strict Use strict comparison
 	 * @param    boolean    $force_array Force result to be an array
-	 * 
+	 *
 	 * @return   array
 	 */
 	public function where( $key, $value, $strict = false, $force_array = true ) {
@@ -160,11 +156,11 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Run a callback function on each item of the list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $callback
-	 * 
+	 *
 	 * @return   array
 	 */
 	public function filter( $callback = null ) {
@@ -178,11 +174,11 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Retrieve a Node from a specific position in the list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int    $position Node position in the list
-	 * 
+	 *
 	 * @return   Node|null
 	 */
 	public function at( $position ) {
@@ -196,21 +192,21 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Retrieve the first Node of the list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Node|null
 	 */
 	public function first() {
 
-		return $this->at(0);
+		return $this->at( 0 );
 	}
 
 	/**
 	 * Return the last item in the list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Node|null
 	 */
 	public function last() {
@@ -220,9 +216,9 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Return a random item in the list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Node
 	 */
 	public function random() {
@@ -238,9 +234,9 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Get current Key.
-	 * 
+	 *
 	 * @since    0.1
-	 * 
+	 *
 	 * @return   int
 	 */
 	public function key() {
@@ -250,9 +246,9 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Return current item.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Node
 	 */
 	public function current() {
@@ -262,38 +258,42 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Decrement position and set current item.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
+	 *
+	 * @return   Node
 	 */
 	public function prev() {
 
 		$this->position--;
 
-		return $this->item = $this->items[ $this->position ];
+		$this->item = $this->items[ $this->position ];
+
+		return $this->item;
 	}
 
 	/**
 	 * Increment position and set current item.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
+	 *
+	 * @return   Node
 	 */
 	public function next() {
 
 		$this->position++;
 
-		return $this->item = $this->items[ $this->position ];
+		$this->item = $this->items[ $this->position ];
+
+		return $this->item;
 	}
 
 	/**
 	 * Check if current position is valid, ie. if there is an item at that
 	 * position.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   boolean
 	 */
 	public function valid() {
@@ -303,10 +303,8 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Reset position and current item.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function rewind() {
 
@@ -317,11 +315,11 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Jump to a specific position.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int    $position Item position (key)
-	 * 
+	 *
 	 * @return   Node
 	 */
 	public function seek( $position ) {
@@ -336,11 +334,11 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Check if given key exists.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int    $key Item key
-	 * 
+	 *
 	 * @return   boolean
 	 */
 	public function offsetExists( $key ) {
@@ -350,11 +348,11 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Get an item from a specific position.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int    $key Item key
-	 * 
+	 *
 	 * @return   Node|null
 	 */
 	public function offsetGet( $key ) {
@@ -364,13 +362,11 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Set an item at a specific position.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int      $key Item key
 	 * @param    mixed    $value Item
-	 * 
-	 * @return   void
 	 */
 	public function offsetSet( $key, $value ) {
 
@@ -379,12 +375,10 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Unset an item at a specific position.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int      $key Item key
-	 * 
-	 * @return   void
 	 */
 	public function offsetUnset( $key ) {
 
@@ -393,19 +387,19 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Check the existence of a Node in the list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    mixed    $key Item position
 	 * @param    mixed    $value Item
-	 * 
+	 *
 	 * @return   boolean
 	 */
 	public function contains( $key, $value = null ) {
 
 		if ( 2 == func_num_args() ) {
 			return $this->contains( function ( $k, $item ) use ( $key, $value ) {
-				return $value == data_get( $item, $key );
+				return data_get( $item, $key ) == $value;
 			});
 		}
 
@@ -414,9 +408,9 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Check if the list contains at least one item.
-	 * 
-	 * @since    0.1
-	 * 
+	 *
+	 * @since    3.0
+	 *
 	 * @return   boolean
 	 */
 	public function is_empty() {
@@ -426,21 +420,23 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Return the number of Nodes in the list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   int
 	 */
 	public function count() {
 
-		return $this->length = count( $this->items );
+		$this->length = count( $this->items );
+
+		return $this->length;
 	}
 
 	/**
 	 * Check if current item is the first of the list.
-	 * 
-	 * @since    0.1
-	 * 
+	 *
+	 * @since    3.0
+	 *
 	 * @return   boolean
 	 */
 	public function is_first() {
@@ -450,9 +446,9 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Check if current item is the last of the list.
-	 * 
-	 * @since    0.1
-	 * 
+	 *
+	 * @since    3.0
+	 *
 	 * @return   boolean
 	 */
 	public function is_last() {
@@ -462,9 +458,9 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Are we done looping?
-	 * 
-	 * @since    0.1
-	 * 
+	 *
+	 * @since    3.0
+	 *
 	 * @return   boolean
 	 */
 	public function has_items() {
@@ -475,15 +471,17 @@ class NodeList implements \Iterator, \SeekableIterator, \ArrayAccess {
 			$this->rewind();
 		}
 
-		return $this->looping = false;
+		$this->looping = false;
+
+		return $this->looping;
 	}
 
 	/**
 	 * Loop: jump to the next item and set it has the current item.
-	 * 
-	 * @since    0.1
-	 * 
-	 * @return   boolean
+	 *
+	 * @since    3.0
+	 *
+	 * @return   Node
 	 */
 	public function the_item() {
 

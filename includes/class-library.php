@@ -64,7 +64,7 @@ final class Library {
 	 * for the admin area and the public-facing side of the site.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return    \wpmoly\Library
 	 */
 	public function __construct() {
@@ -78,9 +78,9 @@ final class Library {
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Singleton
 	 */
 	final public static function get_instance() {
@@ -94,10 +94,8 @@ final class Library {
 
 	/**
 	 * Initialize core.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function init() {
 
@@ -149,7 +147,6 @@ final class Library {
 		$this->init();
 
 		// Helpers
-		require_once WPMOLY_PATH . 'includes/helpers/debug.php';
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
 		require_once WPMOLY_PATH . 'includes/helpers/templates.php';
 		require_once WPMOLY_PATH . 'includes/helpers/permalinks.php';
@@ -183,13 +180,13 @@ final class Library {
 
 		// TMDb API
 		require_once WPMOLY_PATH . 'includes/api/class-api.php';
-		require_once WPMOLY_PATH . 'includes/api/class-api-core.php';
-		require_once WPMOLY_PATH . 'includes/api/class-api-movie.php';
+		require_once WPMOLY_PATH . 'includes/api/class-core.php';
+		require_once WPMOLY_PATH . 'includes/api/class-movie.php';
 
 		// Ajax
 		require_once WPMOLY_PATH . 'includes/ajax/class-ajax.php';
-		require_once WPMOLY_PATH . 'includes/ajax/class-ajax-api.php';
-		require_once WPMOLY_PATH . 'includes/ajax/class-ajax-meta.php';
+		require_once WPMOLY_PATH . 'includes/ajax/class-api.php';
+		require_once WPMOLY_PATH . 'includes/ajax/class-meta.php';
 
 		// Main
 		require_once WPMOLY_PATH . 'includes/class-admin-bar.php';
@@ -198,9 +195,9 @@ final class Library {
 
 		// Widgets
 		require_once WPMOLY_PATH . 'includes/widgets/class-widget.php';
-		require_once WPMOLY_PATH . 'includes/widgets/class-statistics-widget.php';
-		require_once WPMOLY_PATH . 'includes/widgets/class-details-widget.php';
-		require_once WPMOLY_PATH . 'includes/widgets/class-grid-widget.php';
+		require_once WPMOLY_PATH . 'includes/widgets/class-statistics.php';
+		require_once WPMOLY_PATH . 'includes/widgets/class-details.php';
+		require_once WPMOLY_PATH . 'includes/widgets/class-grid.php';
 
 		if ( is_admin() ) {
 			// Core
@@ -219,16 +216,16 @@ final class Library {
 		} else {
 			// Shortcodes
 			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-grid.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-headbox.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-images.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-metadata.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-detail.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-countries.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-languages.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-runtime.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-release-date.php';
-			require_once WPMOLY_PATH . 'public/shortcodes/class-shortcode-local-release-date.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-grid.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-headbox.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-images.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-metadata.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-detail.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-countries.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-languages.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-runtime.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-release-date.php';
+			require_once WPMOLY_PATH . 'public/shortcodes/class-local-release-date.php';
 		}
 
 	}
@@ -243,8 +240,8 @@ final class Library {
 	 */
 	private function set_locale() {
 
-		$i18n = Core\i18n::get_instance();
-		$l10n = Core\l10n::get_instance();
+		$i18n = Core\I18n::get_instance();
+		$l10n = Core\L10n::get_instance();
 
 		$this->loader->add_action( 'init',                  $i18n, 'load_plugin_textdomain' );
 		$this->loader->add_action( 'init',                  $i18n, 'load_additional_textdomains' );
@@ -267,7 +264,6 @@ final class Library {
 		}
 
 		$admin = Admin\Backstage::get_instance();
-		//$admin->set_default_filters();
 
 		$this->loader->add_filter( 'admin_init',                $admin, 'admin_init' );
 		$this->loader->add_filter( 'admin_menu',                $admin, 'admin_menu', 9 );
@@ -294,7 +290,7 @@ final class Library {
 		}
 
 		// Term Editor
-		$terms = new Admin\TermEditor;
+		$terms = new Admin\Term_Editor;
 		$this->loader->add_action( 'load-term.php',               $terms, 'load_meta_frameworks' );
 		$this->loader->add_action( 'load-edit-tags.php',          $terms, 'load_meta_frameworks' );
 		$this->loader->add_action( 'haricot_register',            $terms, 'register_term_meta_managers', 10, 2 );
@@ -304,7 +300,7 @@ final class Library {
 		$this->loader->add_action( 'genre_pre_edit_form',         $terms, 'term_pre_edit_form', 10, 2 );
 
 		// Archive Pages
-		$archives = new Admin\ArchivePages;
+		$archives = new Admin\Archive_Pages;
 		$this->loader->add_action( 'load-post.php',               $archives, 'load_meta_frameworks' );
 		$this->loader->add_action( 'load-post-new.php',           $archives, 'load_meta_frameworks' );
 		$this->loader->add_action( 'butterbean_register',         $archives, 'register_post_meta_managers', 10, 2 );
@@ -313,7 +309,7 @@ final class Library {
 
 		// Grid Builder
 		// TODO load this on grid only
-		$builder = new Admin\GridBuilder;
+		$builder = new Admin\Grid_Builder;
 		$this->loader->add_action( 'add_meta_boxes',              $builder, 'add_meta_boxes', 4 );
 		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
 		$this->loader->add_action( 'post_submitbox_start',        $builder, 'submitbox' );
@@ -324,7 +320,7 @@ final class Library {
 		$this->loader->add_action( 'save_post_grid',              $builder, 'save', 9, 3 );
 
 		// Permalink Settings
-		$permalinks = Admin\PermalinkSettings::get_instance();
+		$permalinks = Admin\Permalink_Settings::get_instance();
 		$this->loader->add_action( 'load-options-permalink.php', $permalinks, 'register' );
 		$this->loader->add_action( 'admin_init',                 $permalinks, 'update' );
 
@@ -348,7 +344,7 @@ final class Library {
 	 */
 	private function define_public_hooks() {
 
-		$adminbar = AdminBar::get_instance();
+		$adminbar = Admin_Bar::get_instance();
 		$this->loader->add_action( 'admin_bar_menu', $adminbar, 'edit_grid_menu', 95, 1 );
 
 		$public = Frontend::get_instance();

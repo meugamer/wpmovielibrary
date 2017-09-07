@@ -23,69 +23,69 @@ abstract class Shortcode {
 
 	/**
 	 * Shortcode Tag
-	 * 
+	 *
 	 * @var    string
 	 */
 	public static $name;
 
 	/**
 	 * Shortcode real Tag, used for aliases
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $tag;
 
 	/**
 	 * Shortcode attributes
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $attributes;
 
 	/**
 	 * Shortcode aliases
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected static $aliases = array();
 
 	/**
 	 * Shortcode attributes sanitizers
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $validates = array();
 
 	/**
 	 * Shortcode attributes escapers
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $escapes = array();
 
 	/**
 	 * Shortcode template
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $template;
 
 	/**
 	 * Shortcode content
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $content;
 
 	/**
 	 * Class constructor
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array     $atts Shortcode parameters
 	 * @param    string    $content Shortcode content
 	 * @param    string    $tag Shortcode tag
-	 * 
+	 *
 	 * @return   Shortcode
 	 */
 	public function __construct( $atts = array(), $content = null, $tag = null ) {
@@ -108,13 +108,13 @@ abstract class Shortcode {
 
 	/**
 	 * Set the Shortcode's attributes.
-	 * 
+	 *
 	 * Attributes not found in the validate list are simply ignored.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array     $attributes Shortcode attributes
-	 * 
+	 *
 	 * @return   Node      Return itself to allow chaining
 	 */
 	protected function set_attributes( $attributes ) {
@@ -132,13 +132,13 @@ abstract class Shortcode {
 
 	/**
 	 * Make sure we store attributes in their expected type.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $key Attribute name
 	 * @param    mixed     $value Attribute value
-	 * 
-	 * @return   void
+	 *
+	 * @return   mixed
 	 */
 	private function validate( $key, $value ) {
 
@@ -167,17 +167,15 @@ abstract class Shortcode {
 
 	/**
 	 * Set a specific attribute.
-	 * 
+	 *
 	 * Attributes not present in the validate list are simply ignored. If
 	 * the attribute value doesn't match the allowed values set in the
 	 * validate list, default value is used.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $key Attribute name
 	 * @param    mixed     $value Attribute value
-	 * 
-	 * @return   void
 	 */
 	public function set( $key, $value ) {
 
@@ -194,12 +192,10 @@ abstract class Shortcode {
 
 	/**
 	 * Register the Shortcode.
-	 * 
+	 *
 	 * Add hook for the current Shortcode and its optional aliases.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public static function register() {
 
@@ -220,16 +216,16 @@ abstract class Shortcode {
 
 	/**
 	 * Run the Shortcode.
-	 * 
+	 *
 	 * Create a new instance of Shortcode, run the Shortcode and build the
 	 * Template for return.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array     $atts Shortcode parameters
 	 * @param    string    $content Shortcode content
 	 * @param    string    $tag Shortcode tag
-	 * 
+	 *
 	 * @return   string
 	 */
 	public static function shortcode( $atts = array(), $content = null, $tag = null ) {
@@ -242,46 +238,40 @@ abstract class Shortcode {
 
 	/**
 	 * Output the Shortcode.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function output() {
 
-		return $this->template->render( 'always', $echo = false );
+		return $this->template->render( 'always', false );
 	}
 
 	/**
 	 * Initialize the Shortcode.
-	 * 
+	 *
 	 * Run things before doing anything.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	abstract protected function init();
 
 	/**
 	 * Build the Shortcode.
-	 * 
+	 *
 	 * Prepare Shortcode parameters.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	abstract protected function make();
 
 	/**
 	 * Run the Shortcode.
-	 * 
+	 *
 	 * Perform all needed Shortcode stuff.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	abstract protected function run();
 }

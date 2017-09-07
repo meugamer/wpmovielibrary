@@ -34,9 +34,9 @@ class Backstage extends Assets {
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   \wpmoly\Admin\Backstage
 	 */
 	final public static function get_instance() {
@@ -52,8 +52,6 @@ class Backstage extends Assets {
 	 * Register scripts.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	protected function register_scripts() {
 
@@ -129,8 +127,6 @@ class Backstage extends Assets {
 	 * Register stylesheets.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	protected function register_styles() {
 
@@ -152,8 +148,6 @@ class Backstage extends Assets {
 	 * Register templates.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	protected function register_templates() {
 
@@ -217,10 +211,8 @@ class Backstage extends Assets {
 
 	/**
 	 * Enqueue the JavaScript for the admin area.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   null
 	 */
 	public function enqueue_scripts() {
 
@@ -325,7 +317,7 @@ class Backstage extends Assets {
 			// Libraries
 			$this->enqueue_script( 'select2' );
 			$this->enqueue_script( 'jquery-actual' );
-		}
+		} // End if().
 
 		if ( ( 'post.php' == $hook_suffix || 'post-new.php' == $hook_suffix ) && 'grid' == get_post_type() ) {
 
@@ -369,8 +361,6 @@ class Backstage extends Assets {
 	 * Enqueue the stylesheets for the admin area.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	public function enqueue_styles() {
 
@@ -410,8 +400,6 @@ class Backstage extends Assets {
 	 * Print the JavaScript templates for the admin area.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	public function enqueue_templates() {
 
@@ -486,8 +474,6 @@ class Backstage extends Assets {
 	 * using that value to check files names and extensions.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   void
 	 */
 	public function admin_init() {
 
@@ -508,8 +494,6 @@ class Backstage extends Assets {
 	 * Register the backstage library page.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   void
 	 */
 	public function admin_menu() {
 
@@ -532,8 +516,6 @@ class Backstage extends Assets {
 	 * Add taxonomies menu entries to the custom admin menu.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   void
 	 */
 	public function admin_submenu() {
 

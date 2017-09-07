@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the Local Release Date Shortcode class.
+ * Define the Release Date Shortcode class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -14,69 +14,67 @@ namespace wpmoly\Shortcodes;
 use wpmoly\Templates\Front as Template;
 
 /**
- * Local Release Date Shortcode class.
+ * Release Date Shortcode class.
  *
  * @since      3.0
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/public/shortcodes
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Runtime extends Metadata {
+class Release_Date extends Metadata {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
-	 * 
+	 *
 	 * @var    string
 	 */
-	public static $name = 'movie_runtime';
+	public static $name = 'movie_release_date';
 
 	/**
 	 * Shortcode attributes sanitizers
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $validates = array(
 		'id' => array(
 			'default' => false,
 			'values'  => null,
-			'filter'  => 'intval'
+			'filter'  => 'intval',
 		),
 		'title' => array(
 			'default' => null,
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'label' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => 'boolval'
+			'filter'  => 'boolval',
 		),
 		'format' => array(
 			'default' => '',
 			'values'  => null,
-			'filter'  => 'esc_attr'
-		)
+			'filter'  => 'esc_attr',
+		),
 	);
 
 	/**
 	 * Shortcode aliases
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected static $aliases = array();
 
 	/**
 	 * Build the Shortcode.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
 		parent::make();
 
 		// Hard set key
-		$this->attributes['key'] = 'runtime';
+		$this->attributes['key'] = 'release_date';
 	}
 }

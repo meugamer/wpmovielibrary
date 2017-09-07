@@ -1,6 +1,6 @@
 <?php
 /**
- * Define the AdminBar class.
+ * Define the Admin Bar class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -19,7 +19,7 @@ namespace wpmoly;
  * @subpackage WPMovieLibrary
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class AdminBar {
+class Admin_Bar {
 
 	/**
 	 * Singleton.
@@ -30,9 +30,9 @@ class AdminBar {
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Singleton
 	 */
 	final public static function get_instance() {
@@ -47,12 +47,10 @@ class AdminBar {
 	/**
 	 * Add a submenu to the 'Edit Post' menu to edit the grid related to an
 	 * archive page.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    WP_Admin_Bar    $wp_admin_bar
-	 * 
-	 * @return   void
 	 */
 	public function edit_grid_menu( $wp_admin_bar ) {
 
@@ -67,7 +65,7 @@ class AdminBar {
 		}
 
 		// Retrieve related grid
-		$grid_id = get_post_meta( $post_id, '_wpmoly_grid_id', $single = true );
+		$grid_id = get_post_meta( $post_id, '_wpmoly_grid_id', true );
 		if ( empty( $grid_id ) ) {
 			return false;
 		}
@@ -77,7 +75,7 @@ class AdminBar {
 			'id'     => 'edit-grid',
 			'title'  => __( 'Edit Grid', 'wpmovielibrary' ),
 			'parent' => 'edit',
-			'href'   => get_edit_post_link( $grid_id )
+			'href'   => get_edit_post_link( $grid_id ),
 		) );
 	}
 

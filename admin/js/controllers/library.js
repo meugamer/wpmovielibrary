@@ -1,48 +1,31 @@
-
 wpmoly = window.wpmoly || {};
 
-_.extend( wpmoly.controller, {
+wpmoly.controller.Library = Backbone.Model.extend({
 
-	Library: Backbone.Model.extend({
+	defaults : {
+		mode : 'latest'
+	},
 
-		defaults : {
-			mode : 'latest'
-		},
+	allowed_modes : [ 'latest', 'favorites', 'import' ],
 
-		allowed_modes : [ 'latest', 'favorites', 'import' ],
+	/**
+	 * Set Library Mode.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    string    mode
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	setMode : function( mode ) {
 
-		/**
-		 * Initialize the Model.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return   void
-		 */
-		initialize : function( attributes, options ) {
-
-			
-		},
-
-		/**
-		 * Set Library Mode.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    string    mode
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		setMode : function( mode ) {
-
-			if ( ! _.contains( this.allowed_modes, mode ) ) {
-				return false;
-			}
-
-			this.set({ mode : mode });
-
-			return this;
+		if ( ! _.contains( this.allowed_modes, mode ) ) {
+			return false;
 		}
 
-	})
+		this.set( { mode : mode } );
 
-} );
+		return this;
+	},
+
+});

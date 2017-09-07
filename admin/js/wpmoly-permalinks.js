@@ -1,11 +1,10 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
 
 	permalinks = wpmoly.permalinks = {
 
-		run: function() {
+		run : function() {
 
 			wpmoly.permalinks = new wpmoly.view.Permalinks;
 		}

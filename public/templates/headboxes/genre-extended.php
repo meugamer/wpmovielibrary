@@ -1,9 +1,9 @@
 <?php
 /**
  * Genre Headbox extended template.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $headbox
  * @uses    $genre
  */

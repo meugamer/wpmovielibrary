@@ -21,64 +21,58 @@ use wpmoly\Templates\Front as Template;
  * @subpackage WPMovieLibrary/public/shortcodes
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Countries extends Metadata {
+class Languages extends Metadata {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
-	 * 
+	 *
 	 * @var    string
 	 */
-	public static $name = 'movie_countries';
+	public static $name = 'movie_languages';
 
 	/**
 	 * Shortcode attributes sanitizers
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $validates = array(
 		'id' => array(
 			'default' => false,
 			'values'  => null,
-			'filter'  => 'intval'
+			'filter'  => 'intval',
 		),
 		'title' => array(
 			'default' => null,
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'label' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => 'boolval'
+			'filter'  => 'boolval',
 		),
-		'format' => array(
-			'default' => '',
-			'values'  => null,
-			'filter'  => 'esc_attr'
-		)
 	);
 
 	/**
 	 * Shortcode aliases
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected static $aliases = array(
-		'movie_country' => 'production_countries'
+		'movie_language'  => 'spoken_languages',
+		'movie_lang'      => 'spoken_languages',
 	);
 
 	/**
 	 * Build the Shortcode.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
 		parent::make();
 
 		// Hard set key
-		$this->attributes['key'] = 'production_countries';
+		$this->attributes['key'] = 'spoken_languages';
 	}
 }

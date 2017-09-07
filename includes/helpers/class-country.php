@@ -11,7 +11,7 @@
 
 namespace wpmoly\Helpers;
 
-use wpmoly\Core\l10n;
+use wpmoly\Core\L10n;
 
 /**
  * Handle countries names translation, localization and flags.
@@ -25,63 +25,59 @@ class Country {
 
 	/**
 	 * Country ISO 3166-1 Code.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $code = '';
 
 	/**
 	 * Country standard name.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $standard_name = '';
 
 	/**
 	 * Country translated name.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $localized_name = '';
 
 	/**
 	 * Restricted list for API support
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $supported = array();
 
 	/**
 	 * ISO 3166-1 table.
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $standard = array();
 
 	/**
 	 * Initialize the instance.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function __construct() {
 
-		$this->supported = l10n::$supported_countries;
-		$this->standard  = l10n::$standard_countries;
+		$this->supported = L10n::$supported_countries;
+		$this->standard  = L10n::$standard_countries;
 	}
 
 	/**
 	 * Match a country by its name or code.
-	 * 
+	 *
 	 * Perform a strict match to find languages by code and standard name,
 	 * then try an approximative match with sanitized name.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $data
-	 * 
-	 * @return   void
 	 */
 	protected function match( $data ) {
 
@@ -124,10 +120,8 @@ class Country {
 
 	/**
 	 * Set the translated name of the country.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function localize() {
 
@@ -144,20 +138,20 @@ class Country {
 
 	/**
 	 * Generate country's flag.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function flag() {
 
-		$flag = sprintf( '<span class="flag flag-%s" title="%s"></span>', strtolower( $this->code ), sprintf( '%s (%s)', $this->localized_name, $this->standard_name ) );
+		$flag = sprintf( '<span class="flag flag-%1$s" title="%2$s"></span>', strtolower( $this->code ), sprintf( '%1$s (%2$s)', $this->localized_name, $this->standard_name ) );
 
 		/**
 		* Apply filter to the rendered country flag
-		* 
+		*
 		* @since    2.0
-		* 
+		*
 		* @param    string    $flag HTML markup
 		* @param    string    $country Country
 		*/
@@ -166,11 +160,11 @@ class Country {
 
 	/**
 	 * Get a country.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $country
-	 * 
+	 *
 	 * @return   Country
 	 */
 	public static function get( $country ) {
@@ -182,4 +176,5 @@ class Country {
 
 		return $instance;
 	}
+
 }

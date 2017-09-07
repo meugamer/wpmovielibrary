@@ -1,9 +1,9 @@
 <?php
 /**
  * Statistics Widget admin template.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $widget
  * @uses    $data
  */

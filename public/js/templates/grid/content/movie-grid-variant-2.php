@@ -1,10 +1,10 @@
 <?php
 /**
  * Variant-2 Movie Grid JavaScript template.
- * 
+ *
  * @since 3.0
  */
- 
+
 ?>
 
 				<div class="node-thumbnail node-poster post-poster movie-poster" style="background-image:url({{ data.node.get( 'poster' ).sizes.medium.url }})">

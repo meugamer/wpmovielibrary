@@ -1,9 +1,9 @@
 <?php
 /**
  * Statistics Widget default template.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $widget WP_Widget instance.
  * @uses    $type Detail type.
  * @uses    $details Detail array.

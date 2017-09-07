@@ -1,3 +1,10 @@
+<?php
+/**
+ * Metabox preview panel Template
+ *
+ * @since    3.0
+ */
+?>
 
 		<div id="wpmoly-movie-preview" class="wpmoly-movie-preview<?php echo $empty ? ' hidden' : ''; ?>">
 

@@ -21,56 +21,54 @@ use wpmoly\Node;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class l10n {
+class L10n {
 
 	/**
 	 * Singleton.
 	 *
-	 * @var    l10n
+	 * @var    L10n
 	 */
 	private static $instance = null;
 
 	/**
 	 * Supported languages
-	 * 
+	 *
 	 * @var    array
 	 */
 	public static $supported_languages;
 
 	/**
 	 * Standard languages
-	 * 
+	 *
 	 * @var    array
 	 */
 	public static $standard_languages;
 
 	/**
 	 * Native languages
-	 * 
+	 *
 	 * @var    array
 	 */
 	public static $native_languages;
 
 	/**
 	 * Supported countries
-	 * 
+	 *
 	 * @var    array
 	 */
 	public static $supported_countries;
 
 	/**
 	 * Standard countries
-	 * 
+	 *
 	 * @var    array
 	 */
 	public static $standard_countries;
 
 	/**
 	 * Initialize the class.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function __construct() {
 
@@ -80,9 +78,9 @@ class l10n {
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Options
 	 */
 	final public static function get_instance() {
@@ -96,10 +94,8 @@ class l10n {
 
 	/**
 	 * Set default countries for localization.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function set_countries() {
 
@@ -175,7 +171,7 @@ class l10n {
 			'US' => __( 'United States', 'wpmovielibrary-iso' ),
 			'UY' => __( 'Uruguay', 'wpmovielibrary-iso' ),
 			'VE' => __( 'Venezuela', 'wpmovielibrary-iso' ),
-			'VN' => __( 'Viet Nam', 'wpmovielibrary-iso' )
+			'VN' => __( 'Viet Nam', 'wpmovielibrary-iso' ),
 		);
 
 		$standard_countries = array(
@@ -427,23 +423,23 @@ class l10n {
 			'EH' => 'Western Sahara',
 			'YE' => 'Yemen',
 			'ZM' => 'Zambia',
-			'ZW' => 'Zimbabwe'
+			'ZW' => 'Zimbabwe',
 		);
 
 		/**
 		 * Filter the default supported countries list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $supported
 		 */
 		self::$supported_countries = apply_filters( 'wpmoly/filter/l10n/countries/supported', $supported_countries );
 
 		/**
 		 * Filter the default standard countries list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $supported
 		 */
 		self::$standard_countries = apply_filters( 'wpmoly/filter/l10n/countries/standard', $standard_countries );
@@ -451,7 +447,7 @@ class l10n {
 
 	/**
 	 * Set default languages for localization.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function set_languages() {
@@ -482,7 +478,7 @@ class l10n {
 			'sv' => __( 'Swedish', 'wpmovielibrary-iso' ),
 			'tr' => __( 'Turkish', 'wpmovielibrary-iso' ),
 			'uk' => __( 'Ukrainian', 'wpmovielibrary-iso' ),
-			'zh' => __( 'Chinese', 'wpmovielibrary-iso' )
+			'zh' => __( 'Chinese', 'wpmovielibrary-iso' ),
 		);
 
 		$standard_languages = array(
@@ -522,7 +518,7 @@ class l10n {
 			'uk' => 'Ukrainian',
 			'zh' => 'Chinese',
 			'xh' => 'Xhosa',
-			'zu' => 'Zulu'
+			'zu' => 'Zulu',
 		);
 
 		$native_languages = array(
@@ -562,32 +558,32 @@ class l10n {
 			'uk' => 'Український',
 			'zh' => '中国',
 			'xh' => 'isiXhosa',
-			'zu' => 'isiZulu'
+			'zu' => 'isiZulu',
 		);
 
 		/**
 		 * Filter the default supported languages list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $supported_languages
 		 */
 		self::$supported_languages = apply_filters( 'wpmoly/filter/l10n/languages/supported', $supported_languages );
 
 		/**
 		 * Filter the default standard languages list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $supported_languages
 		 */
 		self::$standard_languages = apply_filters( 'wpmoly/filter/l10n/languages/standard', $standard_languages );
 
 		/**
 		 * Filter the default native languages list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $supported_languages
 		 */
 		self::$native_languages = apply_filters( 'wpmoly/filter/l10n/languages/native', $native_languages );
@@ -595,10 +591,8 @@ class l10n {
 
 	/**
 	 * Localize JS scripts.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function localize_scripts() {
 
@@ -611,10 +605,8 @@ class l10n {
 
 	/**
 	 * Localize Admin-side JS scripts.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function localize_admin_scripts() {
 
@@ -626,7 +618,7 @@ class l10n {
 
 			'api' => array(
 				'missing' => __( 'Couldn’t find WordPress Rest API Backbone client.', 'wpmovielibrary' ),
-				'missing_collection' =>__( 'Couldn’t find WordPress Rest API Backbone client collection object.', 'wpmovielibrary' )
+				'missing_collection' => __( 'Couldn’t find WordPress Rest API Backbone client collection object.', 'wpmovielibrary' ),
 			),
 
 			'actors'             => __( 'actors', 'wpmovielibrary' ),
@@ -648,12 +640,12 @@ class l10n {
 			'nMoviesFound'       => array(
 				__( 'No movies found!', 'wpmovielibrary' ),
 				__( 'One movie found!', 'wpmovielibrary' ),
-				__( '%d movies found!', 'wpmovielibrary' )
+				__( '%d movies found!', 'wpmovielibrary' ),
 			),
 			'metaSaved'          => __( 'Metadata saved!', 'wpmovielibrary' ),
 			'modalTabTitle'      => __( 'Backdrops and Posters', 'wpmovielibrary' ),
 			'movieImported'      => __( 'Movie %s imported successfully!', 'wpmovielibrary' ),
-			'termsAutocomplete'  => __( 'or %s using the %s list.', 'wpmovielibrary' ),
+			'termsAutocomplete'  => __( 'or %1$s using the %2$s list.', 'wpmovielibrary' ),
 			'poster'             => array(
 				__( 'Poster', 'wpmovielibrary' ),
 				__( 'Posters', 'wpmovielibrary' ),
@@ -669,9 +661,9 @@ class l10n {
 			'searchingMovie'     => __( 'Searching movie %s…', 'wpmovielibrary' ),
 			'selectedImages'     => array(
 				__( 'one selected image', 'wpmovielibrary' ),
-				__( '%d selected images', 'wpmovielibrary' )
+				__( '%d selected images', 'wpmovielibrary' ),
 			),
-			'setImagesAs'        => __( 'You’re about to set %s as %s for the movie %s.<br /><br />Are you sure you want to do that?', 'wpmovielibrary' ),
+			'setImagesAs'        => __( 'You’re about to set %1$s as %2$s for the movie %3$s.<br /><br />Are you sure you want to do that?', 'wpmovielibrary' ),
 			'settingFeatured'    => __( 'Setting featured image…', 'wpmovielibrary' ),
 			'settingsError'      => __( 'Error: settings were not saved.', 'wpmovielibrary' ),
 			'settingsSaved'      => __( 'Settings saved!', 'wpmovielibrary' ),
@@ -683,7 +675,7 @@ class l10n {
 		$backdrop = Node\DefaultBackdrop::get_instance();
 		$localized = array(
 			'poster'   => $poster->get_sizes(),
-			'backdrop' => $backdrop->get_sizes()
+			'backdrop' => $backdrop->get_sizes(),
 		);
 
 		wp_localize_script( 'wpmoly-core', 'wpmolyDefaultImages', $localized );
@@ -691,10 +683,8 @@ class l10n {
 
 	/**
 	 * Localize Public-side JS scripts.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function localize_public_scripts() {
 
@@ -702,16 +692,16 @@ class l10n {
 			'run' => __( 'Run Forrest, run!', 'wpmovielibrary' ),
 			'api' => array(
 				'missing' => __( 'Couldn’t find WordPress Rest API Backbone client.', 'wpmovielibrary' ),
-				'missing_collection' =>__( 'Couldn’t find WordPress Rest API Backbone client collection object.', 'wpmovielibrary' )
+				'missing_collection' =>__( 'Couldn’t find WordPress Rest API Backbone client collection object.', 'wpmovielibrary' ),
 			),
 			'min' => _x( 'min', 'movie runtime in minutes', 'wpmovielibrary' ),
 			'nMoviesFound' => array(
 				__( 'No movie yet', 'wpmovielibrary' ),
 				__( '1 Movie', 'wpmovielibrary' ),
-				__( '%d Movies', 'wpmovielibrary' )
+				__( '%d Movies', 'wpmovielibrary' ),
 			),
 			'restAPIError' => __( 'An unknown error occurred while loading the content from the REST API.', 'wpmovielibrary' ),
-			'restAPIErrorFootnote' => __( 'If the problem persists, contact the administrator.', 'wpmovielibrary' )
+			'restAPIErrorFootnote' => __( 'If the problem persists, contact the administrator.', 'wpmovielibrary' ),
 		);
 
 		wp_localize_script( 'wpmoly-core', 'wpmolyL10n', $localized );

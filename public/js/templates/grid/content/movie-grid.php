@@ -1,7 +1,7 @@
 <?php
 /**
  * Default Movie Grid JavaScript template.
- * 
+ *
  * @since 3.0
  */
 

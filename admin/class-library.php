@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ * Define the Library class.
  *
  * @link       http://wpmovielibrary.com
  * @since      3.0
@@ -14,7 +14,7 @@ namespace wpmoly\Admin;
 use wpmoly\Templates\Admin as Template;
 
 /**
- * 
+ * Provide a custom dashboard for the plugin.
  *
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/admin
@@ -31,9 +31,9 @@ class Library {
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Singleton
 	 */
 	final public static function get_instance() {
@@ -47,10 +47,8 @@ class Library {
 
 	/**
 	 * Build the Backstage Library view.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function build() {
 

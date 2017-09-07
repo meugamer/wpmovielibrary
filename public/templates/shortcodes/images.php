@@ -1,11 +1,11 @@
 <?php
 /**
  * Movie Images Shortcode view Template
- * 
+ *
  * Showing a list of movie images.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $images
  * @uses    $type
  * @uses    $size
@@ -22,7 +22,7 @@ if ( $images->has_items() ) :
 
 		<div class="wpmoly shortcode inline-block image <?php echo $type . ' ' . $size . ' ' . 'attachment-' . $image->id; ?>">
 
-			<?php $image->render( $size, $format = 'html' ); ?>
+			<?php $image->render( $size, 'html', false ); ?>
 		</div>
 <?php
 	endwhile;

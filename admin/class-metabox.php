@@ -14,7 +14,7 @@ namespace wpmoly\Metabox;
 /**
  * Create a set of metaboxes for the plugin to display data in a nicer way
  * than standard WP Metaboxes.
- * 
+ *
  * Also handle the Post Convertor Metabox, if needed.
  *
  * @package    WPMovieLibrary
@@ -25,99 +25,99 @@ abstract class Metabox {
 
 	/**
 	 * Metabox ID
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      string
 	 */
 	public $id;
 
 	/**
 	 * Metabox Title
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      string
 	 */
 	public $title;
 
 	/**
 	 * Metabox Callback
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      callback
 	 */
 	public $callback;
 
 	/**
 	 * Metabox Callback parameters
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      array
 	 */
 	public $callback_args;
 
 	/**
 	 * Metabox Screen
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      string
 	 */
 	public $screen;
 
 	/**
 	 * Metabox Context
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      string
 	 */
 	public $context;
 
 	/**
 	 * Metabox Priority
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      string
 	 */
 	public $priority;
 
 	/**
 	 * Metabox Panels
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      array
 	 */
 	public $panels = array();
 
 	/**
 	 * Metabox template
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      Template
 	 */
 	protected $template = '';
 
 	/**
 	 * Metabox Actions hooks
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      array
 	 */
 	public $actions = array();
 
 	/**
 	 * Metabox Filters hooks
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      array
 	 */
 	public $filters = array();
@@ -143,7 +143,7 @@ abstract class Metabox {
 			'context'   => 'normal',
 			'priority'  => 'high',
 			'panels'    => array(),
-			'condition' => null
+			'condition' => null,
 		);
 
 		foreach ( $defaults as $key => $value ) {
@@ -159,9 +159,9 @@ abstract class Metabox {
 
 	/**
 	 * Add the Metabox to WordPress.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	public function create() {
@@ -171,19 +171,19 @@ abstract class Metabox {
 
 	/**
 	 * Generate an HTML tag for to be used in Metaboxes.
-	 * 
+	 *
 	 * Supported tags: <input>, <textarea>, <select>.
-	 * 
+	 *
 	 * Note that $value is expected to be escaped.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array     $field Field parameters
 	 * @param    string    $slug Field ID
 	 * @param    string    $value Field current value
 	 * @param    string    $data_type Data type, 'meta' or 'detail'
 	 * @param    string    $format Field output format, 'html' or 'json'
-	 * 
+	 *
 	 * @return   string    HTML output
 	 */
 	public function get_field( $field, $slug, $value = '', $data_type = 'meta', $format = 'html' ) {
@@ -205,7 +205,7 @@ abstract class Metabox {
 				'size'     => '',
 				'icon'     => '',
 				'multi'    => false,
-				'options'  => array()
+				'options'  => array(),
 			)
 		);
 
@@ -231,9 +231,9 @@ abstract class Metabox {
 		}
 
 		if ( 'detail' == $data_type ) {
-			$html = '<h4 class="wpmoly-' . $data_type . '-item-title"><span class="' . $field['icon'] . '"></span>&nbsp; ' . esc_attr__( $field['title'], 'wpmovielibrary' ) . '</h4><div class="wpmoly-meta-value">' . $form . '</div>';
+			$html = '<h4 class="wpmoly-' . $data_type . '-item-title"><span class="' . $field['icon'] . '"></span>&nbsp; ' . esc_html( $field['title'], 'wpmovielibrary' ) . '</h4><div class="wpmoly-meta-value">' . $form . '</div>';
 		} else {
-			$html  = '<div class="wpmoly-meta-label"><label for="meta_' . $slug . '">' . esc_attr__( $field['title'], 'wpmovielibrary' ) . '</label></div>';
+			$html  = '<div class="wpmoly-meta-label"><label for="meta_' . $slug . '">' . esc_html( $field['title'], 'wpmovielibrary' ) . '</label></div>';
 			$html .= '<div class="wpmoly-meta-value">' . $form . '</div>';
 		}
 
@@ -242,19 +242,19 @@ abstract class Metabox {
 
 	/**
 	 * Generate a SELECT HTML tag for to be used in Metaboxes.
-	 * 
+	 *
 	 * This method is private and should only be accessed by calling for
 	 * Metabox::get_field(). This means $value is expected to be escaped and
 	 * will not be at this point.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array     $field Field parameters
 	 * @param    string    $slug Field ID
 	 * @param    string    $value Field current value
 	 * @param    string    $data_type Data type, 'meta' or 'detail'
 	 * @param    string    $format Field output format, 'html' or 'json'
-	 * 
+	 *
 	 * @return   string    HTML output
 	 */
 	private function get_select_field( $field, $slug, $value, $data_type, $format ) {
@@ -264,14 +264,14 @@ abstract class Metabox {
 		// Backbone data attributes
 		$data = ' data-meta-type="' . $data_type . '" data-meta-key="' . $slug . '"';
 
-		$html  = '<select id="' . $data_type . '_' . $slug . '" name="' . $name . '" placeholder="' . esc_attr__( $field['desc'], 'wpmovielibrary' ) . '"' . $data . '>';
+		$html  = '<select id="' . $data_type . '_' . $slug . '" name="' . $name . '" placeholder="' . esc_html( $field['desc'], 'wpmovielibrary' ) . '"' . $data . '>';
 		foreach ( $field['options'] as $option_value => $option_text ) {
 			if ( 'json' == $format ) {
 				$selected = '<# if ( "' . $option_value . '" == data.' . $slug . ' ) { #> selected="selected"<# } #>';
 			} else {
-				$selected = selected( $option_value, $value, $echo = false );
+				$selected = selected( $option_value, $value, false );
 			}
-			$html .= '<option value="' . esc_attr( $option_value ) . '"' . $selected . '>' . esc_attr__( $option_text, 'wpmovielibrary' ) . '</option>';
+			$html .= '<option value="' . esc_attr( $option_value ) . '"' . $selected . '>' . esc_html( $option_text, 'wpmovielibrary' ) . '</option>';
 		}
 		$html .= '</select>';
 
@@ -280,19 +280,19 @@ abstract class Metabox {
 
 	/**
 	 * Generate a SELECT HTML tag for to be used in Metaboxes.
-	 * 
+	 *
 	 * This method is private and should only be accessed by calling for
 	 * Metabox::get_field(). This means $value is expected to be escaped and
 	 * will not be at this point.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array     $field Field parameters
 	 * @param    string    $slug Field ID
 	 * @param    string    $value Field current value
 	 * @param    string    $data_type Data type, 'meta' or 'detail'
 	 * @param    string    $format Field output format, 'html' or 'json'
-	 * 
+	 *
 	 * @return   string    HTML output
 	 */
 	private function get_multiple_select_field( $field, $slug, $values, $data_type, $format ) {
@@ -306,14 +306,14 @@ abstract class Metabox {
 			$values = (array) $values;
 		}
 
-		$html  = '<select id="' . $data_type . '_' . $slug . '" name="' . $name . '" multiple="multiple" placeholder="' . esc_attr__( $field['desc'], 'wpmovielibrary' ) . '"' . $data . '>';
+		$html  = '<select id="' . $data_type . '_' . $slug . '" name="' . $name . '" multiple="multiple" placeholder="' . esc_html( $field['desc'], 'wpmovielibrary' ) . '"' . $data . '>';
 		foreach ( $field['options'] as $option_value => $option_text ) {
 			if ( 'json' == $format ) {
 				$selected = '<# if ( _.contains( data.' . $slug . ', "' . $option_value . '" ) ) { #> selected="selected"<# } #>';
 			} else {
 				$selected = in_array( $option_value, $values ) ? ' selected="selected"' : '';
 			}
-			$html .= '<option value="' . esc_attr( $option_value ) . '"' . $selected . '>' . esc_attr__( $option_text, 'wpmovielibrary' ) . '</option>';
+			$html .= '<option value="' . esc_attr( $option_value ) . '"' . $selected . '>' . esc_html( $option_text, 'wpmovielibrary' ) . '</option>';
 		}
 		$html .= '</select>';
 
@@ -322,20 +322,20 @@ abstract class Metabox {
 
 	/**
 	 * Generate an INPUT HTML tag for to be used in Metaboxes.
-	 * 
+	 *
 	 * This method is private and should only be accessed by calling for
 	 * Metabox::get_field(). This means $value is expected to be escaped and
 	 * will not be at this point.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array      $field Field parameters
 	 * @param    string     $slug Field ID
 	 * @param    string     $value Field current value
 	 * @param    string     $data_type Data type, 'meta' or 'detail'
 	 * @param    string     $format Field output format, 'html' or 'json'
 	 * @param    boolean    $format Hidden input?
-	 * 
+	 *
 	 * @return   string    HTML output
 	 */
 	private function get_text_field( $field, $slug, $value, $data_type, $format, $hidden = false ) {
@@ -351,26 +351,26 @@ abstract class Metabox {
 
 	/**
 	 * Generate a TEXTAREA HTML tag for to be used in Metaboxes.
-	 * 
+	 *
 	 * This method is private and should only be accessed by calling for
 	 * Metabox::get_field(). This means $value is expected to be escaped and
 	 * will not be at this point.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array     $field Field parameters
 	 * @param    string    $slug Field ID
 	 * @param    string    $value Field current value
 	 * @param    string    $data_type Data type, 'meta' or 'detail'
 	 * @param    string    $format Field output format, 'html' or 'json'
-	 * 
+	 *
 	 * @return   string    HTML output
 	 */
 	private function get_textarea_field( $field, $slug, $value, $data_type, $format ) {
 
 		// Backbone data attributes
 		$data = ' data-meta-type="' . $data_type . '" data-meta-key="' . $slug . '"';
-		
+
 		$html = '<textarea id="meta_' . $slug . '" name="wpmoly[' . $data_type . '][' . $slug . ']"' . $data . '>' . $value . '</textarea>';
 
 		return $html;
@@ -378,22 +378,22 @@ abstract class Metabox {
 
 	/**
 	 * Initialize the Metabox.
-	 * 
+	 *
 	 * This is run priori to Metabox construction.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	abstract public function init();
 
 	/**
 	 * Build the Metabox.
-	 * 
+	 *
 	 * This is run after Metabox construction.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	abstract public function make();

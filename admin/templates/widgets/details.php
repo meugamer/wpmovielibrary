@@ -1,9 +1,9 @@
 <?php
 /**
  * Statistics Widget admin template.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $widget
  * @uses    $data
  */
@@ -22,7 +22,7 @@
 		<label for="<?php echo $widget->get_field_id( 'detail' ); ?>"><strong class="wpmoly-widget-title"><?php _e( 'Detail', 'wpmovielibrary' ); ?></strong></label>
 		<select class="widefat" id="<?php echo $widget->get_field_id( 'detail' ); ?>" name="<?php echo $widget->get_field_name( 'detail' ); ?>">
 <?php foreach ( $data['details'] as $slug => $detail ) : ?>
-			<option value="<?php echo $slug ?>" <?php selected( $slug, $widget->get_attr( 'detail' ) ); ?>><?php echo esc_html__( $detail['title'], 'wpmovielibrary' ); ?></option>
+			<option value="<?php echo $slug ?>" <?php selected( $slug, $widget->get_attr( 'detail' ) ); ?>><?php echo esc_html( $detail['title'], 'wpmovielibrary' ); ?></option>
 
 <?php endforeach; ?>
 		</select>

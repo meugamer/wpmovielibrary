@@ -20,7 +20,7 @@ use wpmoly\Helpers\Formatting;
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
- * 
+ *
  * @property    string     $name Actor name.
  * @property    int        $person_id Actor related Person ID.
  */
@@ -28,21 +28,21 @@ class Actor extends Node {
 
 	/**
 	 * Actor Term object
-	 * 
+	 *
 	 * @var    WP_Term
 	 */
 	public $term;
 
 	/**
 	 * Actor picture.
-	 * 
+	 *
 	 * @var    Picture
 	 */
 	protected $picture;
 
 	/**
 	 * Class Constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 *
 	 * @param    int|Node|WP_Term    $node Node ID, node instance or term object
@@ -65,10 +65,8 @@ class Actor extends Node {
 
 	/**
 	 * Initialize the Actor.
-	 * 
-	 * @since    3.0
 	 *
-	 * @return   void
+	 * @since    3.0
 	 */
 	public function init() {
 
@@ -77,9 +75,9 @@ class Actor extends Node {
 
 		/**
 		 * Filter the default actor meta list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $default_meta
 		 */
 		$this->default_meta = apply_filters( 'wpmoly/filter/default/actor/meta', array( 'name', 'picture', 'person_id' ) );
@@ -87,15 +85,15 @@ class Actor extends Node {
 
 	/**
 	 * Magic.
-	 * 
+	 *
 	 * Add support for Actor::get_{$property}() and Actor::the_{$property}()
 	 * methods.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @param    string    $method 
-	 * @param    array     $arguments 
-	 * 
+	 *
+	 * @param    string    $method Method name.
+	 * @param    array     $arguments Method arguments.
+	 *
 	 * @return   mixed
 	 */
 	public function __call( $method, $arguments ) {
@@ -111,31 +109,31 @@ class Actor extends Node {
 
 	/**
 	 * Load metadata.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	protected function get_property( $name ) {
 
 		// Load metadata
-		$value = get_term_meta( $this->id, $this->suffix . $name, $single = true );
+		$value = get_term_meta( $this->id, $this->suffix . $name, true );
 
 		return $value;
 	}
 
 	/**
 	 * Property accessor.
-	 * 
+	 *
 	 * Override Node::get() to add support for additional data like 'name'.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
 	 * @param    mixed     $default Default value
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function get( $name, $default = null ) {
@@ -155,29 +153,34 @@ class Actor extends Node {
 	 * Enhanced property accessor. Unlike Node::get() this method automatically
 	 * escapes the property requested and therefore should be used when the
 	 * property is meant for display.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
-	 * @return   void
+	 *
+	 * @return   mixed
 	 */
 	public function get_the( $name ) {
 
-		$hook_name = sanitize_key( $name );
-
-		return apply_filters( 'wpmoly/filter/the/actor/' . $hook_name, $this->get( $name ), $this );
+		/**
+		 * Filter properties for display.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    string    $name Meta name.
+		 * @param    mixed     $value Meta value.
+		 * @param    Node      $node Actor object.
+		 */
+		return apply_filters( 'wpmoly/filter/the/actor/' . sanitize_key( $name ), $this->get( $name ), $this );
 	}
 
 	/**
 	 * Simple property echoer. Use Node::get_the() to automatically escape
 	 * the requested property.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
-	 * @return   void
 	 */
 	public function the( $name ) {
 
@@ -186,18 +189,19 @@ class Actor extends Node {
 
 	/**
 	 * Simple accessor for Actor's Picture.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $variant Poster variant.
-	 * 
+	 *
 	 * @return   Poster|DefaultPoster
 	 */
 	public function get_picture( $variant = '', $size = 'thumb' ) {
 
 		$custom_picture = $this->get_custom_picture( $size );
 		if ( ! empty( $custom_picture ) ) {
-			return $this->picture = $custom_picture;
+			$this->picture = $custom_picture;
+			return $this->picture;
 		}
 
 		if ( empty( $variant ) ) {
@@ -206,9 +210,9 @@ class Actor extends Node {
 
 		/**
 		 * Filter default actor picture
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $picture
 		 */
 		$variants = apply_filters( 'wpmoly/filter/default/actor/picture/variants', array( 'neutral', 'female', 'male' ) );
@@ -218,9 +222,9 @@ class Actor extends Node {
 
 		/**
 		 * Filter default actor picture
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $picture
 		 */
 		$sizes = apply_filters( 'wpmoly/filter/default/actor/picture/sizes', array( 'original', 'full', 'medium', 'small', 'thumb', 'thumbnail', 'tiny' ) );
@@ -234,23 +238,25 @@ class Actor extends Node {
 
 		/**
 		 * Filter default actor picture
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $picture
 		 */
 		$picture = apply_filters( 'wpmoly/filter/default/actor/picture', WPMOLY_URL . "public/img/actor-{$variant}{$size}.png" );
 
-		return $this->picture = $picture;
+		$this->picture = $picture;
+
+		return $this->picture;
 	}
 
 	/**
 	 * Retrieve the Actor's custom picture, if any.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $size.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_custom_picture( $size ) {
@@ -270,10 +276,8 @@ class Actor extends Node {
 
 	/**
 	 * Save actor.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save() {
 
@@ -282,10 +286,8 @@ class Actor extends Node {
 
 	/**
 	 * Save actor metadata.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save_meta() {
 
@@ -295,4 +297,5 @@ class Actor extends Node {
 			}
 		}
 	}
+
 }

@@ -25,49 +25,49 @@ class Headbox extends Shortcode {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
-	 * 
+	 *
 	 * @var    string
 	 */
 	public static $name = 'headbox';
 
 	/**
 	 * Headbox Node.
-	 * 
+	 *
 	 * @var    Node
 	 */
 	private $node;
 
 	/**
 	 * Shortcode attributes sanitizers
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $validates = array(
 		'id' => array(
 			'default' => '',
 			'values'  => null,
-			'filter'  => 'intval'
+			'filter'  => 'intval',
 		),
 		'title' => array(
 			'default' => '',
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'type' => array(
 			'default' => 'movie',
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'theme' => array(
 			'default' => 'default',
 			'values'  => null,
-			'filter'  => 'esc_attr'
-		)
+			'filter'  => 'esc_attr',
+		),
 	);
 
 	/**
 	 * Shortcode aliases
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected static $aliases = array(
@@ -83,12 +83,10 @@ class Headbox extends Shortcode {
 
 	/**
 	 * Build the Shortcode.
-	 * 
+	 *
 	 * Prepare Shortcode parameters.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
@@ -118,11 +116,11 @@ class Headbox extends Shortcode {
 
 	/**
 	 * Run the Shortcode.
-	 * 
+	 *
 	 * Perform all needed Shortcode stuff.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Shortcode
 	 */
 	public function run() {
@@ -133,7 +131,7 @@ class Headbox extends Shortcode {
 				'type'    => 'info',
 				'icon'    => 'wpmolicon icon-info',
 				'message' => sprintf( __( 'It seems this Node does not have any metadata available yet; %s?', 'wpmovielibrary' ), sprintf( '<a href="%s">%s</a>', get_edit_post_link(), __( 'care to add some', 'wpmovielibrary' ) ) ),
-				'note'    => __( 'This notice is private; only you and other administrators can see it.', 'wpmovielibrary' )
+				'note'    => __( 'This notice is private; only you and other administrators can see it.', 'wpmovielibrary' ),
 			) );
 			return $this;
 		}
@@ -141,7 +139,7 @@ class Headbox extends Shortcode {
 		$type = $this->attributes['type'];
 		$this->template->set_data( array(
 			'headbox' => $this->headbox,
-			"$type"   => $this->node
+			"$type"   => $this->node,
 		) );
 
 		return $this;
@@ -149,12 +147,12 @@ class Headbox extends Shortcode {
 
 	/**
 	 * Retriveve the Headbox Movie.
-	 * 
+	 *
 	 * Try to find the node by its title/name if such an attribute was passed
 	 * to the Shortcode.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Node|boolean
 	 */
 	private function get_node() {
@@ -165,7 +163,8 @@ class Headbox extends Shortcode {
 		}
 
 		if ( empty( $this->attributes['title'] ) ) {
-			return $this->node = $function( $this->attributes['id'] );
+			$this->node = $function( $this->attributes['id'] );
+			return $this->node;
 		}
 
 		if ( in_array( $this->attributes['type'], array( 'movie' ) ) ) {
@@ -180,17 +179,17 @@ class Headbox extends Shortcode {
 			return false;
 		}
 
-		return $this->node = $function( $object_id );
+		$this->node = $function( $object_id );
+
+		return $this->node;
 	}
 
 	/**
 	 * Initialize the Shortcode.
-	 * 
+	 *
 	 * Run things before doing anything.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function init() {}
 }

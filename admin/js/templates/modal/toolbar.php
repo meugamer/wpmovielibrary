@@ -16,7 +16,7 @@
 $languages = wpmoly_o( 'supported_languages' );
 foreach ( $languages as $code => $lang ) :
 ?>
-				<option value="<?php echo $code ?>"><?php _e( $lang, 'wpmovielibrary' ) ?></option>
+				<option value="<?php echo $code ?>"><?php echo esc_html( $lang, 'wpmovielibrary' ); ?></option>
 <?php endforeach; ?>
 			</select>
 <# } #>

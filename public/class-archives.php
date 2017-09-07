@@ -12,7 +12,7 @@
 namespace wpmoly;
 
 /**
- * 
+ *
  *
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/public
@@ -29,9 +29,9 @@ class Archives {
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Singleton
 	 */
 	final public static function get_instance() {
@@ -45,12 +45,12 @@ class Archives {
 
 	/**
 	 * Adapt Archive Page post titles to match content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string     $post_title Page original post title.
 	 * @param    WP_Post    $post Archive page Post instance.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function archive_page_title( $post_title, $post ) {
@@ -59,7 +59,7 @@ class Archives {
 			return $post_title;
 		}
 
-		$adapt = get_post_meta( $post->ID, '_wpmoly_adapt_page_title', $single = true );
+		$adapt = get_post_meta( $post->ID, '_wpmoly_adapt_page_title', true );
 		if ( ! _is_bool( $adapt ) ) {
 			return $post_title;
 		}
@@ -71,12 +71,12 @@ class Archives {
 
 	/**
 	 * Adapt Archive Page titles to match content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string     $post_title Page original post title.
 	 * @param    int        $post_id Archive page Post ID.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function archive_page_post_title( $post_title, $post_id ) {
@@ -87,7 +87,7 @@ class Archives {
 			return $post_title;
 		}
 
-		$adapt = get_post_meta( $post_id, '_wpmoly_adapt_post_title', $single = true );
+		$adapt = get_post_meta( $post_id, '_wpmoly_adapt_post_title', true );
 		if ( ! _is_bool( $adapt ) ) {
 			return $post_title;
 		}
@@ -99,16 +99,16 @@ class Archives {
 
 	/**
 	 * Adapt Archive Page titles to match content.
-	 * 
+	 *
 	 * Mostly used to feature the term name in the page and post title when
 	 * showing a single term archives.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string     $title Page original post title.
 	 * @param    int        $post_id Archive page Post ID.
 	 * @param    string     $context Context, either 'wp_title' (page title) or 'post_title' (page post title)
-	 * 
+	 *
 	 * @return   string
 	 */
 	private function adapt_archive_title( $title, $post_id, $context ) {
@@ -124,13 +124,13 @@ class Archives {
 			return $title;
 		}
 
-		$title = sprintf( _x( '%s: %s', 'Archive page title, for instance ""', 'wpmovielibrary' ), $title, $term->name );
+		$title = sprintf( _x( '%1$s: %2$s', 'Archive page title', 'wpmovielibrary' ), $title, $term->name );
 
 		/**
 		 * Filter the adapted archive page/post title.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string     $title Page original post title.
 		 * @param    int        $post_id Archive page Post ID.
 		 * @param    WP_Term    $term Archive WP_Term instance.
@@ -143,14 +143,14 @@ class Archives {
 
 	/**
 	 * Filter post content to add grid to archive pages.
-	 * 
+	 *
 	 * Determine if we're dealing with a single item, ie. a term, or a real
 	 * archive page.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $content Post content.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function archive_page_content( $content ) {
@@ -170,20 +170,20 @@ class Archives {
 
 	/**
 	 * Handle single item content.
-	 * 
+	 *
 	 * Mostly used to show custom pages for taxonomy terms.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int       $post_id Current Post ID
 	 * @param    string    $type Archive page type.
 	 * @param    string    $content Post content.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function single_page_content( $post_id, $type, $content ) {
 
-		$show = get_post_meta( $post_id, '_wpmoly_single_terms', $single = true );
+		$show = get_post_meta( $post_id, '_wpmoly_single_terms', true );
 		if ( ! _is_bool( $show ) ) {
 			return $content;
 		}
@@ -196,7 +196,7 @@ class Archives {
 
 			$name = $term->name;
 
-			$theme = get_post_meta( $post_id, '_wpmoly_headbox_theme', $single = true );
+			$theme = get_post_meta( $post_id, '_wpmoly_headbox_theme', true );
 			$headbox = get_term_headbox( $term );
 			$headbox->set_theme( $theme );
 
@@ -209,7 +209,7 @@ class Archives {
 			return $pre_content;
 		}
 
-		$grid_id = get_post_meta( $archive_page_id, '_wpmoly_grid_id', $single = true );
+		$grid_id = get_post_meta( $archive_page_id, '_wpmoly_grid_id', true );
 		if ( empty( $grid_id ) ) {
 			return $pre_content;
 		}
@@ -228,19 +228,19 @@ class Archives {
 
 	/**
 	 * Handle archive page content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int       $post_id Current Post ID
 	 * @param    string    $content Post content.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function real_archive_page_content( $post_id, $content ) {
 
 		$pre_content = '';
 
-		$grid_id = get_post_meta( $post_id, '_wpmoly_grid_id', $single = true );
+		$grid_id = get_post_meta( $post_id, '_wpmoly_grid_id', true );
 		if ( empty( $grid_id ) ) {
 			return $pre_content;
 		}
@@ -257,7 +257,7 @@ class Archives {
 
 		$grid_template = get_grid_template( $grid );
 
-		$position = get_post_meta( $post_id, '_wpmoly_grid_position', $single = true );
+		$position = get_post_meta( $post_id, '_wpmoly_grid_position', true );
 		if ( 'top' === $position ) {
 			$pre_content = $grid_template->render() . $pre_content;
 		} elseif ( 'bottom' === $position ) {

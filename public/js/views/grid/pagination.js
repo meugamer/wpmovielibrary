@@ -1,27 +1,24 @@
-
 wpmoly = window.wpmoly || {};
 
 wpmoly.view.GridPagination = wp.Backbone.View.extend({
 
-	className: 'grid-menu-inner',
+	className : 'grid-menu-inner',
 
-	template: wp.template( 'wpmoly-grid-pagination' ),
+	template : wp.template( 'wpmoly-grid-pagination' ),
 
-	events: {
+	events : {
 		'change [data-action="grid-paginate"]' : 'paginate',
 		'click [data-action="grid-navigate"]'  : 'navigate'
 	},
 
 	/**
 	 * Initialize the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
-	 * @return   void
 	 */
-	initialize: function( options ) {
+	initialize : function( options ) {
 
 		this.controller = options.controller || {};
 
@@ -37,14 +34,14 @@ wpmoly.view.GridPagination = wp.Backbone.View.extend({
 
 	/**
 	 * Jump to a precise page.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    JS 'change' Event.
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	paginate: function( event ) {
+	paginate : function( event ) {
 
 		var $target = this.$( event.currentTarget ),
 		      value = $target.val();
@@ -60,14 +57,14 @@ wpmoly.view.GridPagination = wp.Backbone.View.extend({
 
 	/**
 	 * Navigate through the Grid's pages.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    JS 'click' Event.
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	navigate: function( event ) {
+	navigate : function( event ) {
 
 		var $target = this.$( event.currentTarget ),
 		      value = $target.attr( 'data-value' );
@@ -83,12 +80,12 @@ wpmoly.view.GridPagination = wp.Backbone.View.extend({
 
 	/**
 	 * Render the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	render: function() {
+	render : function() {
 
 		this.$el.html( this.template( {
 			current : this.controller.getCurrentPage(),

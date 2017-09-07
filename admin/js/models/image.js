@@ -1,25 +1,24 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.model, {
 
-	Image: Backbone.Model.extend({
+	Image : Backbone.Model.extend({
 
 		/**
 		 * Initialize the Model.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    Model
 		 * @param    object    Options
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		initialize: function( model, options ) {
+		initialize : function( model, options ) {
 
 			var options = options || {};
 			if ( true === options.parse ) {
-				this.set( this.parse( model ), { silent: true } );
+				this.set( this.parse( model ), { silent : true } );
 			}
 
 			this.on( 'change', this.autosave, this );
@@ -27,15 +26,15 @@ _.extend( wpmoly.model, {
 
 		/**
 		 * Parse Ajax response to Model.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    Model
 		 * @param    object    Options
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		parse: function( response, options ) {
+		parse : function( response, options ) {
 
 			if ( response.data ) {
 				_.each( response.data, function( value, key ) {
@@ -49,30 +48,30 @@ _.extend( wpmoly.model, {
 
 		/**
 		 * Save the Meta.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    model Current model
-		 * 
+		 *
 		 * @return   deferred
 		 */
-		autosave: function( model ) {
+		autosave : function( model ) {
 
 			return this.sync( 'update', model, {} );
 		},
 
 		/**
 		 * Override Backbone.sync()
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    Method
 		 * @param    object    Model
 		 * @param    object    Options
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		sync: function( method, model, options ) {
+		sync : function( method, model, options ) {
 
 			if ( 'update' == method ) {
 
@@ -81,25 +80,25 @@ _.extend( wpmoly.model, {
 				}
 
 				_.extend( options || {}, {
-					context: this,
-					data: {
-						action: 'save-attachment',
-						id:      this.get( 'id' ),
-						nonce:   this.get( 'nonces' ).update,
-						post_id: this.post_id || 0,
-						changes: this.changed
+					context : this,
+					data : {
+						action  : 'save-attachment',
+						id      : this.get( 'id' ),
+						nonce   : this.get( 'nonces' ).update,
+						post_id : this.post_id || 0,
+						changes : this.changed,
 					},
-					beforeSend: function() {
+					beforeSend : function() {
 						this.trigger( 'autosave:start', model.changed, this );
 					},
-					success: function( response ) {
+					success : function( response ) {
 						this.trigger( 'autosave:done', model.changed, this );
 					},
-					error: function( response ) {
+					error : function( response ) {
 						this.trigger( 'autosave:fail', model.changed, this );
 						wpmoly.error( response );
 					},
-					complete: function() {
+					complete : function() {
 						this.trigger( 'autosave:end', model.changed, this );
 					},
 				} );
@@ -115,7 +114,7 @@ _.extend( wpmoly.model, {
 
 _.extend( wpmoly.model, {
 
-	Backdrop: wpmoly.model.Image.extend({}),
+	Backdrop : Backbone.Model,
 
-	Poster: wpmoly.model.Image.extend({})
+	Poster : Backbone.Model,
 } );

@@ -1,11 +1,11 @@
 <?php
 /**
  * Movie Headbox view Template
- * 
+ *
  * Showing a movie's vintage headbox.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $movie
  * @uses    $headbox
  */
@@ -109,26 +109,22 @@
 			</div>
 			<div data-panel="images" class="headbox-panel images">
 				<div class="movie-backdrops clearfix">
-				<?php
+					<?php
 					$backdrops = $movie->get_backdrops();
 					while ( $backdrops->has_items() ) :
 						$backdrop = $backdrops->the_item();
-					?>
-					<div class="movie-backdrop"><a href="<?php $backdrop->render( 'original', 'raw' ); ?>"><?php $backdrop->render( 'thumbnail', 'html' ); ?></a></div>
-				<?php
+					?><div class="movie-backdrop"><a href="<?php $backdrop->render( 'original', 'raw' ); ?>"><?php $backdrop->render( 'thumbnail', 'html' ); ?></a></div><?php
 					endwhile;
-				?>
+					?>
 				</div>
 				<div class="movie-posters clearfix">
-				<?php
+					<?php
 					$posters = $movie->get_posters();
 					while ( $posters->has_items() ) :
 						$poster = $posters->the_item();
-				?>
-					<div class="movie-poster"><a href="<?php $poster->render( 'original', 'raw' ); ?>"><?php $poster->render( 'thumbnail', 'html' ); ?></a></div>
-				<?php
+					?><div class="movie-poster"><a href="<?php $poster->render( 'original', 'raw' ); ?>"><?php $poster->render( 'thumbnail', 'html' ); ?></a></div><?php
 					endwhile;
-				?>
+					?>
 				</div>
 			</div>
 			<div data-panel="actors" class="headbox-panel actors"><?php _e( 'Starring', 'wpmovielibrary' ); ?> <?php $movie->the_actors(); ?></div>

@@ -36,9 +36,9 @@ class API {
 
 	/**
 	 * Define the API class.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	public function __construct() {
@@ -80,7 +80,7 @@ class API {
 	 * Singleton.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	public static function get_instance() {
@@ -94,13 +94,11 @@ class API {
 
 	/**
 	 * Register additional fields for the REST API data response objects.
-	 * 
+	 *
 	 * Add posters and backdrops to movies, pictures to actors and thumbnails
 	 * to collections and genres.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_fields() {
 
@@ -170,12 +168,12 @@ class API {
 
 	/**
 	 * Add custom REST API post query params.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array              $args    Key value array of query var to query value.
 	 * @param    WP_REST_Request    $request The request used.
-	 * 
+	 *
 	 * @return   array
 	 */
 	public function add_post_query_params( $args, $request ) {
@@ -224,12 +222,12 @@ class API {
 
 	/**
 	 * Add custom REST API term query params.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array              $args    Key value array of query var to query value.
 	 * @param    WP_REST_Request    $request The request used.
-	 * 
+	 *
 	 * @return   array
 	 */
 	public function add_term_query_params( $args, $request ) {
@@ -263,12 +261,12 @@ class API {
 
 	/**
 	 * Register custom REST API collection params.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $query_params JSON Schema-formatted collection parameters.
 	 * @param    mixed    $object       WP_Post_Type or WP_Taxonomy object.
-	 * 
+	 *
 	 * @return   array
 	 */
 	public function register_collection_params( $query_params, $object ) {
@@ -284,14 +282,14 @@ class API {
 
 	/**
 	 * Register custom REST API post collection params.
-	 * 
+	 *
 	 * Add support for letter and meta filtering, presets, fields selection.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array           $query_params JSON Schema-formatted collection parameters.
 	 * @param    WP_Post_Type    $post_type    Post Type object.
-	 * 
+	 *
 	 * @return   array
 	 */
 	private function register_post_collection_params( $query_params, $post_type ) {
@@ -340,7 +338,7 @@ class API {
 			$metadata = get_registered_meta_keys( 'post' );
 
 			foreach ( $supported as $param => $key ) {
-		
+
 				$meta_key = prefix_movie_meta_key( $key );
 
 				if ( ! empty( $metadata[ $meta_key ] ) ) {
@@ -350,22 +348,21 @@ class API {
 					);
 				}
 			}
-
-		}
+		} // End if().
 
 		return $query_params;
 	}
 
 	/**
 	 * Register custom REST API term collection params.
-	 * 
+	 *
 	 * Add support for presets.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array          $query_params JSON Schema-formatted collection parameters.
 	 * @param    WP_Taxonomy    $taxonomy     Taxonomy object.
-	 * 
+	 *
 	 * @return   array
 	 */
 	private function register_term_collection_params( $query_params, $taxonomy ) {
@@ -428,8 +425,10 @@ class API {
 		$year = date( 'Y', strtotime( $date ) );
 
 		$response->data['meta']['year'] = array(
-			'rendered' => get_formatted_movie_year( $year, array( 'is_link' => false ) ),
-			'raw'      => $year
+			'rendered' => get_formatted_movie_year( $year, array(
+				'is_link' => false,
+			) ),
+			'raw' => $year,
 		);
 
 		return $response;
@@ -437,13 +436,13 @@ class API {
 
 	/**
 	 * Add movie poster to the data response.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array              $object Post object.
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
-	 * 
+	 *
 	 * @return   \wpmoly\Node\Image
 	 */
 	public function get_movie_poster( $object, $field_name, $request ) {
@@ -455,13 +454,13 @@ class API {
 
 	/**
 	 * Add movie posters list to the data response.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array              $object Post object.
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
-	 * 
+	 *
 	 * @return   \wpmoly\Node\NodeList
 	 */
 	public function get_movie_posters( $object, $field_name, $request ) {
@@ -470,16 +469,16 @@ class API {
 
 		return $movie->get_posters();
 	}
-	
+
 	/**
 	 * Add movie backdrop to the data response.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array              $object Post object.
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
-	 * 
+	 *
 	 * @return   \wpmoly\Node\Image
 	 */
 	public function get_movie_backdrop( $object, $field_name, $request ) {
@@ -491,13 +490,13 @@ class API {
 
 	/**
 	 * Add movie backdrops list to the data response.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array              $object Post object.
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
-	 * 
+	 *
 	 * @return   \wpmoly\Node\NodeList
 	 */
 	public function get_movie_backdrops( $object, $field_name, $request ) {
@@ -509,13 +508,13 @@ class API {
 
 	/**
 	 * Add term thumbnail to the data response.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array              $object Post object.
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
-	 * 
+	 *
 	 * @return   \wpmoly\Node\Image
 	 */
 	public function get_term_thumbnail( $object, $field_name, $request ) {

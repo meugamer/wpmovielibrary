@@ -1,4 +1,3 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
@@ -14,14 +13,14 @@ wpmoly = window.wpmoly || {};
 
 	_.extend( wpmoly.api, {
 
-		locked: false,
+		locked : false,
 
 		/**
 		 * Lock the API.
-		 * 
+		 *
 		 * @since    3.0
 		 */
-		lock: function() {
+		lock : function() {
 
 			wpmoly.api.locked = true;
 			wpmoly.api.trigger( 'locked' );
@@ -29,10 +28,10 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Unlock the API.
-		 * 
+		 *
 		 * @since    3.0
 		 */
-		unlock: function() {
+		unlock : function() {
 
 			wpmoly.api.locked = false;
 			wpmoly.api.trigger( 'unlocked' );
@@ -40,34 +39,34 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Movie related API functions.
-		 * 
+		 *
 		 * @since    3.0
 		 */
-		movie: {
+		movie : {
 
 			/**
 			 * API search.
-			 * 
+			 *
 			 * Search TheMovieDB for movies matching the query. To
 			 * get a specific movie using its ID use wpmoly.api.fetch()
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    string    query
 			 * @param    object    params
-			 * 
+			 *
 			 * @return   xhr
 			 */
-			search: function( query, params ) {
+			search : function( query, params ) {
 
 				var data = _.extend( {
-					query: query,
-					nonce: ''
+					query : query,
+					nonce : '',
 				}, params ), results;
 
 				return wp.ajax.send( 'wpmoly_api_search_movie', {
 					data    : data,
-					beforeSend: function() {
+					beforeSend : function() {
 						wpmoly.api.lock();
 						wpmoly.api.trigger( 'movie:search:start', data );
 					},
@@ -81,32 +80,32 @@ wpmoly = window.wpmoly || {};
 					complete : function() {
 						wpmoly.api.unlock();
 						wpmoly.api.trigger( 'movie:search:end' );
-					}
+					},
 				} );
 			},
 
 			/**
 			 * API fetch.
-			 * 
+			 *
 			 * Fetch a specific movie from TheMovieDB by its ID.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    string    query
 			 * @param    object    params
-			 * 
+			 *
 			 * @return   xhr
 			 */
-			fetch: function( query, params ) {
+			fetch : function( query, params ) {
 
 				var data = _.extend( {
-					query: query,
-					nonce: ''
+					query : query,
+					nonce : '',
 				}, params ), results;
 
 				wp.ajax.send( 'wpmoly_api_fetch_movie', {
 					data    : data,
-					beforeSend: function() {
+					beforeSend : function() {
 						wpmoly.api.lock();
 						wpmoly.api.trigger( 'movie:fetch:start', data );
 					},
@@ -126,12 +125,12 @@ wpmoly = window.wpmoly || {};
 
 		},
 
-		image: {
+		image : {
 
-			getUrl: function( type, path, size, options ) {
+			getUrl : function( type, path, size, options ) {
 
 				var size = size || 'original',
-				 options = _.defaults( { secure: true }, options ),
+				 options = _.defaults( { secure : true }, options ),
 				  config = wpmoly.api.configuration,
 				   sizes = config.sizes[ type ] || {},
 				    base = options.secure ? config.secure_base_url : config.base_url;
@@ -140,17 +139,17 @@ wpmoly = window.wpmoly || {};
 			},
 		},
 
-		backdrop: {
+		backdrop : {
 
-			getUrl: function( path, size, options ) {
+			getUrl : function( path, size, options ) {
 
 				return wpmoly.api.image.getUrl( 'backdrop', path, size, options );
 			},
 		},
 
-		poster: {
+		poster : {
 
-			getUrl: function( path, size, options ) {
+			getUrl : function( path, size, options ) {
 
 				return wpmoly.api.image.getUrl( 'poster', path, size, options );
 			},
@@ -160,7 +159,7 @@ wpmoly = window.wpmoly || {};
 
 	/**
 	 * TMDb basic configuration.
-	 * 
+	 *
 	 * This should not change much and therefore can be hardcoded rather
 	 * than cached and printed on each page load.
 	 */

@@ -20,7 +20,7 @@ use wpmoly\Helpers\Formatting;
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
- * 
+ *
  * @property    string     $name Genre name.
  * @property    int        $person_id Genre related Person ID.
  */
@@ -28,21 +28,21 @@ class Genre extends Node {
 
 	/**
 	 * Genre Term object
-	 * 
+	 *
 	 * @var    WP_Term
 	 */
 	public $term;
 
 	/**
 	 * Genre thumbnail.
-	 * 
+	 *
 	 * @var    Picture
 	 */
 	protected $thumbnail;
 
 	/**
 	 * Class Constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 *
 	 * @param    int|Node|WP_Term    $node Node ID, node instance or term object
@@ -65,10 +65,8 @@ class Genre extends Node {
 
 	/**
 	 * Initialize the Genre.
-	 * 
-	 * @since    3.0
 	 *
-	 * @return   void
+	 * @since    3.0
 	 */
 	public function init() {
 
@@ -77,9 +75,9 @@ class Genre extends Node {
 
 		/**
 		 * Filter the default genre meta list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $default_meta
 		 */
 		$this->default_meta = apply_filters( 'wpmoly/filter/default/genre/meta', array( 'name', 'thumbnail', 'person_id' ) );
@@ -87,15 +85,15 @@ class Genre extends Node {
 
 	/**
 	 * Magic.
-	 * 
+	 *
 	 * Add support for Genre::get_{$property}() and Genre::the_{$property}()
 	 * methods.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @param    string    $method 
-	 * @param    array     $arguments 
-	 * 
+	 *
+	 * @param    string    $method Method name.
+	 * @param    array     $arguments Method arguments.
+	 *
 	 * @return   mixed
 	 */
 	public function __call( $method, $arguments ) {
@@ -111,31 +109,31 @@ class Genre extends Node {
 
 	/**
 	 * Load metadata.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	protected function get_property( $name ) {
 
 		// Load metadata
-		$value = get_term_meta( $this->id, $this->suffix . $name, $single = true );
+		$value = get_term_meta( $this->id, $this->suffix . $name, true );
 
 		return $value;
 	}
 
 	/**
 	 * Property accessor.
-	 * 
+	 *
 	 * Override Node::get() to add support for additional data like 'name'.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
 	 * @param    mixed     $default Default value
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function get( $name, $default = null ) {
@@ -155,29 +153,34 @@ class Genre extends Node {
 	 * Enhanced property accessor. Unlike Node::get() this method automatically
 	 * escapes the property requested and therefore should be used when the
 	 * property is meant for display.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
-	 * @return   void
+	 *
+	 * @return   mixed
 	 */
 	public function get_the( $name ) {
 
-		$hook_name = sanitize_key( $name );
-
-		return apply_filters( 'wpmoly/filter/the/genre/' . $hook_name, $this->get( $name ), $this );
+		/**
+		 * Filter properties for display.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    string    $name Meta name.
+		 * @param    mixed     $value Meta value.
+		 * @param    Node      $node Genre object.
+		 */
+		return apply_filters( 'wpmoly/filter/the/genre/' . sanitize_key( $name ), $this->get( $name ), $this );
 	}
 
 	/**
 	 * Simple property echoer. Use Node::get_the() to automatically escape
 	 * the requested property.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
-	 * @return   void
 	 */
 	public function the( $name ) {
 
@@ -186,18 +189,19 @@ class Genre extends Node {
 
 	/**
 	 * Simple accessor for Genre's Picture.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $variant Poster variant.
-	 * 
+	 *
 	 * @return   Poster|DefaultPoster
 	 */
 	public function get_thumbnail( $variant = '', $size = 'thumb' ) {
 
 		$custom_thumbnail = $this->get_custom_thumbnail( $size );
 		if ( ! empty( $custom_thumbnail ) ) {
-			return $this->thumbnail = $custom_thumbnail;
+			$this->thumbnail = $custom_thumbnail;
+			return $this->thumbnail;
 		}
 
 		if ( empty( $variant ) ) {
@@ -206,9 +210,9 @@ class Genre extends Node {
 
 		/**
 		 * Filter default genre thumbnail variants
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $variants
 		 */
 		$variants = apply_filters( 'wpmoly/filter/default/genre/thumbnail/variants', array(
@@ -231,7 +235,7 @@ class Genre extends Node {
 			'53'    => 'thriller',
 			'10770' => 'tv-movie',
 			'10752' => 'war',
-			'37'    => 'western'
+			'37'    => 'western',
 		) );
 
 		$variant_id = array_search( $variant, $variants );
@@ -243,9 +247,9 @@ class Genre extends Node {
 
 		/**
 		 * Filter default genre thumbnail
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $thumbnail
 		 */
 		$sizes = apply_filters( 'wpmoly/filter/default/genre/thumbnail/sizes', array( 'original', 'full', 'medium', 'small', 'thumb', 'thumbnail', 'tiny' ) );
@@ -259,23 +263,25 @@ class Genre extends Node {
 
 		/**
 		 * Filter default genre thumbnail
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $thumbnail
 		 */
 		$thumbnail = apply_filters( 'wpmoly/filter/default/genre/thumbnail', WPMOLY_URL . "public/img/genre-{$variant}{$size}.png" );
 
-		return $this->thumbnail = $thumbnail;
+		$this->thumbnail = $thumbnail;
+
+		return $this->thumbnail;
 	}
 
 	/**
 	 * Retrieve the Genre's custom thumbnail, if any.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $size.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_custom_thumbnail( $size ) {
@@ -295,10 +301,8 @@ class Genre extends Node {
 
 	/**
 	 * Save genre.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save() {
 
@@ -307,10 +311,8 @@ class Genre extends Node {
 
 	/**
 	 * Save genre metadata.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save_meta() {
 
@@ -320,4 +322,5 @@ class Genre extends Node {
 			}
 		}
 	}
+
 }

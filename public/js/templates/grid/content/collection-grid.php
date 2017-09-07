@@ -1,7 +1,7 @@
 <?php
 /**
  * Default Collection Grid JavaScript template.
- * 
+ *
  * @since 3.0
  */
 

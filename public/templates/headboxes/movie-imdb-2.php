@@ -1,11 +1,11 @@
 <?php
 /**
  * Movie Headbox view Template
- * 
+ *
  * Showing a movie's imdb v2 headbox.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $movie
  * @uses    $headbox
  */
@@ -50,35 +50,33 @@
 			</div>
 			<div class="headbox-images">
 				<div class="movie-backdrops clearfix">
-				<?php
+					<?php
 					$backdrops = $movie->get_backdrops();
 					while ( $backdrops->has_items() ) :
 						$backdrop = $backdrops->the_item();
+					?><div class="movie-backdrop"><?php $backdrop->render( 'thumbnail', 'html' ); ?></div><?php
+						endwhile;
 					?>
-					<div class="movie-backdrop"><?php $backdrop->render( 'thumbnail', 'html' ); ?></div>
-				<?php
-					endwhile;
-				?>
 				</div>
 			</div>
 			<div class="headbox-cast">
 				<h4><?php _e( 'Cast', 'wpmovielibrary' ); ?></h4>
 				<div class="movie-cast">
 					<?php
-						$actors = $movie->get_actors();
-						$actors = explode( ',', $actors );
-						foreach ( $actors as $i => $actor ) {
-							$term = get_term_by( 'slug', trim( $actor ), 'actor' );
-							if ( $term ) {
-								$actor = get_actor( $term );
+					$actors = $movie->get_actors();
+					$actors = explode( ',', $actors );
+					foreach ( $actors as $i => $actor ) {
+						$term = get_term_by( 'slug', trim( $actor ), 'actor' );
+						if ( $term ) {
+							$actor = get_actor( $term );
 					?><div class="movie-actor">
 							<a href="<?php echo get_term_link( $term->term_id ); ?>">
 								<div class="movie-actor-thumbnail"><img src="<?php echo $actor->get_picture( '', 'thumbnail' ) ?>" alt="" /></div>
 								<div class="movie-actor-permalink"><?php echo $term->name; ?></div>
 							</a>
 					</div><?php
-							}
 						}
+					}
 					?>
 				</div>
 			</div>

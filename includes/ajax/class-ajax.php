@@ -25,28 +25,28 @@ class Ajax {
 
 	/**
 	 * Admin Ajax callback methods.
-	 * 
+	 *
 	 * @var      array
 	 */
 	public $admin_callbacks;
 
 	/**
 	 * Public Ajax callback methods.
-	 * 
+	 *
 	 * @var      array
 	 */
 	public $public_callbacks;
 
 	/**
 	 * Current instance.
-	 * 
+	 *
 	 * @var      Library
 	 */
 	public static $instance;
 
 	/**
 	 * Hook list.
-	 * 
+	 *
 	 * @var    array
 	 */
 	public $hooks = array();
@@ -55,8 +55,6 @@ class Ajax {
 	 * Class constructor.
 	 *
 	 * @since    3.0
-	 * 
-	 * @return   null
 	 */
 	public function __construct() {
 
@@ -83,30 +81,30 @@ class Ajax {
 
 			'query_backdrops'        => '',
 			'query_posters'          => '',
-			'save_settings'          => ''
+			'save_settings'          => '',
 		);
 		$public_callbacks = array();
 
 		/**
 		 * Filter the list of allowed admin callbacks.
-		 * 
+		 *
 		 * This should only be used to remove existing callbacks. Adding
 		 * new ones won't change anything anyway.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $admin_callbacks
 		 */
 		$this->admin_callbacks = apply_filters( 'wpmoly/filter/ajax/admin_callbacks', $admin_callbacks );
 
 		/**
 		 * Filter the list of allowed admin callbacks.
-		 * 
+		 *
 		 * This should only be used to remove existing callbacks. Adding
 		 * new ones won't change anything anyway.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $admin_callbacks
 		 */
 		$this->public_callbacks = apply_filters( 'wpmoly/filter/ajax/public_callbacks', $public_callbacks );
@@ -125,7 +123,7 @@ class Ajax {
 	 * Singleton.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Ajax
 	 */
 	public static function get_instance() {
@@ -139,15 +137,15 @@ class Ajax {
 
 	/**
 	 * Handle callbacks function for Ajax requests.
-	 * 
+	 *
 	 * Callbacks can be part of other classes in the Ajax namespace.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @param    string    $method 
-	 * @param    array     $arguments 
-	 * 
-	 * @return   null
+	 *
+	 * @param    string    $method Method name.
+	 * @param    array     $arguments Method arguments.
+	 *
+	 * @return   mixed
 	 */
 	public function __call( $method, $arguments ) {
 
@@ -159,14 +157,14 @@ class Ajax {
 		// Admin or Public
 		if ( ! empty( $this->admin_callbacks[ $method ] ) ) {
 			list( $class, $callback ) = $this->admin_callbacks[ $method ];
-		} else if ( ! empty( $this->public_callbacks[ $method ] ) ) {
+		} elseif ( ! empty( $this->public_callbacks[ $method ] ) ) {
 			list( $class, $callback ) = $this->public_callbacks[ $method ];
 		}
 
 		// This or another class
 		if ( empty( $callback ) && method_exists( $this, $method ) ) {
 			return $this->$method();
-		} else if ( ! empty( $callback ) && method_exists( $class, $callback ) ) {
+		} elseif ( ! empty( $callback ) && method_exists( $class, $callback ) ) {
 			$instance = new $class;
 			return $instance->$callback();
 		} else {
@@ -176,10 +174,8 @@ class Ajax {
 
 	/**
 	 * Register Ajax admin hooks.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   null
 	 */
 	public function define_admin_hooks() {
 
@@ -190,10 +186,8 @@ class Ajax {
 
 	/**
 	 * Register Ajax public hooks.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   null
 	 */
 	public function define_public_hooks() {
 
@@ -205,10 +199,8 @@ class Ajax {
 
 	/**
 	 * Query Backdrops for the current post.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   null
 	 */
 	private function query_backdrops() {
 
@@ -217,10 +209,8 @@ class Ajax {
 
 	/**
 	 * Query Posters for the current post.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   null
 	 */
 	private function query_posters() {
 
@@ -229,12 +219,10 @@ class Ajax {
 
 	/**
 	 * Query Images for the current post.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $type Images type, 'backdrops' or 'posters'
-	 * 
-	 * @return   null
 	 */
 	private function query_images( $type ) {
 
@@ -249,15 +237,15 @@ class Ajax {
 
 		$movie = get_movie( $post_id );
 		if ( 'posters' == $type ) {
-			$media = $movie->get_posters( $load = true );
+			$media = $movie->get_posters( true );
 		} elseif ( 'backdrops' == $type ) {
-			$media = $movie->get_backdrops( $load = true );
+			$media = $movie->get_backdrops( true );
 		}
 
 		if ( $media->has_items() ) {
 			while ( $media->has_items() ) {
 				$image = $media->the_item();
-				$attachment = wp_prepare_attachment_for_js( $image->id  );
+				$attachment = wp_prepare_attachment_for_js( $image->id );
 				$image = array_merge( $image->data, $attachment );
 				$media->add( $image, $media->key() );
 			}
@@ -268,10 +256,8 @@ class Ajax {
 
 	/**
 	 * Remove a backdrop from the backdrops list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function remove_backdrop() {
 
@@ -280,10 +266,8 @@ class Ajax {
 
 	/**
 	 * Remove a poster from the posters list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function remove_poster() {
 
@@ -292,12 +276,10 @@ class Ajax {
 
 	/**
 	 * Remove an image from the backdrops/posters list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $type Image type, 'backdrop' or 'poster'
-	 * 
-	 * @return   void
 	 */
 	private function remove_image( $type ) {
 
@@ -325,15 +307,13 @@ class Ajax {
 			wp_send_json_success();
 		}
 
-		wp_send_json_error( sprintf( __( 'An unknown error occurred while trying to remove image #%d from the %s list.', 'wpmovielibrary' ), $post_id, $type ) );
+		wp_send_json_error( sprintf( __( 'An unknown error occurred while trying to remove image #%1$d from the %2$s list.', 'wpmovielibrary' ), $post_id, $type ) );
 	}
 
 	/**
 	 * Set an existing image as backdrop.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function set_backdrops() {
 
@@ -342,10 +322,8 @@ class Ajax {
 
 	/**
 	 * Set an existing image as poster.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function set_posters() {
 
@@ -354,12 +332,10 @@ class Ajax {
 
 	/**
 	 * Set an existing image as backdrop or poster.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @param    string    $type Image type, 'backdrop' or 'poster'
-	 * 
-	 * @return   void
+	 *
+	 * @param    string    $type Image type, 'backdrop' or 'poster'.
 	 */
 	private function set_images( $type ) {
 
@@ -385,7 +361,7 @@ class Ajax {
 			if ( ! $image || ! get_post( $image ) || 'attachment' != get_post_type( $image ) ) {
 				$error->add( 'invalid_attachment_id', sprintf( __( 'Invalid Attachment ID %d.', 'wpmovielibrary' ), $image ) );
 			} elseif ( ! add_post_meta( $image, "_wpmoly_{$type}_related_tmdb_id", $tmdb_id ) ) {
-				$error->add( 'unknown_error', sprintf( __( 'An unknown error occurred while trying to set image #%d as %s.', 'wpmovielibrary' ), $post_id, $type ) );
+				$error->add( 'unknown_error', sprintf( __( 'An unknown error occurred while trying to set image #%1$d as %2$s.', 'wpmovielibrary' ), $post_id, $type ) );
 			}
 		}
 
@@ -398,10 +374,8 @@ class Ajax {
 
 	/**
 	 * Save search settings.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function save_settings() {
 
@@ -427,4 +401,5 @@ class Ajax {
 
 		wp_send_json_success();
 	}
+
 }

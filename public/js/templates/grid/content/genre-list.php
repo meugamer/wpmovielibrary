@@ -1,7 +1,7 @@
 <?php
 /**
  * Default Genre List JavaScript template.
- * 
+ *
  * @since 3.0
  */
 

@@ -48,48 +48,44 @@ $redux_args = array(
 $redux_args['share_icons'][] = array(
 	'url' => 'https://github.com/wpmovielibrary/wpmovielibrary',
 	'title' => 'Visit us on GitHub',
-	'icon' => 'el el-github'
+	'icon' => 'el el-github',
 );
 $redux_args['share_icons'][] = array(
 	'url' => 'https://www.facebook.com/wpmovielibrary',
 	'title' => 'Like us on Facebook',
-	'icon' => 'el el-facebook'
+	'icon' => 'el el-facebook',
 );
 $redux_args['share_icons'][] = array(
 	'url' => 'http://twitter.com/WPMovieLibrary',
 	'title' => 'Follow us on Twitter',
-	'icon' => 'el el-twitter'
+	'icon' => 'el el-twitter',
 );
 $redux_args['share_icons'][] = array(
 	'url' => 'https://plus.google.com/+Wpmovielibraryplugin',
 	'title' => 'Join our circle on Google+',
-	'icon' => 'el el-googleplus'
+	'icon' => 'el el-googleplus',
 );
 $redux_args['share_icons'][] = array(
 	'url' => 'http://wpmovielibrary.com',
 	'title' => 'Find us on WPMovieLibrary.com',
-	'icon' => 'el el-wordpress'
+	'icon' => 'el el-wordpress',
 );
 
 $redux_sections = array(
-
 	// 'wpmoly' General settings section
 	array(
 		'icon'    => 'wpmolicon icon-cogs',
 		'title'   => __( 'General', 'wpmovielibrary' ),
 		'heading' => __( 'General options', 'wpmovielibrary' ),
-		'fields'  => array(
-		)
+		'fields'  => array(),
 	),
-
 	// 'wpmoly-movies' Movies settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-movie',
 		'title'   => __( 'Movies', 'wpmovielibrary' ),
-		'desc'    => __( 'WPMovieLibrary handles movies as regular WordPress posts, but you can define some specific behaviours movies only should have.', 'wpmovielibrary'),
+		'desc'    => __( 'WPMovieLibrary handles movies as regular WordPress posts, but you can define some specific behaviours movies only should have.', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Add movies to the main loop
 			'frontpage' => array(
 				'id'       => 'wpmoly-frontpage',
@@ -98,9 +94,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, movies will appear among other Posts in the Home Page.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Add movies to the main loop
 			'search' => array(
 				'id'       => 'wpmoly-search',
@@ -109,9 +104,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, the standard WordPress Search will return every movie matching the search in addition to regular posts. Search will include all available meta fields. Examples: a search with keywork <code>Sean Penn</code> will add the movies <em>Into The Wild</em> and <em>The Secret Life of Walter Mitty</em> to the search results; a search with keywork <code>Taiwan</code> will add the movie <em>Life of Pi</em>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-
 			// Replace excerpt by overview
 			'excerpt' => array(
 				'id'       => 'wpmoly-excerpt',
@@ -120,9 +114,8 @@ $redux_sections = array(
 				'desc'     => __( 'Replace movie excerpts by the movie overview if available. <a href="http://codex.wordpress.org/Excerpt">Learn more about Excerpt</a>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Replace excerpt by overview
 			'excerpt-length' => array(
 				'id'       => 'wpmoly-excerpt-length',
@@ -130,12 +123,11 @@ $redux_sections = array(
 				'title'    => __( 'Excerpt overview length', 'wpmovielibrary' ),
 				'desc'     => __( 'Excerpt overview default number of words. This will override WordPress and Themes or Plugins default values for movies only.', 'wpmovielibrary' ),
 				'default'  => '75',
-				'required' => array( 'wpmoly-excerpt', "=", 1 ),
-				'indent'   => true
-			)
-		)
+				'required' => array( 'wpmoly-excerpt', '=', 1 ),
+				'indent'   => true,
+			),
+		),
 	),
-
 	// 'wpmoly-meta' Meta settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-meta',
@@ -143,15 +135,13 @@ $redux_sections = array(
 		'heading' => __( 'Metadata settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			'meta-start' => array(
 				'id'       => 'meta-start',
 				'type'     => 'section',
-				'title'    => __( 'Movies metadata', 'wpmovielibrary'),
-				'subtitle' => __( 'Metadata give you useful information about your movies: director, release date, runtime, prouction, actors, languages…', 'wpmovielibrary'),
-				'indent'   => true
+				'title'    => __( 'Movies metadata', 'wpmovielibrary' ),
+				'subtitle' => __( 'Metadata give you useful information about your movies: director, release date, runtime, prouction, actors, languages…', 'wpmovielibrary' ),
+				'indent'   => true,
 			),
-
 			// Show movie meta in posts
 			'show-meta' => array(
 				'id'       => 'wpmoly-show-meta',
@@ -163,9 +153,8 @@ $redux_sections = array(
 					'posts_only' => __( 'Only In Post Read', 'wpmovielibrary' ),
 					'nowhere'    => __( 'Don&rsquo;t Show', 'wpmovielibrary' ),
 				),
-				'default'  => 'posts_only'
+				'default'  => 'posts_only',
 			),
-
 			'meta-links' => array(
 				'id'       => 'wpmoly-meta-links',
 				'type'     => 'select',
@@ -177,9 +166,8 @@ $redux_sections = array(
 					'nowhere'    => __( 'Don&rsquo;t Show', 'wpmovielibrary' ),
 				),
 				'default'  => 'posts_only',
-				'required' => array( 'wpmoly-show-meta', "!=", 'nowhere' ),
+				'required' => array( 'wpmoly-show-meta', '!=', 'nowhere' ),
 			),
-
 			// Default movie meta to show
 			'sort-meta' => array(
 				'id'       => 'wpmoly-sort-meta',
@@ -194,7 +182,7 @@ $redux_sections = array(
 						'runtime'      => __( 'Runtime', 'wpmovielibrary' ),
 						'release_date' => __( 'Release date', 'wpmovielibrary' ),
 						'genres'       => __( 'Genres', 'wpmovielibrary' ),
-						'overview'     => __( 'Overview', 'wpmovielibrary' )
+						'overview'     => __( 'Overview', 'wpmovielibrary' ),
 					),
 					'available' => array(
 						'title'                => __( 'Title', 'wpmovielibrary' ),
@@ -215,21 +203,19 @@ $redux_sections = array(
 						'tagline'              => __( 'Tagline', 'wpmovielibrary' ),
 						'imdb_id'              => __( 'IMDb Id', 'wpmovielibrary' ),
 						'adult'                => __( 'Adult', 'wpmovielibrary' ),
-						'homepage'             => __( 'Homepage', 'wpmovielibrary' )
-					)
+						'homepage'             => __( 'Homepage', 'wpmovielibrary' ),
+					),
 				),
-				'required' => array( 'wpmoly-show-meta', "!=", 'nowhere' ),
-				'indent'   => true
+				'required' => array( 'wpmoly-show-meta', '!=', 'nowhere' ),
+				'indent'   => true,
 			),
-
 			'meta-end' => array(
 				'id'     => 'meta-end',
 				'type'   => 'section',
 				'indent' => false,
-			)
-		)
+			),
+		),
 	),
-
 	// 'wpmoly-details' Details settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-details',
@@ -237,15 +223,13 @@ $redux_sections = array(
 		'heading' => __( 'Details settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			'details-start' => array(
 				'id'       => 'details-start',
 				'type'     => 'section',
-				'title'    => __( 'Movie details', 'wpmovielibrary'),
-				'subtitle' => __( 'Details are a different way to manage your movies. You can specify and filter movies by rating, media, status, language, subtitles…', 'wpmovielibrary'),
-				'indent'   => true
+				'title'    => __( 'Movie details', 'wpmovielibrary' ),
+				'subtitle' => __( 'Details are a different way to manage your movies. You can specify and filter movies by rating, media, status, language, subtitles…', 'wpmovielibrary' ),
+				'indent'   => true,
 			),
-
 			// Show movie details in posts
 			'show-details' => array(
 				'id'       => 'wpmoly-show-details',
@@ -255,11 +239,10 @@ $redux_sections = array(
 				'options'  => array(
 					'everywhere'  => __( 'Everywhere', 'wpmovielibrary' ),
 					'posts_only'  => __( 'Only In Post Read', 'wpmovielibrary' ),
-					'nowhere'     => __( 'Don&rsquo;t Show', 'wpmovielibrary' )
+					'nowhere'     => __( 'Don&rsquo;t Show', 'wpmovielibrary' ),
 				),
-				'default' => 'posts_only'
+				'default' => 'posts_only',
 			),
-
 			// Show movie details as icons
 			'details-icons' => array(
 				'id'       => 'wpmoly-details-icons',
@@ -269,10 +252,9 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-show-details', "!=", 'nowhere' ),
-				'indent'   => true
+				'required' => array( 'wpmoly-show-details', '!=', 'nowhere' ),
+				'indent'   => true,
 			),
-
 			// Default movie detail to show
 			'sort-details' => array(
 				'id'       => 'wpmoly-sort-details',
@@ -284,26 +266,24 @@ $redux_sections = array(
 					'used' => array(
 						'media'  => __( 'Media', 'wpmovielibrary' ),
 						'status' => __( 'Status', 'wpmovielibrary' ),
-						'rating' => __( 'Rating', 'wpmovielibrary' )
+						'rating' => __( 'Rating', 'wpmovielibrary' ),
 					),
 					'available'  => array(
 						'language'  => __( 'Language', 'wpmovielibrary' ),
 						'subtitles' => __( 'Subtitles', 'wpmovielibrary' ),
-						'format'    => __( 'Format', 'wpmovielibrary' )
-					)
+						'format'    => __( 'Format', 'wpmovielibrary' ),
+					),
 				),
-				'required' => array( 'wpmoly-show-details', "!=", 'nowhere' ),
-				'indent'   => true
+				'required' => array( 'wpmoly-show-details', '!=', 'nowhere' ),
+				'indent'   => true,
 			),
-
 			'details-end' => array(
 				'id'     => 'details-end',
 				'type'   => 'section',
 				'indent' => false,
 			),
-		)
+		),
 	),
-
 	// 'wpmoly-format' Formatting settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-format',
@@ -311,25 +291,22 @@ $redux_sections = array(
 		'heading' => __( 'Formatting settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Release date formatting
 			'format-date' => array(
 				'id'       => 'wpmoly-format-date',
 				'type'     => 'text',
 				'title'    => __( 'Release date format', 'wpmovielibrary' ),
 				'desc'     => __( 'Apply a custom date format to movies\' release dates. Leave empty to use the default API format. Check the <a href="http://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>.', 'wpmovielibrary' ),
-				'default'  => 'j F Y'
+				'default'  => 'j F Y',
 			),
-
 			// Release date formatting
 			'format-time' => array(
 				'id'       => 'wpmoly-format-time',
 				'type'     => 'text',
 				'title'    => __( 'Runtime format', 'wpmovielibrary' ),
 				'desc'     => __( 'Apply a custom time format to movies\' runtimes. Leave empty to use the default API format.', 'wpmovielibrary' ),
-				'default'  => 'G \h i \m\i\n'
+				'default'  => 'G \h i \m\i\n',
 			),
-
 			// Release date formatting
 			'format-rating' => array(
 				'id'       => 'wpmoly-format-rating',
@@ -338,13 +315,12 @@ $redux_sections = array(
 				'desc'     => __( 'Should ratings be displayed using 5 or 10 stars.', 'wpmovielibrary' ),
 				'options'  => array(
 					'5'  => __( '5 stars', 'wpmovielibrary' ),
-					'10' => __( '10 stars', 'wpmovielibrary' )
+					'10' => __( '10 stars', 'wpmovielibrary' ),
 				),
-				'default'  => '5'
+				'default'  => '5',
 			),
 		),
 	),
-
 	// 'wpmoly-converting' Formatting settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-import',
@@ -353,18 +329,16 @@ $redux_sections = array(
 		'desc'    => __( 'This section allows you to configure the post types convertor tool. This can be usefull to convert regular posts, pages and possibly other custom post types into movies to avoid duplicate contents or having to manually recreate already existing contents. Note that this will most likely affect your SEO as it will change Posts’ URLs.', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Notice
 			array(
-                            'id'     => 'wpmoly-convert-notice',
-                            'type'   => 'info',
-                            'notice' => true,
-                            'style'  => 'critical',
-                            'icon'   => 'wpmolicon icon-warning',
-                            'title'  => __( 'Experimental', 'wpmovielibrary' ),
-                            'desc'   => __( 'Posts to Movies conversion is still experimental. Do not activate this unless you are sure of what you are doing, and make sure you have backups of your database before using this feature.', 'wpmovielibrary' )
-                        ),
-
+				'id'     => 'wpmoly-convert-notice',
+				'type'   => 'info',
+				'notice' => true,
+				'style'  => 'critical',
+				'icon'   => 'wpmolicon icon-warning',
+				'title'  => __( 'Experimental', 'wpmovielibrary' ),
+				'desc'   => __( 'Posts to Movies conversion is still experimental. Do not activate this unless you are sure of what you are doing, and make sure you have backups of your database before using this feature.', 'wpmovielibrary' ),
+			),
 			// Post type convert enable
 			'convert-enable' => array(
 				'id'       => 'wpmoly-convert-enable',
@@ -373,9 +347,8 @@ $redux_sections = array(
 				'desc'     => __( 'Enable post types conversion tools.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-
 			// Post type to convert
 			'convert-post-types' => array(
 				'id'       => 'wpmoly-convert-post-types',
@@ -384,21 +357,18 @@ $redux_sections = array(
 				'desc'     => __( 'Select which post types should be convertible to movie.', 'wpmovielibrary' ),
 				'data'     => 'post_types',
 				'multi'    => true,
-				'required' => array( 'wpmoly-convert-enable', "=", '1' ),
-				'default'  => array( 'post', 'page', 'review' )
+				'required' => array( 'wpmoly-convert-enable', '=', '1' ),
+				'default'  => array( 'post', 'page', 'review' ),
 			),
 		),
 	),
-
 	// 'wpmoly-images' Images and Posters section
 	array(
 		'icon'    => 'wpmolicon icon-image',
 		'title'   => __( 'Images', 'wpmovielibrary' ),
 		'heading' => __( 'Images and Posters options', 'wpmovielibrary' ),
-		'fields'  => array(
-		)
+		'fields'  => array(),
 	),
-
 	// 'wpmoly-posters' Posters settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-poster',
@@ -406,7 +376,6 @@ $redux_sections = array(
 		'heading' => __( 'Posters settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Use posters as featured images
 			'posters-featured' => array(
 				'id'       => 'wpmoly-posters-featured',
@@ -415,9 +384,8 @@ $redux_sections = array(
 				'desc'     => __( 'Using posters as movies thumbnails will automatically import new movies&rsquo; poster and set them as post featured image. This setting doesn’t affect movie import by list where posters are automatically saved and set as featured image.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default' => 1
+				'default' => 1,
 			),
-
 			// Automatically import posters
 			'posters-autoimport' => array(
 				'id'       => 'wpmoly-posters-autoimport',
@@ -426,9 +394,8 @@ $redux_sections = array(
 				'desc'     => __( 'Automatically import Posters while import a new movie.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default' => 0
+				'default' => 0,
 			),
-
 			// Number of posters to import
 			'posters-limit' => array(
 				'id'       => 'wpmoly-posters-limit',
@@ -436,10 +403,9 @@ $redux_sections = array(
 				'title'    => __( 'Number of Posters', 'wpmovielibrary' ),
 				'desc'     => __( 'Maximum number of Posters to automatically import when importing a new movie.', 'wpmovielibrary' ),
 				'validate' => 'numeric',
-				'required' => array( 'wpmoly-posters-autoimport', "=", 1 ),
-				'default' => 10
+				'required' => array( 'wpmoly-posters-autoimport', '=', 1 ),
+				'default' => 10,
 			),
-
 			// Movie posters size
 			'posters-size' => array(
 				'id'       => 'wpmoly-posters-size',
@@ -453,11 +419,10 @@ $redux_sections = array(
 					'medium'   => __( 'Medium (342px)', 'wpmovielibrary' ),
 					'large'    => __( 'Large (500px)', 'wpmovielibrary' ),
 					'full'     => __( 'Full (780px) ', 'wpmovielibrary' ),
-					'original' => __( 'Original', 'wpmovielibrary' )
+					'original' => __( 'Original', 'wpmovielibrary' ),
 				),
-				'default'  => 'original'
+				'default'  => 'original',
 			),
-
 			// Delete posters when deleting movies
 			'posters-delete' => array(
 				'id'       => 'wpmoly-posters-delete',
@@ -466,9 +431,8 @@ $redux_sections = array(
 				'desc'     => __( 'Enable this if you want to delete posters along with movies.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-
 			// Poster attachment title
 			'posters-title' => array(
 				'id'       => 'wpmoly-posters-title',
@@ -476,9 +440,8 @@ $redux_sections = array(
 				'title'    => __( 'Posters image title', 'wpmovielibrary' ),
 				'desc'     => __( 'Title for the imported posters images.', 'wpmovielibrary' ),
 				'validate' => 'no_html',
-				'default'  => sprintf( '%s "{title}"', __( 'Poster for the movie', 'wpmovielibrary' ) )
+				'default'  => sprintf( '%s "{title}"', __( 'Poster for the movie', 'wpmovielibrary' ) ),
 			),
-
 			// Poster attachment description
 			'posters-description' => array(
 				'id'       => 'wpmoly-posters-description',
@@ -486,19 +449,17 @@ $redux_sections = array(
 				'title'    => __( 'Posters image description', 'wpmovielibrary' ),
 				'desc'     => __( 'Description text for the imported posters.', 'wpmovielibrary' ),
 				'validate' => 'no_html',
-				'default'  => sprintf( '© {year} {production_companies,1} − %s', __( 'All right reserved.', 'wpmovielibrary' ) )
+				'default'  => sprintf( '© {year} {production_companies,1} − %s', __( 'All right reserved.', 'wpmovielibrary' ) ),
 			),
-
 			'posters-texts' => array(
 				'id'     => 'wpmoly-posters-texts',
 				'type'   => 'info',
 				'style'  => 'info',
 				'title'  => __( 'Allowed tags', 'wpmovielibrary' ),
-				'desc'   => sprintf( __( '<br />%s<br /><br />To limit the number of elements in list like genres or production companies, use the <code>{tag,number}</code> synthax. Example: <code>{production_companies,1}</code> will use the first company from list instead of the whole list.', 'wpmovielibrary' ), apply_filters( 'wpmoly/filter/options/posters/allowed_tags', '<code>{tmdb_id}</code>, <code>{imdb_id}</code>, <code>{title}</code>, <code>{original_title}</code>, <code>{tagline}</code>, <code>{release_date}</code>, <code>{local_release_date}</code>, <code>{runtime}</code>, <code>{production_companies}</code>, <code>{production_countries}</code>, <code>{spoken_languages}</code>, <code>{genres}</code>, <code>{director}</code>, <code>{producer}</code>, <code>{photography}</code>, <code>{composer}</code>, <code>{author}</code>, <code>{writer}</code> and <code>{certification}</code>' ) )
-			)
-		)
+				'desc'   => sprintf( __( '<br />%s<br /><br />To limit the number of elements in list like genres or production companies, use the <code>{tag,number}</code> synthax. Example: <code>{production_companies,1}</code> will use the first company from list instead of the whole list.', 'wpmovielibrary' ), apply_filters( 'wpmoly/filter/options/posters/allowed_tags', '<code>{tmdb_id}</code>, <code>{imdb_id}</code>, <code>{title}</code>, <code>{original_title}</code>, <code>{tagline}</code>, <code>{release_date}</code>, <code>{local_release_date}</code>, <code>{runtime}</code>, <code>{production_companies}</code>, <code>{production_countries}</code>, <code>{spoken_languages}</code>, <code>{genres}</code>, <code>{director}</code>, <code>{producer}</code>, <code>{photography}</code>, <code>{composer}</code>, <code>{author}</code>, <code>{writer}</code> and <code>{certification}</code>' ) ),
+			),
+		),
 	),
-
 	// 'wpmoly-images' Images settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-images',
@@ -506,7 +467,6 @@ $redux_sections = array(
 		'heading' => __( 'Images settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Automatically import backdrops
 			'backdrops-autoimport' => array(
 				'id'       => 'wpmoly-backdrops-autoimport',
@@ -515,9 +475,8 @@ $redux_sections = array(
 				'desc'     => __( 'Automatically import Backdrops while import a new movie.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default' => 0
+				'default' => 0,
 			),
-
 			// Number of backdrops to import
 			'backdrops-limit' => array(
 				'id'       => 'wpmoly-backdrops-limit',
@@ -525,10 +484,9 @@ $redux_sections = array(
 				'title'    => __( 'Number of Backdrops', 'wpmovielibrary' ),
 				'desc'     => __( 'Maximum number of Backdrops to automatically import when importing a new movie.', 'wpmovielibrary' ),
 				'validate' => 'numeric',
-				'required' => array( 'wpmoly-backdrops-autoimport', "=", 1 ),
-				'default' => 10
+				'required' => array( 'wpmoly-backdrops-autoimport', '=', 1 ),
+				'default' => 10,
 			),
-
 			// Backdrops size
 			'backdrops-size' => array(
 				'id'       => 'wpmoly-backdrops-size',
@@ -539,11 +497,10 @@ $redux_sections = array(
 					'medium'   => __( 'Medium (300px)', 'wpmovielibrary' ),
 					'large'    => __( 'Large (780px)', 'wpmovielibrary' ),
 					'full'     => __( 'Full (1280px) ', 'wpmovielibrary' ),
-					'original' => __( 'Original', 'wpmovielibrary' )
+					'original' => __( 'Original', 'wpmovielibrary' ),
 				),
-				'default'  =>'original'
+				'default'  => 'original',
 			),
-
 			// Maximum number of backdrops to show
 			'backdrops-delete' => array(
 				'id'       => 'wpmoly-backdrops-delete',
@@ -552,9 +509,8 @@ $redux_sections = array(
 				'desc'     => __( 'Enable this if you want to delete all imported backdrops along with movies. Handy if you have a great number of movies to delete and possibly dozens of backdrops attached.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-
 			// Backdrops title
 			'backdrops-title' => array(
 				'id'       => 'wpmoly-backdrops-title',
@@ -562,9 +518,8 @@ $redux_sections = array(
 				'title'    => __( 'Images title', 'wpmovielibrary' ),
 				'desc'     => __( 'Title for the imported movie backdrops.', 'wpmovielibrary' ),
 				'validate' => 'no_html',
-				'default'  => sprintf( '%s "{title}"', __( 'Image from the movie', 'wpmovielibrary' ) )
+				'default'  => sprintf( '%s "{title}"', __( 'Image from the movie', 'wpmovielibrary' ) ),
 			),
-
 			// Backdrops description
 			'backdrops-description' => array(
 				'id'       => 'wpmoly-backdrops-description',
@@ -572,28 +527,24 @@ $redux_sections = array(
 				'title'    => __( 'Images description', 'wpmovielibrary' ),
 				'desc'     => __( 'Description text for the imported movie backdrops.', 'wpmovielibrary' ),
 				'validate' => 'no_html',
-				'default'  => sprintf( '© {year} {production_companies,1} − %s', __( 'All right reserved.', 'wpmovielibrary' ) )
+				'default'  => sprintf( '© {year} {production_companies,1} − %s', __( 'All right reserved.', 'wpmovielibrary' ) ),
 			),
-
 			'backdrops-texts' => array(
 				'id'     => 'wpmoly-backdrops-texts',
 				'type'   => 'info',
 				'style'  => 'info',
 				'title'  => __( 'Allowed tags', 'wpmovielibrary' ),
-				'desc'   => sprintf( __( '<br />%s<br /><br />To limit the number of elements in list like genres or production companies, use the <code>{tag,number}</code> synthax. Example: <code>{production_companies,1}</code> will use the first company from list instead of the whole list.', 'wpmovielibrary' ), apply_filters( 'wpmoly/filter/options/backdrops/allowed_tags', '<code>{tmdb_id}</code>, <code>{imdb_id}</code>, <code>{title}</code>, <code>{original_title}</code>, <code>{tagline}</code>, <code>{release_date}</code>, <code>{year}</code>, <code>{local_release_date}</code>, <code>{local_year}</code>, <code>{runtime}</code>, <code>{production_companies}</code>, <code>{production_countries}</code>, <code>{spoken_languages}</code>, <code>{genres}</code>, <code>{director}</code>, <code>{producer}</code>, <code>{photography}</code>, <code>{composer}</code>, <code>{author}</code>, <code>{writer}</code> and <code>{certification}</code>' ) )
-			)
+				'desc'   => sprintf( __( '<br />%s<br /><br />To limit the number of elements in list like genres or production companies, use the <code>{tag,number}</code> synthax. Example: <code>{production_companies,1}</code> will use the first company from list instead of the whole list.', 'wpmovielibrary' ), apply_filters( 'wpmoly/filter/options/backdrops/allowed_tags', '<code>{tmdb_id}</code>, <code>{imdb_id}</code>, <code>{title}</code>, <code>{original_title}</code>, <code>{tagline}</code>, <code>{release_date}</code>, <code>{year}</code>, <code>{local_release_date}</code>, <code>{local_year}</code>, <code>{runtime}</code>, <code>{production_companies}</code>, <code>{production_countries}</code>, <code>{spoken_languages}</code>, <code>{genres}</code>, <code>{director}</code>, <code>{producer}</code>, <code>{photography}</code>, <code>{composer}</code>, <code>{author}</code>, <code>{writer}</code> and <code>{certification}</code>' ) ),
+			),
 		),
 	),
-
 	// 'wpmoly-taxonomies' Taxonomies section
 	array(
 		'icon'    => 'wpmolicon icon-tags',
 		'title'   => __( 'Taxonomies', 'wpmovielibrary' ),
 		'heading' => __( 'Built-in Taxonomies configuration', 'wpmovielibrary' ),
-		'fields'  => array(
-		)
+		'fields'  => array(),
 	),
-
 	// 'wpmoly-taxonomies' general settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-folder',
@@ -601,18 +552,16 @@ $redux_sections = array(
 		'heading' => __( 'General settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Notice
 			array(
-                            'id'     => 'wpmoly-taxonomies-notice',
-                            'type'   => 'info',
-                            'notice' => true,
-                            'style'  => 'critical',
-                            'icon'   => 'wpmolicon icon-warning',
-                            'title'  => __( 'Experimental', 'wpmovielibrary' ),
-                            'desc'   => __( 'Enabling Categories and Post tags for movies will result in your movies appearing in Categories and Post Tags archive pages, among regular WordPress Posts. This could also interfer with other plugins/themes dealing with Categories/Post Tags. Use it carefully.', 'wpmovielibrary' )
-                        ),
-
+				'id'     => 'wpmoly-taxonomies-notice',
+				'type'   => 'info',
+				'notice' => true,
+				'style'  => 'critical',
+				'icon'   => 'wpmolicon icon-warning',
+				'title'  => __( 'Experimental', 'wpmovielibrary' ),
+				'desc'   => __( 'Enabling Categories and Post tags for movies will result in your movies appearing in Categories and Post Tags archive pages, among regular WordPress Posts. This could also interfer with other plugins/themes dealing with Categories/Post Tags. Use it carefully.', 'wpmovielibrary' ),
+			),
 			// Enable Categories
 			'enable-categories' => array(
 				'id'       => 'wpmoly-enable-categories',
@@ -621,9 +570,8 @@ $redux_sections = array(
 				'description' => __( 'Allow movies to use regular WordPress Categories.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-
 			// Enable Post Tags
 			'enable-tags' => array(
 				'id'       => 'wpmoly-enable-tags',
@@ -632,11 +580,10 @@ $redux_sections = array(
 				'description' => __( 'Allow movies to use regular WordPress Post Tags.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
-			)
-		)
+				'default'  => 0,
+			),
+		),
 	),
-
 	// 'wpmoly-collections' collections settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-collection',
@@ -644,7 +591,6 @@ $redux_sections = array(
 		'heading' => __( 'Collections settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Enable Collections Taxonomy
 			'enable-collection' => array(
 				'id'       => 'wpmoly-enable-collection',
@@ -653,9 +599,8 @@ $redux_sections = array(
 				'description' => __( 'Enable Collections Custom Taxonomy. Collections work for movies as Categories work for Posts: a hierarchical taxonomy to group your movies coherently. The default behavior is to use Collections to group movies by director, but you can use them differently at your will.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Enable Collections Autocomplete
 			'collection-autocomplete' => array(
 				'id'       => 'wpmoly-collection-autocomplete',
@@ -665,10 +610,9 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-enable-collection', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// Enable Collections for regular WordPress Posts
 			'collection-posts' => array(
 				'id'       => 'wpmoly-collection-posts',
@@ -678,10 +622,9 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
-				'required' => array( 'wpmoly-enable-collection', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-enable-collection', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// Collections Post Types
 			'collection-post-types' => array(
 				'id'       => 'wpmoly-collection-post-types',
@@ -690,13 +633,12 @@ $redux_sections = array(
 				'desc'     => __( 'Select which post types should support collections.', 'wpmovielibrary' ),
 				'data'     => 'post_types',
 				'multi'    => true,
-				'required' => array( 'wpmoly-collection-posts', "=", '1' ),
+				'required' => array( 'wpmoly-collection-posts', '=', '1' ),
 				'default'  => array( 'post', 'page' ),
-				'indent'   => true
-			)
-		)
+				'indent'   => true,
+			),
+		),
 	),
-
 	// 'wpmoly-genres' Genres settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-tag',
@@ -704,7 +646,6 @@ $redux_sections = array(
 		'heading' => __( 'Genres settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Enable Genres Taxonomy
 			'enable-genre' => array(
 				'id'       => 'wpmoly-enable-genre',
@@ -713,9 +654,8 @@ $redux_sections = array(
 				'desc'     => __( 'Enable Genres Custom Taxonomy. Genres work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Enable Genres Autocomplete
 			'genre-autocomplete' => array(
 				'id'       => 'wpmoly-genre-autocomplete',
@@ -725,10 +665,9 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-enable-genre', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// Enable Genres for regular WordPress Posts
 			'genre-posts' => array(
 				'id'       => 'wpmoly-genre-posts',
@@ -738,10 +677,9 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
-				'required' => array( 'wpmoly-enable-genre', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-enable-genre', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// Genres Post Types
 			'genre-post-types' => array(
 				'id'       => 'wpmoly-genre-post-types',
@@ -750,13 +688,12 @@ $redux_sections = array(
 				'desc'     => __( 'Select which post types should support genres.', 'wpmovielibrary' ),
 				'data'     => 'post_types',
 				'multi'    => true,
-				'required' => array( 'wpmoly-genre-posts', "=", '1' ),
+				'required' => array( 'wpmoly-genre-posts', '=', '1' ),
 				'default'  => array( 'post', 'page' ),
-				'indent'   => true
-			)
-		)
+				'indent'   => true,
+			),
+		),
 	),
-
 	// 'wpmoly-actors' Actors settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-actor',
@@ -764,7 +701,6 @@ $redux_sections = array(
 		'heading' => __( 'Actors settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Enable Actors Taxonomy
 			'enable-actor' => array(
 				'id'       => 'wpmoly-enable-actor',
@@ -773,9 +709,8 @@ $redux_sections = array(
 				'desc'     => __( 'Enable Actors Custom Taxonomy. Actors work for movies as Tags work for Posts: a non-hierarchical taxonomy to improve movies management. WPMovieLibrary stores Actors in a custom order, the most important actors appearing in the top of the list, then the supporting roles, and so on.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Enable Actors Autocomplete
 			'actor-autocomplete' => array(
 				'id'       => 'wpmoly-actor-autocomplete',
@@ -785,10 +720,9 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-enable-actor', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// Enable Actors Autocomplete
 			'actor-limit' => array(
 				'id'       => 'wpmoly-actor-limit',
@@ -797,10 +731,9 @@ $redux_sections = array(
 				'desc'     => __( 'Limit the number of actors per movie. This is useful if you\'re dealing with big libraries and don\'t want to have massive lists of actors created. Limiting the Actors will result in keeping only the most famous/important actors as taxonomies, while the complete list of actors will remained stored as a regular metadata. Set to 0 to disable.', 'wpmovielibrary' ),
 				'default'  => 0,
 				'validate' => 'numeric',
-				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-enable-actor', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// Enable Actors for regular WordPress Posts
 			'actor-posts' => array(
 				'id'       => 'wpmoly-actor-posts',
@@ -810,10 +743,9 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
-				'required' => array( 'wpmoly-enable-actor', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-enable-actor', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// Actors Post Types
 			'actor-post-types' => array(
 				'id'       => 'wpmoly-actor-post-types',
@@ -822,22 +754,19 @@ $redux_sections = array(
 				'desc'     => __( 'Select which post types should support actors.', 'wpmovielibrary' ),
 				'data'     => 'post_types',
 				'multi'    => true,
-				'required' => array( 'wpmoly-actor-posts', "=", '1' ),
+				'required' => array( 'wpmoly-actor-posts', '=', '1' ),
 				'default'  => array( 'post', 'page' ),
-				'indent'   => true
-			)
+				'indent'   => true,
+			),
 		),
 	),
-
 	// 'wpmoly-archives' Archives Pages section
 	array(
 		'icon'    => 'wpmolicon icon-archive',
 		'title'   => __( 'Archives', 'wpmovielibrary' ),
 		'heading' => __( 'Archives Pages Settings', 'wpmovielibrary' ),
-		'fields'  => array(
-		)
+		'fields'  => array(),
 	),
-
 	// 'wpmoly-movie-archives' Movie Archives settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-movie',
@@ -846,18 +775,6 @@ $redux_sections = array(
 		'desc'    => __( 'This section allow you to define a custom page to use for movie archives.', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
-			// Notice
-			/*array(
-                            'id'     => 'wpmoly-archives-notice',
-                            'type'   => 'info',
-                            'notice' => true,
-                            'style'  => 'info',
-                            'icon'   => 'wpmolicon icon-info',
-                            'title'  => __( 'Permalinks Required', 'wpmovielibrary' ),
-                            'desc'   => __( 'Custom Archives Pages require Permalinks to be activated; using the default permalink structure will prevent archives to work properly. Ignore this notice if you are already using custom permalinks.', 'wpmovielibrary' )
-                        ),*/
-
 			// Movie archives page
 			'movie-archives' => array(
 				'id'       => 'wpmoly-movie-archives',
@@ -866,9 +783,8 @@ $redux_sections = array(
 				'desc'     => __( 'Choose a page to use to display movie archives.', 'wpmovielibrary' ),
 				'data'     => 'pages',
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
-				'default'  => ''
+				'default'  => '',
 			),
-
 			// Archives Position
 			'movie-archives-position' => array(
 				'id'       => 'wpmoly-movie-archives-position',
@@ -877,11 +793,10 @@ $redux_sections = array(
 				'desc'     => __( 'Where to display the Archives on the page.', 'wpmovielibrary' ),
 				'options'  => array(
 					'top'    => __( 'Top', 'wpmovielibrary' ),
-					'bottom' => __( 'Bottom', 'wpmovielibrary' )
+					'bottom' => __( 'Bottom', 'wpmovielibrary' ),
 				),
 				'default'  => 'top',
 			),
-
 			// Movie archives page title rewrite
 			'movie-archives-title-rewrite' => array(
 				'id'       => 'wpmoly-movie-archives-title-rewrite',
@@ -890,9 +805,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, movie archives page’s title and post title will be rewritten to feature currently browsed metas, details, and letters.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Movie archives page menu
 			'menu' => array(
 				'id'       => 'wpmoly-movie-archives-menu',
@@ -901,9 +815,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, add an alphabetical menu and sorting options before the movies list.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Movie archives page grid columns
 			'grid-columns' => array(
 				'id'       => 'wpmoly-movie-archives-grid-columns',
@@ -914,9 +827,8 @@ $redux_sections = array(
 				'step'     => 1,
 				'max'      => 8,
 				'display_value' => 'text',
-				'default'  => 4
+				'default'  => 4,
 			),
-
 			// Movie archives page grid rows
 			'grid-rows' => array(
 				'id'       => 'wpmoly-movie-archives-grid-rows',
@@ -927,9 +839,8 @@ $redux_sections = array(
 				'step'     => 1,
 				'max'      => 12,
 				'display_value' => 'text',
-				'default'  => 6
+				'default'  => 6,
 			),
-
 			// Movie archives page grid default sorting order
 			'movies-order' => array(
 				'id'       => 'wpmoly-movie-archives-movies-order',
@@ -940,9 +851,8 @@ $redux_sections = array(
 					'ASC'  => __( 'Ascending' ),
 					'DESC' => __( 'Descending' ),
 				),
-				'default'  => 'ASC'
+				'default'  => 'ASC',
 			),
-
 			// Movie archives page grid default sorting order
 			'movies-orderby' => array(
 				'id'       => 'wpmoly-movie-archives-movies-orderby',
@@ -955,9 +865,8 @@ $redux_sections = array(
 					'localdate' => __( 'Local Release Date', 'wpmovielibrary' ),
 					'rating'    => __( 'Rating', 'wpmovielibrary' ),
 				),
-				'default'  => 'title'
+				'default'  => 'title',
 			),
-
 			// Movie archives page max number of movies per page
 			'movies-limit' => array(
 				'id'       => 'wpmoly-movie-archives-movies-limit',
@@ -965,9 +874,8 @@ $redux_sections = array(
 				'title'    => __( 'Movies per page limit', 'wpmovielibrary' ),
 				'desc'     => __( 'Limit the number of movies per page to be listed. Can be useful if your dealing with massive numbers of movies.', 'wpmovielibrary' ),
 				'validate' => 'numeric',
-				'default'  => 99
+				'default'  => 99,
 			),
-
 			'movies-meta' => array(
 				'id'       => 'wpmoly-movie-archives-movies-meta',
 				'type'     => 'sorter',
@@ -979,11 +887,10 @@ $redux_sections = array(
 					'available' => array(
 						'title'  => __( 'Title', 'wpmovielibrary' ),
 						'year'   => __( 'Year', 'wpmovielibrary' ),
-						'rating' => __( 'Rating', 'wpmovielibrary' )
-					)
-				)
-                        ),
-
+						'rating' => __( 'Rating', 'wpmovielibrary' ),
+					),
+				),
+			),
 			// Movie archives page frontend edit inputs
 			'frontend-edit' => array(
 				'id'       => 'wpmoly-movie-archives-frontend-edit',
@@ -992,9 +899,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, allows movies-per-page value to be modified on frontend. The sorting menu will show an input where visitors can change the movies-per-page value to display more or less movies. It is recommended to set a limit above if this feature is to be activated.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-
 			// Movie archives page frontend advanced edit settings
 			'frontend-advanced-edit' => array(
 				'id'       => 'wpmoly-movie-archives-frontend-advanced-edit',
@@ -1003,11 +909,10 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, allows the grid sorting to be modified on frontend. The sorting menu will show a list of possible sortings (rating, release date, title, …) that visitors can select to sort the grid. <strong>This feature is experimental!</strong> Be sure to test it thoroughly before enabling it publicly.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-		)
+		),
 	),
-
 	// 'wpmoly-movie-archives' Movie Archives settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-tags',
@@ -1016,7 +921,6 @@ $redux_sections = array(
 		'desc'    => __( 'This section allow you to define a custom page to use for taxonomy archives.', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Collection archives page
 			'collection-archives' => array(
 				'id'       => 'wpmoly-collection-archives',
@@ -1026,9 +930,8 @@ $redux_sections = array(
 				'data'     => 'pages',
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => '',
-				'required' => array( 'wpmoly-enable-collection', "=", 1 )
+				'required' => array( 'wpmoly-enable-collection', '=', 1 ),
 			),
-
 			// Genre archives page
 			'genre-archives' => array(
 				'id'       => 'wpmoly-genre-archives',
@@ -1038,9 +941,8 @@ $redux_sections = array(
 				'data'     => 'pages',
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => '',
-				'required' => array( 'wpmoly-enable-genre', "=", 1 )
+				'required' => array( 'wpmoly-enable-genre', '=', 1 ),
 			),
-
 			// Actor archives page
 			'actor-archives' => array(
 				'id'       => 'wpmoly-actor-archives',
@@ -1050,9 +952,8 @@ $redux_sections = array(
 				'data'     => 'pages',
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => '',
-				'required' => array( 'wpmoly-enable-actor', "=", 1 )
+				'required' => array( 'wpmoly-enable-actor', '=', 1 ),
 			),
-
 			// Archives Position
 			'archives-position' => array(
 				'id'       => 'wpmoly-tax-archives-position',
@@ -1061,11 +962,10 @@ $redux_sections = array(
 				'desc'     => __( 'Where to display the Archives on the page.', 'wpmovielibrary' ),
 				'options'  => array(
 					'top'    => __( 'Top', 'wpmovielibrary' ),
-					'bottom' => __( 'Bottom', 'wpmovielibrary' )
+					'bottom' => __( 'Bottom', 'wpmovielibrary' ),
 				),
 				'default'  => 'top',
 			),
-
 			// Movie archives page title rewrite
 			'archives-title-rewrite' => array(
 				'id'       => 'wpmoly-tax-archives-title-rewrite',
@@ -1074,9 +974,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, taxonomy archives page’s title and post title will be rewritten to feature currently browsed letter.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Taxonomy archives page menu
 			'archives-menu' => array(
 				'id'       => 'wpmoly-tax-archives-menu',
@@ -1085,9 +984,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, add an alphabetical menu and sorting options before the terms list.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Taxonomy archives page don't show empty terms
 			'hide-empty' => array(
 				'id'       => 'wpmoly-tax-archives-hide-empty',
@@ -1096,9 +994,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, terms related to no movie will be excluded from the list.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Taxonomy archives page default term order
 			'terms-orderby' => array(
 				'id'       => 'wpmoly-tax-archives-terms-orderby',
@@ -1109,9 +1006,8 @@ $redux_sections = array(
 					'count' => __( 'Movie count', 'wpmovielibrary' ),
 					'title' => __( 'Title', 'wpmovielibrary' ),
 				),
-				'default'  => 'title'
+				'default'  => 'title',
 			),
-
 			// Taxonomy archives page sorting order
 			'terms-order' => array(
 				'id'       => 'wpmoly-tax-archives-terms-order',
@@ -1122,9 +1018,8 @@ $redux_sections = array(
 					'ASC'  => __( 'Ascending' ),
 					'DESC' => __( 'Descending' ),
 				),
-				'default'  => 'ASC'
+				'default'  => 'ASC',
 			),
-
 			// Taxonomy archives page number of terms per page
 			'terms-per-page' => array(
 				'id'       => 'wpmoly-tax-archives-terms-per-page',
@@ -1132,9 +1027,8 @@ $redux_sections = array(
 				'title'    => __( 'Terms per page', 'wpmovielibrary' ),
 				'desc'     => __( 'How many terms should be listed per archive page.', 'wpmovielibrary' ),
 				'validate' => 'numeric',
-				'default'  => 50
+				'default'  => 50,
 			),
-
 			// Taxonomy archives page max number of terms per page
 			'terms-limit' => array(
 				'id'       => 'wpmoly-tax-archives-terms-limit',
@@ -1142,9 +1036,8 @@ $redux_sections = array(
 				'title'    => __( 'Terms per page limit', 'wpmovielibrary' ),
 				'desc'     => __( 'Limit the number of terms per page to be listed. Can be useful if your dealing with massive numbers of terms.', 'wpmovielibrary' ),
 				'validate' => 'numeric',
-				'default'  => 999
+				'default'  => 999,
 			),
-
 			// Taxonomy archives page frontend inputs
 			'frontend-edit' => array(
 				'id'       => 'wpmoly-tax-archives-frontend-edit',
@@ -1153,20 +1046,17 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, allows terms-per-page value to be modified on frontend. The sorting menu will show an input where visitors can change the terms-per-page value to display more or less terms. It is recommended to set a limit above if this feature is to be activated.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-		)
+		),
 	),
-
 	// 'wpmoly-translate' Languages
 	array(
 		'icon'    => 'wpmolicon icon-language',
 		'title'   => __( 'Languages', 'wpmovielibrary' ),
 		'heading' => __( 'Languages Support', 'wpmovielibrary' ),
-		'fields'  => array(
-		)
+		'fields'  => array(),
 	),
-
 	// 'wpmoly-translate' Translation settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-flag',
@@ -1174,7 +1064,6 @@ $redux_sections = array(
 		'heading' => __( 'Translation settings', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			'translate-countries' => array(
 				'id'       => 'wpmoly-translate-countries',
 				'type'     => 'switch',
@@ -1182,9 +1071,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, countries names will be translated to the current WordPress language.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			'countries-format' => array(
 				'id'       => 'wpmoly-countries-format',
 				'type'     => 'select',
@@ -1197,15 +1085,14 @@ $redux_sections = array(
 					'original'    => __( 'Original', 'wpmovielibrary' ),
 					'translated'  => __( 'Translation', 'wpmovielibrary' ),
 					'ptranslated' => sprintf( '(%s)', __( 'Translation', 'wpmovielibrary' ) ),
-					'poriginal'   => sprintf( '(%s)', __( 'Original', 'wpmovielibrary' ) )
+					'poriginal'   => sprintf( '(%s)', __( 'Original', 'wpmovielibrary' ) ),
 				),
 				'default'  => array(
 					'flag',
-					'translated'
+					'translated',
 				),
-				'required' => array( 'wpmoly-translate-countries', "=", 1 ),
+				'required' => array( 'wpmoly-translate-countries', '=', 1 ),
 			),
-
 			'translate-languages' => array(
 				'id'       => 'wpmoly-translate-languages',
 				'type'     => 'switch',
@@ -1213,9 +1100,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, languages names will be translated to the current WordPress language.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			'languages-format' => array(
 				'id'       => 'wpmoly-languages-format',
 				'type'     => 'select',
@@ -1229,25 +1115,23 @@ $redux_sections = array(
 					'ptranslated' => sprintf( '(%s)', __( 'Translation', 'wpmovielibrary' ) ),
 					'poriginal'   => sprintf( '(%s)', __( 'Original', 'wpmovielibrary' ) ),
 					'atranslated' => __( 'Abbreviated translation', 'wpmovielibrary' ),
-					'aoriginal'   => __( 'Abbreviated original', 'wpmovielibrary' )
+					'aoriginal'   => __( 'Abbreviated original', 'wpmovielibrary' ),
 				),
 				'default'  => array(
-					'translated'
+					'translated',
 				),
-				'required' => array( 'wpmoly-translate-languages', "=", 1 ),
+				'required' => array( 'wpmoly-translate-languages', '=', 1 ),
 			),
-		)
+		),
 	),
-
 	// 'wpmoly-rewrite' Permalinks settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-link',
 		'title'   => __( 'Permalinks', 'wpmovielibrary' ),
 		'heading' => __( 'Rewrite rules & Permalinks', 'wpmovielibrary' ),
-		'desc' => __( 'You can adapt the plugin’s permalinks to your local language.', 'wpmovielibrary'),
+		'desc' => __( 'You can adapt the plugin’s permalinks to your local language.', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Movie URL Rewrite Rule
 			'rewrite-enable' => array(
 				'id'       => 'wpmoly-rewrite-enable',
@@ -1257,9 +1141,8 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'indent'   => true
+				'indent'   => true,
 			),
-
 			// Movie URL Rewrite Rule
 			'rewrite-movie' => array(
 				'id'       => 'wpmoly-rewrite-movie',
@@ -1268,10 +1151,9 @@ $redux_sections = array(
 				'desc'     => __( 'URL Rewrite Rule to apply on movies. Default is <code>movies</code>, resulting in URL like <code>http://yourblog/movies/fight-club</code>. You can use this field to translate URLs to your language.', 'wpmovielibrary' ),
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => 'movies',
-				'required' => array( 'wpmoly-rewrite-enable', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-rewrite-enable', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// Collections URL Rewrite Rule
 			'rewrite-collection' => array(
 				'id'       => 'wpmoly-rewrite-collection',
@@ -1281,12 +1163,11 @@ $redux_sections = array(
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => 'collection',
 				'required' => array(
-					array( 'wpmoly-rewrite-enable', "=", 1 ),
-					array( 'wpmoly-enable-collection', "=", 1 )
+					array( 'wpmoly-rewrite-enable', '=', 1 ),
+					array( 'wpmoly-enable-collection', '=', 1 ),
 				),
-				'indent'   => true
+				'indent'   => true,
 			),
-
 			// Genres URL Rewrite Rule
 			'rewrite-genre' => array(
 				'id'       => 'wpmoly-rewrite-genre',
@@ -1296,12 +1177,11 @@ $redux_sections = array(
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => 'genre',
 				'required' => array(
-					array( 'wpmoly-rewrite-enable', "=", 1 ),
-					array( 'wpmoly-enable-genre', "=", 1 )
+					array( 'wpmoly-rewrite-enable', '=', 1 ),
+					array( 'wpmoly-enable-genre', '=', 1 ),
 				),
-				'indent'   => true
+				'indent'   => true,
 			),
-
 			// Actors URL Rewrite Rule
 			'rewrite-actor' => array(
 				'id'       => 'wpmoly-rewrite-actor',
@@ -1311,39 +1191,20 @@ $redux_sections = array(
 				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
 				'default'  => 'actor',
 				'required' => array(
-					array( 'wpmoly-rewrite-enable', "=", 1 ),
-					array( 'wpmoly-enable-actor', "=", 1 )
+					array( 'wpmoly-rewrite-enable', '=', 1 ),
+					array( 'wpmoly-enable-actor', '=', 1 ),
 				),
-				'indent'   => true
+				'indent'   => true,
 			),
-
-			// Movie URL Rewrite Rule
-			/*'rewrite-details' => array(
-				'id'       => 'wpmoly-rewrite-details',
-				'type'     => 'switch',
-				'title'    => __( 'Movie Details URL Rewrite', 'wpmovielibrary' ),
-				'desc'     => __( 'Use localized URLs for Movie Details. Enable this to have URLs like <code>http://yourblog/films/disponible</code> for French rather than the default <code>http://yourblog/movies/available</code>.', 'wpmovielibrary' ),
-				'on'       => __( 'Enabled', 'wpmovielibrary' ),
-				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'validate_callback' => 'WPMOLY_Utils::permalinks_changed',
-				'default'  => 0,
-				'required' => array( 'wpmoly-rewrite-enable', "=", 1 ),
-				'indent'   => true
-			),*/
-
-		)
-
+		),
 	),
-
 	// 'wpmoly-translate' Languages
 	array(
 		'icon'    => 'wpmolicon icon-style',
 		'title'   => __( 'Appearance', 'wpmovielibrary' ),
 		'heading' => __( 'Styling and customization', 'wpmovielibrary' ),
-		'fields'  => array(
-		)
+		'fields'  => array(),
 	),
-
 	// 'wpmoly-translate' Translation settings subsection
 	array(
 		'icon'    => 'wpmolicon icon-video-format',
@@ -1351,7 +1212,6 @@ $redux_sections = array(
 		'heading' => __( 'Styling the movie headbox', 'wpmovielibrary' ),
 		'subsection' => true,
 		'fields'  => array(
-
 			// Replace excerpt by overview
 			'headbox-enable' => array(
 				'id'       => 'wpmoly-headbox-enable',
@@ -1360,9 +1220,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, movies will use the Headbox introduced with version 2. Disable to show old metadata display from WPMovieLibrary 1.x instead.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 1
+				'default'  => 1,
 			),
-
 			// Headbox Position
 			'headbox-position' => array(
 				'id'       => 'wpmoly-headbox-position',
@@ -1371,22 +1230,20 @@ $redux_sections = array(
 				'desc'     => __( 'Where to display the Headbox on posts.', 'wpmovielibrary' ),
 				'options'  => array(
 					'top'    => __( 'Top', 'wpmovielibrary' ),
-					'bottom' => __( 'Bottom', 'wpmovielibrary' )
+					'bottom' => __( 'Bottom', 'wpmovielibrary' ),
 				),
 				'default'  => 'top',
 			),
-
 			// Notice
 			array(
-                            'id'     => 'wpmoly-headbox-notice',
-                            'type'   => 'info',
-                            'notice' => true,
-                            'style'  => 'critical',
-                            'icon'   => 'wpmolicon icon-warning',
-                            'title'  => __( 'Experimental', 'wpmovielibrary' ),
-                            'desc'   => __( 'The Headbox Themes are still experimental: although they should work correctly they are not fully customisable and have spots for some unimplemented yet features such as actors images. Just so you know!', 'wpmovielibrary' )
-                        ),
-
+				'id'     => 'wpmoly-headbox-notice',
+				'type'   => 'info',
+				'notice' => true,
+				'style'  => 'critical',
+				'icon'   => 'wpmolicon icon-warning',
+				'title'  => __( 'Experimental', 'wpmovielibrary' ),
+				'desc'   => __( 'The Headbox Themes are still experimental: although they should work correctly they are not fully customisable and have spots for some unimplemented yet features such as actors images. Just so you know!', 'wpmovielibrary' ),
+			),
 			// Headbox theme
 			'headbox-theme' => array(
 				'id'       => 'wpmoly-headbox-theme',
@@ -1398,9 +1255,8 @@ $redux_sections = array(
 					'imdb'     => __( 'IMDb', 'wpmovielibrary' ),
 					'allocine' => __( 'Allociné', 'wpmovielibrary' ),
 				),
-				'default'  => 'wpmoly'
+				'default'  => 'wpmoly',
 			),
-
 			// Default Headbox Tabs
 			'headbox-tabs' => array(
 				'id'       => 'wpmoly-headbox-tabs',
@@ -1414,12 +1270,11 @@ $redux_sections = array(
 					'meta'     => __( 'Metadata', 'wpmovielibrary' ),
 					'details'  => __( 'Details', 'wpmovielibrary' ),
 					'actors'   => __( 'Actors', 'wpmovielibrary' ),
-					'images'   => __( 'Images', 'wpmovielibrary' )
+					'images'   => __( 'Images', 'wpmovielibrary' ),
 				),
 				'default' => array( 'overview', 'meta', 'details', 'images', 'actors' ),
-				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
+				'required' => array( 'wpmoly-headbox-theme', '=', 'wpmoly' ),
 			),
-
 			// Title Content
 			'headbox-title' => array(
 				'id'       => 'wpmoly-headbox-title',
@@ -1430,9 +1285,8 @@ $redux_sections = array(
 				'sortable' => true,
 				'options'  => array(),
 				'default'  => array( 'title' ),
-				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
+				'required' => array( 'wpmoly-headbox-theme', '=', 'wpmoly' ),
 			),
-
 			// Subtitle Content
 			'headbox-subtitle' => array(
 				'id'       => 'wpmoly-headbox-subtitle',
@@ -1443,9 +1297,8 @@ $redux_sections = array(
 				'sortable' => true,
 				'options'  => array(),
 				'default'  => array( 'tagline' ),
-				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
+				'required' => array( 'wpmoly-headbox-theme', '=', 'wpmoly' ),
 			),
-
 			//  Content
 			'headbox-details-1' => array(
 				'id'       => 'wpmoly-headbox-details-1',
@@ -1456,9 +1309,8 @@ $redux_sections = array(
 				'sortable' => true,
 				'options'  => array(),
 				'default'  => array( 'status', 'media' ),
-				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
+				'required' => array( 'wpmoly-headbox-theme', '=', 'wpmoly' ),
 			),
-
 			//  Content
 			'headbox-details-2' => array(
 				'id'       => 'wpmoly-headbox-details-2',
@@ -1469,9 +1321,8 @@ $redux_sections = array(
 				'sortable' => true,
 				'options'  => array(),
 				'default'  => array( 'release_date', 'runtime' ),
-				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
+				'required' => array( 'wpmoly-headbox-theme', '=', 'wpmoly' ),
 			),
-
 			//  Content
 			'headbox-details-3' => array(
 				'id'       => 'wpmoly-headbox-details-3',
@@ -1482,18 +1333,16 @@ $redux_sections = array(
 				'sortable' => true,
 				'options'  => array(),
 				'default'  => array( 'rating' ),
-				'required' => array( 'wpmoly-headbox-theme', "=", 'wpmoly' )
-			)
-		)
+				'required' => array( 'wpmoly-headbox-theme', '=', 'wpmoly' ),
+			),
+		),
 	),
-
 	// 'wpmoly-cache' Caching
 	array(
 		'icon'    => 'wpmolicon icon-cache',
 		'title'   => __( 'Cache', 'wpmovielibrary' ),
 		'heading' => __( 'Caching', 'wpmovielibrary' ),
 		'fields'  => array(
-
 			// Results caching
 			'enable' => array(
 				'id'       => 'wpmoly-enable-cache',
@@ -1502,9 +1351,8 @@ $redux_sections = array(
 				'desc'     => __( 'If enabled, WPMovieLibrary will cache movie related data to prevent too frequent queries to the database. <strong>This feature is experimental!</strong> Enabling this could generate <strong>huge</strong> amounts of entries in your database. It is recommended to use this feature sparingly, ideally not in production. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-
 			// Results caching
 			'user' => array(
 				'id'       => 'wpmoly-user-cache',
@@ -1514,10 +1362,9 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
-				'required' => array( 'wpmoly-enable-cache', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-enable-cache', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// Caching delay
 			'expire' => array(
 				'id'       => 'wpmoly-cache-expire',
@@ -1526,19 +1373,17 @@ $redux_sections = array(
 				'desc'     => __( 'Time of validity for cached data, in seconds. Default is 3600 (one hour)', 'wpmovielibrary' ),
 				'validate' => 'numeric',
 				'default'  => 3600,
-				'required' => array( 'wpmoly-enable-cache', "=", 1 ),
-				'indent'   => true
-			)
-		)
+				'required' => array( 'wpmoly-enable-cache', '=', 1 ),
+				'indent'   => true,
+			),
+		),
 	),
-
 	// 'wpmoly-legacy' Legacy
 	array(
 		'icon'    => 'wpmolicon icon-legacy',
 		'title'   => __( 'Legacy', 'wpmovielibrary' ),
 		'heading' => __( 'Compatibility settings for WPMovieLibrary 1.x', 'wpmovielibrary' ),
 		'fields'  => array(
-
 			// Results caching
 			'legacy-mode' => array(
 				'id'       => 'wpmoly-legacy-mode',
@@ -1548,9 +1393,8 @@ $redux_sections = array(
 				'description' => __( 'If enabled, WPMovieLibrary will automatically update all movies to the new metadata format introduced by version 1.3. Each time a metadata is access, the plugin will look for obsolete metadata and will update it if needed. Once all movies are updated the plugin will stop looking, but you should deactivate this anyway. <a href="http://wpmovielibrary.com/development/release-notes/#version-1.3">Learn more about this change</a>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-
 			// Delete deprecated safety
 			'legacy-safety' => array(
 				'id'       => 'wpmoly-legacy-safety',
@@ -1561,43 +1405,39 @@ $redux_sections = array(
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 1,
-				'required' => array( 'wpmoly-legacy-mode', '=', 1 )
-			)
-		)
+				'required' => array( 'wpmoly-legacy-mode', '=', 1 ),
+			),
+		),
 	),
-
 	// 'wpmoly-api' API Settings
 	array(
 		'icon'    => 'wpmolicon icon-api',
 		'title'   => __( 'API', 'wpmovielibrary' ),
 		'heading' => __( 'TheMovieDB API settings', 'wpmovielibrary' ),
 		'fields'  => array(
-
 			// API internal mode
-                        'personnal' => array(
+			'personnal' => array(
 				'id'       => 'wpmoly-api-internal',
 				'type'     => 'switch',
 				'title'    => __( 'Personnal API Key', 'wpmovielibrary' ),
 				'subtitle' => __( 'Optional: use your own TMDb API key', 'wpmovielibrary' ),
 				'desc'     => __( 'A valid TMDb API key is required to fetch informations on the movies you add to WPMovieLibrary. Leave deactivated if you do not have a personnal API key. <a href="http://tmdb.caercam.org/">Learn more</a> about the API key or <a href="https://www.themoviedb.org/">get your own</a>.', 'wpmovielibrary' ) . ' ' . __( 'If you do not have an API key or do not want to use yours right now, WPMovieLibrary will use just its own.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
-				'off'      => __( 'Disabled', 'wpmovielibrary' )
-                        ),
-
+				'off'      => __( 'Disabled', 'wpmovielibrary' ),
+			),
 			// API Key
 			'api_key' => array(
 				'id'       => 'wpmoly-api-key',
 				'type'     => 'text',
 				'title'    => __( 'API Key', 'wpmovielibrary' ),
 				'subtitle' => __( 'Set up your own API key', 'wpmovielibrary' ),
-				'desc'     => __( 'Using your own API key is a more privacy-safe choice as it will avoid WPMovieLibrary to filter queries sent to the API through its own relay server at tmdb.caercam.org. You will also be able to access statistics on your API usage in your TMDb user account.', 'wpmovielibrary' ), 
+				'desc'     => __( 'Using your own API key is a more privacy-safe choice as it will avoid WPMovieLibrary to filter queries sent to the API through its own relay server at tmdb.caercam.org. You will also be able to access statistics on your API usage in your TMDb user account.', 'wpmovielibrary' ),
 				'validate' => 'no_special_chars',
 				'validate_callback' => array( 'WPMOLY_TMDb', 'check_api_key' ),
 				'default'  => null,
-				'required' => array( 'wpmoly-api-internal', "=", 1 ),
-				'indent'   => true
+				'required' => array( 'wpmoly-api-internal', '=', 1 ),
+				'indent'   => true,
 			),
-
 			// API Scheme
 			'scheme' => array(
 				'id'       => 'wpmoly-api-scheme',
@@ -1606,41 +1446,37 @@ $redux_sections = array(
 				'desc'     => __( 'Default scheme used to contact TMDb API. Default is HTTPS.', 'wpmovielibrary' ),
 				'options'  => array(
 					'http'  => __( 'HTTP', 'wpmovielibrary' ),
-					'https' => __( 'HTTPS', 'wpmovielibrary' )
+					'https' => __( 'HTTPS', 'wpmovielibrary' ),
 				),
-				'default'  => 'https'
+						'default' => 'https',
 			),
-
 			// API Language
 			'language' => array(
 				'id'       => 'wpmoly-api-language',
 				'type'     => 'select',
 				'title'    => __( 'API Language', 'wpmovielibrary' ),
 				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
-				'options'  => \wpmoly\Core\l10n::$supported_languages,
-				'default'  => 'en'
+				'options'  => \wpmoly\Core\L10n::$supported_languages,
+				'default'  => 'en',
 			),
-
 			// API Country
 			'country' => array(
 				'id'       => 'wpmoly-api-country',
 				'type'     => 'select',
 				'title'    => __( 'API Country', 'wpmovielibrary' ),
 				'desc'     => __( 'Default country to use when fetching release informations from TMDb. Default is United States. This is mostly used to get movie certifications corresponding to your country.', 'wpmovielibrary' ),
-				'options'  => \wpmoly\Core\l10n::$supported_countries,
-				'default'  => 'US'
+				'options'  => \wpmoly\Core\L10n::$supported_countries,
+				'default'  => 'US',
 			),
-
 			// API Alternative Country
 			'country-alt' => array(
 				'id'       => 'wpmoly-api-country-alt',
 				'type'     => 'select',
 				'title'    => __( 'API Alternative Country', 'wpmovielibrary' ),
 				'desc'     => __( 'You can select an alternative country to use when fetching release informations from TMDb. If primary country leaves empty results, the alternative country will be used to fill the blank.', 'wpmovielibrary' ),
-				'options'  => \wpmoly\Core\l10n::$supported_countries,
-				'default'  => 'US'
+				'options'  => \wpmoly\Core\L10n::$supported_countries,
+				'default'  => 'US',
 			),
-
 			// API Adult Movies
 			'adult' => array(
 				'id'       => 'wpmoly-api-adult',
@@ -1649,9 +1485,8 @@ $redux_sections = array(
 				'desc'     => __( 'Include adult movies (XXX, 18+) in search results.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-
 			// API Pagination
 			'paginate' => array(
 				'id'       => 'wpmoly-api-paginate',
@@ -1660,43 +1495,38 @@ $redux_sections = array(
 				'desc'     => __( 'Enable pagination browsing for search results.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
+				'default'  => 0,
 			),
-		)
+		),
 	),
-
 	// 'wpmoly-advanced' Advanced Settings
 	array(
 		'icon'    => 'wpmolicon icon-advanced',
 		'title'   => __( 'Advanced Settings', 'wpmovielibrary' ),
 		'heading' => __( 'Advanced Plugin Settings & Tools', 'wpmovielibrary' ),
 		'fields'  => array(
-
 			// API internal mode
-                        'personnal' => array(
+			'personnal' => array(
 				'id'       => 'wpmoly-debug-mode',
 				'type'     => 'switch',
 				'title'    => __( 'Debug Mode', 'wpmovielibrary' ),
 				'desc'     => __( 'Log specific information for debugging purpose.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
-				'default'  => 0
-                        ),
-		)
+				'default'  => 0,
+			),
+		),
 	),
-
 	// Divider
 	array(
 		'type' => 'divide',
 	),
-
 	// 'wpmoly-deactivate' What to do on deactivation
 	array(
 		'icon'    => 'wpmolicon icon-deactivate',
 		'title'   => __( 'Deactivate', 'wpmovielibrary' ),
 		'heading' => __( 'Deactivation options', 'wpmovielibrary' ),
 		'fields'  => array(
-
 			'movies' => array(
 				'id'       => 'wpmoly-deactivate-movies',
 				'type'     => 'select',
@@ -1708,9 +1538,8 @@ $redux_sections = array(
 					'remove'   => __( 'Delete (irreversible)', 'wpmovielibrary' ),
 					'delete'   => __( 'Delete Completely (irreversible)', 'wpmovielibrary' ),
 				),
-				'default' => 'conserve'
+				'default' => 'conserve',
 			),
-
 			'collections' => array(
 				'id'       => 'wpmoly-deactivate-collections',
 				'type'     => 'select',
@@ -1721,9 +1550,8 @@ $redux_sections = array(
 					'convert'  => __( 'Convert to Categories', 'wpmovielibrary' ),
 					'delete'   => __( 'Delete (irreversible)', 'wpmovielibrary' ),
 				),
-				'default'  => 'conserve'
+				'default'  => 'conserve',
 			),
-
 			'genres' => array(
 				'id'       => 'wpmoly-deactivate-genres',
 				'type'     => 'select',
@@ -1734,9 +1562,8 @@ $redux_sections = array(
 					'convert'  => __( 'Convert to Tags', 'wpmovielibrary' ),
 					'delete'   => __( 'Delete (irreversible)', 'wpmovielibrary' ),
 				),
-				'default'  => 'conserve'
+				'default'  => 'conserve',
 			),
-
 			'actors' => array(
 				'id'       => 'wpmoly-deactivate-actors',
 				'type'     => 'select',
@@ -1747,9 +1574,8 @@ $redux_sections = array(
 					'convert'  => __( 'Convert to Tags', 'wpmovielibrary' ),
 					'delete'   => __( 'Delete (irreversible)', 'wpmovielibrary' ),
 				),
-				'default'  => 'conserve'
+				'default'  => 'conserve',
 			),
-
 			'cache'       => array(
 				'id'       => 'wpmoly-deactivate-cache',
 				'type'     => 'select',
@@ -1759,18 +1585,16 @@ $redux_sections = array(
 					'conserve' => __( 'Conserve', 'wpmovielibrary' ),
 					'empty'    => __( 'Empty (recommended)', 'wpmovielibrary' ),
 				),
-				'default'  => 'empty'
-			)
-		)
+				'default'  => 'empty',
+			),
+		),
 	),
-
 	// 'wpmoly-uninstall' What to do on uninstallation
 	array(
 		'icon'    => 'wpmolicon icon-no',
 		'title'   => __( 'Uninstall', 'wpmovielibrary' ),
 		'heading' => __( 'Uninstallation options', 'wpmovielibrary' ),
 		'fields'  => array(
-
 			'movies' => array(
 				'id'       => 'wpmoly-uninstall-movies',
 				'type'     => 'select',
@@ -1781,9 +1605,8 @@ $redux_sections = array(
 					'convert'  => __( 'Convert to Posts (recommended)', 'wpmovielibrary' ),
 					'delete'   => __( 'Delete Completely (irreversible)', 'wpmovielibrary' ),
 				),
-				'default'  => 'convert'
+				'default'  => 'convert',
 			),
-
 			'collections' => array(
 				'id'       => 'wpmoly-uninstall-collections',
 				'type'     => 'select',
@@ -1794,9 +1617,8 @@ $redux_sections = array(
 					'convert'  => __( 'Convert to Categories (recommended)', 'wpmovielibrary' ),
 					'delete'   => __( 'Delete (irreversible)', 'wpmovielibrary' ),
 				),
-				'default'  => 'convert'
+				'default'  => 'convert',
 			),
-
 			'genres' => array(
 				'id'       => 'wpmoly-uninstall-genres',
 				'type'     => 'select',
@@ -1807,9 +1629,8 @@ $redux_sections = array(
 					'convert'  => __( 'Convert to Tags (recommended)', 'wpmovielibrary' ),
 					'delete'   => __( 'Delete (irreversible)', 'wpmovielibrary' ),
 				),
-				'default'  => 'convert'
+				'default'  => 'convert',
 			),
-
 			'actors' => array(
 				'id'       => 'wpmoly-uninstall-actors',
 				'type'     => 'select',
@@ -1820,9 +1641,8 @@ $redux_sections = array(
 					'convert'  => __( 'Convert to Tags (recommended)', 'wpmovielibrary' ),
 					'delete'   => __( 'Delete (irreversible)', 'wpmovielibrary' ),
 				),
-				'default'  => 'convert'
+				'default'  => 'convert',
 			),
-
 			'cache' => array(
 				'id'       => 'wpmoly-uninstall-cache',
 				'type'     => 'select',
@@ -1832,45 +1652,23 @@ $redux_sections = array(
 					'conserve' => __( 'Conserve', 'wpmovielibrary' ),
 					'empty'    => __( 'Empty (recommended)', 'wpmovielibrary' ),
 				),
-				'default'  => 'empty'
-			)
-		)
+				'default'  => 'empty',
+			),
+		),
 	),
-
 	// 'wpmoly-import-export' Import/Export
 	array(
 		'icon'    => 'wpmolicon icon-update',
 		'title'   => __( 'Import / Export', 'wpmovielibrary' ),
 		'heading' => __( 'Import and Export your settings.', 'wpmovielibrary' ),
 		'fields'  => array(
-
 			'import-export' => array(
 				'id'         => 'wpmoly-import-export',
 				'type'       => 'import_export',
 				'title'      => 'Import Export',
 				'subtitle'   => 'Save and restore your settings',
 				'full_width' => false,
-			)
-
+			),
 		),
 	),
-
-	// Divider
-	/*array(
-		'type' => 'divide',
-	),*/
-
-	// 'wpmoly-about' About Plugin
-	/*array(
-		'icon'   => 'wpmolicon icon-info',
-		'title'  => __( 'Information', 'wpmovielibrary' ),
-		'desc'   => __( '<p class="description">This is the Description. Again HTML is allowed</p>', 'wpmovielibrary' ),
-		'fields' => array(
-			array(
-				'id'      => 'wpmoly-raw-info',
-				'type'    => 'raw',
-				'content' => '',
-			)
-		),
-	)*/
 );

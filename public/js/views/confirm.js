@@ -1,35 +1,34 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.view, {
 
-	Confirm: wp.Backbone.View.extend({
+	Confirm : wp.Backbone.View.extend({
 
-		id: _.uniqueId( 'confirm-modal-' ),
+		id : _.uniqueId( 'confirm-modal-' ),
 
-		tagName: 'div',
+		tagName : 'div',
 
-		className: 'wpmoly-confirm-modal-container',
+		className : 'wpmoly-confirm-modal-container',
 
-		template: wp.template( 'wpmoly-confirm-modal' ),
+		template : wp.template( 'wpmoly-confirm-modal' ),
 
-		events: {
+		events : {
 			'click .backdrop, [data-action="cancel"]' : 'cancel',
 			'click [data-action="confirm"]'           : 'confirm'
 		},
 
-		model: Backbone.Model,
+		model : Backbone.Model,
 
 		/**
 		 * Initialize the View.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    Options
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		initialize: function( options ) {
+		initialize : function( options ) {
 
 			var options = options || {};
 
@@ -48,12 +47,12 @@ _.extend( wpmoly.view, {
 
 		/**
 		 * Render the View.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		render: function() {
+		render : function() {
 
 			var data = this.model.toJSON();
 
@@ -67,14 +66,14 @@ _.extend( wpmoly.view, {
 		/**
 		 * User cancelation. Trigger the 'cancel' event and execute
 		 * the callback with false as a parameter.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'click' Event
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		cancel: function( event ) {
+		cancel : function( event ) {
 
 			event.preventDefault();
 
@@ -88,14 +87,14 @@ _.extend( wpmoly.view, {
 		/**
 		 * User confirmation. Trigger the 'confirm' event and execute
 		 * the callback with true as a parameter.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'click' Event
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		confirm: function( event ) {
+		confirm : function( event ) {
 
 			event.preventDefault();
 
@@ -107,16 +106,16 @@ _.extend( wpmoly.view, {
 		},
 
 		/**
-		 * User hit the Enter key: confirm.
-		 * User hit the Esc key: cancel.
-		 * 
+		 * User hit the Enter key : confirm.
+		 * User hit the Esc key : cancel.
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'keydown' Event
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		keydown: function( event ) {
+		keydown : function( event ) {
 
 			var keyCode = event.keyCode ? event.keyCode : event.charCode;
 
@@ -129,12 +128,12 @@ _.extend( wpmoly.view, {
 
 		/**
 		 * Open the confirmation modal.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		open: function() {
+		open : function() {
 
 			this.$container.addClass( 'modal-open' );
 			this.$el.show();
@@ -144,18 +143,19 @@ _.extend( wpmoly.view, {
 
 		/**
 		 * Close the confirmation modal.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		close: function() {
+		close : function() {
 
 			this.$container.removeClass( 'modal-open' );
 			this.remove();
 
 			return this;
-		}
-	})
+		},
+
+	}),
 
 });

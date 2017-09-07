@@ -23,7 +23,7 @@ class Rewrite {
 
 	/**
 	 * Default rewrite tags.
-	 * 
+	 *
 	 * @var    array
 	 */
 	public $tags;
@@ -37,7 +37,7 @@ class Rewrite {
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	private function __construct() {
@@ -57,16 +57,17 @@ class Rewrite {
 			'%day%'              => '([0-9]{1,2})',
 			'%release_year%'     => '([0-9]{4})',
 			'%release_monthnum%' => '([0-9]{1,2})',
-			'%release_day%'      => '([0-9]{1,2})'
+			'%release_day%'      => '([0-9]{1,2})',
 		);
+
 		$this->tags = $tags;
 	}
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Singleton
 	 */
 	final public static function get_instance() {
@@ -80,10 +81,10 @@ class Rewrite {
 
 	/**
 	 * Create admin notice transient.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
+	 *
+	 * @return   boolean
 	 */
 	public function set_notice() {
 
@@ -92,10 +93,8 @@ class Rewrite {
 
 	/**
 	 * Remove admin notice transient.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function delete_notice() {
 
@@ -107,12 +106,10 @@ class Rewrite {
 
 	/**
 	 * Register custom rewrite tags.
-	 * 
+	 *
 	 * Add a set of new movie-related rewrite tags.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function add_rewrite_tags() {
 
@@ -125,12 +122,12 @@ class Rewrite {
 
 	/**
 	 * Register query vars for custom rewrite tags.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $query_vars
-	 * 
-	 * @return   void
+	 *
+	 * @return   array
 	 */
 	public function add_query_vars( $query_vars ) {
 
@@ -143,24 +140,24 @@ class Rewrite {
 
 	/**
 	 * Replace custom rewrite tags in post links.
-	 * 
+	 *
 	 * WordPress automatically appends the post's name at the end of the
 	 * permalink, meaning we have to check for the presence of a %postname%
 	 * or %movie% tag in the permalink that could be present if we're dealing
 	 * with custom permalink structures and remove it. This may result in
 	 * duplicate slashes that we need to clean while we're at it.
-	 * 
+	 *
 	 * This markers should be stripped automatically when saving permalink
 	 * structures, but we're still better off checking to avoid malformed
 	 * URLs.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string     $permalink
 	 * @param    object     $post WP_Post instance
 	 * @param    boolean    $leavename
 	 * @param    boolean    $sample
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function replace_movie_link_tags( $permalink, $post, $leavename, $sample ) {
@@ -180,11 +177,11 @@ class Rewrite {
 
 	/**
 	 * Generate specific rewrite rules for movies and taxonomies.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $rules Existing rewrite rules
-	 * 
+	 *
 	 * @return   array
 	 */
 	public function rewrite_rules( $rules ) {
@@ -194,18 +191,16 @@ class Rewrite {
 		$rules = $this->add_movie_archives_rewrite_rules( $rules );
 		$rules = $this->add_taxonomy_archives_rewrite_rules( $rules );
 
-		//printr( $rules )->toString(); die();
-
 		return $rules;
 	}
 
 	/**
 	 * Fix movie rewrite rules if needed.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $rules
-	 * 
+	 *
 	 * @return   array
 	 */
 	private function fix_movie_rewrite_rules( $rules ) {
@@ -227,15 +222,15 @@ class Rewrite {
 
 	/**
 	 * Add custom rewrite rules for movies.
-	 * 
+	 *
 	 * Define a list of variants for movies archive to match meta/detail
 	 * permalinks.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $rules Existing rewrite rules.
-	 * 
-	 * @return   void
+	 *
+	 * @return   array
 	 */
 	private function add_movie_archives_rewrite_rules( $rules = array() ) {
 
@@ -245,130 +240,127 @@ class Rewrite {
 
 		/**
 		 * Filter default movie archives rewrite variants.
-		 * 
+		 *
 		 * Each variant must define a rule and a matching array of vars.
 		 * Defaults variants support meta/detail name translation, used
 		 * to set the grid preset to 'custom'.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $variants Default variants.
 		 */
 		$variants = apply_filters( 'wpmoly/filter/movie_archives/rewrite/variants', array(
 			array(
-				'rule' => "([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})",
-				'vars' => array( 'year', 'monthnum', 'day' )
+				'rule' => '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})',
+				'vars' => array( 'year', 'monthnum', 'day' ),
 			),
 			array(
-				'rule' => "([0-9]{4})/([0-9]{1,2})",
-				'vars' => array( 'year', 'monthnum' )
+				'rule' => '([0-9]{4})/([0-9]{1,2})',
+				'vars' => array( 'year', 'monthnum' ),
 			),
 			array(
-				'rule' => "([0-9]{4})",
-				'vars' => array( 'year' )
+				'rule' => '([0-9]{4})',
+				'vars' => array( 'year' ),
 			),
 			array(
-				'rule' => "(adult|" . _x( 'adult', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'adult' )
+				'rule' => '(adult|' . _x( 'adult', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'adult' ),
 			),
 			array(
-				'rule' => "(author|" . _x( 'author', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'author' )
+				'rule' => '(author|' . _x( 'author', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'author' ),
 			),
 			array(
-				'rule' => "(budget|" . _x( 'budget', 'permalink', 'wpmovielibrary' ) . ")/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)",
-				'vars' => array( 'preset', 'budget' )
+				'rule' => '(budget|' . _x( 'budget', 'permalink', 'wpmovielibrary' ) . ')/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)',
+				'vars' => array( 'preset', 'budget' ),
 			),
 			array(
-				'rule' => "(certification|" . _x( 'certification', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'certification' )
+				'rule' => '(certification|' . _x( 'certification', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'certification' ),
 			),
 			array(
-				'rule' => "(company|production-company|production-companies|" . _x( 'company', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'company' )
+				'rule' => '(company|production-company|production-companies|' . _x( 'company', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'company' ),
 			),
 			array(
-				'rule' => "(composer|" . _x( 'composer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'composer' )
+				'rule' => '(composer|' . _x( 'composer', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'composer' ),
 			),
 			array(
-				'rule' => "(country|production-country|production-countries|" . _x( 'country', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'country' )
+				'rule' => '(country|production-country|production-countries|' . _x( 'country', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'country' ),
 			),
 			array(
-				'rule' => "(director|" . _x( 'director', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'director' )
+				'rule' => '(director|' . _x( 'director', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'director' ),
 			),
 			array(
-				'rule' => "(format|" . _x( 'format', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'format' )
+				'rule' => '(format|' . _x( 'format', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'format' ),
 			),
 			array(
-				'rule' => "(language|" . _x( 'language', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'language' )
+				'rule' => '(language|' . _x( 'language', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'language' ),
 			),
 			array(
-				'rule' => "(languages|spoken-languages|" . _x( 'spoken-languages', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'languages' )
+				'rule' => '(languages|spoken-languages|' . _x( 'spoken-languages', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'languages' ),
 			),
 			array(
-				'rule' => "(local-release|local-release-date|" . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'local_release' )
+				'rule' => '(local-release|local-release-date|' . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'local_release' ),
 			),
 			array(
-				'rule' => "(media|" . _x( 'media', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'media' )
+				'rule' => '(media|' . _x( 'media', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'media' ),
 			),
 			array(
-				'rule' => "(photography|" . _x( 'photography', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'photography' )
+				'rule' => '(photography|' . _x( 'photography', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'photography' ),
 			),
 			array(
-				'rule' => "(producer|" . _x( 'producer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'producer' )
+				'rule' => '(producer|' . _x( 'producer', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'producer' ),
 			),
 			array(
-				'rule' => "(rating|" . _x( 'rating', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'rating' )
+				'rule' => '(rating|' . _x( 'rating', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'rating' ),
 			),
 			array(
-				'rule' => "(release|release-date|" . _x( 'release-date', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'release' )
+				'rule' => '(release|release-date|' . _x( 'release-date', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'release' ),
 			),
 			array(
-				'rule' => "(revenue|" . _x( 'revenue', 'permalink', 'wpmovielibrary' ) . ")/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)",
-				'vars' => array( 'preset', 'revenue' )
+				'rule' => '(revenue|' . _x( 'revenue', 'permalink', 'wpmovielibrary' ) . ')/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)',
+				'vars' => array( 'preset', 'revenue' ),
 			),
 			array(
-				'rule' => "(runtime|" . _x( 'runtime', 'permalink', 'wpmovielibrary' ) . ")/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)",
-				'vars' => array( 'preset', 'runtime' )
+				'rule' => '(runtime|' . _x( 'runtime', 'permalink', 'wpmovielibrary' ) . ')/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)',
+				'vars' => array( 'preset', 'runtime' ),
 			),
 			array(
-				'rule' => "(status|" . _x( 'status', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'status' )
+				'rule' => '(status|' . _x( 'status', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'status' ),
 			),
 			array(
-				'rule' => "(subtitles|" . _x( 'subtitles', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'subtitles' )
+				'rule' => '(subtitles|' . _x( 'subtitles', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'subtitles' ),
 			),
 			array(
-				'rule' => "(writer|" . _x( 'writer', 'permalink', 'wpmovielibrary' ) . ")/([^/]+)",
-				'vars' => array( 'preset', 'writer' )
+				'rule' => '(writer|' . _x( 'writer', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
+				'vars' => array( 'preset', 'writer' ),
 			),
 		) );
 
 		$movies = isset( $this->permalinks['movies'] ) ? $this->permalinks['movies'] : '';
 
-		// Default: no archive page set
 		if ( ! has_movie_archives_page() ) {
-
+			// Default: no archive page set
 			$query = 'index.php?post_type=movie';
 			$rule  = trim( $movies, '/' );
 			$index = 1;
-
-		// Existing archive page
 		} else {
-
+			// Existing archive page
 			$archive_page = get_movie_archives_page_id();
 
 			$index = 2;
@@ -394,16 +386,16 @@ class Rewrite {
 				$i++;
 			}
 
-			$_rule = $rule .'/' . $variant['rule'];
+			$_rule = $rule . '/' . $variant['rule'];
 
-			$new_rules[ $_rule . "/?$" ]                               = $_query;
-			$new_rules[ $_rule . "/embed/?$" ]                         = $_query . "&embed=true";
-			$new_rules[ $_rule . "/trackback/?$" ]                     = $_query . "&tb=1";
-			$new_rules[ $_rule . "/feed/(feed|rdf|rss|rss2|atom)/?$" ] = $_query . "&feed=" . $wp_rewrite->preg_index( $i + 1 );
-			$new_rules[ $_rule . "/(feed|rdf|rss|rss2|atom)/?$" ]      = $_query . "&feed=" . $wp_rewrite->preg_index( $i + 1 );
-			$new_rules[ $_rule . "/page/([0-9]{1,})/?$" ]              = $_query . "&paged=" . $wp_rewrite->preg_index( $i + 1 );
-			$new_rules[ $_rule . "/comment-page-([0-9]{1,})/?$" ]      = $_query . "&cpage=" . $wp_rewrite->preg_index( $i + 1 );
-			$new_rules[ $_rule . "(?:/([0-9]+))?/?$" ]                 = $_query . "&page=" . $wp_rewrite->preg_index( $i + 1 );
+			$new_rules[ $_rule . '/?$' ]                               = $_query;
+			$new_rules[ $_rule . '/embed/?$' ]                         = $_query . '&embed=true';
+			$new_rules[ $_rule . '/trackback/?$' ]                     = $_query . '&tb=1';
+			$new_rules[ $_rule . '/feed/(feed|rdf|rss|rss2|atom)/?$' ] = $_query . '&feed=' . $wp_rewrite->preg_index( $i + 1 );
+			$new_rules[ $_rule . '/(feed|rdf|rss|rss2|atom)/?$' ]      = $_query . '&feed=' . $wp_rewrite->preg_index( $i + 1 );
+			$new_rules[ $_rule . '/page/([0-9]{1,})/?$' ]              = $_query . '&paged=' . $wp_rewrite->preg_index( $i + 1 );
+			$new_rules[ $_rule . '/comment-page-([0-9]{1,})/?$' ]      = $_query . '&cpage=' . $wp_rewrite->preg_index( $i + 1 );
+			$new_rules[ $_rule . '(?:/([0-9]+))?/?$' ]                 = $_query . '&page=' . $wp_rewrite->preg_index( $i + 1 );
 		}
 
 		return array_merge( $new_rules, $rules );
@@ -411,12 +403,12 @@ class Rewrite {
 
 	/**
 	 * Add custom rewrite rules for movies.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $rules Existing rewrite rules.
-	 * 
-	 * @return   void
+	 *
+	 * @return   array
 	 */
 	private function add_taxonomy_archives_rewrite_rules( $rules = array() ) {
 
@@ -452,12 +444,12 @@ class Rewrite {
 
 	/**
 	 * Replace custom rewrite tags in permalinks.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string     $permalink
 	 * @param    WP_Post    $post
-	 * 
+	 *
 	 * @return   string
 	 */
 	private function replace_tags( $permalink, $post ) {
@@ -484,12 +476,12 @@ class Rewrite {
 
 	/**
 	 * Get replacement value for custom rewrite tags in permalinks.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string     $tag
 	 * @param    WP_Post    $post
-	 * 
+	 *
 	 * @return   string
 	 */
 	private function get_replacement( $tag, $post ) {
@@ -499,14 +491,14 @@ class Rewrite {
 		switch ( $tag ) {
 			case '%imdb_id%':
 			case '%tmdb_id%':
-				$value = get_movie_meta( $post->ID, str_replace( '%', '', $tag ), $single = true );
+				$value = get_movie_meta( $post->ID, str_replace( '%', '', $tag ), true );
 				break;
 			case '%release_year%':
-				$value = get_movie_meta( $post->ID, 'release_date', $single = true );
+				$value = get_movie_meta( $post->ID, 'release_date', true );
 				$value = date( 'Y', strtotime( $value ) );
 				break;
 			case '%release_monthnum%':
-				$value = get_movie_meta( $post->ID, 'release_date', $single = true );
+				$value = get_movie_meta( $post->ID, 'release_date', true );
 				$value = date( 'm', strtotime( $value ) );
 				break;
 			case '%year%':

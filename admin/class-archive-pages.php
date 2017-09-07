@@ -21,36 +21,36 @@ use wpmoly\Core\Metabox;
  * @subpackage WPMovieLibrary/admin
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class ArchivePages extends Metabox {
+class Archive_Pages extends Metabox {
 
 	/**
 	 * Current page Post ID.
-	 * 
+	 *
 	 * @var    int
 	 */
 	private $post_id;
 
 	/**
 	 * Archive pages.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $pages = array();
 
 	/**
 	 * Archive Types.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $types = array();
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * Define supported types and ButterBean managers. This runs very early
 	 * in WordPress wp-admin/admin, even before post.php or post-new.php are
 	 * loaded, which means we need to grab $post_id directly from the URL.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function __construct() {
@@ -67,14 +67,14 @@ class ArchivePages extends Metabox {
 			'movie'      => __( 'Movies', 'wpmovielibrary' ),
 			'actor'      => __( 'Actors', 'wpmovielibrary' ),
 			'collection' => __( 'Collections', 'wpmovielibrary' ),
-			'genre'      => __( 'Genres', 'wpmovielibrary' )
+			'genre'      => __( 'Genres', 'wpmovielibrary' ),
 		);
 
 		/**
 		 * Filter archive pages types.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array     $types Default types.
 		 * @param    object    ArchivePages instance.
 		 */
@@ -86,10 +86,8 @@ class ArchivePages extends Metabox {
 
 	/**
 	 * Define meta managers.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function add_managers() {
 
@@ -107,43 +105,50 @@ class ArchivePages extends Metabox {
 						'icon'  => 'wpmolicon icon-grid',
 						'settings' => array(
 							'grid-id' => array(
-								'type'     => 'posts',
-								'post_type'=> 'grid',
-								'section'  => 'grid-settings',
-								'label'    => esc_html__( 'Grid ID', 'wpmovielibrary' ),
+								'type'      => 'posts',
+								'post_type' => 'grid',
+								'section'   => 'grid-settings',
+								'label'     => esc_html__( 'Grid ID', 'wpmovielibrary' ),
+								// translators: link to create a new page.
 								'description' => sprintf( esc_html__( 'Select a Grid to show in the page content. Or maybe %s?', 'wpmovielibrary' ), sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( admin_url( 'post-new.php?post_type=grid' ) ), __( 'add a new one', 'wpmovielibrary' ) ) ),
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'default'  => ''
+								'attr'      => array(
+									'class' => 'half-col widefat',
+								),
+								'default'   => '',
 							),
 							'grid-position' => array(
 								'type'     => 'radio',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Grid Position', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Where should the Grid be displayed.', 'wpmovielibrary' ),
-								//'description' => esc_html__( 'Where should the Grid be displayed. You can include the Grid in a custom place in your content by adding inserting the <code>[archives_grid]</code> in your content.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' ),
+								'attr'     => array(
+									'class' => 'half-col',
+								),
 								'choices'  => array(
 									'top'    => esc_html__( 'Before Post content', 'wpmovielibrary' ),
 									'bottom' => esc_html__( 'After Post content', 'wpmovielibrary' ),
-									//'custom' => __( 'Custom', 'wpmovielibrary' )
 								),
-								'default'  => 'top'
+								'default'  => 'top',
 							),
 							'adapt-page-title' => array(
 								'type'     => 'checkbox',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Adapt Page Title', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Try to adapt the page’s title to fit the grid content changes: ordering, sorting…', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' )
+								'attr'     => array(
+									'class' => 'half-col',
+								),
 							),
 							'adapt-post-title' => array(
 								'type'     => 'checkbox',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Adapt Post Title', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Try to adapt the post title to fit the grid content changes: ordering, sorting…', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' )
-							)
-						)
+								'attr'     => array(
+									'class' => 'half-col',
+								),
+							),
+						),
 					),
 					'single-terms' => array(
 						'label' => esc_html__( 'Single Terms', 'wpmovielibrary' ),
@@ -154,77 +159,82 @@ class ArchivePages extends Metabox {
 								'section'  => 'single-terms',
 								'label'    => esc_html__( 'Use for single terms', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Use this page to show single terms archives too. This will replace the standard WordPress archive page with a page containing the term Headbox and a grid of related movies.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' )
+								'attr'     => array(
+									'class' => 'half-col',
+								),
 							),
 							'headbox-theme' => array(
 								'type'     => 'select',
 								'section'  => 'single-terms',
 								'label'    => esc_html__( 'Headbox Theme', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Select a theme for the term Headbox. Select "None" to hide the Headbox.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col widefat' ),
+								'attr'     => array(
+									'class' => 'half-col widefat',
+								),
 								'choices'  => array(
 									'none'     => esc_html__( 'None', 'wpmovielibrary' ),
 									'default'  => esc_html__( 'Default', 'wpmovielibrary' ),
 									'extended' => esc_html__( 'Extended', 'wpmovielibrary' ),
 								),
-								'default'  => 'extended'
+								'default'  => 'extended',
 							),
 							'grid-preset' => array(
 								'type'    => 'radio-image',
 								'section' => 'single-terms',
 								'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Select a preset to apply to the grid.', 'wpmovielibrary' ),
-								'attr'    => array( 'class' => 'visible-labels half-col' ),
+								'attr'    => array(
+									'class' => 'visible-labels half-col',
+								),
 								'choices' => array(
 									'alphabetical-movies' => array(
 										'label' => esc_html__( 'Alphabetical Movies', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/alphabetical-movies.png'
+										'url'   => WPMOLY_URL . 'admin/img/alphabetical-movies.png',
 									),
 									'unalphabetical-movies' => array(
 										'label' => esc_html__( 'Unalphabetical Movies', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-movies.png'
+										'url'   => WPMOLY_URL . 'admin/img/unalphabetical-movies.png',
 									),
 									'last-added-movies' => array(
 										'label' => esc_html__( 'Latest Added Movies', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/last-added-movies.png'
+										'url'   => WPMOLY_URL . 'admin/img/last-added-movies.png',
 									),
 									'first-added-movies' => array(
 										'label' => esc_html__( 'Earliest Added Movies', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/first-added-movies.png'
+										'url'   => WPMOLY_URL . 'admin/img/first-added-movies.png',
 									),
 									'last-released-movies' => array(
 										'label' => esc_html__( 'Latest Released Movies', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/last-released-movies.png'
+										'url'   => WPMOLY_URL . 'admin/img/last-released-movies.png',
 									),
 									'first-released-movies' => array(
 										'label' => esc_html__( 'Earliest Released Movies', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/first-released-movies.png'
+										'url'   => WPMOLY_URL . 'admin/img/first-released-movies.png',
 									),
 									'most-rated-movies' => array(
 										'label' => esc_html__( 'Most Rated Movies', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/most-rated-movies.png'
+										'url'   => WPMOLY_URL . 'admin/img/most-rated-movies.png',
 									),
 									'least-rated-movies' => array(
 										'label' => esc_html__( 'Least Rated Movies', 'wpmovielibrary' ),
-										'url'   => WPMOLY_URL . 'admin/img/least-rated-movies.png'
-									)
+										'url'   => WPMOLY_URL . 'admin/img/least-rated-movies.png',
+									),
 								),
 								'default'  => 'alphabetical-movies',
-								'sanitize' => 'esc_attr'
-							)
-						)
-					)
-				)
+								'sanitize' => 'esc_attr',
+							),
+						),
+					),
+				),
 			) );
-		}
+
+		} // End if().
 	}
 
 	/**
 	 * Load frameworks if needed.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function load_meta_frameworks() {
 
@@ -238,12 +248,10 @@ class ArchivePages extends Metabox {
 
 	/**
 	 * Add a custom section to the page editor submitdiv metabox.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    WP_Post    $post
-	 * 
-	 * @return   void
 	 */
 	public function archive_pages_select( $post ) {
 
@@ -255,7 +263,7 @@ class ArchivePages extends Metabox {
 
 		$json = array(
 			'types' => $this->types,
-			'pages' => $this->pages
+			'pages' => $this->pages,
 		);
 ?>
 
@@ -265,8 +273,10 @@ class ArchivePages extends Metabox {
 				<p>
 					<select id="wpmoly-archive-page-types" name="wpmoly[archive_page_type]">
 <?php foreach ( $this->types as $type => $name ) : ?>
-						<option value="<?php echo esc_attr( $type ); ?>"<?php selected( $page_type, $type ); ?>><?php echo esc_attr__( $name ); ?></option>
+
+						<option value="<?php echo esc_attr( $type ); ?>"<?php selected( $page_type, $type ); ?>><?php echo esc_html( $name ); ?></option>
 <?php endforeach; ?>
+
 					</select>
 				</p>
 				<p>
@@ -281,14 +291,12 @@ class ArchivePages extends Metabox {
 
 	/**
 	 * Save current page as an archive page.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int        $post_id
 	 * @param    WP_Post    $post
 	 * @param    boolean    $update
-	 * 
-	 * @return   void
 	 */
 	public function set_archive_page_type( $post_id, $post, $update ) {
 
@@ -325,9 +333,9 @@ class ArchivePages extends Metabox {
 
 	/**
 	 * Update archive pages option.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   array
 	 */
 	private function set_archive_pages() {
@@ -338,10 +346,8 @@ class ArchivePages extends Metabox {
 	/**
 	 * Changes have been made, permalinks need to be updated: set a transient
 	 * to trigger an admin notice.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   array
 	 */
 	private function set_notice() {
 
@@ -350,10 +356,8 @@ class ArchivePages extends Metabox {
 
 	/**
 	 * Define metaboxes.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function add_metaboxes() {}
 

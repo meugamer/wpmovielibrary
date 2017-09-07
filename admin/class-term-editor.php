@@ -20,25 +20,25 @@ use wpmoly\Core\Metabox;
  * @subpackage WPMovieLibrary/admin
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class TermEditor extends Metabox {
+class Term_Editor extends Metabox {
 
 	/**
 	 * Current Term ID.
-	 * 
+	 *
 	 * @var    int
 	 */
 	private $term_id;
 
 	/**
 	 * Current Term Taxonomy.
-	 * 
+	 *
 	 * @var    string
 	 */
 	private $taxonomy;
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function __construct() {
@@ -56,10 +56,8 @@ class TermEditor extends Metabox {
 
 	/**
 	 * Define meta managers.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function add_managers() {
 
@@ -86,8 +84,8 @@ class TermEditor extends Metabox {
 								'label'       => esc_html__( 'Use description as biography', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Use the term description content as the actor’s biography?', 'wpmovielibrary' ),
 								'attr'     => array( 'class' => 'half-col widefat' ),
-							)
-						)
+							),
+						),
 					),*/
 					'actor-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
@@ -98,7 +96,7 @@ class TermEditor extends Metabox {
 								'section'     => 'actor-appearance',
 								'label'       => esc_html__( 'Custom Actor Picture', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Upload a custom picture for this actor.', 'wpmovielibrary' ),
-								'size'        => 'thumbnail'
+								'size'        => 'thumbnail',
 							),
 							'actor-picture' => array(
 								'type'        => 'radio-image',
@@ -107,23 +105,23 @@ class TermEditor extends Metabox {
 								'description' => esc_html__( 'A default picture for this actor.', 'wpmovielibrary' ),
 								'choices' => array(
 									'neutral' => array(
+										'label' => esc_html__( 'Neutral', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/actor-neutral-thumbnail.png',
-										'label' => esc_html__( 'Neutral', 'wpmovielibrary' )
 									),
 									'female' => array(
+										'label' => esc_html__( 'Female', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/actor-female-thumbnail.png',
-										'label' => esc_html__( 'Female', 'wpmovielibrary' )
 									),
 									'male' => array(
+										'label' => esc_html__( 'Male', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/actor-male-thumbnail.png',
-										'label' => esc_html__( 'Male', 'wpmovielibrary' )
 									),
 								),
-								'default' => 'neutral'
-							)
-						)
-					)
-				)
+								'default' => 'neutral',
+							),
+						),
+					),
+				),
 			) );
 
 		} elseif ( 'collection' == $this->taxonomy ) {
@@ -143,7 +141,7 @@ class TermEditor extends Metabox {
 								'label'       => esc_html__( 'Person ID', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Select a Person related to this collection. A director maybe?', 'wpmovielibrary' ),
 							),
-						)
+						),
 					),*/
 					'collection-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
@@ -154,129 +152,131 @@ class TermEditor extends Metabox {
 								'section'     => 'collection-appearance',
 								'label'       => esc_html__( 'Custom Collection Thumbnail', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Upload a custom thumbnail for this collection.', 'wpmovielibrary' ),
-								'size'        => 'thumbnail'
+								'size'        => 'thumbnail',
 							),
 							'collection-thumbnail' => array(
 								'type'        => 'radio-image',
 								'section'     => 'collection-appearance',
 								'label'       => esc_html__( 'Collection thumbnail' ),
 								'description' => esc_html__( 'A default thumbnail for this collection.', 'wpmovielibrary' ),
-								'attr' => array( 'class' => array( 'visible-labels' ) ),
+								'attr' => array(
+									'class' => array( 'visible-labels' ),
+								),
 								'choices' => array(
 									'collection-A' => array(
+										'label' => esc_html__( 'Collection A', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-A-thumbnail.png',
-										'label' => esc_html__( 'Collection A', 'wpmovielibrary' )
 									),
 									'collection-B' => array(
+										'label' => esc_html__( 'Collection B', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-B-thumbnail.png',
-										'label' => esc_html__( 'Collection B', 'wpmovielibrary' )
 									),
 									'collection-C' => array(
+										'label' => esc_html__( 'Collection C', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-C-thumbnail.png',
-										'label' => esc_html__( 'Collection C', 'wpmovielibrary' )
 									),
 									'collection-D' => array(
+										'label' => esc_html__( 'Collection D', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-D-thumbnail.png',
-										'label' => esc_html__( 'Collection D', 'wpmovielibrary' )
 									),
 									'collection-E' => array(
+										'label' => esc_html__( 'Collection E', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-E-thumbnail.png',
-										'label' => esc_html__( 'Collection E', 'wpmovielibrary' )
 									),
 									'collection-F' => array(
+										'label' => esc_html__( 'Collection F', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-F-thumbnail.png',
-										'label' => esc_html__( 'Collection F', 'wpmovielibrary' )
 									),
 									'collection-G' => array(
+										'label' => esc_html__( 'Collection G', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-G-thumbnail.png',
-										'label' => esc_html__( 'Collection G', 'wpmovielibrary' )
 									),
 									'collection-H' => array(
+										'label' => esc_html__( 'Collection H', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-H-thumbnail.png',
-										'label' => esc_html__( 'Collection H', 'wpmovielibrary' )
 									),
 									'collection-I' => array(
+										'label' => esc_html__( 'Collection I', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-I-thumbnail.png',
-										'label' => esc_html__( 'Collection I', 'wpmovielibrary' )
 									),
 									'collection-J' => array(
+										'label' => esc_html__( 'Collection J', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-J-thumbnail.png',
-										'label' => esc_html__( 'Collection J', 'wpmovielibrary' )
 									),
 									'collection-K' => array(
+										'label' => esc_html__( 'Collection K', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-K-thumbnail.png',
-										'label' => esc_html__( 'Collection K', 'wpmovielibrary' )
 									),
 									'collection-L' => array(
+										'label' => esc_html__( 'Collection L', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-L-thumbnail.png',
-										'label' => esc_html__( 'Collection L', 'wpmovielibrary' )
 									),
 									'collection-M' => array(
+										'label' => esc_html__( 'Collection M', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-M-thumbnail.png',
-										'label' => esc_html__( 'Collection M', 'wpmovielibrary' )
 									),
 									'collection-N' => array(
+										'label' => esc_html__( 'Collection N', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-N-thumbnail.png',
-										'label' => esc_html__( 'Collection N', 'wpmovielibrary' )
 									),
 									'collection-O' => array(
+										'label' => esc_html__( 'Collection O', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-O-thumbnail.png',
-										'label' => esc_html__( 'Collection O', 'wpmovielibrary' )
 									),
 									'collection-P' => array(
+										'label' => esc_html__( 'Collection P', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-P-thumbnail.png',
-										'label' => esc_html__( 'Collection P', 'wpmovielibrary' )
 									),
 									'collection-Q' => array(
+										'label' => esc_html__( 'Collection Q', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-Q-thumbnail.png',
-										'label' => esc_html__( 'Collection Q', 'wpmovielibrary' )
 									),
 									'collection-R' => array(
+										'label' => esc_html__( 'Collection R', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-R-thumbnail.png',
-										'label' => esc_html__( 'Collection R', 'wpmovielibrary' )
 									),
 									'collection-S' => array(
+										'label' => esc_html__( 'Collection S', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-S-thumbnail.png',
-										'label' => esc_html__( 'Collection S', 'wpmovielibrary' )
 									),
 									'collection-T' => array(
+										'label' => esc_html__( 'Collection T', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-T-thumbnail.png',
-										'label' => esc_html__( 'Collection T', 'wpmovielibrary' )
 									),
 									'collection-U' => array(
+										'label' => esc_html__( 'Collection U', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-U-thumbnail.png',
-										'label' => esc_html__( 'Collection U', 'wpmovielibrary' )
 									),
 									'collection-V' => array(
+										'label' => esc_html__( 'Collection V', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-V-thumbnail.png',
-										'label' => esc_html__( 'Collection V', 'wpmovielibrary' )
 									),
 									'collection-W' => array(
+										'label' => esc_html__( 'Collection W', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-W-thumbnail.png',
-										'label' => esc_html__( 'Collection W', 'wpmovielibrary' )
 									),
 									'collection-X' => array(
+										'label' => esc_html__( 'Collection X', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-X-thumbnail.png',
-										'label' => esc_html__( 'Collection X', 'wpmovielibrary' )
 									),
 									'collection-Y' => array(
+										'label' => esc_html__( 'Collection Y', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-Y-thumbnail.png',
-										'label' => esc_html__( 'Collection Y', 'wpmovielibrary' )
 									),
 									'collection-Z' => array(
+										'label' => esc_html__( 'Collection Z', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-Z-thumbnail.png',
-										'label' => esc_html__( 'Collection Z', 'wpmovielibrary' )
 									),
 									'collection-default' => array(
+										'label' => esc_html__( 'Default Collection', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/collection-default-thumbnail.png',
-										'label' => esc_html__( 'Default Collection', 'wpmovielibrary' )
 									),
 								),
-								'default' => 'unknown'
-							)
-						)
-					)
-				)
+								'default' => 'unknown',
+							),
+						),
+					),
+				),
 			) );
 
 		} elseif ( 'genre' == $this->taxonomy ) {
@@ -294,6 +294,7 @@ class TermEditor extends Metabox {
 								'section'     => 'genre-identity',
 								'label'       => esc_html__( 'TMDb genre', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Select the TMDb genre corresponding to this genre, if any.', 'wpmovielibrary' ),
+								// @TODO Use TMDb to update the list.
 								'choices' => array(
 									28    => __( 'Action', 'wpmovielibrary' ),
 									12    => __( 'Adventure', 'wpmovielibrary' ),
@@ -315,9 +316,9 @@ class TermEditor extends Metabox {
 									10770 => __( 'TV Movie', 'wpmovielibrary' ),
 									10752 => __( 'War', 'wpmovielibrary' ),
 									37    => __( 'Western', 'wpmovielibrary' ),
-								)
-							)
-						)
+								),
+							),
+						),
 					),
 					'genre-appearance' => array(
 						'label' => esc_html__( 'Appearance', 'wpmovielibrary' ),
@@ -328,242 +329,116 @@ class TermEditor extends Metabox {
 								'section'     => 'genre-appearance',
 								'label'       => esc_html__( 'Custom Genre Thumbnail', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Upload a custom thumbnail for this genre.', 'wpmovielibrary' ),
-								'size'        => 'thumbnail'
+								'size'        => 'thumbnail',
 							),
 							'genre-thumbnail' => array(
 								'type'        => 'radio-image',
 								'section'     => 'genre-appearance',
 								'label'       => esc_html__( 'Genre thumbnail', 'wpmovielibrary' ),
 								'description' => esc_html__( 'A default thumbnail for this genre.', 'wpmovielibrary' ),
-								'attr' => array( 'class' => array( 'visible-labels' ) ),
+								'attr' => array(
+									'class' => array( 'visible-labels' ),
+								),
 								'choices' => array(
 									'horror' => array(
+										'label' => esc_html__( 'Horror', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-horror-thumbnail.png',
-										'label' => esc_html__( 'Horror', 'wpmovielibrary' )
 									),
 									'crime' => array(
+										'label' => esc_html__( 'Crime', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-crime-thumbnail.png',
-										'label' => esc_html__( 'Crime', 'wpmovielibrary' )
 									),
 									'romance' => array(
+										'label' => esc_html__( 'Romance', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-romance-thumbnail.png',
-										'label' => esc_html__( 'Romance', 'wpmovielibrary' )
 									),
 									'music' => array(
+										'label' => esc_html__( 'Music', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-music-thumbnail.png',
-										'label' => esc_html__( 'Music', 'wpmovielibrary' )
 									),
 									'family' => array(
+										'label' => esc_html__( 'Family', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-family-thumbnail.png',
-										'label' => esc_html__( 'Family', 'wpmovielibrary' )
 									),
 									'animation' => array(
+										'label' => esc_html__( 'Animation', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-animation-thumbnail.png',
-										'label' => esc_html__( 'Animation', 'wpmovielibrary' )
 									),
 									'adventure' => array(
+										'label' => esc_html__( 'Adventure', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-adventure-thumbnail.png',
-										'label' => esc_html__( 'Adventure', 'wpmovielibrary' )
 									),
 									'science-fiction' => array(
+										'label' => esc_html__( 'Science Fiction', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-science-fiction-thumbnail.png',
-										'label' => esc_html__( 'Science Fiction', 'wpmovielibrary' )
 									),
 									'fantasy' => array(
+										'label' => esc_html__( 'Fantasy', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-fantasy-thumbnail.png',
-										'label' => esc_html__( 'Fantasy', 'wpmovielibrary' )
 									),
 									'foreign' => array(
+										'label' => esc_html__( 'Foreign', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-foreign-thumbnail.png',
-										'label' => esc_html__( 'Foreign', 'wpmovielibrary' )
 									),
 									'war' => array(
+										'label' => esc_html__( 'War', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-war-thumbnail.png',
-										'label' => esc_html__( 'War', 'wpmovielibrary' )
 									),
 									'tv-movie' => array(
+										'label' => esc_html__( 'TV Movie', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-tv-movie-thumbnail.png',
-										'label' => esc_html__( 'TV Movie', 'wpmovielibrary' )
 									),
 									'western' => array(
+										'label' => esc_html__( 'Western', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-western-thumbnail.png',
-										'label' => esc_html__( 'Western', 'wpmovielibrary' )
 									),
 									'action' => array(
+										'label' => esc_html__( 'Action', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-action-thumbnail.png',
-										'label' => esc_html__( 'Action', 'wpmovielibrary' )
 									),
 									'comedy' => array(
+										'label' => esc_html__( 'Comedy', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-comedy-thumbnail.png',
-										'label' => esc_html__( 'Comedy', 'wpmovielibrary' )
 									),
 									'drama' => array(
+										'label' => esc_html__( 'Drama', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-drama-thumbnail.png',
-										'label' => esc_html__( 'Drama', 'wpmovielibrary' )
 									),
 									'history' => array(
+										'label' => esc_html__( 'History', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-history-thumbnail.png',
-										'label' => esc_html__( 'History', 'wpmovielibrary' )
 									),
 									'documentary' => array(
+										'label' => esc_html__( 'Documentary', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-documentary-thumbnail.png',
-										'label' => esc_html__( 'Documentary', 'wpmovielibrary' )
 									),
 									'mystery' => array(
+										'label' => esc_html__( 'Mystery', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-mystery-thumbnail.png',
-										'label' => esc_html__( 'Mystery', 'wpmovielibrary' )
 									),
 									'thriller' => array(
+										'label' => esc_html__( 'Thriller', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-thriller-thumbnail.png',
-										'label' => esc_html__( 'Thriller', 'wpmovielibrary' )
 									),
 									'unknown' => array(
+										'label' => esc_html__( 'Unknown', 'wpmovielibrary' ),
 										'url'   => WPMOLY_URL . 'public/img/genre-unknown-thumbnail.png',
-										'label' => esc_html__( 'Unknown', 'wpmovielibrary' )
 									),
 								),
-								'default' => 'unknown'
-							)
-						)
-					)
-				)
+								'default' => 'unknown',
+							),
+						),
+					),
+				),
 			) );
 
-		}
-
-			/*$this->add_manager( 'actor-meta', array(
-				'label'    => esc_html__( 'Actor Meta', 'wpmovielibrary' ),
-				'taxonomy' => 'actor',
-				'sections' => array(
-					'identity' => array(
-						'label' => esc_html__( 'Identity', 'wpmovielibrary' ),
-						'icon'  => 'wpmolicon icon-actor-alt',
-						'settings' => array(
-							'tmdb_id' => array(
-								'type'     => 'text',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'TMDb ID', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'default'  => ''
-							),
-							'imdb_id' => array(
-								'type'     => 'text',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'IMDb ID', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'default'  => ''
-							),
-							'name' => array(
-								'type'     => 'text',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'Name', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'widefat' ),
-								'default'  => ''
-							),
-							'biography' => array(
-								'type'     => 'textarea',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'Biography', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'default'  => ''
-							),
-							'birthday' => array(
-								'type'     => 'text',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'Birthday', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'default'  => ''
-							),
-							'deathday' => array(
-								'type'     => 'text',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'Deathday', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'default'  => ''
-							),
-							'also_known_as' => array(
-								'type'     => 'text',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'Alias(es)', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'default'  => ''
-							),
-							'place_of_birth' => array(
-								'type'     => 'text',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'Place of birth', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'default'  => ''
-							),
-							'gender' => array(
-								'type'     => 'select',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'Gender', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'choices'  => array(
-									'1' => __( 'Female', 'wpmovielibrary' ),
-									'2' => __( 'Male', 'wpmovielibrary' ),
-								),
-								'default'  => ''
-							),
-							'homepage' => array(
-								'type'     => 'text',
-								'section'  => 'identity',
-								'label'    => esc_html__( 'Homepage', 'wpmovielibrary' ),
-								'description' => '',
-								'attr'     => array( 'class' => 'half-col widefat' ),
-								'default'  => '',
-								'sanitize' => 'esc_url'
-							)
-						)
-					),
-					'movie-credits' => array(
-						'label' => esc_html__( 'Movie Credits', 'wpmovielibrary' ),
-						'icon'  => 'wpmolicon icon-movie',
-						'description' => esc_html__( '.', 'wpmovielibrary' ),
-						'settings' => array(
-							'movie-credits' => array(
-								'type'     => 'textarea',
-								'section'  => 'movie-credits',
-								'label'    => esc_html__( '', 'wpmovielibrary' ),
-								'description' => esc_html__( '', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' )
-							)
-						)
-					),
-					'tv-credits' => array(
-						'label' => esc_html__( 'TV Credits', 'wpmovielibrary' ),
-						'icon'  => 'wpmolicon icon-movie',
-						'description' => esc_html__( '.', 'wpmovielibrary' ),
-						'settings' => array(
-							'tv-credits' => array(
-								'type'     => 'textarea',
-								'section'  => 'tv-credits',
-								'label'    => esc_html__( '', 'wpmovielibrary' ),
-								'description' => esc_html__( '', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col' )
-							)
-						)
-					)
-				)
-			) );*/
+		} // End if().
 	}
 
 	/**
 	 * Load frameworks if needed.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function load_meta_frameworks() {
 
@@ -579,16 +454,16 @@ class TermEditor extends Metabox {
 
 	/**
 	 * Redirect to the term editor after update.
-	 * 
+	 *
 	 * Default behaviour is to redirect the user to the main taxonomy page
 	 * ie. 'edit-tags.php', but we want users to see their updated term meta
 	 * rather than go back to the list of terms.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $location The destination URL.
 	 * @param    object    $taxonomy The taxonomy object.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function term_redirect( $location, $taxonomy ) {
@@ -604,17 +479,15 @@ class TermEditor extends Metabox {
 
 	/**
 	 * Replace HTTP referer. This is used to replace the 'Back to Taxonomy'
-	 * notice link showed after terms updated. Since we filter the term 
+	 * notice link showed after terms updated. Since we filter the term
 	 * update redirect location to go to the term editor instead of the main
 	 * taxonomy page we have to update the referer used by the go-back link
 	 * to avoid a loop.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    $term     Current taxonomy term object.
 	 * @param    string    $taxonomy Current $taxonomy slug.
-	 * 
-	 * @return   void
 	 */
 	public function term_pre_edit_form( $term, $taxonomy ) {
 
@@ -631,10 +504,8 @@ class TermEditor extends Metabox {
 
 	/**
 	 * Define metaboxes.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function add_metaboxes() {}
 

@@ -13,7 +13,7 @@
 namespace wpmoly\Node;
 
 /**
- * 
+ *
  *
  * @since      3.0
  * @package    WPMovieLibrary
@@ -24,21 +24,21 @@ class Collection extends Node {
 
 	/**
 	 * Collection Term object
-	 * 
+	 *
 	 * @var    WP_Term
 	 */
 	public $term;
 
 	/**
 	 * Collection thumbnail.
-	 * 
+	 *
 	 * @var    Picture
 	 */
 	protected $thumbnail;
 
 	/**
 	 * Class Constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 *
 	 * @param    int|Node|WP_Term    $node Node ID, node instance or term object
@@ -61,10 +61,8 @@ class Collection extends Node {
 
 	/**
 	 * Initialize the Collection.
-	 * 
-	 * @since    3.0
 	 *
-	 * @return   void
+	 * @since    3.0
 	 */
 	public function init() {
 
@@ -73,9 +71,9 @@ class Collection extends Node {
 
 		/**
 		 * Filter the default collection meta list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $default_meta
 		 */
 		$this->default_meta = apply_filters( 'wpmoly/filter/default/collection/meta', array( 'name', 'thumbnail', 'person_id' ) );
@@ -83,15 +81,15 @@ class Collection extends Node {
 
 	/**
 	 * Magic.
-	 * 
+	 *
 	 * Add support for Collection::get_{$property}() and Collection::the_{$property}()
 	 * methods.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @param    string    $method 
-	 * @param    array     $arguments 
-	 * 
+	 *
+	 * @param    string    $method Method name.
+	 * @param    array     $arguments Method arguments.
+	 *
 	 * @return   mixed
 	 */
 	public function __call( $method, $arguments ) {
@@ -107,31 +105,31 @@ class Collection extends Node {
 
 	/**
 	 * Load metadata.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	protected function get_property( $name ) {
 
 		// Load metadata
-		$value = get_term_meta( $this->id, $this->suffix . $name, $single = true );
+		$value = get_term_meta( $this->id, $this->suffix . $name, true );
 
 		return $value;
 	}
 
 	/**
 	 * Property accessor.
-	 * 
+	 *
 	 * Override Node::get() to add support for additional data like 'name'.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
 	 * @param    mixed     $default Default value
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function get( $name, $default = null ) {
@@ -151,29 +149,34 @@ class Collection extends Node {
 	 * Enhanced property accessor. Unlike Node::get() this method automatically
 	 * escapes the property requested and therefore should be used when the
 	 * property is meant for display.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
-	 * @return   void
+	 *
+	 * @return   mixed
 	 */
 	public function get_the( $name ) {
 
-		$hook_name = sanitize_key( $name );
-
-		return apply_filters( 'wpmoly/filter/the/collection/' . $hook_name, $this->get( $name ), $this );
+		/**
+		 * Filter properties for display.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    string    $name Meta name.
+		 * @param    mixed     $value Meta value.
+		 * @param    Node      $node Collection object.
+		 */
+		return apply_filters( 'wpmoly/filter/the/collection/' . sanitize_key( $name ), $this->get( $name ), $this );
 	}
 
 	/**
 	 * Simple property echoer. Use Node::get_the() to automatically escape
 	 * the requested property.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
-	 * @return   void
 	 */
 	public function the( $name ) {
 
@@ -182,18 +185,19 @@ class Collection extends Node {
 
 	/**
 	 * Simple accessor for Collection's Picture.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $variant Poster variant.
-	 * 
+	 *
 	 * @return   Poster|DefaultPoster
 	 */
 	public function get_thumbnail( $variant = '', $size = 'thumb' ) {
 
 		$custom_thumbnail = $this->get_custom_thumbnail( $size );
 		if ( ! empty( $custom_thumbnail ) ) {
-			return $this->thumbnail = $custom_thumbnail;
+			$this->thumbnail = $custom_thumbnail;
+			return $this->thumbnail;
 		}
 
 		if ( empty( $variant ) ) {
@@ -205,9 +209,9 @@ class Collection extends Node {
 
 		/**
 		 * Filter default collection thumbnail variants
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $variants
 		 */
 		$variants = apply_filters( 'wpmoly/filter/default/collection/thumbnail/variants', array_merge( range( 'A', 'Z' ), array( 'default' ) ) );
@@ -217,9 +221,9 @@ class Collection extends Node {
 
 		/**
 		 * Filter default collection thumbnail
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $thumbnail
 		 */
 		$sizes = apply_filters( 'wpmoly/filter/default/collection/thumbnail/sizes', array( 'original', 'full', 'medium', 'small', 'thumb', 'thumbnail', 'tiny' ) );
@@ -233,23 +237,25 @@ class Collection extends Node {
 
 		/**
 		 * Filter default collection thumbnail
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $thumbnail
 		 */
 		$thumbnail = apply_filters( 'wpmoly/filter/default/collection/thumbnail', WPMOLY_URL . "public/img/collection-{$variant}{$size}.png" );
 
-		return $this->thumbnail = $thumbnail;
+		$this->thumbnail = $thumbnail;
+
+		return $this->thumbnail;
 	}
 
 	/**
 	 * Retrieve the Collection's custom thumbnail, if any.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $size.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_custom_thumbnail( $size ) {
@@ -269,10 +275,8 @@ class Collection extends Node {
 
 	/**
 	 * Save collection.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save() {
 
@@ -281,10 +285,8 @@ class Collection extends Node {
 
 	/**
 	 * Save collection metadata.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save_meta() {
 

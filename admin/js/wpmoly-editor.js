@@ -1,19 +1,18 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
 
 	editor = wpmoly.editor = {
 
-		runned: false,
+		runned : false,
 
-		run: function() {
+		run : function() {
 
 			var $editor = $( '#wpmoly-meta' ),
 			    post_id = $( '#post_ID' ).val();
 
 			editor.controller = new wpmoly.controller.Editor( {}, {
-				post_id: post_id
+				post_id : post_id
 			} );
 
 			if ( $editor.length /*&& ! $editor.hasClass( 'hidden' )*/ ) {

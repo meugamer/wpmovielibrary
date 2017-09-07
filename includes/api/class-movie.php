@@ -15,7 +15,7 @@ use WP_Error;
 
 /**
  * Handle the interactions with the TMDb API.
- * 
+ *
  * This class handles movies specifically.
  *
  * @since      3.0
@@ -27,15 +27,15 @@ class Movie extends Core {
 
 	/**
 	 * Call existing methods after setting query type.
-	 * 
+	 *
 	 * All methods should be private or protected to trigger this magic
 	 * method.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $method Method name
 	 * @param    array     $arguments Method parameters
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function __call( $method, $arguments ) {
@@ -49,14 +49,14 @@ class Movie extends Core {
 
 	/**
 	 * Fetch backdrops for a specific movie.
-	 * 
+	 *
 	 * Alias for API::_get_images( 'backdrops' ).
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int      $id Movie ID.
 	 * @param    array    $params Query parameters.
-	 * 
+	 *
 	 * @return   WP_Error|object
 	 */
 	protected function get_backdrops( $id, $params = array() ) {
@@ -68,14 +68,14 @@ class Movie extends Core {
 
 	/**
 	 * Fetch posters for a specific movie.
-	 * 
+	 *
 	 * Alias for API::_get_images( 'posters' ).
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int      $id Movie ID.
 	 * @param    array    $params Query parameters.
-	 * 
+	 *
 	 * @return   WP_Error|object
 	 */
 	protected function get_posters( $id, $params = array() ) {
@@ -87,13 +87,13 @@ class Movie extends Core {
 
 	/**
 	 * Fetch images for a specific movie.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int       $id Movie ID.
 	 * @param    string    $image_type Image type, either 'backdrops', 'posters' or 'both' (default).
 	 * @param    array     $params Query parameters.
-	 * 
+	 *
 	 * @return   WP_Error|object
 	 */
 	protected function get_images( $id, $image_type = 'both', $params = array() ) {
@@ -115,15 +115,15 @@ class Movie extends Core {
 
 	/**
 	 * Get a movie from the API using a specific ID.
-	 * 
+	 *
 	 * Support TMDb and IMDb IDs. Use $params['append_to_response']
 	 * to fetch additional data.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $query Query
 	 * @param    array     $params Query parameters
-	 * 
+	 *
 	 * @return   WP_Error|object
 	 */
 	protected function get( $query = '', $params = array() ) {
@@ -133,21 +133,23 @@ class Movie extends Core {
 			return $query;
 		}
 
-		$params = wp_parse_args( (array) $params, array( 'language' => wpmoly_o( 'api-language' ) ) );
+		$params = wp_parse_args( (array) $params, array(
+			'language' => wpmoly_o( 'api-language' ),
+		) );
 
 		return $this->call( "movie/$query", $params );
 	}
 
 	/**
 	 * Search movies.
-	 * 
+	 *
 	 * If an IMDb ID is detected, simply get the movie.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $query Search query
 	 * @param    array     $params Search parameters
-	 * 
+	 *
 	 * @return   WP_Error|object
 	 */
 	protected function search( $query = '', $params = array() ) {
@@ -163,7 +165,9 @@ class Movie extends Core {
 		// IMDb ID detected
 		if ( ! is_wp_error( $is_imdb ) ) {
 
-			$params = wp_parse_args( $params, array( 'language' => wpmoly_o( 'api-language' ) ) );
+			$params = wp_parse_args( $params, array(
+				'language' => wpmoly_o( 'api-language' ),
+			) );
 
 			return $this->call( "movie/$query", $params );
 		}
@@ -177,6 +181,7 @@ class Movie extends Core {
 		) );
 		$params['query'] = $query;
 
-		return $this->call( "search/movie", $params );
+		return $this->call( 'search/movie', $params );
 	}
+
 }

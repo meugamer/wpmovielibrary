@@ -34,9 +34,9 @@ class API {
 
 	/**
 	 * Define the API class.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	public function __construct() {
@@ -52,8 +52,8 @@ class API {
 	 * Singleton.
 	 *
 	 * @since    3.0
-	 * 
-	 * @return   null
+	 *
+	 * @return   API
 	 */
 	public static function get_instance() {
 
@@ -63,4 +63,5 @@ class API {
 
 		return self::$instance;
 	}
+
 }

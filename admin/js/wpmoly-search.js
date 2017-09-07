@@ -1,13 +1,12 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
 
 	wpmoly.search = {
 
-		runned: false,
+		runned : false,
 
-		run: function() {
+		run : function() {
 
 			var $search = $( '#wpmoly-movie-search' ),
 			    post_id = $( '#post_ID' ).val();
@@ -16,7 +15,7 @@ wpmoly = window.wpmoly || {};
 				wpmoly.search = new wpmoly.view.Search.Search({
 					el         : $search,
 					controller : new wpmoly.controller.Search( {}, {
-						post_id: post_id
+						post_id : post_id
 					} )
 				});
 

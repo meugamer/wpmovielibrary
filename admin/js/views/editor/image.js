@@ -1,273 +1,267 @@
-
 wpmoly = window.wpmoly || {};
 
-_.extend( wpmoly.view, {
+wpmoly.view.ImageMore = wp.Backbone.View.extend({
 
-	ImageMore: wp.Backbone.View.extend({
+	template : wp.template( 'wpmoly-editor-image-more' ),
 
-		template: wp.template( 'wpmoly-editor-image-more' ),
+	events : {
+		'click a': 'preventDefault',
+		'click [data-action="import"]': 'import',
+		'click [data-action="upload"]': 'upload',
+	},
 
-		events: {
-			'click a': 'preventDefault',
-			'click [data-action="import"]': 'import',
-			'click [data-action="upload"]': 'upload',
-		},
+	/**
+	 * Initialize the View.
+	 *
+	 * @param    object    Options
+	 *
+	 * @since    3.0
+	 */
+	initialize : function( options ) {
 
-		/**
-		 * Initialize the View.
-		 * 
-		 * @param    object    Options
-		 * 
-		 * @since    3.0
-		 */
-		initialize: function( options ) {
+		var options = options || {};
+		this.controller = options.controller || {};
+	},
 
-			var options = options || {};
-			this.controller = options.controller || {};
-		},
+	/**
+	 * Render the View.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	render : function() {
 
-		/**
-		 * Render the View.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		render: function() {
+		var data = {
+			type : this.type
+		};
 
-			var data = {
-				type: this.type
-			};
+		this.$el.html( this.template( data ) );
 
-			this.$el.html( this.template( data ) );
+		return this;
+	},
 
-			return this;
-		},
+	/**
+	 * Trigger Backdrop import.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    object    JS 'click' Event
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	import : function( event ) {
 
-		/**
-		 * Trigger Backdrop import.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    JS 'click' Event
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		import: function( event ) {
+		wpmoly.trigger( 'editor:' + this.type + ':import:open' );
+	},
 
-			wpmoly.trigger( 'editor:' + this.type + ':import:open' );
-		},
+	/**
+	 * Trigger Backdrop upload.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    object    JS 'click' Event
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	upload : function( event ) {
 
-		/**
-		 * Trigger Backdrop upload.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    JS 'click' Event
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		upload: function( event ) {
+		wpmoly.trigger( 'editor:' + this.type + ':upload:open' );
+	},
 
-			wpmoly.trigger( 'editor:' + this.type + ':upload:open' );
-		},
+	/**
+	 * Deactivate links.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    object    JS 'click' Event
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	preventDefault : function( event ) {
 
-		/**
-		 * Deactivate links.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    JS 'click' Event
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		preventDefault: function( event ) {
+		event.stopPropagation();
+		event.preventDefault();
+	}
 
-			event.stopPropagation();
-			event.preventDefault();
-		}
+});
 
-	}),
+wpmoly.view.Image = wp.Backbone.View.extend({
 
-	Image: wp.Backbone.View.extend({
+	template : wp.template( 'wpmoly-editor-image' ),
 
-		template: wp.template( 'wpmoly-editor-image' ),
+	events : {
+		'click a': 'preventDefault',
+		'click [data-action="toggle-menu"]': 'toggle',
+		'click [data-action="edit"]':        'edit',
+		'click [data-action="remove"]':      'unset',
+		'click [data-action="featured"]':    'set_featured'
+	},
 
-		events: {
-			'click a': 'preventDefault',
-			'click [data-action="toggle-menu"]': 'toggle',
-			'click [data-action="edit"]':        'edit',
-			'click [data-action="remove"]':      'unset',
-			'click [data-action="featured"]':    'set_featured'
-		},
+	/**
+	 * Initialize the View.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    object    Options
+	 *
+	 * @return   null
+	 */
+	initialize : function( options ) {
 
-		/**
-		 * Initialize the View.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    Options
-		 * 
-		 * @return   null
-		 */
-		initialize: function( options ) {
+		this.model = options.model || {};
+		this.controller = options.controller || {};
+		this.collection = options.collection || {};
+		this.parent     = options.parent     || {};
 
-			this.model = options.model || {};
-			this.controller = options.controller || {};
-			this.collection = options.collection || {};
-			this.parent     = options.parent     || {};
+		this.menu = false;
+		this.on( 'toggle:menu', this.render, this );
+	},
 
-			this.menu = false;
-			this.on( 'toggle:menu', this.render, this );
-		},
+	/**
+	 * Render the View.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	render : function() {
 
-		/**
-		 * Render the View.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		render: function() {
+		var data = _.extend( this.model.toJSON() || {}, {
+			menu   : this.menu,
+			type   : this.type
+		} );
 
-			var data = _.extend( this.model.toJSON() || {}, {
-				menu   : this.menu,
-				type   : this.type
+		this.$el.html( this.template( data ) );
+
+		return this;
+	},
+
+	/**
+	 *
+	 *
+	 * @since    3.0
+	 *
+	 * @param    object    JS 'click' Event
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	toggle : function( event ) {
+
+		this.menu = ! this.menu;
+		this.trigger( 'toggle:menu' );
+
+		if ( true === this.menu ) {
+			var self = this;
+			wpmoly.$( 'body' ).one( 'click', function() {
+				self.menu = false;
+				self.trigger( 'toggle:menu' );
 			} );
-
-			this.$el.html( this.template( data ) );
-
-			return this;
-		},
-
-		/**
-		 * 
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    JS 'click' Event
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		toggle: function( event ) {
-
-			this.menu = ! this.menu;
-			this.trigger( 'toggle:menu' );
-
-			if ( true === this.menu ) {
-				var self = this;
-				wpmoly.$( 'body' ).one( 'click', function() {
-					self.menu = false;
-					self.trigger( 'toggle:menu' );
-				} );
-			}
-		},
-
-		/**
-		 * Open WP Image Editor
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    JS 'click' Event
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		edit: function( event ) {
-
-			wpmoly.trigger( 'editor:image:edit:open', this.model );
-
-			return this;
-		},
-
-		/**
-		 * Remove image from backdrops/posters.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    JS 'click' Event
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		unset: function( event ) {
-
-			wpmoly.trigger( 'editor:image:remove', this.model, this.type, this.collection );
-
-			return this;
-		},
-
-		/**
-		 * Set poster as featured image.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    JS 'click' Event
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		set_featured: function( event ) {
-
-			wpmoly.trigger( 'editor:image:featured', this.model );
-			this.trigger( 'toggle:menu' );
-
-			return this;
-		},
-
-		/**
-		 * Deactivate links.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    object    JS 'click' Event
-		 * 
-		 * @return   Returns itself to allow chaining.
-		 */
-		preventDefault: function( event ) {
-
-			event.stopPropagation();
-			event.preventDefault();
 		}
+	},
 
-	})
+	/**
+	 * Open WP Image Editor
+	 *
+	 * @since    3.0
+	 *
+	 * @param    object    JS 'click' Event
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	edit : function( event ) {
 
-} );
+		wpmoly.trigger( 'editor:image:edit:open', this.model );
 
-_.extend( wpmoly.view, {
+		return this;
+	},
 
-	BackdropMore: wpmoly.view.ImageMore.extend({
+	/**
+	 * Remove image from backdrops/posters.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    object    JS 'click' Event
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	unset : function( event ) {
 
-		tagName: 'li',
+		wpmoly.trigger( 'editor:image:remove', this.model, this.type, this.collection );
 
-		className: 'wpmoly-image wpmoly-backdrop',
+		return this;
+	},
 
-		type: 'backdrop'
-	}),
+	/**
+	 * Set poster as featured image.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    object    JS 'click' Event
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	set_featured : function( event ) {
 
-	PosterMore: wpmoly.view.ImageMore.extend({
+		wpmoly.trigger( 'editor:image:featured', this.model );
+		this.trigger( 'toggle:menu' );
 
-		tagName: 'li',
+		return this;
+	},
 
-		className: 'wpmoly-image wpmoly-poster',
+	/**
+	 * Deactivate links.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    object    JS 'click' Event
+	 *
+	 * @return   Returns itself to allow chaining.
+	 */
+	preventDefault : function( event ) {
 
-		type: 'poster'
-	}),
+		event.stopPropagation();
+		event.preventDefault();
+	},
 
-	Backdrop: wpmoly.view.Image.extend({
+});
 
-		tagName: 'li',
+wpmoly.view.BackdropMore = wpmoly.view.ImageMore.extend({
 
-		className: 'wpmoly-imported-image wpmoly-imported-backdrop',
+	tagName : 'li',
 
-		type: 'backdrop'
+	className : 'wpmoly-image wpmoly-backdrop',
 
-	}),
+	type : 'backdrop',
 
-	Poster: wpmoly.view.Image.extend({
+});
 
-		tagName: 'li',
+wpmoly.view.PosterMore = wpmoly.view.ImageMore.extend({
 
-		className: 'wpmoly-imported-image wpmoly-imported-poster',
+	tagName : 'li',
 
-		type: 'poster'
+	className : 'wpmoly-image wpmoly-poster',
 
-	})
-} );
+	type : 'poster',
+
+});
+
+wpmoly.view.Backdrop = wpmoly.view.Image.extend({
+
+	tagName : 'li',
+
+	className : 'wpmoly-imported-image wpmoly-imported-backdrop',
+
+	type : 'backdrop',
+
+});
+
+wpmoly.view.Poster = wpmoly.view.Image.extend({
+
+	tagName : 'li',
+
+	className : 'wpmoly-imported-image wpmoly-imported-poster',
+
+	type : 'poster',
+
+});

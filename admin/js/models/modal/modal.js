@@ -1,4 +1,3 @@
-
 wpmoly = window.wpmoly || {};
 
 var Modal = wpmoly.model.Modal = {};
@@ -7,26 +6,19 @@ Modal.ImagesCache = new Backbone.Collection;
 
 _.extend( Modal, {
 
-	Image: Backbone.Model.extend({}),
-} );
+	Images : Backbone.Collection.extend({
 
-_.extend( Modal, {
-
-	Images: Backbone.Collection.extend({
-
-		model: wpmoly.model.Modal.Image,
+		model : Backbone.Model,
 
 		/**
 		 * Initialize the Collection.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    collection
 		 * @param    object    options
-		 * 
-		 * @return   void
 		 */
-		initialize: function( collection, options ) {
+		initialize : function( collection, options ) {
 
 			var options = options || {};
 			this.controller = options.controller;
@@ -36,16 +28,14 @@ _.extend( Modal, {
 
 		/**
 		 * Backbone.sync override.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    method
 		 * @param    object    collection
 		 * @param    object    options
-		 * 
-		 * @return   void
 		 */
-		sync: function( method, collection, options ) {
+		sync : function( method, collection, options ) {
 
 			if ( 'read' == method ) {
 
@@ -67,7 +57,7 @@ _.extend( Modal, {
 						_nonce  : '',
 						post_id : this.controller.post_id,
 						tmdb_id : this.controller.tmdb_id
-					}
+					},
 				} ).done( function( response ) {
 
 					if ( reload || this.cache.isEmpty() ) {
@@ -84,9 +74,10 @@ _.extend( Modal, {
 
 			} else {
 				return Backbone.sync.apply( this, arguments );
-			}
-		}
+			} // End if().
 
-	})
+		},
+
+	}),
 
 } );

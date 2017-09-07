@@ -21,25 +21,25 @@ use wpmoly\Templates\Admin as Template;
  * @subpackage WPMovieLibrary/admin
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class PermalinkSettings {
+class Permalink_Settings {
 
 	/**
 	 * Default permalinks slugs.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $slugs;
 
 	/**
 	 * Default permalink settings.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $defaults;
 
 	/**
 	 * Existing permalinks settings.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $permalinks;
@@ -47,18 +47,115 @@ class PermalinkSettings {
 	/**
 	 * Singleton.
 	 *
-	 * @var    Rewrite
+	 * @var    \wpmoly\Core\Rewrite
 	 */
 	private static $instance = null;
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	private function __construct() {}
 
-	private function add_permalinks() {
+	/**
+	 * Singleton.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   \wpmoly\Admin\Permalink_Settings
+	 */
+	final public static function get_instance() {
+
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new static;
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Add a new block to the Permalink settings option page.
+	 *
+	 * @since    3.0
+	 */
+	public function register() {
+
+		$this->register_permalinks();
+		$this->register_settings();
+
+		add_settings_section( 'wpmoly-permalink', __( 'Movie Library Permalinks', 'wpmovielibrary' ), array( $this, 'register_sections' ), 'permalink' );
+	}
+
+	/**
+	 * Display a custom metabox-ish permalink settings block.
+	 *
+	 * @since    3.0
+	 */
+	public function register_sections() {
+
+		$enabled = ! empty( get_option( 'rewrite_rules' ) );
+
+		$metabox = new Template( 'permalink-settings.php' );
+		$metabox->set_data( array(
+			'settings'   => $this->settings,
+			'permalinks' => $this->permalinks,
+			'enabled'    => $enabled,
+		) );
+
+		$metabox->render();
+	}
+
+	/**
+	 * Retrieve permalink settings.
+	 *
+	 * @since    3.0
+	 *
+	 * @return   array
+	 */
+	public function get_permalinks() {
+
+		$permalinks = array();
+		if ( is_null( $this->permalinks ) ) {
+			$permalinks = get_option( 'wpmoly_permalinks' );
+		}
+
+		if ( empty( $permalinks ) ) {
+			$permalinks = array();
+		}
+
+		$this->permalinks = wp_parse_args( $permalinks, $this->defaults );
+
+		return $this->permalinks;
+	}
+
+	/**
+	 * Save permalink settings.
+	 *
+	 * @since    3.0
+	 */
+	private function set_permalinks() {
+
+		/**
+		 * Filter the permalink settings before saving.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    array    $permalinks
+		 */
+		$permalinks = apply_filters( 'wpmoly/filter/permalinks', $this->permalinks );
+
+		update_option( 'wpmoly_permalinks', $permalinks );
+	}
+
+	/**
+	 * Register permalinks.
+	 *
+	 * Add a set of custom permalinks for movies and taxonomies.
+	 *
+	 * @since    3.0
+	 */
+	private function register_permalinks() {
 
 		$slugs = array(
 			'movie'       => _x( 'movie', 'slug', 'wpmovielibrary' ),
@@ -68,14 +165,14 @@ class PermalinkSettings {
 			'movies'      => _x( 'movies', 'slug', 'wpmovielibrary' ),
 			'actors'      => _x( 'actors', 'slug', 'wpmovielibrary' ),
 			'collections' => _x( 'collections', 'slug', 'wpmovielibrary' ),
-			'genres'      => _x( 'genres', 'slug', 'wpmovielibrary' )
+			'genres'      => _x( 'genres', 'slug', 'wpmovielibrary' ),
 		);
 
 		/**
 		 * Default permalink slugs.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $slugs
 		 */
 		$this->slugs = apply_filters( 'wpmoly/filter/permalinks/slugs/defaults', $slugs );
@@ -88,23 +185,30 @@ class PermalinkSettings {
 			'movies'      => '/' . $this->slugs['movies'] . '/',
 			'actors'      => '/' . $this->slugs['actors'] . '/',
 			'collections' => '/' . $this->slugs['collections'] . '/',
-			'genres'      => '/' . $this->slugs['genres'] . '/'
+			'genres'      => '/' . $this->slugs['genres'] . '/',
 		);
 
 		/**
 		 * Default permalink structures.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $defaults
 		 */
 		$this->defaults = apply_filters( 'wpmoly/filter/permalinks/defaults', $defaults );
 
 		$this->permalinks = $this->get_permalinks();
-
 	}
 
-	private function add_settings() {
+	/**
+	 * Register settings.
+	 *
+	 * Use a ButterBean-like set of settings to create a settings metabox
+	 * for the Permalinks setting page.
+	 *
+	 * @since    3.0
+	 */
+	private function register_settings() {
 
 		$settings = array(
 			'movie-permalinks' => array(
@@ -119,46 +223,46 @@ class PermalinkSettings {
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movie'] . '/',
-								'description' => home_url() . '/' . $this->slugs['movie'] . '/interstellar/'
+								'description' => home_url() . '/' . $this->slugs['movie'] . '/interstellar/',
 							),
 							'title_year' => array(
 								'label'  => __( 'Title and Year', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movie'] . '/%year%/',
-								'description' => home_url() . '/' . $this->slugs['movie'] . '/2016/interstellar/'
+								'description' => home_url() . '/' . $this->slugs['movie'] . '/2016/interstellar/',
 							),
 							'title_month' => array(
 								'label'  => __( 'Title and Month', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movie'] . '/%year%/%monthnum%/',
-								'description' => home_url() . '/' . $this->slugs['movie'] . '/2016/08/interstellar/'
+								'description' => home_url() . '/' . $this->slugs['movie'] . '/2016/08/interstellar/',
 							),
 							'title_release_year' => array(
 								'label'  => __( 'Title and Release Year', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movie'] . '/%release_year%/',
-								'description' => home_url() . '/' . $this->slugs['movie'] . '/2014/interstellar/'
+								'description' => home_url() . '/' . $this->slugs['movie'] . '/2014/interstellar/',
 							),
 							'title_release_month' => array(
 								'label'  => __( 'Title and Release Month', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movie'] . '/%release_year%/%release_monthnum%/',
-								'description' => home_url() . '/' . $this->slugs['movie'] . '/2014/10/interstellar/'
+								'description' => home_url() . '/' . $this->slugs['movie'] . '/2014/10/interstellar/',
 							),
 							'imdb_id' => array(
 								'label'  => __( 'Title and IMDb ID', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movie'] . '/%imdb_id%/',
-								'description' => home_url() . '/' . $this->slugs['movie'] . '/tt0816692/interstellar/'
+								'description' => home_url() . '/' . $this->slugs['movie'] . '/tt0816692/interstellar/',
 							),
 							'tmdb_id' => array(
 								'label'  => __( 'Title and TMDb ID', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movie'] . '/%tmdb_id%/',
-								'description' => home_url() . '/' . $this->slugs['movie'] . '/157336/interstellar/'
+								'description' => home_url() . '/' . $this->slugs['movie'] . '/157336/interstellar/',
 							),
 							'archive' => array(
 								'label'  => __( 'Archive base', 'wpmovielibrary' ),
 								'value'  => '/' . trim( $this->permalinks['movies'], '/' ) . '/',
-								'description' => home_url() . '/' . trim( $this->permalinks['movies'], '/' ) . '/interstellar/'
-							)
+								'description' => home_url() . '/' . trim( $this->permalinks['movies'], '/' ) . '/interstellar/',
+							),
 						),
 						'default' => 'archive',
-						'custom'  => true
+						'custom'  => true,
 					),
 					'movies' => array(
 						'type' => 'radio',
@@ -168,13 +272,13 @@ class PermalinkSettings {
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['movies'] . '/',
-								'description' => home_url() . '/' . $this->slugs['movies'] . '/'
-							)
+								'description' => home_url() . '/' . $this->slugs['movies'] . '/',
+							),
 						),
 						'default' => 'simple',
-						'custom'  => true
-					)
-				)
+						'custom'  => true,
+					),
+				),
 			),
 			'actor-permalinks' => array(
 				'title'  => __( 'Actors', 'wpmovielibrary' ),
@@ -188,16 +292,16 @@ class PermalinkSettings {
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['actor'] . '/',
-								'description' => home_url() . '/' . $this->slugs['actor'] . '/matthew-mcconaughey/'
+								'description' => home_url() . '/' . $this->slugs['actor'] . '/matthew-mcconaughey/',
 							),
 							'archive' => array(
 								'label'  => __( 'Archive base', 'wpmovielibrary' ),
 								'value'  => '/' . trim( $this->permalinks['actors'], '/' ) . '/',
-								'description' => home_url() . '/' . trim( $this->permalinks['actors'], '/' ) . '/matthew-mcconaughey/'
-							)
+								'description' => home_url() . '/' . trim( $this->permalinks['actors'], '/' ) . '/matthew-mcconaughey/',
+							),
 						),
 						'default' => 'simple',
-						'custom'  => false
+						'custom'  => false,
 					),
 					'actors' => array(
 						'type' => 'radio',
@@ -207,13 +311,13 @@ class PermalinkSettings {
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['actors'] . '/',
-								'description' => home_url() . '/' . $this->slugs['actors'] . '/'
-							)
+								'description' => home_url() . '/' . $this->slugs['actors'] . '/',
+							),
 						),
 						'default' => 'simple',
-						'custom'  => true
-					)
-				)
+						'custom'  => true,
+					),
+				),
 			),
 			'genre-permalinks' => array(
 				'title'  => __( 'Genres', 'wpmovielibrary' ),
@@ -227,16 +331,16 @@ class PermalinkSettings {
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['genre'] . '/',
-								'description' => home_url() . '/' . $this->slugs['genre'] . '/science-fiction/'
+								'description' => home_url() . '/' . $this->slugs['genre'] . '/science-fiction/',
 							),
 							'archive' => array(
 								'label'  => __( 'Archive base', 'wpmovielibrary' ),
 								'value'  => '/' . trim( $this->permalinks['genres'], '/' ) . '/',
-								'description' => home_url() . '/' . trim( $this->permalinks['genres'], '/' ) . '/science-fiction/'
-							)
+								'description' => home_url() . '/' . trim( $this->permalinks['genres'], '/' ) . '/science-fiction/',
+							),
 						),
 						'default' => 'simple',
-						'custom'  => false
+						'custom'  => false,
 					),
 					'genres' => array(
 						'type' => 'radio',
@@ -246,13 +350,13 @@ class PermalinkSettings {
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['genres'] . '/',
-								'description' => home_url() . '/' . $this->slugs['genres'] . '/'
-							)
+								'description' => home_url() . '/' . $this->slugs['genres'] . '/',
+							),
 						),
 						'default' => 'simple',
-						'custom'  => true
-					)
-				)
+						'custom'  => true,
+					),
+				),
 			),
 			'collection-permalinks' => array(
 				'title'  => __( 'Collections', 'wpmovielibrary' ),
@@ -266,16 +370,16 @@ class PermalinkSettings {
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['collection'] . '/',
-								'description' => home_url() . '/' . $this->slugs['collection'] . '/christopher-nolan/'
+								'description' => home_url() . '/' . $this->slugs['collection'] . '/christopher-nolan/',
 							),
 							'archive' => array(
 								'label'  => __( 'Archive base', 'wpmovielibrary' ),
 								'value'  => '/' . trim( $this->permalinks['collections'], '/' ) . '/',
-								'description' => home_url() . '/' . trim( $this->permalinks['collections'], '/' ) . '/christopher-nolan/'
-							)
+								'description' => home_url() . '/' . trim( $this->permalinks['collections'], '/' ) . '/christopher-nolan/',
+							),
 						),
 						'default' => 'simple',
-						'custom'  => false
+						'custom'  => false,
 					),
 					'collections' => array(
 						'type' => 'radio',
@@ -285,14 +389,14 @@ class PermalinkSettings {
 							'simple' => array(
 								'label'  => __( 'Simple', 'wpmovielibrary' ),
 								'value'  => '/' . $this->slugs['collections'] . '/',
-								'description' => home_url() . '/' . $this->slugs['collections'] . '/'
-							)
+								'description' => home_url() . '/' . $this->slugs['collections'] . '/',
+							),
 						),
 						'default' => 'simple',
-						'custom'  => true
-					)
-				)
-			)
+						'custom'  => true,
+					),
+				),
+			),
 		);
 
 		if ( has_movie_archives_page() ) {
@@ -302,87 +406,33 @@ class PermalinkSettings {
 
 		if ( ! has_actor_archives_page() ) {
 			$settings['actor-permalinks']['fields']['actors']['disabled'] = true;
-			$settings['actor-permalinks']['fields']['actors']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for actors yet, which makes this setting meaningless. Define an archive page by <a href="%s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
+			$settings['actor-permalinks']['fields']['actors']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for actors yet, which makes this setting meaningless. Define an archive page by <a href="%1$s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%2$s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
 		}
 
 		if ( ! has_genre_archives_page() ) {
 			$settings['genre-permalinks']['fields']['genres']['disabled'] = true;
-			$settings['genre-permalinks']['fields']['genres']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for genres yet, which makes this setting meaningless. Define an archive page by <a href="%s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
+			$settings['genre-permalinks']['fields']['genres']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for genres yet, which makes this setting meaningless. Define an archive page by <a href="%1$s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%2$s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
 		}
 
 		if ( ! has_collection_archives_page() ) {
 			$settings['collection-permalinks']['fields']['collections']['disabled'] = true;
-			$settings['collection-permalinks']['fields']['collections']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for collections yet, which makes this setting meaningless. Define an archive page by <a href="%s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
+			$settings['collection-permalinks']['fields']['collections']['description'] .= '<p><em>' . sprintf( __( 'You don’t have any archive page set for collections yet, which makes this setting meaningless. Define an archive page by <a href="%1$s">creating a standard WordPress page</a> and set it as archive in the relevant Metabox. <a href="%2$s">Learn more about archive pages</a>.', 'wpmovielibrary' ), esc_url( admin_url( 'post-new.php?post_type=page' ) ), esc_url( '#' ) ) . '</em></p>';
 		}
 
 		/**
 		 * Filter default permalinks settings.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $settings
 		 */
 		$this->settings = apply_filters( 'wpmoly/filter/permalinks/settings', $settings );
 	}
 
 	/**
-	 * Singleton.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   Singleton
-	 */
-	final public static function get_instance() {
-
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new static;
-		}
-
-		return self::$instance;
-	}
-
-	/**
-	 * Add a new block to the Permalink settings option page.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function register() {
-
-		$this->add_permalinks();
-		$this->add_settings();
-
-		add_settings_section( 'wpmoly-permalink', __( 'Movie Library Permalinks', 'wpmovielibrary' ), array( $this, 'register_sections' ), 'permalink' );
-	}
-
-	/**
-	 * Display a custom metabox-ish permalink settings block.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	public function register_sections() {
-
-		$enabled = ! empty( get_option( 'rewrite_rules' ) );
-
-		$metabox = new Template( 'permalink-settings.php' );
-		$metabox->set_data( array(
-			'settings'   => $this->settings,
-			'permalinks' => $this->permalinks,
-			'enabled'    => $enabled
-		) );
-
-		$metabox->render();
-	}
-
-	/**
 	 * Save custom permalinks.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function update() {
 
@@ -401,10 +451,14 @@ class PermalinkSettings {
 
 		foreach ( $this->defaults as $name => $permalink ) {
 			if ( ! empty( $new_permalinks[ $name ] ) ) {
-				if ( 'custom' == $new_permalinks[ $name ] && ! empty( $new_permalinks["custom_{$name}"] ) ) {
-					$permalink = $new_permalinks["custom_{$name}"];
+				if ( 'custom' == $new_permalinks[ $name ] && ! empty( $new_permalinks[ "custom_{$name}" ] ) ) {
+					$permalink = $new_permalinks[ "custom_{$name}" ];
 					$permalink = str_replace( array(
-						'%postname%', '%movie%', '%actor%', '%collection%', '%genre%', 
+						'%postname%',
+						'%movie%',
+						'%actor%',
+						'%collection%',
+						'%genre%',
 					), '', $permalink );
 					$permalink = preg_replace( '/([^:])(\/{2,})/', '$1/', $permalink );
 				} else {
@@ -417,48 +471,6 @@ class PermalinkSettings {
 
 		$this->permalinks = $permalinks;
 		$this->set_permalinks();
-	}
-
-	/**
-	 * Retrieve permalink settings.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   array
-	 */
-	public function get_permalinks() {
-
-		$permalinks = array();
-		if ( is_null( $this->permalinks ) ) {
-			$permalinks = get_option( 'wpmoly_permalinks' );
-		}
-
-		if ( empty( $permalinks ) ) {
-			$permalinks = array();
-		}
-
-		return $this->permalinks = wp_parse_args( $permalinks, $this->defaults );
-	}
-
-	/**
-	 * Save permalink settings.
-	 * 
-	 * @since    3.0
-	 * 
-	 * @return   void
-	 */
-	private function set_permalinks() {
-
-		/**
-		 * Filter the permalink settings before saving.
-		 * 
-		 * @since    3.0
-		 * 
-		 * @param    array    $permalinks
-		 */
-		$permalinks = apply_filters( 'wpmoly/filter/permalinks', $this->permalinks );
-
-		update_option( 'wpmoly_permalinks', $permalinks );
 	}
 
 }

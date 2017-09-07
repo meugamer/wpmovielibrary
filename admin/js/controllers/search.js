@@ -1,18 +1,15 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.controller, {
 
-	Search: Backbone.Model.extend({
+	Search : Backbone.Model.extend({
 
 		/**
 		 * Initialize the Model.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
-		 * @return   void
 		 */
-		initialize: function( attributes, options ) {
+		initialize : function( attributes, options ) {
 
 			this.post_id = options.post_id || '';
 
@@ -21,9 +18,9 @@ _.extend( wpmoly.controller, {
 
 			// API block
 			this.api       = wpmoly.api;
-			this.settings  = new wpmoly.model.Settings( _wpmoly_search_settings || {}, { controller: this } );
-			this.search    = new wpmoly.model.Search( { query: $title.val() }, { controller: this } );
-			this.status    = new wpmoly.model.Status( null, { controller: this } );
+			this.settings  = new wpmoly.model.Settings( _wpmoly_search_settings || {}, { controller : this } );
+			this.search    = new wpmoly.model.Search( { query : $title.val() }, { controller : this } );
+			this.status    = new wpmoly.model.Status( null, { controller : this } );
 			this.results   = new wpmoly.model.Results( null, { controller  : this } );
 
 			// Bind events
@@ -32,12 +29,10 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Bind controller events.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
-		 * @return   void
 		 */
-		bindEvents: function() {
+		bindEvents : function() {
 
 			this.listenTo( this.api, 'movie:search:start',   this.searchProcess );
 			this.listenTo( this.api, 'movie:search:success', this.searchResults );
@@ -58,22 +53,18 @@ _.extend( wpmoly.controller, {
 		 * Update the search query on post title changes.
 		 *
 		 * @since    3.0
-		 *
-		 * @return   void
 		 */
-		setTitle: function() {
+		setTitle : function() {
 
-			this.search.set({ query: wpmoly.$( '#title' ).val() });
+			this.search.set( { query : wpmoly.$( '#title' ).val() } );
 		},
 
 		/**
 		 * Save settings after asking for confirmation.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
-		 * @return   void
 		 */
-		saveSettings: function() {
+		saveSettings : function() {
 
 			var confirm = wpmoly.confirm( wpmolyL10n.replaceSettings );
 
@@ -85,12 +76,10 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Empty status history.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
-		 * @return   void
 		 */
-		cleanHistory: function() {
+		cleanHistory : function() {
 
 			this.status.reset();
 			this.status.add( new wpmoly.model.StatusMessage );
@@ -98,14 +87,14 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Search movie.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    model
-		 * 
+		 *
 		 * @return   xhr
 		 */
-		searchMovie: function( model ) {
+		searchMovie : function( model ) {
 
 			wpmoly.trigger( 'search:reset' );
 
@@ -119,7 +108,7 @@ _.extend( wpmoly.controller, {
 				return;
 			}
 
-			regexp = new RegExp(/^(id:(tt\d{5,7}))|(id:(\d{1,6}))$/i);
+			regexp = new RegExp( /^(id:(tt\d{5,7}))|(id:(\d{1,6}))$/i );
 			if ( regexp.test( query ) ) {
 				return this.api.movie.fetch( query.replace( 'id:', '' ) );
 			}
@@ -129,7 +118,7 @@ _.extend( wpmoly.controller, {
 				language             : this.settings.get( 'api_language' ) || '',
 				include_adult        : this.settings.get( 'api_adult' )    || '',
 				year                 : this.settings.get( 'search_year' )  || '',
-				primary_release_year : this.settings.get( 'search_pyear' ) || ''
+				primary_release_year : this.settings.get( 'search_pyear' ) || '',
 			};
 
 			return this.api.movie.search( query, params );
@@ -137,14 +126,12 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Search is processing, update status.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    data
-		 * 
-		 * @return   void
 		 */
-		searchProcess: function( data ) {
+		searchProcess : function( data ) {
 
 			wpmoly.trigger( 'status:start', {
 				icon    : 'icon-search',
@@ -154,14 +141,12 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Search succeed, update status and handle results.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    response
-		 * 
-		 * @return   void
 		 */
-		searchResults: function( response ) {
+		searchResults : function( response ) {
 
 			wpmoly.trigger( 'status:stop', {
 				icon    : 'icon-search',
@@ -177,16 +162,14 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Reset search results.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
-		 * @return   void
 		 */
-		searchReset: function() {
+		searchReset : function() {
 
 			wpmoly.trigger( 'status:stop', {
 				icon    : 'icon-api',
-				message : wpmolyL10n.ready
+				message : wpmolyL10n.ready,
 			} );
 
 			if ( this.results.length ) {
@@ -198,14 +181,12 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Fetch a movie.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    model
-		 * 
-		 * @return   void
 		 */
-		fetchMovie: function( model ) {
+		fetchMovie : function( model ) {
 
 			if ( this.api.locked ) {
 				return;
@@ -223,7 +204,7 @@ _.extend( wpmoly.controller, {
 				language             : this.settings.get( 'api_language' ) || '',
 				include_adult        : this.settings.get( 'api_adult' )    || '',
 				year                 : this.settings.get( 'search_year' )  || '',
-				primary_release_year : this.settings.get( 'search_pyear' ) || ''
+				primary_release_year : this.settings.get( 'search_pyear' ) || '',
 			};
 
 			this.api.movie.fetch( query, params );
@@ -231,42 +212,38 @@ _.extend( wpmoly.controller, {
 
 		/**
 		 * Import is processing, update status.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    data
-		 * 
-		 * @return   void
 		 */
-		fetchProcess: function( data ) {
+		fetchProcess : function( data ) {
 
 			wpmoly.trigger( 'status:start', {
 				icon    : 'icon-import',
 				effect  : 'bounce',
-				message : s.sprintf( wpmolyL10n.importingMovie, s.quote( data.query ) )
+				message : s.sprintf( wpmolyL10n.importingMovie, s.quote( data.query ) ),
 			} );
 		},
 
 		/**
 		 * Import succeed, update status and handle results.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    response
-		 * 
-		 * @return   void
 		 */
-		fetchResults: function( response ) {
+		fetchResults : function( response ) {
 
 			wpmoly.trigger( 'search:close' );
 
 			wpmoly.trigger( 'status:stop', {
 				icon    : 'icon-import',
 				effect  : 'bounce',
-				message : s.sprintf( wpmolyL10n.movieImported, s.quote( response.title ) || '' )
+				message : s.sprintf( wpmolyL10n.movieImported, s.quote( response.title ) || '' ),
 			} );
 
-			wpmoly.trigger( 'editor:meta:update', response, { autosave: false } );
+			wpmoly.trigger( 'editor:meta:update', response, { autosave : false } );
 
 			if ( this.settings.get( 'posters_featured' ) ) {
 				var posters = response.images.posters || [],
@@ -276,7 +253,7 @@ _.extend( wpmoly.controller, {
 					wpmoly.trigger( 'status:start', {
 						icon    : 'icon-poster',
 						effect  : 'bounce',
-						message : wpmolyL10n.importingPoster
+						message : wpmolyL10n.importingPoster,
 					} );
 				}, this );
 
@@ -284,7 +261,7 @@ _.extend( wpmoly.controller, {
 					wpmoly.trigger( 'status:stop', {
 						icon    : 'icon-poster',
 						effect  : 'bounce',
-						message : wpmolyL10n.posterImported
+						message : wpmolyL10n.posterImported,
 					} );
 
 					wpmoly.trigger( 'editor:image:featured', file.attachment );

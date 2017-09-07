@@ -20,18 +20,18 @@ use wpmoly\Core\Metabox;
  * @subpackage WPMovieLibrary/admin
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class MovieEditor extends Metabox {
+class Movie_Editor extends Metabox {
 
 	/**
 	 * Current Post ID.
-	 * 
+	 *
 	 * @var    int
 	 */
 	private $post_id;
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function __construct() {
@@ -44,10 +44,8 @@ class MovieEditor extends Metabox {
 
 	/**
 	 * Define meta managers.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function add_managers() {
 
@@ -66,10 +64,13 @@ class MovieEditor extends Metabox {
 								'section'  => 'movie-meta',
 								'label'    => esc_html__( 'Meh', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Meh meh meh.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'default'  => 5
-							)
-						)
+								'attr'     => array(
+									'class' => 'half-col',
+									'size'  => '2',
+								),
+								'default'  => 5,
+							),
+						),
 					),
 					'movie-details' => array(
 						'label'    => esc_html__( 'Details', 'wpmovielibrary' ),
@@ -80,10 +81,13 @@ class MovieEditor extends Metabox {
 								'section'  => 'movie-details',
 								'label'    => esc_html__( 'Meh', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Meh meh meh.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'default'  => 5
-							)
-						)
+								'attr'     => array(
+									'class' => 'half-col',
+									'size'  => '2',
+								),
+								'default'  => 5,
+							),
+						),
 					),
 					'movie-cast' => array(
 						'label'    => esc_html__( 'Cast', 'wpmovielibrary' ),
@@ -94,10 +98,13 @@ class MovieEditor extends Metabox {
 								'section'  => 'movie-cast',
 								'label'    => esc_html__( 'Meh', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Meh meh meh.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'default'  => 5
-							)
-						)
+								'attr'     => array(
+									'class' => 'half-col',
+									'size'  => '2',
+								),
+								'default'  => 5,
+							),
+						),
 					),
 					'movie-crew' => array(
 						'label'    => esc_html__( 'Crew', 'wpmovielibrary' ),
@@ -108,10 +115,13 @@ class MovieEditor extends Metabox {
 								'section'  => 'movie-crew',
 								'label'    => esc_html__( 'Meh', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Meh meh meh.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'default'  => 5
-							)
-						)
+								'attr'     => array(
+									'class' => 'half-col',
+									'size'  => '2',
+								),
+								'default'  => 5,
+							),
+						),
 					),
 					'movie-backdrops' => array(
 						'label'    => esc_html__( 'Backdrops', 'wpmovielibrary' ),
@@ -122,10 +132,13 @@ class MovieEditor extends Metabox {
 								'section'  => 'movie-backdrops',
 								'label'    => esc_html__( 'Meh', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Meh meh meh.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'default'  => 5
-							)
-						)
+								'attr'     => array(
+									'class' => 'half-col',
+									'size'  => '2',
+								),
+								'default'  => 5,
+							),
+						),
 					),
 					'movie-posters' => array(
 						'label'    => esc_html__( 'Posters', 'wpmovielibrary' ),
@@ -136,23 +149,24 @@ class MovieEditor extends Metabox {
 								'section'  => 'movie-posters',
 								'label'    => esc_html__( 'Meh', 'wpmovielibrary' ),
 								'description' => esc_html__( 'Meh meh meh.', 'wpmovielibrary' ),
-								'attr'     => array( 'class' => 'half-col', 'size' => '2' ),
-								'default'  => 5
-							)
-						)
-					)
-				)
-			)
+								'attr'     => array(
+									'class' => 'half-col',
+									'size'  => '2',
+								),
+								'default'  => 5,
+							),
+						),
+					),
+				),
+			),
 		);
 
 	}
 
 	/**
 	 * Load frameworks if needed.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function load_meta_frameworks() {
 
@@ -166,10 +180,8 @@ class MovieEditor extends Metabox {
 
 	/**
 	 * Define metaboxes.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function add_metaboxes() {}
 

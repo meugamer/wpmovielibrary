@@ -23,32 +23,32 @@ class Grid extends Shortcode {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
-	 * 
+	 *
 	 * @var    string
 	 */
 	public static $name = 'grid';
 
 	/**
 	 * Shortcode attributes sanitizers
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $validates = array(
 		'id' => array(
 			'default' => '',
 			'values'  => null,
-			'filter'  => 'intval'
+			'filter'  => 'intval',
 		),
 		'mode' => array(
 			'default' => 'grid',
 			'values'  => array( 'grid', 'list', 'archive' ),
-			'filter'  => 'esc_attr'
-		)
+			'filter'  => 'esc_attr',
+		),
 	);
 
 	/**
 	 * Shortcode aliases
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected static $aliases = array(
@@ -88,12 +88,10 @@ class Grid extends Shortcode {
 
 	/**
 	 * Build the Shortcode.
-	 * 
+	 *
 	 * Prepare Shortcode parameters.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
@@ -104,11 +102,11 @@ class Grid extends Shortcode {
 
 	/**
 	 * Run the Shortcode.
-	 * 
+	 *
 	 * Perform all needed Shortcode stuff.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Shortcode
 	 */
 	public function run() {
@@ -123,12 +121,10 @@ class Grid extends Shortcode {
 
 	/**
 	 * Initialize the Shortcode.
-	 * 
+	 *
 	 * Run things before doing anything.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function init() {}
 }

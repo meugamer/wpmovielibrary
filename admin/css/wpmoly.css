@@ -1,3 +1,6 @@
+/**
+ * Plugin main admin stylesheet.
+ */
 
 .clearfix:after {
 	clear: both;
@@ -902,9 +905,7 @@
  * Editor Metabox CSS trick: use tabs even when JS is disabled
  */
 
-#wpmoly-meta.css-powered {
-	
-}
+#wpmoly-meta.css-powered {}
 
 #wpmoly-meta.css-powered .no-js-alert {
 	font-style: italic;
@@ -1250,7 +1251,6 @@
 }
 
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image {
-	/*background: #e2ecf2;*/
 	background: #3190c6;
 	height: 220px;
 	position: relative;
@@ -1359,7 +1359,6 @@
 
 #wpmoly-metabox #wpmoly-meta .wpmoly-images-editor .wpmoly-images-editor-preview a.button-link {
 	color: #ddd;
-	/*display: block;*/
 	font-size: 24px;
 	height: 42px;
 	line-height: 42px;
@@ -1712,7 +1711,7 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
  * Responsive
  */
 
-@media screen and (min-width: 1520px) {
+@media screen and (min-width:1520px) {
 
 	/*#wpmoly-metabox #wpmoly-movie-preview .wpmoly-movie-preview-poster {
 		margin: 0 8% !important;
@@ -1746,14 +1745,14 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
 	}*/
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width:1400px) {
 
 	#wpmoly-metabox #wpmoly-meta .panel .wpmoly-meta-edit.half {
 		width: 49.65%;
 	}
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width:1280px) {
 
 	#wpmoly-metabox #wpmoly-meta #wpmoly-meta-details-panel .wpmoly-details-item.half {
 		width: 49.5%;
@@ -1789,7 +1788,7 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
 	}
 }
 
-@media screen and (max-width: 1170px) {
+@media screen and (max-width:1170px) {
 
 	#wpmoly-metabox #wpmoly-movie-preview .wpmoly-movie-preview-meta {
 		width: 100%;
@@ -1826,7 +1825,7 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
 	}
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width:1024px) {
 
 	#wpmoly-metabox #wpmoly-meta #wpmoly-meta-menu {
 		margin-left: -50px;
@@ -1848,10 +1847,9 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
 		margin-left: 48px;
 	}
 
-	
 }
 
-@media only screen and ( max-width: 782px ), ( max-width: 980px ) and ( min-width: 851px ) {
+@media only screen and (max-width:782px), (max-width:980px) and (min-width:851px) {
 
 	.butterbean-manager-default .butterbean-content {
 		width: calc( 100% - 80px ) !important;

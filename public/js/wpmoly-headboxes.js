@@ -1,38 +1,6 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
-
-	/*headboxes = wpmoly.headboxes = {
-
-		runned: false,
-
-		views: [],
-
-		run: function() {
-
-			var headboxes = document.querySelectorAll( '.wpmoly.headbox' ),
-			        views = {
-					default  : wpmoly.view.DefaultHeadbox,
-					extended : wpmoly.view.ExtendedHeadbox,
-					vintage  : wpmoly.view.VintagHeadbox,
-				};
-
-			_.each( headboxes, function( headbox ) {
-				var theme = headbox.getAttribute( 'data-theme' );
-				if ( ! _.isEmpty( theme ) ) {
-					var view = views[ theme ];
-					if ( ! _.isUndefined( view ) ) {
-						var view = new view({
-							el : headbox
-						});
-
-						wpmoly.headboxes.views.push( view );
-					}
-				}
-			} );
-		}
-	};*/
 
 	/**
 	 * Create a new Headbox instance.

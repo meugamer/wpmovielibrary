@@ -1,17 +1,18 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, s, Backbone ) {
 
 	Date.prototype.toAPITimeString = function() {
 
-		return _.map( [
-			this.getHours(),
-			this.getMinutes(),
-			this.getSeconds()
-		], function( d ) {
-			return s.lpad( d, 2, '0' );
-		} ).join( ':' );
+		return _.map(
+			[
+				this.getHours(),
+				this.getMinutes(),
+				this.getSeconds(),
+			], function( d ) {
+				return s.lpad( d, 2, '0' );
+			}
+		).join( ':' );
 	};
 
 	Date.prototype.toAPIDateString = function() {
@@ -25,14 +26,14 @@ wpmoly = window.wpmoly || {};
 
 	/**
 	 * Localized quote method extending underscore-string quote method.
-	 * 
+	 *
 	 * Add french quotes instead of regular quotes.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    string
 	 * @param    int       html
-	 * 
+	 *
 	 * @return   string
 	 */
 	s.aquote = function( str, html ) {
@@ -48,15 +49,15 @@ wpmoly = window.wpmoly || {};
 	 * Internal function that returns an efficient (for current engines)
 	 * version of the passed-in callback, to be repeatedly applied in other
 	 * Underscore functions.
-	 * 
+	 *
 	 * Borrowed from Underscore.js 1.8
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    function    func
 	 * @param    object      context
 	 * @param    int         argCount
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	wpmoly.optimizeCb = function( func, context, argCount ) {
@@ -66,16 +67,16 @@ wpmoly = window.wpmoly || {};
 		}
 
 		switch ( argCount == null ? 3 : argCount ) {
-			case 1: return function( value ) {
+			case 1 : return function( value ) {
 				return func.call( context, value );
 			};
-			case 2: return function( value, other ) {
+			case 2 : return function( value, other ) {
 				return func.call( context, value, other );
 			};
-			case 3: return function( value, index, collection ) {
+			case 3 : return function( value, index, collection ) {
 				return func.call( context, value, index, collection );
 			};
-			case 4: return function( accumulator, value, index, collection ) {
+			case 4 : return function( accumulator, value, index, collection ) {
 				return func.call( context, accumulator, value, index, collection );
 			};
 		}
@@ -90,15 +91,15 @@ wpmoly = window.wpmoly || {};
 	 * to each element in a collection, returning the desired result — either
 	 * identity, an arbitrary callback, a property matcher, or a property
 	 * accessor.
-	 * 
+	 *
 	 * Borrowed from Underscore.js 1.8
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    function    func
 	 * @param    object      context
 	 * @param    int         argCount
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	wpmoly.cb = function( value, context, argCount ) {
@@ -121,22 +122,22 @@ wpmoly = window.wpmoly || {};
 	/**
 	 * Returns the results of applying the iteratee to each element of the
 	 * object.
-	 * 
+	 *
 	 * In contrast to _.map it returns an object
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object      obj
 	 * @param    function    iteratee
 	 * @param    object      context
-	 * 
+	 *
 	 * @return   object
 	 */
 	_.mapObject = _.mapObject || function( obj, iteratee, context ) {
 
 		iteratee = wpmoly.cb( iteratee, context );
 
-		var keys =  _.keys(obj),
+		var keys = _.keys( obj ),
 		  length = keys.length,
 		 results = {}, currentKey;
 
@@ -188,19 +189,19 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Translation function to handle number-based strings.
-		 * 
+		 *
 		 * String should be an array containing the possible translations
 		 * [ '0 items', '1 item', '%d items'] or [ 'No item', '%d items']
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    string
 		 * @param    int       n
 		 * @param    string    param1, param
-		 * 
+		 *
 		 * @return   string
 		 */
-		_n: function( string, n ) {
+		_n : function( string, n ) {
 
 			if ( ! _.isArray( string ) ) {
 				return '';
@@ -221,14 +222,14 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Find current action's nonce value.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    Action name
-		 * 
+		 *
 		 * @return   boolean|string    Nonce value if available, false else.
 		 */
-		get: function( action ) {
+		get : function( action ) {
 
 			var nonce_name = '#_wpmolynonce_' + action.replace( /\-/g, '_' ),
 			         nonce = wpmoly.$( nonce_name ).val() || '';
@@ -238,14 +239,12 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Update current action's nonce value.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    Action name
-		 * 
-		 * @return   void
 		 */
-		set: function( action, nonce ) {
+		set : function( action, nonce ) {
 
 			var nonce_name = '#_wpmolynonce_' + action.replace( /\-/g, '_' );
 
@@ -257,14 +256,14 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Retrieve URL parameters.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    name
-		 * 
+		 *
 		 * @return   string
 		 */
-		getURLParameter: function( name ) {
+		getURLParameter : function( name ) {
 			return decodeURIComponent(
 				( new RegExp( '[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)' ).exec( window.location ) || [ null, '' ] )[1].replace( /\+/g, '%20' )
 			) || null;
@@ -272,33 +271,34 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Find bracketed tags in a string.
-		 * 
+		 *
 		 * Mainly used to prepare backdrops/posters titles and captions.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    string String to parse
-		 * 
+		 *
 		 * @return   array
 		 */
-		matchTags: function( string ) {
+		matchTags : function( string ) {
 
 			var reg = /{([^}]+),(\d)}|{([^}]+)}/gi,
 			m, tags = [];
 
 			while ( null !== ( m = reg.exec( string ) ) ) {
+
 				if ( m.index === reg.lastIndex ) {
 					reg.lastIndex++;
 				}
 
-				// Simple tag {tag}
 				if ( m[3] && ! m[1] ) {
+					// Simple tag {tag}
 					tags.push({
 						tag  : m[0],
-						meta : m[3]
+						meta : m[3],
 					});
-				// Complex tag {tag,n}
 				} else if ( m[1] && ! m[3] ) {
+					// Complex tag {tag,n}
 					tags.push({
 						tag  : m[0],
 						meta : m[1],
@@ -312,22 +312,22 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Generate a pagination menu.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    int       current
 		 * @param    int       total
 		 * @param    object    options
-		 * 
+		 *
 		 * @return   string
 		 */
-		paginate: function( current, total, options ) {
+		paginate : function( current, total, options ) {
 
 			var options = options || {},
-			        tag = options.tag || 'li',
-			      items = [];
+			tag = options.tag || 'li',
+			items = [];
 
-			if( 1 >= total ) {
+			if ( 1 >= total ) {
 				return;
 			}
 
@@ -346,7 +346,7 @@ wpmoly = window.wpmoly || {};
 				if ( current === total && total > 3 ) {
 					items.push( '<' + tag + '><a data-pagination="' + ( current - 2 ) + '" href="#">' + ( current - 2 ) + '</a></' + tag + '>' );
 				}
-				items.push( '<' + tag + '><a data-pagination="' + ( current - 1 ) + '" href="#">' + ( current - 1 ) + '</a></' + tag + '>');
+				items.push( '<' + tag + '><a data-pagination="' + ( current - 1 ) + '" href="#">' + ( current - 1 ) + '</a></' + tag + '>' );
 			}
 
 			if ( current != 1 && current != total ) {
@@ -372,7 +372,8 @@ wpmoly = window.wpmoly || {};
 			}
 
 			return items;
-		}
+		},
+
 	};
 
 })( jQuery, _, s, Backbone );

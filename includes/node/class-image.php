@@ -18,7 +18,7 @@ namespace wpmoly\Node;
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
- * 
+ *
  * @property    string    $title Attachment title.
  * @property    string    $description Attachment description.
  * @property    string    $excerpt Attachment excerpt.
@@ -28,31 +28,29 @@ class Image {
 
 	/**
 	 * Image ID.
-	 * 
+	 *
 	 * @var    int
 	 */
 	public $id;
 
 	/**
 	 * Image Attachment Post object
-	 * 
+	 *
 	 * @var    WP_Post
 	 */
 	protected $attachment;
 
 	/**
 	 * Image defaults sizes
-	 * 
+	 *
 	 * @var    object
 	 */
 	public $sizes;
 
 	/**
 	 * Make the Image.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function __construct( $image = null ) {
 
@@ -72,9 +70,9 @@ class Image {
 
 	/**
 	 * Get available sizes.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   object
 	 */
 	public function get_sizes() {
@@ -84,19 +82,19 @@ class Image {
 
 	/**
 	 * Set a handful of useful values for different sizes of the image.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   object
 	 */
 	public function set_defaults() {
 
-		$meta = wp_get_attachment_metadata( $this->id, $unfiltered = true );
+		$meta = wp_get_attachment_metadata( $this->id, true );
 
 		$sizes = array(
 			'thumbnail' => array(),
 			'medium'    => array(),
-			'large'     => array()
+			'large'     => array(),
 		);
 
 		// Basic WordPress image sizes
@@ -120,7 +118,7 @@ class Image {
 		$original = array(
 			'file'   => ! empty( $meta['file'] )   ? esc_attr( $meta['file'] )  : '',
 			'width'  => ! empty( $meta['width'] )  ? intval( $meta['width'] )  : '',
-			'height' => ! empty( $meta['height'] ) ? intval( $meta['height'] ) : ''
+			'height' => ! empty( $meta['height'] ) ? intval( $meta['height'] ) : '',
 		);
 
 		$src = wp_get_attachment_image_src( $this->id, 'full' );
@@ -130,57 +128,26 @@ class Image {
 
 		/**
 		 * Filter default image sizes
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    $sizes Image sizes
 		 * @param    object    $attachment Image Attachment Post
 		 */
-		return $this->sizes = apply_filters( 'wpmoly/filter/images/sizes', (object) $sizes, $this->attachment );
+		$this->sizes = apply_filters( 'wpmoly/filter/images/sizes', (object) $sizes, $this->attachment );
+
+		return $this->sizes;
 	}
-
-	/*private function filter_size( $size ) {
-
-		if ( is_array( $size ) ) {
-			return $this->filter_exact_size( $size );
-		}
-
-		$size = (string) $size;
-		if ( isset( $this->sizes[ $size ] ) ) {
-			return $size;
-		}
-
-		return 'original';
-	}
-
-	private function filter_exact_size( $size ) {
-
-		$size = (array) $size;
-		if ( empty( $size ) ) {
-			return false;
-		}
-
-		// Only focus on width
-		$size = $size[0];
-
-		foreach ( $this->sizes as $slug => $width ) {
-			if ( $width >= $size ) {
-				return $slug;
-			}
-		}
-
-		return 'original';
-	}*/
 
 	/**
 	 * Render the image.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string     $size Image size to render
 	 * @param    string     $format Raw image URL or HTML?
 	 * @param    boolean    $echo Echo or return?
-	 * 
+	 *
 	 * @return   string|null
 	 */
 	public function render( $size = 'original', $format = 'raw', $echo = true ) {
@@ -202,4 +169,5 @@ class Image {
 
 		echo $output;
 	}
+
 }

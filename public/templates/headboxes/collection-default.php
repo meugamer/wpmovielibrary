@@ -1,9 +1,9 @@
 <?php
 /**
  * Collection Headbox default template.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $headbox
  * @uses    $collection
  */

@@ -1,32 +1,22 @@
-
 wpmoly = window.wpmoly || {};
 
-_.extend( wpmoly.view.Library, {
+wpmoly.view.Library.ContentFavorites = wp.Backbone.View.extend({
 
-	ContentFavorites: wp.Backbone.View.extend({
+	className : 'wpmoly library content-import inner-menu',
 
-		className: 'wpmoly library content-import inner-menu',
+	template : wp.template( 'wpmoly-library-content-import' ),
 
-		template: wp.template( 'wpmoly-library-content-import' ),
+	/**
+	 * Initialize the View.
+	 *
+	 * @since    3.0
+	 */
+	initialize : function( options ) {
 
-		events: {
-			
-		},
+		var options = options || {};
 
-		/**
-		 * Initialize the View.
-		 *
-		 * @since    3.0
-		 *
-		 * @return   void
-		 */
-		initialize: function( options ) {
+		this.controller = options.controller || {};
 
-			var options = options || {};
+	}
 
-			this.controller = options.controller || {};
-
-		}
-
-	})
-} );
+});

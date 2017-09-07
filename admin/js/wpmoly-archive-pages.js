@@ -1,13 +1,12 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
 
 	archives = wpmoly.archives = {
 
-		runned: false,
+		runned : false,
 
-		run: function() {
+		run : function() {
 
 			var $archives = $( '#wpmoly-archives-page-type' );
 			if ( $archives.length ) {

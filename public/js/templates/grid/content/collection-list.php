@@ -1,7 +1,7 @@
 <?php
 /**
  * Default Collection List JavaScript template.
- * 
+ *
  * @since 3.0
  */
 

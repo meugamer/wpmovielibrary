@@ -25,75 +25,73 @@ abstract class Widget extends WP_Widget {
 
 	/**
 	 * Widget Root ID.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $id_base;
 
 	/**
 	 * Widget Name.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $title;
 
 	/**
 	 * Widget Class Name.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $classname;
 
 	/**
 	 * Widget Description.
-	 * 
+	 *
 	 * @var    string
 	 */
 	public $description;
 
 	/**
 	 * Widget parameters.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $args = array();
 
 	/**
 	 * Widget current instance.
-	 * 
+	 *
 	 * @var    array
 	 */
 	private $instance = array();
 
 	/**
 	 * Widget default attributes.
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $defaults = array();
 
 	/**
 	 * Widget data.
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $data = array();
 
 	/**
 	 * Widget form data.
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $formdata = array();
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * Initialize properties and run Widget constructor.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function __construct() {
 
@@ -103,47 +101,39 @@ abstract class Widget extends WP_Widget {
 			$this->id_base, $this->name,
 			array(
 				'classname'   => $this->classname,
-				'description' => $this->description
+				'description' => $this->description,
 			)
 		);
 	}
 
 	/**
 	 * Set default properties.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	abstract protected function make();
 
 	/**
 	 * Build Widget content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	abstract protected function build();
 
 	/**
 	 * Build Widget form content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	abstract protected function build_form();
 
 	/**
 	 * Echoes the widget content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $args Widget parameters.
 	 * @param    array    $instance Widget settings.
-	 * 
-	 * @return   void
 	 */
 	public function widget( $args, $instance ) {
 
@@ -155,7 +145,7 @@ abstract class Widget extends WP_Widget {
 			array(
 				'widget',
 				'wpmoly-widget',
-				$this->id_base . '-widget'
+				$this->id_base . '-widget',
 			),
 			$this->classname
 		);
@@ -164,10 +154,10 @@ abstract class Widget extends WP_Widget {
 		$template = get_widget_template( $this->id_base );
 		$template->set_data( array(
 			'widget' => $this,
-			'data'   => $this->data
+			'data'   => $this->data,
 		) );
 
-		echo $template->render( $require = 'always' );
+		echo $template->render( 'always' );
 	}
 
 	/**
@@ -178,10 +168,10 @@ abstract class Widget extends WP_Widget {
 	 * saved/updated.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $new_instance New settings for this instance.
 	 * @param    array    $old_instance Old settings for this instance.
-	 * 
+	 *
 	 * @return   array
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -200,10 +190,8 @@ abstract class Widget extends WP_Widget {
 	 * Echoes Widget settings update form.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    array    $instance Current settings.
-	 * 
-	 * @return   void
 	 */
 	public function form( $instance ) {
 
@@ -215,10 +203,10 @@ abstract class Widget extends WP_Widget {
 		$template = get_widget_template( $this->id_base );
 		$template->set_data( array(
 			'widget' => $this,
-			'data'   => $this->formdata
+			'data'   => $this->formdata,
 		) );
 
-		echo $template->render( $require = 'always' );
+		echo $template->render( 'always' );
 	}
 
 	/**
@@ -239,9 +227,9 @@ abstract class Widget extends WP_Widget {
 	 * Widget properties accessor.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name.
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function get_arg( $name ) {
@@ -253,10 +241,10 @@ abstract class Widget extends WP_Widget {
 	 * Set Widget property.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name.
 	 * @param    mixed     $value New property value.
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function set_arg( $name, $value ) {
@@ -265,16 +253,18 @@ abstract class Widget extends WP_Widget {
 			return $value;
 		}
 
-		return $this->args[ $name ] = $value;
+		$this->args[ $name ] = $value;
+
+		return $value;
 	}
 
 	/**
 	 * Get Widget instance attribute.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Attribute name.
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function get_attr( $name ) {
@@ -286,10 +276,10 @@ abstract class Widget extends WP_Widget {
 	 * Set Widget instance attribute.
 	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Attribute name.
 	 * @param    mixed     $value New Attribute value.
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function set_attr( $name, $value ) {
@@ -298,6 +288,8 @@ abstract class Widget extends WP_Widget {
 			return $value;
 		}
 
-		return $this->instance[ $name ] = $value;
+		$this->instance[ $name ] = $value;
+
+		return $value;
 	}
 }

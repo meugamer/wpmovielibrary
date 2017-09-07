@@ -1,4 +1,3 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
@@ -13,7 +12,7 @@ wpmoly = window.wpmoly || {};
 
 		$close   : $( '[data-action="close-editor"]' ),
 
-		toggle: function( toggle ) {
+		toggle : function( toggle ) {
 
 			var toggle = toggle || false;
 
@@ -25,7 +24,7 @@ wpmoly = window.wpmoly || {};
 			metabox.$close.toggleClass( 'hidden', ! toggle );
 		},
 
-		run: function() {
+		run : function() {
 
 			metabox.$open.on( 'click', function( event ) {
 
@@ -50,9 +49,10 @@ wpmoly = window.wpmoly || {};
 
 			if ( metabox.$el.length ) {
 				metabox.$el.removeClass( 'css-powered' ).addClass( 'js-powered' );
-				metabox.view = new wpmoly.view.Metabox({ el: metabox.$el });
+				metabox.view = new wpmoly.view.Metabox( { el : metabox.$el } );
 			}
-		}
+		},
+
 	};
 
 })( jQuery, _, Backbone );

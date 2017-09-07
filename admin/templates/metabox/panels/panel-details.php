@@ -1,3 +1,10 @@
+<?php
+/**
+ * Metabox details panel Template
+ *
+ * @since    3.0
+ */
+?>
 
 		<div class="no-js-alert hide-if-js"><?php _e( 'It seems you have JavaScript deactivated; the import feature will not work correctly without it, please check your browser\'s settings.', 'wpmovielibrary' ); ?></div>
 

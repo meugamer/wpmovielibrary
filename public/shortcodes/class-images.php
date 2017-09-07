@@ -26,52 +26,52 @@ class Images extends Shortcode {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
-	 * 
+	 *
 	 * @var    string
 	 */
 	public static $name = 'movie_images';
 
 	/**
 	 * Shortcode attributes sanitizers
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $validates = array(
 		'id' => array(
 			'default' => false,
 			'values'  => null,
-			'filter'  => 'intval'
+			'filter'  => 'intval',
 		),
 		'title' => array(
 			'default' => null,
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'type' => array(
 			'default' => 'backdrops',
 			'values'  => array( 'backdrop', 'backdrops', 'poster', 'posters' ),
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'number' => array(
 			'default' => -1,
 			'values'  => null,
-			'filter'  => 'intval'
+			'filter'  => 'intval',
 		),
 		'size' => array(
 			'default' => 'thumbnail',
 			'values'  => array( 'thumbnail', 'medium', 'large', 'full', 'original' ),
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'featured' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => '_is_bool'
-		)
+			'filter'  => '_is_bool',
+		),
 	);
 
 	/**
 	 * Shortcode aliases
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected static $aliases = array(
@@ -80,17 +80,15 @@ class Images extends Shortcode {
 		'movie_image'     => 'backdrop',
 		'movie_images'    => 'backdrops',
 		'movie_poster'    => 'poster',
-		'movie_posters'   => 'posters'
+		'movie_posters'   => 'posters',
 	);
 
 	/**
 	 * Build the Shortcode.
-	 * 
+	 *
 	 * Prepare Shortcode parameters.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
@@ -127,11 +125,11 @@ class Images extends Shortcode {
 
 	/**
 	 * Run the Shortcode.
-	 * 
+	 *
 	 * Perform all needed Shortcode stuff.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Shortcode
 	 */
 	public function run() {
@@ -146,7 +144,7 @@ class Images extends Shortcode {
 		$data = array(
 			'type'   => $this->attributes['type'],
 			'size'   => $this->attributes['size'],
-			'images' => $this->nodes
+			'images' => $this->nodes,
 		);
 
 		$this->template->set_data( $data );
@@ -156,9 +154,9 @@ class Images extends Shortcode {
 
 	/**
 	 * Get Movie ID from title if needed.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   int
 	 */
 	protected function get_movie_id() {
@@ -179,18 +177,18 @@ class Images extends Shortcode {
 			)
 		);
 
-		return $this->attributes['id'] = $post_id;
+		$this->attributes['id'] = $post_id;
+
+		return $post_id;
 	}
 
 	/**
 	 * Retrieve a poster.
-	 * 
+	 *
 	 * Get last uploaded poster by default, post thumbnail if 'featured' is
 	 * set to true.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function poster() {
 
@@ -206,28 +204,24 @@ class Images extends Shortcode {
 
 	/**
 	 * Retrieve posters.
-	 * 
+	 *
 	 * Get all posters if no 'number' parameter was provided.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function posters() {
 
-		$posters = $this->movie->get_posters( $language = '', $number = $this->attributes['number'] );
+		$posters = $this->movie->get_posters( '', $this->attributes['number'] );
 
 		$this->nodes = $posters;
 	}
 
 	/**
 	 * Retrieve a poster.
-	 * 
+	 *
 	 * TODO implement variants
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function backdrop() {
 
@@ -238,28 +232,24 @@ class Images extends Shortcode {
 
 	/**
 	 * Retrieve backdrops.
-	 * 
+	 *
 	 * Get all backdrops if no 'number' parameter was provided.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	private function backdrops() {
 
-		$backdrops = $this->movie->get_backdrops( $language = '', $number = $this->attributes['number'] );
+		$backdrops = $this->movie->get_backdrops( '', $this->attributes['number'] );
 
 		$this->nodes = $backdrops;
 	}
 
 	/**
 	 * Initialize the Shortcode.
-	 * 
+	 *
 	 * Run things before doing anything.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function init() {}
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * Variant-1 Movie Grid JavaScript template.
- * 
+ *
  * @since 3.0
  */
 

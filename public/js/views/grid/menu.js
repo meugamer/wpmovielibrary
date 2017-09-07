@@ -1,39 +1,36 @@
-
 wpmoly = window.wpmoly || {};
 
 wpmoly.view.GridMenu = wp.Backbone.View.extend({
 
-	className: 'grid-menu-inner',
+	className : 'grid-menu-inner',
 
-	template: wp.template( 'wpmoly-grid-menu' ),
+	template : wp.template( 'wpmoly-grid-menu' ),
 
-	events: {
+	events : {
 		'click [data-action="grid-settings"]' : 'toggleSettings',
 		'click [data-action="grid-customs"]'  : 'toggleCustoms'
 	},
 
 	/**
 	 * Initialize the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
-	 * @return   void
 	 */
-	initialize: function( options ) {
+	initialize : function( options ) {
 
 		this.controller = options.controller || {};
 	},
 
 	/**
 	 * Render the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	render: function() {
+	render : function() {
 
 		var settings = this.controller.settings,
 		     preview = this.controller.preview;
@@ -52,12 +49,12 @@ wpmoly.view.GridMenu = wp.Backbone.View.extend({
 
 	/**
 	 * Show/Hide the grid menu.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	toggleSettings: function() {
+	toggleSettings : function() {
 
 		this.controller.trigger( 'grid:settings:toggle' );
 
@@ -66,12 +63,12 @@ wpmoly.view.GridMenu = wp.Backbone.View.extend({
 
 	/**
 	 * Show/Hide the grid menu.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	toggleCustoms: function() {
+	toggleCustoms : function() {
 
 		this.controller.trigger( 'grid:customs:toggle' );
 

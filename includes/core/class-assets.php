@@ -119,27 +119,27 @@ abstract class Assets {
 
 		/**
 		 * Filter the Asset handle.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $handle Asset handle.
 		 */
 		$handle = apply_filters( 'wpmoly/filter/assets/handle', $handle );
 
 		/**
 		 * Filter the Asset URL.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $src Asset URL.
 		 */
 		$src = apply_filters( 'wpmoly/filter/assets/src', $src );
 
 		/**
 		 * Filter the Asset version.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $version Asset version.
 		 */
 		$version = apply_filters( 'wpmoly/filter/assets/version', $version );
@@ -253,11 +253,11 @@ abstract class Assets {
 
 	/**
 	 * Prefix the Asset handle with plugin slug.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $handle Asset handle.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function prefix_handle( $handle ) {
@@ -267,11 +267,11 @@ abstract class Assets {
 
 	/**
 	 * Prefix the Asset URL with plugin URL.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $src Asset URL.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function prefix_src( $src ) {
@@ -281,11 +281,11 @@ abstract class Assets {
 
 	/**
 	 * Set a default Asset version is needed.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $version Asset version.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function default_version( $version ) {

@@ -1,11 +1,11 @@
 <?php
 /**
  * Movie Headbox view Template
- * 
+ *
  * Showing a movie's allocine headbox.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $movie
  * @uses    $headbox
  */
@@ -205,37 +205,35 @@
 				<div class="headbox-director">
 					<h4><?php _e( 'Director', 'wpmovielibrary' ); ?></h4>
 					<div class="movie-directors">
-					<?php
+						<?php
 						$directors = $movie->get_director();
 						$directors = explode( ',', $directors );
 						foreach ( $directors as $director ) {
 							$term = get_term_by( 'slug', trim( $director ), 'collection' );
 							if ( $term ) {
 								$director = get_collection( $term );
-					?>
-						<div class="movie-director">
+						?><div class="movie-director">
 							<a href="<?php echo get_term_link( $term->term_id ); ?>">
 								<div class="movie-director-thumbnail"><img src="<?php echo $director->get_thumbnail( '', 'thumbnail' ) ?>" alt="" /></div>
 								<div class="movie-director-permalink"><?php echo $term->name; ?></div>
 							</a>
-						</div>
-					<?php
+						</div><?php
 							}
 						}
-					?>
+						?>
 					</div>
 				</div>
 				<div class="headbox-cast">
 					<h4><?php _e( 'Actors and actresses', 'wpmovielibrary' ); ?></h4>
 					<div class="movie-cast">
-					<?php
+						<?php
 						$actors = $movie->get_actors();
 						$actors = explode( ',', $actors );
 						foreach ( $actors as $i => $actor ) {
 							$term = get_term_by( 'slug', trim( $actor ), 'actor' );
 							if ( $term ) {
 								$actor = get_actor( $term );
-					?><div class="movie-actor<?php echo ( 6 <= $i ) ? ' small' : ''; ?>">
+						?><div class="movie-actor<?php echo ( 6 <= $i ) ? ' small' : ''; ?>">
 							<a href="<?php echo get_term_link( $term->term_id ); ?>">
 								<div class="movie-actor-thumbnail"><img src="<?php echo $actor->get_picture( '', 'thumbnail' ) ?>" alt="" /></div>
 								<div class="movie-actor-permalink"><?php echo $term->name; ?></div>
@@ -243,34 +241,30 @@
 						</div><?php
 							}
 						}
-					?>
+						?>
 					</div>
 				</div>
 			</div>
 			<div data-panel="images" class="headbox-panel images">
 				<h4><?php _e( 'Backdrops', 'wpmovielibrary' ); ?></h4>
 				<div class="movie-backdrops clearfix">
-				<?php
+					<?php
 					$backdrops = $movie->get_backdrops();
 					while ( $backdrops->has_items() ) :
 						$backdrop = $backdrops->the_item();
-					?>
-					<div class="movie-backdrop"><a href="<?php $backdrop->render( 'original', 'raw' ); ?>"><?php $backdrop->render( 'thumbnail', 'html' ); ?></a></div>
-				<?php
+					?><div class="movie-backdrop"><a href="<?php $backdrop->render( 'original', 'raw' ); ?>"><?php $backdrop->render( 'thumbnail', 'html' ); ?></a></div><?php
 					endwhile;
-				?>
+					?>
 				</div>
 				<h4><?php _e( 'Posters', 'wpmovielibrary' ); ?></h4>
 				<div class="movie-posters clearfix">
-				<?php
+					<?php
 					$posters = $movie->get_posters();
 					while ( $posters->has_items() ) :
 						$poster = $posters->the_item();
-				?>
-					<div class="movie-poster"><a href="<?php $poster->render( 'original', 'raw' ); ?>"><?php $poster->render( 'thumbnail', 'html' ); ?></a></div>
-				<?php
+					?><div class="movie-poster"><a href="<?php $poster->render( 'original', 'raw' ); ?>"><?php $poster->render( 'thumbnail', 'html' ); ?></a></div><?php
 					endwhile;
-				?>
+					?>
 				</div>
 			</div>
 		</div>

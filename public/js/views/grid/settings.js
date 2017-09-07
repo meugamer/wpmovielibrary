@@ -1,4 +1,3 @@
-
 wpmoly = window.wpmoly || {};
 
 wpmoly.view.GridSettings = wp.Backbone.View.extend({
@@ -7,20 +6,18 @@ wpmoly.view.GridSettings = wp.Backbone.View.extend({
 
 	template : wp.template( 'wpmoly-grid-settings' ),
 
-	events: {
+	events : {
 		'click [data-action="apply"]' : 'apply'
 	},
 
 	/**
 	 * Initialize the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
-	 * @return   void
 	 */
-	initialize: function( options ) {
+	initialize : function( options ) {
 
 		this.controller = options.controller || {};
 
@@ -30,12 +27,12 @@ wpmoly.view.GridSettings = wp.Backbone.View.extend({
 
 	/**
 	 * Apply changed settings.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	apply: function() {
+	apply : function() {
 
 		var changes = {},
 		     inputs = this.$( 'input:checked' ),
@@ -65,38 +62,38 @@ wpmoly.view.GridSettings = wp.Backbone.View.extend({
 
 	/**
 	 * Open the customs menu.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	open: function() {
+	open : function() {
 
 		return this.toggle( true );
 	},
 
 	/**
 	 * Close the customs menu.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	close: function() {
+	close : function() {
 
 		return this.toggle( false );
 	},
 
 	/**
 	 * Show/Hide the customs menu.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    boolean    toggle
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	toggle: function( toggle ) {
+	toggle : function( toggle ) {
 
 		if ( true !== toggle ) {
 			toggle = false;
@@ -109,12 +106,12 @@ wpmoly.view.GridSettings = wp.Backbone.View.extend({
 
 	/**
 	 * Render the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	render: function() {
+	render : function() {
 
 		this.$el.html( this.template( {
 			grid_id  : _.uniqueId( 'wpmoly-grid-' + this.controller.get( 'post_id' ) ),

@@ -24,25 +24,20 @@ use wpmoly\Templates\Admin as Template;
  * @subpackage WPMovieLibrary/admin
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class Editor extends Metabox {
+class Editor_Metabox extends Metabox {
 
 	protected $movie;
 
 	/**
 	 * Initialize.
 	 *
-	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	public function init() {
 
 		$this->template = new Template( 'metabox/metabox.php' );
 
 		// Saving actions
-		$this->actions[] = array( 'save_post_movie',               $this, 'save', 10, 3 );
-		//$this->actions[] = array( 'wp_insert_post_empty_content',  $this, 'empty_content' );
-		//$this->actions[] = array( 'wp_insert_post_data',           $this, 'empty_title' );
+		$this->actions[] = array( 'save_post_movie', $this, 'save', 10, 3 );
 
 		// Before Metabox content
 		$this->actions[] = array( 'wpmoly/before/metabox/content', $this, 'movie_preview', 10, 1 );
@@ -55,8 +50,6 @@ class Editor extends Metabox {
 	 * Register the metabox hooks.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	public function define_admin_hooks() {
 
@@ -70,8 +63,6 @@ class Editor extends Metabox {
 	 * Output the JS templates files required for Backbone parts to render.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	public function print_js_templates() {
 
@@ -95,8 +86,6 @@ class Editor extends Metabox {
 	 * Build the Metabox.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	public function make() {
 
@@ -107,8 +96,6 @@ class Editor extends Metabox {
 	 * Movie Editor Metabox content.
 	 *
 	 * @since    3.0
-	 *
-	 * @return   null
 	 */
 	public function editor( $post ) {
 
@@ -140,11 +127,11 @@ class Editor extends Metabox {
 			$tabs[ $id ] = array(
 				'title'   => $panel['title'],
 				'icon'    => $panel['icon'],
-				'default' => $is_default ? ' active' : ''
+				'default' => $is_default ? ' active' : '',
 			);
 			$panels[ $id ] = array(
 				'default' => $is_default ? ' active' : '',
-				'content' => call_user_func( $panel['callback'] )
+				'content' => call_user_func( $panel['callback'] ),
 			);
 		}
 
@@ -152,7 +139,7 @@ class Editor extends Metabox {
 			'empty'   => $this->movie->is_empty(),
 			'tabs'    => $tabs,
 			'panels'  => $panels,
-			'metabox' => $metabox
+			'metabox' => $metabox,
 		) )->render();
 	}
 
@@ -183,10 +170,12 @@ class Editor extends Metabox {
 		}
 
 		$panel->set_data( array(
-			'fields' => $default_meta
+			'fields' => $default_meta,
 		) );
 
-		return $panel->prepare( $require );
+		$template = $panel->prepare( $require );
+
+		return $template;
 	}
 
 	/**
@@ -216,10 +205,12 @@ class Editor extends Metabox {
 		}
 
 		$panel->set_data( array(
-			'fields' => $default_meta
+			'fields' => $default_meta,
 		) );
 
-		return $panel->render( $require, $echo = false );
+		$template = $panel->render( $require, false );
+
+		return $template;
 	}
 
 	/**
@@ -249,10 +240,10 @@ class Editor extends Metabox {
 		}
 
 		$panel->set_data( array(
-			'fields' => $default_details
+			'fields' => $default_details,
 		) );
 
-		return $panel->render( $require, $echo = false );
+		return $panel->render( $require, false );
 	}
 
 	/**
@@ -277,7 +268,7 @@ class Editor extends Metabox {
 
 		$panel->set_data( compact( 'backdrops' ) );
 
-		return $panel->render( $require, $echo = false );
+		return $panel->render( $require, false );
 	}
 
 	/**
@@ -302,7 +293,7 @@ class Editor extends Metabox {
 
 		$panel->set_data( compact( 'posters' ) );
 
-		return $panel->render( $require, $echo = false );
+		return $panel->render( $require, false );
 	}
 
 	/**
@@ -334,24 +325,12 @@ class Editor extends Metabox {
 		}
 	}
 
-	public function empty_content() {
-
-
-	}
-
-	public function empty_title() {
-
-
-	}
-
 	/**
 	 * Add a meta preview for the movie.
 	 *
 	 * @since    3.0
 	 *
 	 * @param    array    $metabox Metabox parameters
-	 *
-	 * @return   null
 	 */
 	public function movie_preview( $metabox, $format = 'html' ) {
 
@@ -377,7 +356,7 @@ class Editor extends Metabox {
 			'empty'      => $movie->is_empty(),
 			'poster'     => $movie->get_poster(),
 			'background' => $movie->get_backdrop( 'random' ),
-			'fields'     => $default_meta
+			'fields'     => $default_meta,
 		) )->render();
 	}
 
@@ -388,8 +367,6 @@ class Editor extends Metabox {
 	 * @since    3.0
 	 *
 	 * @param    array    $metabox Metabox parameters
-	 *
-	 * @return   null
 	 */
 	public function search_menu( $metabox ) {
 
@@ -411,7 +388,7 @@ class Editor extends Metabox {
 
 			'backdrops_autoimport'    => _is_bool( wpmoly_o( 'backdrops-autoimport' ) ),
 			'backdrops_limit'         => wpmoly_o( 'backdrops-limit' ),
-			'backdrops_size'          => wpmoly_o( 'backdrops-size' )
+			'backdrops_size'          => wpmoly_o( 'backdrops-size' ),
 		);
 
 		$movie = get_movie( $post->ID );
@@ -440,8 +417,9 @@ class Editor extends Metabox {
 
 		$new_messages = array(
 			'movie' => array(
+				0 => '',
 				1 => sprintf( __( 'Movie updated. <a href="%s">View movie</a>', 'wpmovielibrary' ), esc_url( get_permalink( $post->ID ) ) ),
-				2 => __( 'Custom field updated.', 'wpmovielibrary' ) ,
+				2 => __( 'Custom field updated.', 'wpmovielibrary' ),
 				3 => __( 'Custom field deleted.', 'wpmovielibrary' ),
 				4 => __( 'Movie updated.', 'wpmovielibrary' ),
 				5 => isset( $_GET['revision'] ) ? sprintf( __( 'Movie restored to revision from %s', 'wpmovielibrary' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
@@ -450,12 +428,13 @@ class Editor extends Metabox {
 				8 => sprintf( __( 'Movie submitted. <a target="_blank" href="%s">Preview movie</a>', 'wpmovielibrary' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) ),
 				9 => sprintf( __( 'Movie scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview movie</a>', 'wpmovielibrary' ), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink( $post->ID ) ) ),
 				10 => sprintf( __( 'Movie draft updated. <a target="_blank" href="%s">Preview movie</a>', 'wpmovielibrary' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) ),
-				11 => __( 'Successfully converted to movie.', 'wpmovielibrary' )
-			)
+				11 => __( 'Successfully converted to movie.', 'wpmovielibrary' ),
+			),
 		);
 
 		$messages = array_merge( $messages, $new_messages );
 
 		return $messages;
 	}
+
 }

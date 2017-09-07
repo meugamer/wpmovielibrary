@@ -1,4 +1,3 @@
-
 window.wpmoly = window.wpmoly || {};
 
 ( function( $, _, Backbone ) {
@@ -38,16 +37,18 @@ window.wpmoly = window.wpmoly || {};
 		       model = new wp.api.models.Grid( { id : post_id } );
 
 		// Grid controller.
-		var controller = new Grids.controller.Grid( {
-			context : options.context || 'view',
-			post_id : post_id,
-			widget  : widget,
-			preset  : preset
-		}, {
-			model    : model,
-			query    : query,
-			settings : settings
-		} );
+		var controller = new Grids.controller.Grid(
+			{
+				context : options.context || 'view',
+				post_id : post_id,
+				widget  : widget,
+				preset  : preset,
+			}, {
+				model    : model,
+				query    : query,
+				settings : settings,
+			}
+		);
 
 		// Build the View.
 		var view = new Grids.view.Grid({
@@ -500,37 +501,39 @@ window.wpmoly = window.wpmoly || {};
 		 * and shouldn't be ordered the same way.
 		 *
 		 * @since    3.0
+		 *
+		 * @return   Returns itself to allow chaining.
 		 */
 		setDefaults : function() {
 
-			var preset = this.settings.get( 'preset' );
+			var atts = {},
+			  preset = this.settings.get( 'preset' );
+
 			if ( '' !== preset && 'custom' !== preset ) {
-				this.set({
-					preset : preset,
-				}, {
-					silent  : true,
-				});
+				atts = { preset : preset };
 			} else if ( this.isPost() ) {
-				this.set({
+				atts = {
 					order   : 'desc',
 					orderby : 'date',
-				}, {
-					silent  : true,
-				});
+				};
 			} else if ( this.isTaxonomy() ) {
-				this.set({
+				atts = {
 					order   : 'asc',
 					orderby : 'name',
-				}, {
-					silent  : true,
-				});
+				};
+			} else {
+				return;
 			}
+
+			return this.set( atts, { silent : true } );
 		},
 
 		/**
 		 * Load REST API Backbone client.
 		 *
 		 * @since    3.0
+		 *
+		 * @return   Returns itself to allow chaining.
 		 */
 		setCollection : function() {
 
@@ -549,6 +552,8 @@ window.wpmoly = window.wpmoly || {};
 			this.collection = new collections[ type ];
 
 			this.mirrorEvents();
+
+			return this;
 		},
 
 		/**
@@ -560,6 +565,8 @@ window.wpmoly = window.wpmoly || {};
 		 * actual grid content.
 		 *
 		 * @since    3.0
+		 *
+		 * @return   Returns itself to allow chaining.
 		 */
 		mirrorEvents : function() {
 
@@ -584,16 +591,20 @@ window.wpmoly = window.wpmoly || {};
 			this.listenTo( this.collection, 'update', function( collection, options ) {
 				this.trigger( 'collection:update', collection, options );
 			} );
+
+			return this;
 		},
 
 		/**
-		 * Update collection state: current page, total pages...
+		 * Update collection state : current page, total pages...
 		 *
 		 * @since    3.0
 		 *
 		 * @param    {object}    collection
 		 * @param    {array}     response
 		 * @param    {object}    options
+		 *
+		 * @return   Returns itself to allow chaining.
 		 */
 		setState : function( collection, response, options ) {
 
@@ -602,6 +613,8 @@ window.wpmoly = window.wpmoly || {};
 			}
 
 			this.state.set( collection.state );
+
+			return this;
 		},
 
 		/**
@@ -704,7 +717,7 @@ window.wpmoly = window.wpmoly || {};
 			if ( ! this.collection ) {
 				this.setCollection();
 			}
- 
+
 			this.calculateNumber();
 
 			var self = this,
@@ -724,8 +737,8 @@ window.wpmoly = window.wpmoly || {};
 
 			return this.collection.fetch( options );
 		},
- 
- 		/**
+
+		/**
 		 * Calculate the number of nodes to query from the number of
 		 * columns and rows of the grid.
 		 *
@@ -1395,7 +1408,7 @@ window.wpmoly = window.wpmoly || {};
 			var $target = this.$( event.currentTarget ),
 			    value = $target.val();
 
-			this.controller.settings.set({ list_columns: value });
+			this.controller.settings.set( { list_columns : value } );
 
 			return this;
 		}
@@ -2174,7 +2187,7 @@ window.wpmoly = window.wpmoly || {};
 		setNodesView : function( options ) {
 
 			var mode = this.controller.settings.get( 'mode' ),
-			 options = _.extend( options || {}, {
+			options = _.extend( options || {}, {
 				controller : this.controller,
 				silent     : true,
 			} );

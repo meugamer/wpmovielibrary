@@ -1,11 +1,11 @@
 <?php
 /**
  * Movie Headbox view Template
- * 
+ *
  * Showing a movie's default headbox.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $movie
  * @uses    $headbox
  */

@@ -1,4 +1,3 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
@@ -14,11 +13,13 @@ wpmoly = window.wpmoly || {};
 
 		var post_id = document.querySelector( '#post_ID' ).value;
 
-		var controller = new GridBuilder.controller.Builder({
-			post_id : post_id,
-		}, {
-			grid : GridBuilder.preview.controller.model,
-		});
+		var controller = new GridBuilder.controller.Builder(
+			{
+				post_id : post_id,
+			}, {
+				grid : GridBuilder.preview.controller.model,
+			}
+		);
 
 		var view = new GridBuilder.view.Builder({
 			el         : document.querySelector( '#wpmoly-grid-builder' ),
@@ -105,7 +106,7 @@ wpmoly = window.wpmoly || {};
 		$el : wpmoly.$( '#wpmoly-grid-builder-preview' ),
 
 		/**
-		 * 
+		 *
 		 *
 		 * @since    3.0
 		 *
@@ -114,7 +115,7 @@ wpmoly = window.wpmoly || {};
 		builder : null,
 
 		/**
-		 * 
+		 *
 		 *
 		 * @since    3.0
 		 *
@@ -168,7 +169,7 @@ wpmoly = window.wpmoly || {};
 		 * @param    {object}    attributes
 		 * @param    {object}    options
 		 */
-		initialize: function( attributes, options ) {
+		initialize : function( attributes, options ) {
 
 			var options = options || {};
 
@@ -251,7 +252,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @return   {object}
 		 */
-		setType: function( type ) {
+		setType : function( type ) {
 
 			return this.model.set({
 				theme : 'default',
@@ -269,7 +270,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @return   {object}
 		 */
-		setMode: function( mode ) {
+		setMode : function( mode ) {
 
 			return this.model.set({
 				theme : 'default',
@@ -286,7 +287,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @return   {object}
 		 */
-		setTheme: function( theme ) {
+		setTheme : function( theme ) {
 
 			return this.model.set({
 				theme : theme
@@ -305,7 +306,7 @@ wpmoly = window.wpmoly || {};
 	 */
 	GridBuilder.view.Builder = wp.Backbone.View.extend({
 
-		events: {
+		events : {
 			'click #wpmoly-grid-builder-preview a' : 'preventDefault',
 			'change .butterbean-control input'     : 'onChange',
 			'change .butterbean-control select'    : 'onChange',
@@ -317,7 +318,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 */
-		initialize: function( options ) {
+		initialize : function( options ) {
 
 			this.controller = options.controller || {};
 			this.model = this.controller.model;
@@ -330,14 +331,14 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Set Regions (subviews).
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining
 		 */
-		setRegions: function() {
+		setRegions : function() {
 
-			this.parameters = new GridBuilder.view.Parameters({ controller: this.controller });
+			this.parameters = new GridBuilder.view.Parameters( { controller : this.controller } );
 
 			this.views.set( '#wpmoly-grid-builder-parameters-metabox', this.parameters );
 
@@ -351,7 +352,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 */
-		bindEvents: function() {
+		bindEvents : function() {
 
 			this.listenTo( this.model, 'change:type',  this.togglePostbox );
 		},
@@ -365,7 +366,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		preFill: function() {
+		preFill : function() {
 
 			var type = this.model.get( 'type' ),
 			$postbox = this.$( '#butterbean-ui-' + type + '-grid-settings' );
@@ -396,7 +397,7 @@ wpmoly = window.wpmoly || {};
 		 * @param    {mixed}     value Changed value
 		 * @param    {object}    options Options
 		 */
-		togglePostbox: function( model, value, options ) {
+		togglePostbox : function( model, value, options ) {
 
 			var $postbox = this.$( '#butterbean-ui-' + model.get( 'type' ) + '-grid-settings' ),
 			  $postboxes = this.$( '.butterbean-ui.postbox' );
@@ -412,9 +413,9 @@ wpmoly = window.wpmoly || {};
 
 		/**
 		 * Handle setting change events.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    {object}    JS 'change' Event
 		 */
 		onChange : function( e ) {
@@ -482,15 +483,15 @@ wpmoly = window.wpmoly || {};
 	/**
 	 * GridBuilder Parameters View.
 	 *
-	 * Handle the grid parameters: type, mode, theme.
+	 * Handle the grid parameters : type, mode, theme.
 	 *
 	 * @since    3.0
 	 */
 	GridBuilder.view.Parameters = wp.Backbone.View.extend({
 
-		template: wp.template( 'wpmoly-grid-builder-parameters' ),
+		template : wp.template( 'wpmoly-grid-builder-parameters' ),
 
-		events: {
+		events : {
 			'click [data-action="grid-type"]'  : 'setType',
 			'click [data-action="grid-mode"]'  : 'setMode',
 			'click [data-action="grid-theme"]' : 'setTheme'
@@ -501,7 +502,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 */
-		initialize: function( options ) {
+		initialize : function( options ) {
 
 			this.controller = options.controller || {};
 
@@ -516,7 +517,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @since    3.0
 		 */
-		bindEvents: function() {
+		bindEvents : function() {
 
 			this.listenTo( this.controller.model, 'change:type',  this.render );
 			this.listenTo( this.controller.model, 'change:mode',  this.render );
@@ -535,7 +536,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @param    {object}    event JS 'click' event
 		 */
-		toggle: function( event ) {
+		toggle : function( event ) {
 
 			if ( event.originalEvent ) {
 				wpmoly.$( '#wpmoly-grid-parameters-metabox .handlediv' ).trigger( 'click' );
@@ -555,7 +556,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		setType: function( event ) {
+		setType : function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
 			    value = $elem.attr( 'data-value' );
@@ -574,7 +575,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		setMode: function( event ) {
+		setMode : function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
 			    value = $elem.attr( 'data-value' );
@@ -593,7 +594,7 @@ wpmoly = window.wpmoly || {};
 		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		setTheme: function( event ) {
+		setTheme : function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
 			    value = $elem.attr( 'data-value' );

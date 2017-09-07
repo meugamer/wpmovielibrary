@@ -1,32 +1,22 @@
-
 wpmoly = window.wpmoly || {};
 
-_.extend( wpmoly.view.Library, {
+wpmoly.view.Library.ContentLatest = wp.Backbone.View.extend({
 
-	ContentLatest: wp.Backbone.View.extend({
+	className : 'wpmoly library content-latest inner-menu',
 
-		className: 'wpmoly library content-latest inner-menu',
+	template : wp.template( 'wpmoly-library-content-latest' ),
 
-		template: wp.template( 'wpmoly-library-content-latest' ),
+	/**
+	 * Initialize the View.
+	 *
+	 * @since    3.0
+	 */
+	initialize : function( options ) {
 
-		events: {
-			
-		},
+		var options = options || {};
 
-		/**
-		 * Initialize the View.
-		 *
-		 * @since    3.0
-		 *
-		 * @return   void
-		 */
-		initialize: function( options ) {
+		this.controller = options.controller || {};
 
-			var options = options || {};
+	},
 
-			this.controller = options.controller || {};
-
-		}
-
-	})
-} );
+});

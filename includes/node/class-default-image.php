@@ -19,23 +19,21 @@ namespace wpmoly\Node;
  * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class DefaultImage extends Image {
+class Default_Image extends Image {
 
 	/**
 	 * Default Poster instance.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @var      array
 	 */
 	private static $instance;
 
 	/**
 	 * Make the Image.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function make() {
 
@@ -48,8 +46,8 @@ class DefaultImage extends Image {
 	 * Get a Default Poster instance.
 	 *
 	 * @since    3.0
-	 * 
-	 * @return   DefaultPoster
+	 *
+	 * @return   Default_Poster
 	 */
 	final public static function get_instance( $unused = null ) {
 
@@ -57,6 +55,8 @@ class DefaultImage extends Image {
 			return self::$instance;
 		}
 
-		return self::$instance = new static;
+		self::$instance = new static;
+
+		return self::$instance;
 	}
 }

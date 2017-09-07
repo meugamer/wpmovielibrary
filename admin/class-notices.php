@@ -24,24 +24,18 @@ class Notices {
 
 	/**
 	 * Magic method.
-	 * 
+	 *
 	 * Provide a default callback for notices. This can be overriden by
 	 * simply adding a 'register_{$slug}_notice' method.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $method
 	 * @param    array     $arguments
-	 * 
-	 * @return   void
 	 */
 	public function __call( $method, $arguments ) {
 
-		$slug = str_replace(
-			array( 'register_', '_notice', '_' ),
-			array( '', '', '-' ),
-			$method
-		);
+		$slug = str_replace( array( 'register_', '_notice', '_' ), array( '', '', '-' ), $method );
 
 		if ( isset( $this->notices[ $slug ] ) ) {
 			$this->register_notice( $slug );
@@ -50,7 +44,7 @@ class Notices {
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function __construct() {
@@ -59,15 +53,15 @@ class Notices {
 			'reset-permalinks' => array(
 				'type'        => 'info',
 				'dismissible' => true,
-				'message'     => sprintf( __( 'Changes have been made to the archive pages, permalinks settings need to be update. Simply reload the <a href="%s" target="_blank">Permalinks page</a>, no saving required.', 'wpmovielibrary' ), esc_url( admin_url( 'options-permalink.php' ) ) )
-			)
+				'message'     => sprintf( __( 'Changes have been made to the archive pages, permalinks settings need to be update. Simply reload the <a href="%s" target="_blank">Permalinks page</a>, no saving required.', 'wpmovielibrary' ), esc_url( admin_url( 'options-permalink.php' ) ) ),
+			),
 		);
 
 		/**
 		 * Filter notices.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array     $notices Notices list.
 		 * @param    object    Notices instance.
 		 */
@@ -76,10 +70,8 @@ class Notices {
 
 	/**
 	 * Register notices.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_notices() {
 
@@ -98,12 +90,8 @@ class Notices {
 
 	/**
 	 * Register 'reset-permalinks' notice callback.
-	 * 
-	 * 
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function register_reset_permalinks_notice() {
 
@@ -117,12 +105,10 @@ class Notices {
 
 	/**
 	 * Register notice callback. Output the actual HTML markup.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $notice_id Notice ID.
-	 * 
-	 * @return   void
 	 */
 	private function register_notice( $notice_id ) {
 
@@ -142,11 +128,11 @@ class Notices {
 
 	/**
 	 * Retrieve a specific notice.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $notice_id Notice ID.
-	 * 
+	 *
 	 * @return   array
 	 */
 	public function get_notice( $notice_id ) {

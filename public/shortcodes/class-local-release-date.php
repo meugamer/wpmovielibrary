@@ -21,28 +21,26 @@ use wpmoly\Templates\Front as Template;
  * @subpackage WPMovieLibrary/public/shortcodes
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class LocalReleaseDate extends ReleaseDate {
+class Local_Release_Date extends Release_Date {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
-	 * 
+	 *
 	 * @var    string
 	 */
 	public static $name = 'movie_local_release_date';
 
 	/**
 	 * Shortcode aliases
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected static $aliases = array();
 
 	/**
 	 * Build the Shortcode.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 

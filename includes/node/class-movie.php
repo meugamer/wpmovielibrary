@@ -13,27 +13,27 @@ namespace wpmoly\Node;
 
 /**
  * Define the most important class of the plugin: Movie.
- * 
+ *
  * Give easy access to metadata, details, posters and images.
- * 
+ *
  * Movie::get( $meta )
  * Movie::the( $meta )
  * Movie::get_the( $meta )
- * 
+ *
  * Movie::get_{$meta}()
  * Movie::the_{$meta}()
  * Movie::get_the_{$meta}()
- * 
+ *
  * Movie::get_poster()
  * Movie::get_backdrop()
  * Movie::get_posters()
  * Movie::get_backdrops()
- * 
+ *
  * @since      3.0
  * @package    WPMovieLibrary
  * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
- * 
+ *
  * @property    int        $tmdb_id Movie TMDb ID.
  * @property    string     $title Movie title.
  * @property    string     $original_title Movie original title.
@@ -70,50 +70,48 @@ class Movie extends Node {
 
 	/**
 	 * Movie Post object
-	 * 
+	 *
 	 * @var    WP_Post
 	 */
 	public $post;
 
 	/**
 	 * Movie poster.
-	 * 
+	 *
 	 * @var    Poster
 	 */
 	protected $poster;
 
 	/**
 	 * Movie posters list.
-	 * 
-	 * @var    NodeList
+	 *
+	 * @var    Node_List
 	 */
 	protected $posters;
 
 	/**
 	 * Movie backdrops list.
-	 * 
-	 * @var    NodeList
+	 *
+	 * @var    Node_List
 	 */
 	protected $backdrops;
 
 	/**
 	 * Movie meta suffix.
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $suffix;
 
 	/**
 	 * Initialize the Movie.
-	 * 
-	 * @since    3.0
 	 *
-	 * @return   void
+	 * @since    3.0
 	 */
 	public function init() {
 
-		$this->backdrops = new NodeList;
-		$this->posters   = new NodeList;
+		$this->backdrops = new Node_List;
+		$this->posters   = new Node_List;
 		$this->backdrops->loaded = false;
 		$this->posters->loaded   = false;
 
@@ -122,18 +120,18 @@ class Movie extends Node {
 
 		/**
 		 * Filter the default movie meta list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $default_meta
 		 */
 		$this->default_meta = apply_filters( 'wpmoly/filter/default/movie/meta', array( 'tmdb_id', 'title', 'original_title', 'tagline', 'overview', 'release_date', 'local_release_date', 'runtime', 'production_companies', 'production_countries', 'spoken_languages', 'genres', 'director', 'producer', 'cast', 'photography', 'composer', 'author', 'writer', 'certification', 'budget', 'revenue', 'imdb_id', 'adult', 'homepage' ) );
 
 		/**
 		 * Filter the default movie details list.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $default_details
 		 */
 		$this->default_details = apply_filters( 'wpmoly/filter/default/movie/details', array( 'status', 'media', 'rating', 'language', 'subtitles', 'format' ) );
@@ -141,15 +139,15 @@ class Movie extends Node {
 
 	/**
 	 * Magic.
-	 * 
+	 *
 	 * Add support for Movie::get_{$property}() and Movie::the_{$property}()
 	 * methods.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @param    string    $method 
-	 * @param    array     $arguments 
-	 * 
+	 *
+	 * @param    string    $method Method name.
+	 * @param    array     $arguments Method arguments.
+	 *
 	 * @return   mixed
 	 */
 	public function __call( $method, $arguments ) {
@@ -168,14 +166,14 @@ class Movie extends Node {
 
 	/**
 	 * Property accessor.
-	 * 
+	 *
 	 * Override Node::get() to add support for additional data like 'year'.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
 	 * @param    mixed     $default Default value
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function get( $name, $default = null ) {
@@ -205,29 +203,34 @@ class Movie extends Node {
 	 * Enhanced property accessor. Unlike Node::get() this method automatically
 	 * escapes the property requested and therefore should be used when the
 	 * property is meant for display.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
-	 * @return   void
+	 *
+	 * @return   mixed
 	 */
 	public function get_the( $name ) {
 
-		$hook_name = sanitize_key( $name );
-
-		return apply_filters( 'wpmoly/filter/the/movie/' . $hook_name, $this->get( $name ), $this );
+		/**
+		 * Filter properties for display.
+		 *
+		 * @since    3.0
+		 *
+		 * @param    string    $name Meta name.
+		 * @param    mixed     $value Meta value.
+		 * @param    Node      $node Movie object.
+		 */
+		return apply_filters( 'wpmoly/filter/the/movie/' . sanitize_key( $name ), $this->get( $name ), $this );
 	}
 
 	/**
 	 * Simple property echoer. Use Node::get_the() to automatically escape
 	 * the requested property.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
-	 * @return   void
 	 */
 	public function the( $name ) {
 
@@ -236,11 +239,11 @@ class Movie extends Node {
 
 	/**
 	 * Get the filtered movie permalink.
-	 * 
+	 *
 	 * Wrapper for get_permalink().
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_permalink() {
@@ -252,10 +255,8 @@ class Movie extends Node {
 
 	/**
 	 * Echo the filtered movie permalink.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   string
 	 */
 	public function the_permalink() {
 
@@ -264,9 +265,9 @@ class Movie extends Node {
 
 	/**
 	 * Does this movie have metadata?
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   boolean
 	 */
 	public function is_empty() {
@@ -276,12 +277,12 @@ class Movie extends Node {
 
 	/**
 	 * Load backdrops for the current Movie.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $language Language to filter images
 	 * @param    int       $number Number of images to fetch
-	 * 
+	 *
 	 * @return   Backdrops
 	 */
 	public function load_backdrops( $language = '', $number = -1 ) {
@@ -293,7 +294,7 @@ class Movie extends Node {
 			'numberposts' => -1,
 			'post_status' => null,
 			'post_parent' => $this->id,
-			'meta_key'    => '_wpmoly_image_related_tmdb_id'
+			'meta_key'    => '_wpmoly_image_related_tmdb_id',
 		) );
 
 		foreach ( $attachments as $attachment ) {
@@ -305,13 +306,13 @@ class Movie extends Node {
 
 	/**
 	 * Load posters for the current Movie.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $language Language to filter images
 	 * @param    int       $number Number of images to fetch
-	 * 
-	 * @return   null
+	 *
+	 * @return   Posters
 	 */
 	public function load_posters( $language = '', $number = -1 ) {
 
@@ -322,7 +323,7 @@ class Movie extends Node {
 			'numberposts' => -1,
 			'post_status' => null,
 			'post_parent' => $this->id,
-			'meta_key'    => '_wpmoly_poster_related_tmdb_id'
+			'meta_key'    => '_wpmoly_poster_related_tmdb_id',
 		) );
 
 		foreach ( $attachments as $attachment ) {
@@ -334,17 +335,17 @@ class Movie extends Node {
 
 	/**
 	 * Simple accessor for Movie's Backdrop.
-	 * 
+	 *
 	 * Different variant can be used. 'featured' will use the featured image
 	 * if available, default backdrop if no featured image is defined. 'first',
 	 * 'last' and 'random' are self-explanatory and will fall back to the
 	 * default backdrop if no backdrop is available.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $variant Backdrop variant.
-	 * 
-	 * @return   Backdrop|DefaultBackdrop
+	 *
+	 * @return   Backdrop|Default_Backdrop
 	 */
 	public function get_backdrop( $variant = 'featured' ) {
 
@@ -372,12 +373,12 @@ class Movie extends Node {
 				break;
 			case 'default' :
 			default :
-				$backdrop = DefaultBackdrop::get_instance();
+				$backdrop = Default_Backdrop::get_instance();
 				break;
 		}
 
 		if ( ! $backdrop instanceof Image ) {
-			$backdrop = DefaultBackdrop::get_instance();
+			$backdrop = Default_Backdrop::get_instance();
 		}
 
 		return $backdrop;
@@ -385,17 +386,17 @@ class Movie extends Node {
 
 	/**
 	 * Simple accessor for Movie's Poster.
-	 * 
+	 *
 	 * Different variant can be used. 'featured' will use the featured image
 	 * if available, default poster if no featured image is defined. 'first',
 	 * 'last' and 'random' are self-explanatory and will fall back to the
 	 * default poster if no poster is available.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $variant Poster variant.
-	 * 
-	 * @return   Poster|DefaultPoster
+	 *
+	 * @return   Poster|Default_Poster
 	 */
 	public function get_poster( $variant = 'featured' ) {
 
@@ -423,12 +424,12 @@ class Movie extends Node {
 				break;
 			case 'default' :
 			default :
-				$poster = DefaultPoster::get_instance();
+				$poster = Default_Poster::get_instance();
 				break;
 		}
 
 		if ( ! $poster instanceof Image ) {
-			$poster = DefaultPoster::get_instance();
+			$poster = Default_Poster::get_instance();
 		}
 
 		return $poster;
@@ -436,12 +437,12 @@ class Movie extends Node {
 
 	/**
 	 * Simple accessor for Backdrops list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $language Filter backdrops by language
 	 * @param    int       $number Limit the number of backdrops
-	 * 
+	 *
 	 * @return   Posters
 	 */
 	public function get_backdrops( $language = '', $number = -1 ) {
@@ -454,7 +455,7 @@ class Movie extends Node {
 			return $this->backdrops;
 		}
 
-		$backdrops = new NodeList;
+		$backdrops = new Node_List;
 		while ( $this->backdrops->key() < $number - 1 ) {
 			$backdrops->add( $this->backdrops->next() );
 		}
@@ -466,12 +467,12 @@ class Movie extends Node {
 
 	/**
 	 * Simple accessor for Posters list.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $language Filter posters by language
 	 * @param    int       $number Limit the number of posters
-	 * 
+	 *
 	 * @return   Posters
 	 */
 	public function get_posters( $language = '', $number = -1 ) {
@@ -484,7 +485,7 @@ class Movie extends Node {
 			return $this->posters;
 		}
 
-		$posters = new NodeList;
+		$posters = new Node_List;
 		while ( $this->posters->key() < $number - 1 ) {
 			$posters->add( $this->posters->next() );
 		}
@@ -496,10 +497,8 @@ class Movie extends Node {
 
 	/**
 	 * Save movie.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save() {
 
@@ -509,10 +508,8 @@ class Movie extends Node {
 
 	/**
 	 * Save movie metadata.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save_meta() {
 
@@ -525,10 +522,8 @@ class Movie extends Node {
 
 	/**
 	 * Save movie details.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function save_details() {
 
@@ -538,4 +533,5 @@ class Movie extends Node {
 			}
 		}
 	}
+
 }

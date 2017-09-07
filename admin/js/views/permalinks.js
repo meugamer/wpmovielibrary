@@ -1,31 +1,29 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.view, {
 
-	Permalinks: Backbone.View.extend({
+	Permalinks : Backbone.View.extend({
 
-		el: '#wpmoly-permalinks',
+		el : '#wpmoly-permalinks',
 
-		events: {
-			//'change #wpmoly_permalinks_movie_base' : 'updateMovieBase'
+		events : {
 			'click [data-name]'   : 'updateCustomPermalink',
-			'focus .custom-value' : 'selectCustomPermalink'
+			'focus .custom-value' : 'selectCustomPermalink',
 		},
 
-		initialize: function() {
+		initialize : function() {
 
 			this.bindEvents();
 		},
 
 		/**
 		 * Hide notice when user selects a permalink structure.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		bindEvents: function() {
+		bindEvents : function() {
 
 			var $selection = wpmoly.$( 'input[name="selection"]' );
 			$selection.on( 'change', function( event ) {
@@ -41,16 +39,16 @@ _.extend( wpmoly.view, {
 
 		/**
 		 * Replace %movie_base% in examples.
-		 * 
-		 * TODO: make it work?
-		 * 
+		 *
+		 * @TODO : make it work?
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'change' event
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		updateMovieBase: function( event ) {
+		updateMovieBase : function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
 			 $samples = this.$( '[name="wpmoly_permalinks[movie_permalink]"]' );
@@ -65,7 +63,7 @@ _.extend( wpmoly.view, {
 			return this;
 		},
 
-		updateCustomPermalink: function( event ) {
+		updateCustomPermalink : function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
 			  $custom = this.$( '#custom_' + $elem.attr( 'data-name' ) + '_value' );
@@ -76,19 +74,21 @@ _.extend( wpmoly.view, {
 		/**
 		 * Select matching RADIO input when a custom text field is
 		 * focused.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'focus' event
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		selectCustomPermalink: function( event ) {
+		selectCustomPermalink : function( event ) {
 
 			var id = event.currentTarget.id;
 			this.$( '#' + id.replace( '_value', '' ) ).prop( 'checked', true );
 
 			return this;
-		}
-	})
+		},
+
+	});
+
 } );

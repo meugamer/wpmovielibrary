@@ -30,9 +30,9 @@ class Terms {
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Singleton
 	 */
 	final public static function get_instance() {
@@ -99,7 +99,9 @@ class Terms {
 
 		$terms = wp_cache_get( $id, "{$taxonomy}_relationships_sorted" );
 		if ( false === $terms ) {
-			$terms = wp_get_object_terms( $id, $taxonomy, array( 'orderby' => 'term_order' ) );
+			$terms = wp_get_object_terms( $id, $taxonomy, array(
+				'orderby' => 'term_order'
+			) );
 			wp_cache_add( $id, $terms, $taxonomy . '_relationships_sorted' );
 		}
 
@@ -151,7 +153,11 @@ class Terms {
 		}
 
 		$object_ids = array_map( 'intval', (array) $object_ids );
-		$defaults = array( 'orderby' => 'term_order', 'order' => 'ASC', 'fields' => 'all' );
+		$defaults = array(
+			'orderby' => 'term_order',
+			'order'   => 'ASC',
+			'fields'  => 'all',
+		);
 		$args = wp_parse_args( $args, $defaults );
 
 		$terms = array();
@@ -193,7 +199,7 @@ class Terms {
 		if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
 			$_terms = $wpdb->get_results( $query );
 			foreach ( $_terms as $key => $term ) {
-				$_terms[$key] = sanitize_term( $term, $taxonomy, 'raw' );
+				$_terms[ $key ] = sanitize_term( $term, $taxonomy, 'raw' );
 			}
 			$terms = array_merge( $terms, $_terms );
 			update_term_cache( $terms );
@@ -201,13 +207,13 @@ class Terms {
 			$_terms = $wpdb->get_col( $query );
 			$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
 			foreach ( $_terms as $key => $term ) {
-				$_terms[$key] = sanitize_term_field( $_field, $term, $term, $taxonomy, 'raw' );
+				$_terms[ $key ] = sanitize_term_field( $_field, $term, $term, $taxonomy, 'raw' );
 			}
 			$terms = array_merge( $terms, $_terms );
 		} else if ( 'tt_ids' == $fields ) {
 			$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order");
 			foreach ( $terms as $key => $tt_id ) {
-				$terms[$key] = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
+				$terms[ $key ] = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
 			}
 		}
 

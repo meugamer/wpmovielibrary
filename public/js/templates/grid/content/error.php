@@ -1,7 +1,7 @@
 <?php
 /**
  * Grid Error JavaScript template.
- * 
+ *
  * @since 3.0
  */
 

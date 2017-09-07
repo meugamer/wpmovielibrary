@@ -1,15 +1,14 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.view.Library, {
 
-	Menu: wp.Backbone.View.extend({
+	Menu : wp.Backbone.View.extend({
 
-		className: 'wpmoly library inner-menu',
+		className : 'wpmoly library inner-menu',
 
-		template: wp.template( 'wpmoly-library-menu' ),
+		template : wp.template( 'wpmoly-library-menu' ),
 
-		events: {
+		events : {
 			'click [data-action="library-mode"]' : 'switchMode',
 		},
 
@@ -17,10 +16,8 @@ _.extend( wpmoly.view.Library, {
 		 * Initialize the View.
 		 *
 		 * @since    3.0
-		 *
-		 * @return   void
 		 */
-		initialize: function( options ) {
+		initialize : function( options ) {
 
 			var options = options || {};
 
@@ -32,14 +29,14 @@ _.extend( wpmoly.view.Library, {
 
 		/**
 		 * Switch Library Mode
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'click' Event
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		switchMode: function( event ) {
+		switchMode : function( event ) {
 
 			event.preventDefault();
 
@@ -53,9 +50,9 @@ _.extend( wpmoly.view.Library, {
 
 		/**
 		 * Render the view.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
 		render : function() {

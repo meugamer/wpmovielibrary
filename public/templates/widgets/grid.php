@@ -1,9 +1,9 @@
 <?php
 /**
  * Grid Widget default template.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $widget
  * @uses    $data
  */

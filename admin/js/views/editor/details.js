@@ -1,22 +1,21 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.view, {
 
-	Details: wpmoly.view.Meta.extend({
+	Details : wpmoly.view.Meta.extend({
 
-		template: wp.template( 'wpmoly-editor-details' ),
+		template : wp.template( 'wpmoly-editor-details' ),
 
-		events: {
+		events : {
 			'change [data-meta-type="detail"]': 'update'
 		},
 
 		/**
 		 * Initialize the View.
-		 * 
+		 *
 		 * @since    3.0
 		 */
-		initialize: function( options ) {
+		initialize : function( options ) {
 
 			this.controller = options.controller || {};
 			this.model = this.controller.details;
@@ -30,12 +29,12 @@ _.extend( wpmoly.view, {
 
 		/**
 		 * Render the view.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		render: function() {
+		render : function() {
 
 			var data = this.model.toJSON();
 
@@ -47,7 +46,7 @@ _.extend( wpmoly.view, {
 				placeholder = $select.attr( 'placeholder' ) || '';
 
 				$select.select2({
-					placeholder: placeholder
+					placeholder : placeholder
 				});
 			}, this );
 

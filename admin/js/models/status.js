@@ -1,11 +1,10 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.model, {
 
-	StatusMessage: Backbone.Model.extend({
+	StatusMessage : Backbone.Model.extend({
 
-		defaults: {
+		defaults : {
 			type    : 'status',
 			icon    : 'icon-api',
 			effect  : 'rotate',
@@ -23,27 +22,26 @@ _.extend( wpmoly.model, {
 		 *
 		 * @param    object    attributes
 		 * @param    object    options
-		 *
-		 * @return   void
 		 */
-		initialize: function( attributes, options ) {
+		initialize : function( attributes, options ) {
 
 			var attributes = attributes || {},
 			       options = options || {};
 
 			if ( ! attributes.date ) {
-				this.set({ date: new Date() });
+				this.set( { date : new Date() } );
 			}
-		}
-	})
+		},
+
+	}),
 
 } );
 
 _.extend( wpmoly.model, {
 
-	Status: Backbone.Collection.extend({
+	Status : Backbone.Collection.extend({
 
-		model: wpmoly.model.StatusMessage,
+		model : wpmoly.model.StatusMessage,
 
 		/**
 		 * Initialize the Collection.
@@ -52,10 +50,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @param    object    models
 		 * @param    object    options
-		 *
-		 * @return   void
 		 */
-		initialize: function( models, options ) {
+		initialize : function( models, options ) {
 
 			var options = options || {};
 			this.controller = options.controller;
@@ -73,12 +69,10 @@ _.extend( wpmoly.model, {
 
 		/**
 		 * Bind events.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
-		 * @return   void
 		 */
-		bindEvents: function() {
+		bindEvents : function() {
 
 			wpmoly.on( 'status:start', this.start, this );
 			wpmoly.on( 'status:stop',  this.stop,  this );
@@ -91,14 +85,12 @@ _.extend( wpmoly.model, {
 		 *
 		 * @param    object    model
 		 * @param    object    options
-		 *
-		 * @return   void
 		 */
-		stack: function( model, options ) {
+		stack : function( model, options ) {
 
 			var status = new wpmoly.model.StatusMessage( model );
 
-			this.add( status, { at: 0 } );
+			this.add( status, { at : 0 } );
 		},
 
 		/**
@@ -108,10 +100,8 @@ _.extend( wpmoly.model, {
 		 *
 		 * @param    object    model
 		 * @param    object    options
-		 *
-		 * @return   void
 		 */
-		start: function( model, options ) {
+		start : function( model, options ) {
 
 			this.stack( model, options );
 
@@ -125,15 +115,14 @@ _.extend( wpmoly.model, {
 		 *
 		 * @param    object    model
 		 * @param    object    options
-		 *
-		 * @return   void
 		 */
-		stop: function( model, options ) {
+		stop : function( model, options ) {
 
 			this.stack( model, options );
 
 			wpmoly.trigger( 'status:stopped' );
 		},
-	})
+
+	}),
 
 } );

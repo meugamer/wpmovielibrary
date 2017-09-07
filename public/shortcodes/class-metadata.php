@@ -25,52 +25,52 @@ class Metadata extends Shortcode {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
-	 * 
+	 *
 	 * @var    string
 	 */
 	public static $name = 'movie_meta';
 
 	/**
 	 * Shortcode attributes sanitizers
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $validates = array(
 		'id' => array(
 			'default' => false,
 			'values'  => null,
-			'filter'  => 'intval'
+			'filter'  => 'intval',
 		),
 		'title' => array(
 			'default' => null,
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'label' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => 'boolval'
+			'filter'  => 'boolval',
 		),
 		'key' => array(
 			'default' => false,
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'format' => array(
 			'default' => 'display',
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'count' => array(
 			'default' => -1,
 			'values'  => null,
-			'filter'  => 'intval'
-		)
+			'filter'  => 'intval',
+		),
 	);
 
 	/**
 	 * Shortcode aliases
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected static $aliases = array(
@@ -93,17 +93,15 @@ class Metadata extends Shortcode {
 		'movie_imdb_id'        => 'imdb_id',
 		'movie_tmdb_id'        => 'tmdb_id',
 		'movie_adult'          => 'adult',
-		'movie_homepage'       => 'homepage'
+		'movie_homepage'       => 'homepage',
 	);
 
 	/**
 	 * Build the Shortcode.
-	 * 
+	 *
 	 * Prepare Shortcode parameters.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
@@ -123,9 +121,9 @@ class Metadata extends Shortcode {
 
 	/**
 	 * Get Movie ID from title if needed.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   int
 	 */
 	protected function get_movie_id() {
@@ -146,14 +144,16 @@ class Metadata extends Shortcode {
 			)
 		);
 
-		return $this->attributes['id'] = $post_id;
+		$this->attributes['id'] = $post_id;
+
+		return $post_id;
 	}
 
 	/**
 	 * Get the metadata value.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	protected function get_meta_value() {
@@ -165,13 +165,13 @@ class Metadata extends Shortcode {
 		$post_id = $this->get_movie_id();
 
 		// Get value
-		$value = get_movie_meta( $post_id, $key, $single = true );
+		$value = get_movie_meta( $post_id, $key, true );
 		if ( empty( $value ) ) {
 			/**
 			 * Filter empty meta value.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    string    $value
 			 * @param    string    $format
 			 */
@@ -188,16 +188,16 @@ class Metadata extends Shortcode {
 		if ( 'raw' == $format ) {
 			/**
 			 * Filter raw meta value.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    string    $value
 			 */
 			return apply_filters( "wpmoly/shortcode/format/{$key}/raw/value", $value );
 		}
 
 		// Deal with lists
-		if ( ! empty( $this->attributes['count'] ) && 0 <  $this->attributes['count'] ) {
+		if ( ! empty( $this->attributes['count'] ) && 0 < $this->attributes['count'] ) {
 
 			$old_value = $value;
 
@@ -207,33 +207,33 @@ class Metadata extends Shortcode {
 
 			/**
 			 * Filter array-shaped meta value.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    array    $value
 			 * @param    array    $options
 			 */
-			return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, array( 'format' => $format ) );
+			return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, compact( 'format' ) );
 		}
 
 		/**
 		 * Filter meta value.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $value
 		 * @param    array     $options
 		 */
-		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, array( 'format' => $format ) );
+		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, compact( 'format' ) );
 	}
 
 	/**
 	 * Run the Shortcode.
-	 * 
+	 *
 	 * Perform all needed Shortcode stuff.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Shortcode
 	 */
 	public function run() {
@@ -250,7 +250,7 @@ class Metadata extends Shortcode {
 		$this->template->set_data( array(
 			'meta'  => $meta,
 			'label' => $label,
-			'key'   => $key
+			'key'   => $key,
 		) );
 
 		return $this;
@@ -258,12 +258,10 @@ class Metadata extends Shortcode {
 
 	/**
 	 * Initialize the Shortcode.
-	 * 
+	 *
 	 * Run things before doing anything.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function init() {}
 }

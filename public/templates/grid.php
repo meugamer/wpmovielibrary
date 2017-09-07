@@ -1,12 +1,12 @@
 <?php
 /**
  * Default Grid template.
- * 
+ *
  * The Grid content is dynamically generate using JavaScript. You really
  * should not edit this file.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @uses    $grid
  */
 ?>

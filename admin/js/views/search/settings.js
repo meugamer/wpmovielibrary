@@ -1,17 +1,16 @@
-
 wpmoly = window.wpmoly || {};
 
 var Search = wpmoly.view.Search || {};
 
 _.extend( Search, {
 
-	Settings: wp.Backbone.View.extend({
+	Settings : wp.Backbone.View.extend({
 
-		className: 'wpmoly-search-settings-container',
+		className : 'wpmoly-search-settings-container',
 
-		template: wp.template( 'wpmoly-search-settings' ),
+		template : wp.template( 'wpmoly-search-settings' ),
 
-		events: {
+		events : {
 			/*'click [data-setting="api-adult"]'               : 'switchSetting',
 			'click [data-setting="api-paginate"]'            : 'switchSetting',
 			'change [data-setting="search-year"]'            : 'setSetting',
@@ -33,10 +32,8 @@ _.extend( Search, {
 		 * Initialize the View.
 		 *
 		 * @since    3.0
-		 *
-		 * @return   void
 		 */
-		initialize: function( options ) {
+		initialize : function( options ) {
 
 			var options = options || {};
 
@@ -54,10 +51,8 @@ _.extend( Search, {
 		 * Toggle the setting panel.
 		 *
 		 * @since    3.0
-		 *
-		 * @return   void
 		 */
-		toggle: function() {
+		toggle : function() {
 
 			if ( this.opened ) {
 				this.close();
@@ -70,10 +65,8 @@ _.extend( Search, {
 		 * Open the setting panel.
 		 *
 		 * @since    3.0
-		 *
-		 * @return   void
 		 */
-		open: function() {
+		open : function() {
 
 			this.opened = true;
 			this.$el.slideDown( 250 );
@@ -85,10 +78,8 @@ _.extend( Search, {
 		 * Close the setting panel.
 		 *
 		 * @since    3.0
-		 *
-		 * @return   void
 		 */
-		close: function() {
+		close : function() {
 
 			this.opened = false;
 			this.$el.slideUp( 150 );
@@ -102,10 +93,8 @@ _.extend( Search, {
 		 * @since    3.0
 		 *
 		 * @param    object   JS 'click' event
-		 *
-		 * @return   void
 		 */
-		switchSetting: function( event ) {
+		switchSetting : function( event ) {
 
 			var $elem = this.$( event.currentTarget ),
 			  setting = $elem.attr( 'data-switch-setting' ),
@@ -126,10 +115,8 @@ _.extend( Search, {
 		 * @since    3.0
 		 *
 		 * @param    object   JS 'click' event
-		 *
-		 * @return   void
 		 */
-		setSetting: function( event ) {
+		setSetting : function( event ) {
 
 			var elem = event.currentTarget
 			   $elem = this.$( elem ),
@@ -143,10 +130,8 @@ _.extend( Search, {
 		 * Save the current set of settings.
 		 *
 		 * @since    3.0
-		 *
-		 * @return   void
 		 */
-		saveSettings: function() {
+		saveSettings : function() {
 
 			wpmoly.trigger( 'settings:save' );
 		},
@@ -156,14 +141,15 @@ _.extend( Search, {
 		 *
 		 * @since    3.0
 		 *
-		 * @return   void
+		 * @return   Returns itself to allow chaining.
 		 */
-		render: function() {
+		render : function() {
 
 			this.$el.html( this.template( this.model.toJSON() ) );
 
 			return this;
 		},
+
 	}),
 
 });

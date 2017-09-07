@@ -25,57 +25,57 @@ class Detail extends Metadata {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
-	 * 
+	 *
 	 * @var    string
 	 */
 	public static $name = 'movie_detail';
 
 	/**
 	 * Shortcode attributes sanitizers
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $validates = array(
 		'id' => array(
 			'default' => false,
 			'values'  => null,
-			'filter'  => 'intval'
+			'filter'  => 'intval',
 		),
 		'title' => array(
 			'default' => null,
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'label' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => 'boolval'
+			'filter'  => 'boolval',
 		),
 		'key' => array(
 			'default' => false,
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'format' => array(
 			'default' => 'display',
 			'values'  => null,
-			'filter'  => 'esc_attr'
+			'filter'  => 'esc_attr',
 		),
 		'icon' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => '_is_boolval'
+			'filter'  => '_is_boolval',
 		),
 		'text' => array(
 			'default' => true,
 			'values'  => null,
-			'filter'  => '_is_boolval'
-		)
+			'filter'  => '_is_boolval',
+		),
 	);
 
 	/**
 	 * Shortcode aliases
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected static $aliases = array(
@@ -84,17 +84,15 @@ class Detail extends Metadata {
 		'my_movie_media'     => 'media',
 		'my_movie_language'  => 'language',
 		'my_movie_format'    => 'format',
-		'my_movie_subtitles' => 'subtitles'
+		'my_movie_subtitles' => 'subtitles',
 	);
 
 	/**
 	 * Build the Shortcode.
-	 * 
+	 *
 	 * Prepare Shortcode parameters.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
@@ -114,9 +112,9 @@ class Detail extends Metadata {
 
 	/**
 	 * Get the detail value.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	protected function get_detail_value() {
@@ -128,13 +126,13 @@ class Detail extends Metadata {
 		$post_id = $this->get_movie_id();
 
 		// Get value
-		$value = get_movie_meta( $post_id, $key, $single = true );
+		$value = get_movie_meta( $post_id, $key, true );
 		if ( empty( $value ) ) {
 			/**
 			 * Filter empty detail value.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    string    $value
 			 * @param    string    $format
 			 */
@@ -151,9 +149,9 @@ class Detail extends Metadata {
 		if ( 'raw' == $format ) {
 			/**
 			 * Filter raw detail value.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    string    $value
 			 */
 			return apply_filters( "wpmoly/shortcode/format/{$key}/raw/value", $value );
@@ -166,9 +164,9 @@ class Detail extends Metadata {
 
 		/**
 		 * Filter detail value.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $value
 		 * @param    string    $format
 		 */
@@ -177,11 +175,11 @@ class Detail extends Metadata {
 
 	/**
 	 * Run the Shortcode.
-	 * 
+	 *
 	 * Perform all needed Shortcode stuff.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Shortcode
 	 */
 	public function run() {
@@ -204,12 +202,10 @@ class Detail extends Metadata {
 
 	/**
 	 * Initialize the Shortcode.
-	 * 
+	 *
 	 * Run things before doing anything.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function init() {}
 }

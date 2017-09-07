@@ -1,14 +1,13 @@
-
 wpmoly = window.wpmoly || {};
 
 /**
  * Single grid item view.
- * 
+ *
  * This is a generic view, it can be extended to add specific per-node-type
  * features.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    {object}    [options]             View options.
  * @param    {object}    options.model         View related Backbone.Model object.
  * @param    {object}    options.controller    Grid controller.
@@ -17,14 +16,12 @@ wpmoly.view.GridNode = wp.Backbone.View.extend({
 
 	/**
 	 * Initialize the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
-	 * @return   void
 	 */
-	initialize: function( options ) {
+	initialize : function( options ) {
 
 		this.model = options.model || {};
 		this.controller = options.controller || {};
@@ -39,12 +36,12 @@ wpmoly.view.GridNode = wp.Backbone.View.extend({
 
 	/**
 	 * Set the View template based on settings.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   wp.template()
 	 */
-	setTemplate: function() {
+	setTemplate : function() {
 
 		var type = this.controller.settings.get( 'type' ),
 		    mode = this.controller.settings.get( 'mode' ),
@@ -62,12 +59,12 @@ wpmoly.view.GridNode = wp.Backbone.View.extend({
 
 	/**
 	 * Set $el class names depending on settings.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	setClassName: function() {
+	setClassName : function() {
 
 		var settings = this.controller.settings,
 		   className = [ 'node' ];
@@ -89,9 +86,9 @@ wpmoly.view.GridNode = wp.Backbone.View.extend({
 
 	/**
 	 * Prepare the View rendering options.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
 	prepare : function() {
@@ -108,35 +105,31 @@ wpmoly.view.GridNode = wp.Backbone.View.extend({
 
 /**
  * Single list-mode grid item view.
- * 
+ *
  * Simply changes the View's tagName property to 'li'.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    {object}    [options]             View options.
  * @param    {object}    options.model         View related Backbone.Model object.
  * @param    {object}    options.controller    Grid controller.
  */
 wpmoly.view.GridListNode = wpmoly.view.GridNode.extend({
 
-	tagName: 'li'
+	tagName : 'li'
 
 });
 
-wpmoly.view.GridArchiveNode = wpmoly.view.GridNode.extend({
-
-	
-
-});
+wpmoly.view.GridArchiveNode = wpmoly.view.GridNode;
 
 /**
  * Grid items container view.
- * 
+ *
  * This is a generic view, it can be extended to add specific per-node-type
  * features.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    {object}    [options]             View options.
  * @param    {object}    options.controller    Grid controller.
  * @param    {object}    options.collection    Grid collection.
@@ -147,14 +140,12 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	/**
 	 * Initialize the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
-	 * @return   void
 	 */
-	initialize: function( options ) {
+	initialize : function( options ) {
 
 		this.controller = options.controller || {};
 
@@ -174,12 +165,10 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	/**
 	 * Bind events.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
-	bindEvents: function() {
+	bindEvents : function() {
 
 		_.bindAll( this, 'adjust' );
 
@@ -214,16 +203,16 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	/**
 	 * Notify API request errors.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    collection
 	 * @param    object    xhr
 	 * @param    object    options
-	 * 
+	 *
 	 * @return    Returns itself to allow chaining.
 	 */
-	notifyError: function( collection, xhr, options ) {
+	notifyError : function( collection, xhr, options ) {
 
 		var message;
 		if ( ! _.isUndefined( xhr.responseJSON.message ) ) {
@@ -247,15 +236,15 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	/**
 	 * Add a new subview.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    model
 	 * @param    object    collection
-	 * 
+	 *
 	 * @return    Returns itself to allow chaining.
 	 */
-	addNode: function( model, collection ) {
+	addNode : function( model, collection ) {
 
 		var node = model.get( 'id' ),
 		nodeType = wpmoly.view.GridNode;
@@ -281,16 +270,16 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	/**
 	 * Add an existing subview.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    model
 	 * @param    object    collection
 	 * @param    object    options
-	 * 
+	 *
 	 * @return    Returns itself to allow chaining.
 	 */
-	removeNode: function( model, collection, options ) {
+	removeNode : function( model, collection, options ) {
 
 		var node = model.get( 'id' );
 
@@ -303,12 +292,12 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	/**
 	 * Set grid as loading.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return    Returns itself to allow chaining.
 	 */
-	loading: function() {
+	loading : function() {
 
 		if ( this.views.parent ) {
 			wpmoly.$( 'body,html' ).animate({
@@ -326,12 +315,12 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	/**
 	 * Set grid as loaded.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return    Returns itself to allow chaining.
 	 */
-	loaded: function() {
+	loaded : function() {
 
 		this.$el.removeClass( 'loading' );
 
@@ -340,28 +329,28 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	/**
 	 * Adjust content nodes to fit the grid.
-	 * 
+	 *
 	 * Should be extended.
-	 * 
-	 * TODO prevent this from running twice
-	 * 
+	 *
+	 * @TODO prevent this from running twice
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	adjust: function() {
+	adjust : function() {
 
 		return this;
 	},
 
 	/**
 	 * Render the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	render: function() {
+	render : function() {
 
 		wp.Backbone.View.prototype.render.apply( this, arguments );
 
@@ -377,14 +366,14 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 	/**
 	 * Empty the $el.
-	 * 
+	 *
 	 * Get of rid of pre-generated content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	preEmpty: function() {
+	preEmpty : function() {
 
 		if ( ! this.rendered ) {
 			this.rendered = true;
@@ -398,11 +387,11 @@ wpmoly.view.GridNodes = wp.Backbone.View.extend({
 
 /**
  * Grid items grid-mode container view.
- * 
+ *
  * Override this.adjust() to automatically fit items on page resizing.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    {object}    [options]             View options.
  * @param    {object}    options.controller    Grid controller.
  * @param    {object}    options.collection    Grid collection.
@@ -411,12 +400,12 @@ wpmoly.view.GridNodesGrid = wpmoly.view.GridNodes.extend({
 
 	/**
 	 * Adjust content nodes to fit the grid.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	adjust: function() {
+	adjust : function() {
 
 		var columns = this.controller.settings.get( 'columns' ),
 		       rows = this.controller.settings.get( 'rows' ),
@@ -450,29 +439,29 @@ wpmoly.view.GridNodesGrid = wpmoly.view.GridNodes.extend({
 
 /**
  * Grid items list-mode container view.
- * 
+ *
  * Override this.adjust() to automatically fit column number on page resizing.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    {object}    [options]             View options.
  * @param    {object}    options.controller    Grid controller.
  * @param    {object}    options.collection    Grid collection.
  */
 wpmoly.view.GridNodesList = wpmoly.view.GridNodes.extend({
 
-	tagName: 'ul',
+	tagName : 'ul',
 
 	/**
 	 * Adjust content nodes to fit the grid.
-	 * 
-	 * TODO handle this by UL columns rather than width
-	 * 
+	 *
+	 * @TODO handle this by UL columns rather than width
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	adjust: function() {
+	adjust : function() {
 
 		var columns = this.controller.settings.get( 'list_columns' ),
 		 idealWidth = this.controller.settings.get( 'column_width' ),
@@ -489,12 +478,12 @@ wpmoly.view.GridNodesList = wpmoly.view.GridNodes.extend({
 
 	/**
 	 * Render the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	render: function() {
+	render : function() {
 
 		wpmoly.view.GridNodes.prototype.render.apply( this, arguments );
 
@@ -505,14 +494,11 @@ wpmoly.view.GridNodesList = wpmoly.view.GridNodes.extend({
 
 /**
  * Grid items container view.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    {object}    [options]             View options.
  * @param    {object}    options.controller    Grid controller.
  * @param    {object}    options.collection    Grid collection.
  */
-wpmoly.view.GridNodesArchives = wpmoly.view.GridNodes.extend({
-
-	
-});
+wpmoly.view.GridNodesArchives = wpmoly.view.GridNodes;

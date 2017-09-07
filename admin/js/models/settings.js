@@ -1,11 +1,10 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.model, {
 
-	Settings: Backbone.Model.extend({
+	Settings : Backbone.Model.extend({
 
-		defaults: {
+		defaults : {
 			collection_autocomplete : true,
 			genre_autocomplete      : true,
 			actor_autocomplete      : true,
@@ -26,13 +25,13 @@ _.extend( wpmoly.model, {
 
 		/**
 		 * Initialize the Model.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    attributes
 		 * @param    object    options
 		 */
-		initialize: function( attributes, options ) {
+		initialize : function( attributes, options ) {
 
 			var options = options || {};
 			this.controller = options.controller;
@@ -42,30 +41,30 @@ _.extend( wpmoly.model, {
 
 		/**
 		 * Save the Settings.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    options
-		 * 
+		 *
 		 * @return   deferred
 		 */
-		save: function( options ) {
+		save : function( options ) {
 
 			return this.sync( 'save', this, options );
 		},
 
 		/**
 		 * Backbone.sync() override to allow custom queries.
-		 * 
+		 *
 		 * @since    3.0
 		 *
 		 * @param    string    method Are we saving or is it a regular sync?
 		 * @param    object    model Current model
 		 * @param    object    options Query options
-		 * 
+		 *
 		 * @return   mixed
 		 */
-		sync: function( method, model, options ) {
+		sync : function( method, model, options ) {
 
 			if ( 'save' == method ) {
 
@@ -76,23 +75,22 @@ _.extend( wpmoly.model, {
 
 				this.controller.status.start({
 					icon    : 'icon-settings',
-					message : wpmolyL10n.savingSettings
+					message : wpmolyL10n.savingSettings,
 				});
 
 				var self = this;
 				return wp.ajax.send( 'wpmoly_save_settings', {
-					data: {
-						settings: settings,
-						//nonce:   ''
+					data : {
+						settings : settings,
 					},
-					success: function( response ) {
+					success : function( response ) {
 						wpmoly.info( response );
-						self.controller.status.stop({ message: wpmolyL10n.settingsSaved });
+						self.controller.status.stop( { message : wpmolyL10n.settingsSaved } );
 					},
-					error: function( response ) {
+					error : function( response ) {
 						wpmoly.error( response );
-						self.controller.status.stop({ message: wpmolyL10n.settingsError });
-					}
+						self.controller.status.stop( { message : wpmolyL10n.settingsError } );
+					},
 				} );
 
 			} else {

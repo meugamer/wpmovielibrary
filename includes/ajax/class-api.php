@@ -25,9 +25,9 @@ class API {
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   API
 	 */
 	public function __construct() {
@@ -39,12 +39,12 @@ class API {
 
 	/**
 	 * API Search.
-	 * 
+	 *
 	 * Search TheMovieDB for movies matching the query. To get a specific
 	 * movie using its ID use the 'wpmoly_fetch_remote_movie' Ajax action.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	public function search_movie() {
@@ -71,11 +71,11 @@ class API {
 
 	/**
 	 * API fetch.
-	 * 
+	 *
 	 * Fetch a specific movie from TheMovieDB by its ID.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	public function fetch_movie() {
@@ -87,7 +87,7 @@ class API {
 
 		$params = array(
 			'append_to_response' => 'credits,images,release_dates',
-			'language'           => sanitize_text_field( $_POST['language'] )
+			'language'           => sanitize_text_field( $_POST['language'] ),
 		);
 
 		$result = $this->api->movie->get( $query, $params );
@@ -100,9 +100,9 @@ class API {
 
 	/**
 	 * Remote Query Backdrops from TMDb for the current post.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	public function fetch_backdrops() {
@@ -112,9 +112,9 @@ class API {
 
 	/**
 	 * Remote Query Posters from TMDb for the current post.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   null
 	 */
 	public function fetch_posters() {
@@ -124,11 +124,11 @@ class API {
 
 	/**
 	 * Remote Query Images from TMDb for the current post.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $type Images type, 'backdrops', 'posters' or 'both'
-	 * 
+	 *
 	 * @return   array
 	 */
 	public function fetch_images( $type = 'both' ) {
@@ -181,7 +181,7 @@ class API {
 			$images = array_merge( $backdrops, $posters );
 		} else {
 			$images = isset( $images->$type ) ? $images->$type : array();
-		}
+		} // End if().
 
 		global $wpdb;
 

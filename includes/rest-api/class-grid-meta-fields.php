@@ -27,17 +27,17 @@ class Grid_Meta_Fields extends WP_REST_Post_Meta_Fields {
 
 	/**
 	 * Retrieves the meta field value.
-	 * 
+	 *
 	 * Override WP_REST_Post_Meta_Fields::get_value() to remove custom prefix
 	 * on meta keys.
 	 *
 	 * @see WP_REST_Post_Meta_Fields::get_value()
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    int                $object_id Object ID to fetch meta for.
 	 * @param    WP_REST_Request    $request   Full details about the request.
-	 * 
+	 *
 	 * @return   WP_Error|object    Object containing the meta values by name, otherwise WP_Error object.
 	 */
 	public function get_value( $object_id, $request ) {
@@ -55,7 +55,7 @@ class Grid_Meta_Fields extends WP_REST_Post_Meta_Fields {
 
 	/**
 	 * Retrieves all the registered meta fields.
-	 * 
+	 *
 	 * Override WP_REST_Post_Meta_Fields::get_registered_fields() to remove
 	 * unrelated meta keys.
 	 *

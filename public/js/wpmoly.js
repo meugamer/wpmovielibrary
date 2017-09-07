@@ -1,4 +1,3 @@
-
 wpmolyL10n = window.wpmolyL10n || {};
 
 _.sprintf  = s.sprintf  = sprintf;
@@ -8,36 +7,36 @@ _.vsprintf = s.vsprintf = vsprintf;
 // Create the plugin namespace.
 wpmoly = window.wpmoly = {
 
-	NAME: 'WPMovieLibrary',
+	NAME : 'WPMovieLibrary',
 
-	SLUG: 'wpmoly',
+	SLUG : 'wpmoly',
 
-	VERSION: '3.0',
+	VERSION : '3.0',
 
-	debug: 'verbose',
+	debug : 'verbose',
 
-	L10n: {},
+	L10n : {},
 
-	runners: [],
+	runners : [],
 
-	$: jQuery,
+	$ : jQuery,
 
-	model: {},
+	model : {},
 
-	collection: {},
+	collection : {},
 
-	view: {},
+	view : {},
 
-	controller: {},
+	controller : {},
 
-	post_id: jQuery( '#post_ID' ).val() || ''
+	post_id : jQuery( '#post_ID' ).val() || ''
 };
 
 (function( $, _, Backbone ) {
 
 	/**
 	 * Use Backbone.Events to extend wpmoly.
-	 * 
+	 *
 	 * This way we're able to use internal events everywhere they're needed
 	 * and we allow third-party code to bind and interact with the plugin.
 	 */
@@ -47,105 +46,97 @@ wpmoly = window.wpmoly = {
 
 		/**
 		 * Confirm Modal.
-		 * 
+		 *
 		 * Returns a Backbone.View instance to bind 'confirm' and
 		 * 'cancel' events.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    message
 		 * @param    string    callback
 		 * @param    object    options
-		 * 
-		 * @return   void
 		 */
-		confirm: function( message, callback, options ) {
+		confirm : function( message, callback, options ) {
 
-			var options = options || {}, confirm;
-			    options = {
-				callback: options.callback || false,
-				model: new Backbone.Model({
-					text: message || '',
-					icon: options.icon || ''
-				})
-			};
+			var options = _.extend( options || {}, {
+				callback : options.callback || false,
+				model : new Backbone.Model({
+					text : message || '',
+					icon : options.icon || '',
+				}),
+			} );
 
 			return new wpmoly.view.Confirm( options );
 		},
 
 		/**
 		 * Wrapper for console.error()
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    message
 		 * @param    string    code
 		 * @param    object    options
-		 * 
-		 * @return   void
 		 */
-		error: function( message, code, options ) {
+		error : function( message, code, options ) {
 
-			var options = options || {};
-			    options.type = 'error';
+			var options = _.extend( options || {}, {
+				type : 'error',
+			} );
 
 			return wpmoly.log( message, code, options );
 		},
 
 		/**
 		 * Wrapper for console.warn()
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    message
 		 * @param    string    code
 		 * @param    object    options
-		 * 
-		 * @return   void
 		 */
-		warn: function( message, code, options ) {
+		warn : function( message, code, options ) {
 
-			var options = options || {};
-			    options.type = 'warn';
+			var options = _.extend( options || {}, {
+				type : 'warn',
+			} );
 
 			return wpmoly.log( message, code, options );
 		},
 
 		/**
 		 * Wrapper for console.info()
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    message
 		 * @param    string    code
 		 * @param    object    options
-		 * 
-		 * @return   void
 		 */
-		info: function( message, code, options ) {
+		info : function( message, code, options ) {
 
-			var options = options || {};
-			    options.type = 'info';
+			var options = _.extend( options || {}, {
+				type : 'info',
+			} );
 
 			return wpmoly.log( message, code, options );
 		},
-		
+
 		/**
 		 * Custom replacement for console.log()
-		 * 
+		 *
 		 * Make sure console.error(), console.warn(), console.info() or
 		 * console.log() functions are available and use them to output
 		 * custom messages in the browser's JS console.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    message
 		 * @param    string    code
 		 * @param    object    options
-		 * 
-		 * @return   void
 		 */
-		log: function( message, code, options ) {
+		log : function( message, code, options ) {
 
 			var options = options || {}, callback, prefix;
 
@@ -176,9 +167,9 @@ wpmoly = window.wpmoly = {
 
 	/**
 	 * We can go our own way! We can call it another lonely day…
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
 	wpmoly.run = function() {

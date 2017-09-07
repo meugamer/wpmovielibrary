@@ -11,9 +11,9 @@
 
 /**
  * Get WPMovieLibrary instance.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   Library
  */
 function get_wpmoly() {
@@ -25,12 +25,12 @@ function get_wpmoly() {
 
 /**
  * Retrieve a specific option.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $name Option name
  * @param    mixed     $default Option default value to return if needed
- * 
+ *
  * @return   mixed
  */
 function wpmoly_o( $name, $default = null ) {
@@ -42,12 +42,12 @@ function wpmoly_o( $name, $default = null ) {
 
 /**
  * Retrieve a specific option in a boolean form.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $name Option name
  * @param    mixed     $default Option default value to return if needed
- * 
+ *
  * @return   boolean
  */
 function wpmoly_is_o( $name, $default = null ) {
@@ -60,11 +60,11 @@ function wpmoly_is_o( $name, $default = null ) {
 
 /**
  * Return a WPMoly-defined object.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    mixed    $data Node ID, object or array
- * 
+ *
  * @return   object
  */
 function _get_object( $data, $object ) {
@@ -84,11 +84,11 @@ function _get_object( $data, $object ) {
 
 /**
  * Return a movie object.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    mixed    $movie Movie ID, object or array
- * 
+ *
  * @return   Movie|boolean
  */
 function get_movie( $movie ) {
@@ -98,17 +98,17 @@ function get_movie( $movie ) {
 
 /**
  * Return a headbox object.
- * 
+ *
  * $object has to be an \wpmoly\Node\Headbox instance in order to be handled
  * correctly. Headboxes support both Terms and Posts, need to make an
  * early distinction between the two.
- * 
+ *
  * TODO handle int parameter
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    object    $headbox Headbox object.
- * 
+ *
  * @return   Headbox|boolean
  */
 function get_headbox( $headbox ) {
@@ -124,39 +124,39 @@ function get_headbox( $headbox ) {
 
 /**
  * Return a post headbox object.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    mixed    $post Post ID, object or array
- * 
+ *
  * @return   PostHeadbox|boolean
  */
 function get_post_headbox( $post ) {
 
-	return _get_object( $post, '\wpmoly\Node\PostHeadbox' );
+	return _get_object( $post, '\wpmoly\Node\Post_Headbox' );
 }
 
 /**
  * Return a term headbox object.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    mixed    $term Term ID, object or array
- * 
+ *
  * @return   TermHeadbox|boolean
  */
 function get_term_headbox( $term ) {
 
-	return _get_object( $term, '\wpmoly\Node\TermHeadbox' );
+	return _get_object( $term, '\wpmoly\Node\Term_Headbox' );
 }
 
 /**
  * Return a grid object.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    mixed    $grid Grid ID, object or array
- * 
+ *
  * @return   Grid|boolean
  */
 function get_grid( $grid = null ) {
@@ -166,11 +166,11 @@ function get_grid( $grid = null ) {
 
 /**
  * Return an actor object.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    mixed    $actor Actor ID, object or array
- * 
+ *
  * @return   Actor|boolean
  */
 function get_actor( $actor ) {
@@ -180,11 +180,11 @@ function get_actor( $actor ) {
 
 /**
  * Return a collection object.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    mixed    $collection Collection ID, object or array
- * 
+ *
  * @return   Collection|boolean
  */
 function get_collection( $collection ) {
@@ -194,11 +194,11 @@ function get_collection( $collection ) {
 
 /**
  * Return an genre object.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    mixed    $genre Genre ID, object or array
- * 
+ *
  * @return   Genre|boolean
  */
 function get_genre( $genre ) {
@@ -208,13 +208,13 @@ function get_genre( $genre ) {
 
 /**
  * Return a grid metadata.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    int        $grid_id Grid ID, object or array
  * @param    string     $key Grid Meta key to return.
  * @param    boolean    $single Whether to return a single value
- * 
+ *
  * @return   Grid|boolean
  */
 function get_grid_meta( $grid_id, $key = '', $single = true ) {
@@ -246,13 +246,13 @@ function get_grid_meta( $grid_id, $key = '', $single = true ) {
 
 /**
  * Return a movie metadata.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    int        $movie_id Movie ID, object or array
  * @param    string     $key Movie Meta key to return.
  * @param    boolean    $single Whether to return a single value
- * 
+ *
  * @return   Movie|boolean
  */
 function get_movie_meta( $movie_id, $key = '', $single = true ) {
@@ -553,11 +553,11 @@ function is_movie_meta_key( $key ) {
 
 /**
  * Get a translation country instance.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $country Country name or ISO code
- * 
+ *
  * @return   \wpmoly\Helpers\Country
  */
 function get_country( $country ) {
@@ -567,11 +567,11 @@ function get_country( $country ) {
 
 /**
  * Get a translation language instance.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $language Language name or ISO code
- * 
+ *
  * @return   \wpmoly\Helpers\Language
  */
 function get_language( $language ) {
@@ -581,11 +581,11 @@ function get_language( $language ) {
 
 /**
  * Check if a specific page is an archive page.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    int    $post_id Page Post ID.
- * 
+ *
  * @return   boolean
  */
 function is_archive_page( $post_id ) {
@@ -597,11 +597,11 @@ function is_archive_page( $post_id ) {
 
 /**
  * Find the archive type corresponding to a page ID.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    int    $post_id Page Post ID.
- * 
+ *
  * @return   string|boolean
  */
 function get_archive_page_type( $post_id ) {
@@ -616,16 +616,16 @@ function get_archive_page_type( $post_id ) {
 
 /**
  * Retrieve taxonomies archive page links.
- * 
+ *
  * If the submitted taxonomy does not have a set archive page, return false.
  * Otherwise, return the page's permalink with or without the site home url
  * depending on $format.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $type Taxonomy type.
  * @param    string    $format URL format, 'relative' or 'absolute'.
- * 
+ *
  * @return   string|boolean
  */
 function get_taxonomy_archive_link( $type = '', $format = 'absolute' ) {
@@ -649,11 +649,11 @@ function get_taxonomy_archive_link( $type = '', $format = 'absolute' ) {
 
 /**
  * Retrieve an archive page ID.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $type Archive type.
- * 
+ *
  * @return   int
  */
 function get_archives_page_id( $type = '' ) {
@@ -670,27 +670,27 @@ function get_archives_page_id( $type = '' ) {
 
 /**
  * Get a post type archive page if any.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $type Archive type.
- * 
+ *
  * @return   WP_Post|null
  */
 function get_archives_page( $type = '' ) {
 
 	$post_id = get_archives_page_id( $type );
 
-	return $page = get_post( $post_id );
+	return get_post( $post_id );
 }
 
 /**
  * Check if there is an archive page set.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $type Archive type.
- * 
+ *
  * @return   boolean
  */
 function has_archives_page( $type = '' ) {
@@ -702,11 +702,11 @@ function has_archives_page( $type = '' ) {
 
 /**
  * Retrieve movies archive page link.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $format URL format, 'relative' or 'absolute'.
- * 
+ *
  * @return   string|boolean
  */
 function get_movie_archive_link( $format = 'absolute' ) {
@@ -721,9 +721,9 @@ function get_movie_archive_link( $format = 'absolute' ) {
 
 /**
  * Retrieve 'movie' post type archive page ID.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   int
  */
 function get_movie_archives_page_id() {
@@ -733,23 +733,23 @@ function get_movie_archives_page_id() {
 
 /**
  * Get 'movie' post type archive page if any.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   WP_Post|null
  */
 function get_movie_archives_page() {
 
 	$post_id = get_movie_archives_page_id();
 
-	return $page = get_post( $post_id );
+	return get_post( $post_id );
 }
 
 /**
  * Check if there is an archive page set for 'movie' post type.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   boolean
  */
 function has_movie_archives_page() {
@@ -761,11 +761,11 @@ function has_movie_archives_page() {
 
 /**
  * Retrieve actors archive page link.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $format URL format, 'relative' or 'absolute'.
- * 
+ *
  * @return   string|boolean
  */
 function get_actor_archive_link( $format = 'absolute' ) {
@@ -775,9 +775,9 @@ function get_actor_archive_link( $format = 'absolute' ) {
 
 /**
  * Retrieve 'actor' taxonomy archive page ID.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   int
  */
 function get_actor_archives_page_id() {
@@ -787,23 +787,23 @@ function get_actor_archives_page_id() {
 
 /**
  * Get 'actor' taxonomy archive page if any.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   WP_Post|null
  */
 function get_actor_archives_page() {
 
 	$post_id = get_actor_archives_page_id();
 
-	return $page = get_post( $post_id );
+	return get_post( $post_id );
 }
 
 /**
  * Check if there is an archive page set for 'actor' taxonomy.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   boolean
  */
 function has_actor_archives_page() {
@@ -815,11 +815,11 @@ function has_actor_archives_page() {
 
 /**
  * Retrieve collections archive page link.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $format URL format, 'relative' or 'absolute'.
- * 
+ *
  * @return   string|boolean
  */
 function get_collection_archive_link( $format = 'absolute' ) {
@@ -829,9 +829,9 @@ function get_collection_archive_link( $format = 'absolute' ) {
 
 /**
  * Retrieve 'collection' taxonomy archive page ID.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   int
  */
 function get_collection_archives_page_id() {
@@ -841,23 +841,23 @@ function get_collection_archives_page_id() {
 
 /**
  * Get 'collection' taxonomy archive page if any.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   WP_Post|null
  */
 function get_collection_archives_page() {
 
 	$post_id = get_collection_archives_page_id();
 
-	return $page = get_post( $post_id );
+	return get_post( $post_id );
 }
 
 /**
  * Check if there is an archive page set for 'collection' taxonomy.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   boolean
  */
 function has_collection_archives_page() {
@@ -869,11 +869,11 @@ function has_collection_archives_page() {
 
 /**
  * Retrieve genres archive page link.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string    $format URL format, 'relative' or 'absolute'.
- * 
+ *
  * @return   string|boolean
  */
 function get_genre_archive_link( $format = 'absolute' ) {
@@ -883,9 +883,9 @@ function get_genre_archive_link( $format = 'absolute' ) {
 
 /**
  * Retrieve 'genre' taxonomy archive page ID.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   int
  */
 function get_genre_archives_page_id() {
@@ -895,23 +895,23 @@ function get_genre_archives_page_id() {
 
 /**
  * Get 'genre' taxonomy archive page if any.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   WP_Post|null
  */
 function get_genre_archives_page() {
 
 	$post_id = get_genre_archives_page_id();
 
-	return $page = get_post( $post_id );
+	return get_post( $post_id );
 }
 
 /**
  * Check if there is an archive page set for 'genre' taxonomy.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @return   boolean
  */
 function has_genre_archives_page() {
@@ -923,16 +923,16 @@ function has_genre_archives_page() {
 
 /**
  * Strictly merge user defined arguments into defaults array.
- * 
+ *
  * This function is a alternative to wp_parse_args() to merge arrays strictly,
  * ie without adding used arguments that are not explicitely defined in the
  * default array.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    string|array    $args Value to merge with $detaults
  * @param    string|array    $defaults Array that serves as the defaults
- * 
+ *
  * @return   array           Strictly merged array
  */
 function parse_args_strict( $args, $defaults ) {
@@ -955,12 +955,12 @@ function parse_args_strict( $args, $defaults ) {
 /**
  * Strictly merge arrays. Any key from $args that is not present in $default
  * will be stripped from the result array.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    array    $args Array to merge with $detaults
  * @param    array    $default Array that serves as the defaults
- * 
+ *
  * @return   array    Strictly merged array
  */
 function _parse_args_strict( $args, $default ) {
@@ -979,11 +979,11 @@ function _parse_args_strict( $args, $default ) {
 
 /**
  * Literal boolean check.
- * 
+ *
  * @since    3.0
- * 
+ *
  * @param    mixed    $var
- * 
+ *
  * @return   boolean
  */
 function _is_bool( $var ) {

@@ -1,3 +1,10 @@
+<?php
+/**
+ * Metabox Template
+ *
+ * @since    3.0
+ */
+?>
 
 <?php do_action( 'wpmoly/before/metabox/content', $metabox ); ?>
 
@@ -18,7 +25,7 @@
 
 <?php foreach ( $tabs as $id => $tab ) : ?>
 
-				<li id="wpmoly-meta-<?php echo $id ?>" class="tab<?php echo $tab['default'] ?>"><a class="navigate" href="#wpmoly-meta-<?php echo $id ?>-panel"><span class="<?php echo $tab['icon'] ?>"></span>&nbsp; <span class="text"><?php _e( $tab['title'], 'wpmovielibrary' ) ?></span><span class="label hide-if-js" title=""><span></a></li>
+				<li id="wpmoly-meta-<?php echo $id ?>" class="tab<?php echo $tab['default'] ?>"><a class="navigate" href="#wpmoly-meta-<?php echo $id ?>-panel"><span class="<?php echo $tab['icon'] ?>"></span>&nbsp; <span class="text"><?php echo esc_html( $tab['title'], 'wpmovielibrary' ) ?></span><span class="label hide-if-js" title=""><span></a></li>
 <?php endforeach; ?>
 			</ul>
 

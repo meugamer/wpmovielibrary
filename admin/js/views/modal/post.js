@@ -1,29 +1,26 @@
-
 wpmoly = window.wpmoly || {};
 
 var media = wp.media,
-     Post = media.view.MediaFrame.Post,
-     l10n = media.view.l10n;
+Post = media.view.MediaFrame.Post,
+l10n = media.view.l10n;
 
 media.view.MediaFrame.Post = Post.extend({
 
 	/**
 	 * Initialize the Content View.
-	 * 
+	 *
 	 * Replace wp.media.view.MediaFrame.Post to add a new tab in the left
 	 * menu and custom buttons in the main Toolbar.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
-	initialize: function() {
+	initialize : function() {
 
 		Post.prototype.initialize.apply( this, arguments );
 
 		this.imagesController = new wpmoly.controller.Modal.Modal( {}, {
-			frame:    this,
-			autoload: true
+			frame    : this,
+			autoload : true,
 		} );
 
 		var options = {
@@ -33,16 +30,17 @@ media.view.MediaFrame.Post = Post.extend({
 			menu    : 'default',
 			title   : wpmolyL10n.modalTabTitle,
 			tabs    : {
-				backdrop: {
-					text:          wpmolyL10n.availableBackdrops,
-					defaultTab:    true,
-					fetchOnRender: true
+				backdrop : {
+					text          : wpmolyL10n.availableBackdrops,
+					defaultTab    : true,
+					fetchOnRender : true,
 				},
-				poster: {
-					text: wpmolyL10n.availablePosters
-				}
+				poster : {
+					text : wpmolyL10n.availablePosters,
+				},
 			},
-			priority: 100 // places it above Insert From URL
+			// places it above Insert From URL
+			priority : 100,
 		};
 
 		for ( var tab in options.tabs ) {
@@ -68,20 +66,18 @@ media.view.MediaFrame.Post = Post.extend({
 			toolbar.views.add( new wpmoly.view.Modal.ImagesSelection({
 				controller : this,
 				toolbar    : toolbar,
-				selection  : toolbar.selection
+				selection  : toolbar.selection,
 			}) );
 		}, this );
 	},
 
 	/**
 	 * Render the Router View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
 	 * @param    View      view
-	 * 
-	 * @return   void
 	 */
 	imagesRouterRender : function( options, view ) {
 
@@ -90,7 +86,7 @@ media.view.MediaFrame.Post = Post.extend({
 		for ( var tab in options.tabs ) {
 			tab_id = tab;
 			tabs[tab_id] = {
-				text: options.tabs[ tab ].text
+				text : options.tabs[ tab ].text,
 			};
 		}
 
@@ -100,31 +96,27 @@ media.view.MediaFrame.Post = Post.extend({
 
 	/**
 	 * Create the Toolbar View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    toolbar
-	 * 
-	 * @return   void
 	 */
 	imagesToolbarCreate : function( toolbar ) {
 
 		toolbar.view = new wpmoly.view.Modal.Toolbar({
 			controller : this,
-			selection  : this.imagesController.selection
+			selection  : this.imagesController.selection,
 		});
 
 	},
 
 	/**
 	 * Render the Content View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
 	 * @param    View      view
-	 * 
-	 * @return   void
 	 */
 	imagesContentRender : function( options, tab ) {
 
@@ -134,7 +126,7 @@ media.view.MediaFrame.Post = Post.extend({
 
 		this.imagesBrowser = new wpmoly.view.Modal.ImagesBrowser({
 			frame      : this,
-			controller : this.imagesController
+			controller : this.imagesController,
 		});
 
 		this.content.set( this.imagesBrowser );

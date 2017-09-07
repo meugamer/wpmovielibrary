@@ -1,41 +1,39 @@
-
 wpmoly = window.wpmoly || {};
 
 _.extend( wpmoly.view, {
 
-	ArchivePages: Backbone.View.extend({
+	ArchivePages : Backbone.View.extend({
 
-		el: '#wpmoly-archives-page-type',
+		el : '#wpmoly-archives-page-type',
 
-		events: {
+		events : {
 			'click #wpmoly-edit-archive-page'   : 'open',
 			'click #wpmoly-cancel-archive-page' : 'close',
 			'click #wpmoly-save-archive-page'   : 'update',
 		},
 
-		
 		/**
 		 * Initialize the View.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		initialize: function() {
+		initialize : function() {
 
-			this.settings = this.$( '#wpmoly-edit-archive-page-type');
+			this.settings = this.$( '#wpmoly-edit-archive-page-type' );
 		},
 
 		/**
 		 * Open the archive type settings block.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'click' Event
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		open: function( event ) {
+		open : function( event ) {
 
 			event.preventDefault();
 
@@ -49,14 +47,14 @@ _.extend( wpmoly.view, {
 
 		/**
 		 * Close the archive type settings block.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'click' Event
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		close: function( event ) {
+		close : function( event ) {
 
 			event.preventDefault();
 
@@ -70,14 +68,14 @@ _.extend( wpmoly.view, {
 
 		/**
 		 * Update the archive type.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    object    JS 'click' Event
-		 * 
+		 *
 		 * @return   Returns itself to allow chaining.
 		 */
-		update: function( event ) {
+		update : function( event ) {
 
 			event.preventDefault();
 
@@ -93,6 +91,8 @@ _.extend( wpmoly.view, {
 				this.settings.slideUp( 'fast' );
 				$trigger.show();
 			}
-		}
-	})
+		},
+
+	}),
+
 } );

@@ -33,9 +33,9 @@ class Frontend extends Assets {
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   \wpmoly\Frontend
 	 */
 	final public static function get_instance() {
@@ -120,7 +120,7 @@ class Frontend extends Assets {
 
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function enqueue_scripts() {
@@ -142,7 +142,7 @@ class Frontend extends Assets {
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function enqueue_styles() {
@@ -159,9 +159,9 @@ class Frontend extends Assets {
 
 	/**
 	 * Print the JavaScript templates for the frontend area.
-	 * 
+	 *
 	 * TODO try not to include this where it's not needed.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function enqueue_templates() {
@@ -191,10 +191,8 @@ class Frontend extends Assets {
 
 	/**
 	 * Register default filters for the plugin.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function set_default_filters() {
 
@@ -381,7 +379,7 @@ class Frontend extends Assets {
 
 	/**
 	 * Register the Shortcodes.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function register_shortcodes() {
@@ -398,9 +396,9 @@ class Frontend extends Assets {
 			'\wpmoly\Shortcodes\Detail',
 			'\wpmoly\Shortcodes\Countries',
 			'\wpmoly\Shortcodes\Languages',
-			'\wpmoly\Shortcodes\LocalReleaseDate',
-			'\wpmoly\Shortcodes\ReleaseDate',
-			'\wpmoly\Shortcodes\Runtime'
+			'\wpmoly\Shortcodes\Local_Release_Date',
+			'\wpmoly\Shortcodes\Release_Date',
+			'\wpmoly\Shortcodes\Runtime',
 		);
 
 		foreach ( $shortcodes as $shortcode ) {
@@ -410,14 +408,14 @@ class Frontend extends Assets {
 
 	/**
 	 * Display the movie Headbox along with movie content.
-	 * 
+	 *
 	 * If we're in search or archive templates, show the default, minimal
 	 * Headbox; if we're in single template, show the default full Headbox.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $content Post content.
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function the_headbox( $content ) {
@@ -442,7 +440,7 @@ class Frontend extends Assets {
 
 	/**
 	 * Register Widgets.
-	 * 
+	 *
 	 * @since    3.0
 	 */
 	public function register_widgets() {
@@ -450,7 +448,7 @@ class Frontend extends Assets {
 		$widgets = array(
 			'\wpmoly\Widgets\Statistics',
 			'\wpmoly\Widgets\Details',
-			'\wpmoly\Widgets\Grid'
+			'\wpmoly\Widgets\Grid',
 		);
 
 		foreach ( $widgets as $widget ) {

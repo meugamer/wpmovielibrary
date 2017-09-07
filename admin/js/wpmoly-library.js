@@ -1,13 +1,12 @@
-
 wpmoly = window.wpmoly || {};
 
 (function( $, _, Backbone ) {
 
 	library = wpmoly.library = {
 
-		runned: false,
+		runned : false,
 
-		run: function() {
+		run : function() {
 
 			var $library = $( '#wpmoly-library' );
 

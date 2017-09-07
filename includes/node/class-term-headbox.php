@@ -19,11 +19,11 @@ namespace wpmoly\Node;
  * @subpackage WPMovieLibrary/includes/node
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class TermHeadbox extends Headbox {
+class Term_Headbox extends Headbox {
 
 	/**
 	 * Class Constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 *
 	 * @param    int|Node|WP_Term    $node Node ID, node instance or term object
@@ -61,10 +61,8 @@ class TermHeadbox extends Headbox {
 
 	/**
 	 * Initialize the Headbox.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	public function init() {
 
@@ -73,30 +71,30 @@ class TermHeadbox extends Headbox {
 				'label'  => __( 'Collection', 'wpmovielibrary' ),
 				'themes' => array(
 					'default'  => __( 'Default', 'wpmovielibrary' ),
-					'extended' => __( 'Extended', 'wpmovielibrary' )
-				)
+					'extended' => __( 'Extended', 'wpmovielibrary' ),
+				),
 			),
 			'actor' => array(
 				'label'  => __( 'Actor', 'wpmovielibrary' ),
 				'themes' => array(
 					'default'  => __( 'Default', 'wpmovielibrary' ),
-					'extended' => __( 'Extended', 'wpmovielibrary' )
-				)
+					'extended' => __( 'Extended', 'wpmovielibrary' ),
+				),
 			),
 			'genre' => array(
 				'label'  => __( 'Genre', 'wpmovielibrary' ),
 				'themes' => array(
 					'default'  => __( 'Default', 'wpmovielibrary' ),
-					'extended' => __( 'Extended', 'wpmovielibrary' )
-				)
-			)
+					'extended' => __( 'Extended', 'wpmovielibrary' ),
+				),
+			),
 		);
 
 		/**
 		 * Filter the supported Headbox types.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    array    $headbox_types
 		 */
 		$this->supported_types = apply_filters( 'wpmoly/filter/headbox/supported/types', $headbox_types );
@@ -105,9 +103,9 @@ class TermHeadbox extends Headbox {
 
 			/**
 			 * Filter the supported Headbox themes.
-			 * 
+			 *
 			 * @since    3.0
-			 * 
+			 *
 			 * @param    array    $default_modes
 			 */
 			$this->supported_themes[ $type_id ] = apply_filters( 'wpmoly/filter/headbox/supported/' . $type_id . '/themes', $type['themes'] );
@@ -118,12 +116,10 @@ class TermHeadbox extends Headbox {
 
 	/**
 	 * Build the Headbox.
-	 * 
+	 *
 	 * Load items depending on presets or custom settings.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   array
 	 */
 	public function build() {
 
@@ -140,18 +136,18 @@ class TermHeadbox extends Headbox {
 
 	/**
 	 * Retrieve current headbox type.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_type() {
 
 		/**
 		 * Filter headbox default type.
-		 * 
+		 *
 		 * @since    3.0
-		 * 
+		 *
 		 * @param    string    $default_type
 		 */
 		$default_type = apply_filters( 'wpmoly/filter/headbox/default/type', '' );
@@ -165,11 +161,11 @@ class TermHeadbox extends Headbox {
 
 	/**
 	 * Set headbox type.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $type
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function set_type( $type ) {
@@ -178,14 +174,16 @@ class TermHeadbox extends Headbox {
 			$type = '';
 		}
 
-		return $this->type = $type;
+		$this->type = $type;
+
+		return $this->type;
 	}
 
 	/**
 	 * Retrieve current headbox theme.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function get_theme() {
@@ -199,11 +197,11 @@ class TermHeadbox extends Headbox {
 
 	/**
 	 * Set headbox theme.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $theme
-	 * 
+	 *
 	 * @return   string
 	 */
 	public function set_theme( $theme ) {
@@ -212,6 +210,9 @@ class TermHeadbox extends Headbox {
 			$theme = 'default';
 		}
 
-		return $this->theme = $theme;
+		$this->theme = $theme;
+
+		return $this->theme;
 	}
+
 }

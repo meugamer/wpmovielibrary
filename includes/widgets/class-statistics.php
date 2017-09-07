@@ -23,10 +23,8 @@ class Statistics extends Widget {
 
 	/**
 	 * Set default properties.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
@@ -37,12 +35,10 @@ class Statistics extends Widget {
 
 	/**
 	 * Build Widget content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
-	protected function build(  ) {
+	protected function build() {
 
 		$count = (array) wp_count_posts( 'movie' );
 		$count = array(
@@ -65,21 +61,21 @@ class Statistics extends Widget {
 			'total'       => get_movie_archive_link(),
 			'collections' => get_collection_archive_link(),
 			'genres'      => get_genre_archive_link(),
-			'actors'      => get_actor_archive_link()
+			'actors'      => get_actor_archive_link(),
 		);
 
 		// Prepare links
 		$links = array(
-			'%total%'       => sprintf( _n( '<strong>1</strong> movie', '<strong>%d</strong> movies', $count['movies'], 'wpmovielibrary' ), $count['movies'] ),
-			'%collections%' => sprintf( _n( '<strong>1</strong> collection', '<strong>%d</strong> collections', $count['collections'], 'wpmovielibrary' ), $count['collections'] ),
-			'%genres%'      => sprintf( _n( '<strong>1</strong> genre', '<strong>%d</strong> genres', $count['genres'], 'wpmovielibrary' ), $count['genres'] ),
-			'%actors%'      => sprintf( _n( '<strong>1</strong> actor', '<strong>%d</strong> actors', $count['actors'], 'wpmovielibrary' ), $count['actors'] )
+			'{total}'       => sprintf( _n( '<strong>%d</strong> movie', '<strong>%d</strong> movies', $count['movies'], 'wpmovielibrary' ), $count['movies'] ),
+			'{collections}' => sprintf( _n( '<strong>%d</strong> collection', '<strong>%d</strong> collections', $count['collections'], 'wpmovielibrary' ), $count['collections'] ),
+			'{genres}'      => sprintf( _n( '<strong>%d</strong> genre', '<strong>%d</strong> genres', $count['genres'], 'wpmovielibrary' ), $count['genres'] ),
+			'{actors}'      => sprintf( _n( '<strong>%d</strong> actor', '<strong>%d</strong> actors', $count['actors'], 'wpmovielibrary' ), $count['actors'] ),
 		);
 
 		// Replace
 		foreach ( $urls as $id => $url ) {
 			if ( false !== $url ) {
-				$links["%{$id}%"] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), $links["%{$id}%"] );
+				$links[ '{' . $id . '}' ] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), $links[ '{' . $id . '}' ] );
 			}
 		}
 
@@ -91,10 +87,8 @@ class Statistics extends Widget {
 
 	/**
 	 * Build Widget form content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function build_form() {
 
@@ -107,7 +101,7 @@ class Statistics extends Widget {
 		}
 
 		if ( empty( $this->get_attr( 'content' ) ) ) {
-			$this->set_attr( 'content', __( 'All combined you have a total of %total% in your library, regrouped in %collections%, %genres% and %actors%.', 'wpmovielibrary' ) );
+			$this->set_attr( 'content', __( 'All combined you have a total of {total} in your library, regrouped in {collections}, {genres} and {actors}.', 'wpmovielibrary' ) );
 		}
 	}
 }

@@ -23,21 +23,21 @@ class Node {
 
 	/**
 	 * Node ID.
-	 * 
+	 *
 	 * @var      int
 	 */
 	public $id;
 
 	/**
 	 * Node meta suffix.
-	 * 
+	 *
 	 * @var    string
 	 */
 	protected $suffix;
 
 	/**
 	 * Class Constructor.
-	 * 
+	 *
 	 * @since    3.0
 	 *
 	 * @param    int|Node|WP_Post    $node Node ID, node instance or post object
@@ -60,29 +60,29 @@ class Node {
 
 	/**
 	 * Load metadata.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	protected function get_property( $name ) {
 
 		// Load metadata
-		$value = get_post_meta( $this->id, $this->suffix . $name, $single = true );
+		$value = get_post_meta( $this->id, $this->suffix . $name, true );
 
 		return $value;
 	}
 
 	/**
 	 * Property accessor.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name Property name
 	 * @param    mixed     $default Default value
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function get( $name, $default = null ) {
@@ -101,12 +101,12 @@ class Node {
 
 	/**
 	 * Set Property.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    string    $name
 	 * @param    mixed     $value
-	 * 
+	 *
 	 * @return   mixed
 	 */
 	public function set( $name, $value = null ) {
@@ -122,6 +122,9 @@ class Node {
 			return true;
 		}
 
-		return $this->$name = $value;
+		$this->$name = $value;
+
+		return $value;
 	}
+
 }

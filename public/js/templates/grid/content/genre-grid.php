@@ -1,7 +1,7 @@
 <?php
 /**
  * Default Genre Grid JavaScript template.
- * 
+ *
  * @since 3.0
  */
 

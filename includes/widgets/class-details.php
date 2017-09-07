@@ -23,7 +23,7 @@ class Details extends Widget {
 
 	/**
 	 * Widget default attributes.
-	 * 
+	 *
 	 * @var    array
 	 */
 	protected $defaults = array(
@@ -34,10 +34,8 @@ class Details extends Widget {
 
 	/**
 	 * Set default properties.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function make() {
 
@@ -48,10 +46,8 @@ class Details extends Widget {
 
 	/**
 	 * Build Widget content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function build() {
 
@@ -63,9 +59,9 @@ class Details extends Widget {
 			foreach ( array_keys( $details ) as $key ) {
 				/**
 				 * Filter detail value.
-				 * 
+				 *
 				 * @since    3.0
-				 * 
+				 *
 				 * @param    string    $value Detail value
 				 */
 				$details[ $key ] = apply_filters( "wpmoly/widget/format/{$detail}/value", $key );
@@ -86,10 +82,8 @@ class Details extends Widget {
 
 	/**
 	 * Build Widget form content.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
 	protected function build_form() {
 

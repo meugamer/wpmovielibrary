@@ -1,18 +1,15 @@
-
 wpmoly = window.wpmoly || {};
 
 wpmoly.view.Grid = wp.Backbone.View.extend({
 
-	template: wp.template( 'wpmoly-grid' ),
+	template : wp.template( 'wpmoly-grid' ),
 
 	/**
 	 * Initialize the View.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
-	 * @return   void
 	 */
-	initialize: function( options ) {
+	initialize : function( options ) {
 
 		this.controller = options.controller || {};
 
@@ -31,12 +28,12 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Update the grid classes on theme change.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	changeTheme: function( model, options ) {
+	changeTheme : function( model, options ) {
 
 		this.$el.removeClass( 'theme-' + model.previous( 'theme' ) );
 
@@ -47,12 +44,12 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Set subviews.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	setRegions: function() {
+	setRegions : function() {
 
 		this.setMenuView();
 		this.setSettingsView();
@@ -65,11 +62,11 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Set menu subview.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
 	setMenuView : function( options ) {
@@ -88,11 +85,11 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Set settings subview.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
 	setSettingsView : function( options ) {
@@ -111,11 +108,11 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Set customization subview.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
 	setCustomsView : function( options ) {
@@ -134,11 +131,11 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Set pagination subview.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
 	setPaginationView : function( options ) {
@@ -157,14 +154,14 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Set content subview.
-	 * 
+	 *
 	 * The content is set to use the original grid content generated on the
 	 * server to avoid reloading the grid directly on page load.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @param    object    options
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
 	setNodesView : function( options ) {
@@ -196,12 +193,12 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Set $el class names depending on settings.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	setClassName: function() {
+	setClassName : function() {
 
 		var settings = this.controller.settings,
 		    className = [ 'wpmoly' ];
@@ -219,12 +216,12 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Set a unique ID for $el.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	setUniqueId: function() {
+	setUniqueId : function() {
 
 		var post_id = this.controller.get( 'post_id' ),
 		    grid_id = 'grid-' + post_id;
@@ -240,12 +237,12 @@ wpmoly.view.Grid = wp.Backbone.View.extend({
 
 	/**
 	 * Render the view.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Returns itself to allow chaining.
 	 */
-	/*render: function() {
+	/*render : function() {
 
 		this.setClassName();
 		this.setUniqueId();

@@ -1,39 +1,36 @@
-
 wpmoly = window.wpmoly || {};
 
-_.extend( wpmoly.view, {
+wpmoly.view.Metabox = Backbone.View.extend({
 
-	Metabox: Backbone.View.extend({
+	events : {
+		'click .navigate': 'browse',
+	},
 
-		events: {
-			'click .navigate': 'browse'
-		},
+	initialize : function() {
 
-		initialize: function() {
+		this.$( '.wpmoly-meta-menu.css-powered' ).removeClass( 'css-powered' );
+		this.$( '.tab.default, .panel.default' ).removeClass( 'default' ).addClass( 'active' );
+	},
 
-			this.$( '.wpmoly-meta-menu.css-powered' ).removeClass( 'css-powered' );
-			this.$( '.tab.default, .panel.default' ).removeClass( 'default' ).addClass( 'active' );
-		},
+	browse : function( event ) {
 
-		browse: function( event ) {
+		event.preventDefault();
 
-			event.preventDefault();
+		var $elem = this.$( event.currentTarget ),
+			$tab = $elem.parent( 'li.tab' ),
+			$panel = this.$( event.currentTarget.hash ),
+			$_tab = this.$( '.tab.active' ),
+			$_panel = this.$( '.panel.active' );
 
-			var $elem = this.$( event.currentTarget ),
-			     $tab = $elem.parent( 'li.tab' ),
-			   $panel = this.$( event.currentTarget.hash ),
-			    $_tab = this.$( '.tab.active' ),
-			  $_panel = this.$( '.panel.active' );
+		this.trigger( 'close:panel', $_panel, $_tab );
 
-			this.trigger( 'close:panel', $_panel, $_tab );
+		$_tab.removeClass( 'active' );
+		$_panel.removeClass( 'active' );
 
-			$_tab.removeClass( 'active' );
-			$_panel.removeClass( 'active' );
+		this.trigger( 'open:panel', $panel, $tab );
 
-			this.trigger( 'open:panel', $panel, $tab );
+		$tab.addClass( 'active' );
+		$panel.addClass( 'active' );
+	},
 
-			$tab.addClass( 'active' );
-			$panel.addClass( 'active' );
-		}
-	})
-} );
+});

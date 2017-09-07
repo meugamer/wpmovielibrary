@@ -25,20 +25,20 @@ namespace wpmoly\Core;
  * @subpackage WPMovieLibrary/includes/core
  * @author     Charlie Merland <charlie@caercam.org>
  */
-class i18n {
+class I18n {
 
 	/**
 	 * Singleton.
 	 *
-	 * @var    i18n
+	 * @var    I18n
 	 */
 	private static $instance = null;
 
 	/**
 	 * Singleton.
-	 * 
+	 *
 	 * @since    3.0
-	 * 
+	 *
 	 * @return   Options
 	 */
 	final public static function get_instance() {

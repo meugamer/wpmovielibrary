@@ -1,4 +1,3 @@
-
 /*
  * Movie Headbox.
  */
@@ -483,13 +482,9 @@
 	width: 36px;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.meta {
-	
-}
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.meta {}
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.details {
-	
-}
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.details {}
 
 .wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.meta .meta.field,
 .wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.details .meta.field {
@@ -522,9 +517,7 @@
 	width: 70%;
 }
 
-.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.images {
-	
-}
+.wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.images {}
 
 .wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.images .movie-backdrops,
 .wpmoly.movie-headbox.theme-vintage .headbox-content .headbox-panel.images .movie-posters {
@@ -748,9 +741,7 @@
 	width: 58%;
 }
 
-.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details {
-	
-}
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details {}
 
 .wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.details .movie-tagline {
 	font-size: 14px;
@@ -802,9 +793,7 @@
 	padding-top: 24px;
 }
 
-.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors {
-	
-}
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors {}
 
 .wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .headbox-director,
 .wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.actors .headbox-cast,
@@ -845,9 +834,7 @@
 	text-align: center;
 }
 
-.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.images {
-	
-}
+.wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.images {}
 
 .wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.images .movie-backdrops,
 .wpmoly.movie-headbox.theme-allocine .headbox-content .headbox-panel.images .movie-posters {
@@ -1037,9 +1024,7 @@
 	width: 58%;
 }
 
-.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.details {
-	
-}
+.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.details {}
 
 .wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.details .movie-tagline {
 	font-size: 14px;
@@ -1091,9 +1076,7 @@
 	padding-top: 24px;
 }
 
-.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.actors {
-	
-}
+.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.actors {}
 
 .wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.actors .headbox-director,
 .wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.actors .headbox-cast,
@@ -1134,9 +1117,7 @@
 	text-align: center;
 }
 
-.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.images {
-	
-}
+.wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.images {}
 
 .wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.images .movie-backdrops,
 .wpmoly.movie-headbox.theme-allocine-2 .headbox-content .headbox-panel.images .movie-posters {
@@ -1194,9 +1175,7 @@
 	width: 24px;
 }
 
-.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .headbox-titles {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .headbox-titles {}
 
 .wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-title {
 	color: #fff;
@@ -1231,21 +1210,13 @@
 	width: 0;
 }
 
-.wpmoly.movie-headbox.theme-imdb-2  .headbox-header .headbox-release-info .movie-certification {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2  .headbox-header .headbox-release-info .movie-certification {}
 
-.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-runtime {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-runtime {}
 
-.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-genres {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-genres {}
 
-.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-release-date {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-release-info .movie-release-date {}
 
 .wpmoly.movie-headbox.theme-imdb-2 .headbox-header .headbox-poster {
 	overflow: hidden;
@@ -1272,9 +1243,7 @@
 	width: 100%;
 }
 
-.wpmoly.movie-headbox.theme-imdb-2 .headbox-content {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-content {}
 
 .wpmoly.movie-headbox.theme-imdb-2 .headbox-content a {
 	color: #136cb2;
@@ -1322,9 +1291,7 @@
 	margin: 24px 0;
 }
 
-.wpmoly.movie-headbox.theme-imdb-2 .headbox-images .movie-backdrops {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-images .movie-backdrops {}
 
 .wpmoly.movie-headbox.theme-imdb-2 .headbox-images .movie-backdrops .movie-backdrop {
 	float: left;
@@ -1336,9 +1303,7 @@
 	border-radius: 0;
 }
 
-.wpmoly.movie-headbox.theme-imdb-2 .headbox-cast {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-cast {}
 
 .wpmoly.movie-headbox.theme-imdb-2 .headbox-cast .movie-cast {
 	margin: 16px 0;
@@ -1380,13 +1345,9 @@
 	padding: 8px 16px;
 }
 
-.wpmoly.movie-headbox.theme-imdb-2 .headbox-meta .movie-overview {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-meta .movie-overview {}
 
-.wpmoly.movie-headbox.theme-imdb-2 .headbox-details {
-	
-}
+.wpmoly.movie-headbox.theme-imdb-2 .headbox-details {}
 
 .wpmoly.movie-headbox.theme-imdb-2 .meta.field {
 	margin: 4px 0;

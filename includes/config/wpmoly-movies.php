@@ -10,8 +10,9 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) )
+if ( ! defined( 'WPINC' ) ) {
 	wp_die();
+}
 
 $default_details = array(
 	'status' => array(
@@ -28,11 +29,12 @@ $default_details = array(
 		),
 		'default'  => '',
 		'multi'    => false,
-		'rewrite'  => array( 'status' => __( 'status', 'wpmovielibrary' ) ),
-
+		'rewrite'  => array(
+			'status' => __( 'status', 'wpmovielibrary' ),
+		),
 		'sanitize' => 'sanitize_key',
 		'sanitize_args' => null,
-		'escape'   => 'esc_attr'
+		'escape'   => 'esc_attr',
 	),
 	'media' => array(
 		'type'     => 'select',
@@ -51,11 +53,12 @@ $default_details = array(
 		),
 		'default'  => 'dvd',
 		'multi'    => true,
-		'rewrite'  => array( 'media' => __( 'media', 'wpmovielibrary' ) ),
-
+		'rewrite'  => array(
+			'media' => __( 'media', 'wpmovielibrary' ),
+		),
 		'sanitize' => 'sanitize_key',
 		'sanitize_args' => null,
-		'escape'   => 'esc_attr'
+		'escape'   => 'esc_attr',
 	),
 	'rating' => array(
 		'type'     => 'select',
@@ -74,15 +77,16 @@ $default_details = array(
 			'3.5' => __( 'Good', 'wpmovielibrary' ),
 			'4.0' => __( 'Very good', 'wpmovielibrary' ),
 			'4.5' => __( 'Excellent', 'wpmovielibrary' ),
-			'5.0' => __( 'Masterpiece', 'wpmovielibrary' )
+			'5.0' => __( 'Masterpiece', 'wpmovielibrary' ),
 		),
 		'default'  => '0.0',
 		'multi'    => false,
-		'rewrite'  => array( 'rating' => __( 'rating', 'wpmovielibrary' ) ),
-
+		'rewrite'  => array(
+			'rating' => __( 'rating', 'wpmovielibrary' ),
+		),
 		'sanitize' => 'sanitize_key',
 		'sanitize_args' => null,
-		'escape'   => 'esc_attr'
+		'escape'   => 'esc_attr',
 	),
 	'language' => array(
 		'type'     => 'select',
@@ -90,14 +94,15 @@ $default_details = array(
 		'title'    => __( 'Movie Language', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a language for this movie', 'wpmovielibrary' ),
 		'icon'     => 'wpmolicon icon-lang',
-		'options'  => \wpmoly\Core\l10n::$supported_languages,
+		'options'  => \wpmoly\Core\L10n::$supported_languages,
 		'default'  => '',
 		'multi'    => true,
-		'rewrite'  => array( 'lang' => __( 'lang', 'wpmovielibrary' ) ),
-
+		'rewrite'  => array(
+			'lang' => __( 'lang', 'wpmovielibrary' ),
+		),
 		'sanitize' => 'sanitize_key',
 		'sanitize_args' => null,
-		'escape'   => 'esc_attr'
+		'escape'   => 'esc_attr',
 	),
 	'subtitles' => array(
 		'type'     => 'select',
@@ -105,14 +110,17 @@ $default_details = array(
 		'title'    => __( 'Movie Subtitles', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a subtitle for this movie', 'wpmovielibrary' ),
 		'icon'     => 'wpmolicon icon-subtitles',
-		'options'  => array_merge( array( 'none' => __( 'None', 'wpmovielibrary' ) ), \wpmoly\Core\l10n::$supported_languages ),
+		'options'  => array_merge( array(
+			'none' => __( 'None', 'wpmovielibrary' ),
+		), \wpmoly\Core\L10n::$supported_languages ),
 		'default'  => 'none',
 		'multi'    => true,
-		'rewrite'  => array( 'subtitles' => __( 'subtitles', 'wpmovielibrary' ) ),
-
+		'rewrite'  => array(
+			'subtitles' => __( 'subtitles', 'wpmovielibrary' ),
+		),
 		'sanitize' => 'sanitize_key',
 		'sanitize_args' => null,
-		'escape'   => 'esc_attr'
+		'escape'   => 'esc_attr',
 	),
 	'format' => array(
 		'type'     => 'select',
@@ -127,12 +135,13 @@ $default_details = array(
 		),
 		'default'  => '',
 		'multi'    => true,
-		'rewrite'  => array( 'format' => __( 'format', 'wpmovielibrary' ) ),
-
+		'rewrite'  => array(
+			'format' => __( 'format', 'wpmovielibrary' ),
+		),
 		'sanitize' => 'sanitize_key',
 		'sanitize_args' => null,
-		'escape'   => 'esc_attr'
-	)
+		'escape'   => 'esc_attr',
+	),
 );
 
 $default_meta = array(
@@ -141,132 +150,144 @@ $default_meta = array(
 		'type'          => 'hidden',
 		'size'          => 'hidden',
 		'group'         => 'meta',
-		'rewrite'       => array( 'tmdb' => __( 'tmdb', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'tmdb' => __( 'tmdb', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_key',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'title' => array(
 		'title'         => __( 'Title', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'title' => __( 'title', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'title' => __( 'title', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'original_title' => array(
 		'title'         => __( 'Original Title', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'originaltitle' => __( 'originaltitle', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'originaltitle' => __( 'originaltitle', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'tagline' => array(
 		'title'         => __( 'Tagline', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'full',
 		'group'         => 'meta',
-		'rewrite'       => array( 'tagline' => __( 'tagline', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'tagline' => __( 'tagline', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'overview' => array(
 		'title'         => __( 'Overview', 'wpmovielibrary' ),
 		'type'          => 'textarea',
 		'size'          => 'full',
 		'group'         => 'meta',
-		'rewrite'       => array( 'overview' => __( 'overview', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'overview' => __( 'overview', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'release_date' => array(
 		'title'         => __( 'Release Date', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'date' => __( 'date', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'date' => __( 'date', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'local_release_date' => array(
 		'title'         => __( 'Local Release Date', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'local_date' => __( 'localdate', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'local_date' => __( 'localdate', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'runtime' => array(
 		'title'         => __( 'Runtime', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'runtime' => __( 'runtime', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'runtime' => __( 'runtime', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'production_companies' => array(
 		'title'         => __( 'Production', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'production' => __( 'production', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'production' => __( 'production', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'production_countries' => array(
 		'title'         => __( 'Country', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'country' => __( 'country', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'country' => __( 'country', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'spoken_languages' => array(
 		'title'         => __( 'Languages', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'language' => __( 'language', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'language' => __( 'language', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'genres' => array(
 		'title'         => __( 'Genres', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'full',
 		'group'         => 'meta',
-		'rewrite'       => array( 'genres' => __( 'genres', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'genres' => __( 'genres', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'director' => array(
 		'job' => 'Director',
@@ -274,11 +295,12 @@ $default_meta = array(
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'crew',
-		'rewrite'       => array( 'director' => __( 'director', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'director' => __( 'director', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'producer' => array(
 		'job' => 'Producer',
@@ -286,22 +308,24 @@ $default_meta = array(
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'crew',
-		'rewrite'       => array( 'producer' => __( 'producer', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'producer' => __( 'producer', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'cast' => array(
 		'title'         => __( 'Actors', 'wpmovielibrary' ),
 		'type'          => 'textarea',
 		'size'          => 'full',
 		'group'         => 'crew',
-		'rewrite'       => array( 'actor' => __( 'actor', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'actor' => __( 'actor', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'photography' => array(
 		'job' => 'Director of Photography',
@@ -309,11 +333,12 @@ $default_meta = array(
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'crew',
-		'rewrite'       => array( 'photography' => __( 'photography', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'photography' => __( 'photography', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'composer' => array(
 		'job' => 'Original Music Composer',
@@ -321,11 +346,12 @@ $default_meta = array(
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'crew',
-		'rewrite'       => array( 'composer' => __( 'composer', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'composer' => __( 'composer', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'author' => array(
 		'job' => 'Author',
@@ -333,11 +359,12 @@ $default_meta = array(
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'crew',
-		'rewrite'       => array( 'author' => __( 'author', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'author' => __( 'author', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'writer' => array(
 		'job' => 'Writer',
@@ -345,77 +372,81 @@ $default_meta = array(
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'crew',
-		'rewrite'       => array( 'writer' => __( 'writer', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'writer' => __( 'writer', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'certification' => array(
 		'title'         => __( 'Certification', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'certification' => __( 'certification', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'certification' => __( 'certification', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'budget' => array(
 		'title'         => __( 'Budget', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'budget' => __( 'budget', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'budget' => __( 'budget', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'revenue' => array(
 		'title'         => __( 'Revenue', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'revenue' => __( 'revenue', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'revenue' => __( 'revenue', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'imdb_id' => array(
 		'title'         => __( 'IMDb Id', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'imdb' => __( 'imdb', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'imdb' => __( 'imdb', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'adult' => array(
 		'title'         => __( 'Adult', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => array( 'adult' => __( 'adult', 'wpmovielibrary' ) ),
-
+		'rewrite'       => array(
+			'adult' => __( 'adult', 'wpmovielibrary' ),
+		),
 		'sanitize'      => 'sanitize_text_field',
 		'sanitize_args' => null,
-		'escape'        => 'esc_attr'
+		'escape'        => 'esc_attr',
 	),
 	'homepage' => array(
 		'title'         => __( 'Homepage', 'wpmovielibrary' ),
 		'type'          => 'text',
 		'size'          => 'half',
 		'group'         => 'meta',
-		'rewrite'       => null
-,
+		'rewrite'       => null,
 		'sanitize'      => 'esc_url_raw',
 		'sanitize_args' => null,
-		'escape'        => 'esc_url'
-
-	)
+		'escape'        => 'esc_url',
+	),
 );
