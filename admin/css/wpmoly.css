@@ -369,7 +369,6 @@
 #wpmoly-metabox #wpmoly-movie-search #wpmoly-search-form .wpmoly-search-settings #wpmoly-search-settings-toggle {
 	display: block;
 	font-size: 22px;
-	padding-left: 12px !important;
 }
 
 #wpmoly-metabox #wpmoly-movie-search #wpmoly-search-form .wpmoly-search-settings #wpmoly-search-settings-toggle:hover,
@@ -1265,11 +1264,10 @@
 	text-decoration: none;
 }
 
-#wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-load-images .wpmolicon {
-	left: 50%;
-	margin: -16px 0 0 -16px;
+#wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-load-images .dashicons {
+	left: calc( 50% - 10px );
 	position: absolute;
-	top: 50%;
+	top: calc( 50% - 10px );
 }
 
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image #wpmoly-import-posters,
@@ -1319,20 +1317,20 @@
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-upload-images .wpmolicon {
 	display: block;
 	font-size: 24px;
-	margin: 30px 0 6px;
+	margin: 30px auto 6px;
 }
 
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-import-images .label,
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image .wpmoly-upload-images .label {
 	display: block;
 	margin: 0 auto;
-	max-width: 72px;
+	max-width: 96px;
 	padding: 0 10px;
 }
 
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image #wpmoly-import-backdrops .wpmolicon,
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image #wpmoly-upload-backdrops .wpmolicon {
-	margin-top: 36px;
+	margin-top: 42px;
 }
 
 #wpmoly-metabox #wpmoly-meta .wpmoly-imported-images .wpmoly-image:hover {
@@ -1552,7 +1550,7 @@
 }
 
 body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-secondary .media-selection {
-	left: 64px;
+	left: 86px;
 }
 
 .media-modal .movie-images-browser .media-toolbar-secondary .spinner {
@@ -1562,6 +1560,7 @@ body.post-php.post-type-movie .media-modal .media-toolbar .media-toolbar-seconda
 
 .media-modal .media-toolbar .media-toolbar-third {
 	float: left;
+	height: 45px;
 	/*width: 64px;*/
 }
 

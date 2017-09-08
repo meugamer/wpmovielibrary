@@ -58,9 +58,10 @@ wpmoly = window.wpmoly = {
 		 */
 		confirm : function( message, callback, options ) {
 
-			var options = _.extend( options || {}, {
-				callback : options.callback || false,
-				model : new Backbone.Model({
+			var options = options || {};
+			options = _.extend( options, {
+				callback : callback || false,
+				model    : new Backbone.Model({
 					text : message || '',
 					icon : options.icon || '',
 				}),

@@ -195,10 +195,11 @@ Modal.ImagesSelection = wp.media.View.extend({
 		}
 
 		var title = s.aquote( wpmoly.editor.controller.meta.get( 'title' ) ),
-			images = wpmoly.l10n._n( wpmolyL10n.selectedImages, this.selection.length ),
+		   images = wpmoly.l10n._n( wpmolyL10n.selectedImages, this.selection.length ),
 		imagetype = wpmoly.l10n._n( wpmolyL10n[ type ], this.selection.length ),
-			confirm = wpmoly.confirm( s.sprintf( wpmolyL10n.setImagesAs, images, s.decapitalize( imagetype ), '<em>' + title + '</em>' ) );
+		  confirm = wpmoly.confirm( s.sprintf( wpmolyL10n.setImagesAs, images, s.decapitalize( imagetype ), '<em>' + title + '</em>' ) );
 
+		console.log( confirm );
 		confirm.on( 'confirm', function() {
 			wpmoly.trigger( 'modal:images:set-as', type );
 		}, this );

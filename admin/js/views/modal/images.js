@@ -344,7 +344,7 @@ Modal.Image = wp.media.View.extend({
 
 });
 
-Model.Images = wp.media.View.extend({
+Modal.Images = wp.media.View.extend({
 
 	id : _.uniqueId( '__attachments-view-' ),
 

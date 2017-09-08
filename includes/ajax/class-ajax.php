@@ -246,8 +246,8 @@ class Ajax {
 			while ( $media->has_items() ) {
 				$image = $media->the_item();
 				$attachment = wp_prepare_attachment_for_js( $image->id );
-				$image = array_merge( $image->data, $attachment );
-				$media->add( $image, $media->key() );
+				//$image = array_merge( $image->data, $attachment );
+				$media->add( $attachment, $media->key() );
 			}
 		}
 

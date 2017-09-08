@@ -215,10 +215,22 @@ wpmoly.model.Metadata = wpmoly.model.Meta.extend({
 
 			release = release.release_dates;
 			if ( 1 < release.length ) {
-				// Type 3 = theatrical release date
-				release = _.where( release, { type : 3 } );
+				// Type 1: Premiere
+				// Type 2: Theatrical (limited)
+				// Type 3: Theatrical
+				// Type 4: Digital
+				// Type 5: Physical
+				// Type 6: TV
+				for ( type in _.range( 2, 7 ) ) {
+					release = _.where( release, { type : type } );
+					if ( release.length ) {
+						release = release.shift();
+						break;
+					}
+				}
+			} else {
+				release = release.shift();
 			}
-			release = release.shift();
 
 			attrs.local_release_date = new Date( release.release_date ).toAPIDateString();
 			attrs.certification = release.certification;
