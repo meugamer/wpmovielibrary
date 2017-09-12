@@ -7,7 +7,7 @@ body.toplevel_page_wpmovielibrary .wrap {
 	left: calc( 50% - 100px );
 	position: absolute;
 	text-align: center;
-	top: calc( 50% - 100px );
+	margin-top: 30%;
 	width: 200px;
 }
 
