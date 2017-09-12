@@ -99,7 +99,7 @@ class Grid_Builder extends Metabox {
 							'type'    => 'radio-image',
 							'section' => 'grid-presets',
 							'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
-							'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+							'description' => esc_html__( 'Select a preset to apply to the grid.', 'wpmovielibrary' ),
 							'attr'    => array(
 								'class' => 'visible-labels half-col',
 							),
@@ -165,7 +165,7 @@ class Grid_Builder extends Metabox {
 							'type'     => 'text',
 							'section'  => 'grid-appearance',
 							'label'    => esc_html__( 'Number of columns', 'wpmovielibrary' ),
-							'description' => esc_html__( 'Number of columns for the grid. Default is 4.', 'wpmovielibrary' ),
+							'description' => esc_html__( 'Number of columns for the grid. Default is 5.', 'wpmovielibrary' ),
 							'attr'     => array(
 								'class' => 'half-col grid-mode',
 								'size' => '2',
@@ -176,7 +176,7 @@ class Grid_Builder extends Metabox {
 							'type'     => 'text',
 							'section'  => 'grid-appearance',
 							'label'    => esc_html__( 'Number of rows', 'wpmovielibrary' ),
-							'description' => esc_html__( 'Number of rows for the grid. Default is 5.', 'wpmovielibrary' ),
+							'description' => esc_html__( 'Number of rows for the grid. Default is 4.', 'wpmovielibrary' ),
 							'attr'     => array(
 								'class' => 'half-col grid-mode',
 								'size' => '2',
@@ -187,7 +187,7 @@ class Grid_Builder extends Metabox {
 							'type'     => 'text',
 							'section'  => 'grid-appearance',
 							'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
-							'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 160.', 'wpmovielibrary' ),
+							'description' => esc_html__( 'Ideal width for posters. Grid columns will never exceed that width. Default is 134.', 'wpmovielibrary' ),
 							'attr'     => array(
 								'class' => 'half-col grid-mode',
 								'size' => '2',
@@ -198,7 +198,7 @@ class Grid_Builder extends Metabox {
 							'type'     => 'text',
 							'section'  => 'grid-appearance',
 							'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
-							'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 240.', 'wpmovielibrary' ),
+							'description' => esc_html__( 'Ideal height for posters. Grid rows will never exceed that height. Tip: that value should be equal to ideal width times 1.5. Default is 200.', 'wpmovielibrary' ),
 							'attr'     => array(
 								'class' => 'half-col grid-mode',
 								'size' => '2',
@@ -307,7 +307,7 @@ class Grid_Builder extends Metabox {
 							'type'    => 'radio-image',
 							'section' => 'grid-presets',
 							'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
-							'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+							'description' => esc_html__( 'Select a preset to apply to the grid.', 'wpmovielibrary' ),
 							'attr'    => array(
 								'class' => 'visible-labels half-col',
 							),
@@ -475,7 +475,7 @@ class Grid_Builder extends Metabox {
 							'type'    => 'radio-image',
 							'section' => 'grid-presets',
 							'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
-							'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+							'description' => esc_html__( 'Select a preset to apply to the grid.', 'wpmovielibrary' ),
 							'attr'    => array(
 								'class' => 'visible-labels half-col',
 							),
@@ -643,7 +643,7 @@ class Grid_Builder extends Metabox {
 							'type'    => 'radio-image',
 							'section' => 'grid-presets',
 							'label'   => esc_html__( 'Grid preset', 'wpmovielibrary' ),
-							'description' => esc_html__( 'Select a preset to apply to the grid. Presets override any filters and ordering settings you might define, be sure to select "Custom" for those settings to be used.', 'wpmovielibrary' ),
+							'description' => esc_html__( 'Select a preset to apply to the grid.', 'wpmovielibrary' ),
 							'attr'    => array(
 								'class' => 'visible-labels half-col',
 							),

@@ -108,7 +108,7 @@ class Archive_Pages extends Metabox {
 								'type'      => 'posts',
 								'post_type' => 'grid',
 								'section'   => 'grid-settings',
-								'label'     => esc_html__( 'Grid ID', 'wpmovielibrary' ),
+								'label'     => esc_html__( 'Grid', 'wpmovielibrary' ),
 								// translators: link to create a new page.
 								'description' => sprintf( esc_html__( 'Select a Grid to show in the page content. Or maybe %s?', 'wpmovielibrary' ), sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( admin_url( 'post-new.php?post_type=grid' ) ), __( 'add a new one', 'wpmovielibrary' ) ) ),
 								'attr'      => array(
@@ -134,7 +134,7 @@ class Archive_Pages extends Metabox {
 								'type'     => 'checkbox',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Adapt Page Title', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Try to adapt the page’s title to fit the grid content changes: ordering, sorting…', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Try to adapt the page’s title to the Grid title.', 'wpmovielibrary' ),
 								'attr'     => array(
 									'class' => 'half-col',
 								),
@@ -143,7 +143,7 @@ class Archive_Pages extends Metabox {
 								'type'     => 'checkbox',
 								'section'  => 'grid-settings',
 								'label'    => esc_html__( 'Adapt Post Title', 'wpmovielibrary' ),
-								'description' => esc_html__( 'Try to adapt the post title to fit the grid content changes: ordering, sorting…', 'wpmovielibrary' ),
+								'description' => esc_html__( 'Try to adapt the post title to fit the Grid title.', 'wpmovielibrary' ),
 								'attr'     => array(
 									'class' => 'half-col',
 								),

@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WPMovieLibrary package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPMovieLibrary 3.0-alpha1\n"
+"Project-Id-Version: WPMovieLibrary 3.0-alpha2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2017-02-22 18:46+0100\n"
-"PO-Revision-Date: 2017-02-22 18:46+0100\n"
+"POT-Creation-Date: 2017-09-12 19:59+0100\n"
+"PO-Revision-Date: 2017-09-12 19:59+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: English\n"
@@ -20,52 +20,55 @@ msgstr ""
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ../admin\n"
-"X-Poedit-SearchPath-1: ../includes/ajax\n"
-"X-Poedit-SearchPath-2: ../includes/api\n"
-"X-Poedit-SearchPath-3: ../includes/config\n"
+"X-Poedit-SearchPath-1: ../admin/templates\n"
+"X-Poedit-SearchPath-2: ../includes/ajax\n"
+"X-Poedit-SearchPath-3: ../includes/api\n"
 "X-Poedit-SearchPath-4: ../includes/core\n"
-"X-Poedit-SearchPath-5: ../includes/node\n"
-"X-Poedit-SearchPath-6: ../includes\n"
-"X-Poedit-SearchPath-7: ../public\n"
+"X-Poedit-SearchPath-5: ../includes/helpers\n"
+"X-Poedit-SearchPath-6: ../includes/node\n"
+"X-Poedit-SearchPath-7: ../includes/rest-api\n"
+"X-Poedit-SearchPath-8: ../includes/templates\n"
+"X-Poedit-SearchPath-9: ../includes/widgets\n"
+"X-Poedit-SearchPath-10: ../public\n"
+"X-Poedit-SearchPath-11: ../public/shortcodes\n"
+"X-Poedit-SearchPath-12: ../public/templates\n"
 
-#: ../admin/class-backstage.php:591 ../admin/class-backstage.php:592
-#: ../includes/core/class-registrar.php:120
+#: ../admin/class-backstage.php:503 ../admin/class-backstage.php:504
+#: ../admin/templates/library.php:10 ../includes/core/class-registrar.php:132
 msgid "Movie Library"
 msgstr ""
 
-#: ../admin/class-backstage.php:612 ../admin/class-permalink-settings.php:180
+#: ../admin/class-backstage.php:522 ../admin/class-permalink-settings.php:284
 #: ../admin/class-archive-pages.php:68
-#: ../includes/config/wpmoly-options.php:211
-#: ../includes/config/wpmoly-options.php:763
-#: ../includes/config/wpmoly-options.php:1416
-#: ../includes/config/wpmoly-movies.php:296
-#: ../includes/core/class-registrar.php:338
+#: ../includes/core/class-registrar.php:401
+#: ../includes/core/class-registrar.php:788
 msgid "Actors"
 msgstr ""
 
-#: ../admin/class-backstage.php:613 ../admin/class-permalink-settings.php:258
+#: ../admin/class-backstage.php:523 ../admin/class-permalink-settings.php:362
 #: ../admin/class-archive-pages.php:69
-#: ../includes/config/wpmoly-options.php:643
-#: ../includes/core/class-registrar.php:282
-#: ../public/js/templates/grid/customs.php:81
+#: ../includes/core/class-registrar.php:732
+#: ../public/js/templates/grid/customs.php:89
 msgid "Collections"
 msgstr ""
 
-#: ../admin/class-backstage.php:614 ../admin/class-permalink-settings.php:219
+#: ../admin/class-backstage.php:524 ../admin/class-permalink-settings.php:323
 #: ../admin/class-archive-pages.php:70
-#: ../includes/config/wpmoly-options.php:196
-#: ../includes/config/wpmoly-options.php:703
-#: ../includes/config/wpmoly-movies.php:261
-#: ../includes/core/class-registrar.php:310
-#: ../public/js/templates/grid/customs.php:84
+#: ../includes/core/class-registrar.php:377
+#: ../includes/core/class-registrar.php:760
+#: ../public/js/templates/grid/customs.php:92
+#: ../public/templates/headboxes/movie-allocine.php:46
+#: ../public/templates/headboxes/movie-allocine.php:155
+#: ../public/templates/headboxes/movie-allocine-2.php:46
+#: ../public/templates/headboxes/movie-allocine-2.php:155
 msgid "Genres"
 msgstr ""
 
-#: ../admin/class-metabox.php:140 ../admin/class-metaboxes.php:62
+#: ../admin/class-metabox.php:140 ../admin/class-metaboxes.php:60
 msgid "WordPress Movie Library"
 msgstr ""
 
-#: ../admin/class-notices.php:62
+#: ../admin/class-notices.php:56
 #, php-format
 msgid ""
 "Changes have been made to the archive pages, permalinks settings need to be "
@@ -73,264 +76,237 @@ msgid ""
 "a>, no saving required."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:423
+#: ../admin/class-editor-metabox.php:400
 msgid ""
 "The movie search requires JavaScript to be enabled, but it seems it isn’t… "
 "Check your browser settings to make sure JavaScript is correctly activated."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:443
+#: ../admin/class-editor-metabox.php:421
 #, php-format
 msgid "Movie updated. <a href=\"%s\">View movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:444
+#: ../admin/class-editor-metabox.php:422
 msgid "Custom field updated."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:445
+#: ../admin/class-editor-metabox.php:423
 msgid "Custom field deleted."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:446
+#: ../admin/class-editor-metabox.php:424
 msgid "Movie updated."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:447
+#: ../admin/class-editor-metabox.php:425
 #, php-format
 msgid "Movie restored to revision from %s"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:448
+#: ../admin/class-editor-metabox.php:426
 #, php-format
 msgid "Movie published. <a href=\"%s\">View movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:449
+#: ../admin/class-editor-metabox.php:427
 msgid "Movie saved."
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:450
+#: ../admin/class-editor-metabox.php:428
 #, php-format
 msgid "Movie submitted. <a target=\"_blank\" href=\"%s\">Preview movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:451
+#: ../admin/class-editor-metabox.php:429
 #, php-format
 msgid ""
 "Movie scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s"
 "\">Preview movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:451
+#: ../admin/class-editor-metabox.php:429
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:452
+#: ../admin/class-editor-metabox.php:430
 #, php-format
 msgid "Movie draft updated. <a target=\"_blank\" href=\"%s\">Preview movie</a>"
 msgstr ""
 
-#: ../admin/class-editor-metabox.php:453
+#: ../admin/class-editor-metabox.php:431
 msgid "Successfully converted to movie."
 msgstr ""
 
-#: ../admin/class-term-editor.php:69
+#: ../admin/class-term-editor.php:67
 msgid "Actor Meta"
 msgstr ""
 
-#: ../admin/class-term-editor.php:73 ../admin/class-term-editor.php:136
-#: ../admin/class-term-editor.php:289
-msgid "Identity"
-msgstr ""
-
-#: ../admin/class-term-editor.php:80 ../admin/class-term-editor.php:143
-msgid "Person ID"
-msgstr ""
-
-#: ../admin/class-term-editor.php:81
-#, php-format
-msgid "Select a Person corresponding to this actor. Or maybe %s?"
-msgstr ""
-
-#: ../admin/class-term-editor.php:81 ../admin/class-archive-pages.php:114
-msgid "add a new one"
-msgstr ""
-
-#: ../admin/class-term-editor.php:86
-msgid "Use description as biography"
-msgstr ""
-
-#: ../admin/class-term-editor.php:87
-msgid "Use the term description content as the actor’s biography?"
-msgstr ""
-
-#: ../admin/class-term-editor.php:93 ../admin/class-term-editor.php:149
-#: ../admin/class-term-editor.php:323 ../admin/class-grid-builder.php:166
-#: ../admin/class-grid-builder.php:372 ../admin/class-grid-builder.php:574
-#: ../admin/class-grid-builder.php:767
-#: ../includes/config/wpmoly-options.php:1341
+#: ../admin/class-term-editor.php:91 ../admin/class-term-editor.php:147
+#: ../admin/class-term-editor.php:324 ../admin/class-grid-builder.php:161
+#: ../admin/class-grid-builder.php:329 ../admin/class-grid-builder.php:497
+#: ../admin/class-grid-builder.php:665
 msgid "Appearance"
 msgstr ""
 
-#: ../admin/class-term-editor.php:99
+#: ../admin/class-term-editor.php:97
 msgid "Custom Actor Picture"
 msgstr ""
 
-#: ../admin/class-term-editor.php:100
+#: ../admin/class-term-editor.php:98
 msgid "Upload a custom picture for this actor."
 msgstr ""
 
-#: ../admin/class-term-editor.php:106
+#: ../admin/class-term-editor.php:104
 msgid "Actor picture"
 msgstr ""
 
-#: ../admin/class-term-editor.php:107
+#: ../admin/class-term-editor.php:105
 msgid "A default picture for this actor."
 msgstr ""
 
-#: ../admin/class-term-editor.php:111
+#: ../admin/class-term-editor.php:108
 msgid "Neutral"
 msgstr ""
 
-#: ../admin/class-term-editor.php:115
+#: ../admin/class-term-editor.php:112
 msgid "Female"
 msgstr ""
 
-#: ../admin/class-term-editor.php:119
+#: ../admin/class-term-editor.php:116
 msgid "Male"
 msgstr ""
 
-#: ../admin/class-term-editor.php:132 ../admin/class-term-editor.php:285
+#: ../admin/class-term-editor.php:130 ../admin/class-term-editor.php:285
 msgid "Genre Meta"
 msgstr ""
 
-#: ../admin/class-term-editor.php:144
-msgid "Select a Person related to this collection. A director maybe?"
-msgstr ""
-
-#: ../admin/class-term-editor.php:155
+#: ../admin/class-term-editor.php:153
 msgid "Custom Collection Thumbnail"
 msgstr ""
 
-#: ../admin/class-term-editor.php:156
+#: ../admin/class-term-editor.php:154
 msgid "Upload a custom thumbnail for this collection."
 msgstr ""
 
-#: ../admin/class-term-editor.php:162
+#: ../admin/class-term-editor.php:160
 msgid "Collection thumbnail"
 msgstr ""
 
-#: ../admin/class-term-editor.php:163
+#: ../admin/class-term-editor.php:161
 msgid "A default thumbnail for this collection."
 msgstr ""
 
-#: ../admin/class-term-editor.php:168
+#: ../admin/class-term-editor.php:167
 msgid "Collection A"
 msgstr ""
 
-#: ../admin/class-term-editor.php:172
+#: ../admin/class-term-editor.php:171
 msgid "Collection B"
 msgstr ""
 
-#: ../admin/class-term-editor.php:176
+#: ../admin/class-term-editor.php:175
 msgid "Collection C"
 msgstr ""
 
-#: ../admin/class-term-editor.php:180
+#: ../admin/class-term-editor.php:179
 msgid "Collection D"
 msgstr ""
 
-#: ../admin/class-term-editor.php:184
+#: ../admin/class-term-editor.php:183
 msgid "Collection E"
 msgstr ""
 
-#: ../admin/class-term-editor.php:188
+#: ../admin/class-term-editor.php:187
 msgid "Collection F"
 msgstr ""
 
-#: ../admin/class-term-editor.php:192
+#: ../admin/class-term-editor.php:191
 msgid "Collection G"
 msgstr ""
 
-#: ../admin/class-term-editor.php:196
+#: ../admin/class-term-editor.php:195
 msgid "Collection H"
 msgstr ""
 
-#: ../admin/class-term-editor.php:200
+#: ../admin/class-term-editor.php:199
 msgid "Collection I"
 msgstr ""
 
-#: ../admin/class-term-editor.php:204
+#: ../admin/class-term-editor.php:203
 msgid "Collection J"
 msgstr ""
 
-#: ../admin/class-term-editor.php:208
+#: ../admin/class-term-editor.php:207
 msgid "Collection K"
 msgstr ""
 
-#: ../admin/class-term-editor.php:212
+#: ../admin/class-term-editor.php:211
 msgid "Collection L"
 msgstr ""
 
-#: ../admin/class-term-editor.php:216
+#: ../admin/class-term-editor.php:215
 msgid "Collection M"
 msgstr ""
 
-#: ../admin/class-term-editor.php:220
+#: ../admin/class-term-editor.php:219
 msgid "Collection N"
 msgstr ""
 
-#: ../admin/class-term-editor.php:224
+#: ../admin/class-term-editor.php:223
 msgid "Collection O"
 msgstr ""
 
-#: ../admin/class-term-editor.php:228
+#: ../admin/class-term-editor.php:227
 msgid "Collection P"
 msgstr ""
 
-#: ../admin/class-term-editor.php:232
+#: ../admin/class-term-editor.php:231
 msgid "Collection Q"
 msgstr ""
 
-#: ../admin/class-term-editor.php:236
+#: ../admin/class-term-editor.php:235
 msgid "Collection R"
 msgstr ""
 
-#: ../admin/class-term-editor.php:240
+#: ../admin/class-term-editor.php:239
 msgid "Collection S"
 msgstr ""
 
-#: ../admin/class-term-editor.php:244
+#: ../admin/class-term-editor.php:243
 msgid "Collection T"
 msgstr ""
 
-#: ../admin/class-term-editor.php:248
+#: ../admin/class-term-editor.php:247
 msgid "Collection U"
 msgstr ""
 
-#: ../admin/class-term-editor.php:252
+#: ../admin/class-term-editor.php:251
 msgid "Collection V"
 msgstr ""
 
-#: ../admin/class-term-editor.php:256
+#: ../admin/class-term-editor.php:255
 msgid "Collection W"
 msgstr ""
 
-#: ../admin/class-term-editor.php:260
+#: ../admin/class-term-editor.php:259
 msgid "Collection X"
 msgstr ""
 
-#: ../admin/class-term-editor.php:264
+#: ../admin/class-term-editor.php:263
 msgid "Collection Y"
 msgstr ""
 
-#: ../admin/class-term-editor.php:268
+#: ../admin/class-term-editor.php:267
 msgid "Collection Z"
 msgstr ""
 
-#: ../admin/class-term-editor.php:272
+#: ../admin/class-term-editor.php:271
 msgid "Default Collection"
+msgstr ""
+
+#: ../admin/class-term-editor.php:289
+msgid "Identity"
 msgstr ""
 
 #: ../admin/class-term-editor.php:295
@@ -341,268 +317,271 @@ msgstr ""
 msgid "Select the TMDb genre corresponding to this genre, if any."
 msgstr ""
 
-#: ../admin/class-term-editor.php:298 ../admin/class-term-editor.php:394
+#: ../admin/class-term-editor.php:299 ../admin/class-term-editor.php:396
 msgid "Action"
 msgstr ""
 
-#: ../admin/class-term-editor.php:299 ../admin/class-term-editor.php:366
+#: ../admin/class-term-editor.php:300 ../admin/class-term-editor.php:368
 msgid "Adventure"
 msgstr ""
 
-#: ../admin/class-term-editor.php:300 ../admin/class-term-editor.php:362
+#: ../admin/class-term-editor.php:301 ../admin/class-term-editor.php:364
 msgid "Animation"
 msgstr ""
 
-#: ../admin/class-term-editor.php:301 ../admin/class-term-editor.php:398
+#: ../admin/class-term-editor.php:302 ../admin/class-term-editor.php:400
 msgid "Comedy"
 msgstr ""
 
-#: ../admin/class-term-editor.php:302 ../admin/class-term-editor.php:346
+#: ../admin/class-term-editor.php:303 ../admin/class-term-editor.php:348
 msgid "Crime"
 msgstr ""
 
-#: ../admin/class-term-editor.php:303 ../admin/class-term-editor.php:410
+#: ../admin/class-term-editor.php:304 ../admin/class-term-editor.php:412
 msgid "Documentary"
 msgstr ""
 
-#: ../admin/class-term-editor.php:304 ../admin/class-term-editor.php:402
+#: ../admin/class-term-editor.php:305 ../admin/class-term-editor.php:404
 msgid "Drama"
 msgstr ""
 
-#: ../admin/class-term-editor.php:305 ../admin/class-term-editor.php:358
+#: ../admin/class-term-editor.php:306 ../admin/class-term-editor.php:360
 msgid "Family"
 msgstr ""
 
-#: ../admin/class-term-editor.php:306 ../admin/class-term-editor.php:374
+#: ../admin/class-term-editor.php:307 ../admin/class-term-editor.php:376
 msgid "Fantasy"
 msgstr ""
 
-#: ../admin/class-term-editor.php:307 ../admin/class-term-editor.php:378
+#: ../admin/class-term-editor.php:308 ../admin/class-term-editor.php:380
 msgid "Foreign"
 msgstr ""
 
-#: ../admin/class-term-editor.php:308 ../admin/class-term-editor.php:406
+#: ../admin/class-term-editor.php:309 ../admin/class-term-editor.php:408
 msgid "History"
 msgstr ""
 
-#: ../admin/class-term-editor.php:309 ../admin/class-term-editor.php:342
+#: ../admin/class-term-editor.php:310 ../admin/class-term-editor.php:344
 msgid "Horror"
 msgstr ""
 
-#: ../admin/class-term-editor.php:310 ../admin/class-term-editor.php:354
+#: ../admin/class-term-editor.php:311 ../admin/class-term-editor.php:356
 msgid "Music"
 msgstr ""
 
-#: ../admin/class-term-editor.php:311 ../admin/class-term-editor.php:414
+#: ../admin/class-term-editor.php:312 ../admin/class-term-editor.php:416
 msgid "Mystery"
 msgstr ""
 
-#: ../admin/class-term-editor.php:312 ../admin/class-term-editor.php:350
+#: ../admin/class-term-editor.php:313 ../admin/class-term-editor.php:352
 msgid "Romance"
 msgstr ""
 
-#: ../admin/class-term-editor.php:313
+#: ../admin/class-term-editor.php:314
 msgid "Science-fiction"
 msgstr ""
 
-#: ../admin/class-term-editor.php:314 ../admin/class-term-editor.php:418
+#: ../admin/class-term-editor.php:315 ../admin/class-term-editor.php:420
 msgid "Thriller"
 msgstr ""
 
-#: ../admin/class-term-editor.php:315 ../admin/class-term-editor.php:386
+#: ../admin/class-term-editor.php:316 ../admin/class-term-editor.php:388
 msgid "TV Movie"
 msgstr ""
 
-#: ../admin/class-term-editor.php:316 ../admin/class-term-editor.php:382
+#: ../admin/class-term-editor.php:317 ../admin/class-term-editor.php:384
 msgid "War"
 msgstr ""
 
-#: ../admin/class-term-editor.php:317 ../admin/class-term-editor.php:390
+#: ../admin/class-term-editor.php:318 ../admin/class-term-editor.php:392
 msgid "Western"
 msgstr ""
 
-#: ../admin/class-term-editor.php:329
+#: ../admin/class-term-editor.php:330
 msgid "Custom Genre Thumbnail"
 msgstr ""
 
-#: ../admin/class-term-editor.php:330
+#: ../admin/class-term-editor.php:331
 msgid "Upload a custom thumbnail for this genre."
 msgstr ""
 
-#: ../admin/class-term-editor.php:336
+#: ../admin/class-term-editor.php:337
 msgid "Genre thumbnail"
 msgstr ""
 
-#: ../admin/class-term-editor.php:337
+#: ../admin/class-term-editor.php:338
 msgid "A default thumbnail for this genre."
 msgstr ""
 
-#: ../admin/class-term-editor.php:370
+#: ../admin/class-term-editor.php:372
 msgid "Science Fiction"
 msgstr ""
 
-#: ../admin/class-term-editor.php:422
+#: ../admin/class-term-editor.php:424
 msgid "Unknown"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:64
-#: ../includes/core/class-rewrite.php:215
+#: ../admin/class-permalink-settings.php:87
+msgid "Movie Library Permalinks"
+msgstr ""
+
+#: ../admin/class-permalink-settings.php:161
+#: ../includes/core/class-rewrite.php:210
 msgctxt "slug"
 msgid "movie"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:65
+#: ../admin/class-permalink-settings.php:162
 msgctxt "slug"
 msgid "actor"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:66
+#: ../admin/class-permalink-settings.php:163
 msgctxt "slug"
 msgid "collection"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:67
+#: ../admin/class-permalink-settings.php:164
 msgctxt "slug"
 msgid "genre"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:68
+#: ../admin/class-permalink-settings.php:165
 msgctxt "slug"
 msgid "movies"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:69
+#: ../admin/class-permalink-settings.php:166
 msgctxt "slug"
 msgid "actors"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:70
+#: ../admin/class-permalink-settings.php:167
 msgctxt "slug"
 msgid "collections"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:71
+#: ../admin/class-permalink-settings.php:168
 msgctxt "slug"
 msgid "genres"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:111
+#: ../admin/class-permalink-settings.php:215
 #: ../admin/class-archive-pages.php:67
-#: ../includes/config/wpmoly-options.php:88
-#: ../includes/core/class-registrar.php:108
+#: ../includes/core/class-registrar.php:120
 msgid "Movies"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:116
+#: ../admin/class-permalink-settings.php:220
 msgid "Movie Permalinks"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:117
+#: ../admin/class-permalink-settings.php:221
 msgid ""
 "Permalink structure for single movie pages. <a href=\"https://codex."
 "wordpress.org/Using_Permalinks\">Standard tags</a> are supported along with "
 "specific movie tags."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:120
-#: ../admin/class-permalink-settings.php:169
-#: ../admin/class-permalink-settings.php:189
-#: ../admin/class-permalink-settings.php:208
-#: ../admin/class-permalink-settings.php:228
-#: ../admin/class-permalink-settings.php:247
-#: ../admin/class-permalink-settings.php:267
-#: ../admin/class-permalink-settings.php:286
+#: ../admin/class-permalink-settings.php:224
+#: ../admin/class-permalink-settings.php:273
+#: ../admin/class-permalink-settings.php:293
+#: ../admin/class-permalink-settings.php:312
+#: ../admin/class-permalink-settings.php:332
+#: ../admin/class-permalink-settings.php:351
+#: ../admin/class-permalink-settings.php:371
+#: ../admin/class-permalink-settings.php:390
 msgid "Simple"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:125
+#: ../admin/class-permalink-settings.php:229
 msgid "Title and Year"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:130
+#: ../admin/class-permalink-settings.php:234
 msgid "Title and Month"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:135
+#: ../admin/class-permalink-settings.php:239
 msgid "Title and Release Year"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:140
+#: ../admin/class-permalink-settings.php:244
 msgid "Title and Release Month"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:145
+#: ../admin/class-permalink-settings.php:249
 msgid "Title and IMDb ID"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:150
+#: ../admin/class-permalink-settings.php:254
 msgid "Title and TMDb ID"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:155
-#: ../admin/class-permalink-settings.php:194
-#: ../admin/class-permalink-settings.php:233
-#: ../admin/class-permalink-settings.php:272
+#: ../admin/class-permalink-settings.php:259
+#: ../admin/class-permalink-settings.php:298
+#: ../admin/class-permalink-settings.php:337
+#: ../admin/class-permalink-settings.php:376
 msgid "Archive base"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:165
+#: ../admin/class-permalink-settings.php:269
 msgid "Movie Archives Permalinks"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:166
+#: ../admin/class-permalink-settings.php:270
 msgid "Permalink structure for movies archives pages."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:185
+#: ../admin/class-permalink-settings.php:289
 msgid "Actor Permalinks"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:186
+#: ../admin/class-permalink-settings.php:290
 msgid "Permalink structure for single actor pages."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:204
+#: ../admin/class-permalink-settings.php:308
 msgid "Actors Archives Permalinks"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:205
+#: ../admin/class-permalink-settings.php:309
 msgid "Permalink structure for actors archives pages."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:224
+#: ../admin/class-permalink-settings.php:328
 msgid "Genre Permalinks"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:225
+#: ../admin/class-permalink-settings.php:329
 msgid "Permalink structure for single genre pages."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:243
+#: ../admin/class-permalink-settings.php:347
 msgid "Genres Archives Permalinks"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:244
+#: ../admin/class-permalink-settings.php:348
 msgid "Permalink structure for genres archives pages."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:263
+#: ../admin/class-permalink-settings.php:367
 msgid "Collection Permalinks"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:264
+#: ../admin/class-permalink-settings.php:368
 msgid "Permalink structure for single collection pages."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:282
+#: ../admin/class-permalink-settings.php:386
 msgid "Collections Archives Permalinks"
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:283
+#: ../admin/class-permalink-settings.php:387
 msgid "Permalink structure for collections archives pages."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:300
+#: ../admin/class-permalink-settings.php:404
 #, php-format
 msgid ""
 "An archive page has already been set for movies archives. This page will "
@@ -611,507 +590,549 @@ msgid ""
 "the page</a> post name."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:305
+#: ../admin/class-permalink-settings.php:409
 #, php-format
 msgid ""
 "You don’t have any archive page set for actors yet, which makes this setting "
-"meaningless. Define an archive page by <a href=\"%s\">creating a standard "
+"meaningless. Define an archive page by <a href=\"%1$s\">creating a standard "
 "WordPress page</a> and set it as archive in the relevant Metabox. <a href="
-"\"%s\">Learn more about archive pages</a>."
+"\"%2$s\">Learn more about archive pages</a>."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:310
+#: ../admin/class-permalink-settings.php:414
 #, php-format
 msgid ""
 "You don’t have any archive page set for genres yet, which makes this setting "
-"meaningless. Define an archive page by <a href=\"%s\">creating a standard "
+"meaningless. Define an archive page by <a href=\"%1$s\">creating a standard "
 "WordPress page</a> and set it as archive in the relevant Metabox. <a href="
-"\"%s\">Learn more about archive pages</a>."
+"\"%2$s\">Learn more about archive pages</a>."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:315
+#: ../admin/class-permalink-settings.php:419
 #, php-format
 msgid ""
 "You don’t have any archive page set for collections yet, which makes this "
-"setting meaningless. Define an archive page by <a href=\"%s\">creating a "
+"setting meaningless. Define an archive page by <a href=\"%1$s\">creating a "
 "standard WordPress page</a> and set it as archive in the relevant Metabox. "
-"<a href=\"%s\">Learn more about archive pages</a>."
+"<a href=\"%2$s\">Learn more about archive pages</a>."
 msgstr ""
 
-#: ../admin/class-permalink-settings.php:356
-msgid "Movie Library Permalinks"
-msgstr ""
-
-#: ../admin/class-archive-pages.php:66 ../admin/class-archive-pages.php:166
-#: ../admin/class-archive-pages.php:263
-#: ../includes/config/wpmoly-movies.php:108
+#: ../admin/class-archive-pages.php:66 ../admin/class-archive-pages.php:175
+#: ../admin/class-archive-pages.php:271
 msgid "None"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:100
+#: ../admin/class-archive-pages.php:98
 msgid "Archive Page Settings"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:106
+#: ../admin/class-archive-pages.php:104
 msgid "Archive Grid"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:113
-msgid "Grid ID"
+#: ../admin/class-archive-pages.php:111 ../admin/templates/widgets/grid.php:22
+#: ../includes/core/class-registrar.php:155
+#: ../includes/node/class-grid.php:139 ../includes/node/class-grid.php:173
+#: ../includes/node/class-grid.php:199 ../includes/node/class-grid.php:225
+#: ../public/js/templates/grid/customs.php:7
+msgid "Grid"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:114
+#: ../admin/class-archive-pages.php:113
 #, php-format
 msgid "Select a Grid to show in the page content. Or maybe %s?"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:121
-msgid "Grid Position"
+#: ../admin/class-archive-pages.php:113
+msgid "add a new one"
 msgstr ""
 
 #: ../admin/class-archive-pages.php:122
+msgid "Grid Position"
+msgstr ""
+
+#: ../admin/class-archive-pages.php:123
 msgid "Where should the Grid be displayed."
 msgstr ""
 
-#: ../admin/class-archive-pages.php:126
+#: ../admin/class-archive-pages.php:128
 msgid "Before Post content"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:127
+#: ../admin/class-archive-pages.php:129
 msgid "After Post content"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:135
+#: ../admin/class-archive-pages.php:136
 msgid "Adapt Page Title"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:136
-msgid ""
-"Try to adapt the page’s title to fit the grid content changes: ordering, "
-"sorting…"
+#: ../admin/class-archive-pages.php:137
+msgid "Try to adapt the page’s title to the Grid title."
 msgstr ""
 
-#: ../admin/class-archive-pages.php:142
+#: ../admin/class-archive-pages.php:145
 msgid "Adapt Post Title"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:143
-msgid ""
-"Try to adapt the post title to fit the grid content changes: ordering, "
-"sorting…"
+#: ../admin/class-archive-pages.php:146
+msgid "Try to adapt the post title to fit the Grid title."
 msgstr ""
 
-#: ../admin/class-archive-pages.php:149
+#: ../admin/class-archive-pages.php:154
 msgid "Single Terms"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:155
+#: ../admin/class-archive-pages.php:160
 msgid "Use for single terms"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:156
+#: ../admin/class-archive-pages.php:161
 msgid ""
 "Use this page to show single terms archives too. This will replace the "
 "standard WordPress archive page with a page containing the term Headbox and "
 "a grid of related movies."
 msgstr ""
 
-#: ../admin/class-archive-pages.php:162
-#: ../includes/config/wpmoly-options.php:1394
+#: ../admin/class-archive-pages.php:169
 msgid "Headbox Theme"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:163
+#: ../admin/class-archive-pages.php:170
 msgid ""
 "Select a theme for the term Headbox. Select \"None\" to hide the Headbox."
 msgstr ""
 
-#: ../admin/class-archive-pages.php:167
-#: ../includes/node/class-post-headbox.php:66
-#: ../includes/node/class-term-headbox.php:75
-#: ../includes/node/class-term-headbox.php:82
-#: ../includes/node/class-term-headbox.php:89
-#: ../includes/node/class-grid.php:189 ../includes/node/class-grid.php:207
-#: ../includes/node/class-grid.php:217 ../includes/node/class-grid.php:237
-#: ../includes/node/class-grid.php:247 ../includes/node/class-grid.php:257
-#: ../includes/node/class-grid.php:273 ../includes/node/class-grid.php:283
-#: ../includes/node/class-grid.php:293 ../includes/node/class-grid.php:309
-#: ../includes/node/class-grid.php:319 ../includes/node/class-grid.php:329
+#: ../admin/class-archive-pages.php:176
+#: ../includes/node/class-post-headbox.php:64
+#: ../includes/node/class-term-headbox.php:73
+#: ../includes/node/class-term-headbox.php:80
+#: ../includes/node/class-term-headbox.php:87
+#: ../includes/node/class-grid.php:143 ../includes/node/class-grid.php:161
+#: ../includes/node/class-grid.php:177 ../includes/node/class-grid.php:187
+#: ../includes/node/class-grid.php:203 ../includes/node/class-grid.php:213
+#: ../includes/node/class-grid.php:229 ../includes/node/class-grid.php:239
 msgid "Default"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:168
-#: ../includes/node/class-post-headbox.php:67
-#: ../includes/node/class-term-headbox.php:76
-#: ../includes/node/class-term-headbox.php:83
-#: ../includes/node/class-term-headbox.php:90
+#: ../admin/class-archive-pages.php:177
+#: ../includes/node/class-post-headbox.php:65
+#: ../includes/node/class-term-headbox.php:74
+#: ../includes/node/class-term-headbox.php:81
+#: ../includes/node/class-term-headbox.php:88
 msgid "Extended"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:175 ../admin/class-grid-builder.php:84
-#: ../admin/class-grid-builder.php:313 ../admin/class-grid-builder.php:523
-#: ../admin/class-grid-builder.php:725
+#: ../admin/class-archive-pages.php:184 ../admin/class-grid-builder.php:101
+#: ../admin/class-grid-builder.php:309 ../admin/class-grid-builder.php:477
+#: ../admin/class-grid-builder.php:645
+#: ../includes/core/class-registrar.php:559
 msgid "Grid preset"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:176
+#: ../admin/class-archive-pages.php:185 ../admin/class-grid-builder.php:102
+#: ../admin/class-grid-builder.php:310 ../admin/class-grid-builder.php:478
+#: ../admin/class-grid-builder.php:646
 msgid "Select a preset to apply to the grid."
 msgstr ""
 
-#: ../admin/class-archive-pages.php:180 ../admin/class-grid-builder.php:89
+#: ../admin/class-archive-pages.php:191 ../admin/class-grid-builder.php:108
 msgid "Alphabetical Movies"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:184 ../admin/class-grid-builder.php:93
+#: ../admin/class-archive-pages.php:195 ../admin/class-grid-builder.php:112
 msgid "Unalphabetical Movies"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:188 ../admin/class-grid-builder.php:105
+#: ../admin/class-archive-pages.php:199 ../admin/class-grid-builder.php:124
 msgid "Latest Added Movies"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:192 ../admin/class-grid-builder.php:109
+#: ../admin/class-archive-pages.php:203 ../admin/class-grid-builder.php:128
 msgid "Earliest Added Movies"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:196 ../admin/class-grid-builder.php:113
+#: ../admin/class-archive-pages.php:207 ../admin/class-grid-builder.php:132
 msgid "Latest Released Movies"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:200 ../admin/class-grid-builder.php:117
+#: ../admin/class-archive-pages.php:211 ../admin/class-grid-builder.php:136
 msgid "Earliest Released Movies"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:204 ../admin/class-grid-builder.php:125
+#: ../admin/class-archive-pages.php:215 ../admin/class-grid-builder.php:144
 msgid "Most Rated Movies"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:208 ../admin/class-grid-builder.php:129
+#: ../admin/class-archive-pages.php:219 ../admin/class-grid-builder.php:148
 msgid "Least Rated Movies"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:263
+#: ../admin/class-archive-pages.php:271
 msgid "Type of Archives:"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:263
+#: ../admin/class-archive-pages.php:271
 #: ../admin/js/templates/editor/image.php:6
-#: ../admin/templates/metabox/panels/panel-posters.php:15
-#: ../admin/templates/metabox/panels/panel-backdrops.php:15
+#: ../admin/templates/metabox/panels/panel-posters.php:22
+#: ../admin/templates/metabox/panels/panel-backdrops.php:22
 msgid "Edit"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:273
+#: ../admin/class-archive-pages.php:283
 msgid "OK"
 msgstr ""
 
-#: ../admin/class-archive-pages.php:274 ../public/js/templates/confirm.php:11
+#: ../admin/class-archive-pages.php:284 ../public/js/templates/confirm.php:11
 msgid "Cancel"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:52
-#: ../admin/js/templates/editor/image-editor.php:29
-#: ../admin/templates/widgets/grid.php:14
-#: ../admin/templates/widgets/statistics.php:13
-#: ../admin/templates/widgets/details.php:14
-#: ../includes/config/wpmoly-options.php:200
-#: ../includes/config/wpmoly-options.php:953
-#: ../includes/config/wpmoly-options.php:980
-#: ../includes/config/wpmoly-options.php:1110
-#: ../includes/config/wpmoly-movies.php:151
-#: ../public/js/templates/grid/settings.php:24
-#: ../public/js/templates/grid/customs.php:75
-#: ../public/js/templates/grid/customs.php:102
-#: ../public/js/templates/grid/customs.php:115
-msgid "Title"
+#: ../admin/class-grid-builder.php:59 ../includes/core/class-registrar.php:539
+msgid "Type"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:72 ../admin/class-grid-builder.php:301
-#: ../admin/class-grid-builder.php:511 ../admin/class-grid-builder.php:713
-msgid "Réglages"
+#: ../admin/class-grid-builder.php:69
+msgid "Preview"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:78 ../admin/class-grid-builder.php:307
-#: ../admin/class-grid-builder.php:517 ../admin/class-grid-builder.php:719
+#: ../admin/class-grid-builder.php:89
+msgid "Movies Grid Settings "
+msgstr ""
+
+#: ../admin/class-grid-builder.php:95 ../admin/class-grid-builder.php:303
+#: ../admin/class-grid-builder.php:471 ../admin/class-grid-builder.php:639
 msgid "Presets"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:85 ../admin/class-grid-builder.php:314
-#: ../admin/class-grid-builder.php:524 ../admin/class-grid-builder.php:726
-msgid ""
-"Select a preset to apply to the grid. Presets override any filters and "
-"ordering settings you might define, be sure to select \"Custom\" for those "
-"settings to be used."
-msgstr ""
-
-#: ../admin/class-grid-builder.php:97
+#: ../admin/class-grid-builder.php:116
 msgid "This Year Movies"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:101
+#: ../admin/class-grid-builder.php:120
 msgid "Last Year Movies"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:121
+#: ../admin/class-grid-builder.php:140
 msgid "Incoming Movies"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:133
+#: ../admin/class-grid-builder.php:152
 msgid "Custom"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:142 ../admin/class-grid-builder.php:348
-#: ../admin/class-grid-builder.php:550 ../admin/class-grid-builder.php:743
-msgid "Navigation"
+#: ../admin/class-grid-builder.php:167 ../admin/class-grid-builder.php:335
+#: ../admin/class-grid-builder.php:503 ../admin/class-grid-builder.php:671
+#: ../includes/core/class-registrar.php:577
+msgid "Number of columns"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:148 ../admin/class-grid-builder.php:354
-#: ../admin/class-grid-builder.php:556 ../admin/class-grid-builder.php:749
-msgid "Ajax browsing"
+#: ../admin/class-grid-builder.php:168
+msgid "Number of columns for the grid. Default is 5."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:149
+#: ../admin/class-grid-builder.php:178 ../admin/class-grid-builder.php:346
+#: ../admin/class-grid-builder.php:514 ../admin/class-grid-builder.php:682
+#: ../includes/core/class-registrar.php:585
+msgid "Number of rows"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:179
+msgid "Number of rows for the grid. Default is 4."
+msgstr ""
+
+#: ../admin/class-grid-builder.php:189
+#: ../includes/core/class-registrar.php:593
+msgid "Movie Poster ideal width"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:190
 msgid ""
-"Allow visitors to browse through the grid dynamically. This will use the "
-"WordPress REST API to load contents and browse throught movies without "
-"reloading the page. Default is disabled."
+"Ideal width for posters. Grid columns will never exceed that width. Default "
+"is 134."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:157 ../admin/class-grid-builder.php:363
-#: ../admin/class-grid-builder.php:565 ../admin/class-grid-builder.php:758
+#: ../admin/class-grid-builder.php:200
+#: ../includes/core/class-registrar.php:601
+msgid "Movie Poster ideal height"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:201
+msgid ""
+"Ideal height for posters. Grid rows will never exceed that height. Tip: that "
+"value should be equal to ideal width times 1.5. Default is 200."
+msgstr ""
+
+#: ../admin/class-grid-builder.php:211 ../admin/class-grid-builder.php:379
+#: ../admin/class-grid-builder.php:547 ../admin/class-grid-builder.php:715
+#: ../includes/core/class-registrar.php:609
+msgid "Number of list columns"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:212 ../admin/class-grid-builder.php:380
+#: ../admin/class-grid-builder.php:548 ../admin/class-grid-builder.php:716
+#: ../includes/core/class-registrar.php:607
+msgid "Number of columns for the grid in list mode. Default is 3."
+msgstr ""
+
+#: ../admin/class-grid-builder.php:222 ../admin/class-grid-builder.php:390
+#: ../admin/class-grid-builder.php:558 ../admin/class-grid-builder.php:726
+#: ../includes/core/class-registrar.php:617
+msgid "Ideal column width"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:223 ../admin/class-grid-builder.php:391
+#: ../admin/class-grid-builder.php:559 ../admin/class-grid-builder.php:727
+#: ../includes/core/class-registrar.php:615
+msgid "Ideal width for columns in list mode. Default is 240."
+msgstr ""
+
+#: ../admin/class-grid-builder.php:233 ../admin/class-grid-builder.php:401
+#: ../admin/class-grid-builder.php:569 ../admin/class-grid-builder.php:737
+#: ../includes/core/class-registrar.php:625
+msgid "Number of list rows"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:234 ../admin/class-grid-builder.php:402
+#: ../admin/class-grid-builder.php:570 ../admin/class-grid-builder.php:738
+#: ../includes/core/class-registrar.php:623
+msgid "Number of rows for the grid in list mode. Default is 8."
+msgstr ""
+
+#: ../admin/class-grid-builder.php:244 ../admin/class-grid-builder.php:412
+#: ../admin/class-grid-builder.php:580 ../admin/class-grid-builder.php:748
+msgid "Settings"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:250 ../admin/class-grid-builder.php:418
+#: ../admin/class-grid-builder.php:586 ../admin/class-grid-builder.php:754
+#: ../includes/core/class-registrar.php:568
 msgid "Enable Pagination"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:158 ../admin/class-grid-builder.php:364
-#: ../admin/class-grid-builder.php:566 ../admin/class-grid-builder.php:759
+#: ../admin/class-grid-builder.php:251 ../admin/class-grid-builder.php:419
+#: ../admin/class-grid-builder.php:587 ../admin/class-grid-builder.php:755
+#: ../includes/core/class-registrar.php:566
 msgid ""
 "Allow visitors to browse through the grid. Is Ajax browsing is enabled, "
 "pagination will use Ajax to dynamically load new pages instead of reloading. "
 "Default is enabled."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:172 ../admin/class-grid-builder.php:378
-#: ../admin/class-grid-builder.php:580 ../admin/class-grid-builder.php:773
-msgid "Number of columns"
-msgstr ""
-
-#: ../admin/class-grid-builder.php:173 ../admin/class-grid-builder.php:379
-#: ../admin/class-grid-builder.php:581 ../admin/class-grid-builder.php:774
-msgid "Number of columns for the grid. Default is 4."
-msgstr ""
-
-#: ../admin/class-grid-builder.php:180 ../admin/class-grid-builder.php:387
-#: ../admin/class-grid-builder.php:589 ../admin/class-grid-builder.php:782
-msgid "Number of rows"
-msgstr ""
-
-#: ../admin/class-grid-builder.php:181 ../admin/class-grid-builder.php:388
-#: ../admin/class-grid-builder.php:590 ../admin/class-grid-builder.php:783
-msgid "Number of rows for the grid. Default is 5."
-msgstr ""
-
-#: ../admin/class-grid-builder.php:188
-msgid "Movie Poster ideal width"
-msgstr ""
-
-#: ../admin/class-grid-builder.php:189 ../admin/class-grid-builder.php:397
-#: ../admin/class-grid-builder.php:599 ../admin/class-grid-builder.php:792
-msgid ""
-"Ideal width for posters. Grid columns will never exceed that width. Default "
-"is 160."
-msgstr ""
-
-#: ../admin/class-grid-builder.php:196
-msgid "Movie Poster ideal height"
-msgstr ""
-
-#: ../admin/class-grid-builder.php:197 ../admin/class-grid-builder.php:406
-#: ../admin/class-grid-builder.php:608 ../admin/class-grid-builder.php:801
-msgid ""
-"Ideal height for posters. Grid rows will never exceed that height. Tip: that "
-"value should be equal to ideal width times 1.5. Default is 240."
-msgstr ""
-
-#: ../admin/class-grid-builder.php:204 ../admin/class-grid-builder.php:414
-#: ../admin/class-grid-builder.php:616 ../admin/class-grid-builder.php:809
-msgid "Number of list columns"
-msgstr ""
-
-#: ../admin/class-grid-builder.php:205 ../admin/class-grid-builder.php:415
-#: ../admin/class-grid-builder.php:617 ../admin/class-grid-builder.php:810
-msgid "Number of columns for the grid in list mode. Default is 3."
-msgstr ""
-
-#: ../admin/class-grid-builder.php:213 ../admin/class-grid-builder.php:423
-#: ../admin/class-grid-builder.php:625 ../admin/class-grid-builder.php:818
-msgid "Ideal column width"
-msgstr ""
-
-#: ../admin/class-grid-builder.php:214 ../admin/class-grid-builder.php:424
-#: ../admin/class-grid-builder.php:626 ../admin/class-grid-builder.php:819
-msgid "Ideal width for columns in list mode. Default is 240."
-msgstr ""
-
-#: ../admin/class-grid-builder.php:222 ../admin/class-grid-builder.php:432
-#: ../admin/class-grid-builder.php:634 ../admin/class-grid-builder.php:827
-#: ../admin/class-grid-builder.php:977
-#: ../includes/config/wpmoly-options.php:27
-#: ../includes/config/wpmoly-options.php:28
-msgid "Settings"
-msgstr ""
-
-#: ../admin/class-grid-builder.php:228 ../admin/class-grid-builder.php:438
-#: ../admin/class-grid-builder.php:640 ../admin/class-grid-builder.php:833
+#: ../admin/class-grid-builder.php:261 ../admin/class-grid-builder.php:429
+#: ../admin/class-grid-builder.php:597 ../admin/class-grid-builder.php:765
+#: ../includes/core/class-registrar.php:633
 msgid "Enable user settings"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:229 ../admin/class-grid-builder.php:439
-#: ../admin/class-grid-builder.php:641 ../admin/class-grid-builder.php:834
+#: ../admin/class-grid-builder.php:262 ../admin/class-grid-builder.php:430
+#: ../admin/class-grid-builder.php:598 ../admin/class-grid-builder.php:766
+#: ../includes/core/class-registrar.php:631
 msgid ""
 "Visitors will be able to change some settings to browse the grid "
 "differently. The changes only impact the user’s view and are not kept "
 "between visits. Default is enabled."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:237 ../admin/class-grid-builder.php:447
-#: ../admin/class-grid-builder.php:649 ../admin/class-grid-builder.php:842
+#: ../admin/class-grid-builder.php:272 ../admin/class-grid-builder.php:440
+#: ../admin/class-grid-builder.php:608 ../admin/class-grid-builder.php:776
+#: ../includes/core/class-registrar.php:642
 msgid "Enable letter filtering"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:238
+#: ../admin/class-grid-builder.php:273
+#: ../includes/core/class-registrar.php:640
 msgid "Allow visitors to filter the grid by letters. Default is enabled."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:246 ../admin/class-grid-builder.php:456
-#: ../admin/class-grid-builder.php:658 ../admin/class-grid-builder.php:851
+#: ../admin/class-grid-builder.php:283 ../admin/class-grid-builder.php:451
+#: ../admin/class-grid-builder.php:619 ../admin/class-grid-builder.php:787
+#: ../includes/core/class-registrar.php:651
 msgid "Enable custom ordering"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:247 ../admin/class-grid-builder.php:457
-#: ../admin/class-grid-builder.php:659 ../admin/class-grid-builder.php:852
+#: ../admin/class-grid-builder.php:284 ../admin/class-grid-builder.php:452
+#: ../admin/class-grid-builder.php:620 ../admin/class-grid-builder.php:788
+#: ../includes/core/class-registrar.php:649
 msgid ""
 "Allow visitors to change the grid ordering, ie. the sorting and ordering "
 "settings. Default is enabled."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:318
+#: ../admin/class-grid-builder.php:297
+msgid "Actors Grid Settings"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:316
 msgid "Alphabetical Actors"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:322
+#: ../admin/class-grid-builder.php:320
 msgid "Unalphabetical Actors"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:326
-msgid "Alphabetical Persons"
+#: ../admin/class-grid-builder.php:336 ../admin/class-grid-builder.php:504
+#: ../admin/class-grid-builder.php:672
+#: ../includes/core/class-registrar.php:575
+msgid "Number of columns for the grid. Default is 4."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:330
-msgid "Unalphabetical Persons"
+#: ../admin/class-grid-builder.php:347 ../admin/class-grid-builder.php:515
+#: ../admin/class-grid-builder.php:683
+#: ../includes/core/class-registrar.php:583
+msgid "Number of rows for the grid. Default is 5."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:339 ../admin/class-grid-builder.php:541
-msgid "Use Person"
-msgstr ""
-
-#: ../admin/class-grid-builder.php:340 ../admin/class-grid-builder.php:542
-msgid "Use the Person data when available?"
-msgstr ""
-
-#: ../admin/class-grid-builder.php:355
-msgid ""
-"Allow visitors to browse through the grid dynamically. This will use the "
-"WordPress REST API to load contents and browse throught actors without "
-"reloading the page. Default is disabled."
-msgstr ""
-
-#: ../admin/class-grid-builder.php:396 ../admin/class-grid-builder.php:598
-#: ../admin/class-grid-builder.php:791
+#: ../admin/class-grid-builder.php:357 ../admin/class-grid-builder.php:525
+#: ../admin/class-grid-builder.php:693
 msgid "Actor picture ideal width"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:405 ../admin/class-grid-builder.php:607
-#: ../admin/class-grid-builder.php:800
+#: ../admin/class-grid-builder.php:358 ../admin/class-grid-builder.php:526
+#: ../admin/class-grid-builder.php:694
+#: ../includes/core/class-registrar.php:591
+msgid ""
+"Ideal width for posters. Grid columns will never exceed that width. Default "
+"is 160."
+msgstr ""
+
+#: ../admin/class-grid-builder.php:368 ../admin/class-grid-builder.php:536
+#: ../admin/class-grid-builder.php:704
 msgid "Actor picture ideal height"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:448 ../admin/class-grid-builder.php:650
-#: ../admin/class-grid-builder.php:843
+#: ../admin/class-grid-builder.php:369 ../admin/class-grid-builder.php:537
+#: ../admin/class-grid-builder.php:705
+#: ../includes/core/class-registrar.php:599
+msgid ""
+"Ideal height for posters. Grid rows will never exceed that height. Tip: that "
+"value should be equal to ideal width times 1.5. Default is 240."
+msgstr ""
+
+#: ../admin/class-grid-builder.php:441 ../admin/class-grid-builder.php:609
+#: ../admin/class-grid-builder.php:777
 msgid ""
 "Allow visitors to filter the grid by letters. <strong>Experimental!</strong> "
 "Default is disabled."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:528
+#: ../admin/class-grid-builder.php:465
+msgid "Collections Grid Settings"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:484
 msgid "Alphabetical Collections"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:532
+#: ../admin/class-grid-builder.php:488
 msgid "Unalphabetical Collections"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:557
-msgid ""
-"Allow visitors to browse through the grid dynamically. This will use the "
-"WordPress REST API to load contents and browse throught collections without "
-"reloading the page. Default is disabled."
+#: ../admin/class-grid-builder.php:633
+msgid "Genres Grid Settings"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:730
+#: ../admin/class-grid-builder.php:652
 msgid "Alphabetical Genres"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:734
+#: ../admin/class-grid-builder.php:656
 msgid "Unalphabetical Genres"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:750
+#: ../admin/class-grid-builder.php:903
 msgid ""
-"Allow visitors to browse through the grid dynamically. This will use the "
-"WordPress REST API to load contents and browse throught genres without "
-"reloading the page. Default is disabled."
+"<strong>This grid is empty!</strong> Follow these steps to create your new "
+"grid."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:1002
-msgid "Type"
+#: ../admin/class-grid-builder.php:909
+msgid "1. Select a grid type"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:1017
-msgid "Mode"
+#: ../admin/class-grid-builder.php:910
+msgid "First, select a type of content for your grid."
 msgstr ""
 
-#: ../admin/class-grid-builder.php:1032
-msgid "Theme"
+#: ../admin/class-grid-builder.php:917
+msgid "2. Select a display mode"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:1055
-msgid "Save"
+#: ../admin/class-grid-builder.php:918
+msgid ""
+"Then chose a display mode among those available for your selected content…"
 msgstr ""
 
-#: ../admin/class-grid-builder.php:1082
-msgid "Preview"
+#: ../admin/class-grid-builder.php:925
+msgid "3. Select a theme"
 msgstr ""
 
-#: ../admin/class-metaboxes.php:70 ../includes/config/wpmoly-options.php:142
-#: ../includes/config/wpmoly-options.php:1414
+#: ../admin/class-grid-builder.php:926
+msgid "… And then a theme to apply to the grid items."
+msgstr ""
+
+#: ../admin/class-grid-builder.php:932
+msgid "4. Pick your settings"
+msgstr ""
+
+#: ../admin/class-grid-builder.php:933
+msgid "Finally, tune your grid to your liking using the settings!"
+msgstr ""
+
+#: ../admin/class-metaboxes.php:68 ../admin/class-movie-editor.php:53
+#: ../admin/class-movie-editor.php:59
 msgid "Metadata"
 msgstr ""
 
-#: ../admin/class-metaboxes.php:76 ../includes/config/wpmoly-options.php:236
-#: ../includes/config/wpmoly-options.php:1415
-#: ../includes/widgets/class-details-widget.php:100
+#: ../admin/class-metaboxes.php:73 ../admin/class-movie-editor.php:76
+#: ../includes/widgets/class-details.php:91
+#: ../public/templates/headboxes/movie-imdb-2.php:88
+#: ../public/templates/headboxes/movie-allocine.php:18
+#: ../public/templates/headboxes/movie-allocine-2.php:18
 msgid "Details"
 msgstr ""
 
-#: ../admin/class-metaboxes.php:82 ../includes/config/wpmoly-options.php:396
-#: ../includes/config/wpmoly-options.php:505
-#: ../includes/config/wpmoly-options.php:1417
+#: ../admin/class-metaboxes.php:78
+#: ../public/templates/headboxes/movie-allocine.php:20
+#: ../public/templates/headboxes/movie-allocine-2.php:20
 msgid "Images"
 msgstr ""
 
-#: ../admin/class-metaboxes.php:88 ../includes/config/wpmoly-options.php:405
-#: ../includes/core/class-l10n.php:654
+#: ../admin/class-metaboxes.php:83 ../admin/class-movie-editor.php:144
+#: ../includes/core/class-l10n.php:651
+#: ../public/templates/headboxes/movie-allocine.php:259
+#: ../public/templates/headboxes/movie-allocine-2.php:259
 msgid "Posters"
+msgstr ""
+
+#: ../admin/class-movie-editor.php:65 ../admin/class-movie-editor.php:82
+#: ../admin/class-movie-editor.php:99 ../admin/class-movie-editor.php:116
+#: ../admin/class-movie-editor.php:133 ../admin/class-movie-editor.php:150
+msgid "Meh"
+msgstr ""
+
+#: ../admin/class-movie-editor.php:66 ../admin/class-movie-editor.php:83
+#: ../admin/class-movie-editor.php:100 ../admin/class-movie-editor.php:117
+#: ../admin/class-movie-editor.php:134 ../admin/class-movie-editor.php:151
+msgid "Meh meh meh."
+msgstr ""
+
+#: ../admin/class-movie-editor.php:93
+#: ../public/templates/headboxes/movie-imdb-2.php:63
+msgid "Cast"
+msgstr ""
+
+#: ../admin/class-movie-editor.php:110
+msgid "Crew"
+msgstr ""
+
+#: ../admin/class-movie-editor.php:127 ../includes/core/class-l10n.php:630
+#: ../public/templates/headboxes/movie-allocine.php:249
+#: ../public/templates/headboxes/movie-allocine-2.php:249
+msgid "Backdrops"
+msgstr ""
+
+#: ../admin/class-library.php:58
+msgid "Still on Alpha2, nothing here yet!"
 msgstr ""
 
 #: ../admin/js/templates/library/menu.php:3
@@ -1206,6 +1227,18 @@ msgstr ""
 msgid "Save current settings"
 msgstr ""
 
+#: ../admin/js/templates/builder/parameters.php:7
+msgid "Select a type of grid"
+msgstr ""
+
+#: ../admin/js/templates/builder/parameters.php:21
+msgid "Select a grid mode"
+msgstr ""
+
+#: ../admin/js/templates/builder/parameters.php:39
+msgid "Select a theme"
+msgstr ""
+
 #: ../admin/js/templates/modal/image.php:4
 #: ../admin/js/templates/modal/sidebar.php:11
 msgid "This image is already in your media library."
@@ -1276,7 +1309,7 @@ msgid "Edit Image"
 msgstr ""
 
 #: ../admin/js/templates/editor/image-editor.php:4
-#: ../admin/templates/metabox/preview.php:12
+#: ../admin/templates/metabox/preview.php:19
 msgid "Close Editor"
 msgstr ""
 
@@ -1308,6 +1341,19 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
+#: ../admin/js/templates/editor/image-editor.php:29
+#: ../admin/templates/widgets/grid.php:14
+#: ../admin/templates/widgets/statistics.php:13
+#: ../admin/templates/widgets/details.php:14
+#: ../includes/core/class-registrar.php:299
+#: ../includes/core/class-registrar.php:301
+#: ../public/js/templates/grid/settings.php:24
+#: ../public/js/templates/grid/customs.php:83
+#: ../public/js/templates/grid/customs.php:110
+#: ../public/js/templates/grid/customs.php:123
+msgid "Title"
+msgstr ""
+
 #: ../admin/js/templates/editor/image-editor.php:35
 msgid "Caption"
 msgstr ""
@@ -1324,8 +1370,8 @@ msgid "Description"
 msgstr ""
 
 #: ../admin/js/templates/editor/image.php:4
-#: ../admin/templates/metabox/panels/panel-posters.php:13
-#: ../admin/templates/metabox/panels/panel-backdrops.php:13
+#: ../admin/templates/metabox/panels/panel-posters.php:20
+#: ../admin/templates/metabox/panels/panel-backdrops.php:20
 msgid "Options"
 msgstr ""
 
@@ -1334,32 +1380,28 @@ msgid "Remove"
 msgstr ""
 
 #: ../admin/js/templates/editor/image.php:8
-#: ../admin/templates/metabox/panels/panel-posters.php:17
+#: ../admin/templates/metabox/panels/panel-posters.php:24
 msgid "Featured"
 msgstr ""
 
 #: ../admin/js/templates/editor/image-more.php:2
-#: ../admin/templates/metabox/panels/panel-backdrops.php:23
+#: ../admin/templates/metabox/panels/panel-backdrops.php:30
 msgid "Import Backdrops"
 msgstr ""
 
 #: ../admin/js/templates/editor/image-more.php:2
-#: ../admin/templates/metabox/panels/panel-posters.php:24
+#: ../admin/templates/metabox/panels/panel-posters.php:31
 msgid "Import Posters"
 msgstr ""
 
 #: ../admin/js/templates/editor/image-more.php:3
-#: ../admin/templates/metabox/panels/panel-backdrops.php:24
+#: ../admin/templates/metabox/panels/panel-backdrops.php:31
 msgid "Upload Backdrops"
 msgstr ""
 
 #: ../admin/js/templates/editor/image-more.php:3
-#: ../admin/templates/metabox/panels/panel-posters.php:25
+#: ../admin/templates/metabox/panels/panel-posters.php:32
 msgid "Upload Posters"
-msgstr ""
-
-#: ../admin/templates/library.php:10
-msgid "%PAGE_TITLE%"
 msgstr ""
 
 #: ../admin/templates/permalink-settings.php:15
@@ -1374,11 +1416,11 @@ msgid ""
 "select anything other than \"Plain\" in the \"Common Settings\" section."
 msgstr ""
 
-#: ../admin/templates/permalink-settings.php:80
+#: ../admin/templates/permalink-settings.php:79
 msgid "Custom Structure"
 msgstr ""
 
-#: ../admin/templates/permalink-settings.php:84
+#: ../admin/templates/permalink-settings.php:83
 msgid ""
 "Enter a custom base to use. A base <strong>must</strong> be set or WordPress "
 "will use default instead.<br />Note: <code>%postname%</code> and similar "
@@ -1386,52 +1428,31 @@ msgid ""
 "WordPress will automatically add the movie’s name at the end of the URL."
 msgstr ""
 
-#: ../admin/templates/metabox/preview.php:11
+#: ../admin/templates/metabox/preview.php:18
 msgid "Open Editor"
 msgstr ""
 
-#: ../admin/templates/metabox/metabox-convert.php:2
-#, php-format
-msgid ""
-"You can convert this %s to Movie to access WPMovieLibrary features without "
-"duplicating your content."
-msgstr ""
-
-#: ../admin/templates/metabox/metabox-convert.php:4
-#, php-format
-msgid "Convert %s to Movie"
-msgstr ""
-
-#: ../admin/templates/metabox/panels/panel-posters.php:2
-#: ../admin/templates/metabox/panels/panel-details.php:2
-#: ../admin/templates/metabox/panels/panel-meta.php:2
-#: ../admin/templates/metabox/panels/panel-backdrops.php:2
+#: ../admin/templates/metabox/panels/panel-posters.php:9
+#: ../admin/templates/metabox/panels/panel-details.php:9
+#: ../admin/templates/metabox/panels/panel-meta.php:9
+#: ../admin/templates/metabox/panels/panel-backdrops.php:9
 msgid ""
 "It seems you have JavaScript deactivated; the import feature will not work "
 "correctly without it, please check your browser's settings."
 msgstr ""
 
-#: ../admin/templates/metabox/panels/panel-posters.php:16
-#: ../admin/templates/metabox/panels/panel-backdrops.php:16
+#: ../admin/templates/metabox/panels/panel-posters.php:23
+#: ../admin/templates/metabox/panels/panel-backdrops.php:23
 msgid "Delete"
 msgstr ""
 
-#: ../admin/templates/metabox/panels/panel-details.php:5
+#: ../admin/templates/metabox/panels/panel-details.php:12
 msgid ""
 "Details are personal data related to your experience of the movie: which "
 "media do you own? In which language(s)/subtitle(s)? What is the current "
 "status of your copy? How much did you enjoy it? These data are not "
 "automatically fetched like metadata, they are here to make it easier for you "
 "to manage your library."
-msgstr ""
-
-#: ../admin/templates/widgets/grid.php:22
-#: ../includes/core/class-registrar.php:142
-#: ../includes/node/class-grid.php:185 ../includes/node/class-grid.php:233
-#: ../includes/node/class-grid.php:269 ../includes/node/class-grid.php:305
-#: ../includes/widgets/class-grid-widget.php:84
-#: ../public/js/templates/grid/customs.php:7
-msgid "Grid"
 msgstr ""
 
 #: ../admin/templates/widgets/grid.php:24
@@ -1448,7 +1469,10 @@ msgid "create a new one"
 msgstr ""
 
 #: ../admin/templates/widgets/statistics.php:21
-#: ../includes/config/wpmoly-options.php:292
+#: ../includes/core/class-registrar.php:529
+#: ../public/templates/headboxes/movie-vintage.php:86
+#: ../public/templates/headboxes/movie-allocine.php:108
+#: ../public/templates/headboxes/movie-allocine-2.php:108
 msgid "Format"
 msgstr ""
 
@@ -1478,3270 +1502,1181 @@ msgstr ""
 msgid "Detail"
 msgstr ""
 
-#: ../admin/templates/widgets/details.php:32
-msgid "Show as dropdown"
+#: ../includes/ajax/class-api.php:54 ../includes/ajax/class-api.php:85
+#: ../includes/ajax/class-api.php:138
+msgid "Invalid search query."
 msgstr ""
 
-#: ../admin/templates/widgets/details.php:34
-msgid "Custom Style (only for dropdown)"
+#: ../includes/ajax/class-api.php:143
+msgid "No image found."
 msgstr ""
 
-#: ../includes/ajax/class-ajax-meta.php:42
-#: ../includes/ajax/class-ajax-meta.php:133
-#: ../includes/ajax/class-ajax-meta.php:214
-#: ../includes/ajax/class-ajax.php:243 ../includes/ajax/class-ajax.php:306
+#: ../includes/ajax/class-meta.php:42 ../includes/ajax/class-meta.php:133
+#: ../includes/ajax/class-meta.php:216 ../includes/ajax/class-ajax.php:231
+#: ../includes/ajax/class-ajax.php:288
 msgid "Invalid Post ID."
 msgstr ""
 
-#: ../includes/ajax/class-ajax-meta.php:47
-#: ../includes/ajax/class-ajax-meta.php:161
-#: ../includes/ajax/class-ajax-meta.php:226
+#: ../includes/ajax/class-meta.php:47 ../includes/ajax/class-meta.php:163
+#: ../includes/ajax/class-meta.php:228
 msgid "Invalid data."
 msgstr ""
 
-#: ../includes/ajax/class-ajax-meta.php:149
+#: ../includes/ajax/class-meta.php:151
 msgid "An error occurred while removing the terms."
 msgstr ""
 
-#: ../includes/ajax/class-ajax-meta.php:182
+#: ../includes/ajax/class-meta.php:184
 #, php-format
 msgid "An error occurred while creating term \"%s\"."
 msgstr ""
 
-#: ../includes/ajax/class-ajax-api.php:54
-#: ../includes/ajax/class-ajax-api.php:85
-#: ../includes/ajax/class-ajax-api.php:138
-msgid "Invalid search query."
-msgstr ""
-
-#: ../includes/ajax/class-ajax-api.php:143
-msgid "No image found."
-msgstr ""
-
-#: ../includes/ajax/class-ajax.php:247 ../includes/ajax/class-ajax.php:315
-#: ../includes/ajax/class-ajax.php:374
+#: ../includes/ajax/class-ajax.php:235 ../includes/ajax/class-ajax.php:297
+#: ../includes/ajax/class-ajax.php:350
 msgid "Invalid Image type."
 msgstr ""
 
-#: ../includes/ajax/class-ajax.php:311 ../includes/ajax/class-ajax.php:370
+#: ../includes/ajax/class-ajax.php:293 ../includes/ajax/class-ajax.php:346
 msgid "Invalid TMDb ID."
 msgstr ""
 
-#: ../includes/ajax/class-ajax.php:328
+#: ../includes/ajax/class-ajax.php:310
 #, php-format
 msgid ""
-"An unknown error occurred while trying to remove image #%d from the %s list."
+"An unknown error occurred while trying to remove image #%1$d from the %2$s "
+"list."
 msgstr ""
 
-#: ../includes/ajax/class-ajax.php:386
+#: ../includes/ajax/class-ajax.php:362
 #, php-format
 msgid "Invalid Attachment ID %d."
 msgstr ""
 
-#: ../includes/ajax/class-ajax.php:388
+#: ../includes/ajax/class-ajax.php:364
 #, php-format
-msgid "An unknown error occurred while trying to set image #%d as %s."
+msgid "An unknown error occurred while trying to set image #%1$d as %2$s."
 msgstr ""
 
-#: ../includes/ajax/class-ajax.php:412
+#: ../includes/ajax/class-ajax.php:386
 msgid "Invalid Settings."
 msgstr ""
 
-#: ../includes/ajax/class-ajax.php:418
+#: ../includes/ajax/class-ajax.php:392
 #, php-format
 msgid "Invalid Setting: \"%s\" does not exist."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:129
+#: ../includes/api/class-core.php:133
 msgid "Success."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:130
+#: ../includes/api/class-core.php:138
 msgid "Invalid service: this service does not exist."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:131
+#: ../includes/api/class-core.php:143
 msgid ""
 "Authentication failed: You do not have permissions to access the service."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:132
+#: ../includes/api/class-core.php:148
 msgid "Invalid format: This service doesn't exist in that format."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:133
+#: ../includes/api/class-core.php:153
 msgid "Invalid parameters: Your request parameters are incorrect."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:134
+#: ../includes/api/class-core.php:158
 msgid "Invalid id: The pre-requisite id is invalid or not found."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:135
+#: ../includes/api/class-core.php:163
 msgid "Invalid API key: You must be granted a valid key."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:136
+#: ../includes/api/class-core.php:168
 msgid "Duplicate entry: The data you tried to submit already exists."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:137
+#: ../includes/api/class-core.php:173
 msgid "Service offline: This service is temporarily offline, try again later."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:138
+#: ../includes/api/class-core.php:178
 msgid ""
 "Suspended API key: Access to your account has been suspended, contact TMDb."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:139
+#: ../includes/api/class-core.php:183
 msgid "Internal error: Something went wrong, contact TMDb."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:140
+#: ../includes/api/class-core.php:188
 msgid "The item/record was updated successfully."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:141
+#: ../includes/api/class-core.php:193
 msgid "The item/record was deleted successfully."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:142
+#: ../includes/api/class-core.php:198
 msgid "Authentication failed."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:143
+#: ../includes/api/class-core.php:203
 msgid "Failed."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:144
+#: ../includes/api/class-core.php:208
 msgid "Device denied."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:145
+#: ../includes/api/class-core.php:213
 msgid "Session denied."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:146
+#: ../includes/api/class-core.php:218
 msgid "Validation failed."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:147
+#: ../includes/api/class-core.php:223
 msgid "Invalid accept header."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:148
+#: ../includes/api/class-core.php:228
 msgid "Invalid date range: Should be a range no longer than 14 days."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:149
+#: ../includes/api/class-core.php:233
 msgid "Entry not found: The item you are trying to edit cannot be found."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:150
+#: ../includes/api/class-core.php:238
 msgid ""
 "Invalid page: Pages start at 1 and max at 1000. They are expected to be an "
 "integer."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:151
+#: ../includes/api/class-core.php:243
 msgid "Invalid date: Format needs to be YYYY-MM-DD."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:152
+#: ../includes/api/class-core.php:248
 msgid "Your request to the backend server timed out. Try again."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:153
+#: ../includes/api/class-core.php:253
 msgid "Your request count (#) is over the allowed limit of (40)."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:154
+#: ../includes/api/class-core.php:258
 msgid "You must provide a username and password."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:155
+#: ../includes/api/class-core.php:263
 msgid ""
 "Too many append to response objects: The maximum number of remote calls is "
 "20."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:156
+#: ../includes/api/class-core.php:268
 msgid ""
 "Invalid timezone: Please consult the documentation for a valid timezone."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:157
+#: ../includes/api/class-core.php:273
 msgid "You must confirm this action: Please provide a confirm=true parameter."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:158
+#: ../includes/api/class-core.php:278
 msgid "Invalid username and/or password: You did not provide a valid login."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:159
+#: ../includes/api/class-core.php:283
 msgid ""
 "Account disabled: Your account is no longer active. Contact TMDb if this is "
 "an error."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:160
+#: ../includes/api/class-core.php:288
 msgid "Email not verified: Your email address has not been verified."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:161
+#: ../includes/api/class-core.php:293
 msgid "Invalid request token: The request token is either expired or invalid."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:162
+#: ../includes/api/class-core.php:298
 msgid "The resource you requested could not be found."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:199
+#: ../includes/api/class-core.php:336
 msgid "Invalid ID type."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:354
+#: ../includes/api/class-core.php:495
 msgid "Invalid image type."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:362
+#: ../includes/api/class-core.php:503
 msgid "Invalid query type."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:383
+#: ../includes/api/class-core.php:524
 msgid "Invalid query."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:388
+#: ../includes/api/class-core.php:529
 msgid "Empty query."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:392
+#: ../includes/api/class-core.php:533
 msgid "Invalid query: query is not a valid IMDb ID."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:394
+#: ../includes/api/class-core.php:535
 msgid "Invalid query: query is not a valid TMDb ID."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:421
+#: ../includes/api/class-core.php:560
 msgid "Unknown API response."
 msgstr ""
 
-#: ../includes/api/class-api-core.php:426
+#: ../includes/api/class-core.php:565
 msgid "Invalid API response."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:79
-#: ../includes/config/wpmoly-options.php:600
-msgid "General"
+#: ../includes/core/class-l10n.php:620 ../includes/core/class-l10n.php:694
+msgid "Couldn’t find WordPress Rest API Backbone client."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:80
-msgid "General options"
+#: ../includes/core/class-l10n.php:621 ../includes/core/class-l10n.php:695
+msgid "Couldn’t find WordPress Rest API Backbone client collection object."
 msgstr ""
 
-#: ../includes/config/wpmoly-options.php:89
-msgid ""
-"WPMovieLibrary handles movies as regular WordPress posts, but you can define "
-"some specific behaviours movies only should have."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:97
-msgid "Show Movies in Home Page"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:98
-msgid "If enabled, movies will appear among other Posts in the Home Page."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:99
-#: ../includes/config/wpmoly-options.php:110
-#: ../includes/config/wpmoly-options.php:121
-#: ../includes/config/wpmoly-options.php:269
-#: ../includes/config/wpmoly-options.php:374
-#: ../includes/config/wpmoly-options.php:416
-#: ../includes/config/wpmoly-options.php:427
-#: ../includes/config/wpmoly-options.php:467
-#: ../includes/config/wpmoly-options.php:516
-#: ../includes/config/wpmoly-options.php:553
-#: ../includes/config/wpmoly-options.php:622
-#: ../includes/config/wpmoly-options.php:633
-#: ../includes/config/wpmoly-options.php:654
-#: ../includes/config/wpmoly-options.php:665
-#: ../includes/config/wpmoly-options.php:678
-#: ../includes/config/wpmoly-options.php:714
-#: ../includes/config/wpmoly-options.php:725
-#: ../includes/config/wpmoly-options.php:738
-#: ../includes/config/wpmoly-options.php:774
-#: ../includes/config/wpmoly-options.php:785
-#: ../includes/config/wpmoly-options.php:810
-#: ../includes/config/wpmoly-options.php:891
-#: ../includes/config/wpmoly-options.php:902
-#: ../includes/config/wpmoly-options.php:993
-#: ../includes/config/wpmoly-options.php:1004
-#: ../includes/config/wpmoly-options.php:1075
-#: ../includes/config/wpmoly-options.php:1086
-#: ../includes/config/wpmoly-options.php:1097
-#: ../includes/config/wpmoly-options.php:1154
-#: ../includes/config/wpmoly-options.php:1183
-#: ../includes/config/wpmoly-options.php:1214
-#: ../includes/config/wpmoly-options.php:1257
-#: ../includes/config/wpmoly-options.php:1361
-#: ../includes/config/wpmoly-options.php:1503
-#: ../includes/config/wpmoly-options.php:1514
-#: ../includes/config/wpmoly-options.php:1549
-#: ../includes/config/wpmoly-options.php:1561
-#: ../includes/config/wpmoly-options.php:1583
-#: ../includes/config/wpmoly-options.php:1650
-#: ../includes/config/wpmoly-options.php:1661
-#: ../includes/config/wpmoly-options.php:1681
-msgid "Enabled"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:100
-#: ../includes/config/wpmoly-options.php:111
-#: ../includes/config/wpmoly-options.php:122
-#: ../includes/config/wpmoly-options.php:270
-#: ../includes/config/wpmoly-options.php:375
-#: ../includes/config/wpmoly-options.php:417
-#: ../includes/config/wpmoly-options.php:428
-#: ../includes/config/wpmoly-options.php:468
-#: ../includes/config/wpmoly-options.php:517
-#: ../includes/config/wpmoly-options.php:554
-#: ../includes/config/wpmoly-options.php:623
-#: ../includes/config/wpmoly-options.php:634
-#: ../includes/config/wpmoly-options.php:655
-#: ../includes/config/wpmoly-options.php:666
-#: ../includes/config/wpmoly-options.php:679
-#: ../includes/config/wpmoly-options.php:715
-#: ../includes/config/wpmoly-options.php:726
-#: ../includes/config/wpmoly-options.php:739
-#: ../includes/config/wpmoly-options.php:775
-#: ../includes/config/wpmoly-options.php:786
-#: ../includes/config/wpmoly-options.php:811
-#: ../includes/config/wpmoly-options.php:892
-#: ../includes/config/wpmoly-options.php:903
-#: ../includes/config/wpmoly-options.php:994
-#: ../includes/config/wpmoly-options.php:1005
-#: ../includes/config/wpmoly-options.php:1076
-#: ../includes/config/wpmoly-options.php:1087
-#: ../includes/config/wpmoly-options.php:1098
-#: ../includes/config/wpmoly-options.php:1155
-#: ../includes/config/wpmoly-options.php:1184
-#: ../includes/config/wpmoly-options.php:1215
-#: ../includes/config/wpmoly-options.php:1258
-#: ../includes/config/wpmoly-options.php:1362
-#: ../includes/config/wpmoly-options.php:1504
-#: ../includes/config/wpmoly-options.php:1515
-#: ../includes/config/wpmoly-options.php:1550
-#: ../includes/config/wpmoly-options.php:1562
-#: ../includes/config/wpmoly-options.php:1584
-#: ../includes/config/wpmoly-options.php:1651
-#: ../includes/config/wpmoly-options.php:1662
-#: ../includes/config/wpmoly-options.php:1682
-msgid "Disabled"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:108
-msgid "Movies in search results"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:109
-msgid ""
-"If enabled, the standard WordPress Search will return every movie matching "
-"the search in addition to regular posts. Search will include all available "
-"meta fields. Examples: a search with keywork <code>Sean Penn</code> will add "
-"the movies <em>Into The Wild</em> and <em>The Secret Life of Walter Mitty</"
-"em> to the search results; a search with keywork <code>Taiwan</code> will "
-"add the movie <em>Life of Pi</em>."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:119
-msgid "Replace excerpt by overview"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:120
-msgid ""
-"Replace movie excerpts by the movie overview if available. <a href=\"http://"
-"codex.wordpress.org/Excerpt\">Learn more about Excerpt</a>."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:130
-msgid "Excerpt overview length"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:131
-msgid ""
-"Excerpt overview default number of words. This will override WordPress and "
-"Themes or Plugins default values for movies only."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:143
-msgid "Metadata settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:150
-msgid "Movies metadata"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:151
-msgid ""
-"Metadata give you useful information about your movies: director, release "
-"date, runtime, prouction, actors, languages…"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:159
-msgid "Show metadata"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:160
-msgid "Add metadata to posts&rsquo; content: director, genres, runtime…"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:162
-#: ../includes/config/wpmoly-options.php:175
-#: ../includes/config/wpmoly-options.php:256
-msgid "Everywhere"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:163
-#: ../includes/config/wpmoly-options.php:176
-#: ../includes/config/wpmoly-options.php:257
-msgid "Only In Post Read"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:164
-#: ../includes/config/wpmoly-options.php:177
-#: ../includes/config/wpmoly-options.php:258
-msgid "Don&rsquo;t Show"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:172
-msgid "Add links to meta"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:173
-msgid "If enabled, metadata will appear as links to meta pages."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:187
-msgid "Movie metadata"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:188
-msgid "Which metadata to display in posts: director, genres, runtime, rating…"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:193
-#: ../includes/config/wpmoly-movies.php:273
-msgid "Director"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:194
-#: ../includes/config/wpmoly-movies.php:217
-#: ../public/js/templates/grid/customs.php:87
-msgid "Runtime"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:195
-msgid "Release date"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:197
-#: ../includes/config/wpmoly-options.php:1413
-#: ../includes/config/wpmoly-movies.php:184
-msgid "Overview"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:201
-#: ../includes/config/wpmoly-movies.php:162
-msgid "Original Title"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:202
-#: ../includes/config/wpmoly-movies.php:228
-msgid "Production"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:203
-#: ../includes/config/wpmoly-movies.php:239
-msgid "Country"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:204
-#: ../includes/config/wpmoly-options.php:1164
-#: ../includes/config/wpmoly-movies.php:250
-msgid "Languages"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:205
-#: ../includes/config/wpmoly-movies.php:285
-msgid "Producer"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:206
-msgid "Local release date"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:207
-#: ../includes/config/wpmoly-movies.php:308
-msgid "Director of Photography"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:208
-#: ../includes/config/wpmoly-movies.php:320
-msgid "Original Music Composer"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:209
-#: ../includes/config/wpmoly-movies.php:332
-msgid "Author"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:210
-#: ../includes/config/wpmoly-movies.php:344
-msgid "Writer"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:212
-#: ../includes/config/wpmoly-movies.php:355
-msgid "Certification"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:213
-#: ../includes/config/wpmoly-movies.php:366
-msgid "Budget"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:214
-#: ../includes/config/wpmoly-movies.php:377
-msgid "Revenue"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:215
-#: ../includes/config/wpmoly-movies.php:173
-msgid "Tagline"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:216
-#: ../includes/config/wpmoly-movies.php:388
-msgid "IMDb Id"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:217
-#: ../includes/config/wpmoly-movies.php:399
-msgid "Adult"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:218
-#: ../includes/config/wpmoly-movies.php:410
-msgid "Homepage"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:237
-msgid "Details settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:244
-#: ../includes/config/wpmoly-options.php:280
-msgid "Movie details"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:245
-msgid ""
-"Details are a different way to manage your movies. You can specify and "
-"filter movies by rating, media, status, language, subtitles…"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:253
-msgid "Show details"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:254
-msgid "Add details to posts&rsquo; content: movie status, media…"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:267
-msgid "Details as icons"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:268
-msgid ""
-"If enabled, movie details will appear in the form of icons rather than "
-"default colored labels."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:281
-msgid "Which detail to display in posts: movie status, media…"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:285
-msgid "Media"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:286
-msgid "Status"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:287
-#: ../includes/config/wpmoly-options.php:956
-#: ../includes/config/wpmoly-options.php:982
-#: ../public/js/templates/grid/customs.php:90
-msgid "Rating"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:290
-msgid "Language"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:291
-msgid "Subtitles"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:310
-msgid "Formatting"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:311
-msgid "Formatting settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:319
-msgid "Release date format"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:320
-msgid ""
-"Apply a custom date format to movies' release dates. Leave empty to use the "
-"default API format. Check the <a href=\"http://codex.wordpress.org/"
-"Formatting_Date_and_Time\">documentation on date and time formatting</a>."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:328
-msgid "Runtime format"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:329
-msgid ""
-"Apply a custom time format to movies' runtimes. Leave empty to use the "
-"default API format."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:337
-msgid "Rating format"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:338
-msgid "Should ratings be displayed using 5 or 10 stars."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:340
-msgid "5 stars"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:341
-msgid "10 stars"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:351
-msgid "Converting"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:352
-msgid "Converting settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:353
-msgid ""
-"This section allows you to configure the post types convertor tool. This can "
-"be usefull to convert regular posts, pages and possibly other custom post "
-"types into movies to avoid duplicate contents or having to manually recreate "
-"already existing contents. Note that this will most likely affect your SEO "
-"as it will change Posts’ URLs."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:364
-#: ../includes/config/wpmoly-options.php:612
-#: ../includes/config/wpmoly-options.php:1386
-msgid "Experimental"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:365
-msgid ""
-"Posts to Movies conversion is still experimental. Do not activate this "
-"unless you are sure of what you are doing, and make sure you have backups of "
-"your database before using this feature."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:372
-msgid "Convert Post Types"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:373
-msgid "Enable post types conversion tools."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:383
-msgid "Post Types available to convert"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:384
-msgid "Select which post types should be convertible to movie."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:397
-msgid "Images and Posters options"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:406
-msgid "Posters settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:414
-msgid "Posters as Thumbnails"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:415
-msgid ""
-"Using posters as movies thumbnails will automatically import new "
-"movies&rsquo; poster and set them as post featured image. This setting "
-"doesn’t affect movie import by list where posters are automatically saved "
-"and set as featured image."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:425
-msgid "Automatically import Posters"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:426
-msgid "Automatically import Posters while import a new movie."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:436
-msgid "Number of Posters"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:437
-msgid ""
-"Maximum number of Posters to automatically import when importing a new movie."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:447
-msgid "Posters Default Size"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:448
-msgid "Movie Poster size. Default is TMDb&rsquo;s original size."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:450
-msgid "Invisible (92px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:451
-msgid "Tiny (154px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:452
-msgid "Small (185px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:453
-msgid "Medium (342px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:454
-msgid "Large (500px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:455
-msgid "Full (780px) "
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:456
-#: ../includes/config/wpmoly-options.php:542
-#: ../includes/config/wpmoly-options.php:1197
-#: ../includes/config/wpmoly-options.php:1200
-#: ../includes/config/wpmoly-options.php:1227
-#: ../includes/config/wpmoly-options.php:1230
-msgid "Original"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:465
-msgid "Delete posters with movies"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:466
-msgid "Enable this if you want to delete posters along with movies."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:476
-msgid "Posters image title"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:477
-msgid "Title for the imported posters images."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:479
-msgid "Poster for the movie"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:486
-msgid "Posters image description"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:487
-msgid "Description text for the imported posters."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:489
-#: ../includes/config/wpmoly-options.php:575
-#: ../includes/core/class-l10n.php:636 ../includes/core/class-l10n.php:657
-msgid "All right reserved."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:496
-#: ../includes/config/wpmoly-options.php:582
-msgid "Allowed tags"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:497
-#: ../includes/config/wpmoly-options.php:583
-#, php-format
-msgid ""
-"<br />%s<br /><br />To limit the number of elements in list like genres or "
-"production companies, use the <code>{tag,number}</code> synthax. Example: "
-"<code>{production_companies,1}</code> will use the first company from list "
-"instead of the whole list."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:506
-msgid "Images settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:514
-msgid "Automatically import Backdrops"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:515
-msgid "Automatically import Backdrops while import a new movie."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:525
-msgid "Number of Backdrops"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:526
-msgid ""
-"Maximum number of Backdrops to automatically import when importing a new "
-"movie."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:536
-msgid "Images Default Size"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:537
-msgid "Movie Image size. Default is TMDb&rsquo;s original size."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:539
-msgid "Medium (300px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:540
-msgid "Large (780px)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:541
-msgid "Full (1280px) "
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:551
-msgid "Delete backdrops with movies"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:552
-msgid ""
-"Enable this if you want to delete all imported backdrops along with movies. "
-"Handy if you have a great number of movies to delete and possibly dozens of "
-"backdrops attached."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:562
-msgid "Images title"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:563
-msgid "Title for the imported movie backdrops."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:565
-#: ../includes/core/class-l10n.php:635
-msgid "Image from the movie"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:572
-msgid "Images description"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:573
-msgid "Description text for the imported movie backdrops."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:591
-msgid "Taxonomies"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:592
-msgid "Built-in Taxonomies configuration"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:601
-msgid "General settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:613
-msgid ""
-"Enabling Categories and Post tags for movies will result in your movies "
-"appearing in Categories and Post Tags archive pages, among regular WordPress "
-"Posts. This could also interfer with other plugins/themes dealing with "
-"Categories/Post Tags. Use it carefully."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:620
-msgid "Enable Categories"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:621
-msgid "Allow movies to use regular WordPress Categories."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:631
-msgid "Enable Post Tags"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:632
-msgid "Allow movies to use regular WordPress Post Tags."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:644
-msgid "Collections settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:652
-msgid "Enable Collections"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:653
-msgid ""
-"Enable Collections Custom Taxonomy. Collections work for movies as "
-"Categories work for Posts: a hierarchical taxonomy to group your movies "
-"coherently. The default behavior is to use Collections to group movies by "
-"director, but you can use them differently at your will."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:663
-msgid "Add Collections automatically"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:664
-msgid ""
-"Automatically add custom taxonomies when adding/importing movies. If "
-"enabled, each added/imported movie will be automatically added to the "
-"collection corresponding to its director(s)."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:676
-msgid "Posts Collections support"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:677
-msgid ""
-"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
-"use collection taxonomy."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:689
-msgid "Collections Post Types support"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:690
-msgid "Select which post types should support collections."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:704
-msgid "Genres settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:712
-msgid "Enable Genres"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:713
-msgid ""
-"Enable Genres Custom Taxonomy. Genres work for movies as Tags work for "
-"Posts: a non-hierarchical taxonomy to improve movies management."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:723
-msgid "Add Genres automatically"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:724
-msgid "Automatically add Genres when adding/importing movies."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:736
-msgid "Posts Genres support"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:737
-msgid ""
-"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
-"use genre taxonomy."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:749
-msgid "Genres Post Types support"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:750
-msgid "Select which post types should support genres."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:764
-msgid "Actors settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:772
-msgid "Enable Actors"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:773
-msgid ""
-"Enable Actors Custom Taxonomy. Actors work for movies as Tags work for "
-"Posts: a non-hierarchical taxonomy to improve movies management. "
-"WPMovieLibrary stores Actors in a custom order, the most important actors "
-"appearing in the top of the list, then the supporting roles, and so on."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:783
-msgid "Add Actors automatically"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:784
-msgid "Automatically add Actors when adding/importing movies."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:796
-msgid "Actors limit"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:797
-msgid ""
-"Limit the number of actors per movie. This is useful if you're dealing with "
-"big libraries and don't want to have massive lists of actors created. "
-"Limiting the Actors will result in keeping only the most famous/important "
-"actors as taxonomies, while the complete list of actors will remained stored "
-"as a regular metadata. Set to 0 to disable."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:808
-msgid "Posts Actors support"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:809
-msgid ""
-"<strong>Experimental</strong>: if enabled, allow regular WordPress Posts to "
-"use actor taxonomy."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:821
-msgid "Actors Post Types support"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:822
-msgid "Select which post types should support actors."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:835
-#: ../public/js/templates/grid/customs.php:13
-msgid "Archives"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:836
-msgid "Archives Pages Settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:844
-msgid "Movie Archives"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:845
-msgid "Movie Archives page settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:846
-msgid ""
-"This section allow you to define a custom page to use for movie archives."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:865
-msgid "Movie Archives Page"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:866
-msgid "Choose a page to use to display movie archives."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:876
-#: ../includes/config/wpmoly-options.php:1060
-msgid "Archives Position"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:877
-#: ../includes/config/wpmoly-options.php:1061
-msgid "Where to display the Archives on the page."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:879
-#: ../includes/config/wpmoly-options.php:1063
-#: ../includes/config/wpmoly-options.php:1373
-msgid "Top"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:880
-#: ../includes/config/wpmoly-options.php:1064
-#: ../includes/config/wpmoly-options.php:1374
-msgid "Bottom"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:889
-msgid "Rewrite Movie Archives Page Titles"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:890
-msgid ""
-"If enabled, movie archives page’s title and post title will be rewritten to "
-"feature currently browsed metas, details, and letters."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:900
-#: ../includes/config/wpmoly-options.php:1084
-msgid "Archives Menu"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:901
-msgid ""
-"If enabled, add an alphabetical menu and sorting options before the movies "
-"list."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:911
-msgid "Grid Columns"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:912
-msgid "How many columns should the movie grid have."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:924
-msgid "Grid Rows"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:925
-msgid "How many rows should the movie grid have."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:937
-msgid "Movies order"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:938
-msgid "How movies should be ordered by default."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:940
-#: ../includes/config/wpmoly-options.php:1122
-msgid "Ascending"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:941
-#: ../includes/config/wpmoly-options.php:1123
-msgid "Descending"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:950
-msgid "Movies Sorting"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:951
-msgid "Default movies sorting."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:954
-#: ../includes/config/wpmoly-movies.php:195
-msgid "Release Date"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:955
-#: ../includes/config/wpmoly-movies.php:206
-msgid "Local Release Date"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:965
-msgid "Movies per page limit"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:966
-msgid ""
-"Limit the number of movies per page to be listed. Can be useful if your "
-"dealing with massive numbers of movies."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:974
-msgid "Grid Movies Meta"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:975
-msgid "You can show some metadata along with posters in the grid."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:981
-#: ../public/js/templates/grid/customs.php:78
-msgid "Year"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:991
-msgid "Editable movies-per-page value"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:992
-msgid ""
-"If enabled, allows movies-per-page value to be modified on frontend. The "
-"sorting menu will show an input where visitors can change the movies-per-"
-"page value to display more or less movies. It is recommended to set a limit "
-"above if this feature is to be activated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1002
-msgid "Advanced Editable grid settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1003
-msgid ""
-"If enabled, allows the grid sorting to be modified on frontend. The sorting "
-"menu will show a list of possible sortings (rating, release date, title, …) "
-"that visitors can select to sort the grid. <strong>This feature is "
-"experimental!</strong> Be sure to test it thoroughly before enabling it "
-"publicly."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1014
-msgid "Taxonomy Archives"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1015
-msgid "Taxonomy Archives page settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1016
-msgid ""
-"This section allow you to define a custom page to use for taxonomy archives."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1024
-msgid "Collection Archives Page"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1025
-msgid "Choose a page to use to display collection archives."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1036
-msgid "Genre Archives Page"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1037
-msgid "Choose a page to use to display genre archives."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1048
-msgid "Actor Archives Page"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1049
-msgid "Choose a page to use to display actor archives."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1073
-msgid "Rewrite Archives Page Titles"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1074
-msgid ""
-"If enabled, taxonomy archives page’s title and post title will be rewritten "
-"to feature currently browsed letter."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1085
-msgid ""
-"If enabled, add an alphabetical menu and sorting options before the terms "
-"list."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1095
-msgid "Hide empty terms"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1096
-msgid "If enabled, terms related to no movie will be excluded from the list."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1106
-msgid "Terms sort"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1107
-msgid "How terms should be sorted by default."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1109
-msgid "Movie count"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1119
-msgid "Terms order"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1120
-msgid "How terms should be ordered by default."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1132
-msgid "Terms per page"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1133
-msgid "How many terms should be listed per archive page."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1142
-msgid "Terms per page limit"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1143
-msgid ""
-"Limit the number of terms per page to be listed. Can be useful if your "
-"dealing with massive numbers of terms."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1152
-msgid "Editable terms-per-page value"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1153
-msgid ""
-"If enabled, allows terms-per-page value to be modified on frontend. The "
-"sorting menu will show an input where visitors can change the terms-per-page "
-"value to display more or less terms. It is recommended to set a limit above "
-"if this feature is to be activated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1165
-msgid "Languages Support"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1173
-#: ../includes/config/wpmoly-options.php:1198
-#: ../includes/config/wpmoly-options.php:1199
-#: ../includes/config/wpmoly-options.php:1228
-#: ../includes/config/wpmoly-options.php:1229
-msgid "Translation"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1174
-msgid "Translation settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1181
-msgid "Translate Countries"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1182
-msgid ""
-"If enabled, countries names will be translated to the current WordPress "
-"language."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1193
-msgid "Country names format"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1194
-#, php-format
-msgid ""
-"How production countries should be appear in your movies. Default is "
-"<code>Flag + translation</code> showing something like <code>%s</code>."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1194
-#: ../includes/core/class-l10n.php:137
-msgid "Ireland"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1196
-msgid "Flag"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1212
-msgid "Translate Languages"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1213
-msgid ""
-"If enabled, languages names will be translated to the current WordPress "
-"language."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1224
-msgid "Languages names format"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1225
-msgid ""
-"How spoken languages should be appear in your movies. Default is translated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1231
-msgid "Abbreviated translation"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1232
-msgid "Abbreviated original"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1245
-msgid "Permalinks"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1246
-msgid "Rewrite rules & Permalinks"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1247
-msgid "You can adapt the plugin’s permalinks to your local language."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1255
-msgid "Translate permalinks"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1256
-msgid ""
-"Although it can be very tempting to customize your URLs, <strong>beware</"
-"strong>: you probably shouldn't modify this more than once if your site "
-"relies on search engines; changing URLs too often will could badly affect "
-"your site’s referencing."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1267
-msgid "Movies URL Rewrite"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1268
-msgid ""
-"URL Rewrite Rule to apply on movies. Default is <code>movies</code>, "
-"resulting in URL like <code>http://yourblog/movies/fight-club</code>. You "
-"can use this field to translate URLs to your language."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1279
-msgid "Collections URL Rewrite"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1280
-msgid ""
-"URL Rewrite Rule to apply on collections. Default is <code>collection</"
-"code>, resulting in URL like <code>http://yourblog/collection/david-fincher</"
-"code>. You can use this field to translate URLs to your language."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1294
-msgid "Genres URL Rewrite"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1295
-msgid ""
-"URL Rewrite Rule to apply on genres. Default is <code>genre</code>, "
-"resulting in URL like <code>http://yourblog/genre/thriller</code>. You can "
-"use this field to translate URLs to your language."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1309
-msgid "Actors URL Rewrite"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1310
-msgid ""
-"URL Rewrite Rule to apply on actors. Default is <code>actor</code>, "
-"resulting in URL like <code>http://yourblog/actor/brad-pitt</code>. You can "
-"use this field to translate URLs to your language."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1342
-msgid "Styling and customization"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1350
-msgid "Headbox"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1351
-msgid "Styling the movie headbox"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1359
-msgid "Enable Headbox"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1360
-msgid ""
-"If enabled, movies will use the Headbox introduced with version 2. Disable "
-"to show old metadata display from WPMovieLibrary 1.x instead."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1370
-msgid "Headbox Position"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1371
-msgid "Where to display the Headbox on posts."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1387
-msgid ""
-"The Headbox Themes are still experimental: although they should work "
-"correctly they are not fully customisable and have spots for some "
-"unimplemented yet features such as actors images. Just so you know!"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1395
-msgid "Select a Theme to use for your Headbox."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1397
-msgid "WPMovieLibrary"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1398
-#: ../includes/node/class-post-headbox.php:70
-msgid "IMDb"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1399
-msgid "Allociné"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1408
-msgid "Headbox Tabs"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1409
-msgid "Which tabs should appear in the headbox and in which order."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1427
-msgid "Headbox Title"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1428
-msgid "Content of the Headbox Title line."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1440
-msgid "Headbox Subtitle"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1441
-msgid "Content of the Headbox Subtitle line."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1453
-msgid "Headbox Details 1"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1454
-msgid "Content of the Headbox first details line."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1466
-msgid "Headbox Details 2"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1467
-msgid "Content of the Headbox second details line."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1479
-msgid "Headbox Details 3"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1480
-msgid "Content of the Headbox third details line."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1493
-#: ../includes/config/wpmoly-options.php:1756
-#: ../includes/config/wpmoly-options.php:1829
-msgid "Cache"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1494
-msgid "Caching"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1501
-msgid "Enable Caching"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1502
-msgid ""
-"If enabled, WPMovieLibrary will cache movie related data to prevent too "
-"frequent queries to the database. <strong>This feature is experimental!</"
-"strong> Enabling this could generate <strong>huge</strong> amounts of "
-"entries in your database. It is recommended to use this feature sparingly, "
-"ideally not in production. <a href=\"http://wpmovielibrary.com/documentation/"
-"performance\">Learn more about caching</a>."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1512
-msgid "User Caching"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1513
-msgid ""
-"If enabled, caching will be activated for logged in users as well as guests."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1525
-msgid "Caching Time"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1526
-msgid ""
-"Time of validity for cached data, in seconds. Default is 3600 (one hour)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1538
-msgid "Legacy"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1539
-msgid "Compatibility settings for WPMovieLibrary 1.x"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1546
-msgid "Enable Legacy mode"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1547
-msgid "WPMovieLibrary 1.x compatibility mode"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1548
-msgid ""
-"If enabled, WPMovieLibrary will automatically update all movies to the new "
-"metadata format introduced by version 1.3. Each time a metadata is access, "
-"the plugin will look for obsolete metadata and will update it if needed. "
-"Once all movies are updated the plugin will stop looking, but you should "
-"deactivate this anyway. <a href=\"http://wpmovielibrary.com/development/"
-"release-notes/#version-1.3\">Learn more about this change</a>."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1558
-msgid "Enable Legacy Safety mode"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1559
-msgid "WPMovieLibrary 1.x compatibility safety mode"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1560
-msgid ""
-"If enabled, WPMovieLibrary will update deprecated metadata to the new format "
-"but will <em>not</em> delete the deprecated metadata for safety."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1572
-msgid "API"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1573
-msgid "TheMovieDB API settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1580
-msgid "Personnal API Key"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1581
-msgid "Optional: use your own TMDb API key"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1582
-msgid ""
-"A valid TMDb API key is required to fetch informations on the movies you add "
-"to WPMovieLibrary. Leave deactivated if you do not have a personnal API key. "
-"<a href=\"http://tmdb.caercam.org/\">Learn more</a> about the API key or <a "
-"href=\"https://www.themoviedb.org/\">get your own</a>."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1582
-msgid ""
-"If you do not have an API key or do not want to use yours right now, "
-"WPMovieLibrary will use just its own."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1591
-msgid "API Key"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1592
-msgid "Set up your own API key"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1593
-msgid ""
-"Using your own API key is a more privacy-safe choice as it will avoid "
-"WPMovieLibrary to filter queries sent to the API through its own relay "
-"server at tmdb.caercam.org. You will also be able to access statistics on "
-"your API usage in your TMDb user account."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1605
-msgid "API Scheme"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1606
-msgid "Default scheme used to contact TMDb API. Default is HTTPS."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1608
-msgid "HTTP"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1609
-msgid "HTTPS"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1618
-msgid "API Language"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1619
-msgid ""
-"Default language to use when fetching informations from TMDb. Default is "
-"english. You can always change this manually when add a new movie."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1628
-msgid "API Country"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1629
-msgid ""
-"Default country to use when fetching release informations from TMDb. Default "
-"is United States. This is mostly used to get movie certifications "
-"corresponding to your country."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1638
-msgid "API Alternative Country"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1639
-msgid ""
-"You can select an alternative country to use when fetching release "
-"informations from TMDb. If primary country leaves empty results, the "
-"alternative country will be used to fill the blank."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1648
-msgid "Adult movies"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1649
-msgid "Include adult movies (XXX, 18+) in search results."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1659
-msgid "Search results pagination"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1660
-msgid "Enable pagination browsing for search results."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1671
-msgid "Advanced Settings"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1672
-msgid "Advanced Plugin Settings & Tools"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1679
-msgid "Debug Mode"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1680
-msgid "Log specific information for debugging purpose."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1696
-msgid "Deactivate"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1697
-msgid "Deactivation options"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1703
-#: ../includes/config/wpmoly-options.php:1777
-msgid "Movie Post Type"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1704
-msgid "How to handle Movies when WPMovieLibrary is deactivated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1706
-#: ../includes/config/wpmoly-options.php:1720
-#: ../includes/config/wpmoly-options.php:1733
-#: ../includes/config/wpmoly-options.php:1746
-msgid "Conserve (recommended)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1707
-msgid "Convert to Posts"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1708
-#: ../includes/config/wpmoly-options.php:1722
-#: ../includes/config/wpmoly-options.php:1735
-#: ../includes/config/wpmoly-options.php:1748
-#: ../includes/config/wpmoly-options.php:1795
-#: ../includes/config/wpmoly-options.php:1808
-#: ../includes/config/wpmoly-options.php:1821
-msgid "Delete (irreversible)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1709
-#: ../includes/config/wpmoly-options.php:1782
-msgid "Delete Completely (irreversible)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1717
-#: ../includes/config/wpmoly-options.php:1790
-msgid "Collections Taxonomy"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1718
-msgid "How to handle Collections Taxonomy when WPMovieLibrary is deactivated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1721
-msgid "Convert to Categories"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1730
-#: ../includes/config/wpmoly-options.php:1803
-msgid "Genres Taxonomy"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1731
-msgid "How to handle Genres Taxonomy when WPMovieLibrary is deactivated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1734
-#: ../includes/config/wpmoly-options.php:1747
-msgid "Convert to Tags"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1743
-#: ../includes/config/wpmoly-options.php:1816
-msgid "Actors Taxonomy"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1744
-msgid "How to handle Actors Taxonomy when WPMovieLibrary is deactivated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1757
-msgid "How to handle Cached data when WPMovieLibrary is deactivated."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1759
-#: ../includes/config/wpmoly-options.php:1780
-#: ../includes/config/wpmoly-options.php:1793
-#: ../includes/config/wpmoly-options.php:1806
-#: ../includes/config/wpmoly-options.php:1819
-#: ../includes/config/wpmoly-options.php:1832
-msgid "Conserve"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1760
-#: ../includes/config/wpmoly-options.php:1833
-msgid "Empty (recommended)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1770
-msgid "Uninstall"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1771
-msgid "Uninstallation options"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1778
-msgid "How to handle Movies when WPMovieLibrary is uninstalled."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1781
-msgid "Convert to Posts (recommended)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1791
-msgid "How to handle Collections Taxonomy when WPMovieLibrary is uninstalled."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1794
-msgid "Convert to Categories (recommended)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1804
-msgid "How to handle Genres Taxonomy when WPMovieLibrary is uninstalled."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1807
-#: ../includes/config/wpmoly-options.php:1820
-msgid "Convert to Tags (recommended)"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1817
-msgid "How to handle Actors Taxonomy when WPMovieLibrary is uninstalled."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1830
-msgid "How to handle Cached data when WPMovieLibrary is uninstalled."
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1843
-msgid "Import / Export"
-msgstr ""
-
-#: ../includes/config/wpmoly-options.php:1844
-msgid "Import and Export your settings."
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:20
-msgid "Movie Status"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:21
-msgid "Select a status for this movie"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:24
-msgid "Available"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:25
-msgid "Loaned"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:26
-msgid "Scheduled"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:27
-msgid "Unvailable"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:31
-msgid "status"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:40
-msgid "Movie Media"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:41
-msgid "Select a media for this movie"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:44
-msgid "DVD"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:45
-msgid "Blu-ray"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:46
-msgid "VoD"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:47
-msgid "DivX"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:48
-msgid "VHS"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:49
-msgid "Cinema"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:50
-msgid "Other"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:54
-msgid "media"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:63
-msgid "Movie Rating"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:64
-msgid "Select a rating for this movie"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:67
-msgid "Not rated"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:68
-msgid "Junk"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:69
-msgid "Very bad"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:70
-msgid "Bad"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:71
-msgid "Not that bad"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:72
-msgid "Average"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:73
-msgid "Not bad"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:74
-msgid "Good"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:75
-msgid "Very good"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:76
-msgid "Excellent"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:77
-msgid "Masterpiece"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:81
-msgid "rating"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:90
-msgid "Movie Language"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:91
-msgid "Select a language for this movie"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:96
-msgid "lang"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:105
-msgid "Movie Subtitles"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:106
-msgid "Select a subtitle for this movie"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:111
-msgid "subtitles"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:120
-msgid "Movie Format"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:121
-msgid "Select a format for this movie"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:124
-msgid "3D"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:125
-msgid "SD"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:126
-msgid "HD"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:130
-msgid "format"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:140
-msgid "TMDb ID"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:144
-msgid "tmdb"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:155
-msgid "title"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:166
-msgid "originaltitle"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:177
-msgid "tagline"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:188
-msgid "overview"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:199
-msgid "date"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:210
-msgid "localdate"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:221
-msgid "runtime"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:232
-msgid "production"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:243
-msgid "country"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:254
-msgid "language"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:265
-#: ../includes/core/class-l10n.php:639
-msgid "genres"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:277
-msgid "director"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:289
-msgid "producer"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:300
-msgid "actor"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:312
-msgid "photography"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:324
-msgid "composer"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:336
-msgid "author"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:348
-msgid "writer"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:359
-msgid "certification"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:370
-msgid "budget"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:381
-msgid "revenue"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:392
-msgid "imdb"
-msgstr ""
-
-#: ../includes/config/wpmoly-movies.php:403
-msgid "adult"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:107
-msgid "Argentina"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:108
-msgid "Armenia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:109
-msgid "Australia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:110
-msgid "Austria"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:111
-msgid "Azerbaijan"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:112
-msgid "Bahrain"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:113
-msgid "Belarus"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:114
-msgid "Belgium"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:115
-msgid "Bolivia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:116
-msgid "Brazil"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:117
-msgid "Bulgaria"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:118
-msgid "Chile"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:119
-msgid "Colombia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:120
-msgid "Croatia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:121
-msgid "Czech Republic"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:122
-msgid "Denmark"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:123
-msgid "Dominican Republic"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:124
-msgid "Ecuador"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:125
-msgid "Estonia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:126
-msgid "Fiji"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:127
-msgid "Finland"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:128
-msgid "France"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:129
-msgid "Germany"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:130
-msgid "Greece"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:131
-msgid "Hong Kong"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:132
-msgid "Hungary"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:133
-msgid "Iceland"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:134
-msgid "India"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:135
-msgid "Indonesia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:136
-msgid "Iraq"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:138
-msgid "Israel"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:139
-msgid "Italy"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:140
-msgid "Japan"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:141
-msgid "Jordan"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:142
-msgid "Kazakhstan"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:143
-msgid "South Korea"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:144
-msgid "Kuwait"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:145
-msgid "Latvia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:146
-msgid "Lebanon"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:147
-msgid "Lithuania"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:148
-msgid "Malaysia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:149
-msgid "Mexico"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:150
-msgid "Netherlands"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:151
-msgid "New Zealand"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:152
-msgid "Norway"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:153
-msgid "Oman"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:154
-msgid "Papua New Guinea"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:155
-msgid "Peru"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:156
-msgid "Philippines"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:157
-msgid "Poland"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:158
-msgid "Portugal"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:159
-msgid "Puerto Rico"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:160
-msgid "Qatar"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:161
-msgid "Romania"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:162
-msgid "Russia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:163
-msgid "Singapore"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:164
-msgid "Slovakia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:165
-msgid "Slovenia"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:166
-msgid "South Africa"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:167
-msgid "Spain"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:168
-msgid "Sweden"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:169
-msgid "Taiwan"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:170
-msgid "Thailand"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:171
-msgid "Turkey"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:172
-msgid "Ukraine"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:173
-msgid "United Arab Emirates"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:174
-msgid "United Kingdom"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:175
-msgid "United States"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:176
-msgid "Uruguay"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:177
-msgid "Venezuela"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:178
-msgid "Viet Nam"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:460
-msgid "Bulgarian"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:461
-msgid "Czech"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:462
-msgid "Cantonese"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:463
-msgid "Danish"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:464
-msgid "German"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:465
-msgid "Greek"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:466
-msgid "English"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:467
-msgid "Spanish"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:468
-msgid "Farsi"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:469
-msgid "Finnish"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:470
-msgid "French"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:471
-msgid "Hebrew"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:472
-msgid "Hindi"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:473
-msgid "Hungarian"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:474
-msgid "Italian"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:475
-msgid "Japanese"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:476
-msgid "Korean"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:477
-msgid "Dutch"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:478
-msgid "Norwegian"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:479
-msgid "Polish"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:480
-msgid "Portuguese"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:481
-msgid "Russian"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:482
-msgid "Swedish"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:483
-msgid "Turkish"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:484
-msgid "Ukrainian"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:485
-msgid "Chinese"
-msgstr ""
-
-#: ../includes/core/class-l10n.php:627
+#: ../includes/core/class-l10n.php:624
 msgid "actors"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:628
+#: ../includes/core/class-l10n.php:625
 msgid "add automatically"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:629
+#: ../includes/core/class-l10n.php:626
 msgid "Available Backdrops"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:630
+#: ../includes/core/class-l10n.php:627
 msgid "Available Posters"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:632
+#: ../includes/core/class-l10n.php:629
 msgid "Backdrop"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:633
-msgid "Backdrops"
+#: ../includes/core/class-l10n.php:632
+msgid "Image from the movie"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:637
+#: ../includes/core/class-l10n.php:633 ../includes/core/class-l10n.php:654
+msgid "All right reserved."
+msgstr ""
+
+#: ../includes/core/class-l10n.php:634
 msgid "collections"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:638
+#: ../includes/core/class-l10n.php:635
 msgid "Featured image set!"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:640
+#: ../includes/core/class-l10n.php:636
+msgid "genres"
+msgstr ""
+
+#: ../includes/core/class-l10n.php:637
 msgid "Import selected images"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:641
+#: ../includes/core/class-l10n.php:638
 #, php-format
 msgid "Importing movie %s…"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:642
+#: ../includes/core/class-l10n.php:639
 msgid "Importing poster…"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:644
+#: ../includes/core/class-l10n.php:641
 msgid "No movies found!"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:645
+#: ../includes/core/class-l10n.php:642
 msgid "One movie found!"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:646
+#: ../includes/core/class-l10n.php:643
 #, php-format
 msgid "%d movies found!"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:648
+#: ../includes/core/class-l10n.php:645
 msgid "Metadata saved!"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:649
+#: ../includes/core/class-l10n.php:646
 msgid "Backdrops and Posters"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:650
+#: ../includes/core/class-l10n.php:647
 #, php-format
 msgid "Movie %s imported successfully!"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:651
+#: ../includes/core/class-l10n.php:648
 #, php-format
-msgid "or %s using the %s list."
+msgid "or %1$s using the %2$s list."
 msgstr ""
 
-#: ../includes/core/class-l10n.php:653
-#: ../public/js/templates/grid/customs.php:72
-#: ../public/js/templates/grid/customs.php:99
+#: ../includes/core/class-l10n.php:650
+#: ../public/js/templates/grid/customs.php:80
+#: ../public/js/templates/grid/customs.php:107
 msgid "Poster"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:656
+#: ../includes/core/class-l10n.php:653
 msgid "Poster from the movie"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:658
+#: ../includes/core/class-l10n.php:655
 msgid "Poster successfully imported!"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:659
+#: ../includes/core/class-l10n.php:656
 msgid "Ready!"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:660
+#: ../includes/core/class-l10n.php:657
 msgid "Reload"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:661
+#: ../includes/core/class-l10n.php:658
 msgid ""
 "You’re about to save the current settings. This will erase the existing "
 "settings and apply to every search, including multiple imports.<br /><br /"
 ">Are you sure you want to do that?"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:662 ../includes/core/class-l10n.php:697
+#: ../includes/core/class-l10n.php:659 ../includes/core/class-l10n.php:692
 msgid "Run Forrest, run!"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:663
+#: ../includes/core/class-l10n.php:660
 msgid "Saving settings…"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:664
+#: ../includes/core/class-l10n.php:661
 #, php-format
 msgid "Searching movie %s…"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:666
+#: ../includes/core/class-l10n.php:663
 msgid "one selected image"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:667
+#: ../includes/core/class-l10n.php:664
 #, php-format
 msgid "%d selected images"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:669
+#: ../includes/core/class-l10n.php:666
 #, php-format
 msgid ""
-"You’re about to set %s as %s for the movie %s.<br /><br />Are you sure you "
-"want to do that?"
+"You’re about to set %1$s as %2$s for the movie %3$s.<br /><br />Are you sure "
+"you want to do that?"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:670
+#: ../includes/core/class-l10n.php:667
 msgid "Setting featured image…"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:671
+#: ../includes/core/class-l10n.php:668
 msgid "Error: settings were not saved."
 msgstr ""
 
-#: ../includes/core/class-l10n.php:672
+#: ../includes/core/class-l10n.php:669
 msgid "Settings saved!"
 msgstr ""
 
+#: ../includes/core/class-l10n.php:697
+msgctxt "movie runtime in minutes"
+msgid "min"
+msgstr ""
+
 #: ../includes/core/class-l10n.php:699
-msgid "Couldn’t find WordPress Rest API Backbone client."
-msgstr ""
-
-#: ../includes/core/class-l10n.php:700
-msgid "Couldn’t find WordPress Rest API Backbone client collection object."
-msgstr ""
-
-#: ../includes/core/class-l10n.php:703
 msgid "No movie yet"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:704
+#: ../includes/core/class-l10n.php:700
 msgid "1 Movie"
 msgstr ""
 
-#: ../includes/core/class-l10n.php:705
+#: ../includes/core/class-l10n.php:701
 #, php-format
 msgid "%d Movies"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:271
+#: ../includes/core/class-l10n.php:703
+msgid "An unknown error occurred while loading the content from the REST API."
+msgstr ""
+
+#: ../includes/core/class-l10n.php:704
+msgid "If the problem persists, contact the administrator."
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:266
 msgctxt "permalink"
 msgid "adult"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:275
+#: ../includes/core/class-rewrite.php:270
 msgctxt "permalink"
 msgid "author"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:279
+#: ../includes/core/class-rewrite.php:274
+msgctxt "permalink"
+msgid "budget"
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:278
 msgctxt "permalink"
 msgid "certification"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:283
-msgctxt "permalink"
-msgid "composer"
-msgstr ""
-
-#: ../includes/core/class-rewrite.php:287
-msgctxt "permalink"
-msgid "homepage"
-msgstr ""
-
-#: ../includes/core/class-rewrite.php:291
-msgctxt "permalink"
-msgid "imdb_id"
-msgstr ""
-
-#: ../includes/core/class-rewrite.php:295
-msgctxt "permalink"
-msgid "local-release-date"
-msgstr ""
-
-#: ../includes/core/class-rewrite.php:299
-msgctxt "permalink"
-msgid "photography"
-msgstr ""
-
-#: ../includes/core/class-rewrite.php:303
-msgctxt "permalink"
-msgid "producer"
-msgstr ""
-
-#: ../includes/core/class-rewrite.php:307
+#: ../includes/core/class-rewrite.php:282
 msgctxt "permalink"
 msgid "company"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:311
+#: ../includes/core/class-rewrite.php:286
+msgctxt "permalink"
+msgid "composer"
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:290
 msgctxt "permalink"
 msgid "country"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:315
+#: ../includes/core/class-rewrite.php:294
 msgctxt "permalink"
-msgid "release-date"
+msgid "director"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:319
-msgctxt "permalink"
-msgid "spoken-languages"
-msgstr ""
-
-#: ../includes/core/class-rewrite.php:323
-msgctxt "permalink"
-msgid "tmdb_id"
-msgstr ""
-
-#: ../includes/core/class-rewrite.php:327
-msgctxt "permalink"
-msgid "writer"
-msgstr ""
-
-#: ../includes/core/class-rewrite.php:331
+#: ../includes/core/class-rewrite.php:298
 msgctxt "permalink"
 msgid "format"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:335
-msgctxt "detail permalink"
+#: ../includes/core/class-rewrite.php:302
+msgctxt "permalink"
 msgid "language"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:339
+#: ../includes/core/class-rewrite.php:306
+msgctxt "permalink"
+msgid "spoken-languages"
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:310
+msgctxt "permalink"
+msgid "local-release-date"
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:314
 msgctxt "permalink"
 msgid "media"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:343
+#: ../includes/core/class-rewrite.php:318
+msgctxt "permalink"
+msgid "photography"
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:322
+msgctxt "permalink"
+msgid "producer"
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:326
 msgctxt "permalink"
 msgid "rating"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:347
+#: ../includes/core/class-rewrite.php:330
+msgctxt "permalink"
+msgid "release-date"
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:334
+msgctxt "permalink"
+msgid "revenue"
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:338
+msgctxt "permalink"
+msgid "runtime"
+msgstr ""
+
+#: ../includes/core/class-rewrite.php:342
 msgctxt "permalink"
 msgid "status"
 msgstr ""
 
-#: ../includes/core/class-rewrite.php:351
+#: ../includes/core/class-rewrite.php:346
 msgctxt "permalink"
 msgid "subtitles"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:109
-#: ../includes/node/class-post-headbox.php:64
-#: ../includes/node/class-grid.php:181
+#: ../includes/core/class-rewrite.php:350
+msgctxt "permalink"
+msgid "writer"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:121
+#: ../includes/node/class-post-headbox.php:62
+#: ../includes/node/class-grid.php:135
 msgid "Movie"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:110
-#: ../includes/core/class-registrar.php:143
+#: ../includes/core/class-registrar.php:122
+#: ../includes/core/class-registrar.php:156
 msgid "Add New"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:111
+#: ../includes/core/class-registrar.php:123
 msgid "Add New Movie"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:112
+#: ../includes/core/class-registrar.php:124
 msgid "Edit Movie"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:113
+#: ../includes/core/class-registrar.php:125
 msgid "New Movie"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:114
+#: ../includes/core/class-registrar.php:126
 msgid "All Movies"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:115
+#: ../includes/core/class-registrar.php:127
 msgid "View Movie"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:116
+#: ../includes/core/class-registrar.php:128
 msgid "Search Movies"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:117
+#: ../includes/core/class-registrar.php:129
 msgid "No movies found"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:118
+#: ../includes/core/class-registrar.php:130
 msgid "No movies found in Trash"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:141
-#: ../includes/core/class-registrar.php:147
-#: ../includes/core/class-registrar.php:153
+#: ../includes/core/class-registrar.php:154
+#: ../includes/core/class-registrar.php:160
+#: ../includes/core/class-registrar.php:166
 msgid "Grids"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:144
+#: ../includes/core/class-registrar.php:157
 msgid "Add New Grid"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:145 ../includes/class-admin-bar.php:78
+#: ../includes/core/class-registrar.php:158
 msgid "Edit Grid"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:146
+#: ../includes/core/class-registrar.php:159
 msgid "New Grid"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:148
+#: ../includes/core/class-registrar.php:161
 msgid "View Grid"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:149
+#: ../includes/core/class-registrar.php:162
 msgid "Search Grids"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:150
+#: ../includes/core/class-registrar.php:163
 msgid "No grids found"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:151
+#: ../includes/core/class-registrar.php:164
 msgid "No grids found in Trash"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:219
+#: ../includes/core/class-registrar.php:232
 msgctxt "wpmovielibrary"
 msgid "Imported Draft"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:220
+#: ../includes/core/class-registrar.php:233
 #, php-format
 msgid "Imported Draft <span class=\"count\">(%s)</span>"
 msgid_plural "Imported Draft <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../includes/core/class-registrar.php:226
+#: ../includes/core/class-registrar.php:239
 msgctxt "wpmovielibrary"
 msgid "Queued Movie"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:227
+#: ../includes/core/class-registrar.php:240
 #, php-format
 msgid "Queued Movie <span class=\"count\">(%s)</span>"
 msgid_plural "Queued Movies <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../includes/core/class-registrar.php:283
-msgid "New Collection"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:284
-msgid "Search Collections"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:285
-msgid "Popular Collections"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:286
-msgid "All Collections"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:287
-msgid "Parent Collection"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:288
-msgid "Parent Collection:"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:289
-msgid "Edit Collection"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:290
-msgid "View Collection"
-msgstr ""
-
 #: ../includes/core/class-registrar.php:291
-msgid "Update Collection"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:292
-msgid "Add New Collection"
+msgid "TheMovieDb.org movie ID"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:293
-msgid "New Collection Name"
+msgid "TMDb ID"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:294
-msgid "Separate collections with commas"
+#: ../includes/core/class-registrar.php:306
+msgid "Original title for the movie"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:295
-msgid "Add or remove collections"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:296
-msgid "Choose from the most used collections"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:297
-msgid "No collections found."
-msgstr ""
-
-#: ../includes/core/class-registrar.php:298
-msgid "No collections"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:299
-msgid "Collections list navigation"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:300
-msgid "Collections list"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:311
-msgid "New Genre"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:312
-msgid "Search Genres"
+#: ../includes/core/class-registrar.php:308
+#: ../public/templates/headboxes/movie-allocine.php:127
+#: ../public/templates/headboxes/movie-allocine-2.php:127
+msgid "Original Title"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:313
-msgid "Popular Genres"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:314
-msgid "All Genres"
+msgid "Short movie tagline"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:315
-msgid "Parent Genre"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:316
-msgid "Parent Genre:"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:317
-msgid "Edit Genre"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:318
-msgid "View Genre"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:319
-msgid "Update Genre"
+msgid "Tagline"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:320
-msgid "Add New Genre"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:321
-msgid "New Genre Name"
+msgid "Short movie overview"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:322
-msgid "Separate genres with commas"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:323
-msgid "Add or remove genres"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:324
-msgid "Choose from the most used genres"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:325
-msgid "No genres found."
-msgstr ""
-
-#: ../includes/core/class-registrar.php:326
-msgid "No genres"
+#: ../public/templates/headboxes/movie-allocine.php:93
+#: ../public/templates/headboxes/movie-allocine-2.php:93
+msgid "Overview"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:327
-msgid "Genres list navigation"
+msgid "Date the movie was initially released"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:328
-msgid "Genres list"
+#: ../includes/core/class-registrar.php:329
+#: ../public/templates/headboxes/movie-imdb-2.php:102
+#: ../public/templates/headboxes/movie-allocine.php:131
+#: ../public/templates/headboxes/movie-allocine-2.php:131
+msgid "Release Date"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:339
-msgid "New Actor"
+#: ../includes/core/class-registrar.php:335
+msgid "Date the movie was localy released based on your settings"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:340
-msgid "Search Actors"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:341
-msgid "Popular Actors"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:342
-msgid "All Actors"
+#: ../includes/core/class-registrar.php:337
+#: ../public/templates/headboxes/movie-allocine.php:135
+#: ../public/templates/headboxes/movie-allocine-2.php:135
+msgid "Local Release Date"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:343
-msgid "Parent Actor"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:344
-msgid "Parent Actor:"
+msgid "Total movie runtime"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:345
-msgid "Edit Actor"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:346
-msgid "View Actor"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:347
-msgid "Update Actor"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:348
-msgid "Add New Actor"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:349
-msgid "New Actor Name"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:350
-msgid "Separate actors with commas"
+#: ../public/js/templates/grid/customs.php:95
+#: ../public/templates/headboxes/movie-imdb-2.php:127
+#: ../public/templates/headboxes/movie-allocine.php:139
+#: ../public/templates/headboxes/movie-allocine-2.php:139
+msgid "Runtime"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:351
-msgid "Add or remove actors"
-msgstr ""
-
-#: ../includes/core/class-registrar.php:352
-msgid "Choose from the most used actors"
+msgid "List of companies who produced the movie"
 msgstr ""
 
 #: ../includes/core/class-registrar.php:353
+msgid "Production Companies"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:359
+msgid "List of countries where the movie was produced"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:361
+msgid "Production Countries"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:367
+msgid "List of languages spoken in the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:369
+msgid "Spoken Languages"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:375
+msgid "List of genres for the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:383
+msgid "List of directors for the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:385
+#: ../public/templates/headboxes/movie-imdb-2.php:41
+#: ../public/templates/headboxes/movie-vintage.php:44
+#: ../public/templates/headboxes/movie-allocine.php:159
+#: ../public/templates/headboxes/movie-allocine.php:206
+#: ../public/templates/headboxes/movie-allocine-2.php:159
+#: ../public/templates/headboxes/movie-allocine-2.php:206
+msgid "Director"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:391
+msgid "List of producers for the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:393
+#: ../public/templates/headboxes/movie-vintage.php:48
+#: ../public/templates/headboxes/movie-allocine.php:163
+#: ../public/templates/headboxes/movie-allocine-2.php:163
+msgid "Producer"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:399
+msgid "List of actors starring in the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:407
+msgid "List of directors of photography for the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:409
+#: ../public/templates/headboxes/movie-vintage.php:52
+msgid "Director of photography"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:415
+msgid "List of original music composers for the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:417
+msgid "Composer"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:423
+msgid "List of authors for the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:425
+#: ../public/templates/headboxes/movie-vintage.php:64
+#: ../public/templates/headboxes/movie-allocine.php:175
+#: ../public/templates/headboxes/movie-allocine-2.php:175
+msgid "Author"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:431
+msgid "List of writers for the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:433
+#: ../public/templates/headboxes/movie-imdb-2.php:42
+#: ../public/templates/headboxes/movie-vintage.php:60
+#: ../public/templates/headboxes/movie-allocine.php:179
+#: ../public/templates/headboxes/movie-allocine-2.php:179
+msgid "Writer"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:439
+msgid "Movie certification"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:441
+#: ../public/templates/headboxes/movie-allocine.php:183
+#: ../public/templates/headboxes/movie-allocine-2.php:183
+msgid "Certification"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:447
+msgid "Movie budget"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:449
+#: ../public/templates/headboxes/movie-imdb-2.php:109
+#: ../public/templates/headboxes/movie-allocine.php:69
+#: ../public/templates/headboxes/movie-allocine.php:187
+#: ../public/templates/headboxes/movie-allocine-2.php:69
+#: ../public/templates/headboxes/movie-allocine-2.php:187
+msgid "Budget"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:455
+msgid "Movie revenue"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:457
+#: ../public/templates/headboxes/movie-imdb-2.php:113
+#: ../public/templates/headboxes/movie-allocine.php:73
+#: ../public/templates/headboxes/movie-allocine.php:191
+#: ../public/templates/headboxes/movie-allocine-2.php:73
+#: ../public/templates/headboxes/movie-allocine-2.php:191
+msgid "Revenue"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:463
+msgid "Internet Movie Database movie ID"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:465
+msgid "IMDb ID"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:471
+msgid "Separate adult-only movies from all-audience movies"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:473
+msgid "Adult-only"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:479
+msgid "Official movie Website"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:481
+#: ../public/templates/headboxes/movie-imdb-2.php:90
+msgid "Homepage"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:487
+msgid "Current status of your copy of the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:489
+#: ../public/templates/headboxes/movie-vintage.php:94
+#: ../public/templates/headboxes/movie-allocine.php:100
+#: ../public/templates/headboxes/movie-allocine-2.php:100
+msgid "Status"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:495
+msgid "List of medias"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:497
+#: ../public/templates/headboxes/movie-vintage.php:90
+#: ../public/templates/headboxes/movie-allocine.php:104
+#: ../public/templates/headboxes/movie-allocine-2.php:104
+msgid "Media"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:503
+msgid "Your own rating of the movie"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:505
+#: ../public/js/templates/grid/customs.php:98
+#: ../public/templates/headboxes/movie-vintage.php:98
+#: ../public/templates/headboxes/movie-allocine.php:116
+#: ../public/templates/headboxes/movie-allocine-2.php:116
+msgid "Rating"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:511
+msgid "List of languages"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:513
+#: ../public/templates/headboxes/movie-vintage.php:102
+#: ../public/templates/headboxes/movie-allocine.php:112
+#: ../public/templates/headboxes/movie-allocine-2.php:112
+msgid "Language"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:519
+msgid "List of subtitles"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:521
+#: ../public/templates/headboxes/movie-vintage.php:106
+#: ../public/templates/headboxes/movie-allocine.php:120
+#: ../public/templates/headboxes/movie-allocine-2.php:120
+msgid "Subtitles"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:527
+msgid "List of formats"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:537
+msgid "Grid type"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:544
+msgid "Grid mode"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:546
+msgid "Mode"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:551
+msgid "Grid theme"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:553
+msgid "Theme"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:561
+msgid ""
+"Select a preset to apply to the grid. Presets override any filters and "
+"ordering settings you might define, be sure to select \"Custom\" for those "
+"settings to be used."
+msgstr ""
+
+#: ../includes/core/class-registrar.php:733
+msgid "New Collection"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:734
+msgid "Search Collections"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:735
+msgid "Popular Collections"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:736
+msgid "All Collections"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:737
+msgid "Parent Collection"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:738
+msgid "Parent Collection:"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:739
+msgid "Edit Collection"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:740
+msgid "View Collection"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:741
+msgid "Update Collection"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:742
+msgid "Add New Collection"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:743
+msgid "New Collection Name"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:744
+msgid "Separate collections with commas"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:745
+msgid "Add or remove collections"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:746
+msgid "Choose from the most used collections"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:747
+msgid "No collections found."
+msgstr ""
+
+#: ../includes/core/class-registrar.php:748
+msgid "No collections"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:749
+msgid "Collections list navigation"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:750
+msgid "Collections list"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:761
+msgid "New Genre"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:762
+msgid "Search Genres"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:763
+msgid "Popular Genres"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:764
+msgid "All Genres"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:765
+msgid "Parent Genre"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:766
+msgid "Parent Genre:"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:767
+msgid "Edit Genre"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:768
+msgid "View Genre"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:769
+msgid "Update Genre"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:770
+msgid "Add New Genre"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:771
+msgid "New Genre Name"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:772
+msgid "Separate genres with commas"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:773
+msgid "Add or remove genres"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:774
+msgid "Choose from the most used genres"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:775
+msgid "No genres found."
+msgstr ""
+
+#: ../includes/core/class-registrar.php:776
+msgid "No genres"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:777
+msgid "Genres list navigation"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:778
+msgid "Genres list"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:789
+msgid "New Actor"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:790
+msgid "Search Actors"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:791
+msgid "Popular Actors"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:792
+msgid "All Actors"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:793
+msgid "Parent Actor"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:794
+msgid "Parent Actor:"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:795
+msgid "Edit Actor"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:796
+msgid "View Actor"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:797
+msgid "Update Actor"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:798
+msgid "Add New Actor"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:799
+msgid "New Actor Name"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:800
+msgid "Separate actors with commas"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:801
+msgid "Add or remove actors"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:802
+msgid "Choose from the most used actors"
+msgstr ""
+
+#: ../includes/core/class-registrar.php:803
 msgid "No actors found."
 msgstr ""
 
-#: ../includes/core/class-registrar.php:354
+#: ../includes/core/class-registrar.php:804
 msgid "No actors"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:355
+#: ../includes/core/class-registrar.php:805
 msgid "Actors list navigation"
 msgstr ""
 
-#: ../includes/core/class-registrar.php:356
+#: ../includes/core/class-registrar.php:806
 msgid "Actors list"
 msgstr ""
 
-#: ../includes/node/class-post-headbox.php:68
-msgid "Vintage"
-msgstr ""
-
-#: ../includes/node/class-post-headbox.php:69
-msgid "Allocine"
-msgstr ""
-
-#: ../includes/node/class-term-headbox.php:73
-#: ../includes/node/class-grid.php:229
-msgid "Collection"
-msgstr ""
-
-#: ../includes/node/class-term-headbox.php:80
-#: ../includes/node/class-grid.php:265
-msgid "Actor"
-msgstr ""
-
-#: ../includes/node/class-term-headbox.php:87
-#: ../includes/node/class-grid.php:301
-msgid "Genre"
-msgstr ""
-
-#: ../includes/node/class-grid.php:193 ../includes/node/class-grid.php:221
-msgid "Variant #1"
-msgstr ""
-
-#: ../includes/node/class-grid.php:197
-msgid "Variant #2"
-msgstr ""
-
-#: ../includes/node/class-grid.php:203 ../includes/node/class-grid.php:243
-#: ../includes/node/class-grid.php:279 ../includes/node/class-grid.php:315
-#: ../public/js/templates/grid/customs.php:10
-msgid "List"
-msgstr ""
-
-#: ../includes/node/class-grid.php:213 ../includes/node/class-grid.php:253
-#: ../includes/node/class-grid.php:289 ../includes/node/class-grid.php:325
-msgid "Archive"
-msgstr ""
-
-#: ../includes/helpers/class-terms.php:149
+#: ../includes/helpers/class-terms.php:151
 msgid "Invalid taxonomy"
 msgstr ""
 
@@ -4778,284 +2713,369 @@ msgstr ""
 
 #: ../includes/helpers/permalinks.php:164
 #, php-format
-msgid "“%s” rated movies"
+msgid "Movies of %s budget"
 msgstr ""
 
 #: ../includes/helpers/permalinks.php:174
-msgctxt "certification permalink slug"
-msgid "certification"
+msgctxt "budget permalink slug"
+msgid "budget"
 msgstr ""
 
 #: ../includes/helpers/permalinks.php:207
 #, php-format
-msgid "Movies from original music composer %s"
+msgid "“%s” rated movies"
 msgstr ""
 
 #: ../includes/helpers/permalinks.php:217
+msgctxt "certification permalink slug"
+msgid "certification"
+msgstr ""
+
+#: ../includes/helpers/permalinks.php:250
+#, php-format
+msgid "Movies from original music composer %s"
+msgstr ""
+
+#: ../includes/helpers/permalinks.php:260
 msgctxt "composer permalink slug"
 msgid "composer"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:253
+#: ../includes/helpers/permalinks.php:296
 #, php-format
-msgid "Movies produced in: %s (%s)"
+msgid "Movies produced in: %1$s (%2$s)"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:263
+#: ../includes/helpers/permalinks.php:306
 msgctxt "production-countries permalink slug"
 msgid "country"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:296
+#: ../includes/helpers/permalinks.php:339
 #, php-format
 msgctxt "movie format"
 msgid "%s movies"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:306
+#: ../includes/helpers/permalinks.php:349
 msgctxt "format permalink slug"
 msgid "format"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:348
+#: ../includes/helpers/permalinks.php:391
 msgid "Official movie website"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:389
+#: ../includes/helpers/permalinks.php:436
 msgid "Movie page on IMDb.com"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:438
+#: ../includes/helpers/permalinks.php:485
 msgctxt "language permalink slug"
 msgid "language"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:440
-#: ../includes/helpers/formatting.php:1659
+#: ../includes/helpers/permalinks.php:487
+#: ../includes/helpers/formatting.php:1747
 #, php-format
 msgid "%s-dubbed movies"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:443
+#: ../includes/helpers/permalinks.php:490
 msgctxt "subtitles permalink slug"
 msgid "subtitles"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:445
-#: ../includes/helpers/formatting.php:1674
+#: ../includes/helpers/permalinks.php:492
+#: ../includes/helpers/formatting.php:1761
 #, php-format
 msgid "%s-subtitled movies"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:448
+#: ../includes/helpers/permalinks.php:495
 msgctxt "spoken languages permalink slug"
-msgid "spoken-languages"
+msgid "languages"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:450
-#: ../includes/helpers/formatting.php:1689
+#: ../includes/helpers/permalinks.php:497
+#: ../includes/helpers/formatting.php:1775
 #, php-format
 msgid "%s-speaking movies"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:516
+#: ../includes/helpers/permalinks.php:561
 #, php-format
 msgctxt "movie media"
 msgid "%s movies"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:526
+#: ../includes/helpers/permalinks.php:571
 msgctxt "media permalink slug"
 msgid "media"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:593
+#: ../includes/helpers/permalinks.php:638
 msgctxt " permalink slug"
-msgid "local-release-date"
+msgid "local-release"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:595
+#: ../includes/helpers/permalinks.php:640
 msgctxt " permalink slug"
-msgid "release-date"
+msgid "release"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:610
-#: ../includes/helpers/permalinks.php:624
-#: ../includes/helpers/permalinks.php:634
-#: ../includes/helpers/permalinks.php:649
+#: ../includes/helpers/permalinks.php:655
+#: ../includes/helpers/permalinks.php:669
+#: ../includes/helpers/permalinks.php:679
+#: ../includes/helpers/permalinks.php:694
 #, php-format
 msgid "Movies locally released in %s"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:613
-#: ../includes/helpers/permalinks.php:627
-#: ../includes/helpers/permalinks.php:637
-#: ../includes/helpers/permalinks.php:652
+#: ../includes/helpers/permalinks.php:658
+#: ../includes/helpers/permalinks.php:672
+#: ../includes/helpers/permalinks.php:682
+#: ../includes/helpers/permalinks.php:697
 #, php-format
 msgid "Movies released in %s"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:696
+#: ../includes/helpers/permalinks.php:741
 #, php-format
 msgid "Movies from director of photography %s"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:706
+#: ../includes/helpers/permalinks.php:751
 msgctxt "photography permalink slug"
 msgid "photography"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:748
+#: ../includes/helpers/permalinks.php:793
 #, php-format
 msgctxt "producer"
 msgid "Movies produced by %s"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:758
+#: ../includes/helpers/permalinks.php:803
 msgctxt "producer permalink slug"
 msgid "producer"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:800
+#: ../includes/helpers/permalinks.php:845
 #, php-format
 msgctxt "production company"
 msgid "Movies produced by %s"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:810
+#: ../includes/helpers/permalinks.php:855
 msgctxt "production company permalink slug"
 msgid "company"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:843
+#: ../includes/helpers/permalinks.php:888
 #, php-format
 msgctxt "movie rating"
 msgid "Movies rated %s"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:853
+#: ../includes/helpers/permalinks.php:898
 msgctxt "rating permalink slug"
 msgid "rating"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:904
+#: ../includes/helpers/permalinks.php:931
+#, php-format
+msgid "Movies of %s revenue"
+msgstr ""
+
+#: ../includes/helpers/permalinks.php:941
+msgctxt "revenue permalink slug"
+msgid "revenue"
+msgstr ""
+
+#: ../includes/helpers/permalinks.php:992
 #, php-format
 msgctxt "movie status"
 msgid "%s movies"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:914
+#: ../includes/helpers/permalinks.php:1002
 msgctxt "status permalink slug"
 msgid "status"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:974
+#: ../includes/helpers/permalinks.php:1066
 msgid "Movie page on TheMovieDB.org"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:1017
+#: ../includes/helpers/permalinks.php:1109
 #, php-format
 msgid "Movies from writer %s"
 msgstr ""
 
-#: ../includes/helpers/permalinks.php:1027
+#: ../includes/helpers/permalinks.php:1119
 msgctxt "writer permalink slug"
 msgid "writer"
 msgstr ""
 
-#: ../includes/helpers/formatting.php:991
+#: ../includes/helpers/formatting.php:1006
 msgid "Not rated yet!"
 msgstr ""
 
-#: ../includes/helpers/formatting.php:1033
+#: ../includes/helpers/formatting.php:1051
 #, php-format
 msgid "Movies rated %s"
 msgstr ""
 
-#: ../includes/helpers/formatting.php:1516
+#: ../includes/helpers/formatting.php:1605
 #, php-format
 msgid "Movies filed as “%s”"
 msgstr ""
 
-#: ../includes/helpers/formatting.php:1790
+#: ../includes/helpers/formatting.php:1873
 #, php-format
 msgid "More movies from %s"
 msgstr ""
 
-#: ../includes/templates/class-admin-template.php:40
+#: ../includes/node/class-post-headbox.php:66
+msgid "Vintage"
+msgstr ""
+
+#: ../includes/node/class-post-headbox.php:67
+msgid "Allocine"
+msgstr ""
+
+#: ../includes/node/class-post-headbox.php:68
+msgid "Allocine v2"
+msgstr ""
+
+#: ../includes/node/class-post-headbox.php:69
+msgid "IMDb v2"
+msgstr ""
+
+#: ../includes/node/class-term-headbox.php:71
+#: ../includes/node/class-grid.php:169
+msgid "Collection"
+msgstr ""
+
+#: ../includes/node/class-term-headbox.php:78
+#: ../includes/node/class-grid.php:195
+msgid "Actor"
+msgstr ""
+
+#: ../includes/node/class-term-headbox.php:85
+#: ../includes/node/class-grid.php:221
+msgid "Genre"
+msgstr ""
+
+#: ../includes/node/class-grid.php:147
+msgid "Variant #1"
+msgstr ""
+
+#: ../includes/node/class-grid.php:151
+msgid "Variant #2"
+msgstr ""
+
+#: ../includes/node/class-grid.php:157 ../includes/node/class-grid.php:183
+#: ../includes/node/class-grid.php:209 ../includes/node/class-grid.php:235
+#: ../public/js/templates/grid/customs.php:10
+msgid "List"
+msgstr ""
+
+#: ../includes/rest-api/class-api.php:303
+#: ../includes/rest-api/class-api.php:374
+msgid "Limit result set using presets."
+msgstr ""
+
+#: ../includes/rest-api/class-api.php:311
+msgid "Filter movies by letter."
+msgstr ""
+
+#: ../includes/rest-api/class-api.php:319
+msgid "Limit result meta set to specific fields."
+msgstr ""
+
+#: ../includes/rest-api/class-api.php:334
+msgid ""
+"Limit result set to posts assigned to specific authors. Use integers to "
+"match WordPress users, strings to match movie authors."
+msgstr ""
+
 #: ../includes/templates/class-headbox.php:122
-#: ../includes/templates/class-public-template.php:43
-#: ../includes/templates/class-grid.php:129
+#: ../includes/templates/class-javascript.php:39
+#: ../includes/templates/class-front.php:43
+#: ../includes/templates/class-grid.php:77
+#: ../includes/templates/class-admin.php:40
 #, php-format
 msgid "Error: \"%s\" does not exists."
 msgstr ""
 
-#: ../includes/widgets/class-details-widget.php:47
+#: ../includes/widgets/class-details.php:43
 msgid "WPMovieLibrary Details"
 msgstr ""
 
-#: ../includes/widgets/class-details-widget.php:48
+#: ../includes/widgets/class-details.php:44
 msgid "Display a list of the available details: status, media and rating."
 msgstr ""
 
-#: ../includes/widgets/class-statistics-widget.php:34
+#: ../includes/widgets/class-statistics.php:32
 msgid "WPMovieLibrary Statistics"
 msgstr ""
 
-#: ../includes/widgets/class-statistics-widget.php:35
+#: ../includes/widgets/class-statistics.php:33
 msgid "Show some statistics about your movie library."
 msgstr ""
 
-#: ../includes/widgets/class-statistics-widget.php:73
+#: ../includes/widgets/class-statistics.php:69
 #, php-format
-msgid "<strong>1</strong> movie"
+msgid "<strong>%d</strong> movie"
 msgid_plural "<strong>%d</strong> movies"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../includes/widgets/class-statistics-widget.php:74
+#: ../includes/widgets/class-statistics.php:70
 #, php-format
-msgid "<strong>1</strong> collection"
+msgid "<strong>%d</strong> collection"
 msgid_plural "<strong>%d</strong> collections"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../includes/widgets/class-statistics-widget.php:75
+#: ../includes/widgets/class-statistics.php:71
 #, php-format
-msgid "<strong>1</strong> genre"
+msgid "<strong>%d</strong> genre"
 msgid_plural "<strong>%d</strong> genres"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../includes/widgets/class-statistics-widget.php:76
+#: ../includes/widgets/class-statistics.php:72
 #, php-format
-msgid "<strong>1</strong> actor"
+msgid "<strong>%d</strong> actor"
 msgid_plural "<strong>%d</strong> actors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../includes/widgets/class-statistics-widget.php:102
+#: ../includes/widgets/class-statistics.php:96
 msgid "Statistics"
 msgstr ""
 
-#: ../includes/widgets/class-statistics-widget.php:110
+#: ../includes/widgets/class-statistics.php:104
 msgid ""
-"All combined you have a total of %total% in your library, regrouped in "
-"%collections%, %genres% and %actors%."
+"All combined you have a total of {total} in your library, regrouped in "
+"{collections}, {genres} and {actors}."
 msgstr ""
 
-#: ../includes/widgets/class-grid-widget.php:45
+#: ../includes/widgets/class-grid.php:43
 msgid "WPMovieLibrary Grid"
 msgstr ""
 
-#: ../includes/widgets/class-grid-widget.php:46
+#: ../includes/widgets/class-grid.php:44
 msgid "Display a Grid of movies, actors, collections, genres… "
 msgstr ""
 
 #: ../public/class-archives.php:127
 #, php-format
-msgctxt "Archive page title, for instance \"\""
-msgid "%s: %s"
+msgctxt "Archive page title"
+msgid "%1$s: %2$s"
 msgstr ""
 
 #: ../public/js/templates/confirm.php:11
@@ -5074,7 +3094,7 @@ msgstr ""
 msgid "of"
 msgstr ""
 
-#: ../public/js/templates/grid/pagination.php:11
+#: ../public/js/templates/grid/pagination.php:9
 msgid "Next Page"
 msgstr ""
 
@@ -5103,12 +3123,16 @@ msgid "Descendingly"
 msgstr ""
 
 #: ../public/js/templates/grid/settings.php:43
-#: ../public/js/templates/grid/customs.php:127
+#: ../public/js/templates/grid/customs.php:135
 msgid "Apply"
 msgstr ""
 
 #: ../public/js/templates/grid/customs.php:5
 msgid "Mode:"
+msgstr ""
+
+#: ../public/js/templates/grid/customs.php:13
+msgid "Archives"
 msgstr ""
 
 #: ../public/js/templates/grid/customs.php:25
@@ -5117,6 +3141,7 @@ msgid "Number of columns:"
 msgstr ""
 
 #: ../public/js/templates/grid/customs.php:31
+#: ../public/js/templates/grid/customs.php:60
 msgid "Number of rows:"
 msgstr ""
 
@@ -5128,33 +3153,85 @@ msgstr ""
 msgid "Ideal row height:"
 msgstr ""
 
-#: ../public/js/templates/grid/customs.php:70
-#: ../public/js/templates/grid/customs.php:97
-#: ../public/js/templates/grid/customs.php:113
+#: ../public/js/templates/grid/customs.php:78
+#: ../public/js/templates/grid/customs.php:105
+#: ../public/js/templates/grid/customs.php:121
 msgid "Display:"
 msgstr ""
 
-#: ../public/js/templates/grid/customs.php:105
-#: ../public/js/templates/grid/customs.php:118
+#: ../public/js/templates/grid/customs.php:86
+msgid "Year"
+msgstr ""
+
+#: ../public/js/templates/grid/customs.php:113
+#: ../public/js/templates/grid/customs.php:126
 msgid "Number of items"
 msgstr ""
 
-#: ../public/shortcodes/class-shortcode-headbox.php:135
-#, php-format
-msgid "It seems this Node does not have any metadata available yet; %s?"
+#: ../public/js/templates/grid/content/empty.php:12
+msgid "No items found."
 msgstr ""
 
-#: ../public/shortcodes/class-shortcode-headbox.php:135
+#: ../public/shortcodes/class-headbox.php:133
+#, php-format
+msgid "It seems this item does not have any metadata available yet; %s?"
+msgstr ""
+
+#: ../public/shortcodes/class-headbox.php:133
 msgid "care to add some"
 msgstr ""
 
-#: ../public/shortcodes/class-shortcode-headbox.php:136
+#: ../public/shortcodes/class-headbox.php:134
 msgid "This notice is private; only you and other administrators can see it."
 msgstr ""
 
+#: ../public/templates/grid.php:15
+msgid ""
+"JavaScript seems to be disabled in your browser. You should enable it to use "
+"this feature in the best conditions."
+msgstr ""
+
+#: ../public/templates/headboxes/movie-imdb-2.php:43
+msgid "Stars"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-imdb-2.php:84
+msgid "Storyline"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-imdb-2.php:94
+#: ../public/templates/headboxes/movie-allocine.php:50
+#: ../public/templates/headboxes/movie-allocine-2.php:50
+msgid "Countries"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-imdb-2.php:98
+#: ../public/templates/headboxes/movie-allocine.php:77
+#: ../public/templates/headboxes/movie-allocine.php:151
+#: ../public/templates/headboxes/movie-allocine-2.php:77
+#: ../public/templates/headboxes/movie-allocine-2.php:151
+msgid "Languages"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-imdb-2.php:107
+msgid "Box Office"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-imdb-2.php:118
+msgid "Credits"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-imdb-2.php:120
+msgid "Companies"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-imdb-2.php:125
+msgid "Technical details"
+msgstr ""
+
 #: ../public/templates/headboxes/genre-extended.php:24
-#: ../public/templates/headboxes/actor-default.php:24
-#: ../public/templates/headboxes/collection-default.php:24
+#: ../public/templates/headboxes/actor-default.php:25
+#: ../public/templates/headboxes/collection-default.php:25
 #: ../public/templates/headboxes/genre-default.php:24
 #: ../public/templates/headboxes/collection-extended.php:24
 #: ../public/templates/headboxes/actor-extended.php:24
@@ -5164,26 +3241,146 @@ msgid_plural "%d Movies"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../public/templates/headboxes/movie-extended.php:14
-#: ../public/templates/headboxes/movie-default.php:33
-msgctxt "movie runtime in minutes"
-msgid "min"
-msgstr ""
-
-#: ../public/templates/headboxes/movie-default.php:28
+#: ../public/templates/headboxes/movie-extended.php:29
+#: ../public/templates/headboxes/movie-default.php:29
 msgid "Directed by"
 msgstr ""
 
-#: ../public/templates/headboxes/movie-default.php:29
+#: ../public/templates/headboxes/movie-extended.php:30
+msgid "Produced by"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-extended.php:31
+msgid "Photography by"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-extended.php:32
+msgid "Music by"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-extended.php:33
+msgid "Written by"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-extended.php:50
+#: ../public/templates/headboxes/movie-default.php:30
 msgid "Staring"
 msgstr ""
 
-#: ../public/templates/grids/grid.php:16
-msgid ""
-"JavaScript seems to be disabled in your browser. You must have JavaScript "
-"enabled in your browser to use this feature."
+#: ../public/templates/headboxes/movie-extended.php:51
+msgid "Produced in"
 msgstr ""
 
-#: ../public/templates/widgets/details.php:25
-msgid "Select detail…"
+#: ../public/templates/headboxes/movie-extended.php:51
+msgid "by"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-vintage.php:56
+msgid "Original music composer"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-vintage.php:68
+msgid "Production companies"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-vintage.php:72
+msgid "Production countries"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-vintage.php:76
+msgid "Spoken languages"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-vintage.php:80
+#: ../public/templates/headboxes/movie-allocine.php:81
+#: ../public/templates/headboxes/movie-allocine-2.php:81
+msgid "Adult movie"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-vintage.php:130
+#: ../public/templates/headboxes/movie-allocine.php:36
+#: ../public/templates/headboxes/movie-allocine-2.php:36
+msgid "Starring"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:19
+#: ../public/templates/headboxes/movie-allocine-2.php:19
+msgid "Casting"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:28
+#: ../public/templates/headboxes/movie-allocine-2.php:28
+msgid "Release date"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:32
+#: ../public/templates/headboxes/movie-allocine-2.php:32
+msgid "By"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:56
+#: ../public/templates/headboxes/movie-allocine-2.php:56
+msgid "Synopsis and details"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:58
+#: ../public/templates/headboxes/movie-allocine-2.php:58
+msgid "Show details"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:61
+#: ../public/templates/headboxes/movie-allocine.php:143
+#: ../public/templates/headboxes/movie-allocine-2.php:61
+#: ../public/templates/headboxes/movie-allocine-2.php:143
+msgid "Production"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:65
+#: ../public/templates/headboxes/movie-allocine-2.php:65
+msgid "Release year"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:85
+#: ../public/templates/headboxes/movie-allocine-2.php:85
+msgid "Official website"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:98
+#: ../public/templates/headboxes/movie-allocine-2.php:98
+msgid "Viewing details"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:125
+#: ../public/templates/headboxes/movie-allocine-2.php:125
+msgid "Release info"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:147
+#: ../public/templates/headboxes/movie-allocine-2.php:147
+msgid "Country"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:167
+#: ../public/templates/headboxes/movie-allocine-2.php:167
+msgid "Director of Photography"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:171
+#: ../public/templates/headboxes/movie-allocine-2.php:171
+msgid "Original Music Composer"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:195
+#: ../public/templates/headboxes/movie-allocine-2.php:195
+msgid "Adult"
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:199
+#: ../public/templates/headboxes/movie-allocine-2.php:199
+msgid "Homepage "
+msgstr ""
+
+#: ../public/templates/headboxes/movie-allocine.php:227
+#: ../public/templates/headboxes/movie-allocine-2.php:227
+msgid "Actors and actresses"
 msgstr ""
