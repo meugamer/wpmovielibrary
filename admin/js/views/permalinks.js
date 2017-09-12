@@ -89,6 +89,6 @@ _.extend( wpmoly.view, {
 			return this;
 		},
 
-	});
+	})
 
 } );
