@@ -311,7 +311,7 @@ class API {
 				'description' => __( 'Filter movies by letter.', 'wpmovielibrary' ),
 				'type'        => 'string',
 				'default'     => '',
-				'enum'        => array( '' ) + str_split( '#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' ),
+				'enum'        => array( '' ) + str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' ),
 			);
 
 			// Avoid loading all available meta.

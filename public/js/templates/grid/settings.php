@@ -2,7 +2,7 @@
 <# if ( data.settings.custom_letter ) { #>
 		<div class="grid-setting-block full-col letter-setting">
 <?php
-$letters = str_split( '#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
+$letters = str_split( '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 foreach ( $letters as $letter ) {
 ?>
 			<span class="grid-setting-input">
