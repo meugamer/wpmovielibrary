@@ -592,7 +592,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Movie Poster ideal width', 'wpmovielibrary' ),
 					),
-					'default'  => 134,
+					'default'  => 160,
 				),
 				'row-height' => array(
 					'type' => 'integer',
@@ -600,7 +600,7 @@ class Registrar {
 					'show_in_rest' => array(
 						'label'    => esc_html__( 'Movie Poster ideal height', 'wpmovielibrary' ),
 					),
-					'default'  => 200,
+					'default'  => 240,
 				),
 				'list-columns' => array(
 					'type' => 'integer',

@@ -47,6 +47,7 @@ window.wpmoly = window.wpmoly || {};
 				model    : model,
 				query    : query,
 				settings : settings,
+				uniqid   : grid.id,
 			}
 		);
 
@@ -840,6 +841,8 @@ window.wpmoly = window.wpmoly || {};
 			this.settings = options.settings;
 			this.query    = options.query;
 			this.model    = options.model;
+
+			this.uniqid = options.uniqid;
 
 			this.loadSettings();
 		},
@@ -1672,8 +1675,6 @@ window.wpmoly = window.wpmoly || {};
 			// Adjust subviews dimensions on resize
 			this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.adjust, 50 ) );
 
-			//this.listenTo( this.controller.query, 'all', function( e ) { console.log( e ); } );
-
 			// Add views for new models
 			this.listenTo( this.controller.query, 'collection:update', this.render );
 
@@ -1908,36 +1909,34 @@ window.wpmoly = window.wpmoly || {};
 
 			var settings = this.controller.settings;
 			var settings = {
-				type       : settings.get( 'type' ),
-				columns    : settings.get( 'columns' ),
-				rows       : settings.get( 'rows' ),
-				idealWidth : settings.get( 'column_width' ),
-				innerWidth : this.$el.width(),
-				ratio      : 1.25
+				type         : settings.get( 'type' ),
+				columns      : settings.get( 'columns' ),
+				rows         : settings.get( 'rows' ),
+				idealWidth   : settings.get( 'column_width' ),
+				innerWidth   : this.$el.width(),
+				columnWidth  : 160,
+				columnHeight : 200,
+				ratio        : 1.25,
 			};
 
 			if ( 'movie' === settings.type ) {
 				settings.ratio = 1.5;
+				settings.columnHeight = 240;
 			}
 
-			if ( ( Math.floor( settings.innerWidth / settings.columns ) - 8 ) < settings.idealWidth ) {
-				settings.columns = Math.floor( ( settings.innerWidth - settings.innerWidth % settings.idealWidth ) / settings.idealWidth );
-			} else {
-				++settings.columns;
-			}
+			settings.columns      = Math.ceil( settings.innerWidth / ( settings.idealWidth + 8 ) );
+			settings.columnWidth  = Math.floor( settings.innerWidth / settings.columns ) - 8;
+			settings.columnHeight = Math.floor( settings.columnWidth * settings.ratio );
 
-			this.columnWidth  = Math.floor( settings.innerWidth / settings.columns ) - 10;
-			this.columnHeight = Math.floor( this.columnWidth * settings.ratio );
-
-			this.$el.addClass( settings.columns + '-columns' );
+			this.$el.attr( 'data-columns', settings.columns );
 
 			this.$( '.node' ).addClass( 'adjusted' ).css({
-				width : this.columnWidth
+				width : settings.columnWidth,
 			});
 
 			this.$( '.node-thumbnail' ).addClass( 'adjusted' ).css({
-				height : this.columnHeight,
-				width  : this.columnWidth
+				height : settings.columnHeight,
+				width  : settings.columnWidth,
 			});
 		}
 	});
@@ -1972,7 +1971,7 @@ window.wpmoly = window.wpmoly || {};
 			var settings = {
 				columns    : settings.get( 'list_columns' ),
 				idealWidth : settings.get( 'column_width' ),
-				innerWidth : this.$el.width()
+				innerWidth : this.$el.width(),
 			};
 
 			if ( ( Math.floor( settings.innerWidth / settings.columns ) - 8 ) < settings.idealWidth ) {
