@@ -48,6 +48,66 @@ class Grid_Builder extends Metabox {
 	}
 
 	/**
+	 * Add custom grid updated messages.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    array    $messages Post updated messages.
+	 *
+	 * @return   array
+	 */
+	public function updated_messages( $messages ) {
+
+		global $post;
+
+		$permalink = get_permalink( $post->ID );
+		if ( ! $permalink ) {
+			$permalink = '';
+		}
+
+		$preview_url = get_preview_post_link( $post );
+
+		// Preview post link.
+		$preview_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
+			esc_url( $preview_url ),
+			__( 'Preview post', 'wpmovielibrary' )
+		);
+
+		// Scheduled post preview link.
+		$scheduled_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
+			esc_url( $permalink ),
+			__( 'Preview post', 'wpmovielibrary' )
+		);
+
+		// View post link.
+		$view_post_link_html = sprintf( ' <a href="%1$s">%2$s</a>',
+			esc_url( $permalink ),
+			__( 'View post', 'wpmovielibrary' )
+		);
+
+		/* translators: Publish box date format, see https://secure.php.net/date */
+		$scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
+
+		$messages = (array) $messages;
+		$messages['grid'] = array(
+			 0 => '', // Unused. Messages start at index 1.
+			 1 => __( 'Grid updated.', 'wpmovielibrary' ) . $view_post_link_html,
+			 2 => __( 'Custom field updated.', 'wpmovielibrary' ),
+			 3 => __( 'Custom field deleted.', 'wpmovielibrary' ),
+			 4 => __( 'Grid updated.', 'wpmovielibrary' ),
+			 /* translators: %s: date and time of the revision */
+			 5 => isset($_GET['revision']) ? sprintf( __( 'Grid restored to revision from %s.', 'wpmovielibrary' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			 6 => __( 'Grid published.', 'wpmovielibrary' ) . $view_post_link_html,
+			 7 => __( 'Grid saved.', 'wpmovielibrary' ),
+			 8 => __( 'Grid submitted.', 'wpmovielibrary' ) . $preview_post_link_html,
+			 9 => sprintf( __( 'Grid scheduled for: %s.', 'wpmovielibrary' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
+			10 => __( 'Grid draft updated.', 'wpmovielibrary' ) . $preview_post_link_html,
+		);
+
+		return $messages;
+	}
+
+	/**
 	 * Define metaboxes.
 	 *
 	 * @since    3.0
@@ -892,13 +952,13 @@ class Grid_Builder extends Metabox {
 			return false;
 		}
 
-		$type = get_grid_meta( $this->post_id, 'type' );
+		$type = get_grid_meta( $post->ID, 'type' );
 ?>
 		<div class="wpmoly grid-builder">
 
 <?php if ( empty( $type ) ) { ?>
 			<div id="wpmoly-grid-builder-preview" class="grid-builder-preview with-tutorial">
-				<div id="wpmoly-grid-builder-tutorial" class="grid-builder-tutorial" data-tutorial-grid="<?php echo esc_attr( $this->post_id ); ?>">
+				<div id="wpmoly-grid-builder-tutorial" class="grid-builder-tutorial" data-tutorial-grid="<?php echo esc_attr( $post->ID ); ?>">
 					<div class="tutorial-notice">
 						<?php _e( '<strong>This grid is empty!</strong> Follow these steps to create your new grid.', 'wpmovielibrary' ); ?>
 						<span></span>
@@ -940,7 +1000,7 @@ class Grid_Builder extends Metabox {
 <?php } else { ?>
 
 			<div id="wpmoly-grid-builder-preview" class="grid-builder-preview">
-				<div class="wpmoly grid" data-preview-grid="<?php echo esc_attr( $this->post_id ); ?>"></div>
+				<div class="wpmoly grid" data-preview-grid="<?php echo esc_attr( $post->ID ); ?>"></div>
 			</div>
 <?php } // End if(). ?>
 
@@ -963,6 +1023,21 @@ class Grid_Builder extends Metabox {
 ?>
 		</div><!-- /#wpmoly-grid-builder -->
 <?php
+	}
+
+	/**
+	 * Automatically publish grids.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    int        $post_id Post ID.
+	 * @param    WP_Post    $post Post object.
+	 */
+	public function publish( $post_id, $post ) {
+
+		if ( 'draft' === $post->post_status ) {
+			wp_publish_post( $post );
+		}
 	}
 
 	/**

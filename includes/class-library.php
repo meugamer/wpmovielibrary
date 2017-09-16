@@ -310,6 +310,7 @@ final class Library {
 		// Grid Builder
 		// TODO load this on grid only
 		$builder = new Admin\Grid_Builder;
+		$this->loader->add_filter( 'post_updated_messages',       $builder, 'updated_messages' );
 		$this->loader->add_action( 'add_meta_boxes',              $builder, 'add_meta_boxes', 4 );
 		$this->loader->add_action( 'edit_form_top',               $builder, 'header' );
 		$this->loader->add_action( 'post_submitbox_start',        $builder, 'submitbox' );
@@ -317,6 +318,7 @@ final class Library {
 		$this->loader->add_action( 'load-post.php',               $builder, 'load_meta_frameworks' );
 		$this->loader->add_action( 'load-post-new.php',           $builder, 'load_meta_frameworks' );
 		$this->loader->add_action( 'butterbean_register',         $builder, 'register_post_meta_managers', 10, 2 );
+		$this->loader->add_action( 'save_post_grid',              $builder, 'publish', 9, 2 );
 		$this->loader->add_action( 'save_post_grid',              $builder, 'save', 9, 3 );
 
 		// Permalink Settings
