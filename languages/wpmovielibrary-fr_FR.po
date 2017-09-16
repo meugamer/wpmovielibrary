@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPMovieLibrary 3.0-alpha2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/wpmovielibrary\n"
-"POT-Creation-Date: 2017-09-12 19:59+0100\n"
-"PO-Revision-Date: 2017-09-12 23:24+0100\n"
+"POT-Creation-Date: 2017-09-17 00:47+0100\n"
+"PO-Revision-Date: 2017-09-17 00:50+0100\n"
 "Last-Translator: Charlie MERLAND <charlie@caercam.org>\n"
 "Language-Team: WPMovieLibrary <support@wpmovielibrary.com>\n"
 "Language: English\n"
@@ -92,11 +92,11 @@ msgstr ""
 msgid "Movie updated. <a href=\"%s\">View movie</a>"
 msgstr "Film mis à jour. <a href=\"%s\">Voir le film</a>"
 
-#: ../admin/class-editor-metabox.php:422
+#: ../admin/class-editor-metabox.php:422 ../admin/class-grid-builder.php:70
 msgid "Custom field updated."
 msgstr "Champs personnalisés mis à jour."
 
-#: ../admin/class-editor-metabox.php:423
+#: ../admin/class-editor-metabox.php:423 ../admin/class-grid-builder.php:71
 msgid "Custom field deleted."
 msgstr "Champs personnalisés supprimés."
 
@@ -153,9 +153,9 @@ msgid "Actor Meta"
 msgstr "Métadonnées"
 
 #: ../admin/class-term-editor.php:91 ../admin/class-term-editor.php:147
-#: ../admin/class-term-editor.php:324 ../admin/class-grid-builder.php:161
-#: ../admin/class-grid-builder.php:329 ../admin/class-grid-builder.php:497
-#: ../admin/class-grid-builder.php:665
+#: ../admin/class-term-editor.php:324 ../admin/class-grid-builder.php:196
+#: ../admin/class-grid-builder.php:364 ../admin/class-grid-builder.php:532
+#: ../admin/class-grid-builder.php:700
 msgid "Appearance"
 msgstr "Apparence"
 
@@ -763,48 +763,48 @@ msgstr "Défaut"
 msgid "Extended"
 msgstr "Étendu"
 
-#: ../admin/class-archive-pages.php:184 ../admin/class-grid-builder.php:101
-#: ../admin/class-grid-builder.php:309 ../admin/class-grid-builder.php:477
-#: ../admin/class-grid-builder.php:645
+#: ../admin/class-archive-pages.php:184 ../admin/class-grid-builder.php:136
+#: ../admin/class-grid-builder.php:344 ../admin/class-grid-builder.php:512
+#: ../admin/class-grid-builder.php:680
 #: ../includes/core/class-registrar.php:559
 msgid "Grid preset"
 msgstr "Préréglage"
 
-#: ../admin/class-archive-pages.php:185 ../admin/class-grid-builder.php:102
-#: ../admin/class-grid-builder.php:310 ../admin/class-grid-builder.php:478
-#: ../admin/class-grid-builder.php:646
+#: ../admin/class-archive-pages.php:185 ../admin/class-grid-builder.php:137
+#: ../admin/class-grid-builder.php:345 ../admin/class-grid-builder.php:513
+#: ../admin/class-grid-builder.php:681
 msgid "Select a preset to apply to the grid."
 msgstr "Sélectionnez un préréglage à appliquer à la grille."
 
-#: ../admin/class-archive-pages.php:191 ../admin/class-grid-builder.php:108
+#: ../admin/class-archive-pages.php:191 ../admin/class-grid-builder.php:143
 msgid "Alphabetical Movies"
 msgstr "Alphabétique"
 
-#: ../admin/class-archive-pages.php:195 ../admin/class-grid-builder.php:112
+#: ../admin/class-archive-pages.php:195 ../admin/class-grid-builder.php:147
 msgid "Unalphabetical Movies"
 msgstr "Alphabétique inverse"
 
-#: ../admin/class-archive-pages.php:199 ../admin/class-grid-builder.php:124
+#: ../admin/class-archive-pages.php:199 ../admin/class-grid-builder.php:159
 msgid "Latest Added Movies"
 msgstr "Derniers ajouts"
 
-#: ../admin/class-archive-pages.php:203 ../admin/class-grid-builder.php:128
+#: ../admin/class-archive-pages.php:203 ../admin/class-grid-builder.php:163
 msgid "Earliest Added Movies"
 msgstr "Premiers ajouts"
 
-#: ../admin/class-archive-pages.php:207 ../admin/class-grid-builder.php:132
+#: ../admin/class-archive-pages.php:207 ../admin/class-grid-builder.php:167
 msgid "Latest Released Movies"
 msgstr "Dernières sorties"
 
-#: ../admin/class-archive-pages.php:211 ../admin/class-grid-builder.php:136
+#: ../admin/class-archive-pages.php:211 ../admin/class-grid-builder.php:171
 msgid "Earliest Released Movies"
 msgstr "Premières sorties"
 
-#: ../admin/class-archive-pages.php:215 ../admin/class-grid-builder.php:144
+#: ../admin/class-archive-pages.php:215 ../admin/class-grid-builder.php:179
 msgid "Most Rated Movies"
 msgstr "Meilleure note"
 
-#: ../admin/class-archive-pages.php:219 ../admin/class-grid-builder.php:148
+#: ../admin/class-archive-pages.php:219 ../admin/class-grid-builder.php:183
 msgid "Least Rated Movies"
 msgstr "Pire note"
 
@@ -827,135 +827,173 @@ msgstr "OK"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../admin/class-grid-builder.php:59 ../includes/core/class-registrar.php:539
+#: ../admin/class-grid-builder.php:64
+msgid "M j, Y @ H:i"
+msgstr "M j, Y @ H:i"
+
+#: ../admin/class-grid-builder.php:69 ../admin/class-grid-builder.php:72
+msgid "Grid updated."
+msgstr "Grille mise à jour."
+
+#: ../admin/class-grid-builder.php:74
+#, php-format
+msgid "Grid restored to revision from %s."
+msgstr "Grille restaurée à la révision %s"
+
+#: ../admin/class-grid-builder.php:75
+msgid "Grid published."
+msgstr "Grille publiée."
+
+#: ../admin/class-grid-builder.php:76
+msgid "Grid saved."
+msgstr "Grille sauvegardée."
+
+#: ../admin/class-grid-builder.php:77
+msgid "Grid submitted."
+msgstr "Grille soumise."
+
+#: ../admin/class-grid-builder.php:78
+#, php-format
+msgid "Grid scheduled for: %s."
+msgstr "Grille programmée pour : %s."
+
+#: ../admin/class-grid-builder.php:79
+msgid "Grid draft updated."
+msgstr "Brouillon de grille mis à jour."
+
+#: ../admin/class-grid-builder.php:94 ../includes/core/class-registrar.php:539
 msgid "Type"
 msgstr "Type"
 
-#: ../admin/class-grid-builder.php:69
+#: ../admin/class-grid-builder.php:104
 msgid "Preview"
 msgstr "Prévisualiser"
 
-#: ../admin/class-grid-builder.php:89
+#: ../admin/class-grid-builder.php:124
 msgid "Movies Grid Settings "
 msgstr "Réglages de la grille"
 
-#: ../admin/class-grid-builder.php:95 ../admin/class-grid-builder.php:303
-#: ../admin/class-grid-builder.php:471 ../admin/class-grid-builder.php:639
+#: ../admin/class-grid-builder.php:130 ../admin/class-grid-builder.php:338
+#: ../admin/class-grid-builder.php:506 ../admin/class-grid-builder.php:674
 msgid "Presets"
 msgstr "Préréglages"
 
-#: ../admin/class-grid-builder.php:116
+#: ../admin/class-grid-builder.php:151
 msgid "This Year Movies"
 msgstr "Films de l'année"
 
-#: ../admin/class-grid-builder.php:120
+#: ../admin/class-grid-builder.php:155
 msgid "Last Year Movies"
 msgstr "Films de l'année dernière"
 
-#: ../admin/class-grid-builder.php:140
+#: ../admin/class-grid-builder.php:175
 msgid "Incoming Movies"
 msgstr "Prochaines sorties"
 
-#: ../admin/class-grid-builder.php:152
+#: ../admin/class-grid-builder.php:187
 msgid "Custom"
 msgstr "Personnalisé"
 
-#: ../admin/class-grid-builder.php:167 ../admin/class-grid-builder.php:335
-#: ../admin/class-grid-builder.php:503 ../admin/class-grid-builder.php:671
+#: ../admin/class-grid-builder.php:202 ../admin/class-grid-builder.php:370
+#: ../admin/class-grid-builder.php:538 ../admin/class-grid-builder.php:706
 #: ../includes/core/class-registrar.php:577
 msgid "Number of columns"
 msgstr "Nombre de colonnes"
 
-#: ../admin/class-grid-builder.php:168
+#: ../admin/class-grid-builder.php:203
 msgid "Number of columns for the grid. Default is 5."
 msgstr "Nombre de colonnes de la grille. Par défaut 5."
 
-#: ../admin/class-grid-builder.php:178 ../admin/class-grid-builder.php:346
-#: ../admin/class-grid-builder.php:514 ../admin/class-grid-builder.php:682
+#: ../admin/class-grid-builder.php:213 ../admin/class-grid-builder.php:381
+#: ../admin/class-grid-builder.php:549 ../admin/class-grid-builder.php:717
 #: ../includes/core/class-registrar.php:585
 msgid "Number of rows"
 msgstr "Nombre de lignes"
 
-#: ../admin/class-grid-builder.php:179
+#: ../admin/class-grid-builder.php:214
 msgid "Number of rows for the grid. Default is 4."
 msgstr "Nombre de lignes de la grille. Par défaut 4."
 
-#: ../admin/class-grid-builder.php:189
+#: ../admin/class-grid-builder.php:224
 #: ../includes/core/class-registrar.php:593
 msgid "Movie Poster ideal width"
 msgstr "Largeur idéale des affiches"
 
-#: ../admin/class-grid-builder.php:190
+#: ../admin/class-grid-builder.php:225 ../admin/class-grid-builder.php:393
+#: ../admin/class-grid-builder.php:561 ../admin/class-grid-builder.php:729
+#: ../includes/core/class-registrar.php:591
 msgid ""
 "Ideal width for posters. Grid columns will never exceed that width. Default "
-"is 134."
+"is 160."
 msgstr ""
 "Hauteur idéale pour les affiches. Les colonnes de la grille n'excéderont pas "
 "cette largeur. Par défaut 134."
 
-#: ../admin/class-grid-builder.php:200
+#: ../admin/class-grid-builder.php:235
 #: ../includes/core/class-registrar.php:601
 msgid "Movie Poster ideal height"
 msgstr "Hauteur idéale des affiches"
 
-#: ../admin/class-grid-builder.php:201
+#: ../admin/class-grid-builder.php:236 ../admin/class-grid-builder.php:404
+#: ../admin/class-grid-builder.php:572 ../admin/class-grid-builder.php:740
+#: ../includes/core/class-registrar.php:599
 msgid ""
 "Ideal height for posters. Grid rows will never exceed that height. Tip: that "
-"value should be equal to ideal width times 1.5. Default is 200."
+"value should be equal to ideal width times 1.5. Default is 240."
 msgstr ""
 "Hauteur idéale pour les affiches. Les lignes de la grille n'excéderont pas "
 "cette hauteur. Idéalement cette hauteur devrait être égale à 1,5 fois la "
 "largeur idéale. Par défaut 200."
 
-#: ../admin/class-grid-builder.php:211 ../admin/class-grid-builder.php:379
-#: ../admin/class-grid-builder.php:547 ../admin/class-grid-builder.php:715
+#: ../admin/class-grid-builder.php:246 ../admin/class-grid-builder.php:414
+#: ../admin/class-grid-builder.php:582 ../admin/class-grid-builder.php:750
 #: ../includes/core/class-registrar.php:609
 msgid "Number of list columns"
 msgstr "Nombre de colonnes"
 
-#: ../admin/class-grid-builder.php:212 ../admin/class-grid-builder.php:380
-#: ../admin/class-grid-builder.php:548 ../admin/class-grid-builder.php:716
+#: ../admin/class-grid-builder.php:247 ../admin/class-grid-builder.php:415
+#: ../admin/class-grid-builder.php:583 ../admin/class-grid-builder.php:751
 #: ../includes/core/class-registrar.php:607
 msgid "Number of columns for the grid in list mode. Default is 3."
 msgstr "Nombre de colonnes pour le mode liste. Par défaut 3."
 
-#: ../admin/class-grid-builder.php:222 ../admin/class-grid-builder.php:390
-#: ../admin/class-grid-builder.php:558 ../admin/class-grid-builder.php:726
+#: ../admin/class-grid-builder.php:257 ../admin/class-grid-builder.php:425
+#: ../admin/class-grid-builder.php:593 ../admin/class-grid-builder.php:761
 #: ../includes/core/class-registrar.php:617
 msgid "Ideal column width"
 msgstr "Largeur idéale de colonne"
 
-#: ../admin/class-grid-builder.php:223 ../admin/class-grid-builder.php:391
-#: ../admin/class-grid-builder.php:559 ../admin/class-grid-builder.php:727
+#: ../admin/class-grid-builder.php:258 ../admin/class-grid-builder.php:426
+#: ../admin/class-grid-builder.php:594 ../admin/class-grid-builder.php:762
 #: ../includes/core/class-registrar.php:615
 msgid "Ideal width for columns in list mode. Default is 240."
 msgstr "Largeur idéale pour les colonnes de la liste. Par défaut 240px."
 
-#: ../admin/class-grid-builder.php:233 ../admin/class-grid-builder.php:401
-#: ../admin/class-grid-builder.php:569 ../admin/class-grid-builder.php:737
+#: ../admin/class-grid-builder.php:268 ../admin/class-grid-builder.php:436
+#: ../admin/class-grid-builder.php:604 ../admin/class-grid-builder.php:772
 #: ../includes/core/class-registrar.php:625
 msgid "Number of list rows"
 msgstr "Nombre de lignes"
 
-#: ../admin/class-grid-builder.php:234 ../admin/class-grid-builder.php:402
-#: ../admin/class-grid-builder.php:570 ../admin/class-grid-builder.php:738
+#: ../admin/class-grid-builder.php:269 ../admin/class-grid-builder.php:437
+#: ../admin/class-grid-builder.php:605 ../admin/class-grid-builder.php:773
 #: ../includes/core/class-registrar.php:623
 msgid "Number of rows for the grid in list mode. Default is 8."
 msgstr "Nombre de lignes pour le mode liste. Par défaut 8."
 
-#: ../admin/class-grid-builder.php:244 ../admin/class-grid-builder.php:412
-#: ../admin/class-grid-builder.php:580 ../admin/class-grid-builder.php:748
+#: ../admin/class-grid-builder.php:279 ../admin/class-grid-builder.php:447
+#: ../admin/class-grid-builder.php:615 ../admin/class-grid-builder.php:783
 msgid "Settings"
 msgstr "Réglages"
 
-#: ../admin/class-grid-builder.php:250 ../admin/class-grid-builder.php:418
-#: ../admin/class-grid-builder.php:586 ../admin/class-grid-builder.php:754
+#: ../admin/class-grid-builder.php:285 ../admin/class-grid-builder.php:453
+#: ../admin/class-grid-builder.php:621 ../admin/class-grid-builder.php:789
 #: ../includes/core/class-registrar.php:568
 msgid "Enable Pagination"
 msgstr "Activer la pagination."
 
-#: ../admin/class-grid-builder.php:251 ../admin/class-grid-builder.php:419
-#: ../admin/class-grid-builder.php:587 ../admin/class-grid-builder.php:755
+#: ../admin/class-grid-builder.php:286 ../admin/class-grid-builder.php:454
+#: ../admin/class-grid-builder.php:622 ../admin/class-grid-builder.php:790
 #: ../includes/core/class-registrar.php:566
 msgid ""
 "Allow visitors to browse through the grid. Is Ajax browsing is enabled, "
@@ -963,14 +1001,14 @@ msgid ""
 "Default is enabled."
 msgstr "Permet aux visiteurs de parcourir la grille."
 
-#: ../admin/class-grid-builder.php:261 ../admin/class-grid-builder.php:429
-#: ../admin/class-grid-builder.php:597 ../admin/class-grid-builder.php:765
+#: ../admin/class-grid-builder.php:296 ../admin/class-grid-builder.php:464
+#: ../admin/class-grid-builder.php:632 ../admin/class-grid-builder.php:800
 #: ../includes/core/class-registrar.php:633
 msgid "Enable user settings"
 msgstr "Autoriser les réglages utilisateur"
 
-#: ../admin/class-grid-builder.php:262 ../admin/class-grid-builder.php:430
-#: ../admin/class-grid-builder.php:598 ../admin/class-grid-builder.php:766
+#: ../admin/class-grid-builder.php:297 ../admin/class-grid-builder.php:465
+#: ../admin/class-grid-builder.php:633 ../admin/class-grid-builder.php:801
 #: ../includes/core/class-registrar.php:631
 msgid ""
 "Visitors will be able to change some settings to browse the grid "
@@ -981,26 +1019,26 @@ msgstr ""
 "différemment. Les changements ne s'appliquent qu'au visiteur et ne sont pas "
 "conservé entre les visiters. Activé par défaut."
 
-#: ../admin/class-grid-builder.php:272 ../admin/class-grid-builder.php:440
-#: ../admin/class-grid-builder.php:608 ../admin/class-grid-builder.php:776
+#: ../admin/class-grid-builder.php:307 ../admin/class-grid-builder.php:475
+#: ../admin/class-grid-builder.php:643 ../admin/class-grid-builder.php:811
 #: ../includes/core/class-registrar.php:642
 msgid "Enable letter filtering"
 msgstr "Activer le filtrage par lettre"
 
-#: ../admin/class-grid-builder.php:273
+#: ../admin/class-grid-builder.php:308
 #: ../includes/core/class-registrar.php:640
 msgid "Allow visitors to filter the grid by letters. Default is enabled."
 msgstr ""
 "Autoriser les visiteurs à filtrer la grille par lettre. Activé par défaut."
 
-#: ../admin/class-grid-builder.php:283 ../admin/class-grid-builder.php:451
-#: ../admin/class-grid-builder.php:619 ../admin/class-grid-builder.php:787
+#: ../admin/class-grid-builder.php:318 ../admin/class-grid-builder.php:486
+#: ../admin/class-grid-builder.php:654 ../admin/class-grid-builder.php:822
 #: ../includes/core/class-registrar.php:651
 msgid "Enable custom ordering"
 msgstr "Activer le classement personnalisé"
 
-#: ../admin/class-grid-builder.php:284 ../admin/class-grid-builder.php:452
-#: ../admin/class-grid-builder.php:620 ../admin/class-grid-builder.php:788
+#: ../admin/class-grid-builder.php:319 ../admin/class-grid-builder.php:487
+#: ../admin/class-grid-builder.php:655 ../admin/class-grid-builder.php:823
 #: ../includes/core/class-registrar.php:649
 msgid ""
 "Allow visitors to change the grid ordering, ie. the sorting and ordering "
@@ -1009,63 +1047,42 @@ msgstr ""
 "Autoriser les visiteurs à modifier le classement de la grille. Activé par "
 "défaut."
 
-#: ../admin/class-grid-builder.php:297
+#: ../admin/class-grid-builder.php:332
 msgid "Actors Grid Settings"
 msgstr "Réglages de la grille"
 
-#: ../admin/class-grid-builder.php:316
+#: ../admin/class-grid-builder.php:351
 msgid "Alphabetical Actors"
 msgstr "Alphabétique"
 
-#: ../admin/class-grid-builder.php:320
+#: ../admin/class-grid-builder.php:355
 msgid "Unalphabetical Actors"
 msgstr "Alphabétique inversé"
 
-#: ../admin/class-grid-builder.php:336 ../admin/class-grid-builder.php:504
-#: ../admin/class-grid-builder.php:672
+#: ../admin/class-grid-builder.php:371 ../admin/class-grid-builder.php:539
+#: ../admin/class-grid-builder.php:707
 #: ../includes/core/class-registrar.php:575
 msgid "Number of columns for the grid. Default is 4."
 msgstr "Nombre de colonnes de la grille. Par défaut 4."
 
-#: ../admin/class-grid-builder.php:347 ../admin/class-grid-builder.php:515
-#: ../admin/class-grid-builder.php:683
+#: ../admin/class-grid-builder.php:382 ../admin/class-grid-builder.php:550
+#: ../admin/class-grid-builder.php:718
 #: ../includes/core/class-registrar.php:583
 msgid "Number of rows for the grid. Default is 5."
 msgstr "Nombre de lignes de la grille. Par défaut 5."
 
-#: ../admin/class-grid-builder.php:357 ../admin/class-grid-builder.php:525
-#: ../admin/class-grid-builder.php:693
+#: ../admin/class-grid-builder.php:392 ../admin/class-grid-builder.php:560
+#: ../admin/class-grid-builder.php:728
 msgid "Actor picture ideal width"
 msgstr "Largeur idéale des images"
 
-#: ../admin/class-grid-builder.php:358 ../admin/class-grid-builder.php:526
-#: ../admin/class-grid-builder.php:694
-#: ../includes/core/class-registrar.php:591
-msgid ""
-"Ideal width for posters. Grid columns will never exceed that width. Default "
-"is 160."
-msgstr ""
-"Hauteur idéale pour les affiches. Les colonnes de la grille n'excéderont pas "
-"cette largeur. Par défaut 134."
-
-#: ../admin/class-grid-builder.php:368 ../admin/class-grid-builder.php:536
-#: ../admin/class-grid-builder.php:704
+#: ../admin/class-grid-builder.php:403 ../admin/class-grid-builder.php:571
+#: ../admin/class-grid-builder.php:739
 msgid "Actor picture ideal height"
 msgstr "Hauteur idéale des images"
 
-#: ../admin/class-grid-builder.php:369 ../admin/class-grid-builder.php:537
-#: ../admin/class-grid-builder.php:705
-#: ../includes/core/class-registrar.php:599
-msgid ""
-"Ideal height for posters. Grid rows will never exceed that height. Tip: that "
-"value should be equal to ideal width times 1.5. Default is 240."
-msgstr ""
-"Hauteur idéale pour les affiches. Les lignes de la grille n'excéderont pas "
-"cette hauteur. Idéalement cette hauteur devrait être égale à 1,5 fois la "
-"largeur idéale. Par défaut 200."
-
-#: ../admin/class-grid-builder.php:441 ../admin/class-grid-builder.php:609
-#: ../admin/class-grid-builder.php:777
+#: ../admin/class-grid-builder.php:476 ../admin/class-grid-builder.php:644
+#: ../admin/class-grid-builder.php:812
 msgid ""
 "Allow visitors to filter the grid by letters. <strong>Experimental!</strong> "
 "Default is disabled."
@@ -1073,31 +1090,31 @@ msgstr ""
 "Autoriser les visiteurs à filtrer la grille par lettre. "
 "<strong>Expérimental !</strong> Désactivé par défaut."
 
-#: ../admin/class-grid-builder.php:465
+#: ../admin/class-grid-builder.php:500
 msgid "Collections Grid Settings"
 msgstr "Réglages de la grille"
 
-#: ../admin/class-grid-builder.php:484
+#: ../admin/class-grid-builder.php:519
 msgid "Alphabetical Collections"
 msgstr "Alphabétique"
 
-#: ../admin/class-grid-builder.php:488
+#: ../admin/class-grid-builder.php:523
 msgid "Unalphabetical Collections"
 msgstr "Alphabétique inversé"
 
-#: ../admin/class-grid-builder.php:633
+#: ../admin/class-grid-builder.php:668
 msgid "Genres Grid Settings"
 msgstr "Réglages de la grille"
 
-#: ../admin/class-grid-builder.php:652
+#: ../admin/class-grid-builder.php:687
 msgid "Alphabetical Genres"
 msgstr "Alphabétique"
 
-#: ../admin/class-grid-builder.php:656
+#: ../admin/class-grid-builder.php:691
 msgid "Unalphabetical Genres"
 msgstr "Alphabétique inverse"
 
-#: ../admin/class-grid-builder.php:903
+#: ../admin/class-grid-builder.php:938
 msgid ""
 "<strong>This grid is empty!</strong> Follow these steps to create your new "
 "grid."
@@ -1105,38 +1122,38 @@ msgstr ""
 "<strong>Cette grille est vide !</strong> Suivez les étapes suivantes pour "
 "créer votre nouvelle grille."
 
-#: ../admin/class-grid-builder.php:909
+#: ../admin/class-grid-builder.php:944
 msgid "1. Select a grid type"
 msgstr "1. Sélectionnez un type de grille."
 
-#: ../admin/class-grid-builder.php:910
+#: ../admin/class-grid-builder.php:945
 msgid "First, select a type of content for your grid."
 msgstr "D'abord, sélectionnez un type de contenu pour votre grille."
 
-#: ../admin/class-grid-builder.php:917
+#: ../admin/class-grid-builder.php:952
 msgid "2. Select a display mode"
 msgstr "2. Sélectionnez un mode d'affichage"
 
-#: ../admin/class-grid-builder.php:918
+#: ../admin/class-grid-builder.php:953
 msgid ""
 "Then chose a display mode among those available for your selected content…"
 msgstr ""
 "Puis choisissez un mode d'affichage parmi ceux disponibles pour le contenu "
 "sélectionné."
 
-#: ../admin/class-grid-builder.php:925
+#: ../admin/class-grid-builder.php:960
 msgid "3. Select a theme"
 msgstr "3. Sélectionnez un thème"
 
-#: ../admin/class-grid-builder.php:926
+#: ../admin/class-grid-builder.php:961
 msgid "… And then a theme to apply to the grid items."
 msgstr "Choisissez un thème à appliquer à la grille…"
 
-#: ../admin/class-grid-builder.php:932
+#: ../admin/class-grid-builder.php:967
 msgid "4. Pick your settings"
 msgstr "4. Choisissez vos réglages"
 
-#: ../admin/class-grid-builder.php:933
+#: ../admin/class-grid-builder.php:968
 msgid "Finally, tune your grid to your liking using the settings!"
 msgstr "… Et personnalisez l'affichage via les différents réglages !"
 
@@ -3495,6 +3512,21 @@ msgstr "Site officiel"
 #: ../public/templates/headboxes/movie-allocine-2.php:227
 msgid "Actors and actresses"
 msgstr "Acteurs et actrices"
+
+#~ msgid ""
+#~ "Ideal width for posters. Grid columns will never exceed that width. "
+#~ "Default is 134."
+#~ msgstr ""
+#~ "Hauteur idéale pour les affiches. Les colonnes de la grille n'excéderont "
+#~ "pas cette largeur. Par défaut 134."
+
+#~ msgid ""
+#~ "Ideal height for posters. Grid rows will never exceed that height. Tip: "
+#~ "that value should be equal to ideal width times 1.5. Default is 200."
+#~ msgstr ""
+#~ "Hauteur idéale pour les affiches. Les lignes de la grille n'excéderont "
+#~ "pas cette hauteur. Idéalement cette hauteur devrait être égale à 1,5 fois "
+#~ "la largeur idéale. Par défaut 200."
 
 #~ msgid "Grid ID"
 #~ msgstr "ID de la grille"

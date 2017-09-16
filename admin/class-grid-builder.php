@@ -60,48 +60,23 @@ class Grid_Builder extends Metabox {
 
 		global $post;
 
-		$permalink = get_permalink( $post->ID );
-		if ( ! $permalink ) {
-			$permalink = '';
-		}
-
-		$preview_url = get_preview_post_link( $post );
-
-		// Preview post link.
-		$preview_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
-			esc_url( $preview_url ),
-			__( 'Preview post', 'wpmovielibrary' )
-		);
-
-		// Scheduled post preview link.
-		$scheduled_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
-			esc_url( $permalink ),
-			__( 'Preview post', 'wpmovielibrary' )
-		);
-
-		// View post link.
-		$view_post_link_html = sprintf( ' <a href="%1$s">%2$s</a>',
-			esc_url( $permalink ),
-			__( 'View post', 'wpmovielibrary' )
-		);
-
 		/* translators: Publish box date format, see https://secure.php.net/date */
 		$scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
 
 		$messages = (array) $messages;
 		$messages['grid'] = array(
 			 0 => '', // Unused. Messages start at index 1.
-			 1 => __( 'Grid updated.', 'wpmovielibrary' ) . $view_post_link_html,
+			 1 => __( 'Grid updated.', 'wpmovielibrary' ),
 			 2 => __( 'Custom field updated.', 'wpmovielibrary' ),
 			 3 => __( 'Custom field deleted.', 'wpmovielibrary' ),
 			 4 => __( 'Grid updated.', 'wpmovielibrary' ),
 			 /* translators: %s: date and time of the revision */
 			 5 => isset($_GET['revision']) ? sprintf( __( 'Grid restored to revision from %s.', 'wpmovielibrary' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-			 6 => __( 'Grid published.', 'wpmovielibrary' ) . $view_post_link_html,
+			 6 => __( 'Grid published.', 'wpmovielibrary' ),
 			 7 => __( 'Grid saved.', 'wpmovielibrary' ),
-			 8 => __( 'Grid submitted.', 'wpmovielibrary' ) . $preview_post_link_html,
-			 9 => sprintf( __( 'Grid scheduled for: %s.', 'wpmovielibrary' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
-			10 => __( 'Grid draft updated.', 'wpmovielibrary' ) . $preview_post_link_html,
+			 8 => __( 'Grid submitted.', 'wpmovielibrary' ),
+			 9 => sprintf( __( 'Grid scheduled for: %s.', 'wpmovielibrary' ), '<strong>' . $scheduled_date . '</strong>' ),
+			10 => __( 'Grid draft updated.', 'wpmovielibrary' ),
 		);
 
 		return $messages;
