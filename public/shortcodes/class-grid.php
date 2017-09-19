@@ -6,17 +6,16 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public/shortcodes
  */
 
-namespace wpmoly\Shortcodes;
+namespace wpmoly\shortcodes;
 
 /**
  * General Shortcode class.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public/shortcodes
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Grid extends Shortcode {

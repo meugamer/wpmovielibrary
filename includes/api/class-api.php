@@ -6,10 +6,9 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/api
  */
 
-namespace wpmoly\API;
+namespace wpmoly\api;
 
 use WP_Error;
 
@@ -18,7 +17,7 @@ use WP_Error;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/api
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class API {

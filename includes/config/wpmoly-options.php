@@ -6,7 +6,6 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
  */
 
 // If this file is called directly, abort.
@@ -1456,7 +1455,7 @@ $redux_sections = array(
 				'type'     => 'select',
 				'title'    => __( 'API Language', 'wpmovielibrary' ),
 				'desc'     => __( 'Default language to use when fetching informations from TMDb. Default is english. You can always change this manually when add a new movie.', 'wpmovielibrary' ),
-				'options'  => \wpmoly\Core\L10n::$supported_languages,
+				'options'  => \wpmoly\core\L10n::$supported_languages,
 				'default'  => 'en',
 			),
 			// API Country
@@ -1465,7 +1464,7 @@ $redux_sections = array(
 				'type'     => 'select',
 				'title'    => __( 'API Country', 'wpmovielibrary' ),
 				'desc'     => __( 'Default country to use when fetching release informations from TMDb. Default is United States. This is mostly used to get movie certifications corresponding to your country.', 'wpmovielibrary' ),
-				'options'  => \wpmoly\Core\L10n::$supported_countries,
+				'options'  => \wpmoly\core\L10n::$supported_countries,
 				'default'  => 'US',
 			),
 			// API Alternative Country
@@ -1474,7 +1473,7 @@ $redux_sections = array(
 				'type'     => 'select',
 				'title'    => __( 'API Alternative Country', 'wpmovielibrary' ),
 				'desc'     => __( 'You can select an alternative country to use when fetching release informations from TMDb. If primary country leaves empty results, the alternative country will be used to fill the blank.', 'wpmovielibrary' ),
-				'options'  => \wpmoly\Core\L10n::$supported_countries,
+				'options'  => \wpmoly\core\L10n::$supported_countries,
 				'default'  => 'US',
 			),
 			// API Adult Movies

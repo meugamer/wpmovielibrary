@@ -6,12 +6,11 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public
  */
 
 namespace wpmoly;
 
-use wpmoly\Core\Assets;
+use wpmoly\core\Assets;
 
 /**
  * The public-facing functionality of the plugin.
@@ -19,7 +18,7 @@ use wpmoly\Core\Assets;
  * Register and enqueue public scripts, styles and templates.
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Frontend extends Assets {
@@ -55,16 +54,16 @@ class Frontend extends Assets {
 	protected function register_scripts() {
 
 		// Vendor
-		$this->register_script( 'sprintf',           'public/js/sprintf.min.js',           array( 'jquery', 'underscore' ), '1.0.3' );
-		$this->register_script( 'underscore-string', 'public/js/underscore.string.min.js', array( 'jquery', 'underscore' ), '3.3.4' );
+		$this->register_script( 'sprintf',           'public/assets/js/sprintf.min.js',           array( 'jquery', 'underscore' ), '1.0.3' );
+		$this->register_script( 'underscore-string', 'public/assets/js/underscore.string.min.js', array( 'jquery', 'underscore' ), '3.3.4' );
 
 		// Base
-		$this->register_script( 'core',              'public/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
-		$this->register_script( 'utils',             'public/js/wpmoly-utils.js' );
+		$this->register_script( 'core',              'public/assets/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
+		$this->register_script( 'utils',             'public/assets/js/wpmoly-utils.js' );
 
 		// Runners
-		$this->register_script( 'grids',     'public/js/wpmoly-grids.js',     array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
-		$this->register_script( 'headboxes', 'public/js/wpmoly-headboxes.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone' ) );
+		$this->register_script( 'grids',     'public/assets/js/wpmoly-grids.js',     array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
+		$this->register_script( 'headboxes', 'public/assets/js/wpmoly-headboxes.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone' ) );
 	}
 
 	/**
@@ -75,19 +74,19 @@ class Frontend extends Assets {
 	protected function register_styles() {
 
 		// Plugin-wide normalize
-		$this->register_style( 'normalize', 'public/css/wpmoly-normalize-min.css' );
+		$this->register_style( 'normalize', 'public/assets/css/wpmoly-normalize-min.css' );
 
 		// Main stylesheet
-		$this->register_style( 'core',      'public/css/wpmoly.css' );
+		$this->register_style( 'core',      'public/assets/css/wpmoly.css' );
 
 		// Common stylesheets
-		$this->register_style( 'common',    'public/css/common.css' );
-		$this->register_style( 'headboxes', 'public/css/wpmoly-headboxes.css' );
-		$this->register_style( 'grids',     'public/css/wpmoly-grids.css' );
-		$this->register_style( 'flags',     'public/css/wpmoly-flags.css' );
+		$this->register_style( 'common',    'public/assets/css/common.css' );
+		$this->register_style( 'headboxes', 'public/assets/css/wpmoly-headboxes.css' );
+		$this->register_style( 'grids',     'public/assets/css/wpmoly-grids.css' );
+		$this->register_style( 'flags',     'public/assets/css/wpmoly-flags.css' );
 
 		// Plugin icon font
-		$this->register_style( 'font',      'public/fonts/wpmovielibrary/style.css' );
+		$this->register_style( 'font',      'public/assets/fonts/wpmovielibrary/style.css' );
 	}
 
 	/**
@@ -97,25 +96,25 @@ class Frontend extends Assets {
 	 */
 	protected function register_templates() {
 
-		$this->register_template( 'grid',                      'public/js/templates/grid/grid.php' );
-		$this->register_template( 'grid-menu',                 'public/js/templates/grid/menu.php' );
-		$this->register_template( 'grid-customs',              'public/js/templates/grid/customs.php' );
-		$this->register_template( 'grid-settings',             'public/js/templates/grid/settings.php' );
-		$this->register_template( 'grid-pagination',           'public/js/templates/grid/pagination.php' );
+		$this->register_template( 'grid',                      'public/assets/js/templates/grid/grid.php' );
+		$this->register_template( 'grid-menu',                 'public/assets/js/templates/grid/menu.php' );
+		$this->register_template( 'grid-customs',              'public/assets/js/templates/grid/customs.php' );
+		$this->register_template( 'grid-settings',             'public/assets/js/templates/grid/settings.php' );
+		$this->register_template( 'grid-pagination',           'public/assets/js/templates/grid/pagination.php' );
 
-		$this->register_template( 'grid-error',                'public/js/templates/grid/content/error.php' );
-		$this->register_template( 'grid-empty',                'public/js/templates/grid/content/empty.php' );
+		$this->register_template( 'grid-error',                'public/assets/js/templates/grid/content/error.php' );
+		$this->register_template( 'grid-empty',                'public/assets/js/templates/grid/content/empty.php' );
 
-		$this->register_template( 'grid-movie-grid',           'public/js/templates/grid/content/movie-grid.php' );
-		$this->register_template( 'grid-movie-grid-variant-1', 'public/js/templates/grid/content/movie-grid-variant-1.php' );
-		$this->register_template( 'grid-movie-grid-variant-2', 'public/js/templates/grid/content/movie-grid-variant-2.php' );
-		$this->register_template( 'grid-movie-list',           'public/js/templates/grid/content/movie-list.php' );
-		$this->register_template( 'grid-actor-grid',           'public/js/templates/grid/content/actor-grid.php' );
-		$this->register_template( 'grid-actor-list',           'public/js/templates/grid/content/actor-list.php' );
-		$this->register_template( 'grid-collection-grid',      'public/js/templates/grid/content/collection-grid.php' );
-		$this->register_template( 'grid-collection-list',      'public/js/templates/grid/content/collection-list.php' );
-		$this->register_template( 'grid-genre-grid',           'public/js/templates/grid/content/genre-grid.php' );
-		$this->register_template( 'grid-genre-list',           'public/js/templates/grid/content/genre-list.php' );
+		$this->register_template( 'grid-movie-grid',           'public/assets/js/templates/grid/content/movie-grid.php' );
+		$this->register_template( 'grid-movie-grid-variant-1', 'public/assets/js/templates/grid/content/movie-grid-variant-1.php' );
+		$this->register_template( 'grid-movie-grid-variant-2', 'public/assets/js/templates/grid/content/movie-grid-variant-2.php' );
+		$this->register_template( 'grid-movie-list',           'public/assets/js/templates/grid/content/movie-list.php' );
+		$this->register_template( 'grid-actor-grid',           'public/assets/js/templates/grid/content/actor-grid.php' );
+		$this->register_template( 'grid-actor-list',           'public/assets/js/templates/grid/content/actor-list.php' );
+		$this->register_template( 'grid-collection-grid',      'public/assets/js/templates/grid/content/collection-grid.php' );
+		$this->register_template( 'grid-collection-list',      'public/assets/js/templates/grid/content/collection-list.php' );
+		$this->register_template( 'grid-genre-grid',           'public/assets/js/templates/grid/content/genre-grid.php' );
+		$this->register_template( 'grid-genre-list',           'public/assets/js/templates/grid/content/genre-list.php' );
 	}
 
 	/**
@@ -304,7 +303,7 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/filter/detail/subtitles/url',        '', 'get_movie_subtitles_url', 15, 2 );
 
 		// Queries
-		$query = Core\Query::get_instance();
+		$query = core\Query::get_instance();
 		$loader->add_filter( 'wpmoly/filter/query/movies/alphabetical/preset/param',        $query, 'filter_alphabetical_movies_preset_param' );
 		$loader->add_filter( 'wpmoly/filter/query/movies/unalphabetical/preset/param',      $query, 'filter_unalphabetical_movies_preset_param' );
 		$loader->add_filter( 'wpmoly/filter/query/movies/current-year/preset/param',        $query, 'filter_current_year_movies_preset_param' );
@@ -361,7 +360,7 @@ class Frontend extends Assets {
 		$loader->add_filter( 'wpmoly/filter/query/movies/format/value',                     $query, 'filter_format_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/genre/value',                      $query, 'filter_genre_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/language/value',                   $query, 'filter_language_query_var', 10, 2 );
-		$loader->add_filter( 'wpmoly/filter/query/movies/languages/value',                  $query, 'filter_languages_query_var', 10, 2 );
+		add_filter( 'wpmoly/filter/query/movies/languages/value',                  $query, 'filter_languages_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/local_release/value',              $query, 'filter_release_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/media/value',                      $query, 'filter_media_query_var', 10, 2 );
 		$loader->add_filter( 'wpmoly/filter/query/movies/photography/value',                $query, 'filter_photography_query_var', 10, 2 );
@@ -389,16 +388,16 @@ class Frontend extends Assets {
 		}
 
 		$shortcodes = array(
-			'\wpmoly\Shortcodes\Grid',
-			'\wpmoly\Shortcodes\Headbox',
-			'\wpmoly\Shortcodes\Images',
-			'\wpmoly\Shortcodes\Metadata',
-			'\wpmoly\Shortcodes\Detail',
-			'\wpmoly\Shortcodes\Countries',
-			'\wpmoly\Shortcodes\Languages',
-			'\wpmoly\Shortcodes\Local_Release_Date',
-			'\wpmoly\Shortcodes\Release_Date',
-			'\wpmoly\Shortcodes\Runtime',
+			'\wpmoly\shortcodes\Grid',
+			'\wpmoly\shortcodes\Headbox',
+			'\wpmoly\shortcodes\Images',
+			'\wpmoly\shortcodes\Metadata',
+			'\wpmoly\shortcodes\Detail',
+			'\wpmoly\shortcodes\Countries',
+			'\wpmoly\shortcodes\Languages',
+			'\wpmoly\shortcodes\Local_Release_Date',
+			'\wpmoly\shortcodes\Release_Date',
+			'\wpmoly\shortcodes\Runtime',
 		);
 
 		foreach ( $shortcodes as $shortcode ) {
@@ -446,9 +445,9 @@ class Frontend extends Assets {
 	public function register_widgets() {
 
 		$widgets = array(
-			'\wpmoly\Widgets\Statistics',
-			'\wpmoly\Widgets\Details',
-			'\wpmoly\Widgets\Grid',
+			'\wpmoly\widgets\Statistics',
+			'\wpmoly\widgets\Details',
+			'\wpmoly\widgets\Grid',
 		);
 
 		foreach ( $widgets as $widget ) {

@@ -6,17 +6,16 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
  */
 
-namespace wpmoly\Core;
+namespace wpmoly\core;
 
 /**
  *
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Options {

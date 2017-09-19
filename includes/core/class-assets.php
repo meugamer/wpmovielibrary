@@ -6,16 +6,15 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly\Core;
+namespace wpmoly\core;
 
 /**
  * .
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 abstract class Assets {
@@ -241,7 +240,7 @@ abstract class Assets {
 
 		global $wpmoly_templates;
 
-		if ( ! isset( $wpmoly_templates[ $handle ] ) || ! $wpmoly_templates[ $handle ] instanceof \wpmoly\Templates\Template ) {
+		if ( ! isset( $wpmoly_templates[ $handle ] ) || ! $wpmoly_templates[ $handle ] instanceof \wpmoly\templates\Template ) {
 			return false;
 		}
 ?>
@@ -262,7 +261,7 @@ abstract class Assets {
 	 */
 	public function prefix_handle( $handle ) {
 
-		return WPMOLY_SLUG . '-' . $handle;
+		return "wpmoly-{$handle}";
 	}
 
 	/**

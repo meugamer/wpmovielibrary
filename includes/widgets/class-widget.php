@@ -6,10 +6,9 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/widgets
  */
 
-namespace wpmoly\Widgets;
+namespace wpmoly\widgets;
 
 use WP_Widget;
 
@@ -18,7 +17,7 @@ use WP_Widget;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/widgets
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 abstract class Widget extends WP_Widget {

@@ -6,7 +6,6 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/helpers
  */
 
 /**
@@ -287,7 +286,7 @@ function get_movie_composer_url( $composer, $options = array() ) {
  */
 function get_movie_country_url( $country, $options = array() ) {
 
-	if ( ! $country instanceof \wpmoly\Helpers\Country ) {
+	if ( ! $country instanceof \wpmoly\helpers\Country ) {
 		return $country;
 	}
 
@@ -471,7 +470,7 @@ function get_movie_language_url( $language, $options = array() ) {
 		'variant'  => 'spoken_languages',
 	) );
 
-	if ( ! $options['language'] instanceof \wpmoly\Helpers\Language ) {
+	if ( ! $options['language'] instanceof \wpmoly\helpers\Language ) {
 		return $language;
 	}
 

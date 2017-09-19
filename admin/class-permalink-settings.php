@@ -6,19 +6,18 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/admin
  */
 
-namespace wpmoly\Admin;
+namespace wpmoly\admin;
 
-use wpmoly\Templates\Admin as Template;
+use wpmoly\templates\Admin as Template;
 
 /**
  * Handle the plugin's URL rewriting settings.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/admin
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Permalink_Settings {
@@ -47,7 +46,7 @@ class Permalink_Settings {
 	/**
 	 * Singleton.
 	 *
-	 * @var    \wpmoly\Core\Rewrite
+	 * @var    \wpmoly\admin\Permalink_Settings
 	 */
 	private static $instance = null;
 
@@ -63,7 +62,7 @@ class Permalink_Settings {
 	 *
 	 * @since    3.0
 	 *
-	 * @return   \wpmoly\Admin\Permalink_Settings
+	 * @return   \wpmoly\admin\Permalink_Settings
 	 */
 	final public static function get_instance() {
 

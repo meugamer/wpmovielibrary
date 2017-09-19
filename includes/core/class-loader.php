@@ -6,10 +6,9 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly\Core;
+namespace wpmoly\core;
 
 /**
  * Register all actions and filters for the plugin.
@@ -19,7 +18,7 @@ namespace wpmoly\Core;
  * run function to execute the list of actions and filters.
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Loader {

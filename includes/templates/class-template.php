@@ -6,10 +6,9 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly\Templates;
+namespace wpmoly\templates;
 
 use WP_Error;
 
@@ -18,7 +17,7 @@ use WP_Error;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 abstract class Template {

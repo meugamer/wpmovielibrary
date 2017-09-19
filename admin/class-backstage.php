@@ -6,12 +6,11 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/admin
  */
 
-namespace wpmoly\Admin;
+namespace wpmoly\admin;
 
-use wpmoly\Core\Assets;
+use wpmoly\core\Assets;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -20,7 +19,6 @@ use wpmoly\Core\Assets;
  * enqueue the admin-specific stylesheet and JavaScript.
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/admin
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Backstage extends Assets {
@@ -37,7 +35,7 @@ class Backstage extends Assets {
 	 *
 	 * @since    3.0
 	 *
-	 * @return   \wpmoly\Admin\Backstage
+	 * @return   \wpmoly\admin\Backstage
 	 */
 	final public static function get_instance() {
 
@@ -56,71 +54,71 @@ class Backstage extends Assets {
 	protected function register_scripts() {
 
 		// Vendor
-		$this->register_script( 'sprintf',           'public/js/sprintf.min.js', array( 'jquery', 'underscore' ), '1.0.3' );
-		$this->register_script( 'underscore-string', 'public/js/underscore.string.min.js', array( 'jquery', 'underscore' ), '3.3.4' );
+		$this->register_script( 'sprintf',           'public/assets/js/sprintf.min.js', array( 'jquery', 'underscore' ), '1.0.3' );
+		$this->register_script( 'underscore-string', 'public/assets/js/underscore.string.min.js', array( 'jquery', 'underscore' ), '3.3.4' );
 
 		// Base
-		$this->register_script( 'core',  'public/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
-		$this->register_script( 'utils', 'public/js/wpmoly-utils.js' );
+		$this->register_script( 'core',  'public/assets/js/wpmoly.js', array( 'jquery', 'underscore', 'backbone', 'wp-backbone', 'wp-api' ) );
+		$this->register_script( 'utils', 'public/assets/js/wpmoly-utils.js' );
 
 		// Libraries
-		$this->register_script( 'select2',                 'admin/js/select2.min.js' );
-		$this->register_script( 'jquery-actual',           'admin/js/jquery.actual.min.js' );
+		$this->register_script( 'select2',                 'admin/assets/js/select2.min.js' );
+		$this->register_script( 'jquery-actual',           'admin/assets/js/jquery.actual.min.js' );
 
 		// Models
-		$this->register_script( 'settings-model',          'admin/js/models/settings.js' );
-		$this->register_script( 'status-model',            'admin/js/models/status.js' );
-		$this->register_script( 'results-model',           'admin/js/models/results.js' );
-		$this->register_script( 'search-model',            'admin/js/models/search.js' );
-		$this->register_script( 'meta-model',              'admin/js/models/meta.js' );
-		$this->register_script( 'modal-model',             'admin/js/models/modal/modal.js' );
-		$this->register_script( 'image-model',             'admin/js/models/image.js' );
-		$this->register_script( 'images-model',            'admin/js/models/images.js' );
+		$this->register_script( 'settings-model',          'admin/assets/js/models/settings.js' );
+		$this->register_script( 'status-model',            'admin/assets/js/models/status.js' );
+		$this->register_script( 'results-model',           'admin/assets/js/models/results.js' );
+		$this->register_script( 'search-model',            'admin/assets/js/models/search.js' );
+		$this->register_script( 'meta-model',              'admin/assets/js/models/meta.js' );
+		$this->register_script( 'modal-model',             'admin/assets/js/models/modal/modal.js' );
+		$this->register_script( 'image-model',             'admin/assets/js/models/image.js' );
+		$this->register_script( 'images-model',            'admin/assets/js/models/images.js' );
 
 		// Controllers
-		$this->register_script( 'library-controller',      'admin/js/controllers/library.js' );
-		$this->register_script( 'search-controller',       'admin/js/controllers/search.js' );
-		$this->register_script( 'editor-controller',       'admin/js/controllers/editor.js' );
-		$this->register_script( 'modal-controller',        'admin/js/controllers/modal.js' );
+		$this->register_script( 'library-controller',      'admin/assets/js/controllers/library.js' );
+		$this->register_script( 'search-controller',       'admin/assets/js/controllers/search.js' );
+		$this->register_script( 'editor-controller',       'admin/assets/js/controllers/editor.js' );
+		$this->register_script( 'modal-controller',        'admin/assets/js/controllers/modal.js' );
 
 		// Views
-		$this->register_script( 'frame-view',                     'public/js/views/frame.js' );
-		$this->register_script( 'confirm-view',                   'public/js/views/confirm.js' );
-		$this->register_script( 'permalinks-view',                'admin/js/views/permalinks.js' );
-		$this->register_script( 'archive-pages-view',             'admin/js/views/archive-pages.js' );
-		$this->register_script( 'metabox-view',                   'admin/js/views/metabox.js' );
-		$this->register_script( 'library-view',                   'admin/js/views/library/library.js' );
-		$this->register_script( 'library-menu-view',              'admin/js/views/library/menu.js' );
-		$this->register_script( 'library-content-latest-view',    'admin/js/views/library/content-latest.js' );
-		$this->register_script( 'library-content-favorites-view', 'admin/js/views/library/content-favorites.js' );
-		$this->register_script( 'library-content-import-view',    'admin/js/views/library/content-import.js' );
-		$this->register_script( 'search-view',                    'admin/js/views/search/search.js' );
-		$this->register_script( 'search-history-view',            'admin/js/views/search/history.js' );
-		$this->register_script( 'search-settings-view',           'admin/js/views/search/settings.js' );
-		$this->register_script( 'search-status-view',             'admin/js/views/search/status.js' );
-		$this->register_script( 'search-results-view',            'admin/js/views/search/results.js' );
-		$this->register_script( 'editor-image-view',              'admin/js/views/editor/image.js' );
-		$this->register_script( 'editor-images-view',             'admin/js/views/editor/images.js' );
-		$this->register_script( 'editor-meta-view',               'admin/js/views/editor/meta.js' );
-		$this->register_script( 'editor-details-view',            'admin/js/views/editor/details.js' );
-		$this->register_script( 'editor-tagbox-view',             'admin/js/views/editor/tagbox.js' );
-		$this->register_script( 'editor-view',                    'admin/js/views/editor/editor.js' );
-		$this->register_script( 'modal-view',                     'admin/js/views/modal/modal.js' );
-		$this->register_script( 'modal-images-view',              'admin/js/views/modal/images.js' );
-		$this->register_script( 'modal-browser-view',             'admin/js/views/modal/browser.js' );
-		$this->register_script( 'modal-post-view',                'admin/js/views/modal/post.js' );
+		$this->register_script( 'frame-view',                     'public/assets/js/views/frame.js' );
+		$this->register_script( 'confirm-view',                   'public/assets/js/views/confirm.js' );
+		$this->register_script( 'permalinks-view',                'admin/assets/js/views/permalinks.js' );
+		$this->register_script( 'archive-pages-view',             'admin/assets/js/views/archive-pages.js' );
+		$this->register_script( 'metabox-view',                   'admin/assets/js/views/metabox.js' );
+		$this->register_script( 'library-view',                   'admin/assets/js/views/library/library.js' );
+		$this->register_script( 'library-menu-view',              'admin/assets/js/views/library/menu.js' );
+		$this->register_script( 'library-content-latest-view',    'admin/assets/js/views/library/content-latest.js' );
+		$this->register_script( 'library-content-favorites-view', 'admin/assets/js/views/library/content-favorites.js' );
+		$this->register_script( 'library-content-import-view',    'admin/assets/js/views/library/content-import.js' );
+		$this->register_script( 'search-view',                    'admin/assets/js/views/search/search.js' );
+		$this->register_script( 'search-history-view',            'admin/assets/js/views/search/history.js' );
+		$this->register_script( 'search-settings-view',           'admin/assets/js/views/search/settings.js' );
+		$this->register_script( 'search-status-view',             'admin/assets/js/views/search/status.js' );
+		$this->register_script( 'search-results-view',            'admin/assets/js/views/search/results.js' );
+		$this->register_script( 'editor-image-view',              'admin/assets/js/views/editor/image.js' );
+		$this->register_script( 'editor-images-view',             'admin/assets/js/views/editor/images.js' );
+		$this->register_script( 'editor-meta-view',               'admin/assets/js/views/editor/meta.js' );
+		$this->register_script( 'editor-details-view',            'admin/assets/js/views/editor/details.js' );
+		$this->register_script( 'editor-tagbox-view',             'admin/assets/js/views/editor/tagbox.js' );
+		$this->register_script( 'editor-view',                    'admin/assets/js/views/editor/editor.js' );
+		$this->register_script( 'modal-view',                     'admin/assets/js/views/modal/modal.js' );
+		$this->register_script( 'modal-images-view',              'admin/assets/js/views/modal/images.js' );
+		$this->register_script( 'modal-browser-view',             'admin/assets/js/views/modal/browser.js' );
+		$this->register_script( 'modal-post-view',                'admin/assets/js/views/modal/post.js' );
 
 		// Runners
-		$this->register_script( 'library',       'admin/js/wpmoly-library.js' );
-		$this->register_script( 'api',           'admin/js/wpmoly-api.js' );
-		$this->register_script( 'metabox',       'admin/js/wpmoly-metabox.js' );
-		$this->register_script( 'permalinks',    'admin/js/wpmoly-permalinks.js' );
-		$this->register_script( 'archive-pages', 'admin/js/wpmoly-archive-pages.js' );
-		$this->register_script( 'editor',        'admin/js/wpmoly-editor.js' );
-		$this->register_script( 'grid-builder',  'admin/js/wpmoly-grid-builder.js', array( 'butterbean' ) );
-		$this->register_script( 'grids',         'public/js/wpmoly-grids.js' );
-		$this->register_script( 'search',        'admin/js/wpmoly-search.js' );
-		$this->register_script( 'tester',        'admin/js/wpmoly-tester.js' );
+		$this->register_script( 'library',       'admin/assets/js/wpmoly-library.js' );
+		$this->register_script( 'api',           'admin/assets/js/wpmoly-api.js' );
+		$this->register_script( 'metabox',       'admin/assets/js/wpmoly-metabox.js' );
+		$this->register_script( 'permalinks',    'admin/assets/js/wpmoly-permalinks.js' );
+		$this->register_script( 'archive-pages', 'admin/assets/js/wpmoly-archive-pages.js' );
+		$this->register_script( 'editor',        'admin/assets/js/wpmoly-editor.js' );
+		$this->register_script( 'grid-builder',  'admin/assets/js/wpmoly-grid-builder.js', array( 'butterbean' ) );
+		$this->register_script( 'grids',         'public/assets/js/wpmoly-grids.js' );
+		$this->register_script( 'search',        'admin/assets/js/wpmoly-search.js' );
+		$this->register_script( 'tester',        'admin/assets/js/wpmoly-tester.js' );
 	}
 
 	/**
@@ -130,18 +128,18 @@ class Backstage extends Assets {
 	 */
 	protected function register_styles() {
 
-		$this->register_style( 'admin',         'admin/css/wpmoly.css' );
-		$this->register_style( 'library',       'admin/css/wpmoly-library.css' );
-		$this->register_style( 'metabox',       'admin/css/wpmoly-metabox.css' );
-		$this->register_style( 'permalinks',    'admin/css/wpmoly-permalink-settings.css' );
-		$this->register_style( 'term-editor',   'admin/css/wpmoly-term-editor.css' );
-		$this->register_style( 'archive-pages', 'admin/css/wpmoly-archive-pages.css' );
-		$this->register_style( 'grid-builder',  'admin/css/wpmoly-grid-builder.css' );
+		$this->register_style( 'admin',         'admin/assets/css/wpmoly.css' );
+		$this->register_style( 'library',       'admin/assets/css/wpmoly-library.css' );
+		$this->register_style( 'metabox',       'admin/assets/css/wpmoly-metabox.css' );
+		$this->register_style( 'permalinks',    'admin/assets/css/wpmoly-permalink-settings.css' );
+		$this->register_style( 'term-editor',   'admin/assets/css/wpmoly-term-editor.css' );
+		$this->register_style( 'archive-pages', 'admin/assets/css/wpmoly-archive-pages.css' );
+		$this->register_style( 'grid-builder',  'admin/assets/css/wpmoly-grid-builder.css' );
 
-		$this->register_style( 'font',          'public/fonts/wpmovielibrary/style.css' );
-		$this->register_style( 'common',        'public/css/common.css' );
-		$this->register_style( 'grids',         'public/css/wpmoly-grids.css' );
-		$this->register_style( 'select2',       'admin/css/select2.min.css' );
+		$this->register_style( 'font',          'public/assets/fonts/wpmovielibrary/style.css' );
+		$this->register_style( 'common',        'public/assets/css/common.css' );
+		$this->register_style( 'grids',         'public/assets/css/wpmoly-grids.css' );
+		$this->register_style( 'select2',       'admin/assets/css/select2.min.css' );
 	}
 
 	/**
@@ -154,58 +152,58 @@ class Backstage extends Assets {
 		global $hook_suffix;
 
 		if ( 'toplevel_page_wpmovielibrary' == $hook_suffix ) {
-			$this->register_template( 'library-menu',              'admin/js/templates/library/menu.php' );
-			$this->register_template( 'library-content-latest',    'admin/js/templates/library/content-latest.php' );
-			$this->register_template( 'library-content-favorites', 'admin/js/templates/library/content-favorites.php' );
-			$this->register_template( 'library-content-import',    'admin/js/templates/library/content-import.php' );
-			$this->register_template( 'library-sidebar',           'admin/js/templates/library/sidebar.php' );
-			$this->register_template( 'library-footer',            'admin/js/templates/library/footer.php' );
+			$this->register_template( 'library-menu',              'admin/assets/js/templates/library/menu.php' );
+			$this->register_template( 'library-content-latest',    'admin/assets/js/templates/library/content-latest.php' );
+			$this->register_template( 'library-content-favorites', 'admin/assets/js/templates/library/content-favorites.php' );
+			$this->register_template( 'library-content-import',    'admin/assets/js/templates/library/content-import.php' );
+			$this->register_template( 'library-sidebar',           'admin/assets/js/templates/library/sidebar.php' );
+			$this->register_template( 'library-footer',            'admin/assets/js/templates/library/footer.php' );
 		}
 
 		if ( 'movie' == get_post_type() ) {
-			$this->register_template( 'search',                'admin/js/templates/search/search.php' );
-			$this->register_template( 'search-form',           'admin/js/templates/search/search-form.php' );
-			$this->register_template( 'search-settings',       'admin/js/templates/search/settings.php' );
-			$this->register_template( 'search-status',         'admin/js/templates/search/status.php' );
-			$this->register_template( 'search-history',        'admin/js/templates/search/history.php' );
-			$this->register_template( 'search-history-item',   'admin/js/templates/search/history-item.php' );
-			$this->register_template( 'search-result',         'admin/js/templates/search/result.php' );
-			$this->register_template( 'search-results',        'admin/js/templates/search/results.php' );
-			$this->register_template( 'search-results-header', 'admin/js/templates/search/results-header.php' );
-			$this->register_template( 'search-results-menu',   'admin/js/templates/search/results-menu.php' );
+			$this->register_template( 'search',                'admin/assets/js/templates/search/search.php' );
+			$this->register_template( 'search-form',           'admin/assets/js/templates/search/search-form.php' );
+			$this->register_template( 'search-settings',       'admin/assets/js/templates/search/settings.php' );
+			$this->register_template( 'search-status',         'admin/assets/js/templates/search/status.php' );
+			$this->register_template( 'search-history',        'admin/assets/js/templates/search/history.php' );
+			$this->register_template( 'search-history-item',   'admin/assets/js/templates/search/history-item.php' );
+			$this->register_template( 'search-result',         'admin/assets/js/templates/search/result.php' );
+			$this->register_template( 'search-results',        'admin/assets/js/templates/search/results.php' );
+			$this->register_template( 'search-results-header', 'admin/assets/js/templates/search/results-header.php' );
+			$this->register_template( 'search-results-menu',   'admin/assets/js/templates/search/results-menu.php' );
 
-			$this->register_template( 'editor-image-editor',   'admin/js/templates/editor/image-editor.php' );
-			$this->register_template( 'editor-image-more',     'admin/js/templates/editor/image-more.php' );
-			$this->register_template( 'editor-image',          'admin/js/templates/editor/image.php' );
+			$this->register_template( 'editor-image-editor',   'admin/assets/js/templates/editor/image-editor.php' );
+			$this->register_template( 'editor-image-more',     'admin/assets/js/templates/editor/image-more.php' );
+			$this->register_template( 'editor-image',          'admin/assets/js/templates/editor/image.php' );
 
-			$this->register_template( 'modal-browser',         'admin/js/templates/modal/browser.php' );
-			$this->register_template( 'modal-sidebar',         'admin/js/templates/modal/sidebar.php' );
-			$this->register_template( 'modal-toolbar',         'admin/js/templates/modal/toolbar.php' );
-			$this->register_template( 'modal-image',           'admin/js/templates/modal/image.php' );
-			$this->register_template( 'modal-selection',       'admin/js/templates/modal/selection.php' );
+			$this->register_template( 'modal-browser',         'admin/assets/js/templates/modal/browser.php' );
+			$this->register_template( 'modal-sidebar',         'admin/assets/js/templates/modal/sidebar.php' );
+			$this->register_template( 'modal-toolbar',         'admin/assets/js/templates/modal/toolbar.php' );
+			$this->register_template( 'modal-image',           'admin/assets/js/templates/modal/image.php' );
+			$this->register_template( 'modal-selection',       'admin/assets/js/templates/modal/selection.php' );
 
-			$this->register_template( 'confirm-modal',         'public/js/templates/confirm.php' );
+			$this->register_template( 'confirm-modal',         'public/assets/js/templates/confirm.php' );
 		}
 
 		if ( 'grid' == get_post_type() ) {
-			$this->register_template( 'grid-builder-parameters',   'admin/js/templates/builder/parameters.php' );
+			$this->register_template( 'grid-builder-parameters',   'admin/assets/js/templates/builder/parameters.php' );
 
-			$this->register_template( 'grid',                      'public/js/templates/grid/grid.php' );
-			$this->register_template( 'grid-menu',                 'public/js/templates/grid/menu.php' );
-			$this->register_template( 'grid-customs',              'public/js/templates/grid/customs.php' );
-			$this->register_template( 'grid-settings',             'public/js/templates/grid/settings.php' );
-			$this->register_template( 'grid-pagination',           'public/js/templates/grid/pagination.php' );
+			$this->register_template( 'grid',                      'public/assets/js/templates/grid/grid.php' );
+			$this->register_template( 'grid-menu',                 'public/assets/js/templates/grid/menu.php' );
+			$this->register_template( 'grid-customs',              'public/assets/js/templates/grid/customs.php' );
+			$this->register_template( 'grid-settings',             'public/assets/js/templates/grid/settings.php' );
+			$this->register_template( 'grid-pagination',           'public/assets/js/templates/grid/pagination.php' );
 
-			$this->register_template( 'grid-movie-grid',           'public/js/templates/grid/content/movie-grid.php' );
-			$this->register_template( 'grid-movie-grid-variant-1', 'public/js/templates/grid/content/movie-grid-variant-1.php' );
-			$this->register_template( 'grid-movie-grid-variant-2', 'public/js/templates/grid/content/movie-grid-variant-2.php' );
-			$this->register_template( 'grid-movie-list',           'public/js/templates/grid/content/movie-list.php' );
-			$this->register_template( 'grid-actor-grid',           'public/js/templates/grid/content/actor-grid.php' );
-			$this->register_template( 'grid-actor-list',           'public/js/templates/grid/content/actor-list.php' );
-			$this->register_template( 'grid-collection-grid',      'public/js/templates/grid/content/collection-grid.php' );
-			$this->register_template( 'grid-collection-list',      'public/js/templates/grid/content/collection-list.php' );
-			$this->register_template( 'grid-genre-grid',           'public/js/templates/grid/content/genre-grid.php' );
-			$this->register_template( 'grid-genre-list',           'public/js/templates/grid/content/genre-list.php' );
+			$this->register_template( 'grid-movie-grid',           'public/assets/js/templates/grid/content/movie-grid.php' );
+			$this->register_template( 'grid-movie-grid-variant-1', 'public/assets/js/templates/grid/content/movie-grid-variant-1.php' );
+			$this->register_template( 'grid-movie-grid-variant-2', 'public/assets/js/templates/grid/content/movie-grid-variant-2.php' );
+			$this->register_template( 'grid-movie-list',           'public/assets/js/templates/grid/content/movie-list.php' );
+			$this->register_template( 'grid-actor-grid',           'public/assets/js/templates/grid/content/actor-grid.php' );
+			$this->register_template( 'grid-actor-list',           'public/assets/js/templates/grid/content/actor-list.php' );
+			$this->register_template( 'grid-collection-grid',      'public/assets/js/templates/grid/content/collection-grid.php' );
+			$this->register_template( 'grid-collection-list',      'public/assets/js/templates/grid/content/collection-list.php' );
+			$this->register_template( 'grid-genre-grid',           'public/assets/js/templates/grid/content/genre-grid.php' );
+			$this->register_template( 'grid-genre-list',           'public/assets/js/templates/grid/content/genre-list.php' );
 		}
 	}
 

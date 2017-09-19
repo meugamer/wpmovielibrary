@@ -8,10 +8,9 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly\Core;
+namespace wpmoly\core;
 
 /**
  * Register the 'movie' Custom Post Type along with the 'import' post statuses.
@@ -20,7 +19,7 @@ namespace wpmoly\Core;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Registrar {
@@ -139,7 +138,7 @@ class Registrar {
 					'show_ui'            => true,
 					'show_in_rest'       => true,
 					'rest_base'          => 'movies',
-					'rest_controller_class' => '\wpmoly\Rest\Movies_Controller',
+					'rest_controller_class' => '\wpmoly\rest\controllers\Movies',
 					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => $movie_archives,
 					'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'comments' ),
@@ -170,7 +169,7 @@ class Registrar {
 					'publicly_queryable' => false,
 					'show_ui'            => true,
 					'show_in_rest'       => true,
-					'rest_controller_class' => '\wpmoly\Rest\Grids_Controller',
+					'rest_controller_class' => '\wpmoly\rest\controllers\Grids',
 					'show_in_menu'       => 'wpmovielibrary',
 					'has_archive'        => false,
 					'supports'           => array( 'title', 'custom-fields' ),

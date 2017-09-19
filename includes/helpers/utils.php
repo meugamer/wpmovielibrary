@@ -6,22 +6,7 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
  */
-
-/**
- * Get WPMovieLibrary instance.
- *
- * @since    3.0
- *
- * @return   Library
- */
-function get_wpmoly() {
-
-	$wpmoly = wpmoly\Library::get_instance();
-
-	return $wpmoly;
-}
 
 /**
  * Retrieve a specific option.
@@ -35,9 +20,11 @@ function get_wpmoly() {
  */
 function wpmoly_o( $name, $default = null ) {
 
-	$options = wpmoly\Core\Options::get_instance();
+	return $default;
 
-	return $options->get( $name, $default );
+	//$options = wpmoly\core\Options::get_instance();
+
+	//return $options->get( $name, $default );
 }
 
 /**
@@ -93,13 +80,13 @@ function _get_object( $data, $object ) {
  */
 function get_movie( $movie ) {
 
-	return _get_object( $movie, '\wpmoly\Node\Movie' );
+	return _get_object( $movie, '\wpmoly\nodes\posts\Movie' );
 }
 
 /**
  * Return a headbox object.
  *
- * $object has to be an \wpmoly\Node\Headbox instance in order to be handled
+ * $object has to be an \wpmoly\nodes\headboxes\Headbox instance in order to be handled
  * correctly. Headboxes support both Terms and Posts, need to make an
  * early distinction between the two.
  *
@@ -133,7 +120,7 @@ function get_headbox( $headbox ) {
  */
 function get_post_headbox( $post ) {
 
-	return _get_object( $post, '\wpmoly\Node\Post_Headbox' );
+	return _get_object( $post, '\wpmoly\nodes\headboxes\Post' );
 }
 
 /**
@@ -147,7 +134,7 @@ function get_post_headbox( $post ) {
  */
 function get_term_headbox( $term ) {
 
-	return _get_object( $term, '\wpmoly\Node\Term_Headbox' );
+	return _get_object( $term, '\wpmoly\nodes\headboxes\Term' );
 }
 
 /**
@@ -161,7 +148,7 @@ function get_term_headbox( $term ) {
  */
 function get_grid( $grid = null ) {
 
-	return _get_object( $grid, '\wpmoly\Node\Grid' );
+	return _get_object( $grid, '\wpmoly\nodes\posts\Grid' );
 }
 
 /**
@@ -175,7 +162,7 @@ function get_grid( $grid = null ) {
  */
 function get_actor( $actor ) {
 
-	return _get_object( $actor, '\wpmoly\Node\Actor' );
+	return _get_object( $actor, '\wpmoly\nodes\taxonomies\Actor' );
 }
 
 /**
@@ -189,7 +176,7 @@ function get_actor( $actor ) {
  */
 function get_collection( $collection ) {
 
-	return _get_object( $collection, '\wpmoly\Node\Collection' );
+	return _get_object( $collection, '\wpmoly\nodes\taxonomies\Collection' );
 }
 
 /**
@@ -203,7 +190,7 @@ function get_collection( $collection ) {
  */
 function get_genre( $genre ) {
 
-	return _get_object( $genre, '\wpmoly\Node\Genre' );
+	return _get_object( $genre, '\wpmoly\nodes\taxonomies\Genre' );
 }
 
 /**
@@ -558,11 +545,11 @@ function is_movie_meta_key( $key ) {
  *
  * @param    string    $country Country name or ISO code
  *
- * @return   \wpmoly\Helpers\Country
+ * @return   \wpmoly\helpers\Country
  */
 function get_country( $country ) {
 
-	return \wpmoly\Helpers\Country::get( $country );
+	return \wpmoly\helpers\Country::get( $country );
 }
 
 /**
@@ -572,11 +559,11 @@ function get_country( $country ) {
  *
  * @param    string    $language Language name or ISO code
  *
- * @return   \wpmoly\Helpers\Language
+ * @return   \wpmoly\helpers\Language
  */
 function get_language( $language ) {
 
-	return \wpmoly\Helpers\Language::get( $language );
+	return \wpmoly\helpers\Language::get( $language );
 }
 
 /**

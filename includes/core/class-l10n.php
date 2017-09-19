@@ -6,19 +6,18 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly\Core;
+namespace wpmoly\core;
 
-use wpmoly\Node;
+use wpmoly\nodes;
 
 /**
  * Loads and defines the localization files for this plugin.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class L10n {
@@ -671,8 +670,8 @@ class L10n {
 
 		wp_localize_script( 'wpmoly-core', 'wpmolyL10n', $localized );
 
-		$poster   = Node\Default_Poster::get_instance();
-		$backdrop = Node\Default_Backdrop::get_instance();
+		$poster   = nodes\images\Default_Poster::get_instance();
+		$backdrop = nodes\images\Default_Backdrop::get_instance();
 		$localized = array(
 			'poster'   => $poster->get_sizes(),
 			'backdrop' => $backdrop->get_sizes(),

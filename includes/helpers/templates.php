@@ -6,7 +6,6 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes
  */
 
 /**
@@ -16,15 +15,15 @@
  *
  * @param    string    $template Template name.
  *
- * @return   \wpmoly\Templates\Template
+ * @return   \wpmoly\templates\Template
  */
 function wpmoly_get_template( $template ) {
 
 	if ( is_admin() ) {
-		return new \wpmoly\Templates\Admin( $template );
+		return new \wpmoly\templates\Admin( $template );
 	}
 
-	return new \wpmoly\Templates\Front( $template );
+	return new \wpmoly\templates\Front( $template );
 }
 
 /**
@@ -34,11 +33,11 @@ function wpmoly_get_template( $template ) {
  *
  * @param    string     $template Template name.
  *
- * @return   \wpmoly\Templates\JavaScript
+ * @return   \wpmoly\templates\JavaScript
  */
 function wpmoly_get_js_template( $template ) {
 
-	$template = new \wpmoly\Templates\JavaScript( $template );
+	$template = new \wpmoly\templates\JavaScript( $template );
 
 	return $template;
 }
@@ -50,15 +49,15 @@ function wpmoly_get_js_template( $template ) {
  *
  * @param    Headbox    $headbox Headbox instance.
  *
- * @return   \wpmoly\Templates\Headbox
+ * @return   \wpmoly\templates\Headbox
  */
 function get_headbox_template( $headbox ) {
 
-	if ( ! $headbox instanceof \wpmoly\Node\Headbox ) {
+	if ( ! $headbox instanceof \wpmoly\nodes\headboxes\Post ) {
 		$headbox = get_headbox( $headbox );
 	}
 
-	return new \wpmoly\Templates\Headbox( $headbox );
+	return new \wpmoly\templates\Headbox( $headbox );
 }
 
 /**
@@ -70,7 +69,7 @@ function get_headbox_template( $headbox ) {
  *
  * @param    int    $movie Movie ID, object or array
  *
- * @return   \wpmoly\Templates\Headbox
+ * @return   \wpmoly\templates\Headbox
  */
 function get_movie_headbox_template( $movie ) {
 
@@ -86,7 +85,7 @@ function get_movie_headbox_template( $movie ) {
  *
  * @param    mixed    $actor Actor ID, object or array
  *
- * @return   \wpmoly\Templates\Headbox
+ * @return   \wpmoly\templates\Headbox
  */
 function get_actor_headbox_template( $actor ) {
 
@@ -102,7 +101,7 @@ function get_actor_headbox_template( $actor ) {
  *
  * @param    mixed    $collection Collection ID, object or array
  *
- * @return   \wpmoly\Templates\Headbox
+ * @return   \wpmoly\templates\Headbox
  */
 function get_collection_headbox_template( $collection ) {
 
@@ -118,7 +117,7 @@ function get_collection_headbox_template( $collection ) {
  *
  * @param    mixed    $genre Genre ID, object or array
  *
- * @return   \wpmoly\Templates\Headbox
+ * @return   \wpmoly\templates\Headbox
  */
 function get_genre_headbox_template( $genre ) {
 
@@ -132,11 +131,11 @@ function get_genre_headbox_template( $genre ) {
  *
  * @param    mixed    $grid Grid
  *
- * @return   \wpmoly\Templates\Grid
+ * @return   \wpmoly\templates\Grid
  */
 function get_grid_template( $grid ) {
 
-	return new \wpmoly\Templates\Grid( $grid );
+	return new \wpmoly\templates\Grid( $grid );
 }
 
 /**
@@ -146,7 +145,7 @@ function get_grid_template( $grid ) {
  *
  * @param    string    $template_id Template ID
  *
- * @return   \wpmoly\Templates\Template
+ * @return   \wpmoly\templates\Template
  */
 function get_widget_template( $template_id ) {
 

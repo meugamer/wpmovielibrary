@@ -6,10 +6,9 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/rest-api
  */
 
-namespace wpmoly\Rest;
+namespace wpmoly\rest;
 
 use WP_Error;
 use WP_Taxonomy;
@@ -20,7 +19,6 @@ use WP_Post_Type;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/rest-api
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class API {
@@ -443,7 +441,7 @@ class API {
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
 	 *
-	 * @return   \wpmoly\Node\Image
+	 * @return   \wpmoly\nodes\images\Image
 	 */
 	public function get_movie_poster( $object, $field_name, $request ) {
 
@@ -461,7 +459,7 @@ class API {
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
 	 *
-	 * @return   \wpmoly\Node\Node_List
+	 * @return   \wpmoly\nodes\Nodes
 	 */
 	public function get_movie_posters( $object, $field_name, $request ) {
 
@@ -479,7 +477,7 @@ class API {
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
 	 *
-	 * @return   \wpmoly\Node\Image
+	 * @return   \wpmoly\notes\images\Image
 	 */
 	public function get_movie_backdrop( $object, $field_name, $request ) {
 
@@ -497,7 +495,7 @@ class API {
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
 	 *
-	 * @return   \wpmoly\Node\Node_List
+	 * @return   \wpmoly\nodes\Nodes
 	 */
 	public function get_movie_backdrops( $object, $field_name, $request ) {
 
@@ -515,7 +513,7 @@ class API {
 	 * @param    string             $field_name Field name.
 	 * @param    WP_REST_Request    $request Current REST Request.
 	 *
-	 * @return   \wpmoly\Node\Image
+	 * @return   \wpmoly\notes\images\Image
 	 */
 	public function get_term_thumbnail( $object, $field_name, $request ) {
 

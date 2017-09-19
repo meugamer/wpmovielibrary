@@ -6,17 +6,16 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/helpers
  */
 
-namespace wpmoly\Helpers;
+namespace wpmoly\helpers;
 
 /**
  * Handle custom permalinks.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/helpers
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Permalink {
@@ -82,7 +81,7 @@ class Permalink {
 	 *     @type    string    $attr_title
 	 * }
 	 *
-	 * @return   \wpmoly\Helpers\Permalink
+	 * @return   \wpmoly\helpers\Permalink
 	 */
 	public function __construct( $params = array() ) {
 

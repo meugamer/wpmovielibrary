@@ -6,10 +6,9 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly\Templates;
+namespace wpmoly\templates;
 
 use WP_Error;
 
@@ -18,7 +17,7 @@ use WP_Error;
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class JavaScript extends Template {
@@ -47,7 +46,7 @@ class JavaScript extends Template {
 	/**
 	 * Prepare the Template.
 	 *
-	 * Unlike \wpmoly\Templates\Front::prepare() we don't allow themes or
+	 * Unlike \wpmoly\templates\Front::prepare() we don't allow themes or
 	 * plugins to replace admin templates, only to act before and after the
 	 * template is prepared.
 	 *

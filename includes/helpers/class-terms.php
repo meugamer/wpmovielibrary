@@ -6,17 +6,16 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/helpers
  */
 
-namespace wpmoly\Helpers;
+namespace wpmoly\helpers;
 
 /**
  * Handle some terms related functionnalities.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/helpers
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Terms {

@@ -6,19 +6,18 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public/shortcodes
  */
 
-namespace wpmoly\Shortcodes;
+namespace wpmoly\shortcodes;
 
-use wpmoly\Templates\Front as Template;
+use wpmoly\templates\Front as Template;
 
 /**
  * Local Release Date Shortcode class.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public/shortcodes
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Local_Release_Date extends Release_Date {

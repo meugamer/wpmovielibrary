@@ -6,7 +6,6 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/helpers
  */
 
 /**

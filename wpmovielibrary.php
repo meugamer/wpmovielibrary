@@ -10,7 +10,7 @@
  * Plugin Name:       WPMovieLibrary
  * Plugin URI:        https://wpmovielibrary.com
  * Description:       WordPress Movie Library is an advanced movie library managing plugin to turn your WordPress Blog into a Movie Library. 
- * Version:           3.0-alpha2
+ * Version:           3.0.0-alpha2
  * Author:            Charlie Merland
  * Author URI:        https://charliemerland.me/
  * License:           GPL-3.0+
@@ -19,61 +19,27 @@
  * Domain Path:       /languages
  */
 
-namespace wpmoly;
-
-// If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
+// Make sure we don't expose any info if called directly
+if ( ! function_exists( 'add_action' ) ) {
+	exit;
 }
 
-define( 'WPMOLY_SLUG',    'wpmoly' );
-define( 'WPMOLY_NAME',    'WPMovieLibrary' );
-define( 'WPMOLY_DOMAIN',  'wpmovielibrary' );
-define( 'WPMOLY_VERSION', '3.0-alpha2' );
-define( 'WPMOLY_URL',     plugins_url( basename( __DIR__ ) ) . '/' );
-define( 'WPMOLY_PATH',    plugin_dir_path( __FILE__ ) );
+define( 'WPMOLY_VERSION', '3.0.0-alpha2' );
+define( 'WPMOLY_PATH',    trailingslashit( plugin_dir_path( __FILE__ ) ) );
+define( 'WPMOLY_URL',     trailingslashit( plugin_dir_url( __FILE__ ) ) );
+
+require_once WPMOLY_PATH . 'class-library.php';
 
 /**
- * The code that runs during plugin activation.
+ * Retrieve plugin instance.
  *
- * @since    3.0
+ * @since 3.0.0
+ *
+ * @return \wpmoly\Library
  */
-function activate() {
+function wpmoly() {
 
-	require_once WPMOLY_PATH . 'includes/core/class-activator.php';
-	Core\Activator::activate();
+	return \wpmoly\Library::get_instance();
 }
 
-/**
- * The code that runs during plugin deactivation.
- *
- * @since    3.0
- */
-function deactivate() {
-
-	require_once WPMOLY_PATH . 'includes/core/class-deactivator.php';
-	Core\Deactivator::deactivate();
-}
-
-register_activation_hook( __FILE__, 'activate' );
-register_deactivation_hook( __FILE__, 'deactivate' );
-
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- *
- * @since    3.0
- */
-require WPMOLY_PATH . 'includes/class-library.php';
-
-/**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    3.0
- */
-$wpmoly = Library::get_instance();
-$wpmoly->run();
+$GLOBALS['wpmoly'] = wpmoly();

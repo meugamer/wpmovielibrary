@@ -94,7 +94,7 @@ $default_details = array(
 		'title'    => __( 'Movie Language', 'wpmovielibrary' ),
 		'desc'     => __( 'Select a language for this movie', 'wpmovielibrary' ),
 		'icon'     => 'wpmolicon icon-lang',
-		'options'  => \wpmoly\Core\L10n::$supported_languages,
+		'options'  => \wpmoly\core\L10n::$supported_languages,
 		'default'  => '',
 		'multi'    => true,
 		'rewrite'  => array(
@@ -112,7 +112,7 @@ $default_details = array(
 		'icon'     => 'wpmolicon icon-subtitles',
 		'options'  => array_merge( array(
 			'none' => __( 'None', 'wpmovielibrary' ),
-		), \wpmoly\Core\L10n::$supported_languages ),
+		), \wpmoly\core\L10n::$supported_languages ),
 		'default'  => 'none',
 		'multi'    => true,
 		'rewrite'  => array(

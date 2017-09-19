@@ -6,7 +6,6 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public
  */
 
 namespace wpmoly;
@@ -15,7 +14,7 @@ namespace wpmoly;
  *
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Archives {

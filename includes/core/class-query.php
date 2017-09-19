@@ -6,17 +6,16 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
  */
 
-namespace wpmoly\Core;
+namespace wpmoly\core;
 
 /**
  *
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/core
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Query {
@@ -26,7 +25,14 @@ class Query {
 	 *
 	 * @var    array
 	 */
-	public $vars;
+	private $vars;
+
+	/**
+	 * Custom rewrite tags.
+	 *
+	 * @var    array
+	 */
+	private $tags;
 
 	/**
 	 * Singleton.
@@ -37,6 +43,8 @@ class Query {
 
 	/**
 	 * Class constructor.
+	 *
+	 * @TODO Fix Rewrite call.
 	 *
 	 * @since    3.0
 	 */
@@ -73,8 +81,8 @@ class Query {
 			'writer',
 		) );
 
-		$tags = Rewrite::get_instance()->tags;
-		foreach ( array_keys( $tags ) as $tag ) {
+		$this->tags = \wpmoly\get_default_rewrite_tags();
+		foreach ( array_keys( $this->tags ) as $tag ) {
 			$vars[] = str_replace( '%', '', $tag );
 		}
 
@@ -111,6 +119,132 @@ class Query {
 		$query_vars = array_merge( $query_vars, $this->vars );
 
 		return $query_vars;
+	}
+
+	/**
+	 * Register custom rewrite tags.
+	 *
+	 * Add a set of new movie-related rewrite tags.
+	 *
+	 * @since    3.0
+	 */
+	public function add_rewrite_tags() {
+
+		global $wp_rewrite;
+
+		$tags = \wpmoly\get_default_rewrite_tags();
+		foreach ( $tags as $tag => $regex ) {
+			$wp_rewrite->add_rewrite_tag( $tag, $regex, str_replace( array( '%', '_' ), array( '', '-' ), $tag ) . '=' );
+		}
+	}
+
+	/**
+	 * Replace custom rewrite tags in post links.
+	 *
+	 * WordPress automatically appends the post's name at the end of the
+	 * permalink, meaning we have to check for the presence of a %postname%
+	 * or %movie% tag in the permalink that could be present if we're dealing
+	 * with custom permalink structures and remove it. This may result in
+	 * duplicate slashes that we need to clean while we're at it.
+	 *
+	 * This markers should be stripped automatically when saving permalink
+	 * structures, but we're still better off checking to avoid malformed
+	 * URLs.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    string     $permalink
+	 * @param    object     $post WP_Post instance
+	 * @param    boolean    $leavename
+	 * @param    boolean    $sample
+	 *
+	 * @return   string
+	 */
+	public function replace_movie_link_tags( $permalink, $post, $leavename, $sample ) {
+
+		if ( $sample || 'movie' != $post->post_type ) {
+			return $permalink;
+		}
+
+		// Check for duplicate post name and clean duplicate slashes
+		if ( false !== stripos( $permalink, '%postname%' ) && false !== stripos( $permalink, $post->post_name ) ) {
+			$permalink = str_replace( array( '%movie%', '%postname%' ), '', $permalink );
+			$permalink = preg_replace( '/([^:])(\/{2,})/', '$1/', $permalink );
+		}
+
+		return $this->replace_tags( $permalink, $post );
+	}
+
+	/**
+	 * Replace custom rewrite tags in permalinks.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    string     $permalink
+	 * @param    WP_Post    $post
+	 *
+	 * @return   string
+	 */
+	private function replace_tags( $permalink, $post ) {
+
+		$search  = array();
+		$replace = array();
+
+		foreach ( array_keys( $this->tags ) as $tag ) {
+			if ( false !== strpos( $permalink, $tag ) ) {
+				$search[]  = $tag;
+				$replace[] = $this->get_replacement( $tag, $post );
+			} else {
+				unset( $search[ $tag ] );
+			}
+		}
+
+		$search[]  = '%postname%';
+		$replace[] = $post->post_name;
+
+		$permalink = str_replace( $search, $replace, $permalink );
+
+		return trailingslashit( $permalink );
+	}
+
+	/**
+	 * Get replacement value for custom rewrite tags in permalinks.
+	 *
+	 * @since    3.0
+	 *
+	 * @param    string     $tag
+	 * @param    WP_Post    $post
+	 *
+	 * @return   string
+	 */
+	private function get_replacement( $tag, $post ) {
+
+		$value = '';
+
+		switch ( $tag ) {
+			case '%imdb_id%':
+			case '%tmdb_id%':
+				$value = get_movie_meta( $post->ID, str_replace( '%', '', $tag ), true );
+				break;
+			case '%release_year%':
+				$value = get_movie_meta( $post->ID, 'release_date', true );
+				$value = date( 'Y', strtotime( $value ) );
+				break;
+			case '%release_monthnum%':
+				$value = get_movie_meta( $post->ID, 'release_date', true );
+				$value = date( 'm', strtotime( $value ) );
+				break;
+			case '%year%':
+				$value = date( 'Y', strtotime( $post->post_date ) );
+				break;
+			case '%monthnum%':
+				$value = date( 'm', strtotime( $post->post_date ) );
+				break;
+			default:
+				break;
+		}
+
+		return $value;
 	}
 
 	/**
@@ -676,7 +810,7 @@ class Query {
 	 * Movies can be filtered by ratings interval but require values to be
 	 * casted as DECIMAL instead of NUMERIC.
 	 *
-	 * @see \wpmoly\Rest\API::add_meta_interval_query_param()
+	 * @see \wpmoly\rest\API::add_meta_interval_query_param()
 	 *
 	 * @since    3.0
 	 *

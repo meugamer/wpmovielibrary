@@ -6,17 +6,16 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/widgets
  */
 
-namespace wpmoly\Widgets;
+namespace wpmoly\widgets;
 
 /**
  * Details Widget class.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/widgets
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Details extends Widget {

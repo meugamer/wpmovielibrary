@@ -6,18 +6,17 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/admin
  */
 
-namespace wpmoly\Admin;
+namespace wpmoly\admin;
 
-use wpmoly\Templates\Admin as Template;
+use wpmoly\templates\Admin as Template;
 
 /**
  * Provide a custom dashboard for the plugin.
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/admin
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Library {

@@ -6,20 +6,19 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public/shortcodes
  */
 
-namespace wpmoly\Shortcodes;
+namespace wpmoly\shortcodes;
 
-use wpmoly\Node\Node_List;
-use wpmoly\Templates\Front as Template;
+use wpmoly\nodes\Nodes;
+use wpmoly\templates\Front as Template;
 
 /**
  * Movie Images Shortcode class.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/public/shortcodes
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Images extends Shortcode {
@@ -92,7 +91,7 @@ class Images extends Shortcode {
 	 */
 	protected function make() {
 
-		$this->nodes = new Node_List;
+		$this->nodes = new Nodes;
 
 		switch ( $this->tag ) {
 			case 'movie_image':

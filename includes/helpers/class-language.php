@@ -6,19 +6,18 @@
  * @since      3.0
  *
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/helpers
  */
 
-namespace wpmoly\Helpers;
+namespace wpmoly\helpers;
 
-use wpmoly\Core\L10n;
+use wpmoly\core\L10n;
 
 /**
  * Handle languages translation, localization and flags.
  *
  * @since      3.0
  * @package    WPMovieLibrary
- * @subpackage WPMovieLibrary/includes/helpers
+ * 
  * @author     Charlie Merland <charlie@caercam.org>
  */
 class Language {
