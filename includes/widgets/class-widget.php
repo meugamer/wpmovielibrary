@@ -106,6 +106,16 @@ abstract class Widget extends WP_Widget {
 	}
 
 	/**
+	 * Register the Widget.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 */
+	abstract public static function register();
+
+	/**
 	 * Set default properties.
 	 *
 	 * @since    3.0

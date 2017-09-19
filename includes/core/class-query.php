@@ -35,20 +35,55 @@ class Query {
 	private $tags;
 
 	/**
-	 * Singleton.
+	 * The single instance of the class.
 	 *
-	 * @var    Query
+	 * @since      3.0.0
+	 *
+	 * @static
+	 * @access private
+	 *
+	 * @var Library
 	 */
-	private static $instance = null;
+	private static $_instance = null;
 
 	/**
-	 * Class constructor.
+	 * Constructor.
 	 *
-	 * @TODO Fix Rewrite call.
+	 * @since 3.0.0
 	 *
-	 * @since    3.0
+	 * @access private
 	 */
-	private function __construct() {
+	private function __construct() {}
+
+	/**
+	 * Get the instance of this class, insantiating it if it doesn't exist
+	 * yet.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @return \wpmoly\Library
+	 */
+	public static function get_instance() {
+
+		if ( ! is_object( self::$_instance ) ) {
+			self::$_instance = new static;
+			self::$_instance->init();
+		}
+		
+		return self::$_instance;
+	}
+
+	/**
+	 * Initialize core.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 */
+	protected function init() {
 
 		$vars = apply_filters( 'wpmoly/filter/query/default/vars', array(
 			'actor',
@@ -87,22 +122,6 @@ class Query {
 		}
 
 		$this->vars = $vars;
-	}
-
-	/**
-	 * Singleton.
-	 *
-	 * @since    3.0
-	 *
-	 * @return   Singleton
-	 */
-	final public static function get_instance() {
-
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new static;
-		}
-
-		return self::$instance;
 	}
 
 	/**

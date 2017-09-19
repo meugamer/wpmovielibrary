@@ -23,21 +23,36 @@ use wpmoly\nodes;
 class L10n {
 
 	/**
-	 * Singleton.
+	 * The single instance of the class.
 	 *
-	 * @var    L10n
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access private
+	 *
+	 * @var L10n
 	 */
-	private static $instance = null;
+	private static $_instance = null;
 
 	/**
 	 * Supported languages
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @var array
 	 */
 	public static $supported_languages;
 
 	/**
 	 * Standard languages
+	 *
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
 	 *
 	 * @var    array
 	 */
@@ -46,55 +61,88 @@ class L10n {
 	/**
 	 * Native languages
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @var array
 	 */
 	public static $native_languages;
 
 	/**
 	 * Supported countries
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @var array
 	 */
 	public static $supported_countries;
 
 	/**
 	 * Standard countries
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @var array
 	 */
 	public static $standard_countries;
 
 	/**
-	 * Initialize the class.
+	 * Constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
-	public function __construct() {
+	private function __construct() {}
+
+	/**
+	 * Get the instance of this class, insantiating it if it doesn't exist
+	 * yet.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @return \wpmoly\Library
+	 */
+	public static function get_instance() {
+
+		if ( ! is_object( self::$_instance ) ) {
+			self::$_instance = new static;
+			self::$_instance->init();
+		}
+		
+		return self::$_instance;
+	}
+
+	/**
+	 * Initialize.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 */
+	protected function init() {
 
 		$this->set_countries();
 		$this->set_languages();
 	}
 
 	/**
-	 * Singleton.
-	 *
-	 * @since    3.0
-	 *
-	 * @return   Options
-	 */
-	final public static function get_instance() {
-
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new static;
-		}
-
-		return self::$instance;
-	}
-
-	/**
 	 * Set default countries for localization.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function set_countries() {
 
@@ -428,18 +476,18 @@ class L10n {
 		/**
 		 * Filter the default supported countries list.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $supported
+		 * @param array $supported
 		 */
 		self::$supported_countries = apply_filters( 'wpmoly/filter/l10n/countries/supported', $supported_countries );
 
 		/**
 		 * Filter the default standard countries list.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $supported
+		 * @param array $supported
 		 */
 		self::$standard_countries = apply_filters( 'wpmoly/filter/l10n/countries/standard', $standard_countries );
 	}
@@ -447,7 +495,9 @@ class L10n {
 	/**
 	 * Set default languages for localization.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function set_languages() {
 
@@ -563,35 +613,97 @@ class L10n {
 		/**
 		 * Filter the default supported languages list.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $supported_languages
+		 * @param array $supported_languages
 		 */
 		self::$supported_languages = apply_filters( 'wpmoly/filter/l10n/languages/supported', $supported_languages );
 
 		/**
 		 * Filter the default standard languages list.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $supported_languages
+		 * @param array $supported_languages
 		 */
 		self::$standard_languages = apply_filters( 'wpmoly/filter/l10n/languages/standard', $standard_languages );
 
 		/**
 		 * Filter the default native languages list.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $supported_languages
+		 * @param array $supported_languages
 		 */
 		self::$native_languages = apply_filters( 'wpmoly/filter/l10n/languages/native', $native_languages );
 	}
 
 	/**
+	 * Localize the plugin's custom post types permalinks.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $post_types  Post Types list.
+	 *
+	 * @return array
+	 */
+	public function localize_post_types( $post_types = array() ) {
+
+		if ( ! empty( $post_types['movie'] ) ) {
+
+			$permalinks = get_option( 'wpmoly_permalinks', array() );
+			if ( ! empty( $permalinks['movie'] ) ) {
+				$post_types['movie']['rewrite']['slug'] = trim( $permalinks['movie'], '/' );
+			}
+
+			$movies = array_search( 'movie', get_option( '_wpmoly_archive_pages', array() ) );
+			if ( ! $movies ) {
+				if ( ! empty( $permalinks['movies'] ) ) {
+					$post_types['movie']['has_archive'] = trim( $permalinks['movies'], '/' );
+				}
+			} else {
+				$post_types['movie']['has_archive'] = str_replace( home_url(), '', get_permalink( $movies ) );
+			}
+		}
+
+		return $post_types;
+	}
+
+	/**
+	 * Localize the plugin's custom taxonomies permalinks.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $taxonomies  Taxonomies list.
+	 *
+	 * @return array
+	 */
+	public function localize_taxonomies( $taxonomies = array() ) {
+
+		$permalinks = get_option( 'wpmoly_permalinks', array() );
+		$archives = get_option( '_wpmoly_archive_pages', array() );
+
+		foreach ( $taxonomies as $slug => $taxonomy ) {
+
+			$archive = array_search( $slug, $archives );
+			if ( ! $archive ) {
+				if ( ! empty( $permalinks[ $slug ] ) ) {
+					$taxonomies[ $slug ]['rewrite']['slug'] = trim( $permalinks[ $slug ], '/' );
+				}
+			} else {
+				$taxonomies[ $slug ]['rewrite']['slug'] = str_replace( home_url(), '', get_permalink( $archive ) );
+			}
+		}
+
+		return $taxonomies;
+	}
+
+	/**
 	 * Localize JS scripts.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function localize_scripts() {
 
@@ -605,7 +717,9 @@ class L10n {
 	/**
 	 * Localize Admin-side JS scripts.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
 	private function localize_admin_scripts() {
 
@@ -683,7 +797,9 @@ class L10n {
 	/**
 	 * Localize Public-side JS scripts.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
 	private function localize_public_scripts() {
 

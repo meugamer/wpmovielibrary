@@ -21,6 +21,19 @@ namespace wpmoly\widgets;
 class Details extends Widget {
 
 	/**
+	 * Register the Widget.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 */
+	public static function register() {
+
+		register_widget( __CLASS__ );
+	}
+
+	/**
 	 * Widget default attributes.
 	 *
 	 * @var    array

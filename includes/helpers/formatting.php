@@ -397,6 +397,10 @@ function get_formatted_movie_countries( $countries, $options = array() ) {
 			$formatted_country = apply_filters( 'wpmoly/filter/meta/country/url', $country, $options );
 		}
 
+		if ( $formatted_country instanceof \wpmoly\helpers\Country ) {
+			$formatted_country = $formatted_country->localized_name;
+		}
+
 		if ( $options['show_flag'] ) {
 			$formatted_country = $country->flag() . $formatted_country;
 		}
@@ -1842,8 +1846,6 @@ function get_formatted_terms_list( $terms, $taxonomy, $options = array() ) {
 		'is_link' => true,
 	) );
 
-	$has_taxonomy = (boolean) wpmoly_o( "enable-{$taxonomy}" );
-
 	if ( is_string( $terms ) ) {
 		$terms = explode( ',', $terms );
 	}
@@ -1852,7 +1854,7 @@ function get_formatted_terms_list( $terms, $taxonomy, $options = array() ) {
 
 		$term = trim( str_replace( array( '&#039;', '’' ), "'", $term ) );
 
-		if ( ! $has_taxonomy ) {
+		if ( ! taxonomy_exists( $taxonomy ) ) {
 			$t = $term;
 		} else {
 			$t = get_term_by( 'name', $term, $taxonomy );
