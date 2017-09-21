@@ -2,10 +2,10 @@
 /**
  * Define the API Core class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\api;
@@ -15,10 +15,10 @@ use WP_Error;
 /**
  * Handle the interactions with the TMDb API.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class TMDb {
 
@@ -26,83 +26,122 @@ class TMDb {
 	private $type;
 
 	/**
-	 * API Key
+	 * API Key.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $key;
 
 	/**
-	 * API URL
+	 * API URL.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $url;
 
 	/**
-	 * API URL
+	 * API URL.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $version = '3';
 
 	/**
-	 * API default URL
+	 * API default URL.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $default_url = 'api.wpmovielibrary.com';
 
 	/**
-	 * API internal URL
+	 * API internal URL.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $internal_url = 'api.themoviedb.org';
 
 	/**
-	 * API Scheme
+	 * API Scheme.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $scheme = 'https';
 
 	/**
-	 * API Status Codes
+	 * API Status Codes.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $status_codes = array();
 
 	/**
-	 * API mode
+	 * API mode.
 	 *
-	 * @var    boolean
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var boolean
 	 */
 	private $internal;
 
 	/**
-	 * API Configuration
+	 * API Configuration.
 	 *
-	 * @var    object
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var object
 	 */
 	public $configuration;
 
 	/**
 	 * Current instance.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @var      Library
+	 * @static
+	 * @access public
+	 *
+	 * @var Library
 	 */
 	public static $instance;
 
 	/**
 	 * Define the API class.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -303,9 +342,9 @@ class TMDb {
 	/**
 	 * Singleton.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Core
+	 * @return Core
 	 */
 	public static function get_instance() {
 
@@ -319,12 +358,12 @@ class TMDb {
 	/**
 	 * Set current ID.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $id ID value.
-	 * @param    string    $source ID source, 'imdb' or 'tmdb'.
+	 * @param string $id     ID value.
+	 * @param string $source ID source, 'imdb' or 'tmdb'.
 	 *
-	 * @return   WP_Error|string|int
+	 * @return WP_Error|string|int
 	 */
 	public function set_id( $id, $source = 'tmdb' ) {
 
@@ -348,11 +387,11 @@ class TMDb {
 	/**
 	 * Set current type.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type Type value.
+	 * @param string $type Type value.
 	 *
-	 * @return   WP_Error|string
+	 * @return WP_Error|string
 	 */
 	public function set_type( $type ) {
 
@@ -369,9 +408,9 @@ class TMDb {
 	/**
 	 * Reset $this->type, $this->id or both.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $data
+	 * @param string $data
 	 */
 	public function reset( $data = null ) {
 
@@ -387,11 +426,11 @@ class TMDb {
 	 *
 	 * Use a transient to avoid overquerying the API.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    boolean    $force Force reloading API configuration instead of load transient.
+	 * @param boolean $force Force reloading API configuration instead of load transient.
 	 *
-	 * @return   WP_Error|object
+	 * @return WP_Error|object
 	 */
 	public function get_configuration( $force = false ) {
 
@@ -416,12 +455,12 @@ class TMDb {
 	 * should be empty if we want to fetch every available image without
 	 * language filtering.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $image_type Image type, either 'backdrops', 'posters' or 'both' (default).
-	 * @param    array     $params Query parameters.
+	 * @param string $image_type Image type, either 'backdrops', 'posters' or 'both' (default).
+	 * @param array $params Query parameters.
 	 *
-	 * @return   WP_Error|object
+	 * @return WP_Error|object
 	 */
 	protected function _get_images( $image_type = array(), $params = array() ) {
 
@@ -449,11 +488,11 @@ class TMDb {
 	 * Movies, TVs and Persons support additional requests to fetch
 	 * related data like images, alternative titles, releases...
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $append
+	 * @param string $append
 	 *
-	 * @return   WP_Error|string $type
+	 * @return WP_Error|string $type
 	 */
 	private function validate_append( $append ) {
 
@@ -481,11 +520,11 @@ class TMDb {
 	 * Make room for additional types like TV series, seasons,
 	 * episodes, people...
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type
+	 * @param string $type
 	 *
-	 * @return   WP_Error|string $type
+	 * @return WP_Error|string $type
 	 */
 	protected function validate_type( $type, $data_type = 'movie' ) {
 
@@ -511,12 +550,12 @@ class TMDb {
 	 *
 	 * Identify TMDb/IMDb ID and regular search queries.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query Query
-	 * @param    string    $type Query type
+	 * @param string $query Query
+	 * @param string $type Query type
 	 *
-	 * @return   WP_Error|string
+	 * @return WP_Error|string
 	 */
 	protected function validate_query( $query, $type = 'search' ) {
 
@@ -544,11 +583,11 @@ class TMDb {
 	 * Handle errors and status codes to provide generic results
 	 * to the code.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    mixed    $response Request response
+	 * @param mixed $response Request response
 	 *
-	 * @return   WP_Error|array
+	 * @return WP_Error|array
 	 */
 	private function parse( $response ) {
 
@@ -586,12 +625,12 @@ class TMDb {
 	 *
 	 * Prepare the query a launch a HTTP request.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query Query function
-	 * @param    array     $params Query parameters
+	 * @param string $query Query function
+	 * @param array $params Query parameters
 	 *
-	 * @return   WP_Error|array
+	 * @return WP_Error|array
 	 */
 	protected function call( $query, $params = array() ) {
 

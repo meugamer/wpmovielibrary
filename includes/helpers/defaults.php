@@ -2,10 +2,10 @@
 /**
  * The file that defines the plugin defaults functions and values.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly;

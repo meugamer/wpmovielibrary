@@ -4,10 +4,10 @@
  *
  * Showing a movie's imdb v2 headbox.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $movie
- * @uses    $headbox
+ * @uses $movie
+ * @uses $headbox
  */
 
 ?>

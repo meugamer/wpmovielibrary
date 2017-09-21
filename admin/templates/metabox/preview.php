@@ -2,7 +2,7 @@
 /**
  * Metabox preview panel Template
  *
- * @since    3.0
+ * @since 3.0.0
  */
 ?>
 

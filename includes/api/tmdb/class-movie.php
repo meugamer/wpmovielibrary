@@ -2,10 +2,10 @@
 /**
  * Define the API Movie class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\api;
@@ -17,10 +17,10 @@ use WP_Error;
  *
  * This class handles movies specifically.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Movie extends TMDb {
 
@@ -30,12 +30,14 @@ class Movie extends TMDb {
 	 * All methods should be private or protected to trigger this magic
 	 * method.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $method Method name
-	 * @param    array     $arguments Method parameters
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $method Method name
+	 * @param array $arguments Method parameters
+	 *
+	 * @return mixed
 	 */
 	public function __call( $method, $arguments ) {
 
@@ -51,12 +53,14 @@ class Movie extends TMDb {
 	 *
 	 * Alias for API::_get_images( 'backdrops' ).
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int      $id Movie ID.
-	 * @param    array    $params Query parameters.
+	 * @access protected
 	 *
-	 * @return   WP_Error|object
+	 * @param int $id Movie ID.
+	 * @param array $params Query parameters.
+	 *
+	 * @return WP_Error|object
 	 */
 	protected function get_backdrops( $id, $params = array() ) {
 
@@ -70,12 +74,14 @@ class Movie extends TMDb {
 	 *
 	 * Alias for API::_get_images( 'posters' ).
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int      $id Movie ID.
-	 * @param    array    $params Query parameters.
+	 * @access protected
 	 *
-	 * @return   WP_Error|object
+	 * @param int $id Movie ID.
+	 * @param array $params Query parameters.
+	 *
+	 * @return WP_Error|object
 	 */
 	protected function get_posters( $id, $params = array() ) {
 
@@ -87,13 +93,15 @@ class Movie extends TMDb {
 	/**
 	 * Fetch images for a specific movie.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int       $id Movie ID.
-	 * @param    string    $image_type Image type, either 'backdrops', 'posters' or 'both' (default).
-	 * @param    array     $params Query parameters.
+	 * @access protected
 	 *
-	 * @return   WP_Error|object
+	 * @param int $id Movie ID.
+	 * @param string $image_type Image type, either 'backdrops', 'posters' or 'both' (default).
+	 * @param array $params Query parameters.
+	 *
+	 * @return WP_Error|object
 	 */
 	protected function get_images( $id, $image_type = 'both', $params = array() ) {
 
@@ -118,12 +126,14 @@ class Movie extends TMDb {
 	 * Support TMDb and IMDb IDs. Use $params['append_to_response']
 	 * to fetch additional data.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query Query
-	 * @param    array     $params Query parameters
+	 * @access protected
 	 *
-	 * @return   WP_Error|object
+	 * @param string $query Query
+	 * @param array $params Query parameters
+	 *
+	 * @return WP_Error|object
 	 */
 	protected function get( $query = '', $params = array() ) {
 
@@ -144,12 +154,14 @@ class Movie extends TMDb {
 	 *
 	 * If an IMDb ID is detected, simply get the movie.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query Search query
-	 * @param    array     $params Search parameters
+	 * @access protected
 	 *
-	 * @return   WP_Error|object
+	 * @param string $query Search query
+	 * @param array $params Search parameters
+	 *
+	 * @return WP_Error|object
 	 */
 	protected function search( $query = '', $params = array() ) {
 

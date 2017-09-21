@@ -2,18 +2,18 @@
 /**
  * The file that defines the plugin template functions.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 /**
  * Get a specific template.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $template Template name.
+ * @param string $template Template name.
  *
  * @return   \wpmoly\templates\Template
  */
@@ -29,9 +29,9 @@ function wpmoly_get_template( $template ) {
 /**
  * Get a specific JavaScript template.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $template Template name.
+ * @param string $template Template name.
  *
  * @return   \wpmoly\templates\JavaScript
  */
@@ -45,9 +45,9 @@ function wpmoly_get_js_template( $template ) {
 /**
  * Get an Headbox template.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    Headbox    $headbox Headbox instance.
+ * @param Headbox $headbox Headbox instance.
  *
  * @return   \wpmoly\templates\Headbox
  */
@@ -65,9 +65,9 @@ function get_headbox_template( $headbox ) {
  *
  * Simple alias for get_headbox_template().
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    int    $movie Movie ID, object or array
+ * @param int $movie Movie ID, object or array
  *
  * @return   \wpmoly\templates\Headbox
  */
@@ -81,9 +81,9 @@ function get_movie_headbox_template( $movie ) {
  *
  * Simple alias for get_headbox_template().
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $actor Actor ID, object or array
+ * @param mixed $actor Actor ID, object or array
  *
  * @return   \wpmoly\templates\Headbox
  */
@@ -97,9 +97,9 @@ function get_actor_headbox_template( $actor ) {
  *
  * Simple alias for get_headbox_template().
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $collection Collection ID, object or array
+ * @param mixed $collection Collection ID, object or array
  *
  * @return   \wpmoly\templates\Headbox
  */
@@ -113,9 +113,9 @@ function get_collection_headbox_template( $collection ) {
  *
  * Simple alias for get_headbox_template().
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $genre Genre ID, object or array
+ * @param mixed $genre Genre ID, object or array
  *
  * @return   \wpmoly\templates\Headbox
  */
@@ -127,9 +127,9 @@ function get_genre_headbox_template( $genre ) {
 /**
  * Get a Grid template.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $grid Grid
+ * @param mixed $grid Grid
  *
  * @return   \wpmoly\templates\Grid
  */
@@ -141,9 +141,9 @@ function get_grid_template( $grid ) {
 /**
  * Get a Widget public or admin template.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $template_id Template ID
+ * @param string $template_id Template ID
  *
  * @return   \wpmoly\templates\Template
  */

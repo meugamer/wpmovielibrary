@@ -4,7 +4,7 @@
  *
  * Register required .
  *
- * @link http://wpmovielibrary.com
+ * @link https://wpmovielibrary.com
  * @since 3.0
  *
  * @package WPMovieLibrary
@@ -17,7 +17,7 @@ namespace wpmoly\registrars;
  *
  * @since 3.0.0
  * @package WPMovieLibrary
- * 
+ *
  * @author Charlie Merland <charlie@caercam.org>
  */
 class Taxonomies {
@@ -178,11 +178,11 @@ class Taxonomies {
 	 * Depending on user settings, movies can used with standard Post Tag and
 	 * Categories.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array     $args 'movie' Custom Post Type parameters.
+	 * @param array $args 'movie' Custom Post Type parameters.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function movie_standard_taxonomies( $args ) {
 

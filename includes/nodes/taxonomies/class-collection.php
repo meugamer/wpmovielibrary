@@ -2,10 +2,10 @@
 /**
  * Define the Collection Taxonomy class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes\taxonomies;
@@ -13,28 +13,34 @@ namespace wpmoly\nodes\taxonomies;
 /**
  * Collections are terms from the 'collection' taxonomy.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Collection extends Taxonomy {
 
 	/**
 	 * Taxonomy name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $taxonomy = 'collection';
 
 	/**
 	 * Simple accessor for Collection thumbnail.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $variant Image variant.
-	 * @param    string    $size Image size.
+	 * @access public
 	 *
-	 * @return   Image
+	 * @param string $variant Image variant.
+	 * @param string $size Image size.
+	 *
+	 * @return Image
 	 */
 	public function get_thumbnail( $variant = '', $size = 'thumb' ) {
 
@@ -54,9 +60,9 @@ class Collection extends Taxonomy {
 		/**
 		 * Filter default collection thumbnail variants
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $variants
+		 * @param string $variants
 		 */
 		$variants = apply_filters( 'wpmoly/filter/default/collection/thumbnail/variants', array_merge( range( 'A', 'Z' ), array( 'default' ) ) );
 		if ( ! in_array( $variant, $variants ) ) {
@@ -66,9 +72,9 @@ class Collection extends Taxonomy {
 		/**
 		 * Filter default collection thumbnail
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $thumbnail
+		 * @param string $thumbnail
 		 */
 		$sizes = apply_filters( 'wpmoly/filter/default/collection/thumbnail/sizes', array( 'original', 'full', 'medium', 'small', 'thumb', 'thumbnail', 'tiny' ) );
 		if ( ! in_array( $size, $sizes ) ) {
@@ -82,9 +88,9 @@ class Collection extends Taxonomy {
 		/**
 		 * Filter default collection thumbnail
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $thumbnail
+		 * @param string $thumbnail
 		 */
 		$thumbnail = apply_filters( 'wpmoly/filter/default/collection/thumbnail', WPMOLY_URL . "public/assets/img/collection-{$variant}{$size}.png" );
 
@@ -96,11 +102,13 @@ class Collection extends Taxonomy {
 	/**
 	 * Retrieve the Collection custom thumbnail, if any.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $size Image size.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $size Image size.
+	 *
+	 * @return string
 	 */
 	public function get_custom_thumbnail( $size = 'thumb' ) {
 

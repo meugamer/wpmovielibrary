@@ -2,10 +2,10 @@
 /**
  * Define the Template classes.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\templates;
@@ -15,37 +15,43 @@ use WP_Error;
 /**
  * General Template class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 abstract class Template {
 
 	/**
 	 * Template path.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @var      string
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $path;
 
 	/**
 	 * Template data.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @var      array
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $data = array();
 
 	/**
 	 * Template content.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @var      string
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $template = '';
 
@@ -55,12 +61,14 @@ abstract class Template {
 	 * If $name is an array or an object, use it as a set of data; if not,
 	 * use $name and $value as key and value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    mixed    $name Data name.
-	 * @param    mixed    $value Data value.
+	 * @access public
 	 *
-	 * @return   Template
+	 * @param mixed $name Data name.
+	 * @param mixed $value Data value.
+	 *
+	 * @return Template
 	 */
 	public function set_data( $name, $value = '' ) {
 
@@ -82,23 +90,27 @@ abstract class Template {
 	/**
 	 * Prepare the Template.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $require 'once' to use require_once(), 'always' to use require()
+	 * @access protected
 	 *
-	 * @return   string
+	 * @param string $require 'once' to use require_once(), 'always' to use require()
+	 *
+	 * @return string
 	 */
 	abstract protected function prepare( $require = 'once' );
 
 	/**
 	 * Render the Template.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $require Use 'once' to use require_once(), 'always' to use require()
-	 * @param    boolean    $echo Use true to display, false to return
+	 * @access public
 	 *
-	 * @return   null
+	 * @param string $require Use 'once' to use require_once(), 'always' to use require()
+	 * @param boolean $echo Use true to display, false to return
+	 *
+	 * @return null
 	 */
 	public function render( $require = 'once', $echo = true ) {
 

@@ -2,10 +2,10 @@
 /**
  * Define the Meta Ajax class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\Ajax;
@@ -15,10 +15,10 @@ use WP_Error;
 /**
  * Handle all the plugin's Meta AJAX callbacks.
  *
- * @since      3.0
- * @package    WPMovieLibrary
+ * @since 3.0.0
+ * @package WPMovieLibrary
  * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Meta {
 
@@ -28,11 +28,9 @@ class Meta {
 	 * Meta and Details can be automatically saved/updated after they're
 	 * modified in the movie editor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type Meta type, 'meta' or 'details'.
-	 *
-	 * @return   null
+	 * @param string $type Meta type, 'meta' or 'details'.
 	 */
 	public function save_meta( $type = 'meta' ) {
 
@@ -64,9 +62,9 @@ class Meta {
 	 * Meta and Details can be automatically saved/updated after they're
 	 * modified in the movie editor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function save_details() {
 
@@ -76,9 +74,9 @@ class Meta {
 	/**
 	 * Autosave collections from the Metabox Editor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function save_collections() {
 
@@ -88,9 +86,9 @@ class Meta {
 	/**
 	 * Autosave genres from the Metabox Editor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function save_genres() {
 
@@ -100,9 +98,9 @@ class Meta {
 	/**
 	 * Autosave actors from the Metabox Editor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function save_actors() {
 
@@ -119,11 +117,11 @@ class Meta {
 	 * If an empty list is passed, and the corresponding setting is enabled
 	 * in the plugin's settings, existing terms will be removed.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $taxonomy
+	 * @param string $taxonomy
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function save_taxonomies( $taxonomy ) {
 
@@ -200,9 +198,9 @@ class Meta {
 	 *
 	 * Do not save anything for auto-drafts, auto-saves and revisions.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function save_grid_setting() {
 

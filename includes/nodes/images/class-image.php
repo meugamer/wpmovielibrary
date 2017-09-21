@@ -2,10 +2,10 @@
 /**
  * Define the Image class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes\images;
@@ -13,42 +13,52 @@ namespace wpmoly\nodes\images;
 /**
  * Generic Node class to handle Backdrop and Poster instances.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
  *
- * @property    string    $title Attachment title.
- * @property    string    $description Attachment description.
- * @property    string    $excerpt Attachment excerpt.
- * @property    string    $image_alt Attachment alternative description.
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Image {
 
 	/**
 	 * Image ID.
 	 *
-	 * @var    int
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var int
 	 */
 	public $id;
 
 	/**
 	 * Image Attachment Post object
 	 *
-	 * @var    WP_Post
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var WP_Post
 	 */
 	protected $attachment;
 
 	/**
 	 * Image defaults sizes
 	 *
-	 * @var    object
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var object
 	 */
 	public $sizes;
 
 	/**
 	 * Make the Image.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function __construct( $image = null ) {
 
@@ -69,9 +79,11 @@ class Image {
 	/**
 	 * Get available sizes.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   object
+	 * @access public
+	 *
+	 * @return object
 	 */
 	public function get_sizes() {
 
@@ -81,9 +93,11 @@ class Image {
 	/**
 	 * Set a handful of useful values for different sizes of the image.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   object
+	 * @access public
+	 *
+	 * @return object
 	 */
 	public function set_defaults() {
 
@@ -127,10 +141,10 @@ class Image {
 		/**
 		 * Filter default image sizes
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    object    $sizes Image sizes
-		 * @param    object    $attachment Image Attachment Post
+		 * @param object $sizes Image sizes
+		 * @param object $attachment Image Attachment Post
 		 */
 		$this->sizes = apply_filters( 'wpmoly/filter/images/sizes', (object) $sizes, $this->attachment );
 
@@ -140,13 +154,15 @@ class Image {
 	/**
 	 * Render the image.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $size Image size to render
-	 * @param    string     $format Raw image URL or HTML?
-	 * @param    boolean    $echo Echo or return?
+	 * @access public
 	 *
-	 * @return   string|null
+	 * @param string $size Image size to render
+	 * @param string $format Raw image URL or HTML?
+	 * @param boolean $echo Echo or return?
+	 *
+	 * @return string|null
 	 */
 	public function render( $size = 'original', $format = 'raw', $echo = true ) {
 

@@ -2,10 +2,10 @@
 /**
  * Define the Movie Node.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes\posts;
@@ -32,9 +32,9 @@ use wpmoly\nodes\images;
  * Movie::get_posters()
  * Movie::get_backdrops()
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ * @author Charlie Merland <charlie@caercam.org>
  *
  * @property    int        $tmdb_id Movie TMDb ID.
  * @property    string     $title Movie title.
@@ -73,42 +73,64 @@ class Movie extends Node {
 	/**
 	 * Movie Post object
 	 *
-	 * @var    WP_Post
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var WP_Post
 	 */
 	public $post;
 
 	/**
 	 * Movie poster.
 	 *
-	 * @var    Poster
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var Poster
 	 */
 	protected $poster;
 
 	/**
 	 * Movie posters list.
 	 *
-	 * @var    Nodes
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var Nodes
 	 */
 	protected $posters;
 
 	/**
 	 * Movie backdrops list.
 	 *
-	 * @var    Nodes
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var Nodes
 	 */
 	protected $backdrops;
 
 	/**
 	 * Movie meta suffix.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $suffix;
 
 	/**
 	 * Initialize the Movie.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function init() {
 
@@ -123,18 +145,18 @@ class Movie extends Node {
 		/**
 		 * Filter the default movie meta list.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $default_meta
+		 * @param array $default_meta
 		 */
 		$this->default_meta = apply_filters( 'wpmoly/filter/default/movie/meta', array( 'tmdb_id', 'title', 'original_title', 'tagline', 'overview', 'release_date', 'local_release_date', 'runtime', 'production_companies', 'production_countries', 'spoken_languages', 'genres', 'director', 'producer', 'cast', 'photography', 'composer', 'author', 'writer', 'certification', 'budget', 'revenue', 'imdb_id', 'adult', 'homepage' ) );
 
 		/**
 		 * Filter the default movie details list.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $default_details
+		 * @param array $default_details
 		 */
 		$this->default_details = apply_filters( 'wpmoly/filter/default/movie/details', array( 'status', 'media', 'rating', 'language', 'subtitles', 'format' ) );
 	}
@@ -145,12 +167,14 @@ class Movie extends Node {
 	 * Add support for Movie::get_{$property}() and Movie::the_{$property}()
 	 * methods.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $method Method name.
-	 * @param    array     $arguments Method arguments.
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $method Method name.
+	 * @param array $arguments Method arguments.
+	 *
+	 * @return mixed
 	 */
 	public function __call( $method, $arguments ) {
 
@@ -171,12 +195,14 @@ class Movie extends Node {
 	 *
 	 * Override Node::get() to add support for additional data like 'year'.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name
-	 * @param    mixed     $default Default value
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name Property name
+	 * @param mixed $default Default value
+	 *
+	 * @return mixed
 	 */
 	public function get( $name, $default = null ) {
 
@@ -206,22 +232,24 @@ class Movie extends Node {
 	 * escapes the property requested and therefore should be used when the
 	 * property is meant for display.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name Property name
+	 *
+	 * @return mixed
 	 */
 	public function get_the( $name ) {
 
 		/**
 		 * Filter properties for display.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $name Meta name.
-		 * @param    mixed     $value Meta value.
-		 * @param    Node      $node Movie object.
+		 * @param string $name Meta name.
+		 * @param mixed $value Meta value.
+		 * @param Node $node Movie object.
 		 */
 		return apply_filters( 'wpmoly/filter/the/movie/' . sanitize_key( $name ), $this->get( $name ), $this );
 	}
@@ -230,9 +258,11 @@ class Movie extends Node {
 	 * Simple property echoer. Use Node::get_the() to automatically escape
 	 * the requested property.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name
+	 * @access public
+	 *
+	 * @param string $name Property name
 	 */
 	public function the( $name ) {
 
@@ -244,9 +274,11 @@ class Movie extends Node {
 	 *
 	 * Wrapper for get_permalink().
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access public
+	 *
+	 * @return string
 	 */
 	public function get_permalink() {
 
@@ -258,7 +290,9 @@ class Movie extends Node {
 	/**
 	 * Echo the filtered movie permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function the_permalink() {
 
@@ -268,9 +302,11 @@ class Movie extends Node {
 	/**
 	 * Does this movie have metadata?
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   boolean
+	 * @access public
+	 *
+	 * @return boolean
 	 */
 	public function is_empty() {
 
@@ -280,12 +316,14 @@ class Movie extends Node {
 	/**
 	 * Load backdrops for the current Movie.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $language Language to filter images
-	 * @param    int       $number Number of images to fetch
+	 * @access public
 	 *
-	 * @return   Backdrops
+	 * @param string $language Language to filter images
+	 * @param int $number Number of images to fetch
+	 *
+	 * @return Backdrops
 	 */
 	public function load_backdrops( $language = '', $number = -1 ) {
 
@@ -309,12 +347,14 @@ class Movie extends Node {
 	/**
 	 * Load posters for the current Movie.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $language Language to filter images
-	 * @param    int       $number Number of images to fetch
+	 * @access public
 	 *
-	 * @return   Posters
+	 * @param string $language Language to filter images
+	 * @param int $number Number of images to fetch
+	 *
+	 * @return Posters
 	 */
 	public function load_posters( $language = '', $number = -1 ) {
 
@@ -343,11 +383,13 @@ class Movie extends Node {
 	 * 'last' and 'random' are self-explanatory and will fall back to the
 	 * default backdrop if no backdrop is available.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $variant Backdrop variant.
+	 * @access public
 	 *
-	 * @return   Backdrop|Default_Backdrop
+	 * @param string $variant Backdrop variant.
+	 *
+	 * @return Backdrop|Default_Backdrop
 	 */
 	public function get_backdrop( $variant = 'featured' ) {
 
@@ -394,11 +436,13 @@ class Movie extends Node {
 	 * 'last' and 'random' are self-explanatory and will fall back to the
 	 * default poster if no poster is available.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $variant Poster variant.
+	 * @access public
 	 *
-	 * @return   Poster|Default_Poster
+	 * @param string $variant Poster variant.
+	 *
+	 * @return Poster|Default_Poster
 	 */
 	public function get_poster( $variant = 'featured' ) {
 
@@ -440,12 +484,14 @@ class Movie extends Node {
 	/**
 	 * Simple accessor for Backdrops list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $language Filter backdrops by language
-	 * @param    int       $number Limit the number of backdrops
+	 * @access public
 	 *
-	 * @return   Posters
+	 * @param string $language Filter backdrops by language
+	 * @param int $number Limit the number of backdrops
+	 *
+	 * @return Posters
 	 */
 	public function get_backdrops( $language = '', $number = -1 ) {
 
@@ -470,12 +516,14 @@ class Movie extends Node {
 	/**
 	 * Simple accessor for Posters list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $language Filter posters by language
-	 * @param    int       $number Limit the number of posters
+	 * @access public
 	 *
-	 * @return   Posters
+	 * @param string $language Filter posters by language
+	 * @param int $number Limit the number of posters
+	 *
+	 * @return Posters
 	 */
 	public function get_posters( $language = '', $number = -1 ) {
 
@@ -500,7 +548,9 @@ class Movie extends Node {
 	/**
 	 * Save movie.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function save() {
 
@@ -511,7 +561,9 @@ class Movie extends Node {
 	/**
 	 * Save movie metadata.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function save_meta() {
 
@@ -525,7 +577,9 @@ class Movie extends Node {
 	/**
 	 * Save movie details.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function save_details() {
 

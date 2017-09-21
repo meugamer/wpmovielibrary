@@ -2,7 +2,7 @@
 /**
  * The file that defines the core plugin class.
  *
- * @link http://wpmovielibrary.com
+ * @link https://wpmovielibrary.com
  * @since 3.0.0
  *
  * @package WPMovieLibrary
@@ -260,7 +260,6 @@ final class WPMovieLibrary {
 		require_once WPMOLY_PATH . 'includes/helpers/defaults.php';
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
 		require_once WPMOLY_PATH . 'includes/helpers/templates.php';
-		require_once WPMOLY_PATH . 'includes/helpers/post-templates.php';
 		require_once WPMOLY_PATH . 'includes/helpers/permalinks.php';
 		require_once WPMOLY_PATH . 'includes/helpers/formatting.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
@@ -993,10 +992,10 @@ final class WPMovieLibrary {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
-		 * @param API            &$api  The REST API instance (passed by reference).
+		 * @param WPMovieLibrary &$this     The Plugin instance (passed by reference).
+		 * @param API            &$rest_api The REST API instance (passed by reference).
 		 */
-		do_action_ref_array( 'wpmoly/rest/registered', array( &$this, &$api ) );
+		do_action_ref_array( 'wpmoly/rest/registered', array( &$this, &$rest_api ) );
 	}
 
 	/**

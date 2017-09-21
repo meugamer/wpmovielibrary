@@ -2,10 +2,10 @@
 /**
  * Define the Shortcode class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\shortcodes;
@@ -13,79 +13,114 @@ namespace wpmoly\shortcodes;
 /**
  * General Shortcode class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 abstract class Shortcode {
 
 	/**
-	 * Shortcode Tag
+	 * Shortcode Tag.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public static $name;
 
 	/**
-	 * Shortcode real Tag, used for aliases
+	 * Shortcode real Tag, used for aliases.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $tag;
 
 	/**
-	 * Shortcode attributes
+	 * Shortcode attributes.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $attributes;
 
 	/**
-	 * Shortcode aliases
+	 * Shortcode aliases.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected static $aliases = array();
 
 	/**
-	 * Shortcode attributes sanitizers
+	 * Shortcode attributes sanitizers.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $validates = array();
 
 	/**
-	 * Shortcode attributes escapers
+	 * Shortcode attributes escapers.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $escapes = array();
 
 	/**
-	 * Shortcode template
+	 * Shortcode template.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $template;
 
 	/**
-	 * Shortcode content
+	 * Shortcode content.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $content;
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array     $atts Shortcode parameters
-	 * @param    string    $content Shortcode content
-	 * @param    string    $tag Shortcode tag
+	 * @access public
 	 *
-	 * @return   Shortcode
+	 * @param array $atts Shortcode parameters
+	 * @param string $content Shortcode content
+	 * @param string $tag Shortcode tag
+	 *
+	 * @return Shortcode
 	 */
 	public function __construct( $atts = array(), $content = null, $tag = null ) {
 
@@ -110,11 +145,13 @@ abstract class Shortcode {
 	 *
 	 * Attributes not found in the validate list are simply ignored.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array     $attributes Shortcode attributes
+	 * @access protected
 	 *
-	 * @return   Node      Return itself to allow chaining
+	 * @param array $attributes Shortcode attributes
+	 *
+	 * @return Node      Return itself to allow chaining
 	 */
 	protected function set_attributes( $attributes ) {
 
@@ -132,12 +169,14 @@ abstract class Shortcode {
 	/**
 	 * Make sure we store attributes in their expected type.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $key Attribute name
-	 * @param    mixed     $value Attribute value
+	 * @access private
 	 *
-	 * @return   mixed
+	 * @param string $key Attribute name
+	 * @param mixed $value Attribute value
+	 *
+	 * @return mixed
 	 */
 	private function validate( $key, $value ) {
 
@@ -171,10 +210,12 @@ abstract class Shortcode {
 	 * the attribute value doesn't match the allowed values set in the
 	 * validate list, default value is used.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $key Attribute name
-	 * @param    mixed     $value Attribute value
+	 * @access public
+	 *
+	 * @param string $key Attribute name
+	 * @param mixed $value Attribute value
 	 */
 	public function set( $key, $value ) {
 
@@ -194,7 +235,9 @@ abstract class Shortcode {
 	 *
 	 * Add hook for the current Shortcode and its optional aliases.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public static function register() {
 
@@ -219,13 +262,15 @@ abstract class Shortcode {
 	 * Create a new instance of Shortcode, run the Shortcode and build the
 	 * Template for return.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array     $atts Shortcode parameters
-	 * @param    string    $content Shortcode content
-	 * @param    string    $tag Shortcode tag
+	 * @access public
 	 *
-	 * @return   string
+	 * @param array $atts Shortcode parameters
+	 * @param string $content Shortcode content
+	 * @param string $tag Shortcode tag
+	 *
+	 * @return string
 	 */
 	public static function shortcode( $atts = array(), $content = null, $tag = null ) {
 
@@ -238,9 +283,11 @@ abstract class Shortcode {
 	/**
 	 * Output the Shortcode.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access public
+	 *
+	 * @return string
 	 */
 	public function output() {
 
@@ -252,7 +299,9 @@ abstract class Shortcode {
 	 *
 	 * Run things before doing anything.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	abstract protected function init();
 
@@ -261,7 +310,9 @@ abstract class Shortcode {
 	 *
 	 * Prepare Shortcode parameters.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	abstract protected function make();
 
@@ -270,7 +321,9 @@ abstract class Shortcode {
 	 *
 	 * Perform all needed Shortcode stuff.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	abstract protected function run();
 }

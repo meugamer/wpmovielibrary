@@ -2,10 +2,10 @@
 /**
  * Define the Widget class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\widgets;
@@ -15,73 +15,109 @@ use WP_Widget;
 /**
  * Abstract Widget class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 abstract class Widget extends WP_Widget {
 
 	/**
 	 * Widget Root ID.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $id_base;
 
 	/**
 	 * Widget Name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $title;
 
 	/**
 	 * Widget Class Name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $classname;
 
 	/**
 	 * Widget Description.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $description;
 
 	/**
 	 * Widget parameters.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $args = array();
 
 	/**
 	 * Widget current instance.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $instance = array();
 
 	/**
 	 * Widget default attributes.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $defaults = array();
 
 	/**
 	 * Widget data.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $data = array();
 
 	/**
 	 * Widget form data.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $formdata = array();
 
@@ -90,7 +126,9 @@ abstract class Widget extends WP_Widget {
 	 *
 	 * Initialize properties and run Widget constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -118,31 +156,39 @@ abstract class Widget extends WP_Widget {
 	/**
 	 * Set default properties.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	abstract protected function make();
 
 	/**
 	 * Build Widget content.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	abstract protected function build();
 
 	/**
 	 * Build Widget form content.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	abstract protected function build_form();
 
 	/**
 	 * Echoes the widget content.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $args Widget parameters.
-	 * @param    array    $instance Widget settings.
+	 * @access public
+	 *
+	 * @param array $args Widget parameters.
+	 * @param array $instance Widget settings.
 	 */
 	public function widget( $args, $instance ) {
 
@@ -176,12 +222,14 @@ abstract class Widget extends WP_Widget {
 	 * value of `$instance` should be returned. If false is returned, the instance won't be
 	 * saved/updated.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $new_instance New settings for this instance.
-	 * @param    array    $old_instance Old settings for this instance.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $new_instance New settings for this instance.
+	 * @param array $old_instance Old settings for this instance.
+	 *
+	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
 
@@ -198,9 +246,11 @@ abstract class Widget extends WP_Widget {
 	/**
 	 * Echoes Widget settings update form.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $instance Current settings.
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 
@@ -221,7 +271,9 @@ abstract class Widget extends WP_Widget {
 	/**
 	 * Set default Widget parameters.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function set_defaults() {
 
@@ -235,11 +287,13 @@ abstract class Widget extends WP_Widget {
 	/**
 	 * Widget properties accessor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name.
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name Property name.
+	 *
+	 * @return mixed
 	 */
 	public function get_arg( $name ) {
 
@@ -249,12 +303,14 @@ abstract class Widget extends WP_Widget {
 	/**
 	 * Set Widget property.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name.
-	 * @param    mixed     $value New property value.
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name Property name.
+	 * @param mixed $value New property value.
+	 *
+	 * @return mixed
 	 */
 	public function set_arg( $name, $value ) {
 
@@ -270,11 +326,13 @@ abstract class Widget extends WP_Widget {
 	/**
 	 * Get Widget instance attribute.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Attribute name.
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name Attribute name.
+	 *
+	 * @return mixed
 	 */
 	public function get_attr( $name ) {
 
@@ -284,12 +342,14 @@ abstract class Widget extends WP_Widget {
 	/**
 	 * Set Widget instance attribute.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Attribute name.
-	 * @param    mixed     $value New Attribute value.
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name Attribute name.
+	 * @param mixed $value New Attribute value.
+	 *
+	 * @return mixed
 	 */
 	public function set_attr( $name, $value ) {
 

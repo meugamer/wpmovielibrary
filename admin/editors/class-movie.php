@@ -2,10 +2,10 @@
 /**
  * Define the Movie Editor class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\admin\editors;
@@ -13,23 +13,23 @@ namespace wpmoly\admin\editors;
 /**
  * Provide a tool to manage movies.
  *
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Movie extends Editor {
 
 	/**
 	 * Current Post ID.
 	 *
-	 * @var    int
+	 * @var int
 	 */
 	private $post_id;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -42,7 +42,7 @@ class Movie extends Editor {
 	/**
 	 * Define meta managers.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function add_managers() {
 
@@ -163,7 +163,7 @@ class Movie extends Editor {
 	/**
 	 * Load frameworks if needed.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	public function load_meta_frameworks() {
 
@@ -178,7 +178,7 @@ class Movie extends Editor {
 	/**
 	 * Define metaboxes.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function add_metaboxes() {}
 

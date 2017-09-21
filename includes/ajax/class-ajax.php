@@ -2,10 +2,10 @@
 /**
  * Define the Ajax class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\Ajax;
@@ -15,45 +15,45 @@ use WP_Error;
 /**
  * Handle all the plugin's AJAX callbacks.
  *
- * @since      3.0
- * @package    WPMovieLibrary
+ * @since 3.0.0
+ * @package WPMovieLibrary
  * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Ajax {
 
 	/**
 	 * Admin Ajax callback methods.
 	 *
-	 * @var      array
+	 * @var array
 	 */
 	public $admin_callbacks;
 
 	/**
 	 * Public Ajax callback methods.
 	 *
-	 * @var      array
+	 * @var array
 	 */
 	public $public_callbacks;
 
 	/**
 	 * Current instance.
 	 *
-	 * @var      Library
+	 * @var Library
 	 */
 	public static $instance;
 
 	/**
 	 * Hook list.
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	public $hooks = array();
 
 	/**
 	 * Class constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -90,9 +90,9 @@ class Ajax {
 		 * This should only be used to remove existing callbacks. Adding
 		 * new ones won't change anything anyway.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $admin_callbacks
+		 * @param array $admin_callbacks
 		 */
 		$this->admin_callbacks = apply_filters( 'wpmoly/filter/ajax/admin_callbacks', $admin_callbacks );
 
@@ -102,9 +102,9 @@ class Ajax {
 		 * This should only be used to remove existing callbacks. Adding
 		 * new ones won't change anything anyway.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $admin_callbacks
+		 * @param array $admin_callbacks
 		 */
 		$this->public_callbacks = apply_filters( 'wpmoly/filter/ajax/public_callbacks', $public_callbacks );
 
@@ -121,9 +121,9 @@ class Ajax {
 	/**
 	 * Singleton.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Ajax
+	 * @return Ajax
 	 */
 	public static function get_instance() {
 
@@ -139,12 +139,12 @@ class Ajax {
 	 *
 	 * Callbacks can be part of other classes in the Ajax namespace.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $method Method name.
-	 * @param    array     $arguments Method arguments.
+	 * @param string $method Method name.
+	 * @param array $arguments Method arguments.
 	 *
-	 * @return   mixed
+	 * @return mixed
 	 */
 	public function __call( $method, $arguments ) {
 
@@ -174,7 +174,7 @@ class Ajax {
 	/**
 	 * Register Ajax admin hooks.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	public function define_admin_hooks() {
 
@@ -186,7 +186,7 @@ class Ajax {
 	/**
 	 * Register Ajax public hooks.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	public function define_public_hooks() {
 
@@ -199,7 +199,7 @@ class Ajax {
 	/**
 	 * Query Backdrops for the current post.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	private function query_backdrops() {
 
@@ -209,7 +209,7 @@ class Ajax {
 	/**
 	 * Query Posters for the current post.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	private function query_posters() {
 
@@ -219,9 +219,9 @@ class Ajax {
 	/**
 	 * Query Images for the current post.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type Images type, 'backdrops' or 'posters'
+	 * @param string $type Images type, 'backdrops' or 'posters'
 	 */
 	private function query_images( $type ) {
 
@@ -256,7 +256,7 @@ class Ajax {
 	/**
 	 * Remove a backdrop from the backdrops list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	private function remove_backdrop() {
 
@@ -266,7 +266,7 @@ class Ajax {
 	/**
 	 * Remove a poster from the posters list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	private function remove_poster() {
 
@@ -276,9 +276,9 @@ class Ajax {
 	/**
 	 * Remove an image from the backdrops/posters list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type Image type, 'backdrop' or 'poster'
+	 * @param string $type Image type, 'backdrop' or 'poster'
 	 */
 	private function remove_image( $type ) {
 
@@ -312,7 +312,7 @@ class Ajax {
 	/**
 	 * Set an existing image as backdrop.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	private function set_backdrops() {
 
@@ -322,7 +322,7 @@ class Ajax {
 	/**
 	 * Set an existing image as poster.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	private function set_posters() {
 
@@ -332,9 +332,9 @@ class Ajax {
 	/**
 	 * Set an existing image as backdrop or poster.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type Image type, 'backdrop' or 'poster'.
+	 * @param string $type Image type, 'backdrop' or 'poster'.
 	 */
 	private function set_images( $type ) {
 
@@ -374,7 +374,7 @@ class Ajax {
 	/**
 	 * Save search settings.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	private function save_settings() {
 

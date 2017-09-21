@@ -2,10 +2,10 @@
 /**
  * Define the Metadata Shortcode class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\shortcodes;
@@ -15,24 +15,33 @@ use wpmoly\templates\Front as Template;
 /**
  * General Shortcode class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Metadata extends Shortcode {
 
 	/**
-	 * Shortcode name, used for declaring the Shortcode
+	 * Shortcode name, used for declaring the Shortcode.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public static $name = 'movie_meta';
 
 	/**
-	 * Shortcode attributes sanitizers
+	 * Shortcode attributes sanitizers.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $validates = array(
 		'id' => array(
@@ -68,9 +77,14 @@ class Metadata extends Shortcode {
 	);
 
 	/**
-	 * Shortcode aliases
+	 * Shortcode aliases.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected static $aliases = array(
 		'movie_director'       => 'director',
@@ -100,7 +114,9 @@ class Metadata extends Shortcode {
 	 *
 	 * Prepare Shortcode parameters.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function make() {
 
@@ -121,9 +137,11 @@ class Metadata extends Shortcode {
 	/**
 	 * Get Movie ID from title if needed.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   int
+	 * @access protected
+	 *
+	 * @return int
 	 */
 	protected function get_movie_id() {
 
@@ -151,9 +169,11 @@ class Metadata extends Shortcode {
 	/**
 	 * Get the metadata value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   mixed
+	 * @access protected
+	 *
+	 * @return mixed
 	 */
 	protected function get_meta_value() {
 
@@ -169,10 +189,10 @@ class Metadata extends Shortcode {
 			/**
 			 * Filter empty meta value.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $value
-			 * @param    string    $format
+			 * @param string $value
+			 * @param string $format
 			 */
 			$value = apply_filters( "wpmoly/shortcode/format/{$key}/empty/value", $value, $format );
 			if ( empty( $value ) ) {
@@ -188,9 +208,9 @@ class Metadata extends Shortcode {
 			/**
 			 * Filter raw meta value.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $value
+			 * @param string $value
 			 */
 			return apply_filters( "wpmoly/shortcode/format/{$key}/raw/value", $value );
 		}
@@ -207,10 +227,10 @@ class Metadata extends Shortcode {
 			/**
 			 * Filter array-shaped meta value.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    array    $value
-			 * @param    array    $options
+			 * @param array $value
+			 * @param array $options
 			 */
 			return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, compact( 'format' ) );
 		}
@@ -218,10 +238,10 @@ class Metadata extends Shortcode {
 		/**
 		 * Filter meta value.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $value
-		 * @param    array     $options
+		 * @param string $value
+		 * @param array $options
 		 */
 		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, compact( 'format' ) );
 	}
@@ -231,9 +251,11 @@ class Metadata extends Shortcode {
 	 *
 	 * Perform all needed Shortcode stuff.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Shortcode
+	 * @access public
+	 *
+	 * @return Shortcode
 	 */
 	public function run() {
 
@@ -260,7 +282,9 @@ class Metadata extends Shortcode {
 	 *
 	 * Run things before doing anything.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function init() {}
 }

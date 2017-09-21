@@ -2,12 +2,10 @@
 /**
  * Statistics Widget default template.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $widget WP_Widget instance.
- * @uses    $type Detail type.
- * @uses    $details Detail array.
- * @uses    $data Widget data.
+ * @uses $widget WP_Widget instance.
+ * @uses $data Widget data.
  */
 
 ?>

@@ -2,21 +2,21 @@
 /**
  * The file that defines the plugin public functions.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 /**
  * Retrieve a specific option.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $name Option name
- * @param    mixed     $default Option default value to return if needed
+ * @param string $name Option name
+ * @param mixed $default Option default value to return if needed
  *
- * @return   mixed
+ * @return mixed
  */
 function wpmoly_o( $name, $default = null ) {
 
@@ -30,12 +30,12 @@ function wpmoly_o( $name, $default = null ) {
 /**
  * Retrieve a specific option in a boolean form.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $name Option name
- * @param    mixed     $default Option default value to return if needed
+ * @param string $name Option name
+ * @param mixed $default Option default value to return if needed
  *
- * @return   boolean
+ * @return boolean
  */
 function wpmoly_is_o( $name, $default = null ) {
 
@@ -48,11 +48,11 @@ function wpmoly_is_o( $name, $default = null ) {
 /**
  * Return a WPMoly-defined object.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $data Node ID, object or array
+ * @param mixed $data Node ID, object or array
  *
- * @return   object
+ * @return object
  */
 function _get_object( $data, $object ) {
 
@@ -72,11 +72,11 @@ function _get_object( $data, $object ) {
 /**
  * Return a movie object.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $movie Movie ID, object or array
+ * @param mixed $movie Movie ID, object or array
  *
- * @return   Movie|boolean
+ * @return Movie|boolean
  */
 function get_movie( $movie ) {
 
@@ -92,11 +92,11 @@ function get_movie( $movie ) {
  *
  * TODO handle int parameter
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    object    $headbox Headbox object.
+ * @param object $headbox Headbox object.
  *
- * @return   Headbox|boolean
+ * @return Headbox|boolean
  */
 function get_headbox( $headbox ) {
 
@@ -112,11 +112,11 @@ function get_headbox( $headbox ) {
 /**
  * Return a post headbox object.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $post Post ID, object or array
+ * @param mixed $post Post ID, object or array
  *
- * @return   PostHeadbox|boolean
+ * @return PostHeadbox|boolean
  */
 function get_post_headbox( $post ) {
 
@@ -126,11 +126,11 @@ function get_post_headbox( $post ) {
 /**
  * Return a term headbox object.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $term Term ID, object or array
+ * @param mixed $term Term ID, object or array
  *
- * @return   TermHeadbox|boolean
+ * @return TermHeadbox|boolean
  */
 function get_term_headbox( $term ) {
 
@@ -140,11 +140,11 @@ function get_term_headbox( $term ) {
 /**
  * Return a grid object.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $grid Grid ID, object or array
+ * @param mixed $grid Grid ID, object or array
  *
- * @return   Grid|boolean
+ * @return Grid|boolean
  */
 function get_grid( $grid = null ) {
 
@@ -154,11 +154,11 @@ function get_grid( $grid = null ) {
 /**
  * Return an actor object.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $actor Actor ID, object or array
+ * @param mixed $actor Actor ID, object or array
  *
- * @return   Actor|boolean
+ * @return Actor|boolean
  */
 function get_actor( $actor ) {
 
@@ -168,11 +168,11 @@ function get_actor( $actor ) {
 /**
  * Return a collection object.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $collection Collection ID, object or array
+ * @param mixed $collection Collection ID, object or array
  *
- * @return   Collection|boolean
+ * @return Collection|boolean
  */
 function get_collection( $collection ) {
 
@@ -182,11 +182,11 @@ function get_collection( $collection ) {
 /**
  * Return an genre object.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $genre Genre ID, object or array
+ * @param mixed $genre Genre ID, object or array
  *
- * @return   Genre|boolean
+ * @return Genre|boolean
  */
 function get_genre( $genre ) {
 
@@ -196,13 +196,13 @@ function get_genre( $genre ) {
 /**
  * Return a grid metadata.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    int        $grid_id Grid ID, object or array
- * @param    string     $key Grid Meta key to return.
- * @param    boolean    $single Whether to return a single value
+ * @param int $grid_id Grid ID, object or array
+ * @param string $key Grid Meta key to return.
+ * @param boolean $single Whether to return a single value
  *
- * @return   Grid|boolean
+ * @return Grid|boolean
  */
 function get_grid_meta( $grid_id, $key = '', $single = true ) {
 
@@ -219,9 +219,9 @@ function get_grid_meta( $grid_id, $key = '', $single = true ) {
 		/**
 		 * Filter the grid meta key.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $key Meta key.
+		 * @param string $key Meta key.
 		 */
 		$key = prefix_grid_meta_key( $key );
 	}
@@ -234,13 +234,13 @@ function get_grid_meta( $grid_id, $key = '', $single = true ) {
 /**
  * Return a movie metadata.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    int        $movie_id Movie ID, object or array
- * @param    string     $key Movie Meta key to return.
- * @param    boolean    $single Whether to return a single value
+ * @param int $movie_id Movie ID, object or array
+ * @param string $key Movie Meta key to return.
+ * @param boolean $single Whether to return a single value
  *
- * @return   Movie|boolean
+ * @return Movie|boolean
  */
 function get_movie_meta( $movie_id, $key = '', $single = true ) {
 
@@ -257,9 +257,9 @@ function get_movie_meta( $movie_id, $key = '', $single = true ) {
 		/**
 		 * Filter the movie meta key.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $key Meta key.
+		 * @param string $key Meta key.
 		 */
 		$key = prefix_movie_meta_key( $key );
 	}
@@ -272,12 +272,12 @@ function get_movie_meta( $movie_id, $key = '', $single = true ) {
 /**
  * Prefix meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Meta key.
- * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ * @param string $key Meta key.
+ * @param boolean $strip_hyphens Replace hyphens with underscores?
  *
- * @return   string
+ * @return string
  */
 function prefix_meta_key( $key, $prefix = '', $strip_hyphens = true ) {
 
@@ -297,12 +297,12 @@ function prefix_meta_key( $key, $prefix = '', $strip_hyphens = true ) {
 /**
  * Remove prefix from meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Prefixed meta key.
- * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ * @param string $key Prefixed meta key.
+ * @param boolean $strip_underscores Replace underscores with hyphens?
  *
- * @return   string
+ * @return string
  */
 function unprefix_meta_key( $key, $prefix = '', $strip_underscores = true ) {
 
@@ -321,12 +321,12 @@ function unprefix_meta_key( $key, $prefix = '', $strip_underscores = true ) {
 /**
  * Prefix actor meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Meta key.
- * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ * @param string $key Meta key.
+ * @param boolean $strip_hyphens Replace hyphens with underscores?
  *
- * @return   string
+ * @return string
  */
 function prefix_actor_meta_key( $key, $strip_hyphens = true ) {
 
@@ -336,12 +336,12 @@ function prefix_actor_meta_key( $key, $strip_hyphens = true ) {
 /**
  * Remove prefix from actor meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Prefixed meta key.
- * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ * @param string $key Prefixed meta key.
+ * @param boolean $strip_underscores Replace underscores with hyphens?
  *
- * @return   string
+ * @return string
  */
 function unprefix_actor_meta_key( $key, $strip_underscores = true ) {
 
@@ -351,11 +351,11 @@ function unprefix_actor_meta_key( $key, $strip_underscores = true ) {
 /**
  * Determine if the submitted meta key is an actor related meta key.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $key Prefixed meta key.
+ * @param string $key Prefixed meta key.
  *
- * @return   boolean
+ * @return boolean
  */
 function is_actor_meta_key( $key ) {
 
@@ -365,12 +365,12 @@ function is_actor_meta_key( $key ) {
 /**
  * Prefix collection meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Meta key.
- * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ * @param string $key Meta key.
+ * @param boolean $strip_hyphens Replace hyphens with underscores?
  *
- * @return   string
+ * @return string
  */
 function prefix_collection_meta_key( $key, $strip_hyphens = true ) {
 
@@ -380,12 +380,12 @@ function prefix_collection_meta_key( $key, $strip_hyphens = true ) {
 /**
  * Remove prefix from collection meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Prefixed meta key.
- * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ * @param string $key Prefixed meta key.
+ * @param boolean $strip_underscores Replace underscores with hyphens?
  *
- * @return   string
+ * @return string
  */
 function unprefix_collection_meta_key( $key, $strip_underscores = true ) {
 
@@ -395,11 +395,11 @@ function unprefix_collection_meta_key( $key, $strip_underscores = true ) {
 /**
  * Determine if the submitted meta key is a collection related meta key.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $key Prefixed meta key.
+ * @param string $key Prefixed meta key.
  *
- * @return   boolean
+ * @return boolean
  */
 function is_collection_meta_key( $key ) {
 
@@ -409,12 +409,12 @@ function is_collection_meta_key( $key ) {
 /**
  * Prefix genre meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Meta key.
- * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ * @param string $key Meta key.
+ * @param boolean $strip_hyphens Replace hyphens with underscores?
  *
- * @return   string
+ * @return string
  */
 function prefix_genre_meta_key( $key, $strip_hyphens = true ) {
 
@@ -424,12 +424,12 @@ function prefix_genre_meta_key( $key, $strip_hyphens = true ) {
 /**
  * Remove prefix from genre meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Prefixed meta key.
- * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ * @param string $key Prefixed meta key.
+ * @param boolean $strip_underscores Replace underscores with hyphens?
  *
- * @return   string
+ * @return string
  */
 function unprefix_genre_meta_key( $key, $strip_underscores = true ) {
 
@@ -439,11 +439,11 @@ function unprefix_genre_meta_key( $key, $strip_underscores = true ) {
 /**
  * Determine if the submitted meta key is a genre related meta key.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $key Prefixed meta key.
+ * @param string $key Prefixed meta key.
  *
- * @return   boolean
+ * @return boolean
  */
 function is_genre_meta_key( $key ) {
 
@@ -453,12 +453,12 @@ function is_genre_meta_key( $key ) {
 /**
  * Prefix grid meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Meta key.
- * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ * @param string $key Meta key.
+ * @param boolean $strip_hyphens Replace hyphens with underscores?
  *
- * @return   string
+ * @return string
  */
 function prefix_grid_meta_key( $key, $strip_hyphens = true ) {
 
@@ -468,12 +468,12 @@ function prefix_grid_meta_key( $key, $strip_hyphens = true ) {
 /**
  * Remove prefix from grid meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Prefixed meta key.
- * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ * @param string $key Prefixed meta key.
+ * @param boolean $strip_underscores Replace underscores with hyphens?
  *
- * @return   string
+ * @return string
  */
 function unprefix_grid_meta_key( $key, $strip_underscores = true ) {
 
@@ -483,11 +483,11 @@ function unprefix_grid_meta_key( $key, $strip_underscores = true ) {
 /**
  * Determine if the submitted meta key is a grid related meta key.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $key Prefixed meta key.
+ * @param string $key Prefixed meta key.
  *
- * @return   boolean
+ * @return boolean
  */
 function is_grid_meta_key( $key ) {
 
@@ -497,12 +497,12 @@ function is_grid_meta_key( $key ) {
 /**
  * Prefix movie meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Meta key.
- * @param    boolean    $strip_hyphens Replace hyphens with underscores?
+ * @param string $key Meta key.
+ * @param boolean $strip_hyphens Replace hyphens with underscores?
  *
- * @return   string
+ * @return string
  */
 function prefix_movie_meta_key( $key, $strip_hyphens = true ) {
 
@@ -512,12 +512,12 @@ function prefix_movie_meta_key( $key, $strip_hyphens = true ) {
 /**
  * Remove prefix from movie meta keys.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $key Prefixed meta key.
- * @param    boolean    $strip_underscores Replace underscores with hyphens?
+ * @param string $key Prefixed meta key.
+ * @param boolean $strip_underscores Replace underscores with hyphens?
  *
- * @return   string
+ * @return string
  */
 function unprefix_movie_meta_key( $key, $strip_underscores = true ) {
 
@@ -527,11 +527,11 @@ function unprefix_movie_meta_key( $key, $strip_underscores = true ) {
 /**
  * Determine if the submitted meta key is a movie related meta key.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $key Prefixed meta key.
+ * @param string $key Prefixed meta key.
  *
- * @return   boolean
+ * @return boolean
  */
 function is_movie_meta_key( $key ) {
 
@@ -541,9 +541,9 @@ function is_movie_meta_key( $key ) {
 /**
  * Get a translation country instance.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $country Country name or ISO code
+ * @param string $country Country name or ISO code
  *
  * @return   \wpmoly\helpers\Country
  */
@@ -555,9 +555,9 @@ function get_country( $country ) {
 /**
  * Get a translation language instance.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $language Language name or ISO code
+ * @param string $language Language name or ISO code
  *
  * @return   \wpmoly\helpers\Language
  */
@@ -569,11 +569,11 @@ function get_language( $language ) {
 /**
  * Check if a specific page is an archive page.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    int    $post_id Page Post ID.
+ * @param int $post_id Page Post ID.
  *
- * @return   boolean
+ * @return boolean
  */
 function is_archive_page( $post_id ) {
 
@@ -585,11 +585,11 @@ function is_archive_page( $post_id ) {
 /**
  * Find the archive type corresponding to a page ID.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    int    $post_id Page Post ID.
+ * @param int $post_id Page Post ID.
  *
- * @return   string|boolean
+ * @return string|boolean
  */
 function get_archive_page_type( $post_id ) {
 
@@ -608,12 +608,12 @@ function get_archive_page_type( $post_id ) {
  * Otherwise, return the page's permalink with or without the site home url
  * depending on $format.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $type Taxonomy type.
- * @param    string    $format URL format, 'relative' or 'absolute'.
+ * @param string $type Taxonomy type.
+ * @param string $format URL format, 'relative' or 'absolute'.
  *
- * @return   string|boolean
+ * @return string|boolean
  */
 function get_taxonomy_archive_link( $type = '', $format = 'absolute' ) {
 
@@ -637,11 +637,11 @@ function get_taxonomy_archive_link( $type = '', $format = 'absolute' ) {
 /**
  * Retrieve an archive page ID.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $type Archive type.
+ * @param string $type Archive type.
  *
- * @return   int
+ * @return int
  */
 function get_archives_page_id( $type = '' ) {
 
@@ -658,11 +658,11 @@ function get_archives_page_id( $type = '' ) {
 /**
  * Get a post type archive page if any.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $type Archive type.
+ * @param string $type Archive type.
  *
- * @return   WP_Post|null
+ * @return WP_Post|null
  */
 function get_archives_page( $type = '' ) {
 
@@ -674,11 +674,11 @@ function get_archives_page( $type = '' ) {
 /**
  * Check if there is an archive page set.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $type Archive type.
+ * @param string $type Archive type.
  *
- * @return   boolean
+ * @return boolean
  */
 function has_archives_page( $type = '' ) {
 
@@ -690,11 +690,11 @@ function has_archives_page( $type = '' ) {
 /**
  * Retrieve movies archive page link.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $format URL format, 'relative' or 'absolute'.
+ * @param string $format URL format, 'relative' or 'absolute'.
  *
- * @return   string|boolean
+ * @return string|boolean
  */
 function get_movie_archive_link( $format = 'absolute' ) {
 
@@ -709,9 +709,9 @@ function get_movie_archive_link( $format = 'absolute' ) {
 /**
  * Retrieve 'movie' post type archive page ID.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   int
+ * @return int
  */
 function get_movie_archives_page_id() {
 
@@ -721,9 +721,9 @@ function get_movie_archives_page_id() {
 /**
  * Get 'movie' post type archive page if any.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   WP_Post|null
+ * @return WP_Post|null
  */
 function get_movie_archives_page() {
 
@@ -735,9 +735,9 @@ function get_movie_archives_page() {
 /**
  * Check if there is an archive page set for 'movie' post type.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   boolean
+ * @return boolean
  */
 function has_movie_archives_page() {
 
@@ -749,11 +749,11 @@ function has_movie_archives_page() {
 /**
  * Retrieve actors archive page link.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $format URL format, 'relative' or 'absolute'.
+ * @param string $format URL format, 'relative' or 'absolute'.
  *
- * @return   string|boolean
+ * @return string|boolean
  */
 function get_actor_archive_link( $format = 'absolute' ) {
 
@@ -763,9 +763,9 @@ function get_actor_archive_link( $format = 'absolute' ) {
 /**
  * Retrieve 'actor' taxonomy archive page ID.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   int
+ * @return int
  */
 function get_actor_archives_page_id() {
 
@@ -775,9 +775,9 @@ function get_actor_archives_page_id() {
 /**
  * Get 'actor' taxonomy archive page if any.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   WP_Post|null
+ * @return WP_Post|null
  */
 function get_actor_archives_page() {
 
@@ -789,9 +789,9 @@ function get_actor_archives_page() {
 /**
  * Check if there is an archive page set for 'actor' taxonomy.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   boolean
+ * @return boolean
  */
 function has_actor_archives_page() {
 
@@ -803,11 +803,11 @@ function has_actor_archives_page() {
 /**
  * Retrieve collections archive page link.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $format URL format, 'relative' or 'absolute'.
+ * @param string $format URL format, 'relative' or 'absolute'.
  *
- * @return   string|boolean
+ * @return string|boolean
  */
 function get_collection_archive_link( $format = 'absolute' ) {
 
@@ -817,9 +817,9 @@ function get_collection_archive_link( $format = 'absolute' ) {
 /**
  * Retrieve 'collection' taxonomy archive page ID.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   int
+ * @return int
  */
 function get_collection_archives_page_id() {
 
@@ -829,9 +829,9 @@ function get_collection_archives_page_id() {
 /**
  * Get 'collection' taxonomy archive page if any.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   WP_Post|null
+ * @return WP_Post|null
  */
 function get_collection_archives_page() {
 
@@ -843,9 +843,9 @@ function get_collection_archives_page() {
 /**
  * Check if there is an archive page set for 'collection' taxonomy.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   boolean
+ * @return boolean
  */
 function has_collection_archives_page() {
 
@@ -857,11 +857,11 @@ function has_collection_archives_page() {
 /**
  * Retrieve genres archive page link.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $format URL format, 'relative' or 'absolute'.
+ * @param string $format URL format, 'relative' or 'absolute'.
  *
- * @return   string|boolean
+ * @return string|boolean
  */
 function get_genre_archive_link( $format = 'absolute' ) {
 
@@ -871,9 +871,9 @@ function get_genre_archive_link( $format = 'absolute' ) {
 /**
  * Retrieve 'genre' taxonomy archive page ID.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   int
+ * @return int
  */
 function get_genre_archives_page_id() {
 
@@ -883,9 +883,9 @@ function get_genre_archives_page_id() {
 /**
  * Get 'genre' taxonomy archive page if any.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   WP_Post|null
+ * @return WP_Post|null
  */
 function get_genre_archives_page() {
 
@@ -897,9 +897,9 @@ function get_genre_archives_page() {
 /**
  * Check if there is an archive page set for 'genre' taxonomy.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @return   boolean
+ * @return boolean
  */
 function has_genre_archives_page() {
 
@@ -915,12 +915,12 @@ function has_genre_archives_page() {
  * ie without adding used arguments that are not explicitely defined in the
  * default array.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string|array    $args Value to merge with $detaults
- * @param    string|array    $defaults Array that serves as the defaults
+ * @param string|array $args     Value to merge with $detaults
+ * @param string|array $defaults Array that serves as the defaults
  *
- * @return   array           Strictly merged array
+ * @return array           Strictly merged array
  */
 function parse_args_strict( $args, $defaults ) {
 
@@ -943,12 +943,12 @@ function parse_args_strict( $args, $defaults ) {
  * Strictly merge arrays. Any key from $args that is not present in $default
  * will be stripped from the result array.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    array    $args Array to merge with $detaults
- * @param    array    $default Array that serves as the defaults
+ * @param array $args    Array to merge with $detaults
+ * @param array $default Array that serves as the defaults
  *
- * @return   array    Strictly merged array
+ * @return array Strictly merged array
  */
 function _parse_args_strict( $args, $default ) {
 
@@ -967,11 +967,11 @@ function _parse_args_strict( $args, $default ) {
 /**
  * Literal boolean check.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    mixed    $var
+ * @param mixed $var
  *
- * @return   boolean
+ * @return boolean
  */
 function _is_bool( $var ) {
 

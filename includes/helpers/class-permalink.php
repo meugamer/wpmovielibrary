@@ -2,10 +2,10 @@
 /**
  * Define the permalink class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\helpers;
@@ -13,75 +13,103 @@ namespace wpmoly\helpers;
 /**
  * Handle custom permalinks.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Permalink {
 
 	/**
 	 * URL rewrite ID.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $id;
 
 	/**
 	 * URL rewrite value.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $content;
 
 	/**
 	 * Permalink title.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $title;
 
 	/**
 	 * Permalink title attribute.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $attr_title;
 
 	/**
 	 * Permalink URL.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $url;
 
 	/**
 	 * Permalink HTML result.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $permalink;
 
 	/**
 	 * Permalink title type, 'text' or 'html'.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $title_type = 'text';
 
 	/**
 	 * Class constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $params {
+	 * @access public
+	 *
+	 * @param array $params {
 	 *     @type    string    $id
 	 *     @type    string    $content
 	 *     @type    string    $title
 	 *     @type    string    $attr_title
 	 * }
-	 *
-	 * @return   \wpmoly\helpers\Permalink
 	 */
 	public function __construct( $params = array() ) {
 
@@ -103,11 +131,13 @@ class Permalink {
 	 *
 	 * Uses sanitize_key() to automatically clean value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $id
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $id
+	 *
+	 * @return string
 	 */
 	public function set_id( $id ) {
 
@@ -122,11 +152,13 @@ class Permalink {
 	 * Content is not sanitized at this point as it will be escaped latter
 	 * by esc_url().
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $content
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $content
+	 *
+	 * @return string
 	 */
 	public function set_content( $content ) {
 
@@ -140,11 +172,13 @@ class Permalink {
 	 *
 	 * Uses esc_html() and wp_kses() to sanitize the title.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $title
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $title
+	 *
+	 * @return string
 	 */
 	public function set_title( $title, $format = 'text' ) {
 
@@ -168,11 +202,11 @@ class Permalink {
 			/**
 			 * Filter permalinks list of allowed HTML tags for title.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    array     $allowed_html Default allowed HTML tags.
-			 * @param    string    $title Permalink title value.
-			 * @param    object    $permalink \wpmoly\Permalink instance.
+			 * @param array $allowed_html Default allowed HTML tags.
+			 * @param string $title Permalink title value.
+			 * @param object $permalink \wpmoly\Permalink instance.
 			 */
 			$allowed_html = apply_filters( 'wpmoly/filter/permalinks/title/allowed_html', $allowed_html, $title, $this );
 
@@ -189,11 +223,13 @@ class Permalink {
 	 *
 	 * Uses esc_attr() to sanitize the attribute.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $title
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $title
+	 *
+	 * @return string
 	 */
 	public function set_title_attr( $title ) {
 
@@ -205,9 +241,11 @@ class Permalink {
 	/**
 	 * Output Permalink HTML result.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access public
+	 *
+	 * @return string
 	 */
 	public function to_html() {
 
@@ -227,9 +265,11 @@ class Permalink {
 	/**
 	 * Output Permalink URL.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access public
+	 *
+	 * @return string
 	 */
 	public function to_string() {
 
@@ -247,9 +287,11 @@ class Permalink {
 	 *
 	 * TODO use settings to generate base URL
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access private
+	 *
+	 * @return string
 	 */
 	private function build() {
 

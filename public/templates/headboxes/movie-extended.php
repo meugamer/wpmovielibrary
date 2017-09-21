@@ -4,9 +4,9 @@
  *
  * Showing a movie's extended headbox.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $movie
+ * @uses $movie
  */
 
 ?>

@@ -2,10 +2,10 @@
 /**
  * Define the Detail Shortcode class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\shortcodes;
@@ -15,24 +15,33 @@ use wpmoly\templates\Front as Template;
 /**
  * Detail Shortcode class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Detail extends Metadata {
 
 	/**
-	 * Shortcode name, used for declaring the Shortcode
+	 * Shortcode name, used for declaring the Shortcode.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public static $name = 'movie_detail';
 
 	/**
-	 * Shortcode attributes sanitizers
+	 * Shortcode attributes sanitizers.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $validates = array(
 		'id' => array(
@@ -73,9 +82,14 @@ class Detail extends Metadata {
 	);
 
 	/**
-	 * Shortcode aliases
+	 * Shortcode aliases.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected static $aliases = array(
 		'my_movie_rating'    => 'rating',
@@ -91,7 +105,9 @@ class Detail extends Metadata {
 	 *
 	 * Prepare Shortcode parameters.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function make() {
 
@@ -112,9 +128,11 @@ class Detail extends Metadata {
 	/**
 	 * Get the detail value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   mixed
+	 * @access protected
+	 *
+	 * @return mixed
 	 */
 	protected function get_detail_value() {
 
@@ -130,10 +148,10 @@ class Detail extends Metadata {
 			/**
 			 * Filter empty detail value.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $value
-			 * @param    string    $format
+			 * @param string $value
+			 * @param string $format
 			 */
 			$value = apply_filters( "wpmoly/shortcode/format/{$key}/empty/value", $value, $format );
 			if ( empty( $value ) ) {
@@ -149,9 +167,9 @@ class Detail extends Metadata {
 			/**
 			 * Filter raw detail value.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $value
+			 * @param string $value
 			 */
 			return apply_filters( "wpmoly/shortcode/format/{$key}/raw/value", $value );
 		}
@@ -164,10 +182,10 @@ class Detail extends Metadata {
 		/**
 		 * Filter detail value.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $value
-		 * @param    string    $format
+		 * @param string $value
+		 * @param string $format
 		 */
 		return apply_filters( "wpmoly/shortcode/format/{$key}/value", $value, $options );
 	}
@@ -177,9 +195,11 @@ class Detail extends Metadata {
 	 *
 	 * Perform all needed Shortcode stuff.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Shortcode
+	 * @access public
+	 *
+	 * @return Shortcode
 	 */
 	public function run() {
 
@@ -204,7 +224,9 @@ class Detail extends Metadata {
 	 *
 	 * Run things before doing anything.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function init() {}
 }

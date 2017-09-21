@@ -4,12 +4,12 @@
  *
  * Showing a movie's default headbox.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $icon
- * @uses    $type
- * @uses    $message
- * @uses    $note
+ * @uses $icon
+ * @uses $type
+ * @uses $message
+ * @uses $note
  */
 ?>
 	<div class="wpmoly notice <?php echo $type; ?>">

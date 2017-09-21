@@ -2,10 +2,10 @@
 /**
  * Define the Editor class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\admin\editors;
@@ -13,54 +13,54 @@ namespace wpmoly\admin\editors;
 /**
  * Provide a tool to manage posts/terms editor.
  *
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 abstract class Editor {
 
 	/**
 	 * Metaboxes.
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	private $metaboxes = array();
 
 	/**
 	 * Post Meta Managers.
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	private $post_managers = array();
 
 	/**
 	 * Term Meta Managers.
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	private $term_managers = array();
 
 	/**
 	 * Define metaboxes.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	abstract protected function add_metaboxes();
 
 	/**
 	 * Define meta managers.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	abstract protected function add_managers();
 
 	/**
 	 * Add a new metabox.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $metabox_id Metabox ID.
-	 * @param    array     $args Metabox parameters.
+	 * @param string $metabox_id Metabox ID.
+	 * @param array  $args       Metabox parameters.
 	 */
 	public function add_metabox( $metabox_id, $args = array() ) {
 
@@ -85,12 +85,12 @@ abstract class Editor {
 	/**
 	 * Add a new metadata manager.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $manager_id Manager ID.
-	 * @param    array     $args Manager parameters
+	 * @param string $manager_id Manager ID.
+	 * @param array  $args       Manager parameters
 	 *
-	 * @return   mixed
+	 * @return mixed
 	 */
 	public function add_manager( $manager_id, $args = array() ) {
 
@@ -106,12 +106,12 @@ abstract class Editor {
 	/**
 	 * Add a new Term Meta manager.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $manager_id Manager ID.
-	 * @param    array     $args Manager parameters
+	 * @param string $manager_id Manager ID.
+	 * @param array  $args       Manager parameters
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function add_term_meta_manager( $manager_id, $args = array() ) {
 
@@ -129,12 +129,12 @@ abstract class Editor {
 	/**
 	 * Add a new Post Meta manager.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $manager_id Manager ID.
-	 * @param    array     $args Manager parameters
+	 * @param string $manager_id Manager ID.
+	 * @param array  $args       Manager parameters
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function add_post_meta_manager( $manager_id, $args = array() ) {
 
@@ -154,7 +154,7 @@ abstract class Editor {
 	/**
 	 * Load frameworks.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	public function load_meta_frameworks() {
 
@@ -172,7 +172,7 @@ abstract class Editor {
 	/**
 	 * Load ButterBean framework.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	private function load_post_meta_framework() {
 
@@ -187,7 +187,7 @@ abstract class Editor {
 	/**
 	 * Load Haricot framework.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	private function load_term_meta_framework() {
 
@@ -202,19 +202,19 @@ abstract class Editor {
 	/**
 	 * Register Post Meta managers.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    object    $butterbean ButterBean instance.
-	 * @param    string    $post_type Current Post Type
+	 * @param object $butterbean ButterBean instance.
+	 * @param string $post_type  Current Post Type
 	 */
 	public function register_post_meta_managers( $butterbean, $post_type ) {
 
 		/**
 		 * Filter Post Meta managers.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array     $post_managers Post Meta managers.
+		 * @param array $post_managers Post Meta managers.
 		 */
 		$managers = apply_filters( "wpmoly/filter/{$post_type}/managers", $this->post_managers );
 
@@ -236,19 +236,19 @@ abstract class Editor {
 	/**
 	 * Register Term Meta managers.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    object    $haricot Haricot instance.
-	 * @param    string    $post_type Current Post Type.
+	 * @param object $haricot   Haricot instance.
+	 * @param string $post_type Current Post Type.
 	 */
 	public function register_term_meta_managers( $haricot, $taxonomy ) {
 
 		/**
 		 * Filter Term Meta managers.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array     $term_managers Term Meta managers.
+		 * @param array $term_managers Term Meta managers.
 		 */
 		$managers = apply_filters( "wpmoly/filter/{$taxonomy}/managers", $this->term_managers );
 
@@ -268,13 +268,13 @@ abstract class Editor {
 	/**
 	 * Register Meta manager.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    object    $framework Meta framework instance.
-	 * @param    string    $manager_id Manager ID.
-	 * @param    string    $manager Manager parameters.
+	 * @param object $framework  Meta framework instance.
+	 * @param string $manager_id Manager ID.
+	 * @param string $manager    Manager parameters.
 	 *
-	 * @return   object
+	 * @return object
 	 */
 	private function register_manager( $framework, $manager_id, $manager ) {
 
@@ -286,10 +286,10 @@ abstract class Editor {
 	/**
 	 * Register Meta manager sections.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $manager Manager instance.
-	 * @param    string    $sections Manager Sections.
+	 * @param string $manager  Manager instance.
+	 * @param string $sections Manager Sections.
 	 */
 	private function register_sections( $manager, $sections ) {
 
@@ -309,11 +309,11 @@ abstract class Editor {
 	/**
 	 * Register Meta manager settings and controls.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $manager Manager instance.
-	 * @param    string    $section_id Settings section ID.
-	 * @param    string    $settings Section Settings.
+	 * @param string $manager    Manager instance.
+	 * @param string $section_id Settings section ID.
+	 * @param string $settings   Section Settings.
 	 */
 	private function register_settings( $manager, $section_id, $settings ) {
 
@@ -351,7 +351,7 @@ abstract class Editor {
 	/**
 	 * Register metaboxes.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	public function add_meta_boxes() {
 

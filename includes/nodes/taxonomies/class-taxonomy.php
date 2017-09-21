@@ -2,10 +2,10 @@
 /**
  * Define the Taxonomy class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes\taxonomies;
@@ -15,39 +15,53 @@ use wpmoly\nodes\Node;
 /**
  * Define a generic Taxonomy class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ * @author Charlie Merland <charlie@caercam.org>
  */
 abstract class Taxonomy extends Node {
 
 	/**
 	 * Term object.
 	 *
-	 * @var    WP_Term
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var WP_Term
 	 */
 	public $term;
 
 	/**
 	 * Taxonomy name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $taxonomy = '';
 
 	/**
 	 * Taxonomy thumbnail.
 	 *
-	 * @var    nodes\Images
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var nodes\Images
 	 */
 	protected $thumbnail;
 
 	/**
 	 * Class Constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int|Taxonomy|WP_Term    $term Term ID, term object or node instance.
+	 * @access public
+	 *
+	 * @param int|Taxonomy|WP_Term $term Term ID, term object or node instance.
 	 */
 	public function __construct( $term = null ) {
 
@@ -68,7 +82,9 @@ abstract class Taxonomy extends Node {
 	/**
 	 * Initialize the class.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function init() {
 
@@ -78,9 +94,9 @@ abstract class Taxonomy extends Node {
 		/**
 		 * Filter the default taxonomy meta list.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $default_meta
+		 * @param array $default_meta
 		 */
 		$this->default_meta = apply_filters( "wpmoly/filter/default/{$this->taxonomy}/meta", array( 'name', 'thumbnail', 'person_id' ) );
 	}
@@ -91,12 +107,14 @@ abstract class Taxonomy extends Node {
 	 * Add support for Taxonomy::get_{$property}() and Taxonomy::the_{$property}()
 	 * methods.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $method Method name.
-	 * @param    array     $arguments Method arguments.
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $method Method name.
+	 * @param array $arguments Method arguments.
+	 *
+	 * @return mixed
 	 */
 	public function __call( $method, $arguments ) {
 
@@ -112,11 +130,13 @@ abstract class Taxonomy extends Node {
 	/**
 	 * Load metadata.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name
+	 * @access protected
 	 *
-	 * @return   mixed
+	 * @param string $name Property name
+	 *
+	 * @return mixed
 	 */
 	protected function get_property( $name ) {
 
@@ -131,12 +151,14 @@ abstract class Taxonomy extends Node {
 	 *
 	 * Override Taxonomy::get() to add support for additional data like 'name'.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name
-	 * @param    mixed     $default Default value
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name Property name
+	 * @param mixed $default Default value
+	 *
+	 * @return mixed
 	 */
 	public function get( $name, $default = null ) {
 
@@ -156,22 +178,24 @@ abstract class Taxonomy extends Node {
 	 * escapes the property requested and therefore should be used when the
 	 * property is meant for display.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name Property name
+	 *
+	 * @return mixed
 	 */
 	public function get_the( $name ) {
 
 		/**
 		 * Filter properties for display.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string      $name Meta name.
-		 * @param    mixed       $value Meta value.
-		 * @param    Taxonomy    $taxonomy Taxonomy object.
+		 * @param string $name Meta name.
+		 * @param mixed $value Meta value.
+		 * @param Taxonomy $taxonomy Taxonomy object.
 		 */
 		return apply_filters( "wpmoly/filter/the/{$this->taxonomy}/" . sanitize_key( $name ), $this->get( $name ), $this );
 	}
@@ -180,9 +204,11 @@ abstract class Taxonomy extends Node {
 	 * Simple property echoer. Use Taxonomy::get_the() to automatically escape
 	 * the requested property.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name
+	 * @access public
+	 *
+	 * @param string $name Property name
 	 */
 	public function the( $name ) {
 
@@ -192,22 +218,26 @@ abstract class Taxonomy extends Node {
 	/**
 	 * Simple accessor for Taxonomy thumbnail.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $variant Image variant.
+	 * @access public
 	 *
-	 * @return   Image
+	 * @param string $variant Image variant.
+	 *
+	 * @return Image
 	 */
 	abstract public function get_thumbnail( $variant = '', $size = 'thumb' );
 
 	/**
 	 * Retrieve the Taxonomy custom thumbnail, if any.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $size Image size.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $size Image size.
+	 *
+	 * @return string
 	 */
 	abstract public function get_custom_thumbnail( $size = 'thumb' );
 

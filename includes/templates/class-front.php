@@ -2,10 +2,10 @@
 /**
  * Define the Template classes.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\templates;
@@ -18,22 +18,24 @@ use WP_Error;
  * Public Templates are allowed more customization and interaction than Admin
  * Template, including filtering and template replacement.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Front extends Template {
 
 	/**
 	 * Class Constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $path Template file path
-	 * @param    array     $data Template data
+	 * @access public
 	 *
-	 * @return   Template|WP_Error
+	 * @param string $path Template file path
+	 * @param array $data Template data
+	 *
+	 * @return Template|WP_Error
 	 */
 	public function __construct( $path, $data = array(), $params = array() ) {
 
@@ -59,21 +61,23 @@ class Front extends Template {
 	 * the theme/plugin will have access to the variables so they can fully
 	 * customize the output.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $require 'once' to use require_once(), 'always' to use require()
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $require 'once' to use require_once(), 'always' to use require()
+	 *
+	 * @return string
 	 */
 	public function prepare( $require = 'once' ) {
 
 		/**
 		 * Fired before starting to prepare the template.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $path Plugin-relative file path
-		 * @param    array     $data Template data
+		 * @param string $path Plugin-relative file path
+		 * @param array $data Template data
 		 */
 		do_action( 'wpmoly/render/template/pre', $this->path, $this->data );
 
@@ -83,11 +87,11 @@ class Front extends Template {
 			/**
 			 * Filter the template data.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    array     $data Template data
-			 * @param    string    $template WordPress-relative file path
-			 * @param    string    $path Plugin-relative file path
+			 * @param array $data Template data
+			 * @param string $template WordPress-relative file path
+			 * @param string $path Plugin-relative file path
 			 */
 			$this->data = apply_filters( 'wpmoly/filter/template/data', $this->data, $template, $this->path );
 
@@ -105,12 +109,12 @@ class Front extends Template {
 			/**
 			 * Filter the template content.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $content Plugin-relative file path
-			 * @param    string    $template WordPress-relative file path
-			 * @param    string    $path Plugin-relative file path
-			 * @param    array     $data Template data
+			 * @param string $content Plugin-relative file path
+			 * @param string $template WordPress-relative file path
+			 * @param string $path Plugin-relative file path
+			 * @param array $data Template data
 			 */
 			$this->template = apply_filters( 'wpmoly/filter/template/content', $content, $template, $this->path, $this->data );
 
@@ -119,12 +123,12 @@ class Front extends Template {
 		/**
 		 * Fired after the template preparation.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $template Template content
-		 * @param    string    $template WordPress-relative file path
-		 * @param    string    $path Plugin-relative file path
-		 * @param    array     $data Template data
+		 * @param string $template Template content
+		 * @param string $template WordPress-relative file path
+		 * @param string $path Plugin-relative file path
+		 * @param array $data Template data
 		 */
 		do_action( 'wpmoly/render/template/after', $this->template, $template, $this->path, $this->data );
 
@@ -138,9 +142,11 @@ class Front extends Template {
 	 * 'wpmovielibrary' folder at its root with an organization matching the
 	 * plugin's template files organization.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access private
+	 *
+	 * @return string
 	 */
 	private function locate_template() {
 
@@ -152,11 +158,11 @@ class Front extends Template {
 		/**
 		 * Filter the template filepath.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $template WordPress-relative file path
-		 * @param    string    $path Plugin-relative file path
-		 * @param    array     $data Template data
+		 * @param string $template WordPress-relative file path
+		 * @param string $path Plugin-relative file path
+		 * @param array $data Template data
 		 */
 		$template = apply_filters( 'wpmoly/filter/template/path', $template, $this->path, $this->data );
 

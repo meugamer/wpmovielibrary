@@ -2,10 +2,10 @@
 /**
  * Define the Library class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\admin;
@@ -15,25 +15,33 @@ use wpmoly\templates\Admin as Template;
 /**
  * Provide a custom dashboard for the plugin.
  *
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Library {
 
 	/**
 	 * Single instance.
 	 *
-	 * @var    Library
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var Library
 	 */
 	private static $instance = null;
 
 	/**
-	 * Singleton.
+	 * Library.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Singleton
+	 * @final
+	 * @static
+	 * @access public
+	 *
+	 * @return Library
 	 */
 	final public static function get_instance() {
 
@@ -47,7 +55,9 @@ class Library {
 	/**
 	 * Build the Backstage Library view.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function build() {
 

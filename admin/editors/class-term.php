@@ -2,10 +2,10 @@
 /**
  * Define the Term Editor class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\admin\editors;
@@ -13,30 +13,40 @@ namespace wpmoly\admin\editors;
 /**
  * Provide a tool to manage custom terms.
  *
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Term extends Editor {
 
 	/**
 	 * Current Term ID.
 	 *
-	 * @var    int
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var int
 	 */
 	private $term_id;
 
 	/**
 	 * Current Term Taxonomy.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var string
 	 */
 	private $taxonomy;
 
 	/**
-	 * Class constructor.
+	 * Constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -54,7 +64,9 @@ class Term extends Editor {
 	/**
 	 * Define meta managers.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function add_managers() {
 
@@ -435,7 +447,9 @@ class Term extends Editor {
 	/**
 	 * Load frameworks if needed.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function load_meta_frameworks() {
 
@@ -456,12 +470,14 @@ class Term extends Editor {
 	 * ie. 'edit-tags.php', but we want users to see their updated term meta
 	 * rather than go back to the list of terms.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $location The destination URL.
-	 * @param    object    $taxonomy The taxonomy object.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $location The destination URL.
+	 * @param object $taxonomy The taxonomy object.
+	 *
+	 * @return string
 	 */
 	public function term_redirect( $location, $taxonomy ) {
 
@@ -481,10 +497,12 @@ class Term extends Editor {
 	 * taxonomy page we have to update the referer used by the go-back link
 	 * to avoid a loop.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    object    $term     Current taxonomy term object.
-	 * @param    string    $taxonomy Current $taxonomy slug.
+	 * @access public
+	 *
+	 * @param object $term     Current taxonomy term object.
+	 * @param string $taxonomy Current $taxonomy slug.
 	 */
 	public function term_pre_edit_form( $term, $taxonomy ) {
 
@@ -502,7 +520,11 @@ class Term extends Editor {
 	/**
 	 * Define metaboxes.
 	 *
-	 * @since    3.0
+	 * Not available in edit-term screen.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function add_metaboxes() {}
 

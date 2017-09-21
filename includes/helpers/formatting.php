@@ -2,21 +2,21 @@
 /**
  * The file that defines the plugin formatting functions.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 /**
  * Format movie adult status.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $adult field value.
- * @param    array     $options Formatting options.
+ * @param string $adult   Field value.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_adult( $adult, $options = array() ) {
 
@@ -25,7 +25,7 @@ function get_formatted_movie_adult( $adult, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/adult/value', get_formatted_empty_value( $adult ) );
 	}
@@ -47,10 +47,10 @@ function get_formatted_movie_adult( $adult, $options = array() ) {
 		/**
 		 * Filter final adult restriction.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $adult Filtered adult restriction.
-		 * @param    array      $options Formatting options.
+		 * @param string $adult   Filtered adult restriction.
+		 * @param array  $options Formatting options.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/adult/url', $adult, compact( 'is_adult' ) );
 	}
@@ -58,10 +58,10 @@ function get_formatted_movie_adult( $adult, $options = array() ) {
 	/**
 	 * Filter final adult restriction.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $adult Filtered adult restriction.
-	 * @param    boolean    $is_adult Adult restriction?
+	 * @param string  $adult    Filtered adult restriction.
+	 * @param boolean $is_adult Adult restriction?
 	 */
 	return apply_filters( 'wpmoly/filter/meta/adult', $adult, $is_adult );
 }
@@ -69,12 +69,12 @@ function get_formatted_movie_adult( $adult, $options = array() ) {
 /**
  * Format movie author.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $author Movie author.
- * @param    array     $options Formatting options.
+ * @param string $author  Movie author.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_author( $author, $options = array() ) {
 
@@ -83,7 +83,7 @@ function get_formatted_movie_author( $author, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/author/value', get_formatted_empty_value( $author ) );
 	}
@@ -99,10 +99,10 @@ function get_formatted_movie_author( $author, $options = array() ) {
 		/**
 		 * Filter single author.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $author Single author.
-		 * @param    array      $options Formatting options.
+		 * @param string $author  Single author.
+		 * @param array  $options Formatting options.
 		 */
 		$value = apply_filters( 'wpmoly/filter/meta/author/single', trim( $value ), $options );
 
@@ -111,10 +111,10 @@ function get_formatted_movie_author( $author, $options = array() ) {
 			/**
 			 * Filter single author URL.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string     $author Filtered single author.
-			 * @param    array      $options Formatting options.
+			 * @param string $author  Filtered single author.
+			 * @param array  $options Formatting options.
 			 */
 			$value = apply_filters( 'wpmoly/filter/meta/author/url', $value, $options );
 		}
@@ -127,10 +127,10 @@ function get_formatted_movie_author( $author, $options = array() ) {
 	/**
 	 * Filter final author list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $authors Filtered author list.
-	 * @param    array      $options Formatting options.
+	 * @param string $authors Filtered author list.
+	 * @param array  $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/author', $authors, $options );
 }
@@ -138,12 +138,12 @@ function get_formatted_movie_author( $author, $options = array() ) {
 /**
  * Format movies budget.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $budget Movie budget.
- * @param    array     $options Formatting options.
+ * @param string $budget  Movie budget.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_budget( $budget, $options = array() ) {
 
@@ -152,7 +152,7 @@ function get_formatted_movie_budget( $budget, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/budget/value', get_formatted_empty_value( $budget ) );
 	}
@@ -169,10 +169,10 @@ function get_formatted_movie_budget( $budget, $options = array() ) {
 		/**
 		 * Filter final budget restriction.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $adult Filtered budget restriction.
-		 * @param    array      $options Formatting options.
+		 * @param string $adult   Filtered budget restriction.
+		 * @param array  $options Formatting options.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/budget/url', $budget, array(
 			'content' => get_formatted_money( $budget, $options ),
@@ -184,10 +184,10 @@ function get_formatted_movie_budget( $budget, $options = array() ) {
 	/**
 	 * Filter final budget value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $budget Filtered budget value.
-	 * @param    array      $options Formatting options.
+	 * @param string $budget  Filtered budget value.
+	 * @param array  $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/budget', $budget, $options );
 }
@@ -195,12 +195,12 @@ function get_formatted_movie_budget( $budget, $options = array() ) {
 /**
  * Format movies certification.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $certification Movie certification.
- * @param    array     $options Formatting options.
+ * @param string $certification Movie certification.
+ * @param array  $options       Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_certification( $certification, $options = array() ) {
 
@@ -209,7 +209,7 @@ function get_formatted_movie_certification( $certification, $options = array() )
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/certification/value', get_formatted_empty_value( $certification ) );
 	}
@@ -224,10 +224,10 @@ function get_formatted_movie_certification( $certification, $options = array() )
 		/**
 		 * Filter certification URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $certification Filtered certification.
-		 * @param    array      $options Formatting options.
+		 * @param string $certification Filtered certification.
+		 * @param array  $options       Formatting options.
 		 */
 		$certification = apply_filters( 'wpmoly/filter/meta/certification/url', $certification, $options );
 	}
@@ -235,10 +235,10 @@ function get_formatted_movie_certification( $certification, $options = array() )
 	/**
 	 * Filter final certification value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $certification Filtered certification value.
-	 * @param    array      $options Formatting options.
+	 * @param string $certification Filtered certification value.
+	 * @param array  $options       Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/certification', $certification, $options );
 }
@@ -246,12 +246,12 @@ function get_formatted_movie_certification( $certification, $options = array() )
 /**
  * Format movie composer.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $composer Movie composer.
- * @param    array     $options Formatting options.
+ * @param string $composer Movie composer.
+ * @param array  $options  Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_composer( $composer, $options = array() ) {
 
@@ -260,7 +260,7 @@ function get_formatted_movie_composer( $composer, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/composer/value', get_formatted_empty_value( $composer ) );
 	}
@@ -276,10 +276,10 @@ function get_formatted_movie_composer( $composer, $options = array() ) {
 		/**
 		 * Filter single composer.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $composer Single composer.
-		 * @param    array      $options Formatting options.
+		 * @param string $composer Single composer.
+		 * @param array  $options  Formatting options.
 		 */
 		$value = apply_filters( 'wpmoly/filter/meta/composer/single', trim( $value ), $options );
 
@@ -288,10 +288,10 @@ function get_formatted_movie_composer( $composer, $options = array() ) {
 			/**
 			 * Filter single composer URL.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string     $composer Filtered single composer .
-			 * @param    array      $options Formatting options.
+			 * @param string $composer Filtered single composer .
+			 * @param array  $options  Formatting options.
 			 */
 			$value = apply_filters( 'wpmoly/filter/meta/composer/url', $value, $options );
 		}
@@ -304,10 +304,10 @@ function get_formatted_movie_composer( $composer, $options = array() ) {
 	/**
 	 * Filter final composer list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $composers Filtered composer list.
-	 * @param    array      $options Formatting options.
+	 * @param string $composers Filtered composer list.
+	 * @param array  $options   Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/composer', $composers, $options );
 }
@@ -319,12 +319,12 @@ function get_formatted_movie_composer( $composer, $options = array() ) {
  * terms. If term actor exists, provide a link, raw text value
  * if no matching term could be found.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $cast Actor list.
- * @param    array     $options Formatting options.
+ * @param string $cast    Actor list.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_cast( $cast, $options = array() ) {
 
@@ -333,7 +333,7 @@ function get_formatted_movie_cast( $cast, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/cast/value', get_formatted_empty_value( $cast ) );
 	}
@@ -351,12 +351,12 @@ function get_formatted_movie_cast( $cast, $options = array() ) {
 /**
  * Format movie production countries.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $countries Movie countries list.
- * @param    array     $options Formatting options.
+ * @param string $countries Movie countries list.
+ * @param array  $options   Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_countries( $countries, $options = array() ) {
 
@@ -365,7 +365,7 @@ function get_formatted_movie_countries( $countries, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/countries/value', get_formatted_empty_value( $countries ) );
 	}
@@ -389,10 +389,10 @@ function get_formatted_movie_countries( $countries, $options = array() ) {
 			/**
 			 * Filter single country url.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $country Country object.
-			 * @param    array     $options Formatting options.
+			 * @param string $country Country object.
+			 * @param array  $options Formatting options.
 			 */
 			$formatted_country = apply_filters( 'wpmoly/filter/meta/country/url', $country, $options );
 		}
@@ -411,11 +411,11 @@ function get_formatted_movie_countries( $countries, $options = array() ) {
 	/**
 	 * Filter final countries lists.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $countries Filtered countries list.
-	 * @param    array     $countries_data Countries data array.
-	 * @param    array     $formats Countries format.
+	 * @param string $countries      Filtered countries list.
+	 * @param array  $countries_data Countries data array.
+	 * @param array  $formats        Countries format.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/production_countries', implode( ', ', $formatted_countries ), $formatted_countries, $countries );
 }
@@ -427,12 +427,12 @@ function get_formatted_movie_countries( $countries, $options = array() ) {
  * terms. If term director exists, provide a link, raw text value
  * if no matching term could be found.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $director Director list.
- * @param    array     $options Formatting options.
+ * @param string $director Director list.
+ * @param array  $options  Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_director( $director, $options = array() ) {
 
@@ -441,7 +441,7 @@ function get_formatted_movie_director( $director, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/director/value', get_formatted_empty_value( $director ) );
 	}
@@ -459,12 +459,12 @@ function get_formatted_movie_director( $director, $options = array() ) {
 /**
  * Format movie formats.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $format Movie format.
- * @param    array     $options Formatting options.
+ * @param string $format  Movie format.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_format( $format, $options = array() ) {
 
@@ -473,7 +473,7 @@ function get_formatted_movie_format( $format, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/format/value', get_formatted_empty_value( $format ) );
 	}
@@ -498,12 +498,12 @@ function get_formatted_movie_format( $format, $options = array() ) {
  * terms. If term genre exists, provide a link, raw text value
  * if no matching term could be found.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $genres field value.
- * @param    array     $options Formatting options.
+ * @param string $genres  Field value.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_genres( $genres, $options = array() ) {
 
@@ -512,7 +512,7 @@ function get_formatted_movie_genres( $genres, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/genres/value', get_formatted_empty_value( $genres ) );
 	}
@@ -530,12 +530,12 @@ function get_formatted_movie_genres( $genres, $options = array() ) {
 /**
  * Format movie homepage link.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $homepage Homepage value.
- * @param    array     $options Formatting options.
+ * @param string $homepage Homepage value.
+ * @param array  $options  Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_homepage( $homepage, $options = array() ) {
 
@@ -544,7 +544,7 @@ function get_formatted_movie_homepage( $homepage, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/homepage/value', get_formatted_empty_value( $homepage ) );
 	}
@@ -559,10 +559,10 @@ function get_formatted_movie_homepage( $homepage, $options = array() ) {
 		/**
 		 * Filter homepage url.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $homepage Homepage value.
-		 * @param    boolean    $is_adult Adult restriction?
+		 * @param string  $homepage Homepage value.
+		 * @param boolean $is_adult Adult restriction?
 		 */
 		return apply_filters( 'wpmoly/filter/meta/homepage/url', $homepage );
 	}
@@ -573,12 +573,12 @@ function get_formatted_movie_homepage( $homepage, $options = array() ) {
 /**
  * Format movie IMDb ID.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $writer Movie IMDb ID.
- * @param    array     $options Formatting options.
+ * @param string $writer  Movie IMDb ID.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_imdb_id( $imdb_id, $options = array() ) {
 
@@ -587,7 +587,7 @@ function get_formatted_movie_imdb_id( $imdb_id, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/imdb_id/value', get_formatted_empty_value( $imdb_id ) );
 	}
@@ -602,10 +602,10 @@ function get_formatted_movie_imdb_id( $imdb_id, $options = array() ) {
 		/**
 		 * Filter IMDb ID URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $writer Filtered IMDb ID.
-		 * @param    array      $options Formatting options.
+		 * @param string $writer  Filtered IMDb ID.
+		 * @param array  $options Formatting options.
 		 */
 		$imdb_id = apply_filters( 'wpmoly/filter/meta/imdb_id/url', $imdb_id, $options );
 	}
@@ -613,10 +613,10 @@ function get_formatted_movie_imdb_id( $imdb_id, $options = array() ) {
 	/**
 	 * Filter final IMDb ID.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $imdb_id Filtered IMDb ID.
-	 * @param    array      $options Formatting options.
+	 * @param string $imdb_id Filtered IMDb ID.
+	 * @param array  $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/imdb_id', $imdb_id, $options );
 }
@@ -626,12 +626,12 @@ function get_formatted_movie_imdb_id( $imdb_id, $options = array() ) {
  *
  * These are personal languages, ie. detail.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $languages Movie languages.
- * @param    array     $options Formatting options.
+ * @param string $languages Movie languages.
+ * @param array  $options   Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_language( $languages, $options = array() ) {
 
@@ -644,12 +644,12 @@ function get_formatted_movie_language( $languages, $options = array() ) {
 /**
  * Format movies local release dates.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $local_release_date Movie local release date.
- * @param    array     $options Formatting options.
+ * @param string $local_release_date Movie local release date.
+ * @param array  $options            Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_local_release_date( $local_release_date, $options = array() ) {
 
@@ -662,12 +662,12 @@ function get_formatted_movie_local_release_date( $local_release_date, $options =
 /**
  * Format movie medias.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $media Movie media.
- * @param    array     $options Formatting options.
+ * @param string $media   Movie media.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_media( $media, $options = array() ) {
 
@@ -676,7 +676,7 @@ function get_formatted_movie_media( $media, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/media/value', get_formatted_empty_value( $media ) );
 	}
@@ -697,12 +697,12 @@ function get_formatted_movie_media( $media, $options = array() ) {
 /**
  * Format movie director of photography.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $photography Movie director of photography.
- * @param    array     $options Formatting options.
+ * @param string $photography Movie director of photography.
+ * @param array  $options     Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_photography( $photography, $options = array() ) {
 
@@ -711,7 +711,7 @@ function get_formatted_movie_photography( $photography, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/photography/value', get_formatted_empty_value( $photography ) );
 	}
@@ -727,10 +727,10 @@ function get_formatted_movie_photography( $photography, $options = array() ) {
 		/**
 		 * Filter single director of photography.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $photography Single director of photography.
-		 * @param    array      $options Formatting options.
+		 * @param string $photography Single director of photography.
+		 * @param array  $options     Formatting options.
 		 */
 		$value = apply_filters( 'wpmoly/filter/meta/photography/single', trim( $value ), $options );
 
@@ -739,10 +739,10 @@ function get_formatted_movie_photography( $photography, $options = array() ) {
 			/**
 			 * Filter single director of photography URL.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string     $photography Filtered single director of photography.
-			 * @param    array      $options Formatting options.
+			 * @param string $photography Filtered single director of photography.
+			 * @param array  $options     Formatting options.
 			 */
 			$value = apply_filters( 'wpmoly/filter/meta/photography/url', $value, $options );
 		}
@@ -755,10 +755,10 @@ function get_formatted_movie_photography( $photography, $options = array() ) {
 	/**
 	 * Filter final director of photography list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $photographers Filtered director of photography list.
-	 * @param    array      $options Formatting options.
+	 * @param string $photographers Filtered director of photography list.
+	 * @param array  $options       Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/photography', $photographers, $options );
 }
@@ -766,12 +766,12 @@ function get_formatted_movie_photography( $photography, $options = array() ) {
 /**
  * Format movie production companies.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $companies Movie production companies.
- * @param    array     $options Formatting options.
+ * @param string $companies Movie production companies.
+ * @param array  $options   Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_production( $companies, $options = array() ) {
 
@@ -780,7 +780,7 @@ function get_formatted_movie_production( $companies, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/production/value', get_formatted_empty_value( $companies ) );
 	}
@@ -796,10 +796,10 @@ function get_formatted_movie_production( $companies, $options = array() ) {
 		/**
 		 * Filter single production.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $companies Single production company.
-		 * @param    array      $options Formatting options.
+		 * @param string $companies Single production company.
+		 * @param array  $options   Formatting options.
 		 */
 		$value = apply_filters( 'wpmoly/filter/meta/production/single', trim( $value ), $options );
 
@@ -808,10 +808,10 @@ function get_formatted_movie_production( $companies, $options = array() ) {
 			/**
 			 * Filter single production URL.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string     $companies Filtered single production company.
-			 * @param    array      $options Formatting options.
+			 * @param string $companies Filtered single production company.
+			 * @param array  $options   Formatting options.
 			 */
 			$value = apply_filters( 'wpmoly/filter/meta/production/url', $value, $options );
 		}
@@ -824,10 +824,10 @@ function get_formatted_movie_production( $companies, $options = array() ) {
 	/**
 	 * Filter final production companies list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $companies Filtered production companies list.
-	 * @param    array      $options Formatting options.
+	 * @param string $companies Filtered production companies list.
+	 * @param array  $options   Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/production', $companies, $options );
 }
@@ -835,12 +835,12 @@ function get_formatted_movie_production( $companies, $options = array() ) {
 /**
  * Format movie producers.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $producer Movie producers.
- * @param    array     $options Formatting options.
+ * @param string $producer Movie producers.
+ * @param array  $options  Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_producer( $producer, $options = array() ) {
 
@@ -849,7 +849,7 @@ function get_formatted_movie_producer( $producer, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/producer/value', get_formatted_empty_value( $producer ) );
 	}
@@ -865,10 +865,10 @@ function get_formatted_movie_producer( $producer, $options = array() ) {
 		/**
 		 * Filter single producer.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $producer Single producer.
-		 * @param    array      $options Formatting options.
+		 * @param string $producer Single producer.
+		 * @param array  $options  Formatting options.
 		 */
 		$value = apply_filters( 'wpmoly/filter/meta/producer/single', trim( $value ), $options );
 
@@ -877,10 +877,10 @@ function get_formatted_movie_producer( $producer, $options = array() ) {
 			/**
 			 * Filter single producer URL.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string     $producer Filtered single producer.
-			 * @param    array      $options Formatting options.
+			 * @param string $producer Filtered single producer.
+			 * @param array  $options  Formatting options.
 			 */
 			$value = apply_filters( 'wpmoly/filter/meta/producer/url', $value, $options );
 		}
@@ -893,10 +893,10 @@ function get_formatted_movie_producer( $producer, $options = array() ) {
 	/**
 	 * Filter final producer list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $producer Filtered producer list.
-	 * @param    array      $options Formatting options.
+	 * @param string $producer Filtered producer list.
+	 * @param array  $options  Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/producer', $producers, $options );
 }
@@ -904,12 +904,12 @@ function get_formatted_movie_producer( $producer, $options = array() ) {
 /**
  * Format movie ratings.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $rating Movie rating.
- * @param    array     $options Formatting options.
+ * @param string $rating  Movie rating.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_rating( $rating, $options = array() ) {
 
@@ -918,7 +918,7 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/rating/value', get_formatted_empty_value( $rating ) );
 	}
@@ -973,27 +973,27 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 		/**
 		 * Filter filled stars icon HTML block.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $html Filled star icon default HTML block
+		 * @param string $html Filled star icon default HTML block
 		 */
 		$stars['filled'] = apply_filters( 'wpmoly/filter/html/filled/star', '<span class="wpmolicon icon-star-filled"></span>' );
 
 		/**
 		 * Filter half-filled stars icon HTML block.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $html Half-filled star icon default HTML block
+		 * @param string $html Half-filled star icon default HTML block
 		 */
 		$stars['half'] = apply_filters( 'wpmoly/filter/html/half/star', '<span class="wpmolicon icon-star-half"></span>' );
 
 		/**
 		 * Filter empty stars icon HTML block.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $html Empty star icon default HTML block
+		 * @param string $html Empty star icon default HTML block
 		 */
 		$stars['empty'] = apply_filters( 'wpmoly/filter/html/empty/star', '<span class="wpmolicon icon-star-empty"></span>' );
 
@@ -1027,12 +1027,12 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 		/**
 		 * Filter generated HTML markup.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $html Stars HTML markup
-		 * @param    float     $value Rating value
-		 * @param    string    $title Rating title
-		 * @param    string    $class CSS classes
+		 * @param string $html  Stars HTML markup
+		 * @param float  $value Rating value
+		 * @param string $title Rating title
+		 * @param string $class CSS classes
 		 */
 		$html = apply_filters( 'wpmoly/filter/html/rating/stars', $html, $value, $title, $class );
 	} else {
@@ -1044,10 +1044,10 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 		/**
 		 * Filter meta permalink.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $value Rating value.
-		 * @param    array     $options Permalink options.
+		 * @param string $value   Rating value.
+		 * @param array  $options Permalink options.
 		 */
 		$html = apply_filters( 'wpmoly/filter/detail/rating/url', $value, array(
 			'content' => $html,
@@ -1063,14 +1063,14 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 	/**
 	 * Filter final rating stars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $filtered_rating Filtered rating HTML output.
-	 * @param    string    $html HTML part.
-	 * @param    string    $text Text part.
-	 * @param    string    $value Rating value.
-	 * @param    string    $label Rating label.
-	 * @param    array     $options Formatting options.
+	 * @param string $filtered_rating Filtered rating HTML output.
+	 * @param string $html            HTML part.
+	 * @param string $text            Text part.
+	 * @param string $value           Rating value.
+	 * @param string $label           Rating label.
+	 * @param array  $options         Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/detail/rating', $filtered_rating, $html, $text, $value, $label, $options );
 }
@@ -1078,12 +1078,12 @@ function get_formatted_movie_rating( $rating, $options = array() ) {
 /**
  * Format movies release dates.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $release_date Movie release date.
- * @param    array     $options Formatting options.
+ * @param string $release_date Movie release date.
+ * @param array  $options      Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_release_date( $release_date, $options = array() ) {
 
@@ -1096,12 +1096,12 @@ function get_formatted_movie_release_date( $release_date, $options = array() ) {
 /**
  * Format movies revenue.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $revenue Movie revenue.
- * @param    array     $options Formatting options.
+ * @param string $revenue Movie revenue.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_revenue( $revenue, $options = array() ) {
 
@@ -1110,7 +1110,7 @@ function get_formatted_movie_revenue( $revenue, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/revenue/value', get_formatted_empty_value( $revenue ) );
 	}
@@ -1127,10 +1127,10 @@ function get_formatted_movie_revenue( $revenue, $options = array() ) {
 		/**
 		 * Filter final revenue restriction.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $adult Filtered revenue restriction.
-		 * @param    array      $options Formatting options.
+		 * @param string $adult   Filtered revenue restriction.
+		 * @param array  $options Formatting options.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/revenue/url', $revenue, array(
 			'content' => get_formatted_money( $revenue, $options ),
@@ -1142,10 +1142,10 @@ function get_formatted_movie_revenue( $revenue, $options = array() ) {
 	/**
 	 * Filter final revenue value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $revenue Filtered revenue value.
-	 * @param    array      $options Formatting options.
+	 * @param string $revenue Filtered revenue value.
+	 * @param array  $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/revenue', $revenue, $options );
 }
@@ -1156,12 +1156,12 @@ function get_formatted_movie_revenue( $revenue, $options = array() ) {
  * If no format is provided, use the format defined in settings. If no such
  * settings can be found, fallback to a standard 'X h Y min' format.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $runtime Movie runtime.
- * @param    array     $options Formatting options.
+ * @param string $runtime Movie runtime.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_runtime( $runtime, $options = array() ) {
 
@@ -1170,7 +1170,7 @@ function get_formatted_movie_runtime( $runtime, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/runtime/value', get_formatted_empty_value( $runtime ) );
 	}
@@ -1198,10 +1198,10 @@ function get_formatted_movie_runtime( $runtime, $options = array() ) {
 	/**
 	 * Filter final runtime value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $runtime Filtered runtime value.
-	 * @param    array      $options Formatting options.
+	 * @param string $runtime Filtered runtime value.
+	 * @param array  $options Formatting options.
 	 */
 	return $runtime;
 }
@@ -1209,12 +1209,12 @@ function get_formatted_movie_runtime( $runtime, $options = array() ) {
 /**
  * Format movie spoken languages.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $runtime Movie runtime.
- * @param    array     $options Formatting options.
+ * @param string $runtime Movie runtime.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_spoken_languages( $languages, $options = array() ) {
 
@@ -1226,12 +1226,12 @@ function get_formatted_movie_spoken_languages( $languages, $options = array() ) 
 /**
  * Format movie statuses.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $status Movie status.
- * @param    array     $options Formatting options.
+ * @param string $status Movie status.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_status( $status, $options = array() ) {
 
@@ -1240,7 +1240,7 @@ function get_formatted_movie_status( $status, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/status/value', get_formatted_empty_value( $status ) );
 	}
@@ -1261,12 +1261,12 @@ function get_formatted_movie_status( $status, $options = array() ) {
 /**
  * Format movies subtitles.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $subtitles Movie subtitles.
- * @param    array     $options Formatting options.
+ * @param string $subtitles Movie subtitles.
+ * @param array  $options   Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_subtitles( $subtitles, $options = array() ) {
 
@@ -1279,12 +1279,12 @@ function get_formatted_movie_subtitles( $subtitles, $options = array() ) {
 /**
  * Format movie TMDb ID.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $writer Movie TMDb ID.
- * @param    array     $options Formatting options.
+ * @param string $writer  Movie TMDb ID.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_tmdb_id( $tmdb_id, $options = array() ) {
 
@@ -1293,7 +1293,7 @@ function get_formatted_movie_tmdb_id( $tmdb_id, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/tmdb_id/value', get_formatted_empty_value( $tmdb_id ) );
 	}
@@ -1308,10 +1308,10 @@ function get_formatted_movie_tmdb_id( $tmdb_id, $options = array() ) {
 		/**
 		 * Filter TMDb ID URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $writer Filtered TMDb ID.
-		 * @param    array      $options Formatting options.
+		 * @param string $writer  Filtered TMDb ID.
+		 * @param array  $options Formatting options.
 		 */
 		$tmdb_id = apply_filters( 'wpmoly/filter/meta/tmdb_id/url', $tmdb_id, $options );
 	}
@@ -1319,10 +1319,10 @@ function get_formatted_movie_tmdb_id( $tmdb_id, $options = array() ) {
 	/**
 	 * Filter final TMDb ID.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $tmdb_id Filtered TMDb ID.
-	 * @param    array      $options Formatting options.
+	 * @param string $tmdb_id Filtered TMDb ID.
+	 * @param array  $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/tmdb_id', $tmdb_id, $options );
 }
@@ -1330,12 +1330,12 @@ function get_formatted_movie_tmdb_id( $tmdb_id, $options = array() ) {
 /**
  * Format movie writers.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $writer Movie writers.
- * @param    array     $options Formatting options.
+ * @param string $writer  Movie writers.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_writer( $writer, $options = array() ) {
 
@@ -1344,7 +1344,7 @@ function get_formatted_movie_writer( $writer, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/writer/value', get_formatted_empty_value( $writer ) );
 	}
@@ -1360,10 +1360,10 @@ function get_formatted_movie_writer( $writer, $options = array() ) {
 		/**
 		 * Filter single writer.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $writer Single writer.
-		 * @param    array      $options Formatting options.
+		 * @param string $writer  Single writer.
+		 * @param array  $options Formatting options.
 		 */
 		$value = apply_filters( 'wpmoly/filter/meta/writer/single', trim( $value ), $options );
 
@@ -1372,10 +1372,10 @@ function get_formatted_movie_writer( $writer, $options = array() ) {
 			/**
 			 * Filter single writer URL.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string     $writer Filtered single writer .
-			 * @param    array      $options Formatting options.
+			 * @param string $writer  Filtered single writer .
+			 * @param array  $options Formatting options.
 			 */
 			$value = apply_filters( 'wpmoly/filter/meta/writer/url', $value, $options );
 		}
@@ -1388,10 +1388,10 @@ function get_formatted_movie_writer( $writer, $options = array() ) {
 	/**
 	 * Filter final writer list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $writer Filtered writer list.
-	 * @param    array      $options Formatting options.
+	 * @param string $writer  Filtered writer list.
+	 * @param array  $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/writer', $writers, $options );
 }
@@ -1399,12 +1399,12 @@ function get_formatted_movie_writer( $writer, $options = array() ) {
 /**
  * Format movie years.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $year Movie writers.
- * @param    array     $options Formatting options.
+ * @param string $year    Movie release year.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_movie_year( $year, $options = array() ) {
 
@@ -1417,7 +1417,7 @@ function get_formatted_movie_year( $year, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( 'wpmoly/filter/meta/empty/year/value', get_formatted_empty_value( $year ) );
 	}
@@ -1432,10 +1432,10 @@ function get_formatted_movie_year( $year, $options = array() ) {
 		/**
 		 * Filter year URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $year Filtered year.
-		 * @param    array      $options Formatting options.
+		 * @param string $year    Filtered year.
+		 * @param array  $options Formatting options.
 		 */
 		$year = apply_filters( 'wpmoly/filter/meta/year/url', $year, $options );
 	}
@@ -1443,10 +1443,10 @@ function get_formatted_movie_year( $year, $options = array() ) {
 	/**
 	 * Filter final year.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $year Filtered year.
-	 * @param    array      $options Formatting options.
+	 * @param string $year    Filtered year.
+	 * @param array  $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/meta/year', $year, $options );
 }
@@ -1458,12 +1458,12 @@ function get_formatted_movie_year( $year, $options = array() ) {
 /**
  * Format a money value.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $money Money value.
- * @param    array     $options Formatting options.
+ * @param string $money   Money value.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_money( $money, $options = array() ) {
 
@@ -1494,12 +1494,12 @@ function get_formatted_money( $money, $options = array() ) {
  * If no format is provided, use the format defined in settings. If no such
  * settings can be found, fallback to a standard 'j F Y' format.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $date Date value.
- * @param    array     $options Formatting options.
+ * @param string $date    Date value.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_date( $date, $options = array() ) {
 
@@ -1515,7 +1515,7 @@ function get_formatted_date( $date, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( "wpmoly/filter/meta/empty/{$options['variant']}release_date/value", get_formatted_empty_value( $date ) );
 	}
@@ -1539,10 +1539,10 @@ function get_formatted_date( $date, $options = array() ) {
 		/**
 		 * Filter date URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string     $date Date.
-		 * @param    array      $options Formatting options.
+		 * @param string $date    Date.
+		 * @param array  $options Formatting options.
 		 */
 		$formatted_date = apply_filters( "wpmoly/filter/meta/{$options['variant']}release_date/url", $date, $options );
 	}
@@ -1550,10 +1550,10 @@ function get_formatted_date( $date, $options = array() ) {
 	/**
 	 * Filter final date value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $formatted_date Filtered date.
-	 * @param    array      $options Formatting options.
+	 * @param string $formatted_date Filtered date.
+	 * @param array  $options        Formatting options.
 	 */
 	return apply_filters( "wpmoly/filter/meta/{$options['variant']}release_date", $formatted_date, $options );
 }
@@ -1561,13 +1561,13 @@ function get_formatted_date( $date, $options = array() ) {
 /**
  * Format details.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $detail Detail slug.
- * @param    array      $value Detail value.
- * @param    array      $options Formatting options.
+ * @param string $detail  Detail slug.
+ * @param array  $value   Detail value.
+ * @param array  $options Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_detail( $detail, $value, $options = array() ) {
 
@@ -1610,12 +1610,12 @@ function get_formatted_detail( $detail, $value, $options = array() ) {
 				/**
 				 * Filter meta permalink.
 				 *
-				 * @since    3.0
+				 * @since 3.0.0
 				 *
-				 * @param    string    $link HTML link.
-				 * @param    string    $url Permalink URL.
-				 * @param    string    $title Permalink title attribute.
-				 * @param    string    $content Permalink content.
+				 * @param string $link    HTML link.
+				 * @param string $url     Permalink URL.
+				 * @param string $title   Permalink title attribute.
+				 * @param string $content Permalink content.
 				 */
 				$filtered_value = apply_filters( "wpmoly/filter/detail/{$detail}/url", $slug, $options );
 
@@ -1627,11 +1627,11 @@ function get_formatted_detail( $detail, $value, $options = array() ) {
 				 * This is used to generate permalinks for details and can be extended to
 				 * post-formatting modifications.
 				 *
-				 * @since    3.0
+				 * @since 3.0.0
 				 *
-				 * @param    string    $filtered_value Filtered detail value.
-				 * @param    string    $slug Detail slug value.
-				 * @param    array     $options Formatting options.
+				 * @param string $filtered_value Filtered detail value.
+				 * @param string $slug           Detail slug value.
+				 * @param array  $options        Formatting options.
 				 */
 				$filtered_value = apply_filters( "wpmoly/filter/detail/{$detail}/single", $filtered_value, $slug, $options );
 			}
@@ -1643,11 +1643,11 @@ function get_formatted_detail( $detail, $value, $options = array() ) {
 	/**
 	 * Filter final detail value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $filtered_value Filtered detail value.
-	 * @param    string    $value Detail slug value.
-	 * @param    array     $options Formatting options.
+	 * @param string $filtered_value Filtered detail value.
+	 * @param string $value          Detail slug value.
+	 * @param array  $options        Formatting options.
 	 */
 	return apply_filters( "wpmoly/filter/detail/{$detail}", implode( ', ', $value ), $value, $options );
 }
@@ -1658,11 +1658,11 @@ function get_formatted_detail( $detail, $value, $options = array() ) {
  * This is used by almost every other formatting function to filter and replace
  * empty values.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $value field value
+ * @param string $value field value
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_empty_value( $value ) {
 
@@ -1675,7 +1675,7 @@ function get_formatted_empty_value( $value ) {
 	 *
 	 * Use a long dash for replacer.
 	 *
-	 * @param    string    $value Empty value replacer
+	 * @param string $value Empty value replacer
 	 */
 	return apply_filters( 'wpmoly/filter/meta/empty/value', '&mdash;' );
 }
@@ -1686,12 +1686,12 @@ function get_formatted_empty_value( $value ) {
  * Support variants for spoken languages (meta), language (detail) and subtitles
  * (also detail). Default is 'spoken_languages'.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $languages Movie languages.
- * @param    array      $options Formatting options.
+ * @param string $languages Movie languages.
+ * @param array  $options   Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_language( $languages, $options = array() ) {
 
@@ -1708,7 +1708,7 @@ function get_formatted_language( $languages, $options = array() ) {
 		/**
 		 * Filter empty meta value.
 		 *
-		 * @param    string    $value Replaced empty value.
+		 * @param string $value Replaced empty value.
 		 */
 		return apply_filters( "wpmoly/filter/meta/empty/{$options['variant']}/value", get_formatted_empty_value( $languages ) );
 	}
@@ -1752,10 +1752,10 @@ function get_formatted_language( $languages, $options = array() ) {
 				/**
 				 * Filter language URL.
 				 *
-				 * @since    3.0
+				 * @since 3.0.0
 				 *
-				 * @param    string    $language Language value.
-				 * @param    array     $options Formatting options.
+				 * @param string $language Language value.
+				 * @param array  $options  Formatting options.
 				 */
 				$name = apply_filters( 'wpmoly/filter/detail/language/url', $name, $options );
 
@@ -1766,10 +1766,10 @@ function get_formatted_language( $languages, $options = array() ) {
 				/**
 				 * Filter subtitles URL.
 				 *
-				 * @since    3.0
+				 * @since 3.0.0
 				 *
-				 * @param    string    $subtitles Language value.
-				 * @param    array     $options Formatting options.
+				 * @param string $subtitles Language value.
+				 * @param array  $options   Formatting options.
 				 */
 				$name = apply_filters( 'wpmoly/filter/detail/subtitles/url', $name, $options );
 
@@ -1780,10 +1780,10 @@ function get_formatted_language( $languages, $options = array() ) {
 				/**
 				 * Filter spoken language URL.
 				 *
-				 * @since    3.0
+				 * @since 3.0.0
 				 *
-				 * @param    string    $language Language value.
-				 * @param    array     $options Formatting options.
+				 * @param string $language Language value.
+				 * @param array  $options  Formatting options.
 				 */
 				$name = apply_filters( 'wpmoly/filter/meta/spoken_languages/url', $name, $options );
 			} // End if().
@@ -1791,12 +1791,12 @@ function get_formatted_language( $languages, $options = array() ) {
 			/**
 			 * Filter single language meta value.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $language Filtered language.
-			 * @param    array     $language_data Language instance.
-			 * @param    string    $icon Language icon string.
-			 * @param    array     $options Formatting options.
+			 * @param string $language      Filtered language.
+			 * @param array  $language_data Language instance.
+			 * @param string $icon          Language icon string.
+			 * @param array  $options       Formatting options.
 			 */
 			$name = apply_filters( "wpmoly/filter/meta/{$options['variant']}/single", $name, $language, $icon, $options );
 		} // End if().
@@ -1810,11 +1810,11 @@ function get_formatted_language( $languages, $options = array() ) {
 	 * This is used to generate permalinks for languages and can be extended to
 	 * post-formatting modifications.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $languages Filtered languages list.
-	 * @param    array     $languages_data Languages data array.
-	 * @param    array     $options Formatting options.
+	 * @param string $languages      Filtered languages list.
+	 * @param array  $languages_data Languages data array.
+	 * @param array  $options        Formatting options.
 	 */
 	return apply_filters( "wpmoly/filter/meta/{$options['variant']}", implode( ', ', $languages ), $languages_data, $options );
 }
@@ -1828,13 +1828,13 @@ function get_formatted_language( $languages, $options = array() ) {
  * actors and genres can be added to the metadata and not terms,
  * we rely on metadata to show a correct list.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $terms Field value.
- * @param    string    $taxonomy Taxonomy we're dealing with.
- * @param    array     $options Formatting options.
+ * @param string $terms    Field value.
+ * @param string $taxonomy Taxonomy we're dealing with.
+ * @param array  $options  Formatting options.
  *
- * @return   string    Formatted value
+ * @return string Formatted value
  */
 function get_formatted_terms_list( $terms, $taxonomy, $options = array() ) {
 

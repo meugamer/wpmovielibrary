@@ -2,10 +2,10 @@
 /**
  * Define the Local Release Date Shortcode class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\shortcodes;
@@ -15,31 +15,31 @@ use wpmoly\templates\Front as Template;
 /**
  * Local Release Date Shortcode class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Local_Release_Date extends Release_Date {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
 	 *
-	 * @var    string
+	 * @var string
 	 */
 	public static $name = 'movie_local_release_date';
 
 	/**
 	 * Shortcode aliases
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	protected static $aliases = array();
 
 	/**
 	 * Build the Shortcode.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function make() {
 

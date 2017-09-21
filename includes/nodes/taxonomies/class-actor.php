@@ -2,10 +2,10 @@
 /**
  * Define the Actor Taxonomy class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes\taxonomies;
@@ -13,9 +13,9 @@ namespace wpmoly\nodes\taxonomies;
 /**
  * Actors are terms from the 'actor' taxonomy.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ * @author Charlie Merland <charlie@caercam.org>
  *
  * @property    string     $name Actor name.
  * @property    int        $person_id Actor related Person ID.
@@ -25,19 +25,25 @@ class Actor extends Taxonomy {
 	/**
 	 * Taxonomy name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $taxonomy = 'actor';
 
 	/**
 	 * Simple accessor for Actor thumbnail.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $variant Image variant.
-	 * @param    string    $size Image size.
+	 * @access public
 	 *
-	 * @return   Image
+	 * @param string $variant Image variant.
+	 * @param string $size Image size.
+	 *
+	 * @return Image
 	 */
 	public function get_thumbnail( $variant = '', $size = 'thumb' ) {
 
@@ -54,9 +60,9 @@ class Actor extends Taxonomy {
 		/**
 		 * Filter default actor picture
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $picture
+		 * @param string $picture
 		 */
 		$variants = apply_filters( 'wpmoly/filter/default/actor/picture/variants', array( 'neutral', 'female', 'male' ) );
 		if ( ! in_array( $variant, $variants ) ) {
@@ -66,9 +72,9 @@ class Actor extends Taxonomy {
 		/**
 		 * Filter default actor picture
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $picture
+		 * @param string $picture
 		 */
 		$sizes = apply_filters( 'wpmoly/filter/default/actor/picture/sizes', array( 'original', 'full', 'medium', 'small', 'thumb', 'thumbnail', 'tiny' ) );
 		if ( ! in_array( $size, $sizes ) ) {
@@ -82,9 +88,9 @@ class Actor extends Taxonomy {
 		/**
 		 * Filter default actor picture
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $picture
+		 * @param string $picture
 		 */
 		$picture = apply_filters( 'wpmoly/filter/default/actor/picture', WPMOLY_URL . "public/assets/img/actor-{$variant}{$size}.png" );
 
@@ -96,11 +102,13 @@ class Actor extends Taxonomy {
 	/**
 	 * Retrieve the Actor custom thumbnail, if any.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $size Image size.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $size Image size.
+	 *
+	 * @return string
 	 */
 	public function get_custom_thumbnail( $size = 'thumb' ) {
 

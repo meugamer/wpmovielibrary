@@ -2,10 +2,10 @@
 /**
  * Define the Page Editor class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\admin\editors;
@@ -13,30 +13,42 @@ namespace wpmoly\admin\editors;
 /**
  * Provide a tool to manage custom Archive Pages.
  *
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Page extends Editor {
 
 	/**
 	 * Current page Post ID.
 	 *
-	 * @var    int
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var int
 	 */
 	private $post_id;
 
 	/**
 	 * Archive pages.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $pages = array();
 
 	/**
 	 * Archive Types.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $types = array();
 
@@ -47,7 +59,9 @@ class Page extends Editor {
 	 * in WordPress wp-admin/admin, even before post.php or post-new.php are
 	 * loaded, which means we need to grab $post_id directly from the URL.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -69,10 +83,10 @@ class Page extends Editor {
 		/**
 		 * Filter archive pages types.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array     $types Default types.
-		 * @param    object    ArchivePages instance.
+		 * @param array $types Default types.
+		 * @param object ArchivePages instance.
 		 */
 		$this->types = apply_filters( 'wpmoly/filter/archive_pages/types', $types, $this );
 
@@ -83,7 +97,9 @@ class Page extends Editor {
 	/**
 	 * Define meta managers.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function add_managers() {
 
@@ -230,7 +246,9 @@ class Page extends Editor {
 	/**
 	 * Load frameworks if needed.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function load_meta_frameworks() {
 
@@ -245,9 +263,11 @@ class Page extends Editor {
 	/**
 	 * Add a custom section to the page editor submitdiv metabox.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    WP_Post    $post
+	 * @access public
+	 *
+	 * @param WP_Post $post
 	 */
 	public function archive_pages_select( $post ) {
 
@@ -288,11 +308,13 @@ class Page extends Editor {
 	/**
 	 * Save current page as an archive page.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int        $post_id
-	 * @param    WP_Post    $post
-	 * @param    boolean    $update
+	 * @access public
+	 *
+	 * @param int $post_id
+	 * @param WP_Post $post
+	 * @param boolean $update
 	 */
 	public function set_archive_page_type( $post_id, $post, $update ) {
 
@@ -329,9 +351,11 @@ class Page extends Editor {
 	/**
 	 * Update archive pages option.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   boolean
+	 * @access priority
+	 *
+	 * @return boolean
 	 */
 	private function set_archive_pages() {
 
@@ -353,7 +377,9 @@ class Page extends Editor {
 	/**
 	 * Define metaboxes.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function add_metaboxes() {}
 

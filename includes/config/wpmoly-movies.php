@@ -2,10 +2,10 @@
 /**
  * WPMovieLibrary Config Movies definition
  *
- * @package   WPMovieLibrary
- * @author    Charlie MERLAND <charlie@caercam.org>
+ * @package WPMovieLibrary
+ * @author Charlie MERLAND <charlie@caercam.org>
  * @license   GPL-3.0
- * @link      http://www.caercam.org/
+ * @link http://www.caercam.org/
  * @copyright 2014 Charlie MERLAND
  */
 

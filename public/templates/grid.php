@@ -5,9 +5,9 @@
  * The Grid content is dynamically generate using JavaScript. You really
  * should not edit this file.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $grid
+ * @uses $data
  */
 ?>
 

@@ -2,10 +2,10 @@
 /**
  * Define the Permalink Settings class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\admin\editors;
@@ -13,38 +13,52 @@ namespace wpmoly\admin\editors;
 /**
  * Handle the plugin's URL rewriting settings.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Permalinks {
 
 	/**
 	 * Default permalinks slugs.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $slugs;
 
 	/**
 	 * Default permalink settings.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $defaults;
 
 	/**
 	 * Existing permalinks settings.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $permalinks;
 
 	/**
 	 * Add a new block to the Permalink settings option page.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function register() {
 
@@ -57,7 +71,9 @@ class Permalinks {
 	/**
 	 * Display a custom metabox-ish permalink settings block.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function register_sections() {
 
@@ -76,9 +92,11 @@ class Permalinks {
 	/**
 	 * Retrieve permalink settings.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   array
+	 * @access public
+	 *
+	 * @return array
 	 */
 	public function get_permalinks() {
 
@@ -99,16 +117,18 @@ class Permalinks {
 	/**
 	 * Save permalink settings.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
 	private function set_permalinks() {
 
 		/**
 		 * Filter the permalink settings before saving.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $permalinks
+		 * @param array $permalinks
 		 */
 		$permalinks = apply_filters( 'wpmoly/filter/permalinks', $this->permalinks );
 
@@ -120,7 +140,9 @@ class Permalinks {
 	 *
 	 * Add a set of custom permalinks for movies and taxonomies.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
 	private function register_permalinks() {
 
@@ -138,9 +160,9 @@ class Permalinks {
 		/**
 		 * Default permalink slugs.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $slugs
+		 * @param array $slugs
 		 */
 		$this->slugs = apply_filters( 'wpmoly/filter/permalinks/slugs/defaults', $slugs );
 
@@ -158,9 +180,9 @@ class Permalinks {
 		/**
 		 * Default permalink structures.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $defaults
+		 * @param array $defaults
 		 */
 		$this->defaults = apply_filters( 'wpmoly/filter/permalinks/defaults', $defaults );
 
@@ -173,7 +195,9 @@ class Permalinks {
 	 * Use a ButterBean-like set of settings to create a settings metabox
 	 * for the Permalinks setting page.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
 	private function register_settings() {
 
@@ -389,9 +413,9 @@ class Permalinks {
 		/**
 		 * Filter default permalinks settings.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $settings
+		 * @param array $settings
 		 */
 		$this->settings = apply_filters( 'wpmoly/filter/permalinks/settings', $settings );
 	}
@@ -399,7 +423,9 @@ class Permalinks {
 	/**
 	 * Save custom permalinks.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function update() {
 
@@ -443,7 +469,9 @@ class Permalinks {
 	/**
 	 * Register admin notice.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function register_notice() {
 
@@ -483,9 +511,11 @@ class Permalinks {
 	/**
 	 * Create admin notice transient.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   boolean
+	 * @access public
+	 *
+	 * @return boolean
 	 */
 	public function set_notice() {
 
@@ -495,7 +525,9 @@ class Permalinks {
 	/**
 	 * Remove admin notice transient.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function delete_notice() {
 
@@ -508,11 +540,13 @@ class Permalinks {
 	/**
 	 * Fix movie rewrite rules if needed.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $rules
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $rules
+	 *
+	 * @return array
 	 */
 	public function fix_movie_rewrite_rules( $rules ) {
 
@@ -537,11 +571,13 @@ class Permalinks {
 	 * Define a list of variants for movies archive to match meta/detail
 	 * permalinks.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $rules Existing rewrite rules.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $rules Existing rewrite rules.
+	 *
+	 * @return array
 	 */
 	public function add_movie_archives_rewrite_rules( $rules = array() ) {
 
@@ -556,9 +592,9 @@ class Permalinks {
 		 * Defaults variants support meta/detail name translation, used
 		 * to set the grid preset to 'custom'.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $variants Default variants.
+		 * @param array $variants Default variants.
 		 */
 		$variants = apply_filters( 'wpmoly/filter/movie_archives/rewrite/variants', array(
 			array(
@@ -715,11 +751,13 @@ class Permalinks {
 	/**
 	 * Add custom rewrite rules for movies.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $rules Existing rewrite rules.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $rules Existing rewrite rules.
+	 *
+	 * @return array
 	 */
 	public function add_taxonomy_archives_rewrite_rules( $rules = array() ) {
 

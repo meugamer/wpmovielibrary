@@ -2,10 +2,10 @@
 /**
  * Define the Query class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\core;
@@ -13,24 +13,32 @@ namespace wpmoly\core;
 /**
  *
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Query {
 
 	/**
 	 * Custom query vars.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $vars;
 
 	/**
 	 * Custom rewrite tags.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private $tags;
 
@@ -72,7 +80,7 @@ class Query {
 			self::$_instance = new static;
 			self::$_instance->init();
 		}
-		
+
 		return self::$_instance;
 	}
 
@@ -85,7 +93,14 @@ class Query {
 	 */
 	protected function init() {
 
-		$vars = apply_filters( 'wpmoly/filter/query/default/vars', array(
+		/**
+		 * Filters the default available custom query vars.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $vars Defaults query vars.
+		 */
+		$this->vars = apply_filters( 'wpmoly/filter/query/default/vars', array(
 			'actor',
 			'adult',
 			'author',
@@ -116,22 +131,40 @@ class Query {
 			'writer',
 		) );
 
-		$this->tags = \wpmoly\get_default_rewrite_tags();
+		/**
+		 * Filters the default available custom tags for URL rewriting.
+		 *
+		 * @since 3.0
+		 *
+		 * @param array $tags Defaults rewrite tags.
+		 */
+		$this->tags = apply_filters( 'wpmoly/filter/rewrite/default/tags', array(
+			'%imdb_id%'          => '(tt[0-9]+)',
+			'%tmdb_id%'          => '([0-9]+)',
+			'%year%'             => '([0-9]{4})',
+			'%monthnum%'         => '([0-9]{1,2})',
+			'%day%'              => '([0-9]{1,2})',
+			'%release_year%'     => '([0-9]{4})',
+			'%release_monthnum%' => '([0-9]{1,2})',
+			'%release_day%'      => '([0-9]{1,2})',
+		) );
+
 		foreach ( array_keys( $this->tags ) as $tag ) {
-			$vars[] = str_replace( '%', '', $tag );
+			$this->vars[] = str_replace( '%', '', $tag );
 		}
 
-		$this->vars = $vars;
 	}
 
 	/**
 	 * Register query vars for custom rewrite tags.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars
+	 *
+	 * @return array
 	 */
 	public function add_query_vars( $query_vars ) {
 
@@ -145,14 +178,15 @@ class Query {
 	 *
 	 * Add a set of new movie-related rewrite tags.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function add_rewrite_tags() {
 
 		global $wp_rewrite;
 
-		$tags = \wpmoly\get_default_rewrite_tags();
-		foreach ( $tags as $tag => $regex ) {
+		foreach ( $this->tags as $tag => $regex ) {
 			$wp_rewrite->add_rewrite_tag( $tag, $regex, str_replace( array( '%', '_' ), array( '', '-' ), $tag ) . '=' );
 		}
 	}
@@ -170,14 +204,16 @@ class Query {
 	 * structures, but we're still better off checking to avoid malformed
 	 * URLs.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink
-	 * @param    object     $post WP_Post instance
-	 * @param    boolean    $leavename
-	 * @param    boolean    $sample
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string  $permalink
+	 * @param object  $post      WP_Post instance
+	 * @param boolean $leavename
+	 * @param boolean $sample
+	 *
+	 * @return string
 	 */
 	public function replace_movie_link_tags( $permalink, $post, $leavename, $sample ) {
 
@@ -197,12 +233,14 @@ class Query {
 	/**
 	 * Replace custom rewrite tags in permalinks.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink
-	 * @param    WP_Post    $post
+	 * @access private
 	 *
-	 * @return   string
+	 * @param string  $permalink
+	 * @param WP_Post $post
+	 *
+	 * @return string
 	 */
 	private function replace_tags( $permalink, $post ) {
 
@@ -229,12 +267,14 @@ class Query {
 	/**
 	 * Get replacement value for custom rewrite tags in permalinks.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $tag
-	 * @param    WP_Post    $post
+	 * @access private
 	 *
-	 * @return   string
+	 * @param string  $tag
+	 * @param WP_Post $post
+	 *
+	 * @return string
 	 */
 	private function get_replacement( $tag, $post ) {
 
@@ -274,14 +314,16 @@ class Query {
 	 * should be queried by their user ID while movie authors should be queried
 	 * by their full name.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array               $args    Key value array of query var to query value.
-	 * @param    string              $key     Meta key.
-	 * @param    mixed               $param   Meta value.
-	 * @param    WP_REST_Request     $request The request used.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array           $args    Key value array of query var to query value.
+	 * @param string          $key     Meta key.
+	 * @param mixed           $param   Meta value.
+	 * @param WP_REST_Request $request The request used.
+	 *
+	 * @return array
 	 */
 	public function filter_meta_author_query_param( $args, $key, $param, $request ) {
 
@@ -308,9 +350,9 @@ class Query {
 			/**
 			 * Filter meta value.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $author
+			 * @param string $author
 			 */
 			$value = apply_filters( 'wpmoly/filter/query/movies/author/value', $author );
 
@@ -320,9 +362,9 @@ class Query {
 			/**
 			 * Filter meta comparison operator.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $compare
+			 * @param string $compare
 			 */
 			$compare = apply_filters( 'wpmoly/filter/query/movies/author/compare', 'LIKE' );
 
@@ -335,14 +377,16 @@ class Query {
 	/**
 	 * Add custom parameters to query movies of a specific meta interval.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array               $args    Key value array of query var to query value.
-	 * @param    string              $key     Meta key.
-	 * @param    mixed               $param   Meta value.
-	 * @param    WP_REST_Request     $request The request used.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array           $args    Key value array of query var to query value.
+	 * @param string          $key     Meta key.
+	 * @param mixed           $param   Meta value.
+	 * @param WP_REST_Request $request The request used.
+	 *
+	 * @return array
 	 */
 	public function filter_meta_interval_query_param( $args, $key, $param, $request ) {
 
@@ -353,9 +397,9 @@ class Query {
 		/**
 		 * Filter meta value.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $value
+		 * @param string $value
 		 */
 		$value = apply_filters( "wpmoly/filter/query/movies/{$param}/value", $request[ $param ] );
 
@@ -367,9 +411,9 @@ class Query {
 			/**
 			 * Filter meta comparison operator.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $compare
+			 * @param string $compare
 			 */
 			$compare = apply_filters( "wpmoly/filter/query/movies/{$param}/compare", 'LIKE' );
 
@@ -380,9 +424,9 @@ class Query {
 			/**
 			 * Filter meta casting type.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    string    $type Casting type.
+			 * @param string $type Casting type.
 			 */
 			$type = apply_filters( "wpmoly/filter/query/movies/{$param}/type", 'NUMERIC' );
 
@@ -409,14 +453,16 @@ class Query {
 	/**
 	 * Add custom parameters to query movies of a specific meta.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array               $args    Key value array of query var to query value.
-	 * @param    string              $key     Meta key.
-	 * @param    mixed               $param   Meta value.
-	 * @param    WP_REST_Request     $request The request used.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array           $args    Key value array of query var to query value.
+	 * @param string          $key     Meta key.
+	 * @param mixed           $param   Meta value.
+	 * @param WP_REST_Request $request The request used.
+	 *
+	 * @return array
 	 */
 	public function filter_meta_query_param( $args, $key, $param, $request ) {
 
@@ -427,18 +473,18 @@ class Query {
 		/**
 		 * Filter meta value.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $value
+		 * @param string $value
 		 */
 		$value = apply_filters( "wpmoly/filter/query/movies/{$param}/value", $request[ $param ] );
 
 		/**
 		 * Filter meta comparison operator.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $compare
+		 * @param string $compare
 		 */
 		$compare = apply_filters( "wpmoly/filter/query/movies/{$param}/compare", 'LIKE' );
 
@@ -453,11 +499,13 @@ class Query {
 	/**
 	 * 'alphabetical' actors query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_alphabetical_actors_preset_param( $query_vars = array() ) {
 
@@ -472,11 +520,13 @@ class Query {
 	/**
 	 * 'unalphabetical' actors query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_unalphabetical_actors_preset_param( $query_vars = array() ) {
 
@@ -491,11 +541,13 @@ class Query {
 	/**
 	 * 'alphabetical' collections query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_alphabetical_collections_preset_param( $query_vars = array() ) {
 
@@ -510,11 +562,13 @@ class Query {
 	/**
 	 * 'unalphabetical' collections query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_unalphabetical_collections_preset_param( $query_vars = array() ) {
 
@@ -529,11 +583,13 @@ class Query {
 	/**
 	 * 'alphabetical' genres query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_alphabetical_genres_preset_param( $query_vars = array() ) {
 
@@ -548,11 +604,13 @@ class Query {
 	/**
 	 * 'unalphabetical' genres query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_unalphabetical_genres_preset_param( $query_vars = array() ) {
 
@@ -567,11 +625,13 @@ class Query {
 	/**
 	 * 'alphabetical' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_alphabetical_movies_preset_param( $query_vars = array() ) {
 
@@ -587,11 +647,13 @@ class Query {
 	/**
 	 * 'unalphabetical' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_unalphabetical_movies_preset_param( $query_vars = array() ) {
 
@@ -607,11 +669,13 @@ class Query {
 	/**
 	 * 'current-year' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_current_year_movies_preset_param( $query_vars = array() ) {
 
@@ -643,11 +707,13 @@ class Query {
 	/**
 	 * 'last-year' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_last_year_movies_preset_param( $query_vars = array() ) {
 
@@ -679,11 +745,13 @@ class Query {
 	/**
 	 * 'last-added' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_last_added_movies_preset_param( $query_vars = array() ) {
 
@@ -698,11 +766,13 @@ class Query {
 	/**
 	 * 'first-added' movie query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_first_added_movies_preset_param( $query_vars = array() ) {
 
@@ -717,11 +787,13 @@ class Query {
 	/**
 	 * 'last-released' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_last_released_movies_preset_param( $query_vars = array() ) {
 
@@ -738,11 +810,13 @@ class Query {
 	/**
 	 * 'first-released' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_first_released_movies_preset_param( $query_vars = array() ) {
 
@@ -759,11 +833,13 @@ class Query {
 	/**
 	 * 'incoming' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_incoming_movies_preset_param( $query_vars = array() ) {
 
@@ -782,11 +858,13 @@ class Query {
 	/**
 	 * 'most-rated' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_most_rated_movies_preset_param( $query_vars = array() ) {
 
@@ -804,11 +882,13 @@ class Query {
 	/**
 	 * 'least-rated' movies query preset query vars.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $query_vars Query vars.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $query_vars Query vars.
+	 *
+	 * @return array
 	 */
 	public function filter_least_rated_movies_preset_param( $query_vars = array() ) {
 
@@ -831,11 +911,13 @@ class Query {
 	 *
 	 * @see \wpmoly\rest\API::add_meta_interval_query_param()
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type Query type.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $type Query type.
+	 *
+	 * @return string
 	 */
 	public function filter_rating_query_type( $type ) {
 
@@ -850,11 +932,13 @@ class Query {
 	 * Filter 'actor' query var value. Replace value by matching term
 	 * name, if any.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_actor_query_var( $query_var ) {
 
@@ -869,11 +953,13 @@ class Query {
 	/**
 	 * Filter 'adult' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_adult_query_var( $query_var ) {
 
@@ -885,11 +971,13 @@ class Query {
 	/**
 	 * Filter 'author' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_author_query_var( $query_var ) {
 
@@ -899,11 +987,13 @@ class Query {
 	/**
 	 * Filter 'certification' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_certification_query_var( $query_var ) {
 
@@ -915,11 +1005,13 @@ class Query {
 	/**
 	 * Filter 'company' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_company_query_var( $query_var ) {
 
@@ -931,11 +1023,13 @@ class Query {
 	/**
 	 * Filter 'composer' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_composer_query_var( $query_var ) {
 
@@ -949,11 +1043,13 @@ class Query {
 	 * This is used by movie queries to match URL query vars to the real movie
 	 * metadata.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Sanitized value to "unsanitize".
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Sanitized value to "unsanitize".
+	 *
+	 * @return string
 	 */
 	public function filter_country_query_var( $query_var ) {
 
@@ -967,11 +1063,13 @@ class Query {
 	 * Filter 'director' query var value. Replace value by matching term
 	 * name, if any.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_director_query_var( $query_var ) {
 
@@ -990,11 +1088,13 @@ class Query {
 	/**
 	 * Filter 'format' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_format_query_var( $query_var ) {
 
@@ -1007,11 +1107,13 @@ class Query {
 	 * Filter 'genre' query var value. Replace value by matching term
 	 * name, if any.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_genre_query_var( $query_var ) {
 
@@ -1027,11 +1129,13 @@ class Query {
 	 * Filter 'languages' query var value. Convert a sanitized language code,
 	 * standard name or localized name to its clean native name.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_languages_query_var( $query_var ) {
 
@@ -1045,11 +1149,13 @@ class Query {
 	 * Filter 'language' query var value. Convert a sanitized language
 	 * standard name, native name or localized name to its ISO code.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_language_query_var( $query_var ) {
 
@@ -1062,11 +1168,13 @@ class Query {
 	/**
 	 * Filter 'media' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_media_query_var( $query_var ) {
 
@@ -1078,11 +1186,13 @@ class Query {
 	/**
 	 * Filter 'revenue' and 'budget' query var values.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_money_query_var( $query_var ) {
 
@@ -1095,7 +1205,8 @@ class Query {
 			$interval = array_map( 'intval', $interval );
 		} elseif ( empty( $interval[0] ) && ! empty( $interval[1] ) ) {
 			// Default interval.
-			$min = $max = 0;
+			$min = 0;
+			$max = 0;
 			if ( $interval[1] < 100000 ) {
 				// Less than 100 thousands.
 				$min = 0;
@@ -1141,11 +1252,13 @@ class Query {
 	/**
 	 * Filter 'photography' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_photography_query_var( $query_var ) {
 
@@ -1155,11 +1268,13 @@ class Query {
 	/**
 	 * Filter 'producer' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_producer_query_var( $query_var ) {
 
@@ -1172,11 +1287,13 @@ class Query {
 	 * This is used by movie queries to match URL query vars to the real movie
 	 * metadata.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Sanitized value to "unsanitize".
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Sanitized value to "unsanitize".
+	 *
+	 * @return string
 	 */
 	public function filter_rating_query_var( $query_var ) {
 
@@ -1206,41 +1323,39 @@ class Query {
 	 * This is used by movie queries to match URL query vars to the real movie
 	 * metadata.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Sanitized value to "unsanitize".
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Sanitized value to "unsanitize".
+	 *
+	 * @return string
 	 */
 	public function filter_release_query_var( $query_var ) {
 
-		$start = $end = '';
+		$start = '';
+		$end = '';
 
 		// Year interval.
 		if ( preg_match( '/^([0-9]{4})-([0-9]{4})$/', $query_var, $match ) ) {
 			$start = "{$match[1]}-1-1";
 			$end   = "{$match[2]}-12-31";
-		}
-		// Month interval.
-		elseif ( preg_match( '/^([0-9]{4}-[0-9]{1,2})-([0-9]{4}-[0-9]{1,2})$/', $query_var, $match ) ) {
+		} elseif ( preg_match( '/^([0-9]{4}-[0-9]{1,2})-([0-9]{4}-[0-9]{1,2})$/', $query_var, $match ) ) {
+			// Month interval.
 			$start = "{$match[1]}-1}";
 			$end   = "{$match[2]}-31}";
-		}
-		// Day interval.
-		elseif ( preg_match( '/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})-([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', $query_var, $match ) ) {
+		} elseif ( preg_match( '/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})-([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', $query_var, $match ) ) {
+			// Day interval.
 			$start = $match[1];
 			$end   = $match[2];
-		}
-		// Day.
-		elseif ( preg_match( '/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', $query_var, $match ) ) {
+		} elseif ( preg_match( '/^([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})$/', $query_var, $match ) ) {
+			// Day.
 			$start = $match[1];
-		}
-		// Month.
-		elseif ( preg_match( '/^([0-9]{4}-[0-9]{2})$/', $query_var, $match ) ) {
+		} elseif ( preg_match( '/^([0-9]{4}-[0-9]{2})$/', $query_var, $match ) ) {
+			// Month.
 			$start = $match[1];
-		}
-		// Year.
-		elseif ( preg_match( '/^([0-9]{4})$/', $query_var, $match ) ) {
+		} elseif ( preg_match( '/^([0-9]{4})$/', $query_var, $match ) ) {
+			// Year.
 			$start = $match[1];
 		}
 
@@ -1256,11 +1371,13 @@ class Query {
 	/**
 	 * Filter 'runtime' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param string $query_var Query var value.
+	 *
+	 * @return array
 	 */
 	public function filter_runtime_query_var( $query_var ) {
 
@@ -1287,11 +1404,13 @@ class Query {
 	/**
 	 * Filter 'status' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_status_query_var( $query_var ) {
 
@@ -1303,11 +1422,13 @@ class Query {
 	/**
 	 * Filter 'subtitles' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_subtitles_query_var( $query_var ) {
 
@@ -1320,11 +1441,13 @@ class Query {
 	/**
 	 * Filter 'writer' query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_writer_query_var( $query_var ) {
 
@@ -1334,11 +1457,13 @@ class Query {
 	/**
 	 * Filter people-based query var value.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $query_var Query var value.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $query_var Query var value.
+	 *
+	 * @return string
 	 */
 	public function filter_name_query_var( $query_var, $type ) {
 
@@ -1362,11 +1487,13 @@ class Query {
 	 * accenttuated letters. Matching table are stored as options to retrieve
 	 * original value from slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type Meta type.
+	 * @access private
 	 *
-	 * @return   array
+	 * @param string $type Meta type.
+	 *
+	 * @return array
 	 */
 	private function get_cached_names( $type ) {
 
@@ -1394,18 +1521,18 @@ class Query {
 		/**
 		 * Filter cache option name.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $option_name Option name.
+		 * @param string $option_name Option name.
 		 */
 		$option_name = apply_filters( 'wpmoly/filter/people/cache/option/name', "_wpmoly_{$type}_cache_table" );
 
 		/**
 		 * Filter cache option autoload.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $option_autoload Option autoload.
+		 * @param string $option_autoload Option autoload.
 		 */
 		$option_autoload = apply_filters( 'wpmoly/filter/people/cache/option/autoload', 'no' );
 
@@ -1435,12 +1562,14 @@ class Query {
 	 * Add a new WHERE clause to the current query to limit selection to the
 	 * movies with a title starting with a specific letter.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string      $where
-	 * @param    WP_Query    $query
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $where
+	 * @param WP_Query $query
+	 *
+	 * @return string
 	 */
 	public function filter_movies_by_letter( $where, $query ) {
 
@@ -1457,12 +1586,14 @@ class Query {
 	/**
 	 * Filter movies using presets.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string      $where
-	 * @param    WP_Query    $query
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $where
+	 * @param WP_Query $query
+	 *
+	 * @return string
 	 */
 	public function filter_movies_by_preset( $wp_query ) {
 
@@ -1475,9 +1606,9 @@ class Query {
 		/**
 		 * Filter query vars.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $query_vars
+		 * @param array $query_vars
 		 */
 		$query_vars = apply_filters( "wpmoly/filter/query/movies/{$preset}/preset/param", $wp_query->query_vars );
 

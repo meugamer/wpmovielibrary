@@ -2,10 +2,10 @@
 /**
  * Define the localization functionality.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\core;
@@ -15,10 +15,10 @@ use wpmoly\nodes;
 /**
  * Loads and defines the localization files for this plugin.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class L10n {
 
@@ -54,7 +54,7 @@ class L10n {
 	 * @static
 	 * @access public
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	public static $standard_languages;
 
@@ -120,7 +120,7 @@ class L10n {
 			self::$_instance = new static;
 			self::$_instance->init();
 		}
-		
+
 		return self::$_instance;
 	}
 
@@ -807,7 +807,7 @@ class L10n {
 			'run' => __( 'Run Forrest, run!', 'wpmovielibrary' ),
 			'api' => array(
 				'missing' => __( 'Couldn’t find WordPress Rest API Backbone client.', 'wpmovielibrary' ),
-				'missing_collection' =>__( 'Couldn’t find WordPress Rest API Backbone client collection object.', 'wpmovielibrary' ),
+				'missing_collection' => __( 'Couldn’t find WordPress Rest API Backbone client collection object.', 'wpmovielibrary' ),
 			),
 			'min' => _x( 'min', 'movie runtime in minutes', 'wpmovielibrary' ),
 			'nMoviesFound' => array(

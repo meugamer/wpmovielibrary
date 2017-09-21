@@ -2,7 +2,7 @@
 /**
  * The file that defines the dashboard class.
  *
- * @link http://wpmovielibrary.com
+ * @link https://wpmovielibrary.com
  * @since 3.0.0
  *
  * @package WPMovieLibrary
@@ -17,7 +17,7 @@ use wpmoly\admin\editors;
  *
  * @since 3.0.0
  * @package WPMovieLibrary
- * 
+ *
  * @author Charlie Merland <charlie@caercam.org>
  */
 class Dashboard {
@@ -101,10 +101,7 @@ class Dashboard {
 	 *
 	 * @access public
 	 */
-	public function register_movie_editor() {
-
-		
-	}
+	public function register_movie_editor() {}
 
 	/**
 	 * Register the Term Editor.
@@ -183,15 +180,7 @@ class Dashboard {
 	 */
 	public function admin_menu() {
 
-		$menu_page = add_menu_page(
-			$page_title = __( 'Movie Library' , 'wpmovielibrary' ),
-			$menu_title = __( 'Movie Library' , 'wpmovielibrary' ),
-			$capability = 'read',
-			$menu_slug  = 'wpmovielibrary',
-			$function   = '__return_false',//array( $library, 'build' ),
-			$icon_url   = 'dashicons-wpmoly',
-			$position   = 2
-		);
+		$menu_page = add_menu_page( __( 'Movie Library' , 'wpmovielibrary' ), __( 'Movie Library' , 'wpmovielibrary' ), 'read', 'wpmovielibrary', '__return_false',/*array( $library, 'build' ),*/ 'dashicons-wpmoly', 2 );
 	}
 
 	/**

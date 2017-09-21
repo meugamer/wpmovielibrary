@@ -2,10 +2,10 @@
 /**
  * Define the Genre Taxonomy class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes\taxonomies;
@@ -13,9 +13,9 @@ namespace wpmoly\nodes\taxonomies;
 /**
  * Genres are terms from the 'genre' taxonomy.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ * @author Charlie Merland <charlie@caercam.org>
  *
  * @property    string     $name Genre name.
  * @property    int        $person_id Genre related Person ID.
@@ -25,19 +25,25 @@ class Genre extends Taxonomy {
 	/**
 	 * Taxonomy name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $taxonomy = 'genre';
 
 	/**
 	 * Simple accessor for Genre thumbnail.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $variant Image variant.
-	 * @param    string    $size Image size.
+	 * @access public
 	 *
-	 * @return   Image
+	 * @param string $variant Image variant. Default none.
+	 * @param string $size    Image size. Default 'thumb'.
+	 *
+	 * @return Image
 	 */
 	public function get_thumbnail( $variant = '', $size = 'thumb' ) {
 
@@ -54,9 +60,9 @@ class Genre extends Taxonomy {
 		/**
 		 * Filter default genre thumbnail variants
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $variants
+		 * @param string $variants
 		 */
 		$variants = apply_filters( 'wpmoly/filter/default/genre/thumbnail/variants', array(
 			'28'    => 'action',
@@ -91,9 +97,9 @@ class Genre extends Taxonomy {
 		/**
 		 * Filter default genre thumbnail
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $thumbnail
+		 * @param string $thumbnail
 		 */
 		$sizes = apply_filters( 'wpmoly/filter/default/genre/thumbnail/sizes', array( 'original', 'full', 'medium', 'small', 'thumb', 'thumbnail', 'tiny' ) );
 		if ( ! in_array( $size, $sizes ) ) {
@@ -107,9 +113,9 @@ class Genre extends Taxonomy {
 		/**
 		 * Filter default genre thumbnail
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $thumbnail
+		 * @param string $thumbnail
 		 */
 		$thumbnail = apply_filters( 'wpmoly/filter/default/genre/thumbnail', WPMOLY_URL . "public/assets/img/genre-{$variant}{$size}.png" );
 
@@ -121,11 +127,13 @@ class Genre extends Taxonomy {
 	/**
 	 * Retrieve the Genre's custom thumbnail, if any.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $size.
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $size Thumbnail size. Default 'thumb'.
+	 *
+	 * @return string
 	 */
 	public function get_custom_thumbnail( $size = 'thumb' ) {
 

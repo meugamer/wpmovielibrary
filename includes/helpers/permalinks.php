@@ -2,21 +2,21 @@
 /**
  * The file that defines the plugin permalinks functions.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 /**
  * Generate basic movie meta permalink.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $meta Meta name.
- * @param    string    $value Meta value.
+ * @param string $meta Meta name.
+ * @param string $value Meta value.
  *
- * @return   string
+ * @return string
  */
 function generate_movie_meta_url( $meta, $value ) {
 
@@ -30,11 +30,11 @@ function generate_movie_meta_url( $meta, $value ) {
 	/**
 	 * Filter a movie meta URL.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $url Meta URL.
-	 * @param    string    $meta Meta key.
-	 * @param    string    $value Meta value.
+	 * @param string $url Meta URL.
+	 * @param string $meta Meta key.
+	 * @param string $value Meta value.
 	 */
 	return apply_filters( "wpmoly/filter/permalink/{$meta}/{$value}/url", trailingslashit( $url ), $meta, $value );
 }
@@ -42,12 +42,12 @@ function generate_movie_meta_url( $meta, $value ) {
 /**
  * Build a permalink for adult restrictions.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $content Movie adult restriction text.
- * @param    boolean    $is_adult Adult restriction?
+ * @param string $content Movie adult restriction text.
+ * @param boolean $is_adult Adult restriction?
  *
- * @return   string
+ * @return string
  */
 function get_movie_adult_url( $adult, $options = array() ) {
 
@@ -80,9 +80,9 @@ function get_movie_adult_url( $adult, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/adult/slug', _x( 'adult', 'adult permalink slug', 'wpmovielibrary' ) );
 
@@ -93,11 +93,11 @@ function get_movie_adult_url( $adult, $options = array() ) {
 	/**
 	 * Filter adult restriction permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $content Default text.
-	 * @param    boolean    $is_adult Adult restriction?
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $content Default text.
+	 * @param boolean $is_adult Adult restriction?
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/adult', $permalink, $options['content'], $options['is_adult'] );
 }
@@ -105,12 +105,12 @@ function get_movie_adult_url( $adult, $options = array() ) {
 /**
  * Build a permalink for author.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $author Movie author.
- * @param    array     $options Permalink options.
+ * @param string $author Movie author.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_author_url( $author, $options = array() ) {
 
@@ -123,9 +123,9 @@ function get_movie_author_url( $author, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/author/slug', _x( 'author', 'author permalink slug', 'wpmovielibrary' ) );
 
@@ -136,11 +136,11 @@ function get_movie_author_url( $author, $options = array() ) {
 	/**
 	 * Filter author permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $author Movie author.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $author Movie author.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/author', $permalink, $author, $options );
 }
@@ -148,12 +148,12 @@ function get_movie_author_url( $author, $options = array() ) {
 /**
  * Build a permalink for budget.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $budget Movie budget.
- * @param    array     $options Permalink options.
+ * @param string $budget Movie budget.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_budget_url( $budget, $options = array() ) {
 
@@ -166,9 +166,9 @@ function get_movie_budget_url( $budget, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/budget/slug', _x( 'budget', 'budget permalink slug', 'wpmovielibrary' ) );
 
@@ -179,11 +179,11 @@ function get_movie_budget_url( $budget, $options = array() ) {
 	/**
 	 * Filter budget permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $budget Movie budget.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $budget Movie budget.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/budget', $permalink, $budget, $options );
 }
@@ -191,12 +191,12 @@ function get_movie_budget_url( $budget, $options = array() ) {
 /**
  * Build a permalink for certifications.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $certification Movie certification.
- * @param    array     $options Permalink options.
+ * @param string $certification Movie certification.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_certification_url( $certification, $options = array() ) {
 
@@ -209,9 +209,9 @@ function get_movie_certification_url( $certification, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/certification/slug', _x( 'certification', 'certification permalink slug', 'wpmovielibrary' ) );
 
@@ -222,11 +222,11 @@ function get_movie_certification_url( $certification, $options = array() ) {
 	/**
 	 * Filter certification permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    int        $certification Movie certification.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param int $certification Movie certification.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/certification', $permalink, $certification, $options );
 }
@@ -234,12 +234,12 @@ function get_movie_certification_url( $certification, $options = array() ) {
 /**
  * Build a permalink for original music composers.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $composer Movie original music composer.
- * @param    array     $options Permalink options.
+ * @param string $composer Movie original music composer.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_composer_url( $composer, $options = array() ) {
 
@@ -252,9 +252,9 @@ function get_movie_composer_url( $composer, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/composer/slug', _x( 'composer', 'composer permalink slug', 'wpmovielibrary' ) );
 
@@ -265,11 +265,11 @@ function get_movie_composer_url( $composer, $options = array() ) {
 	/**
 	 * Filter composer permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $composer Movie composer.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $composer Movie composer.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/composer', $permalink, $composer, $options );
 }
@@ -277,12 +277,12 @@ function get_movie_composer_url( $composer, $options = array() ) {
 /**
  * Build a permalink for production countries.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $country Movie country.
- * @param    array     $options Permalink options.
+ * @param string $country Movie country.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_country_url( $country, $options = array() ) {
 
@@ -298,9 +298,9 @@ function get_movie_country_url( $country, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/country/slug', _x( 'country', 'production-countries permalink slug', 'wpmovielibrary' ) );
 
@@ -311,11 +311,11 @@ function get_movie_country_url( $country, $options = array() ) {
 	/**
 	 * Filter single country permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $permalink Permalink HTML output.
-	 * @param    string    $country Movie production country object.
-	 * @param    array     $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $country Movie production country object.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/country', $permalink, $country, $options );
 }
@@ -323,12 +323,12 @@ function get_movie_country_url( $country, $options = array() ) {
 /**
  * Build a permalink for format.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $format Movie format.
- * @param    array     $options Permalink options.
+ * @param string $format Movie format.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_format_url( $format, $options = array() ) {
 
@@ -341,9 +341,9 @@ function get_movie_format_url( $format, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/format/slug', _x( 'format', 'format permalink slug', 'wpmovielibrary' ) );
 
@@ -354,11 +354,11 @@ function get_movie_format_url( $format, $options = array() ) {
 	/**
 	 * Filter  permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $format Movie format.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $format Movie format.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/format', $permalink, $format, $options );
 }
@@ -366,12 +366,12 @@ function get_movie_format_url( $format, $options = array() ) {
 /**
  * Build a permalink for movie homepages.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $homepage Movie homepage.
- * @param    array     $options Permalink options.
+ * @param string $homepage Movie homepage.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_homepage_url( $homepage, $options = array() ) {
 
@@ -395,11 +395,11 @@ function get_movie_homepage_url( $homepage, $options = array() ) {
 	/**
 	 * Filter movie homepage permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    int        $homepage Movie homepage.
-	 * @param    arrat      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param int $homepage Movie homepage.
+	 * @param arrat $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/homepage', $permalink, $homepage, $options );
 }
@@ -407,12 +407,12 @@ function get_movie_homepage_url( $homepage, $options = array() ) {
 /**
  * Build an external link for IMDb IDs.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $content Movie IMDb ID.
- * @param    boolean    $options Permalink options.
+ * @param string $content Movie IMDb ID.
+ * @param boolean $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_imdb_id_url( $imdb_id, $options = array() ) {
 
@@ -442,11 +442,11 @@ function get_movie_imdb_id_url( $imdb_id, $options = array() ) {
 	/**
 	 * Filter movie IMDb ID permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    int        $imdb_id Movie IMDb ID.
-	 * @param    arrat      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param int $imdb_id Movie IMDb ID.
+	 * @param arrat $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/imdb_id', $permalink, $imdb_id, $options );
 }
@@ -454,12 +454,12 @@ function get_movie_imdb_id_url( $imdb_id, $options = array() ) {
 /**
  * Build a permalink for languages.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $language Movie language.
- * @param    array     $options Permalink options.
+ * @param string $language Movie language.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_language_url( $language, $options = array() ) {
 
@@ -500,9 +500,9 @@ function get_movie_language_url( $language, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/language/slug', $slug );
 
@@ -513,11 +513,11 @@ function get_movie_language_url( $language, $options = array() ) {
 	/**
 	 * Filter single language permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $permalink Permalink HTML output.
-	 * @param    string    $language Movie language object.
-	 * @param    array     $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $language Movie language object.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( "wpmoly/filter/permalink/{$options['variant']}", $permalink, $language_object, $options );
 }
@@ -527,12 +527,12 @@ function get_movie_language_url( $language, $options = array() ) {
  *
  * Alias for get_movie_date_url().
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $local_release_date Movie release date.
- * @param    array     $options Permalink options.
+ * @param string $local_release_date Movie release date.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_local_release_date_url( $local_release_date, $options = array() ) {
 
@@ -545,12 +545,12 @@ function get_movie_local_release_date_url( $local_release_date, $options = array
 /**
  * Build a permalink for medias.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $media Movie media.
- * @param    array     $options Permalink options.
+ * @param string $media Movie media.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_media_url( $media, $options = array() ) {
 
@@ -563,9 +563,9 @@ function get_movie_media_url( $media, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/media/slug', _x( 'media', 'media permalink slug', 'wpmovielibrary' ) );
 
@@ -576,11 +576,11 @@ function get_movie_media_url( $media, $options = array() ) {
 	/**
 	 * Filter media permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $media Movie media.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $media Movie media.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/media', $permalink, $media, $options );
 }
@@ -590,12 +590,12 @@ function get_movie_media_url( $media, $options = array() ) {
  *
  * Alias for get_movie_date_url().
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $release_date Movie release date.
- * @param    array     $options Permalink options.
+ * @param string $release_date Movie release date.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_release_date_url( $release_date, $options = array() ) {
 
@@ -611,12 +611,12 @@ function get_movie_release_date_url( $release_date, $options = array() ) {
  *
  * Support a 'local_' variant for local release dates.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $release_date Movie release date.
- * @param    array     $options Permalink options.
+ * @param string $release_date Movie release date.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_date_url( $date, $options = array() ) {
 
@@ -642,9 +642,9 @@ function get_movie_date_url( $date, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/date/slug', $slug );
 
@@ -704,11 +704,11 @@ function get_movie_date_url( $date, $options = array() ) {
 	/**
 	 * Filter date permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $date Movie date.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $date Movie date.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/date', $permalink, $date, $options );
 }
@@ -716,12 +716,12 @@ function get_movie_date_url( $date, $options = array() ) {
 /**
  * Build a permalink for directors of photography.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $photographer Movie director of photography.
- * @param    array     $options Permalink options.
+ * @param string $photographer Movie director of photography.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_photography_url( $photographer, $options = array() ) {
 
@@ -743,9 +743,9 @@ function get_movie_photography_url( $photographer, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/photography/slug', _x( 'photography', 'photography permalink slug', 'wpmovielibrary' ) );
 
@@ -756,11 +756,11 @@ function get_movie_photography_url( $photographer, $options = array() ) {
 	/**
 	 * Filter  permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $photographer Movie director of photography.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $photographer Movie director of photography.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/photography', $permalink, $photographer, $options );
 }
@@ -768,12 +768,12 @@ function get_movie_photography_url( $photographer, $options = array() ) {
 /**
  * Build a permalink for producers.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $producer Movie producer.
- * @param    array     $options Permalink options.
+ * @param string $producer Movie producer.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_producer_url( $producer, $options = array() ) {
 
@@ -795,9 +795,9 @@ function get_movie_producer_url( $producer, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/producer/slug', _x( 'producer', 'producer permalink slug', 'wpmovielibrary' ) );
 
@@ -808,11 +808,11 @@ function get_movie_producer_url( $producer, $options = array() ) {
 	/**
 	 * Filter  permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $producer Movie producer.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $producer Movie producer.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/producer', $permalink, $producer, $options );
 }
@@ -820,12 +820,12 @@ function get_movie_producer_url( $producer, $options = array() ) {
 /**
  * Build a permalink for production companies.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $company Movie production company.
- * @param    array     $options Permalink options.
+ * @param string $company Movie production company.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_production_url( $company, $options = array() ) {
 
@@ -847,9 +847,9 @@ function get_movie_production_url( $company, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/company/slug', _x( 'company', 'production company permalink slug', 'wpmovielibrary' ) );
 
@@ -860,11 +860,11 @@ function get_movie_production_url( $company, $options = array() ) {
 	/**
 	 * Filter  permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $company Movie production company.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $company Movie production company.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/company', $permalink, $company, $options );
 }
@@ -872,12 +872,12 @@ function get_movie_production_url( $company, $options = array() ) {
 /**
  * Build a permalink for ratings.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $rating Movie rating.
- * @param    array     $options Permalink options.
+ * @param string $rating Movie rating.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_rating_url( $rating, $options = array() ) {
 
@@ -890,9 +890,9 @@ function get_movie_rating_url( $rating, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/rating/slug', _x( 'rating', 'rating permalink slug', 'wpmovielibrary' ) );
 
@@ -903,11 +903,11 @@ function get_movie_rating_url( $rating, $options = array() ) {
 	/**
 	 * Filter  permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $rating Movie rating.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $rating Movie rating.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/rating', $permalink, $rating, $options );
 }
@@ -915,12 +915,12 @@ function get_movie_rating_url( $rating, $options = array() ) {
 /**
  * Build a permalink for revenues.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $revenue Movie revenue.
- * @param    array     $options Permalink options.
+ * @param string $revenue Movie revenue.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_revenue_url( $revenue, $options = array() ) {
 
@@ -933,9 +933,9 @@ function get_movie_revenue_url( $revenue, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/revenue/slug', _x( 'revenue', 'revenue permalink slug', 'wpmovielibrary' ) );
 
@@ -946,11 +946,11 @@ function get_movie_revenue_url( $revenue, $options = array() ) {
 	/**
 	 * Filter revenue permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $revenue Movie revenue.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $revenue Movie revenue.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/revenue', $permalink, $revenue, $options );
 }
@@ -958,12 +958,12 @@ function get_movie_revenue_url( $revenue, $options = array() ) {
 /**
  * Build a permalink for spoken languages.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $spoken_languages Movie spoken languages.
- * @param    array     $options Permalink options.
+ * @param string $spoken_languages Movie spoken languages.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_spoken_languages_url( $spoken_languages, $options = array() ) {
 
@@ -976,12 +976,12 @@ function get_movie_spoken_languages_url( $spoken_languages, $options = array() )
 /**
  * Build a permalink for statuses.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $status Movie status.
- * @param    array     $options Permalink options.
+ * @param string $status Movie status.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_status_url( $status, $options = array() ) {
 
@@ -994,9 +994,9 @@ function get_movie_status_url( $status, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/status/slug', _x( 'status', 'status permalink slug', 'wpmovielibrary' ) );
 
@@ -1007,11 +1007,11 @@ function get_movie_status_url( $status, $options = array() ) {
 	/**
 	 * Filter  permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $status Movie status.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $status Movie status.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/status', $permalink, $status, $options );
 }
@@ -1019,12 +1019,12 @@ function get_movie_status_url( $status, $options = array() ) {
 /**
  * Build a permalink for subtitles.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $subtitles Movie subtitles.
- * @param    array     $options Permalink options.
+ * @param string $subtitles Movie subtitles.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_subtitles_url( $subtitles, $options = array() ) {
 
@@ -1037,12 +1037,12 @@ function get_movie_subtitles_url( $subtitles, $options = array() ) {
 /**
  * Build an external link for TMDb IDs.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string     $content Movie TMDb ID.
- * @param    boolean    $options Permalink options.
+ * @param string $content Movie TMDb ID.
+ * @param boolean $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_tmdb_id_url( $tmdb_id, $options = array() ) {
 
@@ -1072,11 +1072,11 @@ function get_movie_tmdb_id_url( $tmdb_id, $options = array() ) {
 	/**
 	 * Filter movie TMDb ID permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    int        $tmdb_id Movie TMDb ID.
-	 * @param    arrat      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param int $tmdb_id Movie TMDb ID.
+	 * @param arrat $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/tmdb_id', $permalink, $tmdb_id, $options );
 }
@@ -1084,12 +1084,12 @@ function get_movie_tmdb_id_url( $tmdb_id, $options = array() ) {
 /**
  * Build a permalink for writers.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $writer Movie writer.
- * @param    array     $options Permalink options.
+ * @param string $writer Movie writer.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_writer_url( $writer, $options = array() ) {
 
@@ -1111,9 +1111,9 @@ function get_movie_writer_url( $writer, $options = array() ) {
 	/**
 	 * Filter permalink slug.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $slug Default slug
+	 * @param string $slug Default slug
 	 */
 	$slug = apply_filters( 'wpmoly/filter/permalink/writer/slug', _x( 'writer', 'writer permalink slug', 'wpmovielibrary' ) );
 
@@ -1124,11 +1124,11 @@ function get_movie_writer_url( $writer, $options = array() ) {
 	/**
 	 * Filter writer permalink.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $permalink Permalink HTML output.
-	 * @param    string     $writer Movie writer.
-	 * @param    array      $options Formatting options.
+	 * @param string $permalink Permalink HTML output.
+	 * @param string $writer Movie writer.
+	 * @param array $options Formatting options.
 	 */
 	return apply_filters( 'wpmoly/filter/permalink/writer', $permalink, $writer, $options );
 }
@@ -1136,12 +1136,12 @@ function get_movie_writer_url( $writer, $options = array() ) {
 /**
  * Build a permalink for years.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @param    string    $writer Movie writer.
- * @param    array     $options Permalink options.
+ * @param string $writer Movie writer.
+ * @param array $options Permalink options.
  *
- * @return   string
+ * @return string
  */
 function get_movie_year_url( $year, $options = array() ) {
 

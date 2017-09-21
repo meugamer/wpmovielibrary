@@ -2,10 +2,10 @@
 /**
  * Define the Template classes.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\templates;
@@ -15,22 +15,24 @@ use WP_Error;
 /**
  * Admin-side Template class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Admin extends Template {
 
 	/**
 	 * Class Constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $path Template file path
-	 * @param    array     $data Template data
+	 * @access public
 	 *
-	 * @return   Template|WP_Error
+	 * @param string $path Template file path
+	 * @param array $data Template data
+	 *
+	 * @return Template|WP_Error
 	 */
 	public function __construct( $path, $data = array(), $params = array() ) {
 
@@ -51,21 +53,23 @@ class Admin extends Template {
 	 * plugins to replace admin templates, only to act before and after the
 	 * template is prepared.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $require 'once' to use require_once(), 'always' to use require()
+	 * @access protected
 	 *
-	 * @return   string
+	 * @param string $require 'once' to use require_once(), 'always' to use require()
+	 *
+	 * @return string
 	 */
 	protected function prepare( $require = 'once' ) {
 
 		/**
 		 * Fired before starting to prepare the template.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $path Plugin-relative file path
-		 * @param    array     $data Template data
+		 * @param string $path Plugin-relative file path
+		 * @param array $data Template data
 		 */
 		do_action( 'wpmoly/render/admin/template/pre', $this->path, $this->data );
 
@@ -75,11 +79,11 @@ class Admin extends Template {
 			/**
 			 * Filter the template data.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    array     $data Template data
-			 * @param    string    $template WordPress-relative file path
-			 * @param    string    $path Plugin-relative file path
+			 * @param array $data Template data
+			 * @param string $template WordPress-relative file path
+			 * @param string $path Plugin-relative file path
 			 */
 			$this->data = apply_filters( 'wpmoly/filter/template/data', $this->data, $template, $this->path );
 
@@ -98,12 +102,12 @@ class Admin extends Template {
 		/**
 		 * Fired after the template preparation.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $template Template content
-		 * @param    string    $path Plugin-relative file path
-		 * @param    string    $template WordPress-relative file path
-		 * @param    array     $data Template data
+		 * @param string $template Template content
+		 * @param string $path Plugin-relative file path
+		 * @param string $template WordPress-relative file path
+		 * @param array $data Template data
 		 */
 		do_action( 'wpmoly/render/admin/template/after', $this->template, $this->path, $template, $this->data );
 
@@ -113,9 +117,11 @@ class Admin extends Template {
 	/**
 	 * Admin Templates should always be in the plugins directory.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access private
+	 *
+	 * @return string
 	 */
 	private function locate_template() {
 

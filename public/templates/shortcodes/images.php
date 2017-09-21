@@ -4,11 +4,11 @@
  *
  * Showing a list of movie images.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $images
- * @uses    $type
- * @uses    $size
+ * @uses $images
+ * @uses $type
+ * @uses $size
  */
 ?>
 

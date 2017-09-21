@@ -2,10 +2,10 @@
 /**
  * Define the Local Release Date Shortcode class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\shortcodes;
@@ -15,24 +15,24 @@ use wpmoly\templates\Front as Template;
 /**
  * Local Release Date Shortcode class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Countries extends Metadata {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
 	 *
-	 * @var    string
+	 * @var string
 	 */
 	public static $name = 'movie_countries';
 
 	/**
 	 * Shortcode attributes sanitizers
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	protected $validates = array(
 		'id' => array(
@@ -60,7 +60,7 @@ class Countries extends Metadata {
 	/**
 	 * Shortcode aliases
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	protected static $aliases = array(
 		'movie_country' => 'production_countries',
@@ -69,7 +69,7 @@ class Countries extends Metadata {
 	/**
 	 * Build the Shortcode.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function make() {
 

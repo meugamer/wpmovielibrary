@@ -2,10 +2,10 @@
 /**
  * Define the Movie Images Shortcode class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\shortcodes;
@@ -16,24 +16,33 @@ use wpmoly\templates\Front as Template;
 /**
  * Movie Images Shortcode class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Images extends Shortcode {
 
 	/**
-	 * Shortcode name, used for declaring the Shortcode
+	 * Shortcode name, used for declaring the Shortcode.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public static $name = 'movie_images';
 
 	/**
-	 * Shortcode attributes sanitizers
+	 * Shortcode attributes sanitizers.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $validates = array(
 		'id' => array(
@@ -69,9 +78,14 @@ class Images extends Shortcode {
 	);
 
 	/**
-	 * Shortcode aliases
+	 * Shortcode aliases.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected static $aliases = array(
 		'movie_backdrop'  => 'backdrop',
@@ -87,7 +101,9 @@ class Images extends Shortcode {
 	 *
 	 * Prepare Shortcode parameters.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function make() {
 
@@ -127,9 +143,11 @@ class Images extends Shortcode {
 	 *
 	 * Perform all needed Shortcode stuff.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Shortcode
+	 * @access public
+	 *
+	 * @return Shortcode
 	 */
 	public function run() {
 
@@ -154,9 +172,11 @@ class Images extends Shortcode {
 	/**
 	 * Get Movie ID from title if needed.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   int
+	 * @access protected
+	 *
+	 * @return int
 	 */
 	protected function get_movie_id() {
 
@@ -187,7 +207,9 @@ class Images extends Shortcode {
 	 * Get last uploaded poster by default, post thumbnail if 'featured' is
 	 * set to true.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
 	private function poster() {
 
@@ -206,7 +228,9 @@ class Images extends Shortcode {
 	 *
 	 * Get all posters if no 'number' parameter was provided.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
 	private function posters() {
 
@@ -220,7 +244,9 @@ class Images extends Shortcode {
 	 *
 	 * TODO implement variants
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
 	private function backdrop() {
 
@@ -234,7 +260,9 @@ class Images extends Shortcode {
 	 *
 	 * Get all backdrops if no 'number' parameter was provided.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access private
 	 */
 	private function backdrops() {
 
@@ -248,7 +276,9 @@ class Images extends Shortcode {
 	 *
 	 * Run things before doing anything.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function init() {}
 }

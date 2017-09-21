@@ -2,10 +2,10 @@
 /**
  * Collection Headbox default template.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $headbox
- * @uses    $collection
+ * @uses $headbox
+ * @uses $collection
  */
 
 ?>

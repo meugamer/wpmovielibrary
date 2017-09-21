@@ -2,10 +2,10 @@
 /**
  * Define the Grid Editor class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\admin\editors;
@@ -15,16 +15,20 @@ namespace wpmoly\admin\editors;
  *
  * Currently supports movies, actors and genres.
  *
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Grid extends Editor {
 
 	/**
 	 * Current Post ID.
 	 *
-	 * @var    int
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var int
 	 */
 	private $post_id = 0;
 
@@ -33,7 +37,9 @@ class Grid extends Editor {
 	 *
 	 * Mostly set the grid instance.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -47,11 +53,13 @@ class Grid extends Editor {
 	/**
 	 * Add custom grid updated messages.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $messages Post updated messages.
+	 * @access public
 	 *
-	 * @return   array
+	 * @param array $messages Post updated messages.
+	 *
+	 * @return array
 	 */
 	public function updated_messages( $messages ) {
 
@@ -68,7 +76,7 @@ class Grid extends Editor {
 			 3 => __( 'Custom field deleted.', 'wpmovielibrary' ),
 			 4 => __( 'Grid updated.', 'wpmovielibrary' ),
 			 /* translators: %s: date and time of the revision */
-			 5 => isset($_GET['revision']) ? sprintf( __( 'Grid restored to revision from %s.', 'wpmovielibrary' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			 5 => isset( $_GET['revision'] ) ? sprintf( __( 'Grid restored to revision from %s.', 'wpmovielibrary' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 			 6 => __( 'Grid published.', 'wpmovielibrary' ),
 			 7 => __( 'Grid saved.', 'wpmovielibrary' ),
 			 8 => __( 'Grid submitted.', 'wpmovielibrary' ),
@@ -82,7 +90,9 @@ class Grid extends Editor {
 	/**
 	 * Define metaboxes.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function add_metaboxes() {
 
@@ -113,7 +123,9 @@ class Grid extends Editor {
 	 *
 	 * @TODO Add sanitize callbacks.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function add_managers() {
 
@@ -833,7 +845,9 @@ class Grid extends Editor {
 	/**
 	 * Load frameworks if needed.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function load_meta_frameworks() {
 
@@ -850,9 +864,11 @@ class Grid extends Editor {
 	 *
 	 * Open the grid builder container and show a couple of useful snippets.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    object    $post Current Post instance.
+	 * @access public
+	 *
+	 * @param object $post Current Post instance.
 	 */
 	public function header( $post ) {
 
@@ -872,7 +888,9 @@ class Grid extends Editor {
 	/**
 	 * Grid Submit Metabox additional/custom buttons.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function submitbox() {
 
@@ -894,9 +912,11 @@ class Grid extends Editor {
 	/**
 	 * Grid Type Metabox callback.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    object    $post Current Post instance.
+	 * @access public
+	 *
+	 * @param object $post Current Post instance.
 	 */
 	public function grid_parameters_metabox( $post ) {
 
@@ -914,9 +934,11 @@ class Grid extends Editor {
 	/**
 	 * Grid Preview metabox.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    object    $post Current Post instance.
+	 * @access public
+	 *
+	 * @param object $post Current Post instance.
 	 */
 	public function grid_preview_metabox( $post ) {
 
@@ -983,9 +1005,11 @@ class Grid extends Editor {
 	/**
 	 * Grid Builder container closing.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    object    $post Current Post instance.
+	 * @access public
+	 *
+	 * @param object $post Current Post instance.
 	 */
 	public function footer( $post ) {
 
@@ -1000,10 +1024,12 @@ class Grid extends Editor {
 	/**
 	 * Automatically publish grids.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int        $post_id Post ID.
-	 * @param    WP_Post    $post Post object.
+	 * @access public
+	 *
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    Post object.
 	 */
 	public function publish( $post_id, $post ) {
 
@@ -1022,11 +1048,13 @@ class Grid extends Editor {
 	 * unwanted fields corresponding to different types than current type to
 	 * avoid having values overflowed by the last manager in the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int        $post_id Post ID.
-	 * @param    WP_Post    $post Post object.
-	 * @param    boolean    $update Updating existing post?
+	 * @access public
+	 *
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    Post object.
+	 * @param boolean $update  Updating existing post?
 	 */
 	public function save( $post_id, $post, $update ) {
 

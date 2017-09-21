@@ -2,10 +2,10 @@
 /**
  * Define the Details Widget class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\widgets;
@@ -13,10 +13,10 @@ namespace wpmoly\widgets;
 /**
  * Details Widget class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Details extends Widget {
 
@@ -36,7 +36,7 @@ class Details extends Widget {
 	/**
 	 * Widget default attributes.
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	protected $defaults = array(
 		'title'       => '',
@@ -47,7 +47,7 @@ class Details extends Widget {
 	/**
 	 * Set default properties.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function make() {
 
@@ -59,7 +59,7 @@ class Details extends Widget {
 	/**
 	 * Build Widget content.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function build() {
 
@@ -72,9 +72,9 @@ class Details extends Widget {
 				/**
 				 * Filter detail value.
 				 *
-				 * @since    3.0
+				 * @since 3.0.0
 				 *
-				 * @param    string    $value Detail value
+				 * @param string $value Detail value
 				 */
 				$details[ $key ] = apply_filters( "wpmoly/widget/format/{$detail}/value", $key );
 			}
@@ -95,7 +95,7 @@ class Details extends Widget {
 	/**
 	 * Build Widget form content.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function build_form() {
 

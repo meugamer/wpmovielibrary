@@ -2,10 +2,10 @@
 /**
  * Define the Node class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes;
@@ -13,33 +13,43 @@ namespace wpmoly\nodes;
 /**
  * Define a generic Node class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Node {
 
 	/**
 	 * Node ID.
 	 *
-	 * @var      int
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var int
 	 */
 	public $id;
 
 	/**
 	 * Node meta suffix.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
 	 */
 	protected $suffix;
 
 	/**
 	 * Class Constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int|Node|WP_Post    $node Node ID, node instance or post object
+	 * @access public
+	 *
+	 * @param int|Node|WP_Post $node Node ID, node instance or post object.
 	 */
 	public function __construct( $node = null ) {
 
@@ -60,11 +70,13 @@ class Node {
 	/**
 	 * Load metadata.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name
+	 * @access protected
 	 *
-	 * @return   mixed
+	 * @param string $name Property name
+	 *
+	 * @return mixed
 	 */
 	protected function get_property( $name ) {
 
@@ -77,12 +89,14 @@ class Node {
 	/**
 	 * Property accessor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name Property name
-	 * @param    mixed     $default Default value
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name Property name
+	 * @param mixed $default Default value
+	 *
+	 * @return mixed
 	 */
 	public function get( $name, $default = null ) {
 
@@ -101,12 +115,14 @@ class Node {
 	/**
 	 * Set Property.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name
-	 * @param    mixed     $value
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name
+	 * @param mixed $value
+	 *
+	 * @return mixed
 	 */
 	public function set( $name, $value = null ) {
 

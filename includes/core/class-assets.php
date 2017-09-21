@@ -2,7 +2,7 @@
 /**
  * .
  *
- * @link http://wpmovielibrary.com
+ * @link https://wpmovielibrary.com
  * @since 3.0.0
  *
  * @package WPMovieLibrary
@@ -14,7 +14,7 @@ namespace wpmoly\core;
  * .
  *
  * @package WPMovieLibrary
- * 
+ *
  * @author Charlie Merland <charlie@caercam.org>
  */
 class Assets {
@@ -57,7 +57,7 @@ class Assets {
 			self::$_instance = new static;
 			self::$_instance->init();
 		}
-		
+
 		return self::$_instance;
 	}
 
@@ -718,9 +718,9 @@ class Assets {
 		/**
 		 * Filter the admin style URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $src Asset URL.
+		 * @param string $src Asset URL.
 		 */
 		$src = apply_filters( 'wpmoly/filter/admin/style/src', $src );
 
@@ -745,9 +745,9 @@ class Assets {
 		/**
 		 * Filter the public style URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $src Asset URL.
+		 * @param string $src Asset URL.
 		 */
 		$src = apply_filters( 'wpmoly/filter/public/style/src', $src );
 
@@ -772,9 +772,9 @@ class Assets {
 		/**
 		 * Filter the admin script URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $src Asset URL.
+		 * @param string $src Asset URL.
 		 */
 		$src = apply_filters( 'wpmoly/filter/admin/script/src', $src );
 
@@ -799,9 +799,9 @@ class Assets {
 		/**
 		 * Filter the public script URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $src Asset URL.
+		 * @param string $src Asset URL.
 		 */
 		$src = apply_filters( 'wpmoly/filter/public/script/src', $src );
 
@@ -826,9 +826,9 @@ class Assets {
 		/**
 		 * Filter the public font URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $src Asset URL.
+		 * @param string $src Asset URL.
 		 */
 		$src = apply_filters( 'wpmoly/filter/public/font/src', $src );
 
@@ -855,27 +855,27 @@ class Assets {
 		/**
 		 * Filter the Asset handle.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $handle Asset handle.
+		 * @param string $handle Asset handle.
 		 */
 		$handle = apply_filters( 'wpmoly/filter/assets/handle', $handle );
 
 		/**
 		 * Filter the Asset URL.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $src Asset URL.
+		 * @param string $src Asset URL.
 		 */
 		$src = apply_filters( 'wpmoly/filter/assets/src', $src );
 
 		/**
 		 * Filter the Asset version.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $version Asset version.
+		 * @param string $version Asset version.
 		 */
 		$version = apply_filters( 'wpmoly/filter/assets/version', $version );
 

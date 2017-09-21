@@ -2,9 +2,9 @@
 /**
  * WPMovieLibrary Bootstrap file.
  *
- * @link              http://wpmovielibrary.com
- * @since             3.0
- * @package           WPMovieLibrary
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
+ * @package WPMovieLibrary
  *
  * @wordpress-plugin
  * Plugin Name:       WPMovieLibrary

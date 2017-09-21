@@ -2,10 +2,10 @@
 /**
  * Define the Local Release Date Shortcode class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\shortcodes;
@@ -15,24 +15,24 @@ namespace wpmoly\shortcodes;
 /**
  * Local Release Date Shortcode class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Runtime extends Metadata {
 
 	/**
 	 * Shortcode name, used for declaring the Shortcode
 	 *
-	 * @var    string
+	 * @var string
 	 */
 	public static $name = 'movie_runtime';
 
 	/**
 	 * Shortcode attributes sanitizers
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	protected $validates = array(
 		'id' => array(
@@ -60,14 +60,14 @@ class Runtime extends Metadata {
 	/**
 	 * Shortcode aliases
 	 *
-	 * @var    array
+	 * @var array
 	 */
 	protected static $aliases = array();
 
 	/**
 	 * Build the Shortcode.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function make() {
 

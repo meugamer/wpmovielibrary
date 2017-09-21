@@ -2,10 +2,10 @@
 /**
  * Define the API class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\api;
@@ -15,28 +15,31 @@ use WP_Error;
 /**
  * Handle the interactions with the TMDb API.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class API {
 
 	/**
 	 * Current instance.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @var      Library
+	 * @static
+	 * @access public
+	 *
+	 * @var Library
 	 */
 	public static $instance;
 
 	/**
 	 * Define the API class.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -50,9 +53,12 @@ class API {
 	/**
 	 * Singleton.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   API
+	 * @static
+	 * @access public
+	 *
+	 * @return API
 	 */
 	public static function get_instance() {
 

@@ -2,9 +2,9 @@
 /**
  * Statistics Widget admin template.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $widget
+ * @uses $widget
  */
 
 ?>

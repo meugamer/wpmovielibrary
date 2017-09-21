@@ -2,7 +2,7 @@
 /**
  * The file that defines the library class.
  *
- * @link http://wpmovielibrary.com
+ * @link https://wpmovielibrary.com
  * @since 3.0.0
  *
  * @package WPMovieLibrary
@@ -18,7 +18,7 @@ namespace wpmoly;
  *
  * @since 3.0.0
  * @package WPMovieLibrary
- * 
+ *
  * @author Charlie Merland <charlie@caercam.org>
  */
 class Library {

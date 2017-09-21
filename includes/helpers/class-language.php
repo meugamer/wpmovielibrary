@@ -2,10 +2,10 @@
 /**
  * Define the language helper class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\helpers;
@@ -15,66 +15,96 @@ use wpmoly\core\L10n;
 /**
  * Handle languages translation, localization and flags.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Language {
 
 	/**
 	 * Language ISO 639-1 Code.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $code = '';
 
 	/**
 	 * Language native name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $native_name = '';
 
 	/**
 	 * Language standard name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $standard_name = '';
 
 	/**
 	 * Language translated name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $localized_name = '';
 
 	/**
-	 * Restricted list for API support
+	 * Restricted list for API support.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $supported = array();
 
 	/**
 	 * ISO 639-1 table of native languages names.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $native = array();
 
 	/**
 	 * ISO 639-1 table of standard languages names.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $standard = array();
 
 	/**
 	 * Initialize the instance.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -89,11 +119,13 @@ class Language {
 	 * Perform a strict match to find languages by code, standard and
 	 * native names, then try an approximative match with sanitized name.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $data
+	 * @access protected
 	 *
-	 * @return   Language
+	 * @param string $data
+	 *
+	 * @return Language
 	 */
 	protected function match( $data ) {
 
@@ -164,9 +196,11 @@ class Language {
 	/**
 	 * Set the translated name of the language.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access protected
+	 *
+	 * @return string
 	 */
 	protected function localize() {
 
@@ -183,11 +217,13 @@ class Language {
 	/**
 	 * Get a language.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $language
+	 * @access public
 	 *
-	 * @return   Language
+	 * @param string $language
+	 *
+	 * @return Language
 	 */
 	public static function get( $language ) {
 

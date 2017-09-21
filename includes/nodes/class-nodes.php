@@ -3,10 +3,10 @@
 /**
  * Define the Nodes class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes;
@@ -14,67 +14,96 @@ namespace wpmoly\nodes;
 /**
  * Manipulate lists of multiple nodes.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 
 	/**
 	 * Nodes Loop status
 	 *
-	 * @var    boolean
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var boolean
 	 */
 	protected $looping;
 
 	/**
 	 * Nodes current position
 	 *
-	 * @var    int
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var int
 	 */
 	protected $position = -1;
 
 	/**
 	 * Nodes current Node
 	 *
-	 * @var    Node
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var Node
 	 */
 	public $item;
 
 	/**
 	 * Nodes Nodes
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var array
 	 */
 	public $items = array();
 
 	/**
 	 * Nodes Previous Node
 	 *
-	 * @var    Node
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var Node
 	 */
 	protected $previous;
 
 	/**
 	 * Nodes Next Node
 	 *
-	 * @var    Node
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var Node
 	 */
 	protected $next;
 
 	/**
 	 * Nodes size
 	 *
-	 * @var    int
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var int
 	 */
 	public $length;
 
 	/**
 	 * Initialize Nodes.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Images    Return itself to allow chaining
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -92,10 +121,12 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	 *
 	 * If no position is specified the Node will added at the end of the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    \Node    $item Node instance
-	 * @param    int      $position Node position
+	 * @access public
+	 *
+	 * @param Node $item     Node instance.
+	 * @param int  $position Node position.
 	 */
 	public function add( $item, $position = null, $append = false ) {
 
@@ -116,9 +147,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Remove a Node to the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $key Item key
+	 * @access public
+	 *
+	 * @param string $key Item key.
 	 */
 	public function remove( $key ) {
 
@@ -130,14 +163,16 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Filter Nodes by given key-value pair.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $key Item key
-	 * @param    mixed      $value Item value
-	 * @param    boolean    $strict Use strict comparison
-	 * @param    boolean    $force_array Force result to be an array
+	 * @access public
 	 *
-	 * @return   array
+	 * @param string  $key         Item key.
+	 * @param mixed   $value       Item value.
+	 * @param boolean $strict      Use strict comparison.
+	 * @param boolean $force_array Force result to be an array.
+	 *
+	 * @return array
 	 */
 	public function where( $key, $value, $strict = false, $force_array = true ) {
 
@@ -155,11 +190,13 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Run a callback function on each item of the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $callback
+	 * @access public
 	 *
-	 * @return   array
+	 * @param string $callback
+	 *
+	 * @return array
 	 */
 	public function filter( $callback = null ) {
 
@@ -173,11 +210,13 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Retrieve a Node from a specific position in the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int    $position Node position in the list
+	 * @access public
 	 *
-	 * @return   Node|null
+	 * @param int $position Node position in the list.
+	 *
+	 * @return Node|null
 	 */
 	public function at( $position ) {
 
@@ -191,9 +230,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Retrieve the first Node of the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Node|null
+	 * @access public
+	 *
+	 * @return Node|null
 	 */
 	public function first() {
 
@@ -203,9 +244,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Return the last item in the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Node|null
+	 * @access public
+	 *
+	 * @return Node|null
 	 */
 	public function last() {
 
@@ -215,9 +258,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Return a random item in the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Node
+	 * @access public
+	 *
+	 * @return Node
 	 */
 	public function random() {
 
@@ -233,9 +278,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Get current Key.
 	 *
-	 * @since    0.1
+	 * @since 3.0.0
 	 *
-	 * @return   int
+	 * @access public
+	 *
+	 * @return int
 	 */
 	public function key() {
 
@@ -245,9 +292,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Return current item.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Node
+	 * @access public
+	 *
+	 * @return Node
 	 */
 	public function current() {
 
@@ -257,9 +306,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Decrement position and set current item.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Node
+	 * @access public
+	 *
+	 * @return Node
 	 */
 	public function prev() {
 
@@ -273,9 +324,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Increment position and set current item.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Node
+	 * @access public
+	 *
+	 * @return Node
 	 */
 	public function next() {
 
@@ -290,9 +343,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	 * Check if current position is valid, ie. if there is an item at that
 	 * position.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   boolean
+	 * @access public
+	 *
+	 * @return boolean
 	 */
 	public function valid() {
 
@@ -302,7 +357,9 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Reset position and current item.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function rewind() {
 
@@ -314,11 +371,13 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Jump to a specific position.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int    $position Item position (key)
+	 * @access public
 	 *
-	 * @return   Node
+	 * @param int $position Item position (key).
+	 *
+	 * @return Node
 	 */
 	public function seek( $position ) {
 
@@ -333,11 +392,13 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Check if given key exists.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int    $key Item key
+	 * @access public
 	 *
-	 * @return   boolean
+	 * @param int $key Item key.
+	 *
+	 * @return boolean
 	 */
 	public function offsetExists( $key ) {
 
@@ -347,11 +408,13 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Get an item from a specific position.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int    $key Item key
+	 * @access public
 	 *
-	 * @return   Node|null
+	 * @param int $key Item key.
+	 *
+	 * @return Node|null
 	 */
 	public function offsetGet( $key ) {
 
@@ -361,10 +424,12 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Set an item at a specific position.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int      $key Item key
-	 * @param    mixed    $value Item
+	 * @access public
+	 *
+	 * @param int   $key   Item key.
+	 * @param mixed $value Item.
 	 */
 	public function offsetSet( $key, $value ) {
 
@@ -374,9 +439,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Unset an item at a specific position.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int      $key Item key
+	 * @access public
+	 *
+	 * @param int $key Item key.
 	 */
 	public function offsetUnset( $key ) {
 
@@ -386,12 +453,14 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Check the existence of a Node in the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    mixed    $key Item position
-	 * @param    mixed    $value Item
+	 * @access public
 	 *
-	 * @return   boolean
+	 * @param mixed $key   Item position.
+	 * @param mixed $value Item.
+	 *
+	 * @return boolean
 	 */
 	public function contains( $key, $value = null ) {
 
@@ -407,9 +476,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Check if the list contains at least one item.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   boolean
+	 * @access public
+	 *
+	 * @return boolean
 	 */
 	public function is_empty() {
 
@@ -419,9 +490,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Return the number of Nodes in the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   int
+	 * @access public
+	 *
+	 * @return int
 	 */
 	public function count() {
 
@@ -433,9 +506,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Check if current item is the first of the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   boolean
+	 * @access public
+	 *
+	 * @return boolean
 	 */
 	public function is_first() {
 
@@ -445,9 +520,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Check if current item is the last of the list.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   boolean
+	 * @access public
+	 *
+	 * @return boolean
 	 */
 	public function is_last() {
 
@@ -457,9 +534,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Are we done looping?
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   boolean
+	 * @access public
+	 *
+	 * @return boolean
 	 */
 	public function has_items() {
 
@@ -477,9 +556,11 @@ class Nodes implements \Iterator, \SeekableIterator, \ArrayAccess {
 	/**
 	 * Loop: jump to the next item and set it has the current item.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Node
+	 * @access public
+	 *
+	 * @return Node
 	 */
 	public function the_item() {
 

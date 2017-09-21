@@ -2,10 +2,10 @@
 /**
  * Define the API Ajax class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\Ajax;
@@ -15,19 +15,19 @@ use WP_Error;
 /**
  * Handle all the plugin's API AJAX callbacks.
  *
- * @since      3.0
- * @package    WPMovieLibrary
+ * @since 3.0.0
+ * @package WPMovieLibrary
  * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class API {
 
 	/**
 	 * Class constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   API
+	 * @return API
 	 */
 	public function __construct() {
 
@@ -42,9 +42,9 @@ class API {
 	 * Search TheMovieDB for movies matching the query. To get a specific
 	 * movie using its ID use the 'wpmoly_fetch_remote_movie' Ajax action.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function search_movie() {
 
@@ -73,9 +73,9 @@ class API {
 	 *
 	 * Fetch a specific movie from TheMovieDB by its ID.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function fetch_movie() {
 
@@ -100,9 +100,9 @@ class API {
 	/**
 	 * Remote Query Backdrops from TMDb for the current post.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function fetch_backdrops() {
 
@@ -112,9 +112,9 @@ class API {
 	/**
 	 * Remote Query Posters from TMDb for the current post.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   null
+	 * @return null
 	 */
 	public function fetch_posters() {
 
@@ -124,11 +124,11 @@ class API {
 	/**
 	 * Remote Query Images from TMDb for the current post.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type Images type, 'backdrops', 'posters' or 'both'
+	 * @param string $type Images type, 'backdrops', 'posters' or 'both'
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function fetch_images( $type = 'both' ) {
 

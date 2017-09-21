@@ -2,10 +2,10 @@
 /**
  * Define the Grid Shortcode class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\shortcodes;
@@ -13,24 +13,33 @@ namespace wpmoly\shortcodes;
 /**
  * General Shortcode class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Grid extends Shortcode {
 
 	/**
-	 * Shortcode name, used for declaring the Shortcode
+	 * Shortcode name, used for declaring the Shortcode.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public static $name = 'grid';
 
 	/**
-	 * Shortcode attributes sanitizers
+	 * Shortcode attributes sanitizers.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $validates = array(
 		'id' => array(
@@ -46,9 +55,14 @@ class Grid extends Shortcode {
 	);
 
 	/**
-	 * Shortcode aliases
+	 * Shortcode aliases.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected static $aliases = array(
 		'movie'               => 'grid',
@@ -90,7 +104,9 @@ class Grid extends Shortcode {
 	 *
 	 * Prepare Shortcode parameters.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function make() {
 
@@ -104,9 +120,11 @@ class Grid extends Shortcode {
 	 *
 	 * Perform all needed Shortcode stuff.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Shortcode
+	 * @access public
+	 *
+	 * @return Shortcode
 	 */
 	public function run() {
 
@@ -123,7 +141,9 @@ class Grid extends Shortcode {
 	 *
 	 * Run things before doing anything.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function init() {}
 }

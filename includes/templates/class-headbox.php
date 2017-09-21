@@ -2,10 +2,10 @@
 /**
  * Define the Headbox Template classes.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\templates;
@@ -18,28 +18,34 @@ use WP_Error;
  * This class acts as a controller for headbox templates, determining which template
  * file to use and preseting data for it.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Headbox extends Front {
 
 	/**
 	 * Headbox instance.
 	 *
-	 * @var    Headbox
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var Headbox
 	 */
 	private $headbox;
 
 	/**
 	 * Class Constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    mixed    $headbox Headbox instance or ID.
+	 * @access public
 	 *
-	 * @return   Template|WP_Error
+	 * @param mixed $headbox Headbox instance or ID.
+	 *
+	 * @return Template|WP_Error
 	 */
 	public function __construct( $headbox ) {
 
@@ -65,11 +71,13 @@ class Headbox extends Front {
 	 *
 	 * Allows access to $this->headbox methods through this class.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name
+	 *
+	 * @return mixed
 	 */
 	public function __call( $method, $arguments ) {
 
@@ -85,11 +93,13 @@ class Headbox extends Front {
 	 *
 	 * Allows access to $this->headbox properties through this class.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $name
+	 * @access public
 	 *
-	 * @return   mixed
+	 * @param string $name
+	 *
+	 * @return mixed
 	 */
 	public function __get( $name ) {
 
@@ -110,9 +120,11 @@ class Headbox extends Front {
 	 *
 	 * @TODO make use of that WP_Error.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access private
+	 *
+	 * @return string
 	 */
 	private function set_path() {
 
@@ -132,12 +144,14 @@ class Headbox extends Front {
 	 * Default parameters are the opposite of Template::render(): always
 	 * require and never echo.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $require Use 'once' to use require_once(), 'always' to use require()
-	 * @param    boolean    $echo Use true to display, false to return
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $require Use 'once' to use require_once(), 'always' to use require()
+	 * @param boolean $echo Use true to display, false to return
+	 *
+	 * @return string
 	 */
 	public function render( $require = 'always', $echo = false ) {
 

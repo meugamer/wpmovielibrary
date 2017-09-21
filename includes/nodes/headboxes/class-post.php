@@ -2,10 +2,10 @@
 /**
  * Define the Post Headbox class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes\headboxes;
@@ -16,18 +16,20 @@ use \wpmoly\nodes\posts;
 /**
  * General Post Headbox class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Post extends Headbox {
 
 	/**
 	 * Class Constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int|Node|WP_Term    $node Node ID, node instance or post object
+	 * @access public
+	 *
+	 * @param int|Node|WP_Term $node Node ID, node instance or post object
 	 */
 	public function __construct( $node = null ) {
 
@@ -54,7 +56,9 @@ class Post extends Headbox {
 	/**
 	 * Initialize the Headbox.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function init() {
 
@@ -75,9 +79,9 @@ class Post extends Headbox {
 		/**
 		 * Filter the supported Headbox types.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    array    $headbox_types
+		 * @param array $headbox_types
 		 */
 		$this->supported_types = apply_filters( 'wpmoly/filter/postheadbox/supported/types', $headbox_types );
 
@@ -86,11 +90,11 @@ class Post extends Headbox {
 			/**
 			 * Filter the supported Headbox themes.
 			 *
-			 * @since    3.0
+			 * @since 3.0.0
 			 *
-			 * @param    array    $default_modes
+			 * @param array $default_modes
 			 */
-			$this->supported_themes[ $type_id ] = apply_filters( 'wpmoly/filter/postheadbox/supported/' . $type_id . '/themes', $type['themes'] );
+			$this->supported_themes[ $type_id ] = apply_filters( "wpmoly/filter/postheadbox/supported/{$type_id}/themes", $type['themes'] );
 		}
 
 		$this->build();
@@ -101,7 +105,9 @@ class Post extends Headbox {
 	 *
 	 * Load items depending on presets or custom settings.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function build() {
 
@@ -118,18 +124,20 @@ class Post extends Headbox {
 	/**
 	 * Retrieve current postheadbox type.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access public
+	 *
+	 * @return string
 	 */
 	public function get_type() {
 
 		/**
 		 * Filter postheadbox default type.
 		 *
-		 * @since    3.0
+		 * @since 3.0.0
 		 *
-		 * @param    string    $default_type
+		 * @param string $default_type
 		 */
 		$default_type = apply_filters( 'wpmoly/filter/postheadbox/default/type', '' );
 
@@ -143,11 +151,13 @@ class Post extends Headbox {
 	/**
 	 * Set postheadbox type.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $type
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $type
+	 *
+	 * @return string
 	 */
 	public function set_type( $type ) {
 
@@ -163,9 +173,11 @@ class Post extends Headbox {
 	/**
 	 * Retrieve current postheadbox theme.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access public
+	 *
+	 * @return string
 	 */
 	public function get_theme() {
 
@@ -179,11 +191,13 @@ class Post extends Headbox {
 	/**
 	 * Set postheadbox theme.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $theme
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $theme
+	 *
+	 * @return string
 	 */
 	public function set_theme( $theme ) {
 

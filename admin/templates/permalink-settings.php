@@ -4,11 +4,11 @@
  *
  * Add a metabox for custom permalinks in the permalink settings page.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $settings
- * @uses    $permalinks
- * @uses    $enabled
+ * @uses $settings
+ * @uses $permalinks
+ * @uses $enabled
  */
 ?>
 

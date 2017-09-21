@@ -2,10 +2,10 @@
 /**
  * REST API: WP_REST_Movie_Meta_Fields class
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\rest\fields;
@@ -15,12 +15,12 @@ use WP_REST_Post_Meta_Fields;
 /**
  * Core class used to manage meta values for movies via the REST API.
  *
- * @see        WP_REST_Post_Meta_Fields
+ * @see WP_REST_Post_Meta_Fields
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Movie_Meta extends WP_REST_Post_Meta_Fields {
 
@@ -32,13 +32,13 @@ class Movie_Meta extends WP_REST_Post_Meta_Fields {
 	 *
 	 * @see WP_REST_Post_Meta_Fields::prepare_value_for_response()
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    mixed              $value   Meta value to prepare.
-	 * @param    WP_REST_Request    $request Current request object.
-	 * @param    array              $args    Options for the field.
+	 * @param mixed           $value   Meta value to prepare.
+	 * @param WP_REST_Request $request Current request object.
+	 * @param array           $args    Options for the field.
 	 *
-	 * @return   mixed              Prepared value.
+	 * @return mixed
 	 */
 	protected function prepare_value_for_response( $value, $request, $args ) {
 
@@ -64,12 +64,12 @@ class Movie_Meta extends WP_REST_Post_Meta_Fields {
 	 *
 	 * @see WP_REST_Post_Meta_Fields::get_value()
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    int                $object_id Object ID to fetch meta for.
-	 * @param    WP_REST_Request    $request   Full details about the request.
+	 * @param int             $object_id Object ID to fetch meta for.
+	 * @param WP_REST_Request $request   Full details about the request.
 	 *
-	 * @return   WP_Error|object    Object containing the meta values by name, otherwise WP_Error object.
+	 * @return WP_Error|object Object containing the meta values by name, otherwise WP_Error object.
 	 */
 	public function get_value( $object_id, $request ) {
 

@@ -2,10 +2,10 @@
 /**
  * Define the options.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 // If this file is called directly, abort.
@@ -65,7 +65,7 @@ $redux_args['share_icons'][] = array(
 	'icon' => 'el el-googleplus',
 );
 $redux_args['share_icons'][] = array(
-	'url' => 'http://wpmovielibrary.com',
+	'url' => 'https://wpmovielibrary.com',
 	'title' => 'Find us on WPMovieLibrary.com',
 	'icon' => 'el el-wordpress',
 );
@@ -1347,7 +1347,7 @@ $redux_sections = array(
 				'id'       => 'wpmoly-enable-cache',
 				'type'     => 'switch',
 				'title'    => __( 'Enable Caching', 'wpmovielibrary' ),
-				'desc'     => __( 'If enabled, WPMovieLibrary will cache movie related data to prevent too frequent queries to the database. <strong>This feature is experimental!</strong> Enabling this could generate <strong>huge</strong> amounts of entries in your database. It is recommended to use this feature sparingly, ideally not in production. <a href="http://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
+				'desc'     => __( 'If enabled, WPMovieLibrary will cache movie related data to prevent too frequent queries to the database. <strong>This feature is experimental!</strong> Enabling this could generate <strong>huge</strong> amounts of entries in your database. It is recommended to use this feature sparingly, ideally not in production. <a href="https://wpmovielibrary.com/documentation/performance">Learn more about caching</a>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,
@@ -1389,7 +1389,7 @@ $redux_sections = array(
 				'type'     => 'switch',
 				'title'    => __( 'Enable Legacy mode', 'wpmovielibrary' ),
 				'subtitle' => __( 'WPMovieLibrary 1.x compatibility mode', 'wpmovielibrary' ),
-				'description' => __( 'If enabled, WPMovieLibrary will automatically update all movies to the new metadata format introduced by version 1.3. Each time a metadata is access, the plugin will look for obsolete metadata and will update it if needed. Once all movies are updated the plugin will stop looking, but you should deactivate this anyway. <a href="http://wpmovielibrary.com/development/release-notes/#version-1.3">Learn more about this change</a>.', 'wpmovielibrary' ),
+				'description' => __( 'If enabled, WPMovieLibrary will automatically update all movies to the new metadata format introduced by version 1.3. Each time a metadata is access, the plugin will look for obsolete metadata and will update it if needed. Once all movies are updated the plugin will stop looking, but you should deactivate this anyway. <a href="https://wpmovielibrary.com/development/release-notes/#version-1.3">Learn more about this change</a>.', 'wpmovielibrary' ),
 				'on'       => __( 'Enabled', 'wpmovielibrary' ),
 				'off'      => __( 'Disabled', 'wpmovielibrary' ),
 				'default'  => 0,

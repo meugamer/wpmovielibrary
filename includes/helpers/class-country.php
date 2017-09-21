@@ -2,10 +2,10 @@
 /**
  * Define the country helper class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\helpers;
@@ -15,52 +15,74 @@ use wpmoly\core\L10n;
 /**
  * Handle countries names translation, localization and flags.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Country {
 
 	/**
 	 * Country ISO 3166-1 Code.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $code = '';
 
 	/**
 	 * Country standard name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $standard_name = '';
 
 	/**
 	 * Country translated name.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public $localized_name = '';
 
 	/**
-	 * Restricted list for API support
+	 * Restricted list for API support.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $supported = array();
 
 	/**
 	 * ISO 3166-1 table.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $standard = array();
 
 	/**
 	 * Initialize the instance.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -74,9 +96,11 @@ class Country {
 	 * Perform a strict match to find languages by code and standard name,
 	 * then try an approximative match with sanitized name.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $data
+	 * @access protected
+	 *
+	 * @param string $data
 	 */
 	protected function match( $data ) {
 
@@ -120,7 +144,9 @@ class Country {
 	/**
 	 * Set the translated name of the country.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function localize() {
 
@@ -138,9 +164,11 @@ class Country {
 	/**
 	 * Generate country's flag.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access public
+	 *
+	 * @return string
 	 */
 	public function flag() {
 
@@ -151,8 +179,8 @@ class Country {
 		*
 		* @since    2.0
 		*
-		* @param    string    $flag HTML markup
-		* @param    string    $country Country
+		* @param string $flag HTML markup
+		* @param string $country Country
 		*/
 		return apply_filters( 'wpmoly/filter/country/flag/html', $flag, $this );
 	}
@@ -160,11 +188,14 @@ class Country {
 	/**
 	 * Get a country.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string    $country
+	 * @static
+	 * @access public
 	 *
-	 * @return   Country
+	 * @param string $country
+	 *
+	 * @return Country
 	 */
 	public static function get( $country ) {
 

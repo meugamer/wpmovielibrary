@@ -4,10 +4,10 @@
  *
  * Showing a specific movie detail.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $detail
- * @uses    $key
+ * @uses $detail
+ * @uses $key
  */
 ?>
 

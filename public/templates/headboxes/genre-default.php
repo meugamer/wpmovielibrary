@@ -2,10 +2,10 @@
 /**
  * Genre Headbox default template.
  *
- * @since    3.0
+ * @since 3.0.0
  *
- * @uses    $headbox
- * @uses    $genre
+ * @uses $headbox
+ * @uses $genre
  */
 
 ?>

@@ -2,10 +2,10 @@
 /**
  * Define the Headbox Shortcode class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\shortcodes;
@@ -15,31 +15,44 @@ use wpmoly\templates\Front as Template;
 /**
  * General Shortcode class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Headbox extends Shortcode {
 
 	/**
-	 * Shortcode name, used for declaring the Shortcode
+	 * Shortcode name, used for declaring the Shortcode.
 	 *
-	 * @var    string
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @var string
 	 */
 	public static $name = 'headbox';
 
 	/**
 	 * Headbox Node.
 	 *
-	 * @var    Node
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var Node
 	 */
 	private $node;
 
 	/**
-	 * Shortcode attributes sanitizers
+	 * Shortcode attributes sanitizers.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected $validates = array(
 		'id' => array(
@@ -65,9 +78,14 @@ class Headbox extends Shortcode {
 	);
 
 	/**
-	 * Shortcode aliases
+	 * Shortcode aliases.
 	 *
-	 * @var    array
+	 * @since 3.0.0
+	 *
+	 * @static
+	 * @access protected
+	 *
+	 * @var array
 	 */
 	protected static $aliases = array(
 		'movie'              => 'movie',
@@ -85,7 +103,9 @@ class Headbox extends Shortcode {
 	 *
 	 * Prepare Shortcode parameters.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function make() {
 
@@ -118,9 +138,11 @@ class Headbox extends Shortcode {
 	 *
 	 * Perform all needed Shortcode stuff.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Shortcode
+	 * @access public
+	 *
+	 * @return Shortcode
 	 */
 	public function run() {
 
@@ -150,9 +172,11 @@ class Headbox extends Shortcode {
 	 * Try to find the node by its title/name if such an attribute was passed
 	 * to the Shortcode.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Node|boolean
+	 * @access private
+	 *
+	 * @return Node|boolean
 	 */
 	private function get_node() {
 
@@ -188,7 +212,9 @@ class Headbox extends Shortcode {
 	 *
 	 * Run things before doing anything.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access protected
 	 */
 	protected function init() {}
 }

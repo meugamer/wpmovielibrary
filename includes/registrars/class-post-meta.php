@@ -4,7 +4,7 @@
  *
  * Register required .
  *
- * @link http://wpmovielibrary.com
+ * @link https://wpmovielibrary.com
  * @since 3.0
  *
  * @package WPMovieLibrary
@@ -17,7 +17,7 @@ namespace wpmoly\registrars;
  *
  * @since 3.0.0
  * @package WPMovieLibrary
- * 
+ *
  * @author Charlie Merland <charlie@caercam.org>
  */
 class Post_Meta {
@@ -516,7 +516,7 @@ class Post_Meta {
 				}
 
 				register_meta( 'post', $meta_key, $args );
-			}
+			} // End foreach().
 		} // End foreach().
 	}
 

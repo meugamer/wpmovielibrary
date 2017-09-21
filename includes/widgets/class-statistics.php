@@ -2,10 +2,10 @@
 /**
  * Define the Statistics Widget class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\widgets;
@@ -13,10 +13,10 @@ namespace wpmoly\widgets;
 /**
  * Statistics Widget class.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Statistics extends Widget {
 
@@ -36,7 +36,7 @@ class Statistics extends Widget {
 	/**
 	 * Set default properties.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function make() {
 
@@ -48,7 +48,7 @@ class Statistics extends Widget {
 	/**
 	 * Build Widget content.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function build() {
 
@@ -100,7 +100,7 @@ class Statistics extends Widget {
 	/**
 	 * Build Widget form content.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 */
 	protected function build_form() {
 

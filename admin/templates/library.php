@@ -2,7 +2,7 @@
 /**
  * Backstage Library view Template
  *
- * @since    3.0
+ * @since 3.0.0
  */
 ?>
 

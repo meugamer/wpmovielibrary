@@ -2,10 +2,10 @@
 /**
  * Define the DefaultImage class.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\nodes\images;
@@ -13,25 +13,31 @@ namespace wpmoly\nodes\images;
 /**
  * Generic Singleton Node class to handle empty Backdrop and Poster instances.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Default_Image extends Image {
 
 	/**
 	 * Default Poster instance.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @var      array
+	 * @static
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private static $instance;
 
 	/**
 	 * Make the Image.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
+	 *
+	 * @access public
 	 */
 	public function make() {
 
@@ -43,9 +49,12 @@ class Default_Image extends Image {
 	/**
 	 * Get a Default Poster instance.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   Default_Poster
+	 * @static
+	 * @access public
+	 *
+	 * @return Default_Poster
 	 */
 	final public static function get_instance( $unused = null ) {
 

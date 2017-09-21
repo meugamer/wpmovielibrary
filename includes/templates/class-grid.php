@@ -2,10 +2,10 @@
 /**
  * Define the Grid Template classes.
  *
- * @link       http://wpmovielibrary.com
- * @since      3.0
+ * @link https://wpmovielibrary.com
+ * @since 3.0.0
  *
- * @package    WPMovieLibrary
+ * @package WPMovieLibrary
  */
 
 namespace wpmoly\templates;
@@ -18,28 +18,34 @@ use WP_Error;
  * This class acts as a controller for grid templates, determining which template
  * file to use and preseting data for it.
  *
- * @since      3.0
- * @package    WPMovieLibrary
- * 
- * @author     Charlie Merland <charlie@caercam.org>
+ * @since 3.0.0
+ * @package WPMovieLibrary
+ *
+ * @author Charlie Merland <charlie@caercam.org>
  */
 class Grid extends Front {
 
 	/**
 	 * Grid instance.
 	 *
-	 * @var    Grid
+	 * @since 3.0.0
+	 *
+	 * @access private
+	 *
+	 * @var Grid
 	 */
 	private $grid;
 
 	/**
 	 * Class Constructor.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    mixed    $grid Grid instance or ID.
+	 * @access public
 	 *
-	 * @return   Template|WP_Error
+	 * @param mixed $grid Grid instance or ID.
+	 *
+	 * @return Template|WP_Error
 	 */
 	public function __construct( $grid ) {
 
@@ -65,9 +71,11 @@ class Grid extends Front {
 	 *
 	 * @TODO make use of that WP_Error.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access private
+	 *
+	 * @return string
 	 */
 	private function set_path() {
 
@@ -84,11 +92,13 @@ class Grid extends Front {
 	/**
 	 * Determine grid preset.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    array    $data Template data.
+	 * @access private
 	 *
-	 * @return   array
+	 * @param array $data Template data.
+	 *
+	 * @return array
 	 */
 	private function set_preset( $data = array() ) {
 
@@ -126,9 +136,11 @@ class Grid extends Front {
 	 *
 	 * Generate a list of data- attributes to add to the grid container tag.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @return   string
+	 * @access private
+	 *
+	 * @return string
 	 */
 	private function get_data_attributes() {
 
@@ -165,12 +177,14 @@ class Grid extends Front {
 	 * is not supported, the query is empty an will result in an error notice
 	 * being displayed instead of the grid.
 	 *
-	 * @since    3.0
+	 * @since 3.0.0
 	 *
-	 * @param    string     $require Use 'once' to use require_once(), 'always' to use require()
-	 * @param    boolean    $echo Use true to display, false to return
+	 * @access public
 	 *
-	 * @return   string
+	 * @param string $require Use 'once' to use require_once(), 'always' to use require()
+	 * @param boolean $echo Use true to display, false to return
+	 *
+	 * @return string
 	 */
 	public function render( $require = 'always', $echo = false ) {
 
