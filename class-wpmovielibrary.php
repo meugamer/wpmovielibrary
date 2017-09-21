@@ -8,7 +8,11 @@
  * @package WPMovieLibrary
  */
 
-namespace wpmoly;
+use wpmoly\core;
+use wpmoly\rest;
+use wpmoly\registrars;
+use wpmoly\Dashboard;
+use wpmoly\Library;
 
 /**
  * The core plugin class.
@@ -18,7 +22,7 @@ namespace wpmoly;
  * 
  * @author Charlie Merland <charlie@caercam.org>
  */
-final class Library {
+final class WPMovieLibrary {
 
 	/**
 	 * The single instance of the plugin.
@@ -28,7 +32,7 @@ final class Library {
 	 * @static
 	 * @access private
 	 *
-	 * @var Library
+	 * @var WPMovieLibrary
 	 */
 	private static $_instance = null;
 
@@ -61,7 +65,7 @@ final class Library {
 	 * @static
 	 * @access public
 	 *
-	 * @return \wpmoly\Library
+	 * @return WPMovieLibrary
 	 */
 	public static function get_instance() {
 
@@ -96,18 +100,17 @@ final class Library {
 		add_action( 'wpmoly/run', array( &$this, 'require_node_files' ) );
 		add_action( 'wpmoly/run', array( &$this, 'require_rest_files' ) );
 		add_action( 'wpmoly/run', array( &$this, 'require_tmdb_files' ) );
+		add_action( 'wpmoly/run', array( &$this, 'require_dashboard_files' ) );
 		add_action( 'wpmoly/run', array( &$this, 'require_editor_files' ) );
 		add_action( 'wpmoly/run', array( &$this, 'require_widget_files' ) );
 		add_action( 'wpmoly/run', array( &$this, 'require_shortcode_files' ) );
+		add_action( 'wpmoly/run', array( &$this, 'require_library_files' ) );
 
 		// Register Custom Post Types, Taxonomies…
 		add_action( 'wpmoly/registrars/loaded', array( &$this, 'register_post_types' ) );
 		add_action( 'wpmoly/registrars/loaded', array( &$this, 'register_taxonomies' ) );
 		add_action( 'wpmoly/registrars/loaded', array( &$this, 'register_post_meta' ) );
 		add_action( 'wpmoly/registrars/loaded', array( &$this, 'register_term_meta' ) );
-
-		// Register Assets.
-		add_action( 'wpmoly/core/loaded', array( &$this, 'register_assets' ) );
 
 		// Localize.
 		add_action( 'wpmoly/core/loaded', array( &$this, 'localize' ) );
@@ -119,12 +122,21 @@ final class Library {
 		add_action( 'wpmoly/core/loaded',      array( &$this, 'register_query' ) );
 		add_action( 'wpmoly/query/registered', array( &$this, 'register_query_filters' ), 10, 2 );
 
+		// REST API.
+		add_action( 'wpmoly/rest/loaded', array( &$this, 'register_rest_api' ) );
+
 		// Register Widgets.
 		add_action( 'wpmoly/widgets/loaded', array( &$this, 'register_widgets' ) );
 
 		// Register Shortcodes.
 		add_action( 'wpmoly/shortcodes/loaded',     array( &$this, 'register_shortcodes' ) );
 		add_action( 'wpmoly/shortcodes/registered', array( &$this, 'register_shortcode_filters' ) );
+
+		// Register dashboard.
+		add_action( 'wpmoly/dashboard/loaded', array( &$this, 'register_dashboard' ) );
+
+		// Register front library.
+		add_action( 'wpmoly/library/loaded', array( &$this, 'register_library' ) );
 	}
 
 	/**
@@ -141,7 +153,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/registrars/load', array( &$this ) );
 
@@ -155,7 +167,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/registrars/loaded', array( &$this ) );
 	}
@@ -174,7 +186,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/core/load', array( &$this ) );
 
@@ -187,7 +199,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/core/loaded', array( &$this ) );
 	}
@@ -206,7 +218,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/templates/load', array( &$this ) );
 
@@ -222,7 +234,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/templates/loaded', array( &$this ) );
 	}
@@ -241,13 +253,14 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/helpers/load', array( &$this ) );
 
 		require_once WPMOLY_PATH . 'includes/helpers/defaults.php';
 		require_once WPMOLY_PATH . 'includes/helpers/utils.php';
 		require_once WPMOLY_PATH . 'includes/helpers/templates.php';
+		require_once WPMOLY_PATH . 'includes/helpers/post-templates.php';
 		require_once WPMOLY_PATH . 'includes/helpers/permalinks.php';
 		require_once WPMOLY_PATH . 'includes/helpers/formatting.php';
 		require_once WPMOLY_PATH . 'includes/helpers/class-country.php';
@@ -258,7 +271,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/helpers/loaded', array( &$this ) );
 	}
@@ -277,7 +290,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/nodes/load', array( &$this ) );
 
@@ -302,7 +315,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/nodes/loaded', array( &$this ) );
 	}
@@ -321,7 +334,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/rest/load', array( &$this ) );
 
@@ -336,7 +349,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/rest/loaded', array( &$this ) );
 	}
@@ -355,7 +368,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/api/load', array( &$this ) );
 
@@ -368,9 +381,44 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/api/loaded', array( &$this ) );
+	}
+
+	/**
+	 * Load required Dashboard files.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 */
+	public function require_dashboard_files() {
+
+		if ( ! is_admin() ) {
+			return false;
+		}
+
+		/**
+		 * Fires before loading dashboard files.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/dashboard/load', array( &$this ) );
+
+		require_once WPMOLY_PATH . 'admin/class-dashboard.php';
+		require_once WPMOLY_PATH . 'admin/class-library.php';
+
+		/**
+		 * Fires after dashboard files are loaded.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/dashboard/loaded', array( &$this ) );
 	}
 
 	/**
@@ -382,7 +430,7 @@ final class Library {
 	 */
 	public function require_editor_files() {
 
-		if ( is_admin() ) {
+		if ( ! is_admin() ) {
 			return false;
 		}
 
@@ -391,26 +439,23 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/editors/load', array( &$this ) );
 
-		require_once WPMOLY_PATH . 'admin/class-rewrite.php';
-		require_once WPMOLY_PATH . 'admin/class-backstage.php';
+		require_once WPMOLY_PATH . 'admin/editors/class-permalinks.php';
 		require_once WPMOLY_PATH . 'admin/editors/class-editor.php';
 		require_once WPMOLY_PATH . 'admin/editors/class-page.php';
 		require_once WPMOLY_PATH . 'admin/editors/class-grid.php';
 		require_once WPMOLY_PATH . 'admin/editors/class-movie.php';
 		require_once WPMOLY_PATH . 'admin/editors/class-term.php';
-		require_once WPMOLY_PATH . 'admin/class-library.php';
-		require_once WPMOLY_PATH . 'admin/class-permalink-settings.php';
 
 		/**
 		 * Fires after editor files are loaded.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/editors/loaded', array( &$this ) );
 	}
@@ -429,7 +474,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/widgets/load', array( &$this ) );
 
@@ -443,7 +488,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/widgets/loaded', array( &$this ) );
 	}
@@ -462,7 +507,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/shortcodes/load', array( &$this ) );
 
@@ -483,9 +528,39 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/shortcodes/loaded', array( &$this ) );
+	}
+
+	/**
+	 * Load required Library files.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 */
+	public function require_library_files() {
+
+		/**
+		 * Fires before loading library files.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/library/load', array( &$this ) );
+
+		require_once WPMOLY_PATH . 'public/class-library.php';
+
+		/**
+		 * Fires after library files are loaded.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/library/loaded', array( &$this ) );
 	}
 
 	/**
@@ -495,16 +570,16 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function localize( $library ) {
+	public function localize( $wpmovielibrary ) {
 
 		/**
 		 * Fires before localizing the plugin.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/localize', array( &$this ) );
 
@@ -517,7 +592,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param Library &$this The Library instance (passed by reference).
+		 * @param Library &$this The Plugin instance (passed by reference).
 		 * @param L10n    &$l10n The L10n instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/localized', array( &$this, &$l10n ) );
@@ -530,16 +605,16 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_post_types( $library ) {
+	public function register_post_types( $wpmovielibrary ) {
 
 		/**
 		 * Fires before registering post types.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/post_types/register', array( &$this ) );
 
@@ -553,8 +628,8 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param Library    &$this The Library instance (passed by reference).
-		 * @param Post_Types &$this The Post Types registrar instance (passed by reference).
+		 * @param WPMovieLibrary &$this      The Plugin instance (passed by reference).
+		 * @param Post_Types     &$registrar The Post Types registrar instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/post_types/registered', array( &$this, &$registrar ) );
 	}
@@ -566,16 +641,16 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_taxonomies( $library ) {
+	public function register_taxonomies( $wpmovielibrary ) {
 
 		/**
 		 * Fires before registering taxonomies.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/taxonomies/register', array( &$this ) );
 
@@ -588,8 +663,8 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param Library    &$this The Library instance (passed by reference).
-		 * @param Taxonomies &$this The Taxonomies registrar instance (passed by reference).
+		 * @param WPMovieLibrary &$this      The Plugin instance (passed by reference).
+		 * @param Taxonomies     &$registrar The Taxonomies registrar instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/taxonomies/registered', array( &$this, &$registrar ) );
 	}
@@ -601,10 +676,10 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library    $library     The Library instance (passed by reference).
-	 * @param Taxonomies &$taxonomies The Taxonomies registrar instance (passed by reference).
+	 * @param WPMovieLibrary &$library    The Plugin instance (passed by reference).
+	 * @param Taxonomies     &$taxonomies The Taxonomies registrar instance (passed by reference).
 	 */
-	public function register_taxonomy_filters( $library, $taxonomies ) {
+	public function register_taxonomy_filters( $wpmovielibrary, $taxonomies ) {
 
 		add_filter( 'get_the_terms',                 array( $taxonomies, 'get_the_terms' ),            10, 3 );
 		add_filter( 'wp_get_object_terms',           array( $taxonomies, 'get_ordered_object_terms' ), 10, 4 );
@@ -618,16 +693,16 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_post_meta( $library ) {
+	public function register_post_meta( $wpmovielibrary ) {
 
 		/**
 		 * Fires before registering post meta.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/post_meta/register', array( &$this ) );
 
@@ -640,8 +715,8 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param Library   &$this The Library instance (passed by reference).
-		 * @param Post_Meta &$this The post meta registrar instance (passed by reference).
+		 * @param WPMovieLibrary &$this      The Plugin instance (passed by reference).
+		 * @param Post_Meta      &$registrar The post meta registrar instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/post_meta/registered', array( &$this, &$registrar ) );
 	}
@@ -653,16 +728,16 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_term_meta( $library ) {
+	public function register_term_meta( $wpmovielibrary ) {
 
 		/**
 		 * Fires before registering term meta.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/term_meta/register', array( &$this ) );
 
@@ -675,32 +750,10 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param Library   &$this The Library instance (passed by reference).
-		 * @param Term_Meta &$this The term meta registrar instance (passed by reference).
+		 * @param WPMovieLibrary &$this      The Plugin instance (passed by reference).
+		 * @param Term_Meta      &$registrar The term meta registrar instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/term_meta/registered', array( &$this, &$registrar ) );
-	}
-
-	/**
-	 * Register the plugin's assets.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 *
-	 * @param Library $library The Library instance (passed by reference).
-	 */
-	public function register_assets( $library ) {
-
-		$assets = core\Assets::get_instance();
-
-		add_action( 'admin_enqueue_scripts', array( $assets, 'enqueue_admin_styles' ), 95 );
-		add_action( 'admin_enqueue_scripts', array( $assets, 'enqueue_admin_scripts' ), 95 );
-		add_action( 'admin_footer',          array( $assets, 'enqueue_admin_templates' ), 95 );
-
-		add_action( 'wp_enqueue_scripts',      array( $assets, 'enqueue_public_styles' ), 95 );
-		add_action( 'wp_enqueue_scripts',      array( $assets, 'enqueue_public_scripts' ), 95 );
-		add_action( 'wp_print_footer_scripts', array( $assets, 'enqueue_public_templates' ), 95 );
 	}
 
 	/**
@@ -710,9 +763,9 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_helper_filters( $library ) {
+	public function register_helper_filters( $wpmovielibrary ) {
 
 		// Meta prefix
 		add_filter( 'wpmoly/filter/actor/meta/key',      'prefix_actor_meta_key',  15, 1 );
@@ -788,16 +841,16 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_query( $library ) {
+	public function register_query( $wpmovielibrary ) {
 
 		/**
 		 * Fires before registering query.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/query/register', array( &$this ) );
 
@@ -813,8 +866,8 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param Library &$this  The Library instance (passed by reference).
-		 * @param Query   &$query The query instance (passed by reference).
+		 * @param WPMovieLibrary &$this  The Plugin instance (passed by reference).
+		 * @param Query          &$query The query instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/query/registered', array( &$this, &$query ) );
 	}
@@ -826,10 +879,10 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
-	 * @param Query   &$query  The query instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
+	 * @param Query          &$query         The query instance (passed by reference).
 	 */
-	public function register_query_filters( $library, $query ) {
+	public function register_query_filters( $wpmovielibrary, $query ) {
 
 		add_filter( 'wpmoly/filter/query/movies/alphabetical/preset/param',   array( $query, 'filter_alphabetical_movies_preset_param' ) );
 		add_filter( 'wpmoly/filter/query/movies/unalphabetical/preset/param', array( $query, 'filter_unalphabetical_movies_preset_param' ) );
@@ -904,15 +957,145 @@ final class Library {
 	}
 
 	/**
+	 * Register the plugin's REST API functions.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
+	 */
+	public function register_rest_api( $wpmovielibrary ) {
+
+		/**
+		 * Fires before registering REST API.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/rest/register', array( &$this ) );
+
+		$rest_api = rest\API::get_instance();
+		add_action( 'rest_api_init',                     array( $rest_api, 'register_fields' ) );
+		add_filter( 'rest_movie_query',                  array( $rest_api, 'add_post_query_params' ), 10, 2 );
+		add_filter( 'rest_actor_query',                  array( $rest_api, 'add_term_query_params' ), 10, 2 );
+		add_filter( 'rest_collection_query',             array( $rest_api, 'add_term_query_params' ), 10, 2 );
+		add_filter( 'rest_genre_query',                  array( $rest_api, 'add_term_query_params' ), 10, 2 );
+		add_filter( 'rest_movie_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
+		add_filter( 'rest_actor_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
+		add_filter( 'rest_collection_collection_params', array( $rest_api, 'register_collection_params' ), 10, 2 );
+		add_filter( 'rest_genre_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
+		add_filter( 'rest_prepare_movie',                array( $rest_api, 'prepare_movie_for_response' ), 10, 3 );
+
+		/**
+		 * Fires after REST API is registered.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
+		 * @param API            &$api  The REST API instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/rest/registered', array( &$this, &$api ) );
+	}
+
+	/**
+	 * Register the plugin's Dashboard.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
+	 */
+	public function register_dashboard( $wpmovielibrary ) {
+
+		if ( ! is_admin() ) {
+			return false;
+		}
+
+		/**
+		 * Fires before registering dashboard.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/dashboard/register', array( &$this ) );
+
+		$dashboard = new Dashboard;
+		$dashboard->register_assets();
+
+		add_action( 'wpmoly/editors/loaded', array( $dashboard, 'register_archive_editor' ) );
+		add_action( 'wpmoly/editors/loaded', array( $dashboard, 'register_grid_editor' ) );
+		add_action( 'wpmoly/editors/loaded', array( $dashboard, 'register_movie_editor' ) );
+		add_action( 'wpmoly/editors/loaded', array( $dashboard, 'register_term_editor' ) );
+		add_action( 'wpmoly/editors/loaded', array( $dashboard, 'register_permalinks_editor' ) );
+
+		/**
+		 * Fires after dashboard is registered.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this      The Plugin instance (passed by reference).
+		 * @param Dashboard      &$dashboard The Dashboard instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/dashboard/registered', array( &$this, &$dashboard ) );
+	}
+
+	/**
+	 * Register the plugin's Library.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
+	 */
+	public function register_library( $wpmovielibrary ) {
+
+		/**
+		 * Fires before registering library.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/library/register', array( &$this ) );
+
+		$library = new Library;
+		$library->register_assets();
+
+		// Custom Admin Bar menu.
+		add_action( 'admin_bar_menu', array( $library, 'admin_bar_menu' ), 95, 1 );
+
+		// Post content and title.
+		add_filter( 'the_content',       array( $library, 'set_movie_post_content' ) );
+		add_filter( 'the_content',       array( $library, 'set_archive_page_content' ), 10, 1 );
+		add_filter( 'single_post_title', array( $library, 'set_archive_page_title' ), 10, 2 );
+		add_filter( 'the_title',         array( $library, 'set_archive_page_post_title' ), 10, 2 );
+
+		/**
+		 * Fires after library is registered.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WPMovieLibrary &$this    The Plugin instance (passed by reference).
+		 * @param Library        &$library The Library instance (passed by reference).
+		 */
+		do_action_ref_array( 'wpmoly/library/registered', array( &$this, &$library ) );
+	}
+
+	/**
 	 * Register the plugin's Shortcodes.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_shortcodes( $library ) {
+	public function register_shortcodes( $wpmovielibrary ) {
 
 		if ( is_admin() ) {
 			return false;
@@ -923,7 +1106,7 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/shortcodes/register', array( &$this ) );
 
@@ -958,8 +1141,8 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param Library &$this       The Library instance (passed by reference).
-		 * @param array   &$shortcodes The Shortcodes list (passed by reference).
+		 * @param WPMovieLibrary &$this       The Plugin instance (passed by reference).
+		 * @param array          &$shortcodes The Shortcodes list (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/shortcodes/registered', array( &$this, &$shortcodes ) );
 	}
@@ -971,9 +1154,9 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_shortcode_filters( $library ) {
+	public function register_shortcode_filters( $wpmovielibrary ) {
 
 		// Meta Formatting
 		add_filter( 'wpmoly/shortcode/format/adult/value',                'get_formatted_movie_adult',              15, 2 );
@@ -1014,16 +1197,16 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_widgets( $library ) {
+	public function register_widgets( $wpmovielibrary ) {
 
 		/**
 		 * Fires before registering widgets.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param \wpmoly\Library &$this The Library instance (passed by reference).
+		 * @param WPMovieLibrary &$this The Plugin instance (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/widgets/register', array( &$this ) );
 
@@ -1051,8 +1234,8 @@ final class Library {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param Library &$this    The Library instance (passed by reference).
-		 * @param array   &$widgets The Widgets list (passed by reference).
+		 * @param WPMovieLibrary &$this    The Plugin instance (passed by reference).
+		 * @param array          &$widgets The Widgets list (passed by reference).
 		 */
 		do_action_ref_array( 'wpmoly/widgets/registered', array( &$this, &$widgets ) );
 	}
@@ -1064,9 +1247,9 @@ final class Library {
 	 *
 	 * @access public
 	 *
-	 * @param Library $library The Library instance (passed by reference).
+	 * @param WPMovieLibrary $wpmovielibrary The Plugin instance (passed by reference).
 	 */
-	public function register_widget_filters( $library ) {
+	public function register_widget_filters( $wpmovielibrary ) {
 
 		// Details Formatting
 		add_filter( 'wpmoly/widget/format/format/value',    'get_formatted_movie_format',    15, 2 );
@@ -1076,104 +1259,6 @@ final class Library {
 		add_filter( 'wpmoly/widget/format/status/value',    'get_formatted_movie_status',    15, 2 );
 		add_filter( 'wpmoly/widget/format/subtitles/value', 'get_formatted_movie_subtitles', 15, 2 );
 	}
-
-	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
-	 *
-	 * @since 3.0
-	 *
-	 * @access public
-	 */
-	/*public function define_admin_hooks() {
-
-		if ( ! is_admin() ) {
-			return false;
-		}
-
-		$admin = admin\Backstage::get_instance();
-		add_filter( 'admin_init',                array( $admin, 'admin_init' ) );
-		add_filter( 'admin_menu',                array( $admin, 'admin_menu' ), 9 );
-		add_filter( 'admin_menu',                array( $admin, 'admin_submenu' ), 10 );
-		add_filter( 'plupload_default_params',   array( $admin, 'plupload_default_params' ) );
-
-		// Term Editor
-		$terms = new admin\editors\Term;
-		add_action( 'load-term.php',               array( $terms, 'load_meta_frameworks' ) );
-		add_action( 'load-edit-tags.php',          array( $terms, 'load_meta_frameworks' ) );
-		add_action( 'haricot_register',            array( $terms, 'register_term_meta_managers' ), 10, 2 );
-		add_filter( 'redirect_term_location',      array( $terms, 'term_redirect' ), 10, 2 );
-		add_action( 'actor_pre_edit_form',         array( $terms, 'term_pre_edit_form' ), 10, 2 );
-		add_action( 'collection_pre_edit_form',    array( $terms, 'term_pre_edit_form' ), 10, 2 );
-		add_action( 'genre_pre_edit_form',         array( $terms, 'term_pre_edit_form' ), 10, 2 );
-
-		// Archive Pages
-		$archives = new admin\editors\Page;
-		add_action( 'load-post.php',               array( $archives, 'load_meta_frameworks' ) );
-		add_action( 'load-post-new.php',           array( $archives, 'load_meta_frameworks' ) );
-		add_action( 'butterbean_register',         array( $archives, 'register_post_meta_managers' ), 10, 2 );
-		add_action( 'post_submitbox_misc_actions', array( $archives, 'archive_pages_select' ), 10, 1 );
-		add_action( 'save_post_page',              array( $archives, 'set_archive_page_type' ), 10, 3 );
-
-		// Grid Builder
-		// TODO load this on grid only
-		$builder = new admin\editors\Grid;
-		add_filter( 'post_updated_messages',       array( $builder, 'updated_messages' ) );
-		add_action( 'add_meta_boxes',              array( $builder, 'add_meta_boxes' ), 4 );
-		add_action( 'edit_form_top',               array( $builder, 'header' ) );
-		add_action( 'post_submitbox_start',        array( $builder, 'submitbox' ) );
-		add_action( 'dbx_post_sidebar',            array( $builder, 'footer' ) );
-		add_action( 'load-post.php',               array( $builder, 'load_meta_frameworks' ) );
-		add_action( 'load-post-new.php',           array( $builder, 'load_meta_frameworks' ) );
-		add_action( 'butterbean_register',         array( $builder, 'register_post_meta_managers' ), 10, 2 );
-		add_action( 'save_post_grid',              array( $builder, 'publish' ), 9, 2 );
-		add_action( 'save_post_grid',              array( $builder, 'save' ), 9, 3 );
-
-		// Permalink Settings
-		$permalinks = admin\Permalink_Settings::get_instance();
-		add_action( 'load-options-permalink.php', array( $permalinks, 'register' ) );
-		add_action( 'admin_init',                 array( $permalinks, 'update' ) );
-
-		$rewrite = admin\Rewrite::get_instance();
-		add_filter( 'rewrite_rules_array',                array( $rewrite, 'rewrite_rules' ) );
-		add_action( 'admin_notices',                      array( $rewrite, 'register_notice' ) );
-		add_action( 'generate_rewrite_rules',             array( $rewrite, 'delete_notice' ) );
-		add_action( 'wpmoly/action/update/archive_pages', array( $rewrite, 'set_notice' ) );
-	}*/
-
-	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 *
-	 * @since 3.0
-	 *
-	 * @access public
-	 */
-	/*public function define_public_hooks() {
-
-		$adminbar = Admin_Bar::get_instance();
-		add_action( 'admin_bar_menu', array( $adminbar, 'edit_grid_menu' ), 95, 1 );
-
-		add_filter( 'the_content',             array( $public, 'the_headbox' ) );
-
-		$archives = Archives::get_instance();
-		add_filter( 'the_content',        array( $archives, 'archive_page_content' ), 10, 1 );
-		add_filter( 'single_post_title',  array( $archives, 'archive_page_title' ), 10, 2 );
-		add_filter( 'the_title',          array( $archives, 'archive_page_post_title' ), 10, 2 );
-
-		$rest_api = rest\API::get_instance();
-		add_action( 'rest_api_init',                     array( $rest_api, 'register_fields' ) );
-		add_filter( 'rest_movie_query',                  array( $rest_api, 'add_post_query_params' ), 10, 2 );
-		add_filter( 'rest_actor_query',                  array( $rest_api, 'add_term_query_params' ), 10, 2 );
-		add_filter( 'rest_collection_query',             array( $rest_api, 'add_term_query_params' ), 10, 2 );
-		add_filter( 'rest_genre_query',                  array( $rest_api, 'add_term_query_params' ), 10, 2 );
-		add_filter( 'rest_movie_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
-		add_filter( 'rest_actor_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
-		add_filter( 'rest_collection_collection_params', array( $rest_api, 'register_collection_params' ), 10, 2 );
-		add_filter( 'rest_genre_collection_params',      array( $rest_api, 'register_collection_params' ), 10, 2 );
-		add_filter( 'rest_prepare_movie',                array( $rest_api, 'prepare_movie_for_response' ), 10, 3 );
-
-	}*/
 
 	/**
 	 * Load plugin translations.

@@ -28,18 +28,18 @@ define( 'WPMOLY_VERSION', '3.0.0-alpha2' );
 define( 'WPMOLY_PATH',    trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'WPMOLY_URL',     trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
-require_once WPMOLY_PATH . 'class-library.php';
+require_once WPMOLY_PATH . 'class-wpmovielibrary.php';
 
 /**
  * Retrieve plugin instance.
  *
  * @since 3.0.0
  *
- * @return \wpmoly\Library
+ * @return WPMovieLibrary
  */
-function wpmoly() {
+function wpmovielibrary() {
 
-	return \wpmoly\Library::get_instance();
+	return WPMovieLibrary::get_instance();
 }
 
-$GLOBALS['wpmoly'] = wpmoly();
+$GLOBALS['wpmovielibrary'] = wpmovielibrary();
