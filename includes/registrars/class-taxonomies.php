@@ -31,7 +31,7 @@ class Taxonomies {
 	 */
 	public function __construct() {
 
-		$taxonomies = array(
+		$this->taxonomies = array(
 			'actor' => array(
 				'slug'  => 'actor',
 				'args'  => array(
@@ -116,15 +116,6 @@ class Taxonomies {
 				'archive'   => 'genres',
 			),
 		);
-
-		/**
-		 * Filter the custom taxonomies parameters prior to registration.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param array $taxonomies Taxonomies list.
-		 */
-		$this->taxonomies = apply_filters( 'wpmoly/filter/taxonomies', $taxonomies );
 	}
 
 	/**
@@ -136,11 +127,20 @@ class Taxonomies {
 	 */
 	public function register_taxonomies() {
 
-		if ( empty( $this->taxonomies ) ) {
+		/**
+		 * Filter the custom taxonomies parameters prior to registration.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $taxonomies Taxonomies list.
+		 */
+		$taxonomies = apply_filters( 'wpmoly/filter/taxonomies', $this->taxonomies );
+
+		if ( empty( $taxonomies ) ) {
 			return false;
 		}
 
-		foreach ( $this->taxonomies as $slug => $taxonomy ) {
+		foreach ( $taxonomies as $slug => $taxonomy ) {
 
 			/**
 			 * Filter the custom taxonomy parameters prior to registration.
@@ -180,6 +180,8 @@ class Taxonomies {
 	 *
 	 * @since 3.0.0
 	 *
+	 * @access public
+	 *
 	 * @param array $args 'movie' Custom Post Type parameters.
 	 *
 	 * @return array
@@ -195,6 +197,37 @@ class Taxonomies {
 		}
 
 		return $args;
+	}
+
+	/**
+	 * Filter term link..
+	 *
+	 * @since 3.0.0
+	 *
+	 * @access public
+	 *
+	 * @param string $termlink Term link URL.
+	 * @param object $term     Term object.
+	 * @param string $taxonomy Taxonomy slug.
+	 *
+	 * @return string
+	 */
+	public function filter_term_link( $termlink, $term, $taxonomy ) {
+
+		if ( ! in_array( $taxonomy, array( 'actor', 'collection', 'genre' ) ) ) {
+			return $termlink;
+		}
+
+		if ( ! has_archives_page( $taxonomy ) ) {
+			$permalinks = get_option( 'wpmoly_permalinks', array() );
+			if ( ! empty( $permalinks[ $taxonomy ] ) ) {
+				$termlink = $permalinks[ $taxonomy ];
+			}
+		} else {
+			$termlink = trailingslashit( get_taxonomy_archive_link( $taxonomy ) . $term->slug );
+		}
+
+		return $termlink;
 	}
 
 	/**

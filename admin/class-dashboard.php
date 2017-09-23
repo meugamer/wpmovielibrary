@@ -134,12 +134,11 @@ class Dashboard {
 
 		// Permalink Settings
 		$permalinks = new editors\Permalinks;
-		add_action( 'load-options-permalink.php',         array( $permalinks, 'register' ) );
-		add_action( 'admin_init',                         array( $permalinks, 'update' ) );
+		add_action( 'load-options-permalink.php', array( $permalinks, 'register' ) );
+		add_action( 'load-options-permalink.php', array( $permalinks, 'update' ) );
 
-		add_filter( 'rewrite_rules_array', array( $permalinks, 'fix_movie_rewrite_rules' ) );
-		add_filter( 'rewrite_rules_array', array( $permalinks, 'add_movie_archives_rewrite_rules' ) );
-		add_filter( 'rewrite_rules_array', array( $permalinks, 'add_taxonomy_archives_rewrite_rules' ) );
+		add_filter( 'rewrite_rules_array', array( $permalinks, 'set_movie_archives_rewrite_rules' ) );
+		add_filter( 'rewrite_rules_array', array( $permalinks, 'set_taxonomy_archives_rewrite_rules' ) );
 
 		add_action( 'admin_notices',                      array( $permalinks, 'register_notice' ) );
 		add_action( 'generate_rewrite_rules',             array( $permalinks, 'delete_notice' ) );

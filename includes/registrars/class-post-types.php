@@ -31,7 +31,7 @@ class Post_Types {
 	 */
 	public function __construct() {
 
-		$post_types = array(
+		$this->post_types = array(
 			'movie' => array(
 				'labels' => array(
 					'name'               => __( 'Movies', 'wpmovielibrary' ),
@@ -49,7 +49,7 @@ class Post_Types {
 					'menu_name'          => __( 'Movie Library', 'wpmovielibrary' ),
 				),
 				'rewrite' => array(
-					'slug' => 'movies',
+					'slug' => 'movie',
 				),
 				'public'             => true,
 				'publicly_queryable' => true,
@@ -90,15 +90,6 @@ class Post_Types {
 				'supports'           => array( 'title', 'custom-fields' ),
 			),
 		);
-
-		/**
-		 * Filter the Custom Post Types parameters prior to registration.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param array $post_types Post Types list.
-		 */
-		$this->post_types = apply_filters( 'wpmoly/filter/post_types', $post_types );
 	}
 
 	/**
@@ -110,11 +101,20 @@ class Post_Types {
 	 */
 	public function register_post_types() {
 
-		if ( empty( $this->post_types ) ) {
+		/**
+		 * Filter the Custom Post Types parameters prior to registration.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $post_types Post Types list.
+		 */
+		$post_types = apply_filters( 'wpmoly/filter/post_types', $this->post_types );
+
+		if ( empty( $post_types ) ) {
 			return false;
 		}
 
-		foreach ( $this->post_types as $slug => $params ) {
+		foreach ( $post_types as $slug => $params ) {
 
 			/**
 			 * Filter the Custom Post Type parameters prior to registration.

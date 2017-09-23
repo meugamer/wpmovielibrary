@@ -662,7 +662,7 @@ class L10n {
 					$post_types['movie']['has_archive'] = trim( $permalinks['movies'], '/' );
 				}
 			} else {
-				$post_types['movie']['has_archive'] = str_replace( home_url(), '', get_permalink( $movies ) );
+				$post_types['movie']['has_archive'] = trim( str_replace( home_url(), '', get_permalink( $movies ) ), '/' );
 			}
 		}
 

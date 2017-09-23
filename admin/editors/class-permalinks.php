@@ -538,34 +538,6 @@ class Permalinks {
 	}
 
 	/**
-	 * Fix movie rewrite rules if needed.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @access public
-	 *
-	 * @param array $rules
-	 *
-	 * @return array
-	 */
-	public function fix_movie_rewrite_rules( $rules ) {
-
-		global $wp_rewrite;
-
-		$slug   = _x( 'movie', 'slug', 'wpmovielibrary' );
-		$struct = isset( $this->permalinks['movie'] ) ? $this->permalinks['movie'] : '';
-
-		if ( false !== strpos( $struct, $slug ) ) {
-			return $rules;
-		}
-
-		$struct = str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, $struct );
-		$struct = trim( $struct, '/' );
-
-		return $rules;
-	}
-
-	/**
 	 * Add custom rewrite rules for movies.
 	 *
 	 * Define a list of variants for movies archive to match meta/detail
@@ -579,7 +551,7 @@ class Permalinks {
 	 *
 	 * @return array
 	 */
-	public function add_movie_archives_rewrite_rules( $rules = array() ) {
+	public function set_movie_archives_rewrite_rules( $rules = array() ) {
 
 		global $wp_rewrite;
 
@@ -599,107 +571,182 @@ class Permalinks {
 		$variants = apply_filters( 'wpmoly/filter/movie_archives/rewrite/variants', array(
 			array(
 				'rule' => '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})',
-				'vars' => array( 'year', 'monthnum', 'day' ),
+				'vars' => array(
+					'year'     => '',
+					'monthnum' => '',
+					'day'      => '',
+				),
 			),
 			array(
 				'rule' => '([0-9]{4})/([0-9]{1,2})',
-				'vars' => array( 'year', 'monthnum' ),
+				'vars' => array(
+					'year'     => '',
+					'monthnum' => '',
+				),
 			),
 			array(
 				'rule' => '([0-9]{4})',
-				'vars' => array( 'year' ),
+				'vars' => array(
+					'year' => '',
+				),
 			),
 			array(
 				'rule' => '(adult|' . _x( 'adult', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'adult' ),
+				'vars' => array(
+					'preset' => 'adult',
+					'adult'  => '',
+				),
 			),
 			array(
 				'rule' => '(author|' . _x( 'author', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'author' ),
+				'vars' => array(
+					'preset' => 'author',
+					'author' => '',
+				),
 			),
 			array(
 				'rule' => '(budget|' . _x( 'budget', 'permalink', 'wpmovielibrary' ) . ')/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)',
-				'vars' => array( 'preset', 'budget' ),
+				'vars' => array(
+					'preset' => 'budget',
+					'budget' => '',
+				),
 			),
 			array(
 				'rule' => '(certification|' . _x( 'certification', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'certification' ),
+				'vars' => array(
+					'preset'        => 'certification',
+					'certification' => '',
+				),
 			),
 			array(
 				'rule' => '(company|production-company|production-companies|' . _x( 'company', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'company' ),
+				'vars' => array(
+					'preset'  => 'company',
+					'company' => '',
+				),
 			),
 			array(
 				'rule' => '(composer|' . _x( 'composer', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'composer' ),
+				'vars' => array(
+					'preset'   => 'composer',
+					'composer' => '',
+				),
 			),
 			array(
 				'rule' => '(country|production-country|production-countries|' . _x( 'country', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'country' ),
+				'vars' => array(
+					'preset'  => 'country',
+					'country' => '',
+				),
 			),
 			array(
 				'rule' => '(director|' . _x( 'director', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'director' ),
+				'vars' => array(
+					'preset'   => 'director',
+					'director' => '',
+				),
 			),
 			array(
 				'rule' => '(format|' . _x( 'format', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'format' ),
+				'vars' => array(
+					'preset' => 'format',
+					'format' => '',
+				),
 			),
 			array(
 				'rule' => '(language|' . _x( 'language', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'language' ),
+				'vars' => array(
+					'preset'   => 'language',
+					'language' => '',
+				),
 			),
 			array(
 				'rule' => '(languages|spoken-languages|' . _x( 'spoken-languages', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'languages' ),
+				'vars' => array(
+					'preset'    => 'languages',
+					'languages' => '',
+				),
 			),
 			array(
 				'rule' => '(local-release|local-release-date|' . _x( 'local-release-date', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'local_release' ),
+				'vars' => array(
+					'preset'        => 'local_release',
+					'local_release' => '',
+				),
 			),
 			array(
 				'rule' => '(media|' . _x( 'media', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'media' ),
+				'vars' => array(
+					'preset' => 'media',
+					'media'  => '',
+				),
 			),
 			array(
 				'rule' => '(photography|' . _x( 'photography', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'photography' ),
+				'vars' => array(
+					'preset'      => 'photography',
+					'photography' => '',
+				),
 			),
 			array(
 				'rule' => '(producer|' . _x( 'producer', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'producer' ),
+				'vars' => array(
+					'preset'   => 'producer',
+					'producer' => '',
+				),
 			),
 			array(
 				'rule' => '(rating|' . _x( 'rating', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'rating' ),
+				'vars' => array(
+					'preset' => 'rating',
+					'rating' => '',
+				),
 			),
 			array(
 				'rule' => '(release|release-date|' . _x( 'release-date', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'release' ),
+				'vars' => array(
+					'preset'  => 'release',
+					'release' => '',
+				),
 			),
 			array(
 				'rule' => '(revenue|' . _x( 'revenue', 'permalink', 'wpmovielibrary' ) . ')/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)',
-				'vars' => array( 'preset', 'revenue' ),
+				'vars' => array(
+					'preset'  => 'revenue',
+					'revenue' => '',
+				),
 			),
 			array(
 				'rule' => '(runtime|' . _x( 'runtime', 'permalink', 'wpmovielibrary' ) . ')/([0-9]+|[0-9]+-|[0-9]+-[0-9]+)',
-				'vars' => array( 'preset', 'runtime' ),
+				'vars' => array(
+					'preset'  => 'runtime',
+					'runtime' => '',
+				),
 			),
 			array(
 				'rule' => '(status|' . _x( 'status', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'status' ),
+				'vars' => array(
+					'preset' => 'status',
+					'status' => '',
+				),
 			),
 			array(
 				'rule' => '(subtitles|' . _x( 'subtitles', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'subtitles' ),
+				'vars' => array(
+					'preset'    => 'subtitles',
+					'subtitles' => '',
+				),
 			),
 			array(
 				'rule' => '(writer|' . _x( 'writer', 'permalink', 'wpmovielibrary' ) . ')/([^/]+)',
-				'vars' => array( 'preset', 'writer' ),
+				'vars' => array(
+					'preset' => 'writer',
+					'writer' => '',
+				),
 			),
 		) );
 
-		$movies = isset( $this->permalinks['movies'] ) ? $this->permalinks['movies'] : '';
+		$movies = isset( $this->permalinks['movies'] ) ? $this->permalinks['movies'] : 'movies';
 
 		if ( ! has_movie_archives_page() ) {
 			// Default: no archive page set
@@ -715,7 +762,20 @@ class Permalinks {
 
 			$rule1 = trim( str_replace( home_url(), '', get_permalink( $archive_page ) ), '/' );
 			$rule2 = trim( $movies, '/' );
-			$rule  = "($rule2|$rule1)";
+			$rule  = "(movies|$rule2|$rule1)";
+
+			// Remove default archive rules.
+			foreach ( $rules as $r => $v ) {
+				if ( false !== strpos( $r, $rule1 ) ) {
+					unset( $rules[ $r ] );
+				}
+			}
+
+			// Set new default archive rules.
+			$new_rules[ $rule . '/?$' ]                               = $query;
+			$new_rules[ $rule . '/feed/(feed|rdf|rss|rss2|atom)/?$' ] = $query . '&feed=' . $wp_rewrite->preg_index( $index );
+			$new_rules[ $rule . '/(feed|rdf|rss|rss2|atom)/?$' ]      = $query . '&feed=' . $wp_rewrite->preg_index( $index );
+			$new_rules[ $rule . '/page/([0-9]{1,})/?$' ]              = $query . '&paged=' . $wp_rewrite->preg_index( $index );
 		}
 
 		// Loop through allowed variants
@@ -726,9 +786,11 @@ class Permalinks {
 
 			// Use all vars to increment counter, but don't actually
 			// put empty vars in the regex.
-			foreach ( $variant['vars'] as $var ) {
-				if ( ! empty( $var ) ) {
+			foreach ( $variant['vars'] as $var => $value ) {
+				if ( empty( $value ) ) {
 					$_query = $_query . '&' . $var . '=' . $wp_rewrite->preg_index( $i );
+				} else {
+					$_query = $_query . '&' . $var . '=' . $value;
 				}
 				$i++;
 			}
@@ -745,7 +807,9 @@ class Permalinks {
 			$new_rules[ $_rule . '(?:/([0-9]+))?/?$' ]                 = $_query . '&page=' . $wp_rewrite->preg_index( $i + 1 );
 		}
 
-		return array_merge( $new_rules, $rules );
+		$rules = array_merge( $new_rules, $rules );
+
+		return $rules;
 	}
 
 	/**
@@ -759,7 +823,7 @@ class Permalinks {
 	 *
 	 * @return array
 	 */
-	public function add_taxonomy_archives_rewrite_rules( $rules = array() ) {
+	public function set_taxonomy_archives_rewrite_rules( $rules = array() ) {
 
 		global $wp_rewrite;
 
@@ -768,27 +832,40 @@ class Permalinks {
 		$taxonomies = array( 'actor', 'collection', 'genre' );
 		foreach ( $taxonomies as $taxonomy ) {
 
-			if ( ! has_archives_page( $taxonomy ) ) {
+			$taxonomy = get_taxonomy( $taxonomy );
+			if ( ! $taxonomy ) {
 				continue;
 			}
 
-			$archive_page = get_archives_page_id( $taxonomy );
+			if ( ! has_archives_page( $taxonomy->name ) ) {
+				continue;
+			}
+
+			$archive_page = get_archives_page_id( $taxonomy->name );
 
 			$index = 2;
 			$query = sprintf( 'index.php?page_id=%d', $archive_page );
 
-			$rule1 = $taxonomy;
-			$rule2 = trim( get_taxonomy_archive_link( $taxonomy, 'relative' ), '/' );
+			$rule1 = $taxonomy->rewrite['slug'];
+			$rule2 = trim( get_taxonomy_archive_link( $taxonomy->name, 'relative' ), '/' );
 			$rule  = "($rule2|$rule1)";
 
-			$new_rules[ $rule . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' ] = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
-			$new_rules[ $rule . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' ]      = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
-			$new_rules[ $rule . '/([^/]+)/page/([0-9]{1,})/?$' ]              = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index ) . '&paged=' . $wp_rewrite->preg_index( $index + 1 );
-			$new_rules[ $rule . '/([^/]+)/embed/?$' ]                         = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index ) . '&embed=true';
-			$new_rules[ $rule . '/([^/]+)/?$' ]                               = $query . '&' . $taxonomy . '=' . $wp_rewrite->preg_index( $index );
+			foreach ( $rules as $r => $v ) {
+				if ( false !== strpos( $r, $rule1 ) ) {
+					unset( $rules[ $r ] );
+				}
+			}
+
+			$new_rules[ $rule . '/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' ] = $query . '&' . $taxonomy->name . '=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
+			$new_rules[ $rule . '/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' ]      = $query . '&' . $taxonomy->name . '=' . $wp_rewrite->preg_index( $index ) . '&feed=' . $wp_rewrite->preg_index( $index + 1 );
+			$new_rules[ $rule . '/([^/]+)/page/([0-9]{1,})/?$' ]              = $query . '&' . $taxonomy->name . '=' . $wp_rewrite->preg_index( $index ) . '&paged=' . $wp_rewrite->preg_index( $index + 1 );
+			$new_rules[ $rule . '/([^/]+)/embed/?$' ]                         = $query . '&' . $taxonomy->name . '=' . $wp_rewrite->preg_index( $index ) . '&embed=true';
+			$new_rules[ $rule . '/([^/]+)/?$' ]                               = $query . '&' . $taxonomy->name . '=' . $wp_rewrite->preg_index( $index );
 		}
 
-		return array_merge( $new_rules, $rules );
+		$rules = array_merge( $new_rules, $rules );
+
+		return $rules;
 	}
 
 }
