@@ -13,7 +13,7 @@
 	<div id="actor-headbox-<?php echo $headbox->id; ?>" class="wpmoly term-headbox actor-headbox theme-<?php echo $headbox->get_theme(); ?>">
 		<div class="headbox-header">
 			<div class="headbox-thumbnail">
-				<img src="<?php echo $actor->get_picture(); ?>" alt="" />
+				<img src="<?php echo $actor->get_thumbnail(); ?>" alt="" />
 			</div>
 		</div>
 		<div class="headbox-content clearfix">

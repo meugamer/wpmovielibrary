@@ -235,7 +235,7 @@
 								$actor = get_actor( $term );
 						?><div class="movie-actor<?php echo ( 6 <= $i ) ? ' small' : ''; ?>">
 							<a href="<?php echo get_term_link( $term->term_id ); ?>">
-								<div class="movie-actor-thumbnail"><img src="<?php echo $actor->get_picture( '', 'thumbnail' ) ?>" alt="" /></div>
+								<div class="movie-actor-thumbnail"><img src="<?php echo $actor->get_thumbnail( '', 'thumbnail' ) ?>" alt="" /></div>
 								<div class="movie-actor-permalink"><?php echo $term->name; ?></div>
 							</a>
 						</div><?php
